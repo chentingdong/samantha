@@ -113,7 +113,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
         - ResourceName: deployFrontend
-      CodeUri: ui/deploy
+      CodeUri: ui
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
