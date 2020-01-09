@@ -113,7 +113,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
         - ResourceName: deployFrontend
-      CodeUri: src/deployFrontend
+      CodeUri: ui/deploy
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -123,10 +123,18 @@ Resources:
         - AWSXrayWriteOnlyAccess
         - S3CrudPolicy:
             BucketName: !Ref Frontend
+        - S3CrudPolicy:
+            BucketName: !Ref Frontend
+        - S3CrudPolicy:
+            BucketName: !Ref Frontend
       Environment:
         Variables:
           BUCKET_NAME: !Ref Frontend
           BUCKET_ARN: !GetAtt Frontend.Arn
+          BUCKET_NAME_2: !Ref Frontend
+          BUCKET_ARN_2: !GetAtt Frontend.Arn
+          BUCKET_NAME_3: !Ref Frontend
+          BUCKET_ARN_3: !GetAtt Frontend.Arn
   deployFrontendDeployTrigger:
     Type: Custom::FunctionDeployTrigger
     Properties:
