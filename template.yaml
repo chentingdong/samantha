@@ -38,7 +38,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
         - ResourceName: newItem
-      CodeUri: src/newItem
+      CodeUri: backend/newItem
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -66,7 +66,7 @@ Resources:
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
         - ResourceName: getItems
-      CodeUri: src/getItems
+      CodeUri: backend/getItems
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -100,20 +100,14 @@ Resources:
       StreamSpecification:
         StreamViewType: NEW_AND_OLD_IMAGES
       TableName: !Sub ${AWS::StackName}-Items
-  Frontend:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub ${AWS::StackName}-frontend-${AWS::AccountId}
-      WebsiteConfiguration:
-        IndexDocument: index.html
-  deployFrontend:
+  deployStackeryTutorial:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: !Sub ${AWS::StackName}-deployFrontend
+      FunctionName: !Sub ${AWS::StackName}-deployStackeryTutorial
       Description: !Sub
         - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
-        - ResourceName: deployFrontend
-      CodeUri: ui
+        - ResourceName: deployStackeryTutorial
+      CodeUri: frontend/stackery-tutorial
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
@@ -122,24 +116,68 @@ Resources:
       Policies:
         - AWSXrayWriteOnlyAccess
         - S3CrudPolicy:
-            BucketName: !Ref Frontend
-        - S3CrudPolicy:
-            BucketName: !Ref Frontend
-        - S3CrudPolicy:
-            BucketName: !Ref Frontend
+            BucketName: !Ref StackeryTutorial
       Environment:
         Variables:
-          BUCKET_NAME: !Ref Frontend
-          BUCKET_ARN: !GetAtt Frontend.Arn
-          BUCKET_NAME_2: !Ref Frontend
-          BUCKET_ARN_2: !GetAtt Frontend.Arn
-          BUCKET_NAME_3: !Ref Frontend
-          BUCKET_ARN_3: !GetAtt Frontend.Arn
-  deployFrontendDeployTrigger:
+          BUCKET_NAME: !Ref StackeryTutorial
+          BUCKET_ARN: !GetAtt StackeryTutorial.Arn
+  deployStackeryTutorialDeployTrigger:
     Type: Custom::FunctionDeployTrigger
     Properties:
-      ServiceToken: !GetAtt deployFrontend.Arn
+      ServiceToken: !GetAtt deployStackeryTutorial.Arn
+  StackeryTutorial:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-stackeryt-${AWS::AccountId}
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  deployPoc:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub ${AWS::StackName}-deployPoc
+      Description: !Sub
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: deployPoc
+      CodeUri: frontend/poc
+      Handler: index.handler
+      Runtime: nodejs12.x
+      MemorySize: 3008
+      Timeout: 300
+      Tracing: Active
+      Policies:
+        - AWSXrayWriteOnlyAccess
+        - S3CrudPolicy:
+            BucketName: !Ref Poc
+        - Statement:
+            - Effect: Allow
+              Action:
+                - s3:PutObjectAcl
+              Resource:
+                - !Sub ${Poc.Arn}/*
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref Poc
+          BUCKET_ARN: !GetAtt Poc.Arn
+          XDG_CONFIG_HOME: /tmp/.config
+  deployPocDeployTrigger:
+    Type: Custom::FunctionDeployTrigger
+    Properties:
+      ServiceToken: !GetAtt deployPoc.Arn
       DeploymentTimestamp: !Ref DeploymentTimestamp
+  Poc:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${AWS::StackName}-poc-${AWS::AccountId}
+      WebsiteConfiguration:
+        IndexDocument: index.html
+  newItemDeployTrigger:
+    Type: Custom::FunctionDeployTrigger
+    Properties:
+      ServiceToken: !GetAtt newItem.Arn
+  getItemsDeployTrigger:
+    Type: Custom::FunctionDeployTrigger
+    Properties:
+      ServiceToken: !GetAtt getItems.Arn
 Parameters:
   StackTagName:
     Type: String

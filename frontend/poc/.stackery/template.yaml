@@ -1,0 +1,261 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Outputs:
+  DeploymentHistoryTag:
+    Description: Stackery Deployment History Tag
+    Value: A659CD
+Parameters:
+  DeploymentTimestamp:
+    Default: "1578641526048"
+    Description: Deployment preparation timestamp in milliseconds Since Epoch (injected
+      by Stackery at deployment time)
+    Type: Number
+  EnvironmentAPIGatewayStageName:
+    Default: ctd
+    Description: Environment name used for API Gateway Stage names (injected by Stackery
+      at deployment time)
+    Type: String
+  EnvironmentTagName:
+    Default: ctd
+    Description: Environment Name (injected by Stackery at deployment time)
+    Type: String
+  StackTagName:
+    Default: samantha
+    Description: Stack Name (injected by Stackery at deployment time)
+    Type: String
+Resources:
+  DeploymentMarkerTagA659CD:
+    Type: AWS::CloudFormation::WaitConditionHandle
+  Items:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      AttributeDefinitions:
+      - AttributeName: id
+        AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+      - AttributeName: id
+        KeyType: HASH
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      TableName:
+        Fn::Sub: ${AWS::StackName}-Items
+    Type: AWS::DynamoDB::Table
+  Poc:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      BucketName:
+        Fn::Sub: ${AWS::StackName}-poc-${AWS::AccountId}
+      WebsiteConfiguration:
+        IndexDocument: index.html
+    Type: AWS::S3::Bucket
+  QuickstartApi:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      Cors:
+        AllowHeaders: '''Authorization,Content-Type'''
+        AllowOrigin: '''*'''
+      DefinitionBody:
+        info: {}
+        paths:
+          /items:
+            get:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${getItems.Arn}/invocations
+          /newItem:
+            post:
+              responses: {}
+              x-amazon-apigateway-integration:
+                httpMethod: POST
+                type: aws_proxy
+                uri:
+                  Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${newItem.Arn}/invocations
+        swagger: "2.0"
+      EndpointConfiguration: REGIONAL
+      Name:
+        Fn::Sub:
+        - ${ResourceName} From Stack ${StackTagName} Environment ${EnvironmentTagName}
+        - ResourceName: QuickstartApi
+      StageName:
+        Ref: EnvironmentAPIGatewayStageName
+      TracingEnabled: true
+    Type: AWS::Serverless::Api
+  StackeryTutorial:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      BucketName:
+        Fn::Sub: ${AWS::StackName}-stackeryt-${AWS::AccountId}
+      WebsiteConfiguration:
+        IndexDocument: index.html
+    Type: AWS::S3::Bucket
+  deployPoc:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      CodeUri: frontend/poc
+      Description:
+        Fn::Sub:
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: deployPoc
+      Environment:
+        Variables:
+          BUCKET_ARN:
+            Fn::GetAtt:
+            - Poc
+            - Arn
+          BUCKET_NAME:
+            Ref: Poc
+          XDG_CONFIG_HOME: /tmp/.config
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-deployPoc
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - S3CrudPolicy:
+          BucketName:
+            Ref: Poc
+      Runtime: nodejs12.x
+      Timeout: 300
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  deployPocDeployTrigger:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      DeploymentTimestamp:
+        Ref: DeploymentTimestamp
+      ServiceToken:
+        Fn::GetAtt:
+        - deployPoc
+        - Arn
+    Type: Custom::FunctionDeployTrigger
+  deployStackeryTutorial:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      CodeUri: frontend/stackery-tutorial
+      Description:
+        Fn::Sub:
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: deployStackeryTutorial
+      Environment:
+        Variables:
+          BUCKET_ARN:
+            Fn::GetAtt:
+            - StackeryTutorial
+            - Arn
+          BUCKET_NAME:
+            Ref: StackeryTutorial
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-deployStackeryTutorial
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - S3CrudPolicy:
+          BucketName:
+            Ref: StackeryTutorial
+      Runtime: nodejs12.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  deployStackeryTutorialDeployTrigger:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - deployStackeryTutorial
+        - Arn
+    Type: Custom::FunctionDeployTrigger
+  getItems:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      CodeUri: backend/getItems
+      Description:
+        Fn::Sub:
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: getItems
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - Items
+            - Arn
+          TABLE_NAME:
+            Ref: Items
+      Events:
+        QuickstartApiGETitems:
+          Properties:
+            Method: GET
+            Path: /items
+            RestApiId:
+              Ref: QuickstartApi
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-getItems
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: Items
+      Runtime: nodejs12.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  getItemsDeployTrigger:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - getItems
+        - Arn
+    Type: Custom::FunctionDeployTrigger
+  newItem:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      CodeUri: backend/newItem
+      Description:
+        Fn::Sub:
+        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
+        - ResourceName: newItem
+      Environment:
+        Variables:
+          TABLE_ARN:
+            Fn::GetAtt:
+            - Items
+            - Arn
+          TABLE_NAME:
+            Ref: Items
+      Events:
+        QuickstartApiPOSTnewItem:
+          Properties:
+            Method: POST
+            Path: /newItem
+            RestApiId:
+              Ref: QuickstartApi
+          Type: Api
+      FunctionName:
+        Fn::Sub: ${AWS::StackName}-newItem
+      Handler: index.handler
+      MemorySize: 3008
+      Policies:
+      - AWSXrayWriteOnlyAccess
+      - DynamoDBCrudPolicy:
+          TableName:
+            Ref: Items
+      Runtime: nodejs12.x
+      Timeout: 30
+      Tracing: Active
+    Type: AWS::Serverless::Function
+  newItemDeployTrigger:
+    DependsOn: DeploymentMarkerTagA659CD
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+        - newItem
+        - Arn
+    Type: Custom::FunctionDeployTrigger
+Transform: AWS::Serverless-2016-10-31

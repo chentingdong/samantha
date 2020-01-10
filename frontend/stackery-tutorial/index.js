@@ -12,7 +12,7 @@ exports.handler = async message => {
     await uploadStaticContent();
 
     // Send success signal back to CloudFormation
-    await cfnCR.sendSuccess('deployFrontend', {}, message);
+    await cfnCR.sendSuccess('deployStactoryTutorial', {}, message);
 
     console.log('Succeeded in uploading site content!')
   } catch (err) {
