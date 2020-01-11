@@ -36,3 +36,10 @@
     transform: rotate(360deg);
   }
 }
+
+.rcw-close-button {
+  display: none !important;
+}
+.rcw-full-screen .rcw-messages-container {
+  overflow: hidden;
+}

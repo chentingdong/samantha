@@ -13,11 +13,11 @@ const s3 = new AWS.S3();
 exports.handler = async message => {
   console.log(message);
   try {
-    const tmpDir = `/tmp/poc${process.pid}`;
+    const tmpDir = `/tmp/app${process.pid}`;
 
     const npm = 'npm';
     await spawnPromise('rm', ['-rf', tmpDir]);
-    await spawnPromise('cp', ['-R', 'poc/', tmpDir]);
+    await spawnPromise('cp', ['-R', 'app/', tmpDir]);
     await spawnPromise(
       npm,
       ['--production',
@@ -63,7 +63,7 @@ exports.handler = async message => {
       const s3Response = await s3.putObject(params).promise();
       console.log(s3Response);
     });
-    await cfnCR.sendSuccess('deployPoc', {}, message);
+    await cfnCR.sendSuccess('deployFrontEnd', {}, message);
   } catch (error) {
     console.log(error);
     await cfnCR.sendFailure(error.message, message);
