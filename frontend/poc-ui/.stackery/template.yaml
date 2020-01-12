@@ -2,15 +2,15 @@ AWSTemplateFormatVersion: "2010-09-09"
 Outputs:
   DeploymentHistoryTag:
     Description: Stackery Deployment History Tag
-    Value: H1KXM2
+    Value: 4TC9MA
 Parameters:
   DeploymentTimestamp:
-    Default: "1578702129042"
+    Default: "1578707565951"
     Description: Deployment preparation timestamp in milliseconds Since Epoch (injected
       by Stackery at deployment time)
     Type: Number
   EnvironmentTagName:
-    Default: test
+    Default: ctd
     Description: Environment Name (injected by Stackery at deployment time)
     Type: String
   StackTagName:
@@ -19,7 +19,7 @@ Parameters:
     Type: String
 Resources:
   DeployPocUI:
-    DependsOn: DeploymentMarkerTagH1KXM2
+    DependsOn: DeploymentMarkerTag4TC9MA
     Properties:
       CodeUri: ./
       Description:
@@ -48,7 +48,7 @@ Resources:
       Tracing: Active
     Type: AWS::Serverless::Function
   DeployPocUIDeployTrigger:
-    DependsOn: DeploymentMarkerTagH1KXM2
+    DependsOn: DeploymentMarkerTag4TC9MA
     Properties:
       DeploymentTimestamp:
         Ref: DeploymentTimestamp
@@ -57,10 +57,10 @@ Resources:
         - DeployPocUI
         - Arn
     Type: Custom::FunctionDeployTrigger
-  DeploymentMarkerTagH1KXM2:
+  DeploymentMarkerTag4TC9MA:
     Type: AWS::CloudFormation::WaitConditionHandle
   PocUI:
-    DependsOn: DeploymentMarkerTagH1KXM2
+    DependsOn: DeploymentMarkerTag4TC9MA
     Properties:
       BucketName:
         Fn::Sub: ${AWS::StackName}-pocui-${AWS::AccountId}

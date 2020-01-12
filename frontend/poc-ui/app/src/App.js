@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Widget, toggleWidget, addResponseMessage, addUserMessage} from 'react-chat-widget';
+import { Widget, toggleWidget, addResponseMessage} from 'react-chat-widget';
 
 import './App.css';
 import 'react-chat-widget/lib/styles.css';
 
 import logo from './astound.png';
+import avatar from './droid.png';
 
 const wsUrl = 'wss://czq9z69bt7.execute-api.us-east-1.amazonaws.com/test';
 
@@ -18,7 +19,7 @@ class App extends Component {
     }
     this.ws.onmessage = event => {
       const message = event.data
-      addResponseMessage(message)
+      this.handleResponseMessage(message)
     }
     this.ws.onclose = () => {
       console.log('Disconnected websocket ' + wsUrl)
@@ -28,31 +29,32 @@ class App extends Component {
     }
   }
 
-  handleNewUserMessage = (newMessage) => {
-    var message = {
-      "action":"test",
-      "echo": newMessage
+  handleUserMessage = (utterance) => {
+    const message = {
+      "action": "request",
+      "task": utterance
     }
 
     this.ws.send(JSON.stringify(message))
   }
 
   handleResponseMessage = (responseMessage) => {
-    addResponseMessage(responseMessage);
+    console.log(`Got message from websocket: ${responseMessage}`);
+    const utterance = JSON.parse(responseMessage).utterance
+    addResponseMessage(utterance);
   }
 
   render() {
     return (
       <div className="App">
         <Widget
-          handleNewUserMessage={this.handleNewUserMessage}
-          profileAvatar={logo}
+          handleNewUserMessage={this.handleUserMessage}
+          profileAvatar={avatar}
           title=""
           titleAvatar={logo}
           subtitle="Astound Assist"
           showChat="true"
           fullScreenMode="true"
-          showCloseButton="false"
         />
         <div>
         </div>
