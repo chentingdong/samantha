@@ -105,3 +105,6 @@ dist
 
 # sam
 .aws-sam
+
+# stackery
+**/.stackery/*

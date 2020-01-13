@@ -3,5 +3,10 @@
   "version": "1.0.0",
   "devDependencies": {
     "aws-sdk": "~2"
+  },
+  "dependencies": {
+    "cfn-custom-resource": "^5.0.0",
+    "glob": "^7.1.6",
+    "mime-types": "^2.1.26"
   }
 }

@@ -12,7 +12,7 @@ Resources:
       Handler: index.handler
       Runtime: nodejs12.x
       MemorySize: 3008
-      Timeout: 30
+      Timeout: 300
       Tracing: Active
       Policies:
         - AWSXrayWriteOnlyAccess
@@ -22,6 +22,7 @@ Resources:
         Variables:
           BUCKET_NAME: !Ref PocUI
           BUCKET_ARN: !GetAtt PocUI.Arn
+          XDG_CONFIG_HOME: /tmp/.confit
   PocUI:
     Type: AWS::S3::Bucket
     Properties:
