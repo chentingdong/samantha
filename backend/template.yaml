@@ -100,45 +100,6 @@ Resources:
       StreamSpecification:
         StreamViewType: NEW_AND_OLD_IMAGES
       TableName: !Sub ${AWS::StackName}-Items
-  deployPoc:
-    Type: AWS::Serverless::Function
-    Properties:
-      FunctionName: !Sub ${AWS::StackName}-deployPoc
-      Description: !Sub
-        - Stack ${StackTagName} Environment ${EnvironmentTagName} Function ${ResourceName}
-        - ResourceName: deployPoc
-      CodeUri: frontend/poc-ui
-      Handler: index.handler
-      Runtime: nodejs12.x
-      MemorySize: 3008
-      Timeout: 300
-      Tracing: Active
-      Policies:
-        - AWSXrayWriteOnlyAccess
-        - S3CrudPolicy:
-            BucketName: !Ref PocUI
-        - Statement:
-            - Effect: Allow
-              Action:
-                - s3:PutObjectAcl
-              Resource:
-                - !Sub ${PocUI.Arn}/*
-      Environment:
-        Variables:
-          BUCKET_NAME: !Ref PocUI
-          BUCKET_ARN: !GetAtt PocUI.Arn
-          XDG_CONFIG_HOME: /tmp/.config
-  deployPocDeployTrigger:
-    Type: Custom::FunctionDeployTrigger
-    Properties:
-      ServiceToken: !GetAtt deployPoc.Arn
-      DeploymentTimestamp: !Ref DeploymentTimestamp
-  PocUI:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Sub ${AWS::StackName}-pocui-${AWS::AccountId}
-      WebsiteConfiguration:
-        IndexDocument: index.html
 Parameters:
   StackTagName:
     Type: String
@@ -149,6 +110,3 @@ Parameters:
   EnvironmentAPIGatewayStageName:
     Type: String
     Description: Environment name used for API Gateway Stage names (injected by Stackery at deployment time)
-  DeploymentTimestamp:
-    Type: Number
-    Description: Deployment preparation timestamp in milliseconds Since Epoch (injected by Stackery at deployment time)
