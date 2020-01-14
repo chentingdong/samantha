@@ -67,13 +67,13 @@ Resources:
               Action:
                 - execute-api:ManageConnections
               Resource:
-                - !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Websocket2}/*
+                - !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Websocket}/*
       Environment:
         Variables:
           TABLE_NAME: !Ref Connections
           TABLE_ARN: !GetAtt Connections.Arn
-          API_URL_2: !Sub wss://${Websocket2}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentAPIGatewayStageName}
-          API_CONNECTIONS_ENDPOINT_2: !Sub https://${Websocket2}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentAPIGatewayStageName}
+          API_URL_2: !Sub wss://${Websocket}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentAPIGatewayStageName}
+          API_CONNECTIONS_ENDPOINT_2: !Sub https://${Websocket}.execute-api.${AWS::Region}.amazonaws.com/${EnvironmentAPIGatewayStageName}
       Events:
         webhookApiPOSTwebhook:
           Type: Api
@@ -109,96 +109,96 @@ Resources:
       Tracing: Active
       Policies:
         - AWSXrayWriteOnlyAccess
-  Websocket2:
+  Websocket:
     Type: AWS::ApiGatewayV2::Api
     Properties:
       Description: !Sub
         - ${ResourceName} From Stack ${StackTagName} Environment ${EnvironmentTagName}
-        - ResourceName: Websocket2
+        - ResourceName: Websocket
       Name: !Sub
         - ${StackTagName}-${EnvironmentTagName}-${ResourceName}
-        - ResourceName: Websocket2
+        - ResourceName: Websocket
       ProtocolType: WEBSOCKET
       RouteSelectionExpression: $request.body.action
-  Websocket2Stage:
-    Type: AWS::ApiGatewayV2::Stage
-    Properties:
-      ApiId: !Ref Websocket2
-      StageName: !Ref EnvironmentAPIGatewayStageName
-      DeploymentId: !Ref Websocket2Deployment
-  Websocket2Deployment:
+  WebsocketDeployment:
     Type: AWS::ApiGatewayV2::Deployment
     Properties:
-      ApiId: !Ref Websocket2
+      ApiId: !Ref Websocket
     DependsOn:
-      - Websocket2Routerequest
-      - Websocket2RouterequestResponse
-      - Websocket2Routedefault
-      - Websocket2RoutedefaultResponse
-      - Websocket2RouterequestIntegrationResponse
-      - Websocket2RoutedefaultIntegrationResponse
-  Websocket2Routerequest:
-    Type: AWS::ApiGatewayV2::Route
+      - WebsocketRouterequest
+      - WebsocketRouterequestResponse
+      - WebsocketRoutedefault
+      - WebsocketRoutedefaultResponse
+      - WebsocketRouterequestIntegrationResponse
+      - WebsocketRoutedefaultIntegrationResponse
+  WebsocketStage:
+    Type: AWS::ApiGatewayV2::Stage
     Properties:
-      ApiId: !Ref Websocket2
-      RouteKey: request
-      Target: !Sub integrations/${Websocket2RouterequestIntegration}
-  Websocket2RouterequestResponse:
-    Type: AWS::ApiGatewayV2::RouteResponse
-    Properties:
-      ApiId: !Ref Websocket2
-      RouteId: !Ref Websocket2Routerequest
-      RouteResponseKey: $default
-  Websocket2Routedefault:
-    Type: AWS::ApiGatewayV2::Route
-    Properties:
-      ApiId: !Ref Websocket2
-      RouteKey: $default
-      Target: !Sub integrations/${Websocket2RoutedefaultIntegration}
-  Websocket2RoutedefaultResponse:
-    Type: AWS::ApiGatewayV2::RouteResponse
-    Properties:
-      ApiId: !Ref Websocket2
-      RouteId: !Ref Websocket2Routedefault
-      RouteResponseKey: $default
-  Websocket2RouterequestIntegration:
+      ApiId: !Ref Websocket
+      StageName: !Ref EnvironmentAPIGatewayStageName
+      DeploymentId: !Ref WebsocketDeployment
+  WebsocketRouterequestIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
-      ApiId: !Ref Websocket2
+      ApiId: !Ref Websocket
       IntegrationType: AWS_PROXY
       IntegrationUri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${requestHandler.Arn}/invocations
-  Websocket2RouterequestIntegrationPermission:
+  WebsocketRouterequestIntegrationResponse:
+    Type: AWS::ApiGatewayV2::IntegrationResponse
+    Properties:
+      ApiId: !Ref Websocket
+      IntegrationId: !Ref WebsocketRouterequestIntegration
+      IntegrationResponseKey: $default
+  WebsocketRouterequestIntegrationPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt requestHandler.Arn
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Websocket2}/*/request
-  Websocket2RouterequestIntegrationResponse:
-    Type: AWS::ApiGatewayV2::IntegrationResponse
-    Properties:
-      ApiId: !Ref Websocket2
-      IntegrationId: !Ref Websocket2RouterequestIntegration
-      IntegrationResponseKey: $default
-  Websocket2RoutedefaultIntegration:
+      SourceArn: !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Websocket}/*/request
+  WebsocketRoutedefaultIntegration:
     Type: AWS::ApiGatewayV2::Integration
     Properties:
-      ApiId: !Ref Websocket2
+      ApiId: !Ref Websocket
       IntegrationType: AWS_PROXY
       IntegrationUri: !Sub arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${wsDefaultHandler.Arn}/invocations
-  Websocket2RoutedefaultIntegrationPermission:
+  WebsocketRoutedefaultIntegrationResponse:
+    Type: AWS::ApiGatewayV2::IntegrationResponse
+    Properties:
+      ApiId: !Ref Websocket
+      IntegrationId: !Ref WebsocketRoutedefaultIntegration
+      IntegrationResponseKey: $default
+  WebsocketRoutedefaultIntegrationPermission:
     Type: AWS::Lambda::Permission
     Properties:
       Action: lambda:InvokeFunction
       FunctionName: !GetAtt wsDefaultHandler.Arn
       Principal: apigateway.amazonaws.com
-      SourceArn: !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Websocket2}/*/$default
-  Websocket2RoutedefaultIntegrationResponse:
-    Type: AWS::ApiGatewayV2::IntegrationResponse
+      SourceArn: !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${Websocket}/*/$default
+  WebsocketRouterequest:
+    Type: AWS::ApiGatewayV2::Route
     Properties:
-      ApiId: !Ref Websocket2
-      IntegrationId: !Ref Websocket2RoutedefaultIntegration
-      IntegrationResponseKey: $default
+      ApiId: !Ref Websocket
+      RouteKey: request
+      Target: !Sub integrations/${WebsocketRouterequestIntegration}
+  WebsocketRouterequestResponse:
+    Type: AWS::ApiGatewayV2::RouteResponse
+    Properties:
+      ApiId: !Ref Websocket
+      RouteId: !Ref WebsocketRouterequest
+      RouteResponseKey: $default
+  WebsocketRoutedefault:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref Websocket
+      RouteKey: $default
+      Target: !Sub integrations/${WebsocketRoutedefaultIntegration}
+  WebsocketRoutedefaultResponse:
+    Type: AWS::ApiGatewayV2::RouteResponse
+    Properties:
+      ApiId: !Ref Websocket
+      RouteId: !Ref WebsocketRoutedefault
+      RouteResponseKey: $default
 Parameters:
   StackTagName:
     Type: String
