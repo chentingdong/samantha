@@ -1,7 +1,7 @@
 {
-  "name": "getitems",
+  "name": "function",
   "version": "1.0.0",
-  "devDependencies": {
+  "dependencies": {
     "aws-sdk": "~2"
   }
 }

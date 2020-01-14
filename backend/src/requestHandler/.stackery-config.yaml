@@ -1,2 +1,2 @@
-function-id: getItems
+function-id: requestHandler
 template-path: ../../template.yaml

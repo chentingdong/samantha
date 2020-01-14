@@ -1,0 +1,3 @@
+stack-name: stackery-quickstart
+template-path: template.yaml
+env-name: test

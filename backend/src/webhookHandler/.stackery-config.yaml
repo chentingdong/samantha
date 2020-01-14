@@ -1,2 +1,2 @@
-function-id: newItem
+function-id: webhookHandler
 template-path: ../../template.yaml
