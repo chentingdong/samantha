@@ -56,8 +56,6 @@ class App extends Component {
           showChat="true"
           fullScreenMode="true"
         />
-        <div>
-        </div>
       </div>
     );
   }

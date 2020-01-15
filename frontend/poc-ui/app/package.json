@@ -32,5 +32,13 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "guppy": {
+    "id": "1c6477e0-3727-11ea-a1b9-a5e1e045f23a",
+    "name": "poc",
+    "type": "create-react-app",
+    "color": "#00C853",
+    "icon": null,
+    "createdAt": 1579045170783
   }
 }
