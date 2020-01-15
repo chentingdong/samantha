@@ -1,10 +1,11 @@
 const AWS = require('aws-sdk');
+const { DynamoDB } = require('@aws-sdk/client-dynamodb-node');
 
 exports.handler = async (event, context) => {
   // Log the event argument for debugging and for use in local development.
   console.log(JSON.stringify(event, undefined, 2));
 
-  const dynamodb = new AWS.DynamoDB.DocumentClient();
+  const dynamodb = new DynamoDB({});
   const params = {
     TableName: process.env.TABLE_NAME
   };
@@ -13,7 +14,7 @@ exports.handler = async (event, context) => {
 
   try {
     console.log(`Getting data from table ${process.env.TABLE_NAME}.`);
-    const items = await dynamodb.scan(params).promise(); // get items from DynamoDB
+    const items = await dynamodb.scan(params); // get items from DynamoDB
     items.Items.forEach((item) => allItems.push(item)); // put contents in an array for easier parsing
     // allItems.forEach(item => console.log(`Item ${item.id}: ${item.task}\n`)); // log the contents
   } catch (error) {
@@ -32,7 +33,7 @@ exports.handler = async (event, context) => {
 
   const promises = [];
   allItems.forEach(function(item){
-    const connectionId = item.id;
+    const connectionId = item.id.S;
     const task = item.task;
     const wsResponse = JSON.stringify({utterance: `task '${task}' is done.`});
     
@@ -59,7 +60,7 @@ exports.handler = async (event, context) => {
   for (const result of results) {
       if (result && (result.status == 'stale')) {
           console.log("Found stale connection, deleting " + result.connectionId);
-          delPromises.push(dynamodb.delete({TableName: process.env.TABLE_NAME, Key:{id: result.connectionId}}).promise());
+          delPromises.push(dynamodb.deleteItem({TableName: process.env.TABLE_NAME, Key:{id: {S: result.connectionId}}}));
       }        
   }
   const delResults = await Promise.all(delPromises);

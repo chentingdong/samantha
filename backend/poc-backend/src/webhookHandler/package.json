@@ -2,6 +2,7 @@
   "name": "function",
   "version": "1.0.0",
   "dependencies": {
+    "@aws-sdk/client-dynamodb-node": "0.1.0-preview.2",
     "aws-sdk": "~2"
   }
 }
