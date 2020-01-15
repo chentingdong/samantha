@@ -1,4 +1,4 @@
-const AWS = require('aws-sdk');
+const { DynamoDB } = require('@aws-sdk/client-dynamodb-node');
 
 module.exports.handler = async (event) => {
   console.log(JSON.stringify(event, 2));
@@ -17,21 +17,22 @@ module.exports.handler = async (event) => {
       console.log(e);
   }
 
-  const dynamodb = new AWS.DynamoDB.DocumentClient();
+  const dynamodb = new DynamoDB({});
   const params = {
     TableName: process.env.TABLE_NAME, // get the table name from the automatically populated environment variables
     Item: {
-      id: connectionId,
-      task: task,
+      id: {S: connectionId},
+      task: {S: task},
     }
   };
 
   try {
     // Write a new item to the Items table
-    await dynamodb.put(params).promise();
-    console.log(`Writing item ${params.Item.id} to table ${process.env.TABLE_NAME}.`);
+    await dynamodb.putItem(params);
+    console.log(`Writing item ${params.Item.id.S} to table ${process.env.TABLE_NAME}.`);
   } catch (error) {
     console.log(`Error writing to table ${process.env.TABLE_NAME}. Make sure this function is running in the same environment as the table.`);
+    console.log(error.stack);
     throw new Error(error); // stop execution if dynamodb is not available
   }  
 
