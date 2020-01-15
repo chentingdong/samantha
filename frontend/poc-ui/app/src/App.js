@@ -7,7 +7,7 @@ import 'react-chat-widget/lib/styles.css';
 import logo from './astound.png';
 import avatar from './droid.png';
 
-const wsUrl = 'wss://czq9z69bt7.execute-api.us-east-1.amazonaws.com/test';
+const wsUrl = 'wss://jhempytc66.execute-api.us-east-1.amazonaws.com/test';
 
 class App extends Component {
   ws = new WebSocket(wsUrl);
