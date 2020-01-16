@@ -26,6 +26,7 @@ exports.handler = async (event, context) => {
   const endpoint = process.env.API_URL_2
   const trimmed_endpoint = endpoint.substr( endpoint.indexOf(':') + EXTENSION_LENGTH );
 
+  // unable to use @aws-sdk/client-apigatewaymanagementapi-node
   const apigwManagementApi = new AWS.ApiGatewayManagementApi({
     apiVersion: '2018-11-29',
     endpoint: trimmed_endpoint,
