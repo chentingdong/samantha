@@ -1,64 +1,54 @@
-import React, { Component } from 'react';
-import { Widget, toggleWidget, addResponseMessage} from 'react-chat-widget';
-
+import React from 'react';
 import './App.css';
-import 'react-chat-widget/lib/styles.css';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import VirtualAgent from './containers/VirtualAgent';
+import Login from './containers/Login';
+import Signup from './containers/Signup';
+import NotFound from './containers/NotFound';
 
-import logo from './astound.png';
-import avatar from './droid.png';
-
-const wsUrl = 'wss://jhempytc66.execute-api.us-east-1.amazonaws.com/test';
-
-class App extends Component {
-  ws = new WebSocket(wsUrl);
-
-  componentDidMount() {
-    toggleWidget();
-    this.ws.onopen = () => {
-      console.log('connected to websocket ' + wsUrl)
+function App() {
+  const routes = [
+    {
+      path: "/user/login",
+      component: Login
+    },
+    {
+      path: "/user/register",
+      component: Signup
+    },
+    {
+      path: "/",
+      component: VirtualAgent
     }
-    this.ws.onmessage = event => {
-      const message = event.data
-      this.handleResponseMessage(message)
-    }
-    this.ws.onclose = () => {
-      console.log('Disconnected websocket ' + wsUrl)
-      this.setState({
-        ws: new WebSocket(wsUrl),
-      })
-    }
-  }
+  ];
 
-  handleUserMessage = (utterance) => {
-    const message = {
-      "action": "request",
-      "task": utterance
-    }
+  return (
+    <div className="App">
+      <Router>
+        <div>
+          <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item active">
+                <Link className="nav-link" to="/">VirtualAgent</Link>
+              </li>
+              <li className="nav-item mr-auto">
+                <Link className="nav-link" to="/login">login</Link>
+              </li>
+            </ul>
+          </nav>
 
-    this.ws.send(JSON.stringify(message))
-  }
-
-  handleResponseMessage = (responseMessage) => {
-    console.log(`Got message from websocket: ${responseMessage}`);
-    const utterance = JSON.parse(responseMessage).utterance
-    addResponseMessage(utterance);
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <Widget
-          handleNewUserMessage={this.handleUserMessage}
-          profileAvatar={avatar}
-          title=""
-          titleAvatar={logo}
-          subtitle="Astound Assist"
-          showChat="true"
-          fullScreenMode="true"
-        />
-      </div>
-    );
-  }
+          <Switch>
+            {routes.map((route, i) => (
+              <Route path={route.path} key={i}>
+                <route.component />
+              </Route>
+            ))}
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
