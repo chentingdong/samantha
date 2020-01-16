@@ -35,7 +35,7 @@ exports.handler = async (event, context) => {
   const promises = [];
   allItems.forEach(function(item){
     const connectionId = item.id.S;
-    const task = item.task;
+    const task = item.task.S;
     const wsResponse = JSON.stringify({utterance: `task '${task}' is done.`});
     
     promises.push(apigwManagementApi.postToConnection(
