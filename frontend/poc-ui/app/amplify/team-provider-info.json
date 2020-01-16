@@ -1,0 +1,22 @@
+{
+    "test": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-samantha-test-180943-authRole",
+            "UnauthRoleArn": "arn:aws:iam::079056339674:role/amplify-samantha-test-180943-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::079056339674:role/amplify-samantha-test-180943-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-samantha-test-180943-deployment",
+            "UnauthRoleName": "amplify-samantha-test-180943-unauthRole",
+            "StackName": "amplify-samantha-test-180943",
+            "StackId": "arn:aws:cloudformation:us-east-1:079056339674:stack/amplify-samantha-test-180943/44db0de0-3805-11ea-82d2-1246411399d1",
+            "AmplifyAppId": "d30dtx1t8zlwq8"
+        },
+        "categories": {
+            "auth": {
+                "samanthaa71b6c47": {
+                    "hostedUIProviderCreds": "[]"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "identityPoolName": "samanthaa71b6c47_identitypool_a71b6c47",
+    "allowUnauthenticatedIdentities": false,
+    "resourceNameTruncated": "samanta71b6c47",
+    "userPoolName": "samanthaa71b6c47_userpool_a71b6c47",
+    "autoVerifiedAttributes": [
+        "email"
+    ],
+    "mfaConfiguration": "OFF",
+    "mfaTypes": [
+        "SMS Text Message"
+    ],
+    "smsAuthenticationMessage": "Your authentication code is {####}",
+    "smsVerificationMessage": "Your verification code is {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
+    "defaultPasswordPolicy": false,
+    "passwordPolicyMinLength": 8,
+    "passwordPolicyCharacters": [],
+    "requiredAttributes": [
+        "email"
+    ],
+    "userpoolClientGenerateSecret": true,
+    "userpoolClientRefreshTokenValidity": 30,
+    "userpoolClientWriteAttributes": [
+        "email"
+    ],
+    "userpoolClientReadAttributes": [
+        "email"
+    ],
+    "userpoolClientLambdaRole": "samanta71b6c47_userpoolclient_lambda_role",
+    "userpoolClientSetAttributes": false,
+    "resourceName": "samanthaa71b6c47",
+    "authSelections": "identityPoolAndUserPool",
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    },
+    "unauthRoleArn": {
+        "Fn::GetAtt": [
+            "UnauthRole",
+            "Arn"
+        ]
+    },
+    "useDefault": "defaultSocial",
+    "hostedUI": true,
+    "usernameAttributes": [
+        "email, phone_number"
+    ],
+    "hostedUIDomainName": "samantha-a71b6c47-a71b6c47",
+    "authProvidersUserPool": [],
+    "hostedUIProviderMeta": "[]",
+    "oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://samantha-test-pocui-079056339674.s3-website-us-east-1.amazonaws.com/\"],\"LogoutURLs\":[\"https://samantha-test-pocui-079056339674.s3-website-us-east-1.amazonaws.com/signout/\"]}",
+    "userPoolGroupList": [],
+    "dependsOn": []
+}
