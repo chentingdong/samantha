@@ -11,7 +11,7 @@ export default function Routes({ appProps }) {
   return (
     <Switch>
       <AppliedRoute path="/" exact component={Home} appProps={appProps} />
-      <AppliedRoute path="/VirtualAgent" exact component={VirtualAgent} appProps={appProps} />
+      <AppliedRoute path="/demo" exact component={VirtualAgent} appProps={appProps} />
       <AppliedRoute path="/login" exact component={Login} appProps={appProps} />
       { /* Finally, catch all unmatched routes */ }
       <Route component={NotFound} />

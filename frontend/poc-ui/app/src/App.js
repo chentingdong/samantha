@@ -25,7 +25,7 @@ function App () {
   }
 
   return (
-    <div className="app container-fluid">
+    <div className="app">
       <BrowserRouter history={history}>
         <nav className="navbar navbar-expand-md navbar-light bg-light">
           <Link className="nav-link" to="/">
@@ -39,7 +39,7 @@ function App () {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav ml-auto">
               {isAuthenticated
-                ? <span className="clickable" onClick={handleLogout}>Logout</span>
+                ? <button type="button" className="btn btn-light" onClick={handleLogout}>Logout</button>
                 : <Link className="nav-link" to="/login"> login </Link>
               }
             </div>
