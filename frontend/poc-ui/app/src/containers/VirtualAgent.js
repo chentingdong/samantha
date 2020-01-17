@@ -47,18 +47,10 @@ function VirtualAgent () {
 
   return (
     <div className="VirtualAgent">
-      {/* <Widget
-        handleNewUserMessage={handleUserMessage}
-        profileAvatar={avatar}
-        title=""
-        titleAvatar=""
-        subtitle="Astound Assist"
-        showChat="true"
-        showCloseButton="false"
-        fullScreenMode="false"
-      /> */}
       <Widget handleNewUserMessage={handleUserMessage}
-        showCloseButton="false" fullScreenMode="true"/>
+        profileAvatar={avatar}
+        showCloseButton="false"
+        fullScreenMode="true" />
     </div>
   );
 }

@@ -1,18 +1,6 @@
+/* header */
 .app-logo {
   height: 24px;
   width: auto;
   pointer-events: none;
-}
-
-.rcw-close-button {
-  display: none !important;
-}
-.rcw-full-screen .rcw-messages-container {
-  overflow: hidden;
-}
-
-.rcw-conversation-container .rcw-title .avatar {
-  border-radius: 0;
-  height: 50px;
-  width: auto;
 }

@@ -34,5 +34,7 @@
   width: 100%;
   top: 60px;
   position: absolute;
-
+}
+.rcw-conversation-container .rcw-close-button {
+  display: none;
 }
