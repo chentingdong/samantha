@@ -3,13 +3,13 @@ import { Widget, toggleWidget, addResponseMessage} from 'react-chat-widget';
 
 import './VirtualAgent.css';
 import 'react-chat-widget/lib/styles.css';
-
 import logo from '../assets/astound.png';
 import avatar from '../assets/droid.png';
 
+
 const wsUrl = 'wss://jhempytc66.execute-api.us-east-1.amazonaws.com/test';
 
-class App extends Component {
+class VirtualAgent extends Component {
   ws = new WebSocket(wsUrl);
 
   componentDidMount() {
@@ -46,19 +46,19 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="VirtualAgent">
         <Widget
           handleNewUserMessage={this.handleUserMessage}
           profileAvatar={avatar}
           title=""
           titleAvatar={logo}
           subtitle="Astound Assist"
-          showChat="true"
-          fullScreenMode="true"
+          showChat="false"
+          fullScreenMode="false"
         />
       </div>
     );
   }
 }
 
-export default App;
+export default VirtualAgent;
