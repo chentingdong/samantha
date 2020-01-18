@@ -1,15 +1,13 @@
 import React from 'react';
-import { Router, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
-function Home (props) {
+function Home () {
   return (
-    <div className="container-fluid">
-      <Router>
-        <h2>Home</h2>
-        <p>Welcome to Astound Virtual agent, please <Link to="/signup"> Signup </Link> your free account and start your experiences with us. </p>
-      </Router>
+    <div className="container-fluid text-center">
+      <h2>Astound Virtual Assistant</h2>
+      <p>Welcome, please sign up <Link to="/signup"> here </Link> to initiate your personal assistant. </p>
     </div>
-  )
+  );
 }
 
 export default Home;

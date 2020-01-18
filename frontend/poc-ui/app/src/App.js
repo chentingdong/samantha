@@ -3,7 +3,7 @@ import Amplify from 'aws-amplify'
 import './app.css'
 import { BrowserRouter, Link } from 'react-router-dom'
 import cognitoConfig from './configs/cognito'
-import Routes from './routes'
+import Routes from './routes/routes'
 import logo from './assets/astound.png'
 
 function App () {
