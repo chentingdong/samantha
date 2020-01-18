@@ -4,3 +4,23 @@
   width: auto;
   pointer-events: none;
 }
+
+/* login page */
+@media all and (min-width: 480px) {
+  .login {
+    padding: 60px 0;
+  }
+
+  .login form {
+    margin: 0 auto;
+    max-width: 320px;
+  }
+}
+
+/* signup page */
+
+/* not found page */
+.not-found {
+  padding-top: 100px;
+  text-align: center;
+}

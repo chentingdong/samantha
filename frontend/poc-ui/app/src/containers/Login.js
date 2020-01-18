@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import Amplify, { Auth } from "aws-amplify";
-import awsconfig from '../aws-exports';
-import "./Login.css";
+import awsconfig from '../config';
 
 Amplify.configure(awsconfig);
 
 function Login(props) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   function validateForm() {
     return email.length > 0 && password.length > 0;
@@ -21,14 +20,14 @@ function Login(props) {
       const user = await Auth.signIn(email, password);
       console.log(user)
       props.userHasAuthenticated(true);
-      props.history.push("/demo");
+      props.history.push('/demo')
     } catch (e) {
       console.error(e.message);
     }
   }
 
   return (
-    <div className="Login">
+    <div className="login">
       <form onSubmit={handleSubmit}>
         <Form.Group controlId="email" >
           <Form.Label>Email</Form.Label>

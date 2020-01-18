@@ -8,7 +8,7 @@
 }
 
 .rcw-conversation-container > .rcw-header {
-  background-color: transparent;
+  display: none;
 }
 
 .rcw-message > .rcw-response {
