@@ -20,7 +20,6 @@ function Login(props) {
       const user = await Auth.signIn(email, password);
       console.log(user)
       props.userHasAuthenticated(true);
-      props.history.push('/demo')
     } catch (e) {
       console.error(e.message);
     }

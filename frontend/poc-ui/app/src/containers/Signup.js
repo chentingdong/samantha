@@ -80,7 +80,7 @@ function Signup (props) {
     return (
       <div className="login">
         <form onSubmit={handleSubmit}>
-          <Form.Group controlId="email" bsSize="large">
+          <Form.Group controlId="email">
             <Form.Label>Email</Form.Label>
             <Form.Control autoFocus type="email" value={fields.email} onChange={handleFieldChange} />
           </Form.Group>
