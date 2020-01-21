@@ -7,12 +7,13 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 function LoaderButton({
   isLoading,
   loadingText,
+  loadingIcon,
   className = "",
   disabled = false,
   ...props
 }) {
   let text = props.children || "OK"
-  let loadingIcon = <FontAwesomeIcon icon={faCircleNotch} className="spinning" />
+  loadingIcon = loadingIcon || <FontAwesomeIcon icon={faCircleNotch} className="spinning" />
   loadingText = loadingText || props.children || "Loading..."
 
   return (
