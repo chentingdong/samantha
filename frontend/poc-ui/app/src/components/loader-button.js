@@ -7,6 +7,8 @@ import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 function LoaderButton({
   isLoading,
   className = "",
+  text = "OK",
+  loadingText = "Loading",
   disabled = false,
   ...props
 }) {
@@ -17,7 +19,7 @@ function LoaderButton({
       {...props}
     >
       {isLoading && <FontAwesomeIcon icon={faCircleNotch} className="spinning" />}
-      {props.children}
+      {isLoading ? loadingText : props.children || text}
     </Button>
   );
 }
