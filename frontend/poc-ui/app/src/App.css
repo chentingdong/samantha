@@ -7,13 +7,12 @@
 
 /* login page */
 @media all and (min-width: 480px) {
-  .login {
+  .centered-panel {
     padding: 60px 0;
   }
-
-  .login form {
+  .centered-panel form {
     margin: 0 auto;
-    max-width: 320px;
+    max-width: 410px;
   }
 }
 
@@ -26,6 +25,3 @@
 }
 
 /* home */
-.home {
-  padding-top: 100px;
-}

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Amplify from 'aws-amplify'
-import './app.css'
 import { BrowserRouter, Link } from 'react-router-dom'
 import cognitoConfig from './configs/cognito'
 import Routes from './routes/routes'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css'
 import logo from './assets/astound.png'
 
 function App () {
@@ -15,12 +16,13 @@ function App () {
 
   function handleLogout () {
     userHasAuthenticated(false)
-    // TODO: findout why above doesn't fully work, and remove below.
+    // history is not setup yet, use hard redirect here.
+    // React may need to solve this, to support history in top level component.
     window.location.href=('/login')
   }
 
   return (
-    <div className="app">
+    <div className="app container-fluid">
       <BrowserRouter>
         <nav className="navbar navbar-expand-md navbar-light bg-light">
           <Link className="nav-link" to="/">

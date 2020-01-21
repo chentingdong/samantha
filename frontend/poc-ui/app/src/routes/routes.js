@@ -1,10 +1,11 @@
 import React from "react";
-import { Switch, Route } from 'react-router-dom'
+import { Switch } from 'react-router-dom'
 
 import VirtualAgent from '../containers/virtual-agent'
 import Home from '../containers/home'
 import Login from '../containers/login'
 import Signup from '../containers/signup'
+import ResetPassword from '../containers/reset-password'
 import NotFound from '../containers/not-found'
 import PublicRoute from './public-routes'
 import PrivateRoute from './private-routes'
@@ -15,6 +16,7 @@ function Routes ({ appProps }) {
       <PublicRoute path="/" exact component={Home} appProps={appProps} />
       <PrivateRoute path="/demo" exact component={VirtualAgent} appProps={appProps} />
       <PublicRoute path="/login" exact component={Login} appProps={appProps} />
+      <PublicRoute path="/reset-password" exact component={ResetPassword} appProps={appProps} />
       <PublicRoute path="/signup" exact component={Signup} appProps={appProps} />
       { /* Finally, catch all unmatched routes */}
       <PublicRoute component={NotFound} appProps={appProps} />

@@ -2,31 +2,32 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import Amplify, { Auth } from "aws-amplify";
 import awsconfig from '../config';
+import { Link } from 'react-router-dom'
 
 Amplify.configure(awsconfig);
 
-function Login(props) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+function Login (props) {
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassword ] = useState('');
 
-  function validateForm() {
+  function validateForm () {
     return email.length > 0 && password.length > 0;
   }
 
-  async function handleSubmit(event) {
+  async function handleSubmit (event) {
     event.preventDefault();
 
     try {
       const user = await Auth.signIn(email, password);
-      console.log(user)
       props.userHasAuthenticated(true);
+      props.history.push("/demo");
     } catch (e) {
       console.error(e.message);
     }
   }
 
   return (
-    <div className="login">
+    <div className="container centered-panel">
       <form onSubmit={handleSubmit}>
         <Form.Group controlId="email" >
           <Form.Label>Email</Form.Label>
@@ -45,7 +46,12 @@ function Login(props) {
             type="password"
           />
         </Form.Group>
-        <Button block  disabled={!validateForm()} type="submit">
+        <p>
+          <Form.Text>
+            <Link to="reset-password"> Forgot password? </Link>
+          </Form.Text>
+        </p>
+        <Button block disabled={!validateForm()} type="submit">
           Login
         </Button>
       </form>
