@@ -27,7 +27,7 @@ function App () {
         <nav className="navbar navbar-expand-md navbar-light bg-light">
           <Link className="nav-link" to="/">
             <img className="app-logo" src={logo} alt=""/>
-            <span>Astound</span>
+            <span className="brand">Astound.ai</span>
           </Link>
           <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse" >
             <span className="navbar-toggler-icon"></span>

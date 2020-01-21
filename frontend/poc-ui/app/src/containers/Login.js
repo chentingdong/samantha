@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import Amplify, { Auth } from "aws-amplify";
 import awsconfig from '../config';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import LoaderButton from '../components/loader-button';
 
 Amplify.configure(awsconfig);
 
@@ -18,7 +19,7 @@ function Login (props) {
     event.preventDefault();
 
     try {
-      const user = await Auth.signIn(email, password);
+      await Auth.signIn(email, password);
       props.userHasAuthenticated(true);
       props.history.push("/demo");
     } catch (e) {
@@ -32,9 +33,9 @@ function Login (props) {
         <Form.Group controlId="email" >
           <Form.Label>Email</Form.Label>
           <Form.Control
-            autoFocus
             type="email"
             value={email}
+            autoComplete='false'
             onChange={e => setEmail(e.target.value)}
           />
         </Form.Group>
@@ -42,6 +43,7 @@ function Login (props) {
           <Form.Label>Password</Form.Label>
           <Form.Control
             value={password}
+            autoComplete="new-password"
             onChange={e => setPassword(e.target.value)}
             type="password"
           />
@@ -51,9 +53,9 @@ function Login (props) {
             <Link to="reset-password"> Forgot password? </Link>
           </Form.Text>
         </p>
-        <Button block disabled={!validateForm()} type="submit">
+        <LoaderButton block disabled={!validateForm()} type="submit">
           Login
-        </Button>
+        </LoaderButton>
       </form>
     </div>
   );

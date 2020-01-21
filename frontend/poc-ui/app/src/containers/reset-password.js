@@ -34,17 +34,30 @@ function ResetPassword (props) {
     )
   }
 
-  function successMessage () {
+  // step 1. request code form
+  function requestCodeForm () {
     return (
-      <div className="success">
-        <p> Your password has been reset successfully. </p>
-        <p>
-          <Link to="/login">Click here to login with your new credentials.</Link>
-        </p>
-      </div>
+      <Form onSubmit={handleSendCodeClick}>
+        <Form.Group controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control autoFocus
+            type="email"
+            value={email}
+            placeholder="Your email used in Astound"
+            onChange={e => setEmail(e.target.value)}
+          />
+        </Form.Group>
+        <LoaderButton block
+          type="submit"
+          loadingText="Sending…"
+          isLoading={isSendingCode}
+          disabled={!validateCodeForm()}
+        >send confirmation</LoaderButton>
+      </Form>
     )
   }
 
+  // step 2. fillout confirmation form with code get from email.
   function confirmationForm () {
     return (
       <Form onSubmit={handleConfirmClick}>
@@ -81,28 +94,19 @@ function ResetPassword (props) {
     )
   }
 
-  function requestCodeForm () {
+  // step 3. show reset success message.
+  function successMessage () {
     return (
-      <Form onSubmit={handleSendCodeClick}>
-        <Form.Group controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control autoFocus
-            type="email"
-            value={email}
-            placeholder="Your email used in Astound"
-            onChange={e => setEmail(e.target.value)}
-          />
-        </Form.Group>
-        <LoaderButton block
-          type="submit"
-          loadingText="Sending…"
-          isLoading={isSendingCode}
-          disabled={!validateCodeForm()}
-        >send confirmation</LoaderButton>
-      </Form>
+      <div className="success">
+        <p> Your password has been reset successfully. </p>
+        <p>
+          <Link to="/login">Click here to login with your new credentials.</Link>
+        </p>
+      </div>
     )
   }
 
+  // util functions below.
   async function handleSendCodeClick (event) {
     event.preventDefault();
     setIsSendingCode(true)
