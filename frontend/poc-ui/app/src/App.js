@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Amplify from 'aws-amplify'
 import { BrowserRouter, Link } from 'react-router-dom'
-import cognitoConfig from './configs/cognito'
 import Routes from './routes/routes'
+import awsConfig from './configs/aws_configs';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 import logo from './assets/astound.png'
 
 function App () {
   const [ isAuthenticated, userHasAuthenticated ] = useState(false)
-
-  useEffect( () => {
-    Amplify.configure(cognitoConfig)
-  })
+  Amplify.configure(awsConfig)
 
   function handleLogout () {
     userHasAuthenticated(false)
@@ -36,7 +33,7 @@ function App () {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav ml-auto">
               {isAuthenticated
-                ? <button type="button" className="btn btn-light" onClick={handleLogout}>Logout</button>
+                ? <button type="button" className="btn btn-light" srsronClick={handleLogout}>Logout</button>
                 : <>
                   <Link className="nav-link" to="/signup"> Signup </Link>
                   <Link className="nav-link" to="/login"> login </Link>

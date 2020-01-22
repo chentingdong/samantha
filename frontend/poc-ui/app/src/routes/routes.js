@@ -14,6 +14,7 @@ function Routes ({ appProps }) {
   return (
     <Switch>
       <PublicRoute path="/" exact component={Home} appProps={appProps} />
+      <PrivateRoute path="/home" exact component={Home} appProps={appProps} />
       <PrivateRoute path="/demo" exact component={VirtualAgent} appProps={appProps} />
       <PublicRoute path="/login" exact component={Login} appProps={appProps} />
       <PublicRoute path="/reset-password" exact component={ResetPassword} appProps={appProps} />

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Amplify, { Auth } from "aws-amplify";
-import awsconfig from '../config';
+import awsConfig from '../configs/aws_configs';
 import LoaderButton from '../components/loader-button'
 
 function ResetPassword (props) {
@@ -15,7 +15,7 @@ function ResetPassword (props) {
   let [ confirmed, setConfirmed ] = useState(false)
   let [ isSendingCode, setIsSendingCode ] = useState(false)
 
-  Amplify.configure(awsconfig);
+  Amplify.configure(awsConfig);
 
   return buildContent();
 
@@ -147,6 +147,5 @@ function ResetPassword (props) {
   }
 
 }
-
 
 export default ResetPassword;

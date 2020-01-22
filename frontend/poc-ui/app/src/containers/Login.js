@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import Amplify, { Auth } from "aws-amplify";
-import awsconfig from '../config';
+import awsConfig from '../configs/aws_configs';
 import { Link } from 'react-router-dom';
 import LoaderButton from '../components/loader-button';
 
-Amplify.configure(awsconfig);
+Amplify.configure(awsConfig);
 
 function Login (props) {
   const [ email, setEmail ] = useState('');
@@ -19,9 +19,11 @@ function Login (props) {
     event.preventDefault();
 
     try {
-      await Auth.signIn(email, password);
+      let user = await Auth.signIn(email, password);
       props.userHasAuthenticated(true);
-      props.history.push("/demo");
+      console.log(user)
+      if (props.history.location.pathname === '/')
+        props.history.push('/demo')
     } catch (e) {
       console.error(e.message);
     }
@@ -29,11 +31,11 @@ function Login (props) {
 
   return (
     <div className="container centered-panel">
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="email" >
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type="email"
+            type="text"
             value={email}
             autoComplete='false'
             onChange={e => setEmail(e.target.value)}
@@ -48,15 +50,15 @@ function Login (props) {
             type="password"
           />
         </Form.Group>
-        <p>
-          <Form.Text>
+        <Form.Text>
+          <p>
             <Link to="reset-password"> Forgot password? </Link>
-          </Form.Text>
-        </p>
+          </p>
+        </Form.Text>
         <LoaderButton block disabled={!validateForm()} type="submit">
           Login
         </LoaderButton>
-      </form>
+      </Form>
     </div>
   );
 }
