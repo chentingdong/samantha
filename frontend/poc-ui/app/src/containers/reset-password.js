@@ -49,10 +49,10 @@ function ResetPassword (props) {
         </Form.Group>
         <LoaderButton block
           type="submit"
+          text="send confirmation"
           loadingText="Sending…"
           isLoading={isSendingCode}
-          disabled={!validateCodeForm()}
-        >send confirmation</LoaderButton>
+          disabled={!validateCodeForm()} />
       </Form>
     )
   }
@@ -86,10 +86,10 @@ function ResetPassword (props) {
         <LoaderButton
           block
           type="submit"
-          loadingText="Confirm…"
+          text="Confirm"
+          loadingText="Confirming..."
           isLoading={isConfirming}
-          disabled={!validateResetForm()}
-        >Confirm</LoaderButton>
+          disabled={!validateResetForm()} />
       </Form>
     )
   }

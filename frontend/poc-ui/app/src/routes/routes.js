@@ -5,6 +5,7 @@ import VirtualAgent from '../containers/virtual-agent'
 import Home from '../containers/home'
 import Login from '../containers/login'
 import Signup from '../containers/signup'
+import Settings from '../containers/settings'
 import ResetPassword from '../containers/reset-password'
 import NotFound from '../containers/not-found'
 import PublicRoute from './public-routes'
@@ -16,6 +17,7 @@ function Routes ({ appProps }) {
       <PublicRoute path="/" exact component={Home} appProps={appProps} />
       <PrivateRoute path="/demo" exact component={VirtualAgent} appProps={appProps} />
       <PublicRoute path="/login" exact component={Login} appProps={appProps} />
+      <PrivateRoute path="/settings" exact component={Settings} appProps={appProps} />
       <PublicRoute path="/reset-password" exact component={ResetPassword} appProps={appProps} />
       <PublicRoute path="/signup" exact component={Signup} appProps={appProps} />
       { /* Finally, catch all unmatched routes */}

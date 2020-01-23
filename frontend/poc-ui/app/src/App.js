@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Amplify, {Auth} from 'aws-amplify'
 import { BrowserRouter, Link } from 'react-router-dom'
+import { Nav } from 'react-bootstrap'
 import Routes from './routes/routes'
 import awsConfig from './configs/aws_configs';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -50,10 +51,21 @@ function App () {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <div className="navbar-nav ml-auto">
               {isAuthenticated
-                ? <button type="button" className="btn btn-light" onClick={handleLogout}>Logout</button>
+                ? <>
+                    <Nav.Item>
+                      <Nav.Link href="/settings"> Settings </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link onClick={handleLogout}> Logout </Nav.Link>
+                    </Nav.Item>
+                  </>
                 : <>
-                    <Link className="nav-link" to="/signup"> Signup </Link>
-                    <Link className="nav-link" to="/login"> login </Link>
+                    <Nav.Item>
+                      <Nav.Link className="nav-link" href="/signup"> Signup </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                      <Nav.Link className="nav-link" href="/login"> Login </Nav.Link>
+                    </Nav.Item>
                   </>
               }
             </div>

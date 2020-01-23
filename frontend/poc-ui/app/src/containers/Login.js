@@ -18,7 +18,7 @@ function Login (props) {
     event.preventDefault();
 
     try {
-      const user = await Auth.signIn(email, password);
+      await Auth.signIn(email, password);
       props.userHasAuthenticated(true);
     } catch (e) {
       console.error(e.message);
@@ -51,9 +51,7 @@ function Login (props) {
             <Link to="reset-password"> Forgot password? </Link>
           </p>
         </Form.Text>
-        <LoaderButton block disabled={!validateForm()} type="submit">
-          Login
-        </LoaderButton>
+        <LoaderButton block disabled={!validateForm()} type="submit" text="Login" />
       </Form>
     </div>
   );

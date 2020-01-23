@@ -36,9 +36,7 @@ function Signup (props) {
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control type="password" onChange={handleFieldChange} value={fields.confirmPassword} />
         </Form.Group>
-        <LoaderButton block type="submit" isLoading={isLoading} disabled={!validateForm()} >
-          Signup
-          </LoaderButton>
+        <LoaderButton block type="submit" isLoading={isLoading} disabled={!validateForm()} text="Signup" />
       </Form>
     );
   }
