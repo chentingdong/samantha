@@ -3,7 +3,7 @@ import Amplify, {Auth} from 'aws-amplify'
 import { BrowserRouter, Link } from 'react-router-dom'
 import { Nav } from 'react-bootstrap'
 import Routes from './routes/routes'
-import awsConfig from './configs/aws_configs';
+import config from './config.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 import logo from './assets/astound.png'
@@ -12,13 +12,13 @@ function App () {
   const [ isAuthenticating, setIsAuthenticating] = useState(true);
   const [ isAuthenticated, userHasAuthenticated ] = useState(false)
 
-  Amplify.configure(awsConfig)
+  Amplify.configure(config)
 
   useEffect ( () => {
-    onLoad();
+    checkLogin();
   }, [])
 
-  async function onLoad () {
+  async function checkLogin () {
     try {
       await Auth.currentSession();
       userHasAuthenticated(true);
@@ -29,11 +29,42 @@ function App () {
     }
   }
 
+  async function checkFBLogin () {
+    this.loadFacebookSDK();
+
+    try {
+      await Auth.currentAuthenticatedUser();
+      userHasAuthenticated(true);
+    } catch (e) {
+      if (e !== "not authenticated") {
+        alert(e);
+      }
+    }
+
+    this.setState({ isAuthenticating: false });
+  }
+
+  function loadFacebookSDK () {
+    window.fbAsyncInit = function() {
+      window.FB.init({
+        appId            : config.social.FB,
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v3.1'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "https://connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  }
+
   function handleLogout () {
     userHasAuthenticated(false)
-    // history is not setup yet, use hard redirect here.
-    // React may need to solve this, to support history in top level component.
-    // window.location.href=('/login')
   }
 
   return (

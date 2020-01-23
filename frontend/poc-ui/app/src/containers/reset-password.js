@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Amplify, { Auth } from "aws-amplify";
-import awsConfig from '../configs/aws_configs';
+import awsConfig from '../config.js';
 import LoaderButton from '../components/loader-button'
 
 function ResetPassword (props) {

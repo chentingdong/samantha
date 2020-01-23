@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import Amplify, { Auth } from "aws-amplify";
-import awsConfig from '../configs/aws_configs';
 import { Link } from 'react-router-dom';
+import Amplify, { Auth } from "aws-amplify";
+import awsConfig from '../config.js';
 import LoaderButton from '../components/loader-button';
+import FacebookButton from '../components/facebook-button';
 
 function Login (props) {
   const [ email, setEmail ] = useState('');
@@ -23,6 +24,10 @@ function Login (props) {
     } catch (e) {
       console.error(e.message);
     }
+  }
+
+  function handleFbLogin () {
+    props.userHasAuthenticated(true);
   }
 
   return (
@@ -51,7 +56,12 @@ function Login (props) {
             <Link to="reset-password"> Forgot password? </Link>
           </p>
         </Form.Text>
-        <LoaderButton block disabled={!validateForm()} type="submit" text="Login" />
+        <LoaderButton block
+          disabled={!validateForm()}
+          type="submit"
+          text="Login" />
+        <hr/>
+        <FacebookButton onLogin={handleFbLogin} />
       </Form>
     </div>
   );
