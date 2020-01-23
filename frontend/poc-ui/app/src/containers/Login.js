@@ -5,11 +5,10 @@ import awsConfig from '../configs/aws_configs';
 import { Link } from 'react-router-dom';
 import LoaderButton from '../components/loader-button';
 
-Amplify.configure(awsConfig);
-
 function Login (props) {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  Amplify.configure(awsConfig);
 
   function validateForm () {
     return email.length > 0 && password.length > 0;
@@ -19,11 +18,8 @@ function Login (props) {
     event.preventDefault();
 
     try {
-      let user = await Auth.signIn(email, password);
+      const user = await Auth.signIn(email, password);
       props.userHasAuthenticated(true);
-      console.log(user)
-      if (props.history.location.pathname === '/')
-        props.history.push('/demo')
     } catch (e) {
       console.error(e.message);
     }

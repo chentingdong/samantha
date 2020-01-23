@@ -1,17 +1,14 @@
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 
-export default function PrivateRoute({ component: C, appProps, ...rest }) {
+export default function PrivateRoute({ component: Component, appProps, ...rest }) {
   return (
     <Route
       {...rest}
       render={props =>
         appProps.isAuthenticated
-          ? <C {...props} {...appProps} />
-          : <Redirect
-              to={`/login?redirect=${props.location.pathname}${props.location
-                .search}`}
-            />}
+          ? <Component {...props} {...appProps} />
+          : <Redirect to={`/login?redirect=${props.location.pathname}${props.location .search}`} />}
     />
   );
 }

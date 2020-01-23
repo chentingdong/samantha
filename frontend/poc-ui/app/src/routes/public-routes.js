@@ -19,14 +19,13 @@ function querystring(name, url = window.location.href) {
 
 export default function PublicRoute({ component: Component, appProps, ...rest }) {
   const redirect = querystring("redirect");
-
   return (
     <Route
       {...rest}
       render={props =>
         !appProps.isAuthenticated
           ? <Component {...props} {...appProps} />
-          : <Redirect to={redirect === "" || redirect === null ? "/" : redirect} />}
+          : <Redirect to={redirect === "" || redirect === null ? "/demo" : redirect} />}
     />
   );
 }
