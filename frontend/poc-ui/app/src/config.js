@@ -13,6 +13,13 @@ const config = {
   social: {
     FB: "2505833796351691",
     Google: "174411671261-h1hg0n1sob7fhsblnfsgf11ku8ert89h.apps.googleusercontent.com"
+  },
+  oauth: {
+    domain: 'samantha.auth.us-east-1.amazoncognito.com',
+    scope: [ 'phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin' ],
+    redirectSignIn: 'http://localhost:3000/',
+    redirectSignOut: 'http://localhost:3000/',
+    responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
   }
 }
 
