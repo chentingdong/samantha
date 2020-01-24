@@ -1,0 +1,9 @@
+name: website
+
+website:
+  component: '@serverless/website'
+  inputs:
+    code:
+      src: build
+      hook: yarn run build
+    # domain: www.serverlessmetrics.com

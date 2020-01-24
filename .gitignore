@@ -108,3 +108,6 @@ dist
 
 # stackery
 **/.stackery/*
+
+# npm/yarn run build output
+build
