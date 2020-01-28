@@ -22,7 +22,7 @@ function LoaderButton({
       disabled={disabled || isLoading}
       {...props}
     >
-      {isLoading ? <> {loadingIcon} {loadingText}</> : text}
+      {isLoading ? <> {loadingIcon} {loadingText}</> : props.children}
     </Button>
   );
 }

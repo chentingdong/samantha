@@ -3,7 +3,15 @@ const config = {
     identityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
     region: 'us-east-1',
     userPoolId: 'us-east-1_6akVugwW4',
-    userPoolWebClientId: '33n2s6msn2sa7tjm5mdij9ti8f'
+    userPoolWebClientId: '33n2s6msn2sa7tjm5mdij9ti8f',
+    authenticationFlowType: 'USER_PASSWORD_AUTH',
+    oauth: {
+      domain: 'samantha.auth.us-east-1.amazoncognito.com',
+      scope: [ 'phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin' ],
+      redirectSignIn: 'http://localhost:3000/',
+      redirectSignOut: 'http://localhost:3000/',
+      responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+    }
   },
   Storage: {
     region: 'global',
@@ -11,15 +19,8 @@ const config = {
     identityPoolId: 'config.cognito.IDENTITY_POOL_ID'
   },
   social: {
-    FB: "2505833796351691",
-    Google: "174411671261-h1hg0n1sob7fhsblnfsgf11ku8ert89h.apps.googleusercontent.com"
-  },
-  oauth: {
-    domain: 'samantha.auth.us-east-1.amazoncognito.com',
-    scope: [ 'phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin' ],
-    redirectSignIn: 'http://localhost:3000/',
-    redirectSignOut: 'http://localhost:3000/',
-    responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+    google_client_id: "174411671261-g6u4v14c5caiag2db22kp42980bejik4.apps.googleusercontent.com",
+    facebook_app_id: "2505833796351691"
   }
 }
 
