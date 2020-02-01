@@ -4,7 +4,6 @@ import avatar from '../assets/droid.png';
 import 'react-chat-widget/lib/styles.css';
 import './virtual-agent.css';
 
-
 const wsUrl = 'wss://jhempytc66.execute-api.us-east-1.amazonaws.com/test';
 
 function VirtualAgent () {
@@ -44,9 +43,15 @@ function VirtualAgent () {
     addResponseMessage(utterance);
   }
 
+  let suggest = (utterance) => {
+    console.log(utterance)
+  }
+
   return (
     <div className="VirtualAgent">
-      <Widget handleNewUserMessage={handleUserMessage}
+      <Widget
+        handleNewUserMessage={handleUserMessage}
+        onChange={suggest}
         profileAvatar={avatar}
         showCloseButton="false"
         fullScreenMode="true" />

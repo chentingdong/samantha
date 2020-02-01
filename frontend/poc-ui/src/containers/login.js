@@ -1,20 +1,21 @@
-import React, { useState } from "react";
-import { Form, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import Amplify, { Auth } from "aws-amplify";
 import config from '../config.js';
 import LoaderButton from '../components/loader-button';
 import { withFederated } from 'aws-amplify-react';
 
+
 const Federated = withFederated((props) => {
   return (
     <div>
-      <p>
-        <LoaderButton onClick={props.googleSignIn}>Login with Google</LoaderButton>
-      </p>
-      <p>
-        <LoaderButton onClick={props.facebookSignIn}>Login with Facebook</LoaderButton>
-      </p>
+      <LoaderButton className="btn-block" onClick={props.googleSignIn}>
+        Login with Google
+        </LoaderButton>
+      <LoaderButton className="btn-block" onClick={props.facebookSignIn}>
+        Login with Facebook
+        </LoaderButton>
     </div>
   )
 });
@@ -22,33 +23,55 @@ const Federated = withFederated((props) => {
 function Login (props) {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
+  const [ isAuthenticating, setIsAuthenticating ] = useState(false);
   Amplify.configure(config);
+
+  useEffect(() => {
+    checkLogin();
+  });
+
+  async function checkLogin() {
+    try {
+      const session = await Auth.currentSession();
+      if (session)
+        props.userHasAuthenticated(true);
+    }
+    catch(e) {
+      if (e !== 'No current user') {
+        alert(e);
+      }
+    }
+
+    setIsAuthenticating(false);
+  }
 
   function validateForm () {
     return email.length > 0 && password.length > 0;
   }
 
-  function handleSubmit (event) {
+  async function handleEmailLogin(event) {
     event.preventDefault();
 
     try {
-      Auth.signIn(email, password).then(() => {
-        props.userHasAuthenticated(true);
-      })
+      const user = await Auth.signIn(email, password);
+      console.log(user)
+      props.userHasAuthenticated(true);
     } catch (e) {
-      console.error(e.message);
+      alert(e.message);
     }
   }
 
-  function handleAuthStateChange (state) {
+  function handleFederatedLogin (state) {
     if (state === 'signedIn') {
+      debugger
       props.userHasAuthenticated(true);
     }
   }
 
   return (
+    !isAuthenticating &&
     <div className="container centered-panel">
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleEmailLogin}>
         <Form.Group controlId="email" >
           <Form.Label>Email</Form.Label>
           <Form.Control
@@ -68,7 +91,7 @@ function Login (props) {
           />
         </Form.Group>
         <Form.Text>
-          <p>
+          <p className="text-right">
             <Link to="reset-password"> Forgot password? </Link>
           </p>
         </Form.Text>
@@ -76,9 +99,9 @@ function Login (props) {
           disabled={!validateForm()}
           type="submit"
         >Login</LoaderButton>
+        <hr />
+        <Federated federated={config.social} onStateChange={handleFederatedLogin} />
       </Form>
-      <hr />
-      <Federated federated={config.social} onStateChange={handleAuthStateChange} />
     </div>
   );
 }

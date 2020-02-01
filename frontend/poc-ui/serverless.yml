@@ -6,4 +6,3 @@ website:
     code:
       src: build
       hook: yarn run build
-    # domain: www.serverlessmetrics.com

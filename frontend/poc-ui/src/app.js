@@ -9,7 +9,6 @@ import './app.css'
 import logo from './assets/astound.png'
 
 function App () {
-  const [ isAuthenticating, setIsAuthenticating] = useState(true);
   const [ isAuthenticated, userHasAuthenticated ] = useState(false)
 
   Amplify.configure(config)
@@ -26,7 +25,6 @@ function App () {
     }
     catch (e) {
       if (e !== 'No current user') alert(e)
-      setIsAuthenticating(false)
     }
   }
 

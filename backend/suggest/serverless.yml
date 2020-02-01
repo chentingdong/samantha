@@ -1,0 +1,27 @@
+service: suggest
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  vpc:
+    securityGroupIds:
+      - sg-e25dbbb4
+    subnetIds:
+      - subnet-424b910f
+      - subnet-7e0b5240
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ec2:CreateNetworkInterface"
+        - "ec2:DescribeNetworkInterfaces"
+        - "ec2:DetachNetworkInterface"
+        - "ec2:DeleteNetworkInterface"
+      Resource: "*"
+functions:
+  suggest:
+    handler: handler.suggest
+    events:
+      - http:
+          path: /suggest/{utterance}
+          method: get
+          cors: true

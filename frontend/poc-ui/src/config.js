@@ -21,7 +21,9 @@ const config = {
   social: {
     google_client_id: "174411671261-g6u4v14c5caiag2db22kp42980bejik4.apps.googleusercontent.com",
     facebook_app_id: "2505833796351691"
-  }
+  },
+  wsUrl: 'wss://jhempytc66.execute-api.us-east-1.amazonaws.com/test',
+  suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest'
 }
 
 export default config;

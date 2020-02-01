@@ -1,0 +1,11 @@
+{
+  "name": "bellhopper-suggest",
+  "version": "0.0.1",
+  "description": "BellHopper suggest proxy service",
+  "author": "Tingdong Chen <tingdong@astound.ai>",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}

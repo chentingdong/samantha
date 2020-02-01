@@ -1,11 +1,8 @@
-import React, { useState } from 'react'
-import { LoaderButton } from '../components/loader-button'
+import React from 'react'
 import { Tab, Nav, Row, Col } from 'react-bootstrap'
 import ChangePassword from './change-password'
 
 function Settings (props) {
-  const [ isLoading, setIsLoading ] = useState(false);
-
   return (
     <div className='container mt-4'>
       <Tab.Container id="left-tabs-example" defaultActiveKey="password">
