@@ -45,3 +45,6 @@
   position: absolute;
   bottom: 5em;
 }
+.suggestion.active {
+  background: #999;
+}
