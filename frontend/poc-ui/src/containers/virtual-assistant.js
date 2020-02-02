@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import { Navbar } from 'react-bootstrap'
 import './virtual-assistant.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import config from '../config'
 import { Card } from 'react-bootstrap'
-import axios from 'axios';
+import axios from 'axios'
+import Parser from 'html-react-parser'
 
 function VirtualAssistant (props) {
   let initialMessageList = [ {
@@ -93,13 +94,14 @@ function VirtualAssistant (props) {
         })}
       </div>
       <Card className="suggestions" style={{ width: '100%' }}>
-        <div>
-          suggestions:
+        {suggestions.length > 0 &&
+          <label>I guess you mean:</label>
+        }
+        <ul>
           {suggestions.map((suggestion, index) => {
-            return <li key={index} dangerouslySetInnerHTML={{ __html: suggestion }}></li>
+            return <li>{Parser(suggestion)}</li>
           })}
-        </div>
-        you typed: {currentMessage}
+        </ul>
       </Card>
       <Navbar fixed="bottom" className="">
         <form className="col-12" onSubmit={sendMessage}>
