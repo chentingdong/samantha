@@ -4,57 +4,55 @@ import './virtual-assistant.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import config from '../config'
-import { Card } from 'react-bootstrap'
 import axios from 'axios'
 import Parser from 'html-react-parser'
+import { DebounceInput } from 'react-debounce-input';
 
 function VirtualAssistant (props) {
-  let initialMessageList = [ {
+  let initialMessage = {
     id: 1,
     who: 'agent',
-    message: 'Welcome.'
-  } ]
+    message: 'Welcome...'
+  }
 
-  let [ messageList, setMessageList ] = useState(initialMessageList)
+  let [ messageList, setMessageList ] = useState([ initialMessage ])
   let [ currentMessage, setCurrentMessage ] = useState('')
   let [ suggestions, setSuggestions ] = useState([])
 
-  // websocket
-  // let wsNew = new WebSocket(config.wsUrl)
-  // let [ ws, setWs ] = useState(wsNew)
+  let wsNew = new WebSocket(config.wsUrl)
+  let [ ws, setWs ] = useState(wsNew)
 
-  // useEffect(() => {
-  //   ws.onmessage = event => {
-  //     const message = event.data
-  //     receiveMessage(message)
-  //   }
+  useEffect(() => {
+    ws.onmessage = event => {
+      const message = event.data
+      receiveMessage(message)
+    }
 
-  //   ws.onclose = () => {
-  //     console.log('Disconnected websocket ' + config.wsUrl)
-  //     setWs(wsNew)
-  //   }
-  // }, [ws])
-
+    ws.onclose = () => {
+      console.log('Disconnected websocket ' + config.wsUrl)
+      setWs(wsNew)
+    }
+  }, [ ws ])
 
   // messages
-  async function sendMessage (e) {
-    e.preventDefault()
+  async function sendMessage (message) {
+    setCurrentMessage(message)
 
     let newMessage = {
+      // TODO: use uuid for id?
       id: messageList.length + 1,
       who: 'user',
-      message: currentMessage,
-      blockInput: false
+      message: message
     }
 
     setMessageList([ ...messageList, newMessage ])
 
-    // const message = {
-    //   "action": "request",
-    //   "task": currentMessage
-    // }
+    const payload = {
+      "action": "request",
+      "task": message
+    }
 
-    // await ws.send(JSON.stringify(message))
+    await ws.send(JSON.stringify(payload))
     setCurrentMessage('')
   }
 
@@ -79,8 +77,6 @@ function VirtualAssistant (props) {
   useEffect(suggest, [ currentMessage ])
 
   // DOM
-
-
   return (
     <div className="container-fluid">
       <div className="messages">
@@ -93,26 +89,28 @@ function VirtualAssistant (props) {
           )
         })}
       </div>
-      <Card className="suggestions" style={{ width: '100%' }}>
+      <div className="suggestions" style={{ width: '100%' }}>
         {suggestions.length > 0 &&
           <label>I guess you mean:</label>
         }
         <ul>
-          {suggestions.map((suggestion, index) => {
-            return <li>{Parser(suggestion)}</li>
+          {suggestions.map((suggestion) => {
+            return <li onClick={e => sendMessage(e.target.innerText)}>{Parser(suggestion)}</li>
           })}
         </ul>
-      </Card>
+      </div>
       <Navbar fixed="bottom" className="">
-        <form className="col-12" onSubmit={sendMessage}>
-          <input type="text"
+        <form className="col-12" onSubmit={e => { e.preventDefault(); sendMessage(currentMessage) }} >
+          <DebounceInput
             className="col-12 input-message"
-            autoFocus={true}
+            minLength={2}
+            debounceTimeout={300}
+            autoFocus="true"
             value={currentMessage}
-            onChange={e => setCurrentMessage(e.target.value)}
+            onChange={e => { setCurrentMessage(e.target.value); suggest() }}
           />
         </form>
-        <FontAwesomeIcon icon={faBell} className="send-button clickable" onClick={sendMessage} />
+        <FontAwesomeIcon icon={faBell} className="send-button clickable" onClick={e => { sendMessage(e.target.value) }} />
       </Navbar>
     </div>
   )
