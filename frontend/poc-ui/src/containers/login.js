@@ -32,7 +32,7 @@ function Login (props) {
 
   async function checkLogin() {
     try {
-      const session = await Auth.currentSession();
+      const session = await Auth.currentAuthenticatedUser();
       if (session)
         props.userHasAuthenticated(true);
     }
@@ -63,7 +63,6 @@ function Login (props) {
 
   function handleFederatedLogin (state) {
     if (state === 'signedIn') {
-      debugger
       props.userHasAuthenticated(true);
     }
   }

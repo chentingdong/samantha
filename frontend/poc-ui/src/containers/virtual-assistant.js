@@ -34,18 +34,7 @@ function VirtualAssistant (props) {
       console.log('Disconnected websocket ' + config.wsUrl)
       setWs(wsNew)
     }
-  }, [ ws ])
-
-  // messages
-  function submitUserInput (e) {
-    e.preventDefault()
-    if (suggestions.length === 0) {
-      sendMessage(currentMessage)
-    } else {
-      let msg = suggestions[ activeSuggestion ]
-      setCurrentMessage(msg)
-    }
-  }
+  })
 
   async function sendMessage (message) {
     setCurrentMessage(message)
