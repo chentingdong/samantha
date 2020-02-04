@@ -114,7 +114,7 @@ function VirtualAssistant (props) {
     // enter to send message to ws
     else if (e.which === 13) {
       if (suggestions.length > 0) {
-        const msg = htmlToText.fromString(suggestions[activeSuggestion])
+        const msg = htmlToText.fromString(suggestions[ activeSuggestion ])
         setCurrentMessage(msg)
         setSuggestions([])
       } else {
@@ -124,41 +124,42 @@ function VirtualAssistant (props) {
   }
 
   // DOM
+
   return (
     <div className="container-fluid">
       <div className="messages">
         {messageList.map((msg, index) => {
           return (
             <div key={index}>
-              <span>{msg.who}:</span>
+              <span>{msg.who}: </span>
               <span>{msg.message}</span>
             </div>
           )
         })}
       </div>
-      <div className="suggestions" style={{ width: '100%' }}>
-        {suggestions.length > 0 &&
+      {(suggestions.length > 0) &&
+        <div className="suggestions" style={{ width: '100%' }}>
           <label>I guess you mean:</label>
-        }
-        <ul>
-          {suggestions.map((suggestion, index) => {
-            return (
-              <li key={index}
-                className={`clickable suggestion ${isActiveSuggestion(index)}`}
-                onClick={e => sendMessage(e.target.innerText)}
-                onKeyDown={e => sendMessage(e.target.innerText)}
-                onMouseOver={e => { setActiveSuggestion(index) }}
-              >{parse(suggestion)} </li>
-            )
-          })}
-        </ul>
-      </div>
+          <ul>
+            {suggestions.map((suggestion, index) => {
+              return (
+                <li key={index}
+                  className={`clickable suggestion ${isActiveSuggestion(index)}`}
+                  onClick={e => sendMessage(e.target.innerText)}
+                  onKeyDown={e => sendMessage(e.target.innerText)}
+                  onMouseOver={e => { setActiveSuggestion(index) }}
+                >{parse(suggestion)} </li>
+              )
+            })}
+          </ul>
+        </div>
+      }
       <Navbar fixed="bottom">
         <DebounceInput
           className="col-12 input-message"
           minLength={2}
-          autoFocus={true}
           debounceTimeout={100}
+          autoFocus={true}
           value={currentMessage}
           onChange={e => { setCurrentMessage(e.target.value) }}
           onKeyDown={e => handleKeyDown(e, activeSuggestion)}
