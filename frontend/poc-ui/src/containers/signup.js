@@ -45,7 +45,7 @@ function Signup (props) {
     return (
       <div class="centered-panel">
         <h3>Confirm sign up</h3>
-        <p>Please check your email to verify to finish registration. Then click <Link to="/login">login</Link>.</p>
+        <p>Please check your email to verify to finish registration. Then click <Link to="/user/login">login</Link>.</p>
         <p>If not received email in a minute, try <button onClick={resendSignUp}>resend</button></p>
       </div>
     )

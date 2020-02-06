@@ -100,7 +100,7 @@ function ResetPassword (props) {
       <div className="success">
         <p> Your password has been reset successfully. </p>
         <p>
-          <Link to="/login">Click here to login with your new credentials.</Link>
+          <Link to="/user/login">Click here to login with your new credentials.</Link>
         </p>
       </div>
     )

@@ -58,10 +58,10 @@ function App () {
                   </>
                 : <>
                     <Nav.Item>
-                      <Nav.Link className="nav-link" href="/signup"> Signup </Nav.Link>
+                      <Nav.Link className="nav-link" href="/user/signup"> Signup </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                      <Nav.Link className="nav-link" href="/login"> Login </Nav.Link>
+                      <Nav.Link className="nav-link" href="/user/login"> Login </Nav.Link>
                     </Nav.Item>
                   </>
               }

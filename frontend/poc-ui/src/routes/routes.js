@@ -13,19 +13,68 @@ import PublicRoute from './public-routes'
 import PrivateRoute from './private-routes'
 import VirtualAssistant from "../containers/virtual-assistant";
 
+const routes = [
+  {
+    path: "/",
+    component: Home,
+    tag: PublicRoute
+  },
+  {
+    path: "/demo",
+    component: VirtualAssistant,
+    tag: PrivateRoute
+  },
+  {
+    path: "/demo/agent-widget",
+    component: VirtualAgent,
+    tag: PrivateRoute
+  },
+  {
+    path: "/demo/suggest",
+    component: Suggest,
+    tag: PrivateRoute
+  },
+  {
+    path: "/user/login",
+    component: Login,
+    tag: PublicRoute
+  },
+  {
+    path: "/user/settings",
+    component: Settings,
+    tag: PrivateRoute
+  },
+  {
+    path: "/user/password/reset",
+    component: ResetPassword,
+    tag: PrivateRoute
+  },
+  {
+    path: "/user/user/signup",
+    component: {Signup},
+    tag: PublicRoute
+  },
+  {
+    component: NotFound,
+    tag: PrivateRoute
+  }
+]
+
 function Routes ({ appProps }) {
   return (
     <Switch>
-      <PublicRoute path="/" exact component={Home} appProps={appProps} />
-      <PrivateRoute path="/demo" exact component={VirtualAssistant} appProps={appProps} />
-      <PrivateRoute path="/demo1" exact component={VirtualAgent} appProps={appProps} />
-      <PrivateRoute path="/demo-suggest" exact component={Suggest} appProps={appProps} />
-      <PublicRoute path="/login" exact component={Login} appProps={appProps} />
-      <PrivateRoute path="/settings" exact component={Settings} appProps={appProps} />
-      <PublicRoute path="/reset-password" exact component={ResetPassword} appProps={appProps} />
-      <PublicRoute path="/signup" exact component={Signup} appProps={appProps} />
-      { /* Finally, catch all unmatched routes */}
-      <PublicRoute component={NotFound} appProps={appProps} />
+      {routes.map((route, index) => {
+        const TagName = route.tag || 'foo'
+        return (
+          <TagName
+            exact
+            path={route.path}
+            component={route.component}
+            appProps={appProps}
+            key={index}
+          />
+        )
+      })}
     </Switch>
   );
 }
