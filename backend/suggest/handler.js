@@ -4,6 +4,8 @@ const suggester = 'mySuggester'
 
 async function getSuggestions(utterance) {
   const suggestUrl = 'http://172.31.83.195:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
+  // const suggestUrl = 'http://52.54.244.2:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
+
   let url = suggestUrl + utterance
   let suggestions = []
 
@@ -20,12 +22,12 @@ async function getSuggestions(utterance) {
   }
 }
 
-module.exports.suggest = async event => {
+module.exports.suggest = async (event, context, callback) => {
   try {
     let utterance = event.pathParameters.utterance
     let suggestions = await getSuggestions(utterance)
 
-    return {
+    let response = {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': '*',
@@ -35,6 +37,8 @@ module.exports.suggest = async event => {
       },
       body: JSON.stringify(suggestions)
     };
+
+    callback(null, response);
   }
   catch (err) {
     console.error(err)

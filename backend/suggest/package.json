@@ -4,8 +4,12 @@
   "description": "BellHopper suggest proxy service",
   "author": "Tingdong Chen <tingdong@astound.ai>",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "start": "~/.node_modules/bin/serverless suggest -s dev",
+    "debug": "export SLS_DEBUG=* && node --inspect ./node_modules/.bin/serverless suggest -s dev"
+  },
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "serverless": "^1.62.0"
   }
 }

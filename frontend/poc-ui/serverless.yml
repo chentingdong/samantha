@@ -6,3 +6,5 @@ website:
     code:
       src: build
       hook: yarn run build
+  plugins:
+    - serverless-offline
