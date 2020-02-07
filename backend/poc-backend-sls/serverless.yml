@@ -122,6 +122,16 @@ functions:
   #         method: post
   #         cors:
   #           origin: ${self:custom.corsOrigin}
+  webhook:
+    name: LAMBDA_${self:custom.user}_${self:service}_http_webhook_${opt:stage, self:provider.stage}
+    handler: handler.webhook
+    events:
+      - http:
+          path: webhook
+          method: post
+          cors:
+            origin: ${self:custom.corsOrigin}
+
 
 resources:
   Resources:

@@ -11,6 +11,10 @@ const {
 } = require('./src/services/interaction');
 
 const {
+    webhook
+} = require('./src/services/webhook');
+
+const {
     defaultSocketHandler,
     handleSocketConnect,
     handleSocketDisconnect
@@ -24,3 +28,4 @@ module.exports.handleSocketConnect = handleSocketConnect;
 module.exports.handleSocketDisconnect = handleSocketDisconnect;
 module.exports.defaultSocketHandler = defaultSocketHandler;
 module.exports.interaction = interaction;
+module.exports.webhook = webhook;
