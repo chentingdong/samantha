@@ -19,9 +19,8 @@ function App () {
 
   async function checkLogin () {
     try {
-      const user = await Auth.currentSession();
-      if (user)
-        userHasAuthenticated(true);
+      Auth.currentSession();
+      userHasAuthenticated(true);
     }
     catch (e) {
       if (e !== 'No current user') alert(e)

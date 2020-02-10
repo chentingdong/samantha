@@ -48,3 +48,26 @@
 .suggestion.active {
   background: #999;
 }
+
+/* workflow */
+.workflow {
+  height: 900px;
+}
+.palette-component {
+  height: 100%;
+  -ms-flex: 0 0 200px;
+  flex: 0 0 200px;
+  z-index: 2;
+  background-color: #fff;
+}
+.diagram-component {
+  height: 100%;
+  border: solid 1px black;
+  background-color: white;
+}
+
+/* ideas - node types */
+.card {
+  box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.2);
+  background-color: rgba(0,0,0,0.1);
+}

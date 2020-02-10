@@ -32,16 +32,14 @@ function Login (props) {
 
   async function checkLogin() {
     try {
-      const session = await Auth.currentAuthenticatedUser();
-      if (session)
-        props.userHasAuthenticated(true);
+      const user = await Auth.currentAuthenticatedUser();
     }
     catch(e) {
       if (e !== 'No current user') {
         alert(e);
       }
     }
-
+    props.userHasAuthenticated(true);
     setIsAuthenticating(false);
   }
 
@@ -53,8 +51,7 @@ function Login (props) {
     event.preventDefault();
 
     try {
-      const user = await Auth.signIn(email, password);
-      console.log(user)
+      await Auth.signIn(email, password);
       props.userHasAuthenticated(true);
     } catch (e) {
       alert(e.message);

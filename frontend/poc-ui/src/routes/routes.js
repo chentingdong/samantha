@@ -11,7 +11,9 @@ import ResetPassword from '../containers/reset-password'
 import NotFound from '../containers/not-found'
 import PublicRoute from './public-routes'
 import PrivateRoute from './private-routes'
-import VirtualAssistant from "../containers/virtual-assistant";
+import VirtualAssistant from '../containers/virtual-assistant'
+import Workflow from '../containers/workflow'
+import NodeTypes from '../containers/node-types'
 
 const routes = [
   {
@@ -20,19 +22,9 @@ const routes = [
     tag: PublicRoute
   },
   {
-    path: "/demo",
-    component: VirtualAssistant,
-    tag: PrivateRoute
-  },
-  {
-    path: "/demo/agent-widget",
-    component: VirtualAgent,
-    tag: PrivateRoute
-  },
-  {
-    path: "/demo/suggest",
-    component: Suggest,
-    tag: PrivateRoute
+    path: "/user/user/signup",
+    component: {Signup},
+    tag: PublicRoute
   },
   {
     path: "/user/login",
@@ -50,9 +42,29 @@ const routes = [
     tag: PrivateRoute
   },
   {
-    path: "/user/user/signup",
-    component: {Signup},
-    tag: PublicRoute
+    path: "/demo",
+    component: VirtualAssistant,
+    tag: PrivateRoute
+  },
+  {
+    path: "/demo/agent-widget",
+    component: VirtualAgent,
+    tag: PrivateRoute
+  },
+  {
+    path: "/demo/suggest",
+    component: Suggest,
+    tag: PrivateRoute
+  },
+  {
+    path: "/workflow",
+    component: Workflow,
+    tag: PrivateRoute
+  },
+  {
+    path: '/ideas/state-types',
+    component: NodeTypes,
+    tag: PrivateRoute
   },
   {
     component: NotFound,
