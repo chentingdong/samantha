@@ -11,29 +11,41 @@ const webhook = async (event, context) => {
 
         // Retrieve the message from the socket payload
         const data = JSON.parse(event.body);
-        const taskId = uuidv4();
+        const taskId = data.taskId;
+        let tasks = [];
         try {
-            const tasks = await dynamodbConnector.findTask(
+            tasks = await dynamodbConnector.findTask(
                 taskId
             );
+            if (tasks.Items.length < 1) {
+                throw new Error("Tasks length less than 1");
+            }
+            console.log(JSON.stringify(tasks));
         } catch (err) {
             console.error(`Unable to find taskId ${taskId}`, err)
         }
 
-        const responseMessage = {
-            body: {
-                utterance: `Working on ${taskData}. TaskId: ${taskId}`
+        const task = tasks.Items[0];
+        const sockets = await dynamodbConnector.findSocketsByUser(task.userId);
+        console.log(JSON.stringify(sockets));
+        const promises = [];
+        sockets.Items.forEach(function(item){
+            const connectionId = item.connectionId;
+            const responseMessage = {
+                body: {
+                    utterance: `Finished task ${task.data}. TaskId: ${taskId}`
+                }
+            };
+            try {
+                promises.push(apigatewayConnector.generateSocketMessage(
+                    connectionId,
+                    JSON.stringify(responseMessage)
+                ));
+            } catch (err) {
+                console.error(`Unable to respond to ${connectionId}`, err);
             }
-        };
-
-        try {
-            await apigatewayConnector.generateSocketMessage(
-                connectionId,
-                JSON.stringify(responseMessage)
-            );
-        } catch (err) {
-            console.error(`Unable to respond to ${connectionId}`, err);
-        }
+        });
+        const results = await Promise.all(promises);
 
         // Let the API Gateway Websocket know everything went OK.
         return {
