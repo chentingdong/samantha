@@ -4,28 +4,28 @@
   "linkToPortIdProperty": "toPort",
   "nodeDataArray": [
     { "key": -1, "category": "Start", "loc": "175 0", "text": "Start" },
-    { "key": 0, "loc": "-5 75", "text": "step 0", "category": "Text" },
-    { "key": 1, "loc": "175 100", "text": "step 1", "category": "Text" },
+    { "key": 0, "loc": "-5 100", "text": "step 0", "category": "Text" },
+    { "key": 1, "loc": "175 100", "text": "step 1", "category": "Conditional" },
     { "key": 2, "loc": "175 200", "text": "step 2", "category": "Text" },
     { "key": 3, "loc": "175 290", "text": "step 3", "category": "Text" },
     { "key": 4, "loc": "175 380", "text": "step 4", "category": "Text" },
-    { "key": 5, "loc": "355 85", "text": "step 5", "category": "Text" },
+    { "key": 5, "loc": "355 100", "text": "step 5", "category": "Text" },
     { "key": 6, "loc": "175 450", "text": "step 6", "category": "Text" },
     { "key": 7, "loc": "175 515", "text": "step 7", "category": "Text" },
     { "key": 8, "loc": "175 585", "text": "step 8", "category": "Text" },
-    { "key": -2, "category": "End", "loc": "203 700", "text": "End!" }
+    { "key": -2, "category": "End", "loc": "175 700", "text": "End!" }
   ],
   "linkDataArray": [
+    { "from": -1, "to": 1, "fromPort": "B", "toPort": "T" },
+    { "from": 1, "to": 0, "fromPort": "B", "toPort": "T" },
     { "from": 1, "to": 2, "fromPort": "B", "toPort": "T" },
+    { "from": 1, "to": 5, "fromPort": "B", "toPort": "T" },
     { "from": 2, "to": 3, "fromPort": "B", "toPort": "T" },
     { "from": 3, "to": 4, "fromPort": "B", "toPort": "T" },
     { "from": 4, "to": 6, "fromPort": "B", "toPort": "T" },
     { "from": 6, "to": 7, "fromPort": "B", "toPort": "T" },
     { "from": 7, "to": 8, "fromPort": "B", "toPort": "T" },
     { "from": 8, "to": -2, "fromPort": "B", "toPort": "T" },
-    { "from": -1, "to": 0, "fromPort": "B", "toPort": "T" },
-    { "from": -1, "to": 1, "fromPort": "B", "toPort": "T" },
-    { "from": -1, "to": 5, "fromPort": "B", "toPort": "T" },
     { "from": 5, "to": 4, "fromPort": "B", "toPort": "T" },
     { "from": 0, "to": 4, "fromPort": "B", "toPort": "T" }
   ]
