@@ -36,7 +36,7 @@ function handleModelChange(changes) {
 
 function Workflow1() {
   return (
-    <div>
+    <div className="container-fluid workflow row">
       <ReactDiagram
         initDiagram={initDiagram}
         divClassName='diagram-component container'

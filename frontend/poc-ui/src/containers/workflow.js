@@ -37,6 +37,13 @@ function Workflow () {
     ];
   }
 
+  function textStyle () {
+    return {
+      font: "bold 11pt Lato, Helvetica, Arial, sans-serif",
+      stroke: "#197441"
+    }
+  }
+
   function makePort (name, align, spot, output, input) {
     var horizontal = align.equals(go.Spot.Top) || align.equals(go.Spot.Bottom);
     return $(go.Shape,
@@ -62,19 +69,12 @@ function Workflow () {
       });
   }
 
-  function textStyle () {
-    return {
-      font: "bold 11pt Lato, Helvetica, Arial, sans-serif",
-      stroke: "#F8F8F8"
-    }
-  }
 
-  diagram.nodeTemplateMap.add("",
+  diagram.nodeTemplateMap.add("Text",
     $(go.Node, "Table", nodeStyle(),
-
       $(go.Panel, "Auto",
         $(go.Shape, "Rectangle",
-          { fill: "#282c34", stroke: "#00A9C9", strokeWidth: 3.5 },
+          { fill: "#F8F8F8", stroke: "#00A9C9", strokeWidth: 3.5 },
           new go.Binding("figure", "figure")),
         $(go.TextBlock, textStyle(),
           {
@@ -85,19 +85,18 @@ function Workflow () {
           },
           new go.Binding("text").makeTwoWay())
       ),
-
+      // four named ports, one on each side:
       makePort("T", go.Spot.Top, go.Spot.TopSide, false, true),
       makePort("L", go.Spot.Left, go.Spot.LeftSide, true, true),
       makePort("R", go.Spot.Right, go.Spot.RightSide, true, true),
       makePort("B", go.Spot.Bottom, go.Spot.BottomSide, true, false)
     ));
 
-
   diagram.nodeTemplateMap.add("Conditional",
     $(go.Node, "Table", nodeStyle(),
       $(go.Panel, "Auto",
         $(go.Shape, "Diamond",
-          { fill: "#282c34", stroke: "#00A9C9", strokeWidth: 3.5 },
+          { fill: "#F8F8F8", stroke: "#00A9C9", strokeWidth: 3.5 },
           new go.Binding("figure", "figure")),
         $(go.TextBlock, textStyle(),
           {
@@ -118,7 +117,7 @@ function Workflow () {
     $(go.Node, "Table", nodeStyle(),
       $(go.Panel, "Spot",
         $(go.Shape, "Circle",
-          { desiredSize: new go.Size(70, 70), fill: "#282c34", stroke: "#09d3ac", strokeWidth: 3.5 }),
+          { desiredSize: new go.Size(70, 70), fill: "#F8F8F8", stroke: "#09d3ac", strokeWidth: 3.5 }),
         $(go.TextBlock, "Start", textStyle(),
           new go.Binding("text"))
       ),
@@ -131,7 +130,7 @@ function Workflow () {
     $(go.Node, "Table", nodeStyle(),
       $(go.Panel, "Spot",
         $(go.Shape, "Circle",
-          { desiredSize: new go.Size(60, 60), fill: "#282c34", stroke: "#DC3C00", strokeWidth: 3.5 }),
+          { desiredSize: new go.Size(60, 60), fill: "#F8F8F8", stroke: "#DC3C00", strokeWidth: 3.5 }),
         $(go.TextBlock, "End", textStyle(),
           new go.Binding("text"))
       ),
@@ -162,7 +161,7 @@ function Workflow () {
   diagram.nodeTemplateMap.add("Comment",
     $(go.Node, "Auto", nodeStyle(),
       $(go.Shape, "File",
-        { fill: "#282c34", stroke: "#DEE0A3", strokeWidth: 3 }),
+        { fill: "#F8F8F8", stroke: "#DEE0A3", strokeWidth: 3 }),
       $(go.TextBlock, textStyle(),
         {
           margin: 8,
@@ -238,8 +237,8 @@ function Workflow () {
       nodeTemplateMap: diagram.nodeTemplateMap,
       model: new go.GraphLinksModel([
         { category: "Start", text: "Start" },
-        { text: "Step" },
-        { category: "Conditional", text: "???" },
+        { category: "Text", text: "Step" },
+        { category: "Conditional", text: "condition" },
         { category: "End", text: "End" },
         { category: "Comment", text: "Comment" }
       ])
@@ -247,7 +246,7 @@ function Workflow () {
     return palette
   }
 
-  function animateFadeDown(e) {
+  function animateFadeDown (e) {
     var diagram = e.diagram;
     var animation = new go.Animation();
     animation.isViewportUnconstrained = true;

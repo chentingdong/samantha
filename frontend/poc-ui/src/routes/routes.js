@@ -13,6 +13,7 @@ import PublicRoute from './public-routes'
 import PrivateRoute from './private-routes'
 import VirtualAssistant from '../containers/virtual-assistant'
 import Workflow from '../containers/workflow'
+import Workflow1 from '../containers/workflow.1'
 import NodeTypes from '../containers/node-types'
 
 const routes = [
@@ -57,8 +58,13 @@ const routes = [
     tag: PrivateRoute
   },
   {
-    path: "/workflow",
+    path: "/ideas/workflow",
     component: Workflow,
+    tag: PrivateRoute
+  },
+  {
+    path: "/ideas/workflow-1",
+    component: Workflow1,
     tag: PrivateRoute
   },
   {

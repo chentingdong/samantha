@@ -32,7 +32,7 @@ function Login (props) {
 
   async function checkLogin() {
     try {
-      const user = await Auth.currentAuthenticatedUser();
+      Auth.currentAuthenticatedUser();
     }
     catch(e) {
       if (e !== 'No current user') {
