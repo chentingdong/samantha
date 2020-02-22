@@ -1729,6 +1729,11 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
+"@macklinu/render-props@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@macklinu/render-props/-/render-props-1.0.1.tgz#9f2df06047d4700ab90da6fe42f4f94cb80fb2c0"
+  integrity sha512-hckIzU7kRKZfr7nLPwDT1Bh9ugCDh2TqHERv+Cctb+JaYWYmC/J+/X3NAbMfwYqD2y+l7CAzVq1K4s4drqtx1A==
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -2041,6 +2046,14 @@
   version "16.9.17"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.17.tgz#58f0cc0e9ec2425d1441dd7b623421a867aa253e"
   integrity sha512-UP27In4fp4sWF5JgyV6pwVPAQM83Fj76JOcg02X5BZcpSu5Wx+fP9RMqc2v0ssBoQIFvD5JdKY41gjJJKmw6Bg==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@^15.x || ^16.x":
+  version "16.9.19"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.19.tgz#c842aa83ea490007d29938146ff2e4d9e4360c40"
+  integrity sha512-LJV97//H+zqKWMms0kvxaKYJDG05U2TtQB3chRLF8MPNs+MQh/H1aGlyDUxjaHvu08EAGerdX2z4LTBc7ns77A==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
@@ -7973,6 +7986,11 @@ moment-timezone@^0.5.25:
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
   integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
+monaco-editor@^0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/monaco-editor/-/monaco-editor-0.20.0.tgz#5d5009343a550124426cb4d965a4d27a348b4dea"
+  integrity sha512-hkvf4EtPJRMQlPC3UbMoRs0vTAFAYdzFQ+gpMb8A+9znae1c43q8Mab9iVsgTcg/4PNiLGGn3SlDIa8uvK1FIQ==
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -9970,6 +9988,14 @@ react-lifecycles-compat@^3.0.0, react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-monaco-editor@^0.33.0:
+  version "0.33.0"
+  resolved "https://registry.yarnpkg.com/react-monaco-editor/-/react-monaco-editor-0.33.0.tgz#822c331836ec39b1160faf22b0c722266f822460"
+  integrity sha512-zFo3A55QHCABYm4Xt0HWQMq10GI+oxhhCUGDYgzLksU1iGrdvHudUNXTDZvE43B1gM+cPyJ75jla/464kss8Iw==
+  dependencies:
+    "@types/react" "^15.x || ^16.x"
+    prop-types "^15.7.2"
+
 react-onclickoutside@^6.9.0:
   version "6.9.0"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.9.0.tgz#a54bc317ae8cf6131a5d78acea55a11067f37a1f"
@@ -10122,6 +10148,13 @@ react-simple-chatbot@^0.6.1:
     random-id "0.0.2"
     react "^16.4.1"
     react-dom "^16.4.1"
+
+react-stringify@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/react-stringify/-/react-stringify-1.0.0.tgz#d094e1d228341309988cfb3f26bd61d4a9264ad0"
+  integrity sha512-beDUMm+ZY2Gdh/cZ3j5zXNKghchAWthLNt9nHS2SlgvlHgLGnBhYo1Wk5hDdCjpt08VT6KCbv8ZVsylMxah0/A==
+  dependencies:
+    "@macklinu/render-props" "^1.0.1"
 
 react-transition-group@^4.0.0:
   version "4.3.0"

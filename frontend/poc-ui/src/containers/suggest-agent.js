@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {DebounceInput} from 'react-debounce-input';
+import config from '../config'
 
 function Suggest (props) {
   let [value, setValue] = useState('');
   let initialSuggestions = []
   let [suggestions, setSuggestions] = useState([])
-  let suggestUrl = 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest'
+  let suggestUrl = config.suggestUrl
 
   function getSuggestions(e) {
-    setValue(e.target.value || 'asdf')
+    setValue(e.target.value || '')
     let url = suggestUrl + '/' + e.target.value
 
     return axios

@@ -2,6 +2,7 @@ import * as go from 'gojs';
 import { ReactDiagram, ReactPalette } from 'gojs-react';
 import React from 'react';
 import * as initData from './workflow-data.json';
+import MonacoEditor from 'react-monaco-editor';
 
 function Workflow () {
   const $ = go.GraphObject.make;
@@ -46,29 +47,27 @@ function Workflow () {
 
   function makePort (name, align, spot, output, input) {
     var horizontal = align.equals(go.Spot.Top) || align.equals(go.Spot.Bottom);
-    return $(go.Shape,
-      {
-        fill: "transparent",
-        strokeWidth: 0,
-        width: horizontal ? NaN : 8,
-        height: !horizontal ? NaN : 8,
-        alignment: align,
-        stretch: (horizontal ? go.GraphObject.Horizontal : go.GraphObject.Vertical),
-        portId: name,
-        fromSpot: spot,
-        fromLinkable: output,
-        toSpot: spot,
-        toLinkable: input,
-        cursor: "pointer",
-        mouseEnter: function (e, port) {
-          if (!e.diagram.isReadOnly) port.fill = "rgba(255,0,255,0.5)";
-        },
-        mouseLeave: function (e, port) {
-          port.fill = "transparent";
-        }
-      });
+    return $(go.Shape, {
+      fill: "transparent",
+      strokeWidth: 0,
+      width: horizontal ? NaN : 8,
+      height: !horizontal ? NaN : 8,
+      alignment: align,
+      stretch: (horizontal ? go.GraphObject.Horizontal : go.GraphObject.Vertical),
+      portId: name,
+      fromSpot: spot,
+      fromLinkable: output,
+      toSpot: spot,
+      toLinkable: input,
+      cursor: "pointer",
+      mouseEnter: function (e, port) {
+        if (!e.diagram.isReadOnly) port.fill = "rgba(255,0,255,0.5)";
+      },
+      mouseLeave: function (e, port) {
+        port.fill = "transparent";
+      }
+    });
   }
-
 
   diagram.nodeTemplateMap.add("Text",
     $(go.Node, "Table", nodeStyle(),
@@ -130,7 +129,7 @@ function Workflow () {
     $(go.Node, "Table", nodeStyle(),
       $(go.Panel, "Spot",
         $(go.Shape, "Circle",
-          { desiredSize: new go.Size(60, 60), fill: "#F8F8F8", stroke: "#DC3C00", strokeWidth: 3.5 }),
+          { desiredSize: new go.Size(70, 70), fill: "#F8F8F8", stroke: "#DC3C00", strokeWidth: 3.5 }),
         $(go.TextBlock, "End", textStyle(),
           new go.Binding("text"))
       ),
@@ -139,53 +138,20 @@ function Workflow () {
       makePort("R", go.Spot.Right, go.Spot.Right, false, true)
     ));
 
+  diagram.linkTemplate = $(go.Link,
+    {
+      routing: go.Link.AvoidsNodes,
+      curve: go.Link.JumpOver,
+      corner: 5, toShortLength: 4,
+      relinkableFrom: true,
+      relinkableTo: true,
+      reshapable: true,
+      resegmentable: true,
 
-  go.Shape.defineFigureGenerator("File", function (shape, w, h) {
-    var geo = new go.Geometry();
-    var fig = new go.PathFigure(0, 0, true);
-    geo.add(fig);
-    fig.add(new go.PathSegment(go.PathSegment.Line, .75 * w, 0));
-    fig.add(new go.PathSegment(go.PathSegment.Line, w, .25 * h));
-    fig.add(new go.PathSegment(go.PathSegment.Line, w, h));
-    fig.add(new go.PathSegment(go.PathSegment.Line, 0, h).close());
-    var fig2 = new go.PathFigure(.75 * w, 0, false);
-    geo.add(fig2);
-
-    fig2.add(new go.PathSegment(go.PathSegment.Line, .75 * w, .25 * h));
-    fig2.add(new go.PathSegment(go.PathSegment.Line, w, .25 * h));
-    geo.spot1 = new go.Spot(0, .25);
-    geo.spot2 = go.Spot.BottomRight;
-    return geo;
-  });
-
-  diagram.nodeTemplateMap.add("Comment",
-    $(go.Node, "Auto", nodeStyle(),
-      $(go.Shape, "File",
-        { fill: "#F8F8F8", stroke: "#DEE0A3", strokeWidth: 3 }),
-      $(go.TextBlock, textStyle(),
-        {
-          margin: 8,
-          maxSize: new go.Size(200, NaN),
-          wrap: go.TextBlock.WrapFit,
-          textAlign: "center",
-          editable: true
-        },
-        new go.Binding("text").makeTwoWay())
-    ));
-
-  diagram.linkTemplate = $(go.Link, {
-    routing: go.Link.AvoidsNodes,
-    curve: go.Link.JumpOver,
-    corner: 5, toShortLength: 4,
-    relinkableFrom: true,
-    relinkableTo: true,
-    reshapable: true,
-    resegmentable: true,
-
-    mouseEnter: function (e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
-    mouseLeave: function (e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; },
-    selectionAdorned: false
-  },
+      mouseEnter: function (e, link) { link.findObject("HIGHLIGHT").stroke = "rgba(30,144,255,0.2)"; },
+      mouseLeave: function (e, link) { link.findObject("HIGHLIGHT").stroke = "transparent"; },
+      selectionAdorned: false
+    },
     new go.Binding("points").makeTwoWay(),
     $(go.Shape,
       { isPanelMain: true, strokeWidth: 8, stroke: "transparent", name: "HIGHLIGHT" }),
@@ -229,6 +195,25 @@ function Workflow () {
     return diagram
   }
 
+  function save (e) {
+    // this.nodeDataArray.map(node => {
+    //   return Object.assign(node, )
+    // })
+    // arrayOne = arrayOne.map(item1 => {
+    //   return Object.assign(item1, arrayTwo.find(item2 => {
+    //     return item2 && item1.text === item2.text
+    //   }))
+    // })
+    debugger
+    document.getElementById("saved-model").value = diagram.model.toJson();
+    diagram.isModified = false;
+  }
+
+  function load () {
+    console.log(document.getElementById("saved-model").value);
+    // diagram.model = go.Model.fromJson(document.getElementById("saved-model").value);
+  }
+
   function initPalette () {
     const palette = $(go.Palette, {
       "animationManager.initialAnimationStyle": go.AnimationManager.None,
@@ -239,8 +224,7 @@ function Workflow () {
         { category: "Start", text: "Start" },
         { category: "Text", text: "Step" },
         { category: "Conditional", text: "condition" },
-        { category: "End", text: "End" },
-        { category: "Comment", text: "Comment" }
+        { category: "End", text: "End" }
       ])
     });
     return palette
@@ -259,17 +243,34 @@ function Workflow () {
   }
 
   return (
-    <div className="container-fluid workflow row">
-      <ReactPalette
-        divClassName='palette-component col-2'
-        initPalette={initPalette}
-      />
-      <ReactDiagram
-        initDiagram={initDiagram}
-        divClassName='diagram-component col-10'
-        nodeDataArray={initData[ 'nodeDataArray' ]}
-        linkDataArray={initData[ 'linkDataArray' ]}
-      />
+    <div className="container-fluid ">
+      <div className="row workflow">
+        <ReactPalette
+          divClassName='palette-component col-2'
+          initPalette={initPalette}
+        />
+        <div className="col-10">
+          <ReactDiagram
+            initDiagram={initDiagram}
+            divClassName='diagram-component'
+            nodeDataArray={initData[ 'nodeDataArray' ]}
+            linkDataArray={initData[ 'linkDataArray' ]}
+            onModelChange={save}
+          />
+          <MonacoEditor
+            id="saved-model"
+            className="col-12"
+            language="javascript"
+            theme="vs-light"
+            value=""
+            options={{
+              selectOnLineNumbers: true
+            }}
+            onChange={load}
+            // editorDidMount={load}
+          />
+        </div>
+      </div>
     </div>
   );
 }

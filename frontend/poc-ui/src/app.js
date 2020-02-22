@@ -19,7 +19,7 @@ function App () {
 
   async function checkLogin () {
     try {
-      Auth.currentSession();
+      // Auth.currentSession();
       userHasAuthenticated(true);
     }
     catch (e) {
@@ -28,8 +28,13 @@ function App () {
   }
 
   async function handleLogout () {
-    await Auth.signOut();
-    userHasAuthenticated(false)
+    try {
+      await Auth.signOut();
+      userHasAuthenticated(false)
+    }
+    catch (e) {
+      console.error(e)
+    }
   }
 
   return (

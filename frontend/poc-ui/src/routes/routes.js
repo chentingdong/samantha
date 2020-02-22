@@ -15,6 +15,7 @@ import VirtualAssistant from '../containers/virtual-assistant'
 import Workflow from '../containers/workflow'
 import Workflow1 from '../containers/workflow.1'
 import NodeTypes from '../containers/node-types'
+import MineSweeper from '../games/mine-sweeper'
 
 const routes = [
   {
@@ -72,6 +73,12 @@ const routes = [
     component: NodeTypes,
     tag: PrivateRoute
   },
+  {
+    path: "/games/minesweeper",
+    component: MineSweeper,
+    tag: PrivateRoute
+  },
+  // last, catch everything else as 404
   {
     component: NotFound,
     tag: PrivateRoute

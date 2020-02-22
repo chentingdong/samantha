@@ -138,7 +138,7 @@ function VirtualAssistant (props) {
       </div>
       {(suggestions.length > 0) &&
         <div className="suggestions" style={{ width: '100%' }}>
-          <label>I guess you mean:</label>
+          <label>Smart suggestions from Bellhop:</label>
           <ul>
             {suggestions.map((suggestion, index) => {
               return (

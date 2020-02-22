@@ -51,7 +51,7 @@
 
 /* workflow */
 .workflow {
-  height: 900px;
+  height: 60vh;
 }
 .palette-component {
   height: 100%;
@@ -70,4 +70,26 @@
 .card {
   box-shadow: 2px 2px 5px 0 rgba(0,0,0,0.2);
   background-color: rgba(0,0,0,0.1);
+}
+
+.mine-sweeper .cell {
+  border: 1px solid #999;
+  box-shadow: 1px 1px #999;
+  background: #ddd;
+  display: block;
+  float: left;
+  width: 100px;
+  height: 100px;
+  margin: 0;
+  position: relative;
+  font-size: 1em;
+  padding: 0;
+}
+.mine-sweeper .cell.revealed {
+  background: #fff;
+  box-shadow: none;
+}
+.mine-sweeper .clear {
+  clear: both;
+  line-height: 0;
 }

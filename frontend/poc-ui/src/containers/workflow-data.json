@@ -16,8 +16,8 @@
     { "key": -2, "category": "End", "loc": "175 700", "text": "End!" }
   ],
   "linkDataArray": [
-    { "from": -1, "to": 1, "fromPort": "B", "toPort": "T" },
-    { "from": 1, "to": 0, "fromPort": "B", "toPort": "T" },
+    { "from": -1, "to": 1, "fromPort": "B", "toPort": "T"},
+    { "from": 1, "to": 0, "fromPort": "B", "toPort": "T", "label":"yes" },
     { "from": 1, "to": 2, "fromPort": "B", "toPort": "T" },
     { "from": 1, "to": 5, "fromPort": "B", "toPort": "T" },
     { "from": 2, "to": 3, "fromPort": "B", "toPort": "T" },
