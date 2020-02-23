@@ -105,9 +105,6 @@
   background: #fff;
   box-shadow: 1px 1px 5px #666;
 }
-.mine-sweeper .cell.revealed.mine {
-  background: rgba(255, 0, 0, 0.2)
-}
 .mine-sweeper .cell .svg-inline--fa {
   margin-left: -5px;
   margin-top: -5px;

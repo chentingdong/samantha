@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFlag } from '@fortawesome/free-solid-svg-icons'
+import { faFlag, faBomb } from '@fortawesome/free-solid-svg-icons'
 
 function MineSwipper () {
   const board = {
@@ -77,7 +77,6 @@ function Board (props) {
         minesPlanted++;
       }
     }
-    // data[0][0].isMine = true;
     return data
   }
 
@@ -151,24 +150,29 @@ function Board (props) {
   }
 
   function flagCell (event, x, y) {
-    console.log(`flagging at (${x}, ${y})`);
     event.preventDefault();
+    console.log(`flagging at (${x}, ${y})`);
+
     let updatedData = boardData.slice();
     let mines = mineCount;
 
-    // check if already revealed
-    if (updatedData[ x ][ y ].isRevealed) return;
+    if (updatedData[ x ][ y ].isRevealed)
+      return;
+
     if (updatedData[ x ][ y ].isFlagged) {
-      updatedData[ x ][ y ].isFlagged = false;
+      updatedData[ x ][ y ].isFlagged = false
       mines++;
     } else {
-      updatedData[ x ][ y ].isFlagged = true;
+      updatedData[ x ][ y ].isFlagged = true
       mines--;
     }
+
+
     if (mines === 0) {
       revealBoard();
       setGameStatus("You Win.");
     }
+
     setBoardData(updatedData)
     setMineCount(mines)
   }
@@ -250,22 +254,20 @@ function Cell (props) {
   let { cell, onClick, cMenu } = props;
 
   function getCell () {
-    if (!cell.isRevealed) {
-      if (cell.isFlagged)
-        return <FontAwesomeIcon icon={faFlag} />
-      else
-        return null
-    }
-    if (cell.isMine) return "x";
-    if (cell.neighbour === 0) return null
-    return cell.neighbour;
+    if (!cell.isRevealed)
+      return (cell.isFlagged) ? <FontAwesomeIcon icon={faFlag} /> : null
+
+    if(cell.isMine)
+      return <FontAwesomeIcon icon={faBomb} />
+
+    return (cell.neighbour !== 0) ? cell.neighbour : null
   }
 
   cell.className = 'cell';
   if (cell.isRevealed) {
     cell.className += ' revealed'
     if (cell.isMine)
-    cell.className += ' mine'
+      cell.className += ' mine'
   }
 
   return (
