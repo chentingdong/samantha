@@ -72,22 +72,49 @@
   background-color: rgba(0,0,0,0.1);
 }
 
+/* games */
+.mine-sweeper .board {
+  width: 400px;
+  margin: 20px auto;
+}
 .mine-sweeper .cell {
   border: 1px solid #999;
-  box-shadow: 1px 1px #999;
+  box-shadow: 1px 1px 5px #999;
   background: #ddd;
   display: block;
   float: left;
-  width: 100px;
-  height: 100px;
+  width: 40px;
+  height: 40px;
   margin: 0;
   position: relative;
   font-size: 1em;
   padding: 0;
 }
+.mine-sweeper .cell .inner {
+  position: absolute;
+  height: 0;
+  width: 0;
+  top: 50%;
+  left: 50%;
+  margin-top: calc(1em - 50%);
+  margin-left: calc(1em - 50%);
+  line-height: 0;
+  font-size: 1em;
+}
+.mine-sweeper .cell:hover {
+  background: radial-gradient(#eee, #fff);
+}
 .mine-sweeper .cell.revealed {
   background: #fff;
-  box-shadow: none;
+  box-shadow: 1px 1px 5px #666;
+}
+.mine-sweeper .cell.revealed.mine {
+  background: rgba(255, 0, 0, 0.2)
+}
+.mine-sweeper .cell .svg-inline--fa {
+  margin-left: -5px;
+  margin-top: -5px;
+  color: red;
 }
 .mine-sweeper .clear {
   clear: both;
