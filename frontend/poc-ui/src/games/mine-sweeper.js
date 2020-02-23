@@ -70,8 +70,8 @@ function Board (props) {
     let randomx, randomy, minesPlanted = 0;
 
     while (minesPlanted < props.mines) {
-      randomx = getRandomNumber(props.width - 1);
-      randomy = getRandomNumber(props.height - 1);
+      randomx = getRandomNumber(props.width);
+      randomy = getRandomNumber(props.height);
       if (!(data[ randomy ][ randomx ].isMine)) {
         data[ randomy ][ randomx ].isMine = true;
         minesPlanted++;
@@ -103,7 +103,7 @@ function Board (props) {
   }
 
   function getRandomNumber (range) {
-    return Math.floor(Math.random() * (range - 1))
+    return Math.floor(Math.random() * range)
   }
 
   function traverseBoard (x, y, data) {
@@ -121,7 +121,8 @@ function Board (props) {
 
   function digCell (event, x, y) {
     event.preventDefault();
-    setGameStatus('Playing...');
+    if (gameStatus === 'New game')
+      setGameStatus('Playing...');
 
     console.log(`digging at (${x}, ${y})`)
 
