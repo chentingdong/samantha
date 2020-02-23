@@ -5,9 +5,9 @@ import { faFlag } from '@fortawesome/free-solid-svg-icons'
 
 function MineSwipper () {
   const board = {
-    width: 10,
-    height: 10,
-    mines: 9
+    width: 30,
+    height: 16,
+    mines: 99
   }
 
   return (
@@ -17,22 +17,32 @@ function MineSwipper () {
   )
 }
 
+const style = {
+  cell: {
+    width: '40px',
+    height: '40px'
+  }
+}
+
 function Board (props) {
-  let [ gameStatus, setGameStatus ] = useState("Playing")
+  let [ gameStatus, setGameStatus ] = useState("New game...")
   let [ mineCount, setMineCount ] = useState(props.mines)
   let [ boardData, setBoardData ] = useState(createEmptyData())
+  const cellWidth = 40
+  const boardWidth = cellWidth * props.width
 
   useEffect(() => {
     initBoardData();
   }, [])
 
-  function initBoardData () {
+  async function initBoardData () {
     console.log("init board...")
-    let data = createEmptyData()
+    let data = await createEmptyData()
     data = plantMines(data)
     data = getNeighbours(data)
     setBoardData(data)
-    setGameStatus('Playing')
+
+    setGameStatus('New game')
   }
 
   function createEmptyData () {
@@ -62,8 +72,8 @@ function Board (props) {
     while (minesPlanted < props.mines) {
       randomx = getRandomNumber(props.width - 1);
       randomy = getRandomNumber(props.height - 1);
-      if (!(data[ randomx ][ randomy ].isMine)) {
-        data[ randomx ][ randomy ].isMine = true;
+      if (!(data[ randomy ][ randomx ].isMine)) {
+        data[ randomy ][ randomx ].isMine = true;
         minesPlanted++;
       }
     }
@@ -111,6 +121,7 @@ function Board (props) {
 
   function digCell (event, x, y) {
     event.preventDefault();
+    setGameStatus('Playing...');
 
     console.log(`digging at (${x}, ${y})`)
 
@@ -131,10 +142,7 @@ function Board (props) {
       updatedData = revealEmpty(x, y, updatedData);
     }
 
-    let hiddenMines = getHidden(updatedData)
-    console.log(hiddenMines, props.mines)
-
-    if (hiddenMines === 0) {
+    if (getHidden(updatedData) === 0) {
       setGameStatus("You Win.");
     }
 
@@ -168,7 +176,7 @@ function Board (props) {
     let hiddenMines = 0
     data.forEach(row => {
       row.forEach(cell => {
-        if (!cell.isRevealed && !cell.isFlagged)
+        if (!cell.isRevealed && !cell.isFlagged && cell.isMine)
           hiddenMines++
       })
     })
@@ -202,7 +210,7 @@ function Board (props) {
   function RenderInfo () {
     return (
       <div className="board text-center">
-        <div>mines left: {props.mines} &nbsp; game status: {gameStatus}.</div>
+        <div>mines left: {mineCount}. &nbsp; game status: {gameStatus}.</div>
         <div className="btn btn-small btn-primary" onClick={initBoardData}>Restart</div>
       </div>
     )
@@ -230,7 +238,7 @@ function Board (props) {
         {RenderInfo()}
       </Card.Header>
       <Card.Body>
-        <div className="board"> {RenderBoard()} </div>
+        <div className="board" style={{width: boardWidth}}> {RenderBoard()} </div>
       </Card.Body>
     </Card>
   )
@@ -260,7 +268,7 @@ function Cell (props) {
   }
 
   return (
-    <div className={cell.className} onClick={onClick} onContextMenu={cMenu}>
+    <div className={cell.className} style={style.cell} onClick={onClick} onContextMenu={cMenu}>
       <div className="inner"> {getCell()}</div>
     </div>
   )
