@@ -73,6 +73,7 @@
   },
   "devDependencies": {
     "eslint-plugin-react-hooks": "^2.3.0",
-    "serverless-offline": "^6.0.0-alpha.64"
+    "serverless-offline": "^6.0.0-alpha.64",
+    "webpack-cli": "^3.3.11"
   }
 }

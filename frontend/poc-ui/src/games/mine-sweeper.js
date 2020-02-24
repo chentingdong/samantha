@@ -19,8 +19,8 @@ function MineSwipper () {
 
 const style = {
   cell: {
-    width: '40px',
-    height: '40px'
+    width: '20px',
+    height: '20px'
   }
 }
 
@@ -28,7 +28,7 @@ function Board (props) {
   let [ gameStatus, setGameStatus ] = useState("New game...")
   let [ mineCount, setMineCount ] = useState(props.mines)
   let [ boardData, setBoardData ] = useState(createEmptyData())
-  const cellWidth = 40
+  const cellWidth = parseInt(style.cell.width)
   const boardWidth = cellWidth * props.width
 
   useEffect(() => {

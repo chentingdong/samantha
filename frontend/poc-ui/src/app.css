@@ -89,14 +89,9 @@
 }
 .mine-sweeper .cell .inner {
   position: absolute;
-  height: 0;
-  width: 0;
-  top: 50%;
   left: 50%;
-  margin-top: calc(1em - 50%);
-  margin-left: calc(1em - 50%);
-  line-height: 0;
-  font-size: 1em;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 .mine-sweeper .cell:hover {
   background: radial-gradient(#eee, #fff);
@@ -106,8 +101,6 @@
   box-shadow: 1px 1px 5px #666;
 }
 .mine-sweeper .cell .svg-inline--fa {
-  margin-left: -5px;
-  margin-top: -5px;
   color: red;
 }
 .mine-sweeper .clear {
