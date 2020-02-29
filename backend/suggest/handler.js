@@ -3,8 +3,10 @@ const axios = require('axios')
 const suggester = 'mySuggester'
 
 async function getSuggestions(utterance) {
-  // const suggestUrl = 'http://172.31.83.195:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
-  const suggestUrl = 'http://52.54.244.2:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
+  // for aws
+  const suggestUrl = 'http://172.31.83.195:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
+  // for local
+  // const suggestUrl = 'http://52.54.244.2:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
 
   let url = suggestUrl + utterance
   let suggestions = []

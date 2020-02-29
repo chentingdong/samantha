@@ -149,6 +149,20 @@ function Board (props) {
     setBoardData(updatedData);
   }
 
+  function digNeighbours (event, x, y) {
+    event.preventDefault()
+    console.log(`digging neighbours of (${x}, ${y})`)
+    for (let i = -1; i <= 1; i++) {
+      for (let j = -1; j <= 1; j++) {
+        let xn = x + i
+        let yn = y + j
+        if (xn > 0 && xn < props.width && yn > 0 && yn < props.height) {
+          digCell(event, x, y)
+        }
+      }
+    }
+  }
+
   function flagCell (event, x, y) {
     event.preventDefault();
     console.log(`flagging at (${x}, ${y})`);
@@ -230,6 +244,7 @@ function Board (props) {
             key={key}
             onClick={(e) => digCell(e, cell.x, cell.y)}
             cMenu={(e) => flagCell(e, cell.x, cell.y)}
+            onDoubleClick={(e) => digNeighbours(e, cell.x, cell.y)}
             cell={cell}
           />
         )
@@ -251,7 +266,7 @@ function Board (props) {
 
 
 function Cell (props) {
-  let { cell, onClick, cMenu } = props;
+  let { cell, onClick, cMenu, onDoubleClick } = props;
 
   function getCell () {
     if (!cell.isRevealed)
@@ -271,7 +286,7 @@ function Cell (props) {
   }
 
   return (
-    <div className={cell.className} style={style.cell} onClick={onClick} onContextMenu={cMenu}>
+    <div className={cell.className} style={style.cell} onClick={onClick} onContextMenu={cMenu} onDoubleClick={onDoubleClick}>
       <div className="inner"> {getCell()}</div>
     </div>
   )
