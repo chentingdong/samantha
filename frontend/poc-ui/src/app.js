@@ -7,6 +7,7 @@ import config from './config.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 import logo from './assets/astound.png'
+import RuntimeTools from './components/runtime-tools'
 
 function App () {
   const [ isAuthenticated, userHasAuthenticated ] = useState(false)
@@ -19,7 +20,7 @@ function App () {
 
   async function checkLogin () {
     try {
-      // Auth.currentSession();
+      Auth.currentSession();
       userHasAuthenticated(true);
     }
     catch (e) {
@@ -40,7 +41,7 @@ function App () {
   return (
     <div className="app container-fluid">
       <BrowserRouter>
-        <Navbar bg="light" expand="lg" collapseOnSelect>
+        <Navbar bg="light" expand="lg">
           <Navbar.Brand>
             <Nav.Link as={NavLink} to="/">
               <img className="app-logo" src={logo} alt="" />
@@ -63,6 +64,7 @@ function App () {
                 </>
               }
             </Nav>
+            <RuntimeTools />
           </Navbar.Collapse>
         </Navbar>
         <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />

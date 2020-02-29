@@ -12,7 +12,7 @@ function VirtualAssistant (props) {
   let initialMessage = {
     id: 1,
     who: 'agent',
-    message: 'Welcome...'
+    message: 'Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.'
   }
 
   let [ messageList, setMessageList ] = useState([ initialMessage ])
@@ -143,10 +143,10 @@ function VirtualAssistant (props) {
             {suggestions.map((suggestion, index) => {
               return (
                 <li key={index}
-                  className={`clickable suggestion ${isActiveSuggestion(index)}`}
+                  className={`col-2 clickable suggestion ${isActiveSuggestion(index)}`}
                   onClick={e => sendMessage(e.target.innerText)}
                   onKeyDown={e => sendMessage(e.target.innerText)}
-                  onMouseOver={e => { setActiveSuggestion(index) }}
+                  onMouseOver={setActiveSuggestion(index)}
                 >{parse(suggestion)} </li>
               )
             })}

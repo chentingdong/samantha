@@ -52,4 +52,4 @@ module.exports.suggest = async (event, context, callback) => {
       body: JSON.stringify(err)
     }
   }
-};
+}
