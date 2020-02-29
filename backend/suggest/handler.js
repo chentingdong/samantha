@@ -1,6 +1,10 @@
 'use strict';
 const axios = require('axios')
 const suggester = 'mySuggester'
+const config = {
+  solrUrlAws: 'http://172.31.83.195:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q=',
+  solrUrlLocal: 'http://52.54.244.2:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
+}
 
 async function getSuggestions(utterance) {
   const solrUrl = config.solrUrlAws
