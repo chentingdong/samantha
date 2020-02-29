@@ -47,12 +47,10 @@ function ResetPassword (props) {
             onChange={e => setEmail(e.target.value)}
           />
         </Form.Group>
-        <LoaderButton block
-          type="submit"
-          text="send confirmation"
-          loadingText="Sending…"
-          isLoading={isSendingCode}
-          disabled={!validateCodeForm()} />
+        <LoaderButton block type="submit" loadingText="Sending…"
+          isLoading={isSendingCode} disabled={!validateCodeForm()}>
+          send confirmation
+        </LoaderButton>
       </Form>
     )
   }
@@ -86,10 +84,10 @@ function ResetPassword (props) {
         <LoaderButton
           block
           type="submit"
-          text="Confirm"
           loadingText="Confirming..."
           isLoading={isConfirming}
-          disabled={!validateResetForm()} />
+          disabled={!validateResetForm()}
+        >Confirm</LoaderButton>
       </Form>
     )
   }

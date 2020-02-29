@@ -36,15 +36,11 @@ function ChangePassword (props) {
             value={confirmPassword}
           />
         </Form.Group>
-        <LoaderButton
-          block
+        <LoaderButton block
           type="submit"
-          text="Change Password"
           loadingText="Changing…"
           disabled={!validateForm()}
-          isLoading={isLoading}
-        />
-
+          isLoading={isLoading}>Change Password</LoaderButton>
       </Form>
     </div>
   );

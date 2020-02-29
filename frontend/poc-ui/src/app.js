@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import Amplify, {Auth} from 'aws-amplify'
-import { BrowserRouter, Link } from 'react-router-dom'
-import { Nav } from 'react-bootstrap'
+import Amplify, { Auth } from 'aws-amplify'
+import { BrowserRouter, Link, NavLink, NavItem } from 'react-router-dom'
+import { Navbar, Nav } from 'react-bootstrap'
 import Routes from './routes/routes'
 import config from './config.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +13,7 @@ function App () {
 
   Amplify.configure(config)
 
-  useEffect ( () => {
+  useEffect(() => {
     checkLogin();
   }, [])
 
@@ -40,38 +40,31 @@ function App () {
   return (
     <div className="app container-fluid">
       <BrowserRouter>
-        <nav className="navbar navbar-expand-md navbar-light bg-light">
-          <Link className="nav-link" to="/">
-            <img className="app-logo" src={logo} alt=""/>
-            <span className="brand">Bellhop</span>
-          </Link>
-          <button type="button" className="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse" >
-            <span className="navbar-toggler-icon"></span>
-          </button>
-
-          <div className="collapse navbar-collapse" id="navbarCollapse">
-            <div className="navbar-nav ml-auto">
+        <Navbar bg="light" expand="lg" collapseOnSelect>
+          <Navbar.Brand>
+            <Nav.Link as={NavLink} to="/">
+              <img className="app-logo" src={logo} alt="" />
+              <span className="brand">Bellhop</span>
+            </Nav.Link>
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav">
+            <Nav className="mr-auto">
               {isAuthenticated
-                ? <>
-                    <Nav.Item>
-                      <Nav.Link href="/settings"> Settings </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link onClick={handleLogout}> Logout </Nav.Link>
-                    </Nav.Item>
-                  </>
-                : <>
-                    <Nav.Item>
-                      <Nav.Link className="nav-link" href="/user/signup"> Signup </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                      <Nav.Link className="nav-link" href="/user/login"> Login </Nav.Link>
-                    </Nav.Item>
-                  </>
+                ?
+                <>
+                  <Nav.Link as={NavLink} to="/user/settings"> Settings </Nav.Link>
+                  <Nav.Link as={NavItem} className="clickable" onClick={handleLogout}> Logout </Nav.Link>
+                </>
+                :
+                <>
+                  <Nav.Link as={NavLink} className="nav-link" to="/user/signup"> Signup </Nav.Link>
+                  <Nav.Link as={NavLink} className="nav-link" to="/user/login"> Login </Nav.Link>
+                </>
               }
-            </div>
-          </div>
-        </nav>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
       </BrowserRouter>
     </div>

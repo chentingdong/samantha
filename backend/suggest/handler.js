@@ -3,18 +3,17 @@ const axios = require('axios')
 const suggester = 'mySuggester'
 
 async function getSuggestions(utterance) {
-  // for aws
-  const suggestUrl = 'http://172.31.83.195:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
-  // for local
-  // const suggestUrl = 'http://52.54.244.2:8983/solr/gettingstarted/suggest?suggest=true&suggest.build=true&suggest.dictionary=mySuggester&wt=json&suggest.q='
+  const solrUrl = config.solrUrlAws
 
-  let url = suggestUrl + utterance
-  let suggestions = []
+  if (utterance === undefined || '') {
+    return []
+  }
 
   try {
+    let url = solrUrl + utterance
     const resp = await axios.get(url)
     let suggestionObjects = resp.data.suggest[suggester][utterance].suggestions
-    suggestions = suggestionObjects.map(x => x.term)
+    let suggestions = suggestionObjects.map(x => x.term)
     console.log("got suggestions ${suggestions}")
     return suggestions
   }
@@ -49,7 +48,4 @@ module.exports.suggest = async (event, context, callback) => {
       body: JSON.stringify(err)
     }
   }
-
-  // Use this code if you don't use the http event with the LAMBDA-PROXY integration
-  // return { message: 'Go Serverless v1.0! Your function executed successfully!', event };
 };
