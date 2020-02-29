@@ -1,0 +1,121 @@
+{
+  "id": "",
+  "name": "",
+  "version": "0.0.1",
+  "sentries": {
+    "entry": [],
+    "exit": []
+  },
+  "model": {
+    "planItem": [
+      {
+        "id": "0",
+        "name": "start",
+        "sentries": {
+          "exit": [
+            {
+              "type": "sequenceFlow",
+              "transition": "start"
+            }
+          ]
+        }
+      },
+      {
+        "id": "1",
+        "name": "choose form",
+        "type": "human task",
+        "dueDate": "2020/02/28",
+        "followUpDuration": "1 day",
+        "assignment": "employee group 1",
+        "status": "todo||active||canceled||completed",
+        "forms": [
+          "form1.html",
+          "form2.html"
+        ],
+        "sentries": {
+          "entry": [
+            {
+              "type": "sequenceFlow",
+              "transition": "start"
+            },
+            {
+              "type": "triggerEvent||timerEvent||etc.",
+              "transition": "user initiated form"
+            }
+          ],
+          "exit": [
+            {
+              "type": "sequenceFlow",
+              "transition": "form submitted, give manager for approval"
+            }
+          ]
+        }
+      },
+      {
+        "id": "2",
+        "name": "approval",
+        "type": "human task",
+        "sentries": {
+          "entry": [
+            {
+              "type": "sequenceFlow",
+              "transition": "form submitted, give manager for approval"
+            }
+          ],
+          "exit": [
+            {
+              "type": "sequenceFlow",
+              "transition": "flow completed"
+            }
+          ]
+        },
+        "assignment": "employee group 2",
+        "status": "todo||active||canceled||completed"
+      },
+      {
+        "id": "3",
+        "name": "end",
+        "sentries": {
+          "entry": [
+            {
+              "type": "sequenceFlow",
+              "transition": "flow completed"
+            }
+          ]
+        }
+      }
+    ],
+    "connections": [
+      {
+        "start": 1,
+        "end": 2
+      }
+    ]
+  },
+  "diagram": {
+    "planItems" [
+      {
+        "id": "1",
+        "position": {
+          "x": 0,
+          "y": 0
+        },
+        "geometry": {
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "2",
+        "position": {
+          "x": 100,
+          "y": 0
+        },
+        "geometry": {
+          "width": 100,
+          "height": 100
+        }
+      }
+    ]
+  }
+}
