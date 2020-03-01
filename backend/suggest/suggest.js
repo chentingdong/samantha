@@ -1,4 +1,5 @@
 'use strict';
+
 const axios = require('axios')
 const suggester = 'mySuggester'
 const config = {
@@ -9,9 +10,7 @@ const config = {
 async function getSuggestions(utterance) {
   const solrUrl = config.solrUrlAws
 
-  if (utterance === undefined || '') {
-    return []
-  }
+  if (utterance === undefined || utterance === '') return []
 
   try {
     let url = solrUrl + utterance
@@ -27,7 +26,7 @@ async function getSuggestions(utterance) {
   }
 }
 
-module.exports.suggest = async (event, context, callback) => {
+module.exports.handler = async (event, context, callback) => {
   try {
     let utterance = event.pathParameters.utterance
     let suggestions = await getSuggestions(utterance)

@@ -69,9 +69,9 @@ function VirtualAssistant (props) {
   function suggest () {
     setSuggestions([])
 
-    if (currentMessage.message === '') {
+    if (currentMessage === '') {
       setSuggestions([])
-      return false
+      return
     }
 
     let url = config.suggestUrl + '/' + currentMessage
@@ -86,6 +86,7 @@ function VirtualAssistant (props) {
       })
   }
 
+  // suggest input when currentMessage changes
   useEffect(suggest, [ currentMessage ])
 
   function isActiveSuggestion (index) {
@@ -93,7 +94,7 @@ function VirtualAssistant (props) {
   }
 
   function handleKeyDown (e, activeSuggestion) {
-    // arrow down navigate suggestoins
+    // arrow down, next suggestoins
     if (e.which === 40) {
       e.preventDefault()
       if (activeSuggestion === suggestions.length - 1) {
@@ -102,7 +103,7 @@ function VirtualAssistant (props) {
         setActiveSuggestion(activeSuggestion + 1)
       }
     }
-    // arrow up navigate suggestoins
+    // arrow up, prev suggestoins
     else if (e.which === 38) {
       if (activeSuggestion === 0) {
         setActiveSuggestion(suggestions.length - 1)
@@ -110,7 +111,7 @@ function VirtualAssistant (props) {
         setActiveSuggestion(activeSuggestion - 1)
       }
     }
-    // enter to send message to ws
+    // enter, send message to ws
     else if (e.which === 13) {
       if (suggestions.length > 0) {
         const msg = htmlToText.fromString(suggestions[ activeSuggestion ])
@@ -125,7 +126,7 @@ function VirtualAssistant (props) {
   // DOM
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" id="va-dialog">
       <div className="messages">
         {messageList.map((msg, index) => {
           return (

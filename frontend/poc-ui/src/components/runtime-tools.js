@@ -4,10 +4,10 @@ import DatePicker from 'react-datepicker'
 import { useFormFields } from '../libs/custom-hooks'
 
 function RuntimeTools (props) {
-  const [ showHumanTask, setShowHumanTask ] = useState(true)
+  const [ showHumanTaskModal, setshowHumanTaskModal ] = useState(true)
 
-  const [humanTaskForm, setHumanTaskForm] = useFormFields({
-    message: 'Please fill in this form...',
+  const [ humanTaskForm, setHumanTaskForm ] = useFormFields({
+    taskDescription: 'Please fill in this form...',
     assignmentGroup: 'Ronda',
     dueDate: new Date(),
     followupDays: 1
@@ -15,33 +15,33 @@ function RuntimeTools (props) {
 
   function newHumanTask () {
     console.log('popup new human task layer')
-    setShowHumanTask(true)
+    setshowHumanTaskModal(true)
   }
 
   function trackHumanTask () {
     console.log('TODO: post human task form to backend...')
 
-    setShowHumanTask(false)
+    setshowHumanTaskModal(false)
   }
 
   function cancelHumanTask () {
     console.log('add human task to current case and close the modal')
-    setShowHumanTask(false)
+    setshowHumanTaskModal(false)
   }
 
   function HumanTaskModal () {
     return (
-      <Modal show={showHumanTask} onHide={cancelHumanTask}>
+      <Modal show={showHumanTaskModal} onHide={cancelHumanTask}>
         <Modal.Header closeButton>
           <Modal.Title>Add human task</Modal.Title>
         </Modal.Header>
         <Form onSubmit={trackHumanTask}>
           <Modal.Body>
             <Form.Group>
-              <Form.Label>Message to assignee</Form.Label>
-              <Form.Control as="textarea" value={humanTaskForm.message} />
+              <Form.Label>Task description to assignee</Form.Label>
+              <Form.Control as="textarea" value={humanTaskForm.taskDescription} onChange={(e) => setHumanTaskForm(e)}/>
             </Form.Group>
-            <hr/>
+            <hr />
             <Form.Group>
               <Form.Label>Assignment</Form.Label>
               <Form.Control as="select">
@@ -56,18 +56,13 @@ function RuntimeTools (props) {
               <DatePicker selected={humanTaskForm.dueDate} />
             </Form.Group>
             <Form.Group>
-              <Form.Label>Followup after</Form.Label><br />
-              <input
-                type="number"
-                name="followupDays"
-                value={humanTaskForm.followupDays}
-                onChange={setHumanTaskForm}
-              />
+              <Form.Label>Followup after how many days</Form.Label><br />
+              <Form.Control as="input" type="number" name="followupDays" value={humanTaskForm.followupDays} onChange={setHumanTaskForm} />
             </Form.Group>
-            <hr/>
+            <hr />
             <Form.Group>
               <Form.Label>Attach form (optional)</Form.Label>
-              <Form.Control as="select" select={humanTaskForm.attachedForms}>
+              <Form.Control as="select" select={humanTaskForm.attachedForms} onChange={setHumanTaskForm}>
                 <option>form_1</option>
                 <option>form_2</option>
               </Form.Control>

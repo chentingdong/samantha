@@ -19,9 +19,13 @@ provider:
       Resource: "*"
 functions:
   suggest:
-    handler: handler.suggest
+    handler: suggest.handler
     events:
       - http:
           path: /suggest/{utterance}
+          method: get
+          cors: true
+      - http:
+          path: /suggest
           method: get
           cors: true
