@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import Amplify, { Auth } from 'aws-amplify'
-import { BrowserRouter, Link, NavLink, NavItem } from 'react-router-dom'
+import { BrowserRouter, NavLink } from 'react-router-dom'
 import { Navbar, Nav } from 'react-bootstrap'
 import Routes from './routes/routes'
 import config from './config.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 import logo from './assets/astound.png'
-import RuntimeTools from './components/runtime-tools'
 
 function App () {
   const [ isAuthenticated, userHasAuthenticated ] = useState(false)
@@ -55,7 +54,7 @@ function App () {
                 ?
                 <>
                   <Nav.Link as={NavLink} to="/user/settings"> Settings </Nav.Link>
-                  <Nav.Link as={NavItem} className="clickable" onClick={handleLogout}> Logout </Nav.Link>
+                  <Nav.Link className="clickable" onClick={handleLogout}> Logout </Nav.Link>
                 </>
                 :
                 <>
@@ -64,7 +63,6 @@ function App () {
                 </>
               }
             </Nav>
-            <RuntimeTools />
           </Navbar.Collapse>
         </Navbar>
         <Routes appProps={{ isAuthenticated, userHasAuthenticated }} />
