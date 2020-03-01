@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker'
 import { useFormFields } from '../libs/custom-hooks'
 
 function RuntimeTools (props) {
-  const [ showHumanTaskModal, setshowHumanTaskModal ] = useState(true)
+  const [ showHumanTaskModal, setshowHumanTaskModal ] = useState(false)
 
   const [ humanTaskForm, setHumanTaskForm ] = useFormFields({
     taskDescription: 'Please fill in this form...',

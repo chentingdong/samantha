@@ -67,16 +67,10 @@ function VirtualAssistant (props) {
 
   // autocomplete
   function suggest () {
-    setSuggestions([])
+    if (currentMessage !== '') {
+      let url = config.suggestUrl + '/' + currentMessage
 
-    if (currentMessage === '') {
-      setSuggestions([])
-      return
-    }
-
-    let url = config.suggestUrl + '/' + currentMessage
-
-    axios
+      axios
       .get(url)
       .then((resp) => {
         setSuggestions(resp.data)
@@ -84,6 +78,7 @@ function VirtualAssistant (props) {
       .catch((err) => {
         console.error(err)
       })
+    }
   }
 
   // suggest input when currentMessage changes
@@ -147,8 +142,8 @@ function VirtualAssistant (props) {
                   className={`col-2 clickable suggestion ${isActiveSuggestion(index)}`}
                   onClick={e => sendMessage(e.target.innerText)}
                   onKeyDown={e => sendMessage(e.target.innerText)}
-                  onMouseOver={setActiveSuggestion(index)}
-                >{parse(suggestion)} </li>
+                  onMouseOver={e => setActiveSuggestion(index)}
+                >{index} {parse(suggestion)} </li>
               )
             })}
           </ul>
