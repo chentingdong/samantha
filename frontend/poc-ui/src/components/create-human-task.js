@@ -19,17 +19,28 @@ function CreateHumanTaskForm (props) {
     taskDescription: '',
     assignee: assigneeList[ 0 ],
     dueDate: new Date(),
-    followUpDays: 1
+    followUpDays: 1,
+    formUrl: 'test'
   })
 
   function createHumanTask () {
-    const data = JSON.stringify(humanTaskForm)
-    console.log(data)
+    const assignee = humanTaskForm.assignee.name
+    const dueDate = JSON.stringify(humanTaskForm.dueDate)
+    const followUpDays = humanTaskForm.followUpDays
+
+    const html = (
+      <>
+        Your message is sent to <b>{assignee}</b>,
+        should finish on <b>{dueDate}</b>,
+        we will inform him after <b>{followUpDays}</b> days if not finished.
+      </>
+    )
+    props.agentMessage(html)
     props.close()
   }
 
   return (
-    <form onSubmit={ e => e.preventDefault() } className="row">
+    <form onSubmit={e => e.preventDefault()} className="row">
       <div className="form-group col-12">
         <label>Task description</label>
         <textarea className="form-control"
@@ -68,14 +79,13 @@ function CreateHumanTaskForm (props) {
       </div>
       <hr />
       <div className="form-group col-12">
-        <label>Attach form (optional)</label><br />
-        <select className="form-control"
-          name="attachedForms"
-          value={humanTaskForm.attachedForms}
-          onChange={setHumanTaskForm} >
-          <option>form_1</option>
-          <option>form_2</option>
-        </select>
+        <label>Attach form (optional)</label>
+        <input className="form-control"
+          type="url"
+          name="formUrl"
+          placeholder="http://form_url "
+          value={humanTaskForm.formUrl}
+          onChange={setHumanTaskForm} />
       </div>
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={props.close}>Cancel</button>

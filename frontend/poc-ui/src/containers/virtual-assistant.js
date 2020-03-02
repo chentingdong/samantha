@@ -8,6 +8,7 @@ import parse from 'html-react-parser'
 import htmlToText from 'html-to-text'
 import { DebounceInput } from 'react-debounce-input';
 import RuntimeTools from '../components/runtime-tools'
+import ActiveCases from '../components/active-cases'
 
 function VirtualAssistant (props) {
   let initialMessage = {
@@ -27,7 +28,7 @@ function VirtualAssistant (props) {
   useEffect(() => {
     ws.onmessage = event => {
       const message = event.data
-      receiveMessage(message)
+      agentMessage(message)
     }
 
     ws.onclose = () => {
@@ -36,7 +37,7 @@ function VirtualAssistant (props) {
     }
   })
 
-  async function sendMessage (message) {
+  async function userMessage (message) {
     setCurrentMessage(message)
 
     let newMessage = {
@@ -56,7 +57,7 @@ function VirtualAssistant (props) {
     setCurrentMessage('')
   }
 
-  function receiveMessage (msg) {
+  function agentMessage (msg) {
     console.log("received message: " + msg)
     let newMessage = {
       id: messageList.length + 1,
@@ -114,7 +115,7 @@ function VirtualAssistant (props) {
         setCurrentMessage(msg)
         setSuggestions([])
       } else {
-        sendMessage(currentMessage)
+        userMessage(currentMessage)
       }
     }
   }
@@ -123,7 +124,8 @@ function VirtualAssistant (props) {
 
   return (
     <div className="container-fluid" id="va-dialog">
-      <RuntimeTools />
+      <RuntimeTools userMessage={userMessage} agentMessage={agentMessage}/>
+      <ActiveCases />
       <div className="messages">
         {messageList.map((msg, index) => {
           return (
@@ -142,8 +144,8 @@ function VirtualAssistant (props) {
               return (
                 <li key={index}
                   className={`col-2 clickable suggestion ${isActiveSuggestion(index)}`}
-                  onClick={e => sendMessage(e.target.innerText)}
-                  onKeyDown={e => sendMessage(e.target.innerText)}
+                  onClick={e => userMessage(e.target.innerText)}
+                  onKeyDown={e => userMessage(e.target.innerText)}
                   onMouseOver={e => setActiveSuggestion(index)}
                 >{index} {parse(suggestion)} </li>
               )

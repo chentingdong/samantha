@@ -25,6 +25,7 @@ function RuntimeTools (props) {
   return (
     <>
       <div className="runtime-tools row">
+        <div className="btn">Create new </div>
         <ButtonGroup aria-label="Basic example">
           <Button variant="light" onClick={newHumanTask}>human task</Button>
           <Button variant="light" onClick={newProcessTask} disabled>process task</Button>
@@ -36,7 +37,7 @@ function RuntimeTools (props) {
           <Modal.Title>Create Human Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateHumanTaskForm close={cancelHumanTask}/>
+          <CreateHumanTaskForm close={cancelHumanTask} sendMessage={props.userMessage} agentMessage={props.agentMessage}/>
         </Modal.Body>
       </Modal>
     </>
