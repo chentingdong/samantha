@@ -3,6 +3,7 @@ import React from 'react';
 import DatePicker from 'react-datepicker'
 import { useFormFields } from '../libs/custom-hooks'
 import LoaderButton from './loader-button'
+import {formatDate} from '../libs/custom-functions'
 
 function CreateHumanTaskForm (props) {
   // TODO: cognito user api
@@ -20,20 +21,23 @@ function CreateHumanTaskForm (props) {
     assignee: assigneeList[ 0 ],
     dueDate: new Date(),
     followUpDays: 1,
-    formUrl: 'test'
+    form: {
+      name: '',
+      url: ''
+    }
   })
 
   function createHumanTask () {
-    const assignee = humanTaskForm.assignee.name
-    const dueDate = JSON.stringify(humanTaskForm.dueDate)
-    const followUpDays = humanTaskForm.followUpDays
+    const dueDate = formatDate(humanTaskForm.dueDate)
 
     const html = (
-      <>
-        Your message is sent to <b>{assignee}</b>,
-        should finish on <b>{dueDate}</b>,
-        we will inform him after <b>{followUpDays}</b> days if not finished.
-      </>
+      <span>
+        Your task is added to current case.
+        Your message is sent to <b>{humanTaskForm.assignee.name}.</b>
+        {(humanTaskForm.formUrl !== '') && <span> with form <b>{humanTaskForm.form.name}</b> attached, </span>}
+        expecting to finish on <b>{dueDate}</b>,
+        I will inform him after <b>{humanTaskForm.followUpDays}</b> days if not finished.
+      </span>
     )
     props.agentMessage(html)
     props.close()
@@ -42,7 +46,7 @@ function CreateHumanTaskForm (props) {
   return (
     <form onSubmit={e => e.preventDefault()} className="row">
       <div className="form-group col-12">
-        <label>Task description</label>
+        <div>Task description</div>
         <textarea className="form-control"
           name="taskDescription"
           value={humanTaskForm.taskDescription}
@@ -70,7 +74,7 @@ function CreateHumanTaskForm (props) {
         />
       </div>
       <div className="form-group col-6">
-        <label>Remind in days</label><br />
+        <label>Remind in days</label><br/>
         <input className="form-control"
           type="number"
           name="followUpDays"
@@ -79,12 +83,17 @@ function CreateHumanTaskForm (props) {
       </div>
       <hr />
       <div className="form-group col-12">
-        <label>Attach form (optional)</label>
+        <label className="block">Attach form (optional)</label><br/>
         <input className="form-control"
+          name="formName"
+          placeholder="form name..."
+          value={humanTaskForm.form.name}
+          onChange={setHumanTaskForm}/>
+        <input className="form-control mt-1"
           type="url"
           name="formUrl"
-          placeholder="http://form_url "
-          value={humanTaskForm.formUrl}
+          placeholder="form url"
+          value={humanTaskForm.form.url}
           onChange={setHumanTaskForm} />
       </div>
       <div className="modal-footer col-12">

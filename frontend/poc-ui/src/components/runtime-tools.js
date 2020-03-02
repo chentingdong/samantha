@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ButtonGroup, Button, Modal, Form } from 'react-bootstrap'
+import { ButtonGroup, Button, Modal, Card } from 'react-bootstrap'
 import CreateHumanTaskForm from './create-human-task'
 
 function RuntimeTools (props) {
@@ -10,7 +10,7 @@ function RuntimeTools (props) {
     setshowHumanTaskModal(true)
   }
 
-  function cancelHumanTask () {
+  function closeHumanTask () {
     setshowHumanTaskModal(false)
   }
 
@@ -24,20 +24,20 @@ function RuntimeTools (props) {
 
   return (
     <>
-      <div className="runtime-tools row">
-        <div className="btn">Create new </div>
+      <div className="nav row mt-1">
+        <div className="btn">Addhoc task: </div>
         <ButtonGroup aria-label="Basic example">
           <Button variant="light" onClick={newHumanTask}>human task</Button>
           <Button variant="light" onClick={newProcessTask} disabled>process task</Button>
           <Button variant="light" onClick={newCaseTask} disabled>case task</Button>
         </ButtonGroup>
       </div >
-      <Modal show={showHumanTaskModal}>
+      <Modal show={showHumanTaskModal} onHide={closeHumanTask}>
         <Modal.Header closeButton>
           <Modal.Title>Create Human Task</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateHumanTaskForm close={cancelHumanTask} sendMessage={props.userMessage} agentMessage={props.agentMessage}/>
+          <CreateHumanTaskForm close={closeHumanTask} sendMessage={props.userMessage} agentMessage={props.agentMessage}/>
         </Modal.Body>
       </Modal>
     </>

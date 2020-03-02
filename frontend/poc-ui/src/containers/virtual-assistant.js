@@ -13,7 +13,7 @@ import ActiveCases from '../components/active-cases'
 function VirtualAssistant (props) {
   let initialMessage = {
     id: 1,
-    who: 'agent',
+    who: 'bellhop',
     message: 'Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.'
   }
 
@@ -58,10 +58,10 @@ function VirtualAssistant (props) {
   }
 
   function agentMessage (msg) {
-    console.log("received message: " + msg)
+    console.log("received message: " + JSON.stringify(msg))
     let newMessage = {
       id: messageList.length + 1,
-      who: 'agent',
+      who: 'bellhop',
       message: msg
     }
     setMessageList([ ...messageList, newMessage ])
@@ -126,20 +126,21 @@ function VirtualAssistant (props) {
     <div className="container-fluid" id="va-dialog">
       <RuntimeTools userMessage={userMessage} agentMessage={agentMessage}/>
       <ActiveCases />
+      <hr/>
       <div className="messages">
         {messageList.map((msg, index) => {
           return (
-            <div key={index}>
-              <span>{msg.who}: </span>
-              <span>{msg.message}</span>
+            <div key={index} className="row small">
+              <span className="col-1">{msg.who}: </span>
+              <span className="col-11">{msg.message}</span>
             </div>
           )
         })}
       </div>
       {(suggestions.length > 0) &&
-        <div className="suggestions" style={{ width: '100%' }}>
-          <label>Smart suggestions from Bellhop:</label>
-          <ul>
+        <div className="suggestions">
+          <label>Smart suggestions from Bellhop:</label><br/>
+          <ul className="row">
             {suggestions.map((suggestion, index) => {
               return (
                 <li key={index}
