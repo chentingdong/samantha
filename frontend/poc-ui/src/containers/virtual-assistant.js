@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from 'react'
-import { Navbar } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
 import config from '../config'
 import axios from 'axios'
 import parse from 'html-react-parser'
 import htmlToText from 'html-to-text'
 import { DebounceInput } from 'react-debounce-input';
 import RuntimeTools from '../components/runtime-tools'
-import ActiveCases from '../components/active-cases'
+import Activities from '../components/activities'
 
 function VirtualAssistant (props) {
   let initialMessage = {
     id: 1,
-    who: 'bellhop',
+    who: 'agent',
     message: 'Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.'
   }
 
@@ -61,7 +59,7 @@ function VirtualAssistant (props) {
     console.log("received message: " + JSON.stringify(msg))
     let newMessage = {
       id: messageList.length + 1,
-      who: 'bellhop',
+      who: 'agent',
       message: msg
     }
     setMessageList([ ...messageList, newMessage ])
@@ -73,13 +71,13 @@ function VirtualAssistant (props) {
       let url = config.suggestUrl + '/' + currentMessage
 
       axios
-      .get(url)
-      .then((resp) => {
-        setSuggestions(resp.data)
-      })
-      .catch((err) => {
-        console.error(err)
-      })
+        .get(url)
+        .then((resp) => {
+          setSuggestions(resp.data)
+        })
+        .catch((err) => {
+          console.error(err)
+        })
     }
   }
 
@@ -87,7 +85,7 @@ function VirtualAssistant (props) {
   useEffect(suggest, [ currentMessage ])
 
   function isActiveSuggestion (index) {
-    return index === activeSuggestion ? 'active' : null
+    return index === activeSuggestion ? 'btn-light' : null
   }
 
   function handleKeyDown (e, activeSuggestion) {
@@ -120,41 +118,56 @@ function VirtualAssistant (props) {
     }
   }
 
-  // DOM
-
+  const style = {
+    sendButton: {
+      position: 'absolute',
+      right: '1.5em',
+      bottom: '0.7em',
+      fontSize: '1.5em;'
+    }
+  }
   return (
-    <div className="container-fluid" id="va-dialog">
-      <RuntimeTools userMessage={userMessage} agentMessage={agentMessage}/>
-      <ActiveCases />
-      <hr/>
+    <div className="container-fluid">
+      <RuntimeTools userMessage={userMessage} agentMessage={agentMessage} />
+      <Activities className="mt-1 row" />
+      <hr />
       <div className="messages">
         {messageList.map((msg, index) => {
           return (
-            <div key={index} className="row small">
-              <span className="col-1">{msg.who}: </span>
-              <span className="col-11">{msg.message}</span>
+            <div key={index} className="small">
+              <span className="mr-3">
+                {(() => {
+                  switch (msg.who) {
+                    case "user": return <FontAwesomeIcon icon="user" />;
+                    case "agent": return <FontAwesomeIcon icon="robot" />;
+                    default: return <FontAwesomeIcon icon="bomb" />;
+                  }
+                })()}
+              </span>
+              <span>{msg.message}</span>
             </div>
           )
         })}
       </div>
       {(suggestions.length > 0) &&
-        <div className="suggestions">
-          <label>Smart suggestions from Bellhop:</label><br/>
-          <ul className="row">
+        <div className="container-fluid fixed-bottom mb-5">
+          <label>Bellhop suggestions:</label><br />
+          <div className="row">
             {suggestions.map((suggestion, index) => {
+              suggestion = parse(suggestion)
               return (
-                <li key={index}
-                  className={`col-2 clickable suggestion ${isActiveSuggestion(index)}`}
-                  onClick={e => userMessage(e.target.innerText)}
-                  onKeyDown={e => userMessage(e.target.innerText)}
+                <div key={index}
+                  className={`col-12 clickable suggestion ${isActiveSuggestion(index)}`}
+                  onClick={e => userMessage(suggestion)}
+                  onKeyDown={e => userMessage(suggestion)}
                   onMouseOver={e => setActiveSuggestion(index)}
-                >{index} {parse(suggestion)} </li>
+                >{index}. {suggestion} </div>
               )
             })}
-          </ul>
+          </div>
         </div>
       }
-      <Navbar fixed="bottom">
+      <div className="fixed-bottom m-1">
         <DebounceInput
           className="col-12 input-message"
           minLength={2}
@@ -164,8 +177,8 @@ function VirtualAssistant (props) {
           onChange={e => { setCurrentMessage(e.target.value) }}
           onKeyDown={e => handleKeyDown(e, activeSuggestion)}
         />
-        <FontAwesomeIcon icon={faBell} className="send-button clickable" />
-      </Navbar>
+        <FontAwesomeIcon icon="bell" className="clickable" style={style.sendButton} />
+      </div>
     </div>
   )
 }

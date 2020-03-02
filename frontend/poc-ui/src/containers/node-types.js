@@ -4,14 +4,13 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import keyboardDiagnose from '../assets/keyboard-diagnose.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye } from '@fortawesome/free-solid-svg-icons'
 
 function SendNDARequest () {
   return (
     <Card className="">
       <Card.Header as="H5">
         <span>Send NDA request</span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Form onSubmit="">
@@ -50,7 +49,7 @@ function AppleKeyboardDiagnose () {
     <Card className="">
       <Card.Header>
         <span>Hardware Diagnose Graph for Apple laptops</span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Card.Text class="row">
@@ -68,7 +67,7 @@ function NDARequestWaiting () {
     <Card className="">
       <Card.Header>
         <span>NDA Request Status </span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Card.Title>Automatically check NDA request through API calls</Card.Title>
@@ -115,7 +114,7 @@ function OrderKeyboard () {
     <Card className="">
       <Card.Header>
         <span>Order a Keyboard</span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Form onSubmit="">
@@ -165,7 +164,7 @@ function KeyboardOrderProcessing () {
     <Card className="">
       <Card.Header>
         <span>Keyboard Order Status </span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Card.Title>Automatically check Order status through API calls</Card.Title>
@@ -210,7 +209,7 @@ function LaptopConfigure () {
     <Card>
       <Card.Header>
         <span>Form for employee to configure new laptop for order</span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Form>
@@ -246,7 +245,7 @@ function LaptopApprovalStatus () {
     <Card className="">
       <Card.Header>
         <span>Wating state for laptop approval</span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Form>
@@ -291,7 +290,7 @@ function HumanInteraction () {
     <Card className="">
       <Card.Header>
         <span>Keyboard Order Status </span>
-        <FontAwesomeIcon icon={faEye} className="clickable float-right" />
+        <FontAwesomeIcon icon="eye" className="clickable float-right" />
       </Card.Header>
       <Card.Body>
         <Form>

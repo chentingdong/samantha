@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ButtonGroup, Button, Modal, Card } from 'react-bootstrap'
+import { ButtonGroup, Button, Modal } from 'react-bootstrap'
 import CreateHumanTaskForm from './create-human-task'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function RuntimeTools (props) {
   const [ showHumanTaskModal, setshowHumanTaskModal ] = useState(false)
@@ -23,24 +24,32 @@ function RuntimeTools (props) {
   }
 
   return (
-    <>
+    <div className={props.className}>
       <div className="nav row mt-1">
-        <div className="btn">Addhoc task: </div>
         <ButtonGroup aria-label="Basic example">
-          <Button variant="light" onClick={newHumanTask}>human task</Button>
-          <Button variant="light" onClick={newProcessTask} disabled>process task</Button>
-          <Button variant="light" onClick={newCaseTask} disabled>case task</Button>
+          <Button variant="light" onClick={newHumanTask}>
+            <FontAwesomeIcon icon="user-cog" />
+          </Button>
+          <Button variant="light" onClick={newProcessTask} disabled>
+            <FontAwesomeIcon icon="project-diagram" />
+          </Button>
+          <Button variant="light" onClick={newCaseTask} disabled>
+            <FontAwesomeIcon icon="robot" />
+          </Button>
         </ButtonGroup>
       </div >
       <Modal show={showHumanTaskModal} onHide={closeHumanTask}>
         <Modal.Header closeButton>
-          <Modal.Title>Create Human Task</Modal.Title>
+          <Modal.Title>
+            <h3>Create Human Task</h3>
+            <h6>create an addhoc task, add to current case, and assign to another person.</h6>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateHumanTaskForm close={closeHumanTask} sendMessage={props.userMessage} agentMessage={props.agentMessage}/>
+          <CreateHumanTaskForm close={closeHumanTask} sendMessage={props.userMessage} agentMessage={props.agentMessage} />
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 };
 

@@ -31,7 +31,6 @@
     "jquery": "^3.4.1",
     "monaco-editor": "^0.20.0",
     "node-sass": "^4.0.0",
-    "popper.js": "^1.16.1",
     "react": "^16.12.0",
     "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^1.0.0-beta.16",
@@ -51,8 +50,7 @@
     "react-stringify": "^1.0.0",
     "sass": "^1.26.2",
     "styled-components": "^5.0.1",
-    "typescript": "^3.8.3",
-    "webpack": "^4.41.6"
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "HTTPS=true react-scripts start",

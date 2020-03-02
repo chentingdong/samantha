@@ -1,7 +1,6 @@
 import React from "react";
 import "./loader-button.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleNotch } from '@fortawesome/free-solid-svg-icons'
 
 function LoaderButton({
   isLoading,
@@ -12,7 +11,7 @@ function LoaderButton({
   disabled = false,
   ...props
 }) {
-  loadingIcon = loadingIcon || <FontAwesomeIcon icon={faCircleNotch} className="spinning" />
+  loadingIcon = loadingIcon || <FontAwesomeIcon icon="circle-notch" className="spinning" />
   loadingText = loadingText || props.children || "Loading..."
 
   return (

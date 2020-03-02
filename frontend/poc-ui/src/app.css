@@ -34,19 +34,10 @@
   border-width: 1px;
 }
 .send-button {
-  position: absolute;
-  right: 2em;
-  font-size: 1.5em;
+  font-size: 1.2em;
 }
 .clickable {
   cursor: pointer;
-}
-.suggestions {
-  position: absolute;
-  bottom: 5em;
-}
-.suggestion.active {
-  background: #999;
 }
 
 /* workflow */

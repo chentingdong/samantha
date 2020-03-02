@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFlag, faBomb } from '@fortawesome/free-solid-svg-icons'
 
 function MineSwipper () {
   const board = {
@@ -270,10 +269,10 @@ function Cell (props) {
 
   function getCell () {
     if (!cell.isRevealed)
-      return (cell.isFlagged) ? <FontAwesomeIcon icon={faFlag} /> : null
+      return (cell.isFlagged) ? <FontAwesomeIcon icon="flag" /> : null
 
     if(cell.isMine)
-      return <FontAwesomeIcon icon={faBomb} />
+      return <FontAwesomeIcon icon="bomb" />
 
     return (cell.neighbour !== 0) ? cell.neighbour : null
   }

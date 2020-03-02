@@ -8,6 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
 import logo from './assets/astound.png'
 
+// Import and build a fontawesome icon library to share in the app
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faBell, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
+library.add( faBell, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram)
+
+
 function App () {
   const [ isAuthenticated, userHasAuthenticated ] = useState(false)
 
@@ -40,7 +46,7 @@ function App () {
   return (
     <div className="app container-fluid">
       <BrowserRouter>
-        <Navbar bg="light" expand="lg">
+        <Navbar bg="light" expand="lg" className="row">
           <Navbar.Brand>
             <Nav.Link as={NavLink} to="/">
               <img className="app-logo" src={logo} alt="" />

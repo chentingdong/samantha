@@ -21,10 +21,7 @@ function CreateHumanTaskForm (props) {
     assignee: assigneeList[ 0 ],
     dueDate: new Date(),
     followUpDays: 1,
-    form: {
-      name: '',
-      url: ''
-    }
+    formUrl: ''
   })
 
   function createHumanTask () {
@@ -33,9 +30,8 @@ function CreateHumanTaskForm (props) {
     const html = (
       <span>
         Your task is added to current case.
-        Your message is sent to <b>{humanTaskForm.assignee.name}.</b>
-        {(humanTaskForm.formUrl !== '') && <span> with form <b>{humanTaskForm.form.name}</b> attached, </span>}
-        expecting to finish on <b>{dueDate}</b>,
+        Your message is sent to <b>{humanTaskForm.assignee.name}</b>,
+        expecting to finish on <b>{dueDate}</b>.
         I will inform him after <b>{humanTaskForm.followUpDays}</b> days if not finished.
       </span>
     )
@@ -83,22 +79,17 @@ function CreateHumanTaskForm (props) {
       </div>
       <hr />
       <div className="form-group col-12">
-        <label className="block">Attach form (optional)</label><br/>
+        <label className="block">Attach form</label><br/>
         <input className="form-control"
-          name="formName"
-          placeholder="form name..."
-          value={humanTaskForm.form.name}
-          onChange={setHumanTaskForm}/>
-        <input className="form-control mt-1"
           type="url"
           name="formUrl"
           placeholder="form url"
-          value={humanTaskForm.form.url}
+          value={humanTaskForm.formUrl}
           onChange={setHumanTaskForm} />
       </div>
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={props.close}>Cancel</button>
-        <LoaderButton className="btn-success" onClick={createHumanTask}>Start task now!</LoaderButton>
+        <LoaderButton className="btn-success" onClick={createHumanTask}>Send task now!</LoaderButton>
       </div>
     </form>
   )
