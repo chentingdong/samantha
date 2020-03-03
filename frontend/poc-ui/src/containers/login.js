@@ -12,10 +12,10 @@ const Federated = withFederated((props) => {
     <div>
       <LoaderButton className="btn-block" onClick={props.googleSignIn}>
         Login with Google
-        </LoaderButton>
+      </LoaderButton>
       <LoaderButton className="btn-block" onClick={props.facebookSignIn}>
         Login with Facebook
-        </LoaderButton>
+      </LoaderButton>
     </div>
   )
 });
@@ -28,26 +28,25 @@ function Login (props) {
 
   useEffect(() => {
     checkLogin();
-  });
+  }, []);
 
-  async function checkLogin() {
-    try {
-      Auth.currentAuthenticatedUser();
-    }
-    catch(e) {
-      if (e !== 'No current user') {
-        alert(e);
-      }
-    }
-    props.userHasAuthenticated(true);
-    setIsAuthenticating(false);
+  function checkLogin () {
+    Auth
+      .currentAuthenticatedUser()
+      .then(() => {
+        props.userHasAuthenticated(true);
+        setIsAuthenticating(false);
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   function validateForm () {
     return email.length > 0 && password.length > 0;
   }
 
-  async function handleEmailLogin(event) {
+  async function handleEmailLogin (event) {
     event.preventDefault();
 
     try {

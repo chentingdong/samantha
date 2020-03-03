@@ -81,7 +81,7 @@ const routes = [
   // last, catch everything else as 404
   {
     component: NotFound,
-    tag: PrivateRoute
+    tag: PublicRoute
   }
 ]
 

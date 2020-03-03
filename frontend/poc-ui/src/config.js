@@ -1,9 +1,9 @@
 const config = {
   Auth: {
-    identityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
-    region: 'us-east-1',
-    userPoolId: 'us-east-1_6akVugwW4',
-    userPoolWebClientId: '33n2s6msn2sa7tjm5mdij9ti8f',
+    identityPoolId: 'us-east-2:5372a990-3a22-457f-ac62-31a7be7fda9d',
+    region: 'us-east-2',
+    userPoolId: 'us-east-2_qYgDsExIj',
+    userPoolWebClientId: '7fph2io9lg9g2vbntf9n440l60',
     authenticationFlowType: 'USER_PASSWORD_AUTH',
     oauth: {
       domain: 'samantha.auth.us-east-1.amazoncognito.com',

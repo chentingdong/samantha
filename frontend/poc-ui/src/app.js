@@ -11,7 +11,7 @@ import logo from './assets/astound.png'
 // Import and build a fontawesome icon library to share in the app
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram } from '@fortawesome/free-solid-svg-icons'
-library.add( faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram)
+library.add(faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram)
 
 
 function App () {
@@ -24,23 +24,24 @@ function App () {
   }, [])
 
   async function checkLogin () {
-    try {
-      Auth.currentSession();
-      userHasAuthenticated(true);
-    }
-    catch (e) {
-      if (e !== 'No current user') alert(e)
-    }
+    Auth
+      .currentAuthenticatedUser()
+      .then(() => {
+        userHasAuthenticated(true);
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
-  async function handleLogout () {
-    try {
-      await Auth.signOut();
-      userHasAuthenticated(false)
-    }
-    catch (e) {
-      console.error(e)
-    }
+  function handleLogout () {
+    Auth.signOut()
+      .then(() => {
+        userHasAuthenticated(false)
+      })
+      .catch((e) => {
+        console.error(e)
+      })
   }
 
   return (
