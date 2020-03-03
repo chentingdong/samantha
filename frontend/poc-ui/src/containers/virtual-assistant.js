@@ -6,7 +6,7 @@ import parse from 'html-react-parser'
 import htmlToText from 'html-to-text'
 import { DebounceInput } from 'react-debounce-input';
 import RuntimeTools from '../components/runtime-tools'
-import Activities from '../components/activities'
+import Cases from '../components/cases'
 
 function VirtualAssistant (props) {
   let initialMessage = {
@@ -129,7 +129,7 @@ function VirtualAssistant (props) {
   return (
     <div className="container-fluid">
       <RuntimeTools userMessage={userMessage} agentMessage={agentMessage} />
-      <Activities className="mt-1 row" />
+      <Cases className="mt-1 row" />
       <hr />
       <div className="messages">
         {messageList.map((msg, index) => {

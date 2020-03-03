@@ -2,27 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'react-multi-carousel/lib/styles.css'
 
-function Activities (props) {
-  const [ Activity, setActivity ] = useState([])
+function Cases (props) {
+  const [ cases, setCases ] = useState([])
 
   function updateCaseList () {
     // TODO: ws case list endpoint
-    let activities = [
+    let existingCases = [
       { 'id': 'case_1', 'name': 'case 1', 'status': 'active' },
       { 'id': 'case_2', 'name': 'case 2', 'status': 'idle' },
       { 'id': 'case_3', 'name': 'case 3, blah blah...', 'status': 'closed' },
       { 'id': 'case_4', 'name': 'case 4', 'status': 'closed' }
     ]
 
-    setActivity(activities)
+    setCases(existingCases)
   }
 
   useEffect(updateCaseList, [])
 
   const style = {
     square: {
-      width: '18vw',
-      height: '18vw',
+      width: '11vw',
+      height: '11vw',
       marginRight: '1vw',
       minWidth: '50px',
       minHeight: '50px',
@@ -43,10 +43,10 @@ function Activities (props) {
       <div className=" btn btn-light" style={style.square}>
         <FontAwesomeIcon icon="plus" className="center" />
       </div>
-      {Activity.map((activities, index) => {
+      {cases.map((c, index) => {
         let cn = ''
-        switch (activities.status) {
-          case "active": cn = 'text-success'; break;
+        switch (c.status) {
+          case "active": cn = 'text-primary'; break;
           case "idle": cn = 'text-warning'; break;
           case "closed": cn = 'text-secondary'; break;
           default: cn = 'text-secondar';
@@ -55,9 +55,9 @@ function Activities (props) {
 
         return (
           <div className={cn} key={index} style={style.square}>
-            <div className="center">
+            <div className="center small">
               <FontAwesomeIcon icon="bell" />
-              <div>{activities.name}</div>
+              <div>{c.name}</div>
             </div>
           </div>
         )
@@ -66,4 +66,4 @@ function Activities (props) {
   );
 };
 
-export default Activities;
+export default Cases;
