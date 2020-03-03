@@ -1,4 +1,4 @@
-service: poc-backend-sls-1
+service: poc-backend-sls-1-${self:custom.user}
 
 # plugins:
 #   - serverless-dynamodb-local
@@ -10,7 +10,7 @@ custom:
   # When using lambda proxy integration, you have to manually add the CORS headers to responses...
   # https://github.com/serverless/serverless/issues/4681
   corsOrigin: '*'
-  user: baiji
+  user: ${env:USER}
   # dynamodb:
   #   start:
   #     port: 8700
