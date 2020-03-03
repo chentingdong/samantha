@@ -121,9 +121,9 @@ function VirtualAssistant (props) {
   const style = {
     sendButton: {
       position: 'absolute',
-      right: '1.5em',
-      bottom: '0.7em',
-      fontSize: '1.5em;'
+      right: '0.5em',
+      bottom: '0.4em',
+      fontSize: '1.5em'
     }
   }
   return (

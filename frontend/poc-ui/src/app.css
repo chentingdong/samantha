@@ -4,10 +4,12 @@
   pointer-events: none;
   vertical-align: text-bottom;
 }
+
 .brand {
   padding: 0 0 0 0.5em;
   text-transform: uppercase;
 }
+
 /* login page */
 @media all and (min-width: 480px) {
   .centered-panel {
@@ -33,9 +35,7 @@
   border-radius: 5px;
   border-width: 1px;
 }
-.send-button {
-  font-size: 1.2em;
-}
+
 .clickable {
   cursor: pointer;
 }
