@@ -27,20 +27,20 @@ function Login (props) {
   Amplify.configure(config);
 
   useEffect(() => {
+    function checkLogin () {
+      Auth
+        .currentAuthenticatedUser()
+        .then(() => {
+          props.userHasAuthenticated(true);
+          setIsAuthenticating(false);
+        })
+        .catch((e) => {
+          console.error(e)
+        })
+    }
+
     checkLogin();
   }, []);
-
-  function checkLogin () {
-    Auth
-      .currentAuthenticatedUser()
-      .then(() => {
-        props.userHasAuthenticated(true);
-        setIsAuthenticating(false);
-      })
-      .catch((e) => {
-        console.error(e)
-      })
-  }
 
   function validateForm () {
     return email.length > 0 && password.length > 0;

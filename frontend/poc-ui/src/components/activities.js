@@ -49,6 +49,7 @@ function Activities (props) {
           case "active": cn = 'text-success'; break;
           case "idle": cn = 'text-warning'; break;
           case "closed": cn = 'text-secondary'; break;
+          default: cn = 'text-secondar';
         }
         cn = ` btn btn-light ${cn}`;
 
