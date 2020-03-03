@@ -1,4 +1,4 @@
-service: poc-backend-sls-1
+service: poc-backend-sls-1-${env:USER}
 
 # plugins:
 #   - serverless-dynamodb-local
