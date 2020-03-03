@@ -36,7 +36,7 @@ function ChangePassword (props) {
             value={confirmPassword}
           />
         </Form.Group>
-        <LoaderButton block
+        <LoaderButton
           type="submit"
           loadingText="Changing…"
           disabled={!validateForm()}

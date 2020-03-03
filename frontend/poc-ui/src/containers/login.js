@@ -91,7 +91,7 @@ function Login (props) {
             <Link to="reset-password"> Forgot password? </Link>
           </p>
         </Form.Text>
-        <LoaderButton block disabled={!validateForm()} type="submit" >Login</LoaderButton>
+        <LoaderButton disabled={!validateForm()} type="submit" >Login</LoaderButton>
         <hr />
         <Federated federated={config.social} onStateChange={handleFederatedLogin} />
       </Form>

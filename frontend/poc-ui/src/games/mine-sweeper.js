@@ -24,7 +24,7 @@ const style = {
 }
 
 function Board (props) {
-  let [ gameStatus, setGameStatus ] = useState("New game...")
+  let [ gameStatus, setGameStatus ] = useState("")
   let [ mineCount, setMineCount ] = useState(props.mines)
   let [ boardData, setBoardData ] = useState(createEmptyData())
   const cellWidth = parseInt(style.cell.width)
@@ -34,9 +34,9 @@ function Board (props) {
     initBoardData();
   }, [])
 
-  async function initBoardData () {
+  function initBoardData () {
     console.log("init board...")
-    let data = await createEmptyData()
+    let data = createEmptyData()
     data = plantMines(data)
     data = getNeighbours(data)
     setBoardData(data)
@@ -257,7 +257,7 @@ function Board (props) {
         {RenderInfo()}
       </Card.Header>
       <Card.Body>
-        <div className="board" style={{width: boardWidth}}> {RenderBoard()} </div>
+        <div className="board" style={{ width: boardWidth }}> {RenderBoard()} </div>
       </Card.Body>
     </Card>
   )
@@ -271,7 +271,7 @@ function Cell (props) {
     if (!cell.isRevealed)
       return (cell.isFlagged) ? <FontAwesomeIcon icon="flag" /> : null
 
-    if(cell.isMine)
+    if (cell.isMine)
       return <FontAwesomeIcon icon="bomb" />
 
     return (cell.neighbour !== 0) ? cell.neighbour : null
