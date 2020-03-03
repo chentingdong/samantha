@@ -47,7 +47,7 @@ function VirtualAssistant (props) {
     setMessageList([ ...messageList, newMessage ])
 
     const payload = {
-      "action": "request",
+      "action": "interaction",
       "task": message
     }
 
