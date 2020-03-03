@@ -6,8 +6,8 @@
     "messages": []
   },
   "state": "todo||active||canceled||completed",
-  "caseModel": {
-    "planItem": [
+  "casePlanModel": {
+    "planItems": [
       {
         "id": "1",
         "name": "choose form",
@@ -29,7 +29,7 @@
         "state": "todo||active||canceled||completed",
         "entryCriterions": [
           {
-            "onPart": [{
+            "onParts": [{
               "planItemId": "1",
               "state": "complete"
             }],
