@@ -25,7 +25,7 @@ export default function PublicRoute({ component: Component, appProps, ...rest })
       render={props =>
         !appProps.isAuthenticated
           ? <Component {...props} {...appProps} />
-          : <Redirect to={redirect === "" || redirect === null ? "/" : redirect} />}
+          : <Redirect to={redirect === "" || redirect === null ? "/demo" : redirect} />}
     />
   );
 }

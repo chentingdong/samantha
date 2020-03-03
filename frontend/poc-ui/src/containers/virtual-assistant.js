@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import config from '../config'
-import axios from 'axios'
-import parse from 'html-react-parser'
-import htmlToText from 'html-to-text'
 import { DebounceInput } from 'react-debounce-input';
 import RuntimeTools from '../components/runtime-tools'
 import Cases from '../components/cases'
+import Suggest from '../components/suggest'
 
 function VirtualAssistant (props) {
   let initialMessage = {
@@ -17,15 +15,17 @@ function VirtualAssistant (props) {
 
   let [ messageList, setMessageList ] = useState([ initialMessage ])
   let [ currentMessage, setCurrentMessage ] = useState('')
-  let [ suggestions, setSuggestions ] = useState([])
+
   let [ activeSuggestion, setActiveSuggestion ] = useState(0)
+  const suggestRef = useRef();
 
   let wsNew = new WebSocket(config.wsUrl)
   let [ ws, setWs ] = useState(wsNew)
 
   useEffect(() => {
     ws.onmessage = event => {
-      const message = event.data
+      // TODO: ws returns string instead of json, shouldn't need to parse here.
+      const message = JSON.parse(event.data).body.utterance
       agentMessage(message)
     }
 
@@ -65,59 +65,6 @@ function VirtualAssistant (props) {
     setMessageList([ ...messageList, newMessage ])
   }
 
-  // autocomplete
-  function suggest () {
-    if (currentMessage !== '') {
-      let url = config.suggestUrl + '/' + currentMessage
-
-      axios
-        .get(url)
-        .then((resp) => {
-          setSuggestions(resp.data)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    }
-  }
-
-  // suggest input when currentMessage changes
-  useEffect(suggest, [ currentMessage ])
-
-  function isActiveSuggestion (index) {
-    return index === activeSuggestion ? 'btn-light' : null
-  }
-
-  function handleKeyDown (e, activeSuggestion) {
-    // arrow down, next suggestoins
-    if (e.which === 40) {
-      e.preventDefault()
-      if (activeSuggestion === suggestions.length - 1) {
-        setActiveSuggestion(0)
-      } else {
-        setActiveSuggestion(activeSuggestion + 1)
-      }
-    }
-    // arrow up, prev suggestoins
-    else if (e.which === 38) {
-      if (activeSuggestion === 0) {
-        setActiveSuggestion(suggestions.length - 1)
-      } else {
-        setActiveSuggestion(activeSuggestion - 1)
-      }
-    }
-    // enter, send message to ws
-    else if (e.which === 13) {
-      if (suggestions.length > 0) {
-        const msg = htmlToText.fromString(suggestions[ activeSuggestion ])
-        setCurrentMessage(msg)
-        setSuggestions([])
-      } else {
-        userMessage(currentMessage)
-      }
-    }
-  }
-
   const style = {
     sendButton: {
       position: 'absolute',
@@ -126,6 +73,7 @@ function VirtualAssistant (props) {
       fontSize: '1.5em'
     }
   }
+
   return (
     <div className="container-fluid">
       <RuntimeTools userMessage={userMessage} agentMessage={agentMessage} />
@@ -149,24 +97,14 @@ function VirtualAssistant (props) {
           )
         })}
       </div>
-      {(suggestions.length > 0) &&
-        <div className="container-fluid fixed-bottom mb-5">
-          <label>Bellhop suggestions:</label><br />
-          <div className="row">
-            {suggestions.map((suggestion, index) => {
-              suggestion = parse(suggestion)
-              return (
-                <div key={index}
-                  className={`col-12 clickable suggestion ${isActiveSuggestion(index)}`}
-                  onClick={e => userMessage(suggestion)}
-                  onKeyDown={e => userMessage(suggestion)}
-                  onMouseOver={e => setActiveSuggestion(index)}
-                >{index}. {suggestion} </div>
-              )
-            })}
-          </div>
-        </div>
-      }
+      <Suggest
+        currentMessage={currentMessage}
+        setCurrentMessage={setCurrentMessage}
+        userMessage={userMessage}
+        ref={suggestRef}
+        activeSuggestion={activeSuggestion}
+        setActiveSuggestion={setActiveSuggestion}
+      />
       <div className="fixed-bottom m-1">
         <DebounceInput
           className="col-12 input-message"
@@ -175,9 +113,10 @@ function VirtualAssistant (props) {
           autoFocus={true}
           value={currentMessage}
           onChange={e => { setCurrentMessage(e.target.value) }}
-          onKeyDown={e => handleKeyDown(e, activeSuggestion)}
+          onKeyDown={e => {suggestRef.current.handleKeyDown(e, activeSuggestion)}}
+          // onKeyDown={e => handleKeyDown(e, activeSuggestion)}
         />
-        <FontAwesomeIcon icon="bell" className="clickable" style={style.sendButton} />
+        <FontAwesomeIcon icon="bell" className="clickable" style={style.sendButton}/>
       </div>
     </div>
   )
