@@ -16,7 +16,7 @@ function VirtualAssistant (props) {
   let [ messageList, setMessageList ] = useState([ initialMessage ])
   let [ currentMessage, setCurrentMessage ] = useState('')
 
-  let [ activeSuggestion, setActiveSuggestion ] = useState(0)
+  let [ selectedSuggestion, setselectedSuggestion ] = useState(0)
   const suggestRef = useRef();
 
   let wsNew = new WebSocket(config.wsUrl)
@@ -102,8 +102,8 @@ function VirtualAssistant (props) {
         setCurrentMessage={setCurrentMessage}
         userMessage={userMessage}
         ref={suggestRef}
-        activeSuggestion={activeSuggestion}
-        setActiveSuggestion={setActiveSuggestion}
+        selectedSuggestion={selectedSuggestion}
+        setselectedSuggestion={setselectedSuggestion}
       />
       <div className="fixed-bottom m-1">
         <DebounceInput
@@ -113,8 +113,7 @@ function VirtualAssistant (props) {
           autoFocus={true}
           value={currentMessage}
           onChange={e => { setCurrentMessage(e.target.value) }}
-          onKeyDown={e => {suggestRef.current.handleKeyDown(e, activeSuggestion)}}
-          // onKeyDown={e => handleKeyDown(e, activeSuggestion)}
+          onKeyDown={e => {suggestRef.current.handleKeyDown(e, selectedSuggestion)}}
         />
         <FontAwesomeIcon icon="bell" className="clickable" style={style.sendButton}/>
       </div>

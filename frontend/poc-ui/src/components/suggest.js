@@ -9,7 +9,7 @@ import config from '../config'
 **/
 
 const Suggest = forwardRef((props, ref) => {
-  const {activeSuggestion, setActiveSuggestion} = props
+  const {selectedSuggestion, setselectedSuggestion} = props
 
   // const Suggest = (props) => {
   const { currentMessage, setCurrentMessage, userMessage } = props
@@ -36,28 +36,28 @@ const Suggest = forwardRef((props, ref) => {
   useEffect(suggest, [ currentMessage ])
 
   useImperativeHandle(ref, () => ({
-    handleKeyDown (e, activeSuggestion) {
+    handleKeyDown (e, selectedSuggestion) {
       // arrow down, next suggestoins
       if (e.which === 40) {
         e.preventDefault()
-        if (activeSuggestion === suggestions.length - 1) {
-          setActiveSuggestion(0)
+        if (selectedSuggestion === suggestions.length - 1) {
+          setselectedSuggestion(0)
         } else {
-          setActiveSuggestion(activeSuggestion + 1)
+          setselectedSuggestion(selectedSuggestion + 1)
         }
       }
       // arrow up, prev suggestoins
       else if (e.which === 38) {
-        if (activeSuggestion === 0) {
-          setActiveSuggestion(suggestions.length - 1)
+        if (selectedSuggestion === 0) {
+          setselectedSuggestion(suggestions.length - 1)
         } else {
-          setActiveSuggestion(activeSuggestion - 1)
+          setselectedSuggestion(selectedSuggestion - 1)
         }
       }
       // enter, send message to ws
       else if (e.which === 13) {
         if (suggestions.length > 0) {
-          const msg = htmlToText.fromString(suggestions[ activeSuggestion ])
+          const msg = htmlToText.fromString(suggestions[ selectedSuggestion ])
           setCurrentMessage(msg)
           setSuggestions([])
         } else {
@@ -76,13 +76,13 @@ const Suggest = forwardRef((props, ref) => {
           <div className="row">
             {suggestions.map((suggestion, index) => {
               suggestion = htmlToText.fromString(suggestion)
-              const activeClass = (index === activeSuggestion) ? 'btn-light' : null
+              const activeClass = (index === selectedSuggestion) ? 'btn-light' : null
               return (
                 <div key={index}
                   className={`col-12 clickable suggestion ${activeClass}`}
                   onClick={e => userMessage(suggestion)}
                   onKeyDown={e => userMessage(suggestion)}
-                  onMouseOver={e => setActiveSuggestion(index)}
+                  onMouseOver={e => setselectedSuggestion(index)}
                 >{index}. {suggestion} </div>
               )
             })}

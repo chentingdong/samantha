@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import {Tooltip} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'react-multi-carousel/lib/styles.css'
 
@@ -10,7 +11,7 @@ function Cases (props) {
     let existingCases = [
       { 'id': 'case_1', 'name': 'case 1', 'status': 'active' },
       { 'id': 'case_2', 'name': 'case 2', 'status': 'idle' },
-      { 'id': 'case_3', 'name': 'case 3, blah blah...', 'status': 'closed' },
+      { 'id': 'case_3', 'name': 'case 3, blah blah...blah blah blahlah', 'status': 'closed' },
       { 'id': 'case_4', 'name': 'case 4', 'status': 'closed' }
     ]
 
@@ -26,23 +27,22 @@ function Cases (props) {
       marginRight: '1vw',
       minWidth: '50px',
       minHeight: '50px',
+      maxWidth: '100px',
+      maxHeight: '100px',
       overflow: 'hidden',
       position: 'relative'
-    },
-    center: {
-      margin: '0',
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
     }
   }
   return (
-    <div className="row mt-1">
-      <div className=" btn btn-light" style={style.square}>
-        <FontAwesomeIcon icon="plus" className="center" />
-      </div>
+    <div className="row mt-1 text-center">
+      <button
+        className="btn btn-light d-flex justify-content-center"
+        style={style.square}
+        data-toggle="tooltip"
+        data-placement="right"
+        title="create new case" >
+        <FontAwesomeIcon icon="plus" className="align-self-center" />
+      </button>
       {cases.map((c, index) => {
         let cn = ''
         switch (c.status) {
@@ -51,15 +51,20 @@ function Cases (props) {
           case "closed": cn = 'text-secondary'; break;
           default: cn = 'text-secondar';
         }
-        cn = ` btn btn-light ${cn}`;
+        cn = ` btn btn-light d-flex justify-content-center ${cn}`;
 
         return (
-          <div className={cn} key={index} style={style.square}>
-            <div className="center small">
-              <FontAwesomeIcon icon="bell" />
-              <div>{c.name}</div>
+          <button
+            className={cn}
+            key={index}
+            data-toggle="tooltip"
+            data-placement="right"
+            style={style.square}
+            title={c.name} >
+            <div className="align-self-center">
+              <FontAwesomeIcon icon="bell" /><br/>
             </div>
-          </div>
+          </button>
         )
       })}
     </div>
