@@ -14,7 +14,7 @@ import PrivateRoute from './private-routes'
 import VirtualAssistant from '../containers/virtual-assistant'
 import Workflow from '../containers/workflow'
 import Workflow1 from '../containers/workflow.1'
-import NodeTypes from '../containers/node-types'
+import NodeTypes from '../ideas/node-types'
 import MineSweeper from '../games/mine-sweeper'
 
 const routes = [

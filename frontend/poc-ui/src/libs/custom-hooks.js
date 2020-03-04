@@ -6,6 +6,7 @@ function useFormFields (initialState) {
     fields,
     function(event) {
       if (event.target !== undefined) {
+        // exp. input, textarea, select.
         setValues({
           ...fields,
           [event.target.name]: event.target.value

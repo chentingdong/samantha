@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ButtonGroup, Button, Modal } from 'react-bootstrap'
-import CreateHumanTaskForm from './create-human-task'
+import CreateHumanTaskForm from './create-form-task'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function RuntimeTools (props) {

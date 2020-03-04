@@ -30,6 +30,7 @@
     "jquery": "^3.4.1",
     "monaco-editor": "^0.20.0",
     "node-sass": "^4.0.0",
+    "node-uuid": "^1.4.8",
     "react": "^16.12.0",
     "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^1.0.0-beta.16",

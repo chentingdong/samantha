@@ -1,24 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import {Tooltip} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import 'react-multi-carousel/lib/styles.css'
+import { v4 as uuidv4 } from 'uuid';
 
 function Cases (props) {
   const [ cases, setCases ] = useState([])
+  const [ currentCaseId, setCurrentCaseId] = useState()
 
-  function updateCaseList () {
-    // TODO: ws case list endpoint
-    let existingCases = [
-      { 'id': 'case_1', 'name': 'case 1', 'status': 'active' },
-      { 'id': 'case_2', 'name': 'case 2', 'status': 'idle' },
-      { 'id': 'case_3', 'name': 'case 3, blah blah...blah blah blahlah', 'status': 'closed' },
-      { 'id': 'case_4', 'name': 'case 4', 'status': 'closed' }
-    ]
+  function newCase () {
+    // Only allow one new case for user for now.
+    let currentCase = cases.find(c => c.state === 'new');
+    if (currentCase !== undefined) return;
 
-    setCases(existingCases)
+    // TODO: get case def from case api
+    let caseDef = {
+      "id": uuidv4(),
+      "name": "",
+      "state": "new",
+      "planItems": []
+    }
+    setCurrentCaseId(caseDef.id)
+    setCases(cases => [caseDef, ...cases])
   }
 
-  useEffect(updateCaseList, [])
+  function getCaseList () {
+    // TODO: ws case list endpoint
+    let data = [
+      {
+        "id": uuidv4(),
+        "name": "case 1",
+        "state": "active",
+        "planItems": []
+      },
+      {
+        "id": uuidv4(),
+        "name": "case 2",
+        "state": "active",
+        "planItems": []
+      },
+      {
+        "id": uuidv4(),
+        "name": "case 3",
+        "state": "closed",
+        "planItems": []
+      }
+    ]
+
+    // let existingCases = JSON.parse(data)
+    setCases(data)
+  }
+
+  useEffect(getCaseList, [])
 
   const style = {
     square: {
@@ -35,36 +67,40 @@ function Cases (props) {
   }
   return (
     <div className="row mt-1 text-center">
-      <button
-        className="btn btn-light d-flex justify-content-center"
+      <div
+        className="d-flex justify-content-center border rounded-circle"
         style={style.square}
         data-toggle="tooltip"
         data-placement="right"
+        onClick={newCase}
         title="create new case" >
         <FontAwesomeIcon icon="plus" className="align-self-center" />
-      </button>
+      </div>
       {cases.map((c, index) => {
-        let cn = ''
-        switch (c.status) {
-          case "active": cn = 'text-primary'; break;
-          case "idle": cn = 'text-warning'; break;
-          case "closed": cn = 'text-secondary'; break;
-          default: cn = 'text-secondar';
+        let className = (c.id === currentCaseId) ? 'btn-secondary' : 'btn-light';
+
+        switch (c.state) {
+          case "new": className = `text-primary ${className}`; break;
+          case "active": className = `text-success ${className}`; break;
+          case "closed": className = `text-secondary ${className}`; break;
+          default: className = `text-secondar ${className}`;
         }
-        cn = ` btn btn-light d-flex justify-content-center ${cn}`;
+
+        className = `d-flex justify-content-center rounded-circle ${className}`;
 
         return (
-          <button
-            className={cn}
+          <div
+            className={className}
             key={index}
             data-toggle="tooltip"
             data-placement="right"
             style={style.square}
+            onClick={e => setCurrentCaseId(c.id)}
             title={c.name} >
             <div className="align-self-center">
               <FontAwesomeIcon icon="bell" /><br/>
             </div>
-          </button>
+          </div>
         )
       })}
     </div>
