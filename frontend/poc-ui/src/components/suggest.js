@@ -18,7 +18,10 @@ const Suggest = forwardRef((props, ref) => {
 
   // autocomplete
   function suggest () {
-    if (currentMessage !== '') {
+    if (currentMessage === '') {
+      setSuggestions([])
+    }
+    else {
       let url = config.suggestUrl + '/' + currentMessage
 
       axios
