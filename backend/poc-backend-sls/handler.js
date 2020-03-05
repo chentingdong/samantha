@@ -7,17 +7,17 @@
 // } = require('./src/services/auth');
 
 const {
-    interaction
+  interaction
 } = require('./src/services/interaction');
 
 const {
-    webhook
+  webhook
 } = require('./src/services/webhook');
 
 const {
-    defaultSocketHandler,
-    handleSocketConnect,
-    handleSocketDisconnect
+  defaultSocketHandler,
+  handleSocketConnect,
+  handleSocketDisconnect
 } = require('./src/services/websocket');
 
 // module.exports.authUser = authUser;
