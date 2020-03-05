@@ -44,6 +44,9 @@ provider:
     DYNAMODB_SOCKETS_USER_GSI: ${self:service}-sockets-user-gsi-${opt:stage, self:provider.stage}
     DYNAMODB_TASKS_TABLE: ${self:service}-tasks-${opt:stage, self:provider.stage}
     DYNAMODB_TASKS_USER_GSI: ${self:service}-tasks-user-gsi-${opt:stage, self:provider.stage}
+    DYNAMODB_TASK_DEFINITIONS_TABLE: ${self:service}-task-definitions-${opt:stage, self:provider.stage}
+    DYNAMODB_CASE_DEFINITIONS_TABLE: ${self:service}-case-definitions-${opt:stage, self:provider.stage}
+    DYNAMODB_CASE_INSTANCES_TABLE: ${self:service}-case-instances-${opt:stage, self:provider.stage}
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${opt:region, self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
     WEBSOCKET_API_ENDPOINT: !Join ['', ['https://', !Ref WebsocketsApi, '.execute-api.', '${opt:region, self:provider.region}', '.amazonaws.com/', '${opt:stage, self:provider.stage}/']]
   # Define the service IAM permissions
@@ -67,6 +70,9 @@ provider:
         - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_SOCKETS_TABLE}/index/${self:provider.environment.DYNAMODB_SOCKETS_USER_GSI}"
         - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TASKS_TABLE}"
         - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TASKS_TABLE}/index/${self:provider.environment.DYNAMODB_TASKS_USER_GSI}"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}"
+        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_CASE_INSTANCES_TABLE}"
 
 functions:
   # authUser:
@@ -201,7 +207,49 @@ resources:
               - AttributeName: userId
                 KeyType: HASH
             Projection:
-              ProjectionType: ALL              
+              ProjectionType: ALL
+    TaskDefinitionsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      # For a production deployment, you'd want to retain your DB
+      # in case of re-deployment or stack removal to avoid data loss.
+      # DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST    
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
+    CaseDefinitionsDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      # For a production deployment, you'd want to retain your DB
+      # in case of re-deployment or stack removal to avoid data loss.
+      # DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST    
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}
+    CaseInstancesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      # For a production deployment, you'd want to retain your DB
+      # in case of re-deployment or stack removal to avoid data loss.
+      # DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST    
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_CASE_INSTNACES_TABLE}
   # Outputs:
   #   CognitoUserPoolId:
   #     Value:
