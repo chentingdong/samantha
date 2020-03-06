@@ -2,6 +2,7 @@
 const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
+const uuid = require('uuid');
 
 const createCaseDefinition = async (event, context) => {  
   try {

@@ -251,6 +251,18 @@ functions:
           path: cases
           method: get
           cors: true
+  completeCase:
+    name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}
+    handler: handler.completeCase
+    events:
+      - http:
+          path: cases/{caseId}
+          method: patch
+          request:
+            parameters:
+              paths:
+                caseId: true
+          cors: true
   deleteCase:
     name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
     handler: handler.deleteCase
@@ -297,7 +309,7 @@ functions:
               paths:
                 caseId: true
                 taskId: true
-          cors: true          
+          cors: true
   listTasks:
     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
     handler: handler.listTasks
@@ -313,7 +325,28 @@ functions:
             parameters:
               paths:
                 caseId: true
-          cors: true           
+          cors: true
+  completeTask:
+    name: LAMBDA_${self:service}_http_complete_task_${self:provider.stage}
+    handler: handler.completeTask
+    events:
+      - http:
+          path: tasks/{taskId}/complete
+          method: patch
+          request:
+            parameters:
+              paths:
+                taskId: true
+          cors: true
+      - http:
+          path: cases/{caseId}/tasks/{taskId}/complete
+          method: patch
+          request:
+            parameters:
+              paths:
+                caseId: true
+                taskId: true
+          cors: true              
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
     handler: handler.deleteTask

@@ -154,6 +154,28 @@ class DynamoDbConnector {
     return await this._connector.scan(queryParams).promise();
   }
 
+  async updateCaseState(id, state) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
+      Key: { id },
+      UpdateExpression: 'set #state = :state',
+      ExpressionAttributeNames: {'#state' : 'state'},
+      ExpressionAttributeValues: {':state': state}
+    };
+    return await this._connector.update(params).promise();
+  }
+
+  async updateCaseData(id, data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
+      Key: { id },
+      UpdateExpression: 'set #data = :data',
+      ExpressionAttributeNames: {'#data' : 'data'},
+      ExpressionAttributeValues: {':data': data}
+    };
+    return await this._connector.update(params).promise();
+  }
+
   async deleteCase(id) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
@@ -206,14 +228,13 @@ class DynamoDbConnector {
     return await this._connector.query(queryParams).promise();
   }
 
-  async updateTask(id, data) {
+  async updateTaskState(id, state) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Key: { id },
-      UpdateExpression: 'set #data = :data',
-      ConditionExpression: '#a < :MAX',
-      ExpressionAttributeNames: {'#data' : 'data'},
-      ExpressionAttributeValues: {':data': data}
+      UpdateExpression: 'set #state = :state',
+      ExpressionAttributeNames: {'#state' : 'state'},
+      ExpressionAttributeValues: {':state': state}
     };
     return await this._connector.update(params).promise();
   }

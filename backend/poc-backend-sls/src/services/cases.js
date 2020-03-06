@@ -113,6 +113,45 @@ const listCases = async (event, context) => {
   }
 };
 
+const completeCase = async (event, context) => {  
+  try {
+    const params = event.pathParameters;
+    const id = params.caseId;
+    const state = 'Complete';
+
+    await dynamodbConnector.updateCaseState(
+      id,
+      state
+    );
+
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+      },
+      body: JSON.stringify({id, state})
+    };
+  } catch (err) {
+    const errMsg = 'Unable to complete case';
+    console.error(errMsg, err);
+    return {
+      statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+      },
+      body: JSON.stringify({errMsg})
+    }
+  }
+};
+
 const deleteCase = async (event, context) => {  
   try {
     const params = event.pathParameters;
@@ -154,5 +193,6 @@ module.exports = {
   createCase,
   getCase,
   listCases,
+  completeCase,
   deleteCase
 };
