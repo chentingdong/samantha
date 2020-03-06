@@ -2,7 +2,9 @@
 
 const aws = require('aws-sdk');
 const CONSTANTS = require('../constants');
+const uuid = require('uuid');
 
+// TODO: divide into multiple models
 class DynamoDbConnector {
   constructor() {
     this._connector = new aws.DynamoDB.DocumentClient(CONSTANTS.DYNAMODB_OPTIONS);
@@ -48,29 +50,224 @@ class DynamoDbConnector {
     return await this._connector.query(queryParams).promise();
   }
 
-  async createTask(taskId, userId, data) {
-    const socketParams = {
-      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
+  async createCaseDefinition(data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
       Item: {
-        taskId,
-        userId,
+        id: uuid.v4(),
         data
       }
     };
-    return await this._connector.put(socketParams).promise();
+    return await this._connector.put(params).promise();
   }
 
-  async getTask(taskId) {
+  async getCaseDefinition(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
+      Item: {
+        id
+      }
+    };
+    return await this._connector.get(params).promise();
+  }
+
+  async listCaseDefinitions() {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE
+    };
+    return await this._connector.scan(queryParams).promise();
+  }
+
+  async deleteCaseDefinition(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
+      Key: {
+        id
+      }
+    };
+    return await this._connector.delete(params).promise();
+  }
+
+  async createTaskDefinition(data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
+      Item: {
+        id: uuid.v4(),
+        data
+      }
+    };
+    return await this._connector.put(params).promise();
+  }
+
+  async getTaskDefinition(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
+      Item: {
+        id
+      }
+    };
+    return await this._connector.get(params).promise();
+  }
+
+  async listTaskDefinitions() {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE
+    };
+    return await this._connector.scan(queryParams).promise();
+  }
+
+  async deleteTaskDefinition(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASK_DEFINITION_TABLE,
+      Key: {
+        id
+      }
+    };
+    return await this._connector.delete(params).promise();
+  }
+
+  async createCase(data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
+      Item: {
+        id: uuid.v4(),
+        data
+      }
+    };
+    return await this._connector.put(params).promise();
+  }
+
+  async getCase(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
+      Key: {
+        id
+      }
+    };
+    return await this._connector.get(params).promise();
+  }
+
+  async listCases() {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE
+    };
+    return await this._connector.scan(queryParams).promise();
+  }
+
+  async deleteCase(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
+      Key: {
+        id
+      }
+    };
+    return await this._connector.delete(params).promise();
+  }
+
+  async createTaskInCase(caseId, data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
+      Item: {
+        id: uuid.v4(),
+        caseId,
+        data
+      }
+    };
+    return await this._connector.put(params).promise();
+  }
+
+  async getTask(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
+      Item: {
+        id
+      }
+    };
+    return await this._connector.get(params).promise();
+  }
+
+  async listTasks() {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE
+    };
+    return await this._connector.scan(queryParams).promise();
+  }
+     
+  async listTasksByCase(caseId) {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
-      KeyConditionExpression: 'taskId = :taskId',
+      IndexName: CONSTANTS.DYNAMODB_TASKS_ON_CASE_GSI,
+      KeyConditionExpression: 'caseId = :caseId',
       ExpressionAttributeValues: {
-        ':taskId': taskId
+        ':caseId': caseId
+      }     };
+    return await this._connector.query(queryParams).promise();
+  }
+
+  async updateTask(id, data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
+      Key: { id },
+      UpdateExpression: 'set #data = :data',
+      ConditionExpression: '#a < :MAX',
+      ExpressionAttributeNames: {'#data' : 'data'},
+      ExpressionAttributeValues: {':data': data}
+    };
+    return await this._connector.update(params).promise();
+  }
+
+  async deleteTask(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
+      Key: {
+        id
       }
+    };
+    return await this._connector.delete(params).promise();
+  }
+
+  async createCaseMessage(data) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
+      Item: {
+        id: uuid.v4(),
+        data
+      }
+    };
+    return await this._connector.put(params).promise();
+  }
+
+  async listCaseMessages() {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE
+    };
+    return await this._connector.scan(queryParams).promise();
+  }
+
+  async listCaseMessagesByCase(caseId) {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
+      IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_ON_CASE_GSI,
+      KeyConditionExpression: 'caseId = :caseId',
+      ExpressionAttributeValues: {
+        ':caseId': caseId
+      }      
     };
     return await this._connector.query(queryParams).promise();
   }
+
+  async deleteCaseMessage(id) {
+    const params = {
+      TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
+      Key: {
+        id
+      }
+    };
+    return await this._connector.delete(params).promise();
+  }
+
 }
+
 
 const DYNAMODB_CONNECTOR = new DynamoDbConnector();
 module.exports = DYNAMODB_CONNECTOR;

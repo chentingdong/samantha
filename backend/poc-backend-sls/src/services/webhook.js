@@ -47,7 +47,6 @@ const webhook = async (event, context) => {
     });
     const results = await Promise.all(promises);
 
-    // Let the API Gateway Websocket know everything went OK.
     return {
       statusCode: 200,
       headers: {
@@ -57,16 +56,14 @@ const webhook = async (event, context) => {
       body: 'Success.'
     };
   } catch (err) {
-    // Notify API Gateway Websocket in case of error, also log it on
-    // CloudWatch
-    console.error('Unable to handle interaction', err);
+    console.error('Unable to handle webhook', err);
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'text/plain',
         'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
       },
-      body: 'Unable to handle interaction.'
+      body: 'Unable to handle webhook.'
     }
   }
 };

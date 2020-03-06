@@ -1,31 +1,12 @@
 'use strict';
 
-// const {
-//     authUser,
-//     authWebsocket,
-//     refreshToken
-// } = require('./src/services/auth');
-
-const {
-    handleSocketInteraction
-} = require('./src/services/interaction');
-
-const {
-  webhook
-} = require('./src/services/webhook');
-
-const {
-    handleSocketDefault,
-  handleSocketConnect,
-  handleSocketDisconnect
-} = require('./src/services/websocket');
-
-// module.exports.authUser = authUser;
-// module.exports.authWebsocket = authWebsocket;
-// module.exports.refreshToken = refreshToken;
-
-module.exports.handleSocketConnect = handleSocketConnect;
-module.exports.handleSocketDisconnect = handleSocketDisconnect;
-module.exports.handleSocketDefault = handleSocketDefault;
-module.exports.handleSocketInteraction = handleSocketInteraction;
-module.exports.webhook = webhook;
+module.exports = {
+  ...require('./src/services/interaction'),
+  ...require('./src/services/webhook'),
+  ...require('./src/services/websocket'),
+  ...require('./src/services/case-definitions'),
+  ...require('./src/services/task-definitions'),
+  ...require('./src/services/cases'),
+  ...require('./src/services/tasks'),
+  ...require('./src/services/case-messages')
+}
