@@ -5,9 +5,11 @@ const CONSTANTS = require('../constants');
 
 const createTaskDefinition = async (event, context) => {  
   try {
+    const id = uuid.v4();
     const data = JSON.parse(event.body);
 
     const result = await dynamodbConnector.createTaskDefinition(
+      id,
       data
     );
 
@@ -20,7 +22,7 @@ const createTaskDefinition = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: JSON.stringify(data.Attributes)
+      body: JSON.stringify({id})
     };
   } catch (err) {
     const errMsg = 'Unable to create task definition';

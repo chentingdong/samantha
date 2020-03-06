@@ -4,7 +4,35 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch Serverless Offline",
+      "name": "createCase",
+      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
+      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
+      "args": [
+        "invoke",
+        "local",
+        "-f",
+        "createCase",
+        "--data",
+        "{\"body\": \"{\\\"c\\\":\\\"3\\\"}\"}"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "listCases",
+      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
+      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
+      "args": [
+        "invoke",
+        "local",
+        "-f",
+        "listCases"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "getCase",
       "cwd": "${workspaceRoot}/backend/poc-backend-sls",
       "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
       "args": [
@@ -13,8 +41,8 @@
         "-f",
         "getCase",
         "--data",
-        "{\"pathParameters\":{\"id\":\"123456\"}}"
+        "{\"pathParameters\":{\"id\":\"aa669d1f-aaa1-4b6c-ae4e-fa93040870e3\"}}"
       ]
-    }
+    }        
   ]
 }

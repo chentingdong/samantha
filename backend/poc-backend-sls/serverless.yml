@@ -332,6 +332,10 @@ functions:
       - http:
           path: case-messages
           method: get
+          request:
+            parameters:
+              querystrings:
+                case-id: false
           cors: true
   deleteCaseMessage:
     name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}

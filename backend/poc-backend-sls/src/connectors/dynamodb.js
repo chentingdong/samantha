@@ -2,7 +2,6 @@
 
 const aws = require('aws-sdk');
 const CONSTANTS = require('../constants');
-const uuid = require('uuid');
 
 // TODO: divide into multiple models
 class DynamoDbConnector {
@@ -50,11 +49,11 @@ class DynamoDbConnector {
     return await this._connector.query(queryParams).promise();
   }
 
-  async createCaseDefinition(data) {
+  async createCaseDefinition(id, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
       Item: {
-        id: uuid.v4(),
+        id,
         data
       }
     };
@@ -88,11 +87,11 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createTaskDefinition(data) {
+  async createTaskDefinition(id, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
       Item: {
-        id: uuid.v4(),
+        id,
         data
       }
     };
@@ -126,11 +125,11 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createCase(data) {
+  async createCase(id, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Item: {
-        id: uuid.v4(),
+        id,
         data
       }
     };
@@ -164,11 +163,11 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createTaskInCase(caseId, data) {
+  async createTaskInCase(id, caseId, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Item: {
-        id: uuid.v4(),
+        id,
         caseId,
         data
       }
@@ -226,11 +225,11 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createCaseMessage(data) {
+  async createCaseMessage(id, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       Item: {
-        id: uuid.v4(),
+        id,
         data
       }
     };

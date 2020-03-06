@@ -5,9 +5,11 @@ const CONSTANTS = require('../constants');
 
 const createCaseDefinition = async (event, context) => {  
   try {
+    const id = uuid.v4();
     const data = JSON.parse(event.body);
 
     const result = await dynamodbConnector.createCaseDefinition(
+      id,
       data
     );
 
@@ -17,7 +19,7 @@ const createCaseDefinition = async (event, context) => {
         'Content-Type': 'text/plain',
         'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
       },
-      body: JSON.stringify(data.Attributes)
+      body: JSON.stringify({id})
     };
   } catch (err) {
     const errMsg = 'Unable to create case definition';

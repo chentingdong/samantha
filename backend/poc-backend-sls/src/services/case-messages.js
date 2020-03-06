@@ -5,9 +5,11 @@ const CONSTANTS = require('../constants');
 
 const createCaseMessage = async (event, context) => {  
   try {
+    const id = uuid.v4();
     const data = JSON.parse(event.body);
 
     const result = await dynamodbConnector.createCaseMessage(
+      id,
       data
     );
 
@@ -20,7 +22,7 @@ const createCaseMessage = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: JSON.stringify(data.Attributes)
+      body: JSON.stringify({id})
     };
   } catch (err) {
     const errMsg = 'Unable to create case message';
@@ -78,8 +80,13 @@ const getCaseMessage = async (event, context) => {
 
 const listCaseMessages = async (event, context) => {  
   try {
-    const result = await dynamodbConnector.listCaseMessages();
-
+    var result = {};
+    const params = event.queryStringParameters;
+    if (params && 'case-id' in params) {
+      result = await dynamodbConnector.listCaseMessagesByCase(params['case-id']);
+    } else {
+      result = await dynamodbConnector.listCaseMessages();
+    }
     return {
       statusCode: 200,
       headers: {
