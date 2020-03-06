@@ -14,7 +14,7 @@ const webhook = async (event, context) => {
     const taskId = data.taskId;
     let tasks = [];
     try {
-      tasks = await dynamodbConnector.findTask(
+      tasks = await dynamodbConnector.getTask(
         taskId
       );
       if (tasks.Items.length < 1) {
@@ -26,7 +26,7 @@ const webhook = async (event, context) => {
     }
 
     const task = tasks.Items[0];
-    const sockets = await dynamodbConnector.findSocketsByUser(task.userId);
+    const sockets = await dynamodbConnector.listSocketsByUser(task.userId);
     console.log(JSON.stringify(sockets));
     const promises = [];
     sockets.Items.forEach(function (item) {

@@ -4,7 +4,7 @@ const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 
-const defaultSocketHandler = async (event, context) => {
+const handleSocketDefault = async (event, context) => {
   try {
     const data = JSON.parse(event.body);
     const action = data.action;
@@ -49,7 +49,7 @@ const handleSocketConnect = async (event, context) => {
 
     const connectionId = event.requestContext.connectionId;
 
-    await dynamodbConnector.registerSocket(connectionId, userId);
+    await dynamodbConnector.createSocket(connectionId, userId);
 
     return {
       statusCode: 200,
@@ -76,7 +76,7 @@ const handleSocketDisconnect = async (event, context) => {
   try {
     const connectionId = event.requestContext.connectionId;
 
-    await dynamodbConnector.removeSocket(connectionId);
+    await dynamodbConnector.deleteSocket(connectionId);
 
     return {
       statusCode: 200,
@@ -100,7 +100,7 @@ const handleSocketDisconnect = async (event, context) => {
 };
 
 module.exports = {
-  defaultSocketHandler,
+  handleSocketDefault,
   handleSocketConnect,
   handleSocketDisconnect
 };

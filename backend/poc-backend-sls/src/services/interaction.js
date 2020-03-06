@@ -5,7 +5,7 @@ const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 const uuidv4 = require('uuid/v4');
 
-const interaction = async (event, context) => {
+const handleSocketInteraction = async (event, context) => {
   try {
     // userId should be from Cognito
     const userId = '123';
@@ -17,7 +17,7 @@ const interaction = async (event, context) => {
     const taskData = data.task;
     const taskId = uuidv4();
     try {
-      await dynamodbConnector.addTask(
+      await dynamodbConnector.createTask(
         taskId,
         userId,
         taskData
@@ -66,5 +66,5 @@ const interaction = async (event, context) => {
 };
 
 module.exports = {
-  interaction
+  handleSocketInteraction
 };

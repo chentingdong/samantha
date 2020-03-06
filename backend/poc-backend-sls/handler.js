@@ -7,7 +7,7 @@
 // } = require('./src/services/auth');
 
 const {
-  interaction
+    handleSocketInteraction
 } = require('./src/services/interaction');
 
 const {
@@ -15,7 +15,7 @@ const {
 } = require('./src/services/webhook');
 
 const {
-  defaultSocketHandler,
+    handleSocketDefault,
   handleSocketConnect,
   handleSocketDisconnect
 } = require('./src/services/websocket');
@@ -26,6 +26,6 @@ const {
 
 module.exports.handleSocketConnect = handleSocketConnect;
 module.exports.handleSocketDisconnect = handleSocketDisconnect;
-module.exports.defaultSocketHandler = defaultSocketHandler;
-module.exports.interaction = interaction;
+module.exports.handleSocketDefault = handleSocketDefault;
+module.exports.handleSocketInteraction = handleSocketInteraction;
 module.exports.webhook = webhook;

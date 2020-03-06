@@ -27,7 +27,7 @@ class ApiGatewayConnector {
       console.error('Unable to generate socket message', error);
       if (error.statusCode === 410) {
         console.log(`Removing stale connector ${connectionId}`);
-        await dynamodbConnector.removeSocket(connectionId);
+        await dynamodbConnector.deleteSocket(connectionId);
       }
     }
   }

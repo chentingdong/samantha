@@ -12,7 +12,7 @@ class DynamoDbConnector {
     return this._connector;
   }
 
-  async registerSocket(connectionId, userId) {
+  async createSocket(connectionId, userId) {
     const socketParams = {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
       Item: {
@@ -24,7 +24,7 @@ class DynamoDbConnector {
     return await this._connector.put(socketParams).promise();
   }
 
-  async removeSocket(connectionId) {
+  async deleteSocket(connectionId) {
     const socketParams = {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
       Key: {
@@ -35,7 +35,7 @@ class DynamoDbConnector {
     return await this._connector.delete(socketParams).promise();
   }
 
-  async findSocketsByUser(userId) {
+  async listSocketsByUser(userId) {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
       IndexName: CONSTANTS.DYNAMODB_SOCKETS_USER_GSI,
@@ -48,7 +48,7 @@ class DynamoDbConnector {
     return await this._connector.query(queryParams).promise();
   }
 
-  async addTask(taskId, userId, data) {
+  async createTask(taskId, userId, data) {
     const socketParams = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Item: {
@@ -60,7 +60,7 @@ class DynamoDbConnector {
     return await this._connector.put(socketParams).promise();
   }
 
-  async findTask(taskId) {
+  async getTask(taskId) {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       KeyConditionExpression: 'taskId = :taskId',
