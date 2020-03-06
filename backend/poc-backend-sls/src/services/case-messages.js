@@ -44,7 +44,7 @@ const createCaseMessage = async (event, context) => {
 const getCaseMessage = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.caseMessageId;
     // case is a keyword...
     const result = await dynamodbConnector.getCaseMessage(
       id
@@ -118,7 +118,7 @@ const listCaseMessages = async (event, context) => {
 const deleteCaseMessage = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.caseMessageId;
     // case is a keyword...
     await dynamodbConnector.deleteCaseMessage(
       id

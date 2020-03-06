@@ -125,11 +125,12 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createCase(id, data) {
+  async createCase(id, state, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Item: {
         id,
+        state,
         data
       }
     };
@@ -163,12 +164,13 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createTaskInCase(id, caseId, data) {
+  async createTaskInCase(id, caseId, state, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Item: {
         id,
         caseId,
+        state,
         data
       }
     };

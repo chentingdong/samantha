@@ -44,7 +44,7 @@ const createTaskDefinition = async (event, context) => {
 const getTaskDefinition = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.taskDefinitionId;
     // case is a keyword...
     const result = await dynamodbConnector.getTaskDefinition(
       id
@@ -113,7 +113,7 @@ const listTaskDefinitions = async (event, context) => {
 const deleteTaskDefinition = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.taskDefinitionId;
     // case is a keyword...
     await dynamodbConnector.deleteTaskDefinition(
       id

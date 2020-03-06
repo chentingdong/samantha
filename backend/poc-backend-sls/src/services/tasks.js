@@ -6,14 +6,15 @@ const CONSTANTS = require('../constants');
 const createTask = async (event, context) => {  
   try {
     const id = uuid.v4();
+    const state = 'Active';    
     const params = event.pathParameters;
-    const caseId = params['case-id'];
-
+    const caseId = params.caseId;
     const data = JSON.parse(event.body);
 
-    await dynamodbConnector.createTask(
+    await dynamodbConnector.createTaskInCase(
       id,
       caseId,
+      state,
       data
     );
 
@@ -26,7 +27,7 @@ const createTask = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: JSON.stringify({id})
+      body: JSON.stringify({id, state})
     };
   } catch (err) {
     const errMsg = 'Unable to create task';
@@ -48,7 +49,7 @@ const createTask = async (event, context) => {
 const getTask = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.taskId;
     // task is a keyword...
     const result = await dynamodbConnector.getTask(
       id
@@ -86,8 +87,8 @@ const listTasks = async (event, context) => {
   try {
     var result = {};
     const params = event.pathParameters;
-    if (params && 'case-id' in params) {
-      result = await dynamodbConnector.listTasksByCase(params['case-id']);
+    if (params && 'caseId' in params) {
+      result = await dynamodbConnector.listTasksByCase(params.caseId);
     } else {
       result = await dynamodbConnector.listTasks();
     }
@@ -123,7 +124,7 @@ const listTasks = async (event, context) => {
 const deleteTask = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.taskId;
     // task is a keyword...
     await dynamodbConnector.deleteTask(
       id

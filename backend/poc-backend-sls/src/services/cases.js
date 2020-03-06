@@ -7,10 +7,12 @@ const uuid = require('uuid');
 const createCase = async (event, context) => {  
   try {
     const id = uuid.v4();
+    const state = 'Active';
     const data = JSON.parse(event.body);
 
     await dynamodbConnector.createCase(
       id,
+      state,
       data
     );
 
@@ -23,7 +25,7 @@ const createCase = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: JSON.stringify({id})
+      body: JSON.stringify({id, state})
     };
   } catch (err) {
     const errMsg = 'Unable to create case';
@@ -45,7 +47,7 @@ const createCase = async (event, context) => {
 const getCase = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.caseId;
     // case is a keyword...
     const result = await dynamodbConnector.getCase(
       id
@@ -114,7 +116,7 @@ const listCases = async (event, context) => {
 const deleteCase = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.caseId;
     // case is a keyword...
     await dynamodbConnector.deleteCase(
       id
