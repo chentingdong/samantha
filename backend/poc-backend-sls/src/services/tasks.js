@@ -1,24 +1,15 @@
 'use strict';
-
 const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 
-const handleSocketDefault = async (event, context) => {
+const createTask = async (event, context) => {  
   try {
     const data = JSON.parse(event.body);
-    const action = data.action;
 
-    const connectionId = event.requestContext.connectionId;
-    switch (action) {
-      case 'PING':
-        const pingResponse = JSON.stringify({ action: 'PING', value: 'PONG' });
-        await apigatewayConnector.generateSocketMessage(connectionId, pingResponse);
-        break;
-      default:
-        const invalidResponse = JSON.stringify({ action: 'ERROR', error: 'Invalid request' });
-        await apigatewayConnector.generateSocketMessage(connectionId, invalidResponse);
-    }
+    const result = await dynamodbConnector.createTask(
+      data
+    );
 
     return {
       statusCode: 200,
@@ -29,10 +20,11 @@ const handleSocketDefault = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Default socket response.'
+      body: JSON.stringify(data.Attributes)
     };
   } catch (err) {
-    console.error('Unable to generate default response', err);
+    const errMsg = 'Unable to create task';
+    console.error(errMsg, err);
     return {
       statusCode: 500,
       headers: {
@@ -42,20 +34,19 @@ const handleSocketDefault = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Default socket response error.'
+      body: JSON.stringify({errMsg})
     }
   }
 };
 
-const handleSocketConnect = async (event, context) => {
+const getTask = async (event, context) => {  
   try {
-
-    // userId should be from Cognito
-    const userId = '123';
-
-    const connectionId = event.requestContext.connectionId;
-
-    await dynamodbConnector.createSocket(connectionId, userId);
+    const params = event.pathParameters;
+    const id = params.id;
+    // task is a keyword...
+    const result = await dynamodbConnector.getTask(
+      id
+    );
 
     return {
       statusCode: 200,
@@ -66,10 +57,11 @@ const handleSocketConnect = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Socket successfully registered.'
+      body: JSON.stringify(result.Item)
     };
   } catch (err) {
-    console.error('Unable to initialize socket connection', err);
+    const errMsg = 'Unable to get task';
+    console.error(errMsg, err);
     return {
       statusCode: 500,
       headers: {
@@ -79,16 +71,14 @@ const handleSocketConnect = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Unable to register socket.'
+      body: JSON.stringify({errMsg})
     }
   }
 };
 
-const handleSocketDisconnect = async (event, context) => {
+const listTasks = async (event, context) => {  
   try {
-    const connectionId = event.requestContext.connectionId;
-
-    await dynamodbConnector.deleteSocket(connectionId);
+    const result = await dynamodbConnector.listTasks();
 
     return {
       statusCode: 200,
@@ -99,10 +89,11 @@ const handleSocketDisconnect = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Socket successfully terminated.'
+      body: JSON.stringify(result.Items)
     };
   } catch (err) {
-    console.error('Unable to terminate socket connection', err);
+    const errMsg = 'Unable to list tasks';
+    console.error(errMsg, err);
     return {
       statusCode: 500,
       headers: {
@@ -112,13 +103,51 @@ const handleSocketDisconnect = async (event, context) => {
         'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
         'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Unable to terminate socket.'
+      body: JSON.stringify({errMsg})
+    }
+  }
+};
+
+const deleteTask = async (event, context) => {  
+  try {
+    const params = event.pathParameters;
+    const id = params.id;
+    // task is a keyword...
+    await dynamodbConnector.deleteTask(
+      id
+    );
+
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+      },
+      body: 'Deleted'
+    };
+  } catch (err) {
+    const errMsg = 'Unable to delete task';
+    console.error(errMsg, err);
+    return {
+      statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+      },
+      body: JSON.stringify({errMsg})
     }
   }
 };
 
 module.exports = {
-  handleSocketDefault,
-  handleSocketConnect,
-  handleSocketDisconnect
+  createTask,
+  getTask,
+  listTasks,
+  deleteTask
 };

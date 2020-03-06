@@ -27,28 +27,31 @@ provider:
   name: aws
   memorySize: 256
   runtime: nodejs12.x
-  region: us-east-1
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
   # API GW Websocket specific configuration
-  websocketsApiName: ${self:service}-apigw-websocket-${opt:stage, self:provider.stage}
+  websocketsApiName: ${self:service}-apigw-websocket-${self:provider.stage}
   # Custom routes are selected by the value of the action property in the body
   websocketsApiRouteSelectionExpression: $request.body.action
   # DynamoDB table name, as composed with parameters from this definition file
   environment:
-    ENVIRONMENT: ${opt:stage, self:provider.stage}
+    ENVIRONMENT: ${self:provider.stage}
     # COGNITO_USER_POOL:
     #   Ref: CognitoUserPool
     # COGNITO_USER_POOL_CLIENT:
     #   Ref: CognitoUserPoolClient
     CORS_ORIGIN: ${self:custom.corsOrigin}
-    DYNAMODB_SOCKETS_TABLE: ${self:service}-sockets-${opt:stage, self:provider.stage}
-    DYNAMODB_SOCKETS_USER_GSI: ${self:service}-sockets-user-gsi-${opt:stage, self:provider.stage}
-    DYNAMODB_TASKS_TABLE: ${self:service}-tasks-${opt:stage, self:provider.stage}
-    DYNAMODB_TASKS_USER_GSI: ${self:service}-tasks-user-gsi-${opt:stage, self:provider.stage}
-    DYNAMODB_TASK_DEFINITIONS_TABLE: ${self:service}-task-definitions-${opt:stage, self:provider.stage}
-    DYNAMODB_CASE_DEFINITIONS_TABLE: ${self:service}-case-definitions-${opt:stage, self:provider.stage}
-    DYNAMODB_CASE_INSTANCES_TABLE: ${self:service}-case-instances-${opt:stage, self:provider.stage}
-    # KEYS_URL: !Join ['', ['https://cognito-idp.', '${opt:region, self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
-    WEBSOCKET_API_ENDPOINT: !Join ['', ['https://', !Ref WebsocketsApi, '.execute-api.', '${opt:region, self:provider.region}', '.amazonaws.com/', '${opt:stage, self:provider.stage}/']]
+    DYNAMODB_SOCKETS_TABLE: ${self:service}-sockets-${self:provider.stage}
+    DYNAMODB_SOCKETS_USER_GSI: ${self:service}-sockets-user-gsi-${self:provider.stage}
+    DYNAMODB_CASE_DEFINITIONS_TABLE: ${self:service}-case-definitions-${self:provider.stage}
+    DYNAMODB_TASK_DEFINITIONS_TABLE: ${self:service}-task-definitions-${self:provider.stage}
+    DYNAMODB_CASES_TABLE: ${self:service}-cases-${self:provider.stage}
+    DYNAMODB_TASKS_TABLE: ${self:service}-tasks-${self:provider.stage}
+    DYNAMODB_TASKS_ON_CASE_GSI: ${self:service}-tasks-on-case-gsi-${self:provider.stage}
+    DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-task-messages-${self:provider.stage}
+    DYNAMODB_CASE_MESSAGES_ON_CASE_GSI: ${self:service}-case-messages-on-case-gsi-${self:provider.stage}
+    # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
+    WEBSOCKET_API_ENDPOINT: !Join ['', ['https://', !Ref WebsocketsApi, '.execute-api.', '${self:provider.region}', '.amazonaws.com/', '${self:provider.stage}/']]
   # Define the service IAM permissions
   iamRoleStatements:
     # Websocket permissions
@@ -56,7 +59,7 @@ provider:
       Action:
         - "execute-api:ManageConnections"
       Resource:
-        - "arn:aws:execute-api:${opt:region, self:provider.region}:*:**/@connections/*"
+        - "arn:aws:execute-api:${self:provider.region}:*:**/@connections/*"
     - Effect: Allow
       Action:
         - dynamodb:Query
@@ -66,17 +69,12 @@ provider:
         - dynamodb:UpdateItem
         - dynamodb:DeleteItem
       Resource:
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_SOCKETS_TABLE}"
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_SOCKETS_TABLE}/index/${self:provider.environment.DYNAMODB_SOCKETS_USER_GSI}"
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TASKS_TABLE}"
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TASKS_TABLE}/index/${self:provider.environment.DYNAMODB_TASKS_USER_GSI}"
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}"
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}"
-        - "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_CASE_INSTANCES_TABLE}"
+        # TODO: be more specific to this service
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 functions:
   # authUser:
-  #   name: LAMBDA_${self:custom.user}_${self:service}_auth_${opt:stage, self:provider.stage}
+  #   name: LAMBDA_${self:service}_auth_${self:provider.stage}
   #   handler: handler.authUser
   #   events:
   #     - http:
@@ -85,24 +83,27 @@ functions:
   #         cors:
   #           origin: ${self:custom.corsOrigin}
   # authWebsocket:
-  #   name: LAMBDA_${self:custom.user}_${self:service}_auth_websocket_${opt:stage, self:provider.stage}
+  #   name: LAMBDA_${self:service}_auth_websocket_${self:provider.stage}
   #   handler: handler.authWebsocket
   #   cors:
   #     origin: ${self:custom.corsOrigin}
-  defaultSocketHandler:
-    name: LAMBDA_${self:custom.user}_${self:service}_socket_default_${opt:stage, self:provider.stage}
-    handler: handler.defaultSocketHandler
+  # refreshToken:
+  #   name: LAMBDA_${self:service}_auth_refresh_${self:provider.stage}
+  #   handler: handler.refreshToken
+  #   events:
+  #     - http:
+  #         path: auth/refresh
+  #         method: post
+  #         cors:
+  #           origin: ${self:custom.corsOrigin}
+  handleSocketDefault:
+    name: LAMBDA_${self:service}_socket_default_${self:provider.stage}
+    handler: handler.handleSocketDefault
     events:
       - websocket:
           route: $default
-  interaction:
-    name: LAMBDA_${self:custom.user}_${self:service}_socket_interaction_${opt:stage, self:provider.stage}
-    handler: handler.interaction
-    events:
-      - websocket:
-          route: interaction
   handleSocketConnect:
-    name: LAMBDA_${self:custom.user}_${self:service}_socket_connect_${opt:stage, self:provider.stage}
+    name: LAMBDA_${self:service}_socket_connect_${self:provider.stage}
     handler: handler.handleSocketConnect
     events:
       - websocket:
@@ -114,30 +115,236 @@ functions:
           #   identitySource:
           #     - 'route.request.querystring.Authorizer'
   handleSocketDisconnect:
-    name: LAMBDA_${self:custom.user}_${self:service}_socket_disconnect_${opt:stage, self:provider.stage}
+    name: LAMBDA_${self:service}_socket_disconnect_${self:provider.stage}
     handler: handler.handleSocketDisconnect
     events:
       - websocket:
           route: $disconnect
-  # refreshToken:
-  #   name: LAMBDA_${self:custom.user}_${self:service}_auth_refresh_${opt:stage, self:provider.stage}
-  #   handler: handler.refreshToken
-  #   events:
-  #     - http:
-  #         path: auth/refresh
-  #         method: post
-  #         cors:
-  #           origin: ${self:custom.corsOrigin}
+  handleSocketInteraction:
+    name: LAMBDA_${self:service}_socket_interaction_${self:provider.stage}
+    handler: handler.handleSocketDefault
+    events:
+      - websocket:
+          route: interaction
+
   webhook:
-    name: LAMBDA_${self:custom.user}_${self:service}_http_webhook_${opt:stage, self:provider.stage}
+    name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
     handler: handler.webhook
     events:
       - http:
           path: webhook
           method: post
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
+  createCaseDefinition:
+    name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
+    handler: handler.createCaseDefinition
+    events:
+      - http:
+          path: case-definitions
+          method: post
+          cors:
+            origin: ${self:custom.corsOrigin} 
+  getCaseDefinition:
+    name: LAMBDA_${self:service}_http_get_case_definition_${self:provider.stage}
+    handler: handler.getCaseDefinition
+    events:
+      - http:
+          path: case-definitions/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+  listCaseDefinitions:
+    name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
+    handler: handler.listCaseDefinitions
+    events:
+      - http:
+          path: case-definitions
+          method: get
+          cors: true
+  deleteCaseDefinition:
+    name: LAMBDA_${self:service}_http_delete_case_definition_${self:provider.stage}
+    handler: handler.deleteCaseDefinition
+    events:
+      - http:
+          path: case-definitions/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+
+  createTaskDefinition:
+    name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
+    handler: handler.createTaskDefinition
+    events:
+      - http:
+          path: task-definitions
+          method: post
+          cors:
+            origin: ${self:custom.corsOrigin} 
+  getTaskDefinition:
+    name: LAMBDA_${self:service}_http_get_task_definition_${self:provider.stage}
+    handler: handler.getTaskDefinition
+    events:
+      - http:
+          path: task-definitions/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+  listTaskDefinitions:
+    name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
+    handler: handler.listTaskDefinitions
+    events:
+      - http:
+          path: task-definitions
+          method: get
+          cors: true
+  deleteTaskDefinition:
+    name: LAMBDA_${self:service}_http_delete_task_definition_${self:provider.stage}
+    handler: handler.deleteTaskDefinition
+    events:
+      - http:
+          path: task-definitions/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+
+  createCase:
+    name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
+    handler: handler.createCase
+    events:
+      - http:
+          path: cases
+          method: post
+          cors:
+            origin: ${self:custom.corsOrigin} 
+  getCase:
+    name: LAMBDA_${self:service}_http_get_case_${self:provider.stage}
+    handler: handler.getCase
+    events:
+      - http:
+          path: cases/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+  listCases:
+    name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
+    handler: handler.listCases
+    events:
+      - http:
+          path: cases
+          method: get
+          cors: true
+  deleteCase:
+    name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
+    handler: handler.deleteCase
+    events:
+      - http:
+          path: cases/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+
+  createTask:
+    name: LAMBDA_${self:service}_http_create_task_${self:provider.stage}
+    handler: handler.createTask
+    events:
+      - http:
+          path: tasks
+          method: post
+          cors:
+            origin: ${self:custom.corsOrigin} 
+  getTask:
+    name: LAMBDA_${self:service}_http_get_task_${self:provider.stage}
+    handler: handler.getTask
+    events:
+      - http:
+          path: tasks/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+  listTasks:
+    name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
+    handler: handler.listTasks
+    events:
+      - http:
+          path: tasks
+          method: get
+          cors: true
+  deleteTask:
+    name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
+    handler: handler.deleteTask
+    events:
+      - http:
+          path: tasks/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+
+  createCaseMessage:
+    name: LAMBDA_${self:service}_http_create_case_message_${self:provider.stage}
+    handler: handler.createCaseMessage
+    events:
+      - http:
+          path: case-messages
+          method: post
+          cors:
+            origin: ${self:custom.corsOrigin} 
+  getCaseMessage:
+    name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
+    handler: handler.getCaseMessage
+    events:
+      - http:
+          path: case-messages/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
+  listCaseMessages:
+    name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
+    handler: handler.listCaseMessages
+    events:
+      - http:
+          path: case-messages
+          method: get
+          cors: true
+  deleteCaseMessage:
+    name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
+    handler: handler.deleteCaseMessage
+    events:
+      - http:
+          path: case-messages/{id}
+          method: delete
+          request:
+            parameters:
+              paths:
+                id: true
+          cors: true
 
 resources:
   Resources:
@@ -147,7 +354,7 @@ resources:
     #     AliasAttributes:
     #       - preferred_username
     #     MfaConfiguration: OFF
-    #     UserPoolName: ${self:service}-cognito-${opt:stage, self:provider.stage}
+    #     UserPoolName: ${self:service}-cognito-${self:provider.stage}
     #     Policies:
     #       PasswordPolicy:
     #         MinimumLength: 6
@@ -158,7 +365,7 @@ resources:
     # CognitoUserPoolClient:
     #   Type: "AWS::Cognito::UserPoolClient"
     #   Properties:
-    #     ClientName: ${self:service}-cognito-client-${opt:stage, self:provider.stage}
+    #     ClientName: ${self:service}-cognito-client-${self:provider.stage}
     #     GenerateSecret: False
     #     UserPoolId:
     #       Ref: CognitoUserPool
@@ -185,43 +392,6 @@ resources:
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
-    TasksDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: taskId
-            AttributeType: S
-          - AttributeName: userId
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
-        KeySchema:
-          - AttributeName: taskId
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_TASKS_TABLE}
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.DYNAMODB_TASKS_USER_GSI}
-            KeySchema:
-              - AttributeName: userId
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
-    TaskDefinitionsDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
     CaseDefinitionsDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # For a production deployment, you'd want to retain your DB
@@ -236,7 +406,7 @@ resources:
           - AttributeName: id
             KeyType: HASH
         TableName: ${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}
-    CaseInstancesDynamoDbTable:
+    TaskDefinitionsDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # For a production deployment, you'd want to retain your DB
       # in case of re-deployment or stack removal to avoid data loss.
@@ -249,7 +419,68 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_CASE_INSTNACES_TABLE}
+        TableName: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
+    CasesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      # For a production deployment, you'd want to retain your DB
+      # in case of re-deployment or stack removal to avoid data loss.
+      # DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST    
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_CASES_TABLE}
+    TasksDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      # For a production deployment, you'd want to retain your DB
+      # in case of re-deployment or stack removal to avoid data loss.
+      # DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: caseId
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST    
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_TASKS_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_CASE_GSI}
+            KeySchema:
+              - AttributeName: caseId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+    CaseMessagesDynamoDbTable:
+      Type: 'AWS::DynamoDB::Table'
+      # For a production deployment, you'd want to retain your DB
+      # in case of re-deployment or stack removal to avoid data loss.
+      # DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: caseId
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST    
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        TableName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_ON_CASE_GSI}
+            KeySchema:
+              - AttributeName: caseId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+
   # Outputs:
   #   CognitoUserPoolId:
   #     Value:

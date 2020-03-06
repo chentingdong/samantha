@@ -14,7 +14,7 @@ const webhook = async (event, context) => {
     const taskId = data.taskId;
     let tasks = [];
     try {
-      tasks = await dynamodbConnector.findTask(
+      tasks = await dynamodbConnector.getTask(
         taskId
       );
       if (tasks.Items.length < 1) {
@@ -26,7 +26,7 @@ const webhook = async (event, context) => {
     }
 
     const task = tasks.Items[0];
-    const sockets = await dynamodbConnector.findSocketsByUser(task.userId);
+    const sockets = await dynamodbConnector.listSocketsByUser(task.userId);
     console.log(JSON.stringify(sockets));
     const promises = [];
     sockets.Items.forEach(function (item) {
@@ -47,26 +47,29 @@ const webhook = async (event, context) => {
     });
     const results = await Promise.all(promises);
 
-    // Let the API Gateway Websocket know everything went OK.
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Success.'
     };
   } catch (err) {
-    // Notify API Gateway Websocket in case of error, also log it on
-    // CloudWatch
-    console.error('Unable to handle interaction', err);
+    console.error('Unable to handle webhook', err);
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: 'Unable to handle interaction.'
+      body: 'Unable to handle webhook.'
     }
   }
 };

@@ -5,7 +5,7 @@ const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 const uuidv4 = require('uuid/v4');
 
-const interaction = async (event, context) => {
+const handleSocketInteraction = async (event, context) => {
   try {
     // userId should be from Cognito
     const userId = '123';
@@ -17,7 +17,7 @@ const interaction = async (event, context) => {
     const taskData = data.task;
     const taskId = uuidv4();
     try {
-      await dynamodbConnector.addTask(
+      await dynamodbConnector.createTask(
         taskId,
         userId,
         taskData
@@ -45,8 +45,11 @@ const interaction = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Success.'
     };
@@ -57,8 +60,11 @@ const interaction = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Unable to handle interaction.'
     }
@@ -66,5 +72,5 @@ const interaction = async (event, context) => {
 };
 
 module.exports = {
-  interaction
+  handleSocketInteraction
 };

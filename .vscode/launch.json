@@ -11,9 +11,9 @@
         "invoke",
         "local",
         "-f",
-        "webhook",
+        "getCase",
         "--data",
-        "{}"
+        "{\"pathParameters\":{\"id\":\"123456\"}}"
       ]
     }
   ]
