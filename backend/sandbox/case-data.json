@@ -5,37 +5,28 @@
   "caseFile": {
     "messages": []
   },
-  "state": "todo||active||canceled||completed",
+  "state": "pending",
   "casePlanModel": {
     "planItems": [
       {
         "id": "1",
+        "dependsOn": "",
         "name": "choose form",
-        "type": "human task",
-        "dueDate": "2020/02/28",
-        "followUpDuration": "1 day",
-        "assignment": "employee group 1",
-        "state": "todo||active||canceled||completed",
-        "forms": [
-          "form1.html",
-          "form2.html"
-        ]
+        "dueDate": "2020/03/30",
+        "followUpDays": "1",
+        "assignee": "baiji",
+        "state": "pending",
+        "formUrl": ""
       },
       {
         "id": "2",
-        "name": "approval",
-        "type": "human task",        
-        "assignment": "employee group 2",
-        "state": "todo||active||canceled||completed",
-        "entryCriterions": [
-          {
-            "onParts": [{
-              "planItemId": "1",
-              "state": "complete"
-            }],
-            "ifPart": "{{expression}}"
-          }
-        ]
+        "name": "choose form",
+        "dependsOn": "1",
+        "dueDate": "2020/03/30",
+        "followUpDays": "1",
+        "assignee": "baiji",
+        "state": "pending",
+        "formUrl": ""
       }
     ]
   }

@@ -13,4 +13,16 @@ function formatDate (date) {
 
   return monthNames[monthIndex] + ' ' + day + ', ' + year;
 }
-export {formatDate}
+
+function textStateColorClassName ( state ) {
+  let colorClass = ''
+  switch ( state ) {
+    case 'pending': colorClass = 'text-primary'; break;
+    case 'active': colorClass = 'text-success'; break;
+    case 'complete': colorClass = 'text-dark'; break;
+    default: colorClass = 'text-secondary';
+  }
+  return colorClass;
+}
+
+export { formatDate, textStateColorClassName}

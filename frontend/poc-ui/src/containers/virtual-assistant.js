@@ -70,6 +70,7 @@ function VirtualAssistant (props) {
     // TODO: /GET /case-messages?case-id={currentCaseId}
     let resp = [initialMessage]
 
+    console.log(JSON.stringify(resp))
     setMessages(resp)
   }
 
@@ -81,8 +82,12 @@ function VirtualAssistant (props) {
     sendButton: {
       position: 'absolute',
       right: '0.5em',
-      bottom: '0.4em',
-      fontSize: '1.5em'
+      bottom: '0.5em'
+    },
+    inputMessage: {
+      fontSize: '1.1em',
+      border: '1px solid #999999',
+      borderRadius: '5px'
     }
   }
 
@@ -119,7 +124,8 @@ function VirtualAssistant (props) {
       />
       <div className="fixed-bottom m-1">
         <DebounceInput
-          className="col-12 input-message"
+          className="col-12"
+          style={style.inputMessage}
           minLength={2}
           debounceTimeout={100}
           autoFocus={true}

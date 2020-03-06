@@ -5,7 +5,7 @@ import { useFormFields } from '../libs/custom-hooks';
 import LoaderButton from './loader-button';
 import { formatDate } from '../libs/custom-functions';
 
-function CreateApprovalTaskForm ( props ) {
+function CreateApprovalTask ( props ) {
   // TODO: cognito user api
   const assigneeList = [
     { name: 'Baiji', id: 'Baiji' },
@@ -16,7 +16,7 @@ function CreateApprovalTaskForm ( props ) {
   ];
 
   // TODO: default form task schema should come from an api.
-  const [ approvalTaskForm, setApprovalTaskForm ] = useFormFields( {
+  const [ task, setTask ] = useFormFields( {
     taskDescription: '',
     assignee: assigneeList[ 1 ],
     dueDate: new Date(),
@@ -24,38 +24,59 @@ function CreateApprovalTaskForm ( props ) {
     formUrl: ''
   } );
 
-  function postTask () {
-    const dueDate = formatDate( approvalTaskForm.dueDate );
-
-    const html = (
+  function AfterPostMessage () {
+    const dueDate = formatDate( task.dueDate );
+    return (
       <span>
         Your task is added to current case.
-        Your message is sent to <b>{approvalTaskForm.assignee.name}</b>,
+        Your message is sent to <b>{task.assignee.name}</b>,
         expecting to finish on <b>{dueDate}</b>.
-        I will inform him after <b>{approvalTaskForm.followUpDays}</b> days if not finished.
+        I will inform him after <b>{task.followUpDays}</b> days if not finished.
       </span>
     );
+  }
+
+  function postFormTask () {
+    // TODO: POST /cases/{id}/tasks/{id}/create
+    const resp = {
+      'success': true
+    };
+
+    console.log( resp );
+
+    props.setTasks( tasks => [ task, ...tasks ] );
+
+    const html = AfterPostMessage();
     props.agentMessage( html );
+
     props.close();
   }
 
   return (
     <form onSubmit={e => e.preventDefault()} className="row">
+      <div className="form-group col-6">
+        <label>Task Name</label>
+        <input className="form-control" name="name" value={task.name} onChange={setTask} />
+      </div>
+      <div className="form-group col-6">
+        <label>Depend on task</label>
+        <input className="form-control" name="dependsOn" value={task.dependsOn} onChange={setTask} />
+      </div>
       <div className="form-group col-12">
-        <div>Task description</div>
+        <label>Task description</label>
         <textarea className="form-control"
-          name="taskDescription"
-          value={approvalTaskForm.taskDescription}
-          placeholder="Please approve"
-          onChange={setApprovalTaskForm} />
+          name="description"
+          value={task.description}
+          placeholder="Please fill in this form..."
+          onChange={setTask} />
       </div>
       <hr />
       <div className="form-group col-12">
         <label>Assign to</label><br />
         <select className="form-control"
           name="assignee"
-          value={approvalTaskForm.assignee}
-          onChange={setApprovalTaskForm} >
+          value={task.assignee}
+          onChange={setTask} >
           {assigneeList.map( ( assignee ) => {
             return <option value={assignee.id} key={assignee.id}>{assignee.name}</option>;
           } )}
@@ -65,8 +86,8 @@ function CreateApprovalTaskForm ( props ) {
         <label>Due date</label><br />
         <DatePicker className="form-control"
           name="dueDate"
-          selected={approvalTaskForm.dueDate}
-          onChange={setApprovalTaskForm}
+          selected={task.dueDate}
+          onChange={setTask}
         />
       </div>
       <div className="form-group col-6">
@@ -74,8 +95,8 @@ function CreateApprovalTaskForm ( props ) {
         <input className="form-control"
           type="number"
           name="followUpDays"
-          value={approvalTaskForm.followUpDays}
-          onChange={setApprovalTaskForm} />
+          value={task.followUpDays}
+          onChange={setTask} />
       </div>
       <hr />
       <div className="form-group col-12">
@@ -84,15 +105,15 @@ function CreateApprovalTaskForm ( props ) {
           type="url"
           name="formUrl"
           placeholder="form url"
-          value={approvalTaskForm.formUrl}
-          onChange={setApprovalTaskForm} />
+          value={task.formUrl}
+          onChange={setTask} />
       </div>
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={props.close}>Cancel</button>
-        <LoaderButton className="btn-success" onClick={postTask}>submit!</LoaderButton>
+        <LoaderButton className="btn-success" onClick={postFormTask}>submit!</LoaderButton>
       </div>
     </form>
   );
 }
 
-export default CreateApprovalTaskForm;
+export default CreateApprovalTask;

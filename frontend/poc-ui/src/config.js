@@ -23,7 +23,8 @@ const config = {
     facebook_app_id: "2505833796351691"
   },
   wsUrl: 'wss://n8jhaqype5.execute-api.us-east-1.amazonaws.com/dev',
-  suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest'
+  suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
+  apiBaseUrl: 'https://o65icrdk89.execute-api.us-east-1.amazonaws.com/dev'
 }
 
 export default config;

@@ -1,37 +1,37 @@
 import React, { useState, useEffect } from 'react';
-import { ButtonGroup, Button,DropdownButton, Dropdown, Modal } from 'react-bootstrap'
-import CreateFormTaskForm from './create-form-task'
-import CreateApprovalTaskForm from './create-approval-task'
+import { ButtonGroup, DropdownButton, Dropdown, Modal } from 'react-bootstrap'
+import CreateFormTask from './create-form-task'
+import CreateApprovalTask from './create-approval-task'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {textStateColorClassName} from '../libs/custom-functions'
 
 function Tasks (props) {
   const [ showFormTaskModal, setShowFormTaskModal ] = useState(false)
   const [ showApprovalTaskModal, setShowApprovalTaskModal ] = useState( false )
-  const caseId = props.currentCaseId
   const [ tasks, setTasks ] = useState([])
+  const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState(false)
+  const currentCaseId = props.currentCaseId
+  const [ currentTask, setCurrentTask ] = useState({})
 
   function findTasks ( ) {
     // TODO: GET /cases/{caseId}/tasks
     const resp = [
       {
         "id": "1",
-        "name": "choose form",
-        "type": "human task",
+        "name": "intake form",
         "dueDate": "2020/02/28",
         "followUpDuration": "1 day",
-        "assignment": "employee group 1",
-        "state": "todo||active||canceled||completed",
-        "forms": [
-          "form1.html",
-          "form2.html"
-        ]
+        "assignee": "baiji",
+        "state": "active",
+        "entryCreterias": []
       },
       {
         "id": "2",
         "name": "approval",
-        "type": "human task",
-        "assignment": "employee group 2",
-        "state": "todo||active||canceled||completed",
+        "dueDate": "2020/02/28",
+        "followUpDuration": "1 day",
+        "assignee": "baiji",
+        "state": "active",
         "entryCriterions": [
           {
             "onParts": [ {
@@ -44,13 +44,31 @@ function Tasks (props) {
       }
     ]
 
-    console.log(resp)
+    console.log(JSON.stringify(resp))
     setTasks(resp)
+  }
+
+  function workOnTask (task) {
+    setShowWorkOnTaskModal( true )
+    setCurrentTask( task )
+    console.log(JSON.stringify(task))
+  }
+
+  function completeCurrentTask () {
+    // TODO: POST /cases/{currentCaseId}/tasks/{currentTaskId}/complete
+    const resp = { 'success': true }
+
+    setCurrentTask( ( task ) => {
+      task.state = 'complete';
+      return task;
+    } );
+
+    setShowWorkOnTaskModal( false );
   }
 
   useEffect( () => {
     findTasks()
-  }, [caseId] )
+  }, [ currentCaseId] )
 
   return (
     <div className={props.className}>
@@ -71,15 +89,17 @@ function Tasks (props) {
             <span> Approval Task</span>
           </Dropdown.Item>
         </DropdownButton>
-      <div className="ml-1">
-        {tasks.map( (task) => {
-          return (
-            <div className="btn btn-light btn-small mr-1" key={task.id}>
-              {task.name}
-            </div>
-          )
-        })}
-      </div>
+        <div className="ml-1">
+          {tasks.map( ( task ) => {
+            let className = "btn btn-light btn-small mr-1 " + textStateColorClassName( task.state );
+
+            return (
+              <div className={className} key={task.name} onClick={e => { workOnTask(task); }}>
+                {task.name}
+              </div>
+            )
+          })}
+        </div>
       </div >
       <Modal show={showFormTaskModal} onHide={e => setShowFormTaskModal( false )}>
         <Modal.Header closeButton>
@@ -89,19 +109,38 @@ function Tasks (props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateFormTaskForm close={e => setShowFormTaskModal( false )} sendMessage={props.userMessage} agentMessage={props.agentMessage} />
+          <CreateFormTask
+            close={e => setShowFormTaskModal( false )}
+            sendMessage={props.userMessage}
+            agentMessage={props.agentMessage}
+            tasks={tasks}
+            setTasks={setTasks} />
         </Modal.Body>
       </Modal>
       <Modal show={showApprovalTaskModal} onHide={e => setShowApprovalTaskModal( false )}>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h3>Create Human Task</h3>
+            <h3>Create Approval Task</h3>
             <h6>create an addhoc task, add to current case, and assign to another person.</h6>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateApprovalTaskForm close={e => setShowApprovalTaskModal( false )} sendMessage={props.userMessage} agentMessage={props.agentMessage} />
+          <CreateApprovalTask
+            close={e => setShowApprovalTaskModal( false )}
+            sendMessage={props.userMessage}
+            agentMessage={props.agentMessage}
+            setTasks={setTasks} />
         </Modal.Body>
+      </Modal>
+      <Modal show={showWorkOnTaskModal} onHide={e => setShowWorkOnTaskModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Work on task {currentTask.name}</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>no change</button>
+          <button className="btn-secondary" onClick={e => setShowWorkOnTaskModal( false )}>cancel task</button>
+          <button className="btn-secondary" onClick={completeCurrentTask}>complete task</button>
+        </Modal.Footer>
       </Modal>
     </div>
   );

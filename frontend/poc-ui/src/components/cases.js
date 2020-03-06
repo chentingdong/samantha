@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { v4 as uuidv4 } from 'uuid';
+import { textStateColorClassName } from '../libs/custom-functions';
+import apiWrapper from '../libs/api-wrapper'
 
 function Cases (props) {
   const [ cases, setCases ] = useState([])
@@ -8,24 +10,32 @@ function Cases (props) {
   function newCase () {
     // Only allow one new case for user for now.
     let currentCase = cases.find(c => c.state === 'pending');
-    if (currentCase !== undefined) return;
+    if ( currentCase !== undefined ) return;
 
-    // TODO: GET /case-definitations
-    let resp = [{
+    let initCase = [ {
       "id": uuidv4(),
       "name": "",
       "state": "pending",
       "planItems": []
     } ]
 
-    let caseDef = resp[0]
-
-    props.setCurrentCaseId(caseDef.id)
-    setCases(cases => [caseDef, ...cases])
+    // TODO: GET /case-defination
+    apiWrapper
+      .get( '/case-definitions' )
+      .then( ( resp ) => {
+        resp = initCase;
+        console.debug(`get case defination ${resp}`)
+        let caseDef = resp[ 0 ]
+        props.setCurrentCaseId( caseDef.id );
+        setCases( cases => [ caseDef, ...cases ] )
+      } )
+      .catch( err => {
+        console.error( err );
+      } )
   }
 
   function getCaseList () {
-    // TODO: GET /cases
+    /*
     let resp = [
       {
         "id": uuidv4(),
@@ -46,9 +56,19 @@ function Cases (props) {
         "planItems": []
       }
     ]
+    */
 
-    let cases = resp
-    setCases( cases )
+    apiWrapper
+      .get( '/cases' )
+      .then( ( resp ) => {
+        console.debug(`Get cases: ${resp}`)
+        let cases = resp;
+        setCases( cases )
+      } )
+      .catch( (err) => {
+        console.error(err)
+      })
+
   }
 
   useEffect(getCaseList, [])
@@ -69,29 +89,21 @@ function Cases (props) {
   }
 
   return (
-    <div className="row mt-1 text-center">
+    <div className="row mt-1">
       <div
-        className="d-flex justify-content-center border rounded-circle"
+        className="btn btn-light d-flex justify-content-center border rounded-circle case"
         style={style.case}
         data-toggle="tooltip"
         data-placement="right"
         onClick={newCase}
         title="create new case" >
-        <FontAwesomeIcon icon="plus" className="align-self-center" />
+        <FontAwesomeIcon icon="plus" className="align-self-center"/>
       </div>
 
       {cases.map((c, index) => {
-        let className = (c.id === props.currentCaseId) ? 'border-warning' : 'border-light';
-
-        switch (c.state) {
-          case "pending": className = `text-primary ${className}`; break;
-          case "active": className = `text-success ${className}`; break;
-          case "complete": className = `text-dark ${className}`; break;
-          default: className = `text-secondar ${className}`;
-        }
-
-        className = `btn-light d-flex justify-content-center rounded-circle ${className}`;
-
+        let className = 'btn btn-light d-flex justify-content-center rounded-circle case ';
+        className += ( c.id === props.currentCaseId ) ? 'border-warning ' : 'border-light ';
+        className += textStateColorClassName(c.state)
         return (
           <div
             className={className}
@@ -101,9 +113,7 @@ function Cases (props) {
             style={style.case}
             onClick={e => props.setCurrentCaseId(c.id)}
             title={c.name} >
-            <div className="align-self-center">
-              <FontAwesomeIcon icon="bell" /><br/>
-            </div>
+            <FontAwesomeIcon icon="bell" className="align-self-center"/>
           </div>
         )
       } )}
