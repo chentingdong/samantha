@@ -10,15 +10,17 @@ function Cases ( props ) {
   const initCase = {
     "id": uuid4(),
     "name": "case 1",
-    "creator": "",
+    "creator": props.user,
     "state": "pending",
     "planItems": []
   }
 
   async function newCase () {
     // Only allow one new case for user for now.
-    let currentCase = cases.find(c => c.state === 'pending');
-    if ( currentCase !== undefined ) return;
+    // let currentCase = cases.find(c => c.state === 'pending');
+    // if ( currentCase !== undefined ) return;
+
+    // TODO: useContext
     let user = await currentUser()
 
     // GET /case-defination
@@ -47,7 +49,7 @@ function Cases ( props ) {
       .post( '/cases', caseInstance )
       .then( resp => {
         if ( resp.status === 200 ) {
-          console.log(`Created case ${resp}`)
+          console.log(`Created case ${JSON.stringify(resp)}`)
         }
       } )
       .catch( err => {
@@ -55,20 +57,24 @@ function Cases ( props ) {
       })
   }
 
-  function getCases () {
+  async function getCases () {
+    let user = await currentUser()
+    let path = `/cases`
     apiWrapper
-      .get( '/cases' )
+      .get( path )
       .then( ( resp ) => {
-        console.debug(`Get cases: ${resp}`)
-        let cases = resp.data;
-        setCases( cases )
+        console.debug( `Get cases: ${ resp }` );
+        let _cases = resp.data.filter( ( c ) => c.data.creator.id === user.id)
+        setCases( _cases )
       } )
       .catch( (err) => {
         console.error(err)
       })
   }
 
-  useEffect(getCases, [])
+  useEffect( () => {
+    getCases();
+  }, [])
 
   const style = {
     case: {
@@ -96,7 +102,8 @@ function Cases ( props ) {
         title="create new case" >
         <FontAwesomeIcon icon="plus" className="align-self-center"/>
       </div>
-      {cases.map((c, index) => {
+      {cases.length > 0 &&
+        cases.map( ( c, index ) => {
         let className = 'btn btn-light d-flex justify-content-center rounded-circle case ';
         className += ( c.id === props.currentCaseId ) ? 'border-warning ' : 'border-light ';
         className += textStateColorClassName(c.state)

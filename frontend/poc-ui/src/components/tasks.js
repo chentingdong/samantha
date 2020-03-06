@@ -14,7 +14,7 @@ function Tasks (props) {
   const [ currentTask, setCurrentTask ] = useState({})
 
   function findTasks ( ) {
-    // TODO: GET /cases/{caseId}/tasks
+    // TODO: GET /cases/{currentCaseId}/tasks
     const tasks = [
       {
         "id": "1",

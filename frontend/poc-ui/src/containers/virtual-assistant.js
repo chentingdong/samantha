@@ -5,8 +5,16 @@ import { DebounceInput } from 'react-debounce-input';
 import Cases from '../components/cases'
 import Tasks from '../components/tasks'
 import Suggest from '../components/suggest'
+import apiWrapper from '../libs/api-wrapper';
+import {currentUser} from '../libs/custom-functions'
 
-function VirtualAssistant (props) {
+function VirtualAssistant ( props ) {
+  let user = {};
+
+  useEffect( () => {
+    user = currentUser();
+  }, [] )
+
   let initialMessage = {
     id: 1,
     who: 'agent',
@@ -68,14 +76,18 @@ function VirtualAssistant (props) {
 
   function getCaseMessages ( ) {
     // TODO: /GET /case-messages?case-id={currentCaseId}
-    let resp = [initialMessage]
+    let path = `/case-messages?case-id=${currentCaseId}`
+    apiWrapper
+      .get( path )
+      .then( resp => {
+        console.debug( JSON.stringify( resp ) )
 
-    // console.debug(JSON.stringify(resp))
-    setMessages(resp)
+        setMessages(resp)
+      })
   }
 
   useEffect( () => {
-    getCaseMessages( currentCaseId );
+    getCaseMessages();
   }, [ currentCaseId ] )
 
   const style = {
@@ -93,11 +105,12 @@ function VirtualAssistant (props) {
 
   return (
     <div className="container-fluid">
-      <Cases className="mt-1 row" currentCaseId={currentCaseId} setCurrentCaseId={setCurrentCaseId}/>
-      <Tasks userMessage={userMessage} agentMessage={agentMessage} currentCaseId={currentCaseId}/>
+      <Cases className="mt-1 row" currentCaseId={currentCaseId} setCurrentCaseId={setCurrentCaseId} user={user}/>
+      <Tasks userMessage={userMessage} agentMessage={agentMessage} currentCaseId={currentCaseId} user={user}/>
       <hr />
       <div className="messages">
-        {messages.map((msg, index) => {
+        {messages.length > 0 &&
+          messages.map( ( msg, index ) => {
           return (
             <div key={index} className="small">
               <span className="mr-3">
