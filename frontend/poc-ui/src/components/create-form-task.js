@@ -1,9 +1,10 @@
 // This is a designtime component, but also used in runtime design.
-import React from 'react';
+import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { useFormFields } from '../libs/custom-hooks';
 import LoaderButton from './loader-button';
 import { formatDate } from '../libs/custom-functions';
+import apiWrapper from '../libs/api-wrapper';
 
 function CreateFormTaskForm ( props ) {
   // TODO: cognito user api
@@ -15,12 +16,7 @@ function CreateFormTaskForm ( props ) {
     { name: 'Tingdong', id: 'Tingdong' }
   ];
 
-  // TODO: GET /task-definitations/1
-  const resp = {
-    name: 'new task',
-
-  };
-  const [ task, setTask ] = useFormFields( {
+  let initTask = {
     name: "choose form",
     dueDate: new Date(),
     followUpDays: "1",
@@ -28,7 +24,25 @@ function CreateFormTaskForm ( props ) {
     state: "pending",
     dependsOn: "",
     formUrl: ""
-  } );
+  }
+
+  const [ task, setTask ] = useFormFields( initTask );
+
+  // TODO: GET /task-definitations/1
+  function getTaskDefinition () {
+    apiWrapper
+      .get( '/task-definitions/1' )
+      .then( resp => {
+        console.log(resp.data)
+      } )
+      .catch( err => {
+        console.warn(err)
+      })
+  }
+
+  useEffect( () => {
+    getTaskDefinition()
+  }, [] )
 
   function AfterPostMessage () {
     const dueDate = formatDate( task.dueDate );
@@ -43,19 +57,22 @@ function CreateFormTaskForm ( props ) {
   }
 
   function postFormTask () {
-    // TODO: POST /cases/{id}/tasks/{id}/create
-    const resp = {
-      'success': true
-    };
+    // POST /cases/{currentCaseId}/tasks
+    debugger
+    let path = `/cases/${props.currentCaseId}/tasks`
+    apiWrapper
+      .post(path, task)
+      .then( resp => {
+        console.log( resp );
 
-    console.log( resp );
-
-    props.setTasks( tasks => [ task, ...tasks ] );
-
-    const html = AfterPostMessage();
-    props.agentMessage( html );
-
-    props.close();
+        props.setTasks( tasks => [ task, ...tasks ] );
+        const html = AfterPostMessage();
+        props.agentMessage( html );
+        props.close();
+      })
+      .catch( err => {
+        console.error(err)
+      })
   }
 
   return (

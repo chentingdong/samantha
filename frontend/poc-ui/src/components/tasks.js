@@ -113,6 +113,7 @@ function Tasks (props) {
             sendMessage={props.userMessage}
             agentMessage={props.agentMessage}
             tasks={tasks}
+            currentCaseId={currentCaseId}
             setTasks={setTasks} />
         </Modal.Body>
       </Modal>
@@ -137,8 +138,8 @@ function Tasks (props) {
         </Modal.Header>
         <Modal.Footer>
           <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>no change</button>
-          <button className="btn-secondary" onClick={e => setShowWorkOnTaskModal( false )}>cancel task</button>
-          <button className="btn-secondary" onClick={completeCurrentTask}>complete task</button>
+          <button className="btn-secondary" onClick={e => setShowWorkOnTaskModal( false )} disabled>cancel task</button>
+          <button className="btn-success" onClick={completeCurrentTask}>complete task</button>
         </Modal.Footer>
       </Modal>
     </div>

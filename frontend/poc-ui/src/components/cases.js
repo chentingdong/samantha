@@ -8,7 +8,7 @@ function Cases ( props ) {
   const [ cases, setCases ] = useState( [] );
 
   const initCase = {
-    "id": uuid4(),
+    // "id": uuid4(),
     "name": "case 1",
     "creator": props.user,
     "state": "pending",
@@ -19,8 +19,7 @@ function Cases ( props ) {
     // Only allow one new case for user for now.
     // let currentCase = cases.find(c => c.state === 'pending');
     // if ( currentCase !== undefined ) return;
-
-    // TODO: useContext
+    // TODO: shouldn't need this, check!
     let user = await currentUser()
 
     // GET /case-defination
@@ -28,15 +27,15 @@ function Cases ( props ) {
       .get( '/case-definitions' )
       .then( ( resp ) => {
         console.debug( `get case defination ${ resp }` )
-        let caseInstance = resp.data[ 0 ];
-        caseInstance.id = initCase.id;
-        caseInstance.creator = user;
-        setCases( cases => [ caseInstance, ...cases ] )
-
+        let caseInstance = initCase
+        caseInstance.creator = user
         props.setCurrentCaseId( caseInstance.id );
 
         // save immediately, for 2020Q1.
         postNewCase( caseInstance)
+
+        // add new case to cases in UI
+        setCases( cases => [ caseInstance, ...cases ] )
       } )
       .catch( err => {
         console.error( err );
@@ -46,15 +45,17 @@ function Cases ( props ) {
 
   function postNewCase ( caseInstance ) {
     apiWrapper
-      .post( '/cases', caseInstance )
-      .then( resp => {
-        if ( resp.status === 200 ) {
-          console.log(`Created case ${JSON.stringify(resp)}`)
-        }
-      } )
-      .catch( err => {
-        console.error(err)
-      })
+    .post( '/cases', caseInstance )
+    .then( resp => {
+      if ( resp.status === 200 ) {
+        console.log(`Created case ${JSON.stringify(resp)}`)
+      }
+      // for now just refresh all cases
+      getCases()
+    } )
+    .catch( err => {
+      console.error(err)
+    })
   }
 
   async function getCases () {
@@ -64,8 +65,10 @@ function Cases ( props ) {
       .get( path )
       .then( ( resp ) => {
         console.debug( `Get cases: ${ resp }` );
-        let _cases = resp.data.filter( ( c ) => c.data.creator.id === user.id)
-        setCases( _cases )
+        let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator.id === user.id)
+        setCases( _cases );
+        if ( _cases.length > 0 )
+          props.setCurrentCaseId( _cases[ 0 ].id );
       } )
       .catch( (err) => {
         console.error(err)

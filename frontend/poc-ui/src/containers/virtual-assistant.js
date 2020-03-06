@@ -53,6 +53,7 @@ function VirtualAssistant ( props ) {
       message: message
     }
 
+    debugger
     setMessages([ ...messages, newMessage ])
 
     const payload = {
@@ -80,9 +81,7 @@ function VirtualAssistant ( props ) {
     apiWrapper
       .get( path )
       .then( resp => {
-        console.debug( JSON.stringify( resp ) )
-
-        setMessages(resp)
+        setMessages([resp.data])
       })
   }
 
@@ -118,7 +117,7 @@ function VirtualAssistant ( props ) {
                   switch (msg.who) {
                     case "user": return <FontAwesomeIcon icon="user" />;
                     case "agent": return <FontAwesomeIcon icon="robot" />;
-                    default: return <FontAwesomeIcon icon="bomb" />;
+                    default: return '';
                   }
                 })()}
               </span>
