@@ -46,8 +46,10 @@ provider:
     DYNAMODB_CASE_DEFINITIONS_TABLE: ${self:service}-case-definitions-${self:provider.stage}
     DYNAMODB_TASK_DEFINITIONS_TABLE: ${self:service}-task-definitions-${self:provider.stage}
     DYNAMODB_CASES_TABLE: ${self:service}-cases-${self:provider.stage}
+    DYNAMODB_CASES_ON_STATE_GSI: ${self:service}-cases-on-state-gsi-${self:provider.stage}
     DYNAMODB_TASKS_TABLE: ${self:service}-tasks-${self:provider.stage}
     DYNAMODB_TASKS_ON_CASE_GSI: ${self:service}-tasks-on-case-gsi-${self:provider.stage}
+    DYNAMODB_TASKS_ON_STATE_GSI: ${self:service}-tasks-on-state-gsi-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-task-messages-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_ON_CASE_GSI: ${self:service}-case-messages-on-case-gsi-${self:provider.stage}
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
@@ -454,11 +456,20 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: state
+            AttributeType: S
         BillingMode: PAY_PER_REQUEST    
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         TableName: ${self:provider.environment.DYNAMODB_CASES_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.DYNAMODB_CASES_ON_STATE_GSI}
+            KeySchema:
+              - AttributeName: state
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL        
     TasksDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # For a production deployment, you'd want to retain your DB
@@ -470,6 +481,8 @@ resources:
             AttributeType: S
           - AttributeName: caseId
             AttributeType: S
+          - AttributeName: state
+            AttributeType: S
         BillingMode: PAY_PER_REQUEST    
         KeySchema:
           - AttributeName: id
@@ -479,6 +492,12 @@ resources:
           - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_CASE_GSI}
             KeySchema:
               - AttributeName: caseId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_STATE_GSI}
+            KeySchema:
+              - AttributeName: state
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
