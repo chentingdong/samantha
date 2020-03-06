@@ -70,7 +70,7 @@ function VirtualAssistant (props) {
     // TODO: /GET /case-messages?case-id={currentCaseId}
     let resp = [initialMessage]
 
-    console.log(JSON.stringify(resp))
+    // console.debug(JSON.stringify(resp))
     setMessages(resp)
   }
 

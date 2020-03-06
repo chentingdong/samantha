@@ -1,5 +1,6 @@
+import { Auth } from 'aws-amplify';
 
-function formatDate (date) {
+function formatDate ( date ) {
   var monthNames = [
     "January", "February", "March",
     "April", "May", "June", "July",
@@ -11,11 +12,11 @@ function formatDate (date) {
   var monthIndex = date.getMonth();
   var year = date.getFullYear();
 
-  return monthNames[monthIndex] + ' ' + day + ', ' + year;
+  return monthNames[ monthIndex ] + ' ' + day + ', ' + year;
 }
 
 function textStateColorClassName ( state ) {
-  let colorClass = ''
+  let colorClass = '';
   switch ( state ) {
     case 'pending': colorClass = 'text-primary'; break;
     case 'active': colorClass = 'text-success'; break;
@@ -25,4 +26,9 @@ function textStateColorClassName ( state ) {
   return colorClass;
 }
 
-export { formatDate, textStateColorClassName}
+async function currentUser () {
+  let user = await Auth.currentAuthenticatedUser()
+  return user;
+}
+
+export { formatDate, textStateColorClassName, currentUser };

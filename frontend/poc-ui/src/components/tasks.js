@@ -15,7 +15,7 @@ function Tasks (props) {
 
   function findTasks ( ) {
     // TODO: GET /cases/{caseId}/tasks
-    const resp = [
+    const tasks = [
       {
         "id": "1",
         "name": "intake form",
@@ -44,14 +44,13 @@ function Tasks (props) {
       }
     ]
 
-    console.log(JSON.stringify(resp))
-    setTasks(resp)
+    setTasks(tasks)
   }
 
   function workOnTask (task) {
     setShowWorkOnTaskModal( true )
     setCurrentTask( task )
-    console.log(JSON.stringify(task))
+    console.debug(JSON.stringify(task))
   }
 
   function completeCurrentTask () {
