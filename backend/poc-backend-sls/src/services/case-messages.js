@@ -3,7 +3,7 @@ const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 
-const createCaseMessage = async (event, context) => {  
+const createCaseMessage = async (event, context) => {
   try {
     const id = uuid.v4();
     const data = JSON.parse(event.body);
@@ -41,13 +41,13 @@ const createCaseMessage = async (event, context) => {
   }
 };
 
-const getCaseMessage = async (event, context) => {  
+const getCaseMessage = async (event, context) => {
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const caseId = params.ecaseId;
     // case is a keyword...
     const result = await dynamodbConnector.getCaseMessage(
-      id
+      caseId
     );
 
     return {
@@ -78,7 +78,7 @@ const getCaseMessage = async (event, context) => {
   }
 };
 
-const listCaseMessages = async (event, context) => {  
+const listCaseMessages = async (event, context) => {
   try {
     var result = {};
     const params = event.queryStringParameters;
@@ -115,7 +115,7 @@ const listCaseMessages = async (event, context) => {
   }
 };
 
-const deleteCaseMessage = async (event, context) => {  
+const deleteCaseMessage = async (event, context) => {
   try {
     const params = event.pathParameters;
     const id = params.id;

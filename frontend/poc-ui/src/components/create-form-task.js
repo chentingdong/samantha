@@ -27,7 +27,6 @@ function CreateFormTaskForm ( props ) {
   }
 
   const [ task, setTask ] = useFormFields( initTask );
-
   // TODO: GET /task-definitations/1
   function getTaskDefinition () {
     apiWrapper
@@ -57,8 +56,6 @@ function CreateFormTaskForm ( props ) {
   }
 
   function postFormTask () {
-    // POST /cases/{currentCaseId}/tasks
-    debugger
     let path = `/cases/${props.currentCaseId}/tasks`
     apiWrapper
       .post(path, task)

@@ -2,6 +2,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+        "type": "node",
+        "request": "launch",
+        "name": "list case messages",
+        "cwd": "${workspaceRoot}/backend/poc-backend-sls",
+        "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
+        "args": ["invoke", "local", "-f", "listCaseMessages"]
+    },
+    {
+      "type" : "node",
+      "request" : "launch",
+      "name" : "get case message",
+      "cwd" : "${workspaceRoot}/backend/poc-backend-sls",
+      "program" : "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
+      "args": [
+        "invoke", "local", "-f",
+        "getCaseMessage",
+        "--data",
+        "{\"pathParameters\":{\\\"caseId\\\":\\\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\\\"}}"
+      ]
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "createCase",
@@ -41,8 +62,8 @@
         "-f",
         "getCase",
         "--data",
-        "{\"pathParameters\":{\"id\":\"aa669d1f-aaa1-4b6c-ae4e-fa93040870e3\"}}"
+        "{\"pathParameters\":{\"id\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\"}}"
       ]
-    }        
+    }
   ]
 }

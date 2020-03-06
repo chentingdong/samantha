@@ -41,7 +41,6 @@ function Cases ( props ) {
       .catch( err => {
         console.error( err );
       } )
-
   }
 
   function postNewCase ( caseInstance ) {

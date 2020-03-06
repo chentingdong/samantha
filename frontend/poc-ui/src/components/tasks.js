@@ -4,6 +4,7 @@ import CreateFormTask from './create-form-task'
 import CreateApprovalTask from './create-approval-task'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {textStateColorClassName} from '../libs/custom-functions'
+import apiWrapper from '../libs/api-wrapper';
 
 function Tasks (props) {
   const [ showFormTaskModal, setShowFormTaskModal ] = useState(false)
@@ -23,7 +24,7 @@ function Tasks (props) {
         "followUpDuration": "1 day",
         "assignee": "baiji",
         "state": "active",
-        "entryCreterias": []
+        "entryCriterions": []
       },
       {
         "id": "2",
@@ -55,12 +56,16 @@ function Tasks (props) {
 
   function completeCurrentTask () {
     // TODO: POST /cases/{currentCaseId}/tasks/{currentTaskId}/complete
-    const resp = { 'success': true }
-
-    setCurrentTask( ( task ) => {
-      task.state = 'complete';
-      return task;
-    } );
+    let path = `/case/${currentCaseId}/tasks/${currentTask.id}/complete`
+    apiWrapper
+      .put( path )
+      .then ( resp => {
+        if ( resp.status !== 200)
+          console.error('successful')
+      } )
+      .catch( err => {
+        console.error(err)
+      })
 
     setShowWorkOnTaskModal( false );
   }

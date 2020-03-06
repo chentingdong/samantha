@@ -12,13 +12,18 @@ function VirtualAssistant ( props ) {
   let user = {};
 
   useEffect( () => {
-    user = currentUser();
+    user = currentUser()
+      .then( (user) => {
+        initialMessage.message = 'Hi ' + user.name + ', ' + initialMessage.message;
+      } )
   }, [] )
+
+  user = currentUser();
 
   let initialMessage = {
     id: 1,
     who: 'agent',
-    message: 'Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.'
+    message: `Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.`
   }
 
   const [ messages, setMessages ] = useState([ initialMessage ])
@@ -85,9 +90,9 @@ function VirtualAssistant ( props ) {
       })
   }
 
-  useEffect( () => {
-    getCaseMessages();
-  }, [ currentCaseId ] )
+  // useEffect( () => {
+  //   getCaseMessages();
+  // }, [ currentCaseId ] )
 
   const style = {
     sendButton: {
