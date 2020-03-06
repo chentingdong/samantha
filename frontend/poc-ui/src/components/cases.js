@@ -17,8 +17,9 @@ function Cases ( props ) {
 
   async function newCase () {
     // Only allow one new case for user for now.
-    // let currentCase = cases.find(c => c.state === 'pending');
-    // if ( currentCase !== undefined ) return;
+    let currentCase = cases.find(c => c.state === 'pending');
+    if ( currentCase !== undefined ) return;
+
     // TODO: shouldn't need this, check!
     let user = await currentUser()
 
@@ -48,10 +49,8 @@ function Cases ( props ) {
     .post( '/cases', caseInstance )
     .then( resp => {
       if ( resp.status === 200 ) {
-        console.log(`Created case ${JSON.stringify(resp)}`)
+        props.setCurrentCaseId(resp.data.id)
       }
-      // for now just refresh all cases
-      getCases()
     } )
     .catch( err => {
       console.error(err)
