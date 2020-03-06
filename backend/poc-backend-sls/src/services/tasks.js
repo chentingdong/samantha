@@ -6,10 +6,14 @@ const CONSTANTS = require('../constants');
 const createTask = async (event, context) => {  
   try {
     const id = uuid.v4();
+    const params = event.pathParameters;
+    const caseId = params['case-id'];
+
     const data = JSON.parse(event.body);
 
-    const result = await dynamodbConnector.createTask(
+    await dynamodbConnector.createTask(
       id,
+      caseId,
       data
     );
 
@@ -80,7 +84,13 @@ const getTask = async (event, context) => {
 
 const listTasks = async (event, context) => {  
   try {
-    const result = await dynamodbConnector.listTasks();
+    var result = {};
+    const params = event.pathParameters;
+    if (params && 'case-id' in params) {
+      result = await dynamodbConnector.listTasksByCase(params['case-id']);
+    } else {
+      result = await dynamodbConnector.listTasks();
+    }
 
     return {
       statusCode: 200,

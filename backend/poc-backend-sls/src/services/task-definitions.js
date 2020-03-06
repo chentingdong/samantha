@@ -8,7 +8,7 @@ const createTaskDefinition = async (event, context) => {
     const id = uuid.v4();
     const data = JSON.parse(event.body);
 
-    const result = await dynamodbConnector.createTaskDefinition(
+    await dynamodbConnector.createTaskDefinition(
       id,
       data
     );

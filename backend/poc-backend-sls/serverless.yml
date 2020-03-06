@@ -267,8 +267,12 @@ functions:
     handler: handler.createTask
     events:
       - http:
-          path: tasks
+          path: cases/{case-id}/tasks
           method: post
+          request:
+            parameters:
+              paths:
+                case-id: true
           cors:
             origin: ${self:custom.corsOrigin} 
   getTask:
@@ -283,6 +287,15 @@ functions:
               paths:
                 id: true
           cors: true
+      - http:
+          path: cases/{case-id}/tasks/{id}
+          method: get
+          request:
+            parameters:
+              paths:
+                case-id: true
+                id: true
+          cors: true          
   listTasks:
     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
     handler: handler.listTasks
@@ -291,6 +304,14 @@ functions:
           path: tasks
           method: get
           cors: true
+      - http:
+          path: cases/{case-id}/tasks
+          method: get
+          request:
+            parameters:
+              paths:
+                case-id: true
+          cors: true           
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
     handler: handler.deleteTask

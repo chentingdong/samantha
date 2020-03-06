@@ -8,7 +8,7 @@ const createCaseDefinition = async (event, context) => {
     const id = uuid.v4();
     const data = JSON.parse(event.body);
 
-    const result = await dynamodbConnector.createCaseDefinition(
+    await dynamodbConnector.createCaseDefinition(
       id,
       data
     );

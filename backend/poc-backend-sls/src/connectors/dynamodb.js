@@ -199,7 +199,8 @@ class DynamoDbConnector {
       KeyConditionExpression: 'caseId = :caseId',
       ExpressionAttributeValues: {
         ':caseId': caseId
-      }     };
+      }     
+    };
     return await this._connector.query(queryParams).promise();
   }
 
