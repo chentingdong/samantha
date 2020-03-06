@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import config from '../config'
 import { DebounceInput } from 'react-debounce-input';
-import RuntimeTools from '../components/runtime-tools'
 import Cases from '../components/cases'
+import Tasks from '../components/tasks'
 import Suggest from '../components/suggest'
 
 function VirtualAssistant (props) {
@@ -13,8 +13,9 @@ function VirtualAssistant (props) {
     message: 'Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.'
   }
 
-  let [ messageList, setMessageList ] = useState([ initialMessage ])
-  let [ currentMessage, setCurrentMessage ] = useState('')
+  const [ messages, setMessages ] = useState([ initialMessage ])
+  const [ currentMessage, setCurrentMessage ] = useState('')
+  const [ currentCaseId, setCurrentCaseId ] = useState()
 
   let [ selectedSuggestion, setselectedSuggestion ] = useState(0)
   const suggestRef = useRef();
@@ -39,12 +40,12 @@ function VirtualAssistant (props) {
     setCurrentMessage(message)
 
     let newMessage = {
-      id: messageList.length + 1,
+      id: messages.length + 1,
       who: 'user',
       message: message
     }
 
-    setMessageList([ ...messageList, newMessage ])
+    setMessages([ ...messages, newMessage ])
 
     const payload = {
       "action": "interaction",
@@ -58,12 +59,23 @@ function VirtualAssistant (props) {
   function agentMessage (msg) {
     console.log("received message: " + JSON.stringify(msg))
     let newMessage = {
-      id: messageList.length + 1,
+      id: messages.length + 1,
       who: 'agent',
       message: msg
     }
-    setMessageList([ ...messageList, newMessage ])
+    setMessages([ ...messages, newMessage ])
   }
+
+  function getCaseMessages ( ) {
+    // TODO: /GET /case-messages?case-id={currentCaseId}
+    let resp = [initialMessage]
+
+    setMessages(resp)
+  }
+
+  useEffect( () => {
+    getCaseMessages( currentCaseId );
+  }, [ currentCaseId ] )
 
   const style = {
     sendButton: {
@@ -76,11 +88,11 @@ function VirtualAssistant (props) {
 
   return (
     <div className="container-fluid">
-      <RuntimeTools userMessage={userMessage} agentMessage={agentMessage} />
-      <Cases className="mt-1 row" />
+      <Cases className="mt-1 row" currentCaseId={currentCaseId} setCurrentCaseId={setCurrentCaseId}/>
+      <Tasks userMessage={userMessage} agentMessage={agentMessage} currentCaseId={currentCaseId}/>
       <hr />
       <div className="messages">
-        {messageList.map((msg, index) => {
+        {messages.map((msg, index) => {
           return (
             <div key={index} className="small">
               <span className="mr-3">
