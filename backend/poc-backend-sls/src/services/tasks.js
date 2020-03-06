@@ -14,8 +14,11 @@ const createTask = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: JSON.stringify(data.Attributes)
     };
@@ -25,10 +28,13 @@ const createTask = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: errMsg
+      body: JSON.stringify({errMsg})
     }
   }
 };
@@ -45,8 +51,11 @@ const getTask = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: JSON.stringify(result.Item)
     };
@@ -56,10 +65,13 @@ const getTask = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: errMsg
+      body: JSON.stringify({errMsg})
     }
   }
 };
@@ -71,8 +83,11 @@ const listTasks = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: JSON.stringify(result.Items)
     };
@@ -82,10 +97,13 @@ const listTasks = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: errMsg
+      body: JSON.stringify({errMsg})
     }
   }
 };
@@ -102,8 +120,11 @@ const deleteTask = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Deleted'
     };
@@ -113,10 +134,13 @@ const deleteTask = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
-      body: errMsg
+      body: JSON.stringify({errMsg})
     }
   }
 };

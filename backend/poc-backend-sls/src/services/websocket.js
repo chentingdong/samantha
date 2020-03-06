@@ -23,8 +23,11 @@ const handleSocketDefault = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Default socket response.'
     };
@@ -33,8 +36,11 @@ const handleSocketDefault = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Default socket response error.'
     }
@@ -54,8 +60,11 @@ const handleSocketConnect = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Socket successfully registered.'
     };
@@ -64,8 +73,11 @@ const handleSocketConnect = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Unable to register socket.'
     }
@@ -81,8 +93,11 @@ const handleSocketDisconnect = async (event, context) => {
     return {
       statusCode: 200,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Socket successfully terminated.'
     };
@@ -91,8 +106,11 @@ const handleSocketDisconnect = async (event, context) => {
     return {
       statusCode: 500,
       headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
       },
       body: 'Unable to terminate socket.'
     }

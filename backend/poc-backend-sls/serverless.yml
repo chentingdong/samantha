@@ -134,8 +134,7 @@ functions:
       - http:
           path: webhook
           method: post
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
   createCaseDefinition:
     name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
@@ -157,8 +156,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   listCaseDefinitions:
     name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
     handler: handler.listCaseDefinitions
@@ -166,8 +164,7 @@ functions:
       - http:
           path: case-definitions
           method: get
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   deleteCaseDefinition:
     name: LAMBDA_${self:service}_http_delete_case_definition_${self:provider.stage}
     handler: handler.deleteCaseDefinition
@@ -179,8 +176,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
   createTaskDefinition:
     name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
@@ -202,8 +198,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   listTaskDefinitions:
     name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
     handler: handler.listTaskDefinitions
@@ -211,8 +206,7 @@ functions:
       - http:
           path: task-definitions
           method: get
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   deleteTaskDefinition:
     name: LAMBDA_${self:service}_http_delete_task_definition_${self:provider.stage}
     handler: handler.deleteTaskDefinition
@@ -224,8 +218,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
   createCase:
     name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
@@ -247,8 +240,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   listCases:
     name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
     handler: handler.listCases
@@ -256,8 +248,7 @@ functions:
       - http:
           path: cases
           method: get
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   deleteCase:
     name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
     handler: handler.deleteCase
@@ -269,8 +260,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
   createTask:
     name: LAMBDA_${self:service}_http_create_task_${self:provider.stage}
@@ -292,8 +282,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   listTasks:
     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
     handler: handler.listTasks
@@ -301,8 +290,7 @@ functions:
       - http:
           path: tasks
           method: get
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
     handler: handler.deleteTask
@@ -314,8 +302,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
   createCaseMessage:
     name: LAMBDA_${self:service}_http_create_case_message_${self:provider.stage}
@@ -337,8 +324,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
     handler: handler.listCaseMessages
@@ -346,8 +332,7 @@ functions:
       - http:
           path: case-messages
           method: get
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
   deleteCaseMessage:
     name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
     handler: handler.deleteCaseMessage
@@ -359,8 +344,7 @@ functions:
             parameters:
               paths:
                 id: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          cors: true
 
 resources:
   Resources:
