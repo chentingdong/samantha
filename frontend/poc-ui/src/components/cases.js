@@ -7,7 +7,7 @@ function Cases (props) {
 
   function newCase () {
     // Only allow one new case for user for now.
-    let currentCase = cases.find(c => c.state === 'new');
+    let currentCase = cases.find(c => c.state === 'pending');
     if (currentCase !== undefined) return;
 
     // TODO: GET /case-definitations
