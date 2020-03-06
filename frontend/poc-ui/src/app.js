@@ -6,7 +6,7 @@ import Routes from './routes/routes'
 import config from './config.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css'
-import logo from './assets/astound.png'
+import logo from './assets/bellhop.png'
 
 // Import and build a fontawesome icon library to share in the app
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -50,8 +50,7 @@ function App () {
         <Navbar bg="light" expand="lg" className="row">
           <Navbar.Brand>
             <Nav.Link as={NavLink} to="/">
-              <img className="app-logo" src={logo} alt="" />
-              <span className="brand">Bellhop</span>
+              <img className="app-logo" src={logo} alt="Bellhop" />
             </Nav.Link>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
