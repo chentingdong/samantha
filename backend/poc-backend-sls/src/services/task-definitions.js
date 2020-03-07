@@ -16,13 +16,7 @@ const createTaskDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({id})
     };
   } catch (err) {
@@ -30,13 +24,7 @@ const createTaskDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -53,13 +41,7 @@ const getTaskDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Item)
     };
   } catch (err) {
@@ -67,13 +49,7 @@ const getTaskDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -85,13 +61,7 @@ const listTaskDefinitions = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Items)
     };
   } catch (err) {
@@ -99,13 +69,7 @@ const listTaskDefinitions = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -122,13 +86,7 @@ const deleteTaskDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
   } catch (err) {
@@ -136,13 +94,7 @@ const deleteTaskDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }

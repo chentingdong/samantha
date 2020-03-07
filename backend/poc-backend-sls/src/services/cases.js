@@ -18,13 +18,7 @@ const createCase = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({id, state})
     };
   } catch (err) {
@@ -32,13 +26,7 @@ const createCase = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -55,13 +43,7 @@ const getCase = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Item)
     };
   } catch (err) {
@@ -69,13 +51,7 @@ const getCase = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -87,13 +63,7 @@ const listCases = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Items)
     };
   } catch (err) {
@@ -101,13 +71,7 @@ const listCases = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -126,13 +90,7 @@ const completeCase = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({id, state})
     };
   } catch (err) {
@@ -140,13 +98,7 @@ const completeCase = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -163,13 +115,7 @@ const deleteCase = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
   } catch (err) {
@@ -177,13 +123,7 @@ const deleteCase = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }

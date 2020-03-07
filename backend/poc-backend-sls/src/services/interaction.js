@@ -44,13 +44,7 @@ const handleSocketInteraction = async (event, context) => {
     // Let the API Gateway Websocket know everything went OK.
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Success.'
     };
   } catch (err) {
@@ -59,13 +53,7 @@ const handleSocketInteraction = async (event, context) => {
     console.error('Unable to handle interaction', err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Unable to handle interaction.'
     }
   }
