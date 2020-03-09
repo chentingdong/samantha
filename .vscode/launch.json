@@ -47,7 +47,9 @@
         "invoke",
         "local",
         "-f",
-        "listCases"
+        "listCases",
+        "--data",
+        "{}"
       ]
     },
     {
@@ -62,7 +64,22 @@
         "-f",
         "getCase",
         "--data",
-        "{\"pathParameters\":{\"id\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\"}}"
+        "{\"pathParameters\":{\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\"}}"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "createTask",
+      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
+      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
+      "args": [
+        "invoke",
+        "local",
+        "-f",
+        "createTask",
+        "--data",
+        "{\"body\": \"{\\\"name\\\":\\\"baiji task\\\"}\", \"pathParameters\": {\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\"}}"
       ]
     }
   ]

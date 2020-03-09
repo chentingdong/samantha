@@ -2,26 +2,21 @@
 const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
+const uuid = require('uuid');
 
 const createTaskDefinition = async (event, context) => {  
   try {
     const id = uuid.v4();
     const data = JSON.parse(event.body);
 
-    const result = await dynamodbConnector.createTaskDefinition(
+    await dynamodbConnector.createTaskDefinition(
       id,
       data
     );
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({id})
     };
   } catch (err) {
@@ -29,13 +24,7 @@ const createTaskDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -44,7 +33,7 @@ const createTaskDefinition = async (event, context) => {
 const getTaskDefinition = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.taskDefinitionId;
     // case is a keyword...
     const result = await dynamodbConnector.getTaskDefinition(
       id
@@ -52,13 +41,7 @@ const getTaskDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Item)
     };
   } catch (err) {
@@ -66,13 +49,7 @@ const getTaskDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -84,13 +61,7 @@ const listTaskDefinitions = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Items)
     };
   } catch (err) {
@@ -98,13 +69,7 @@ const listTaskDefinitions = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }
@@ -113,7 +78,7 @@ const listTaskDefinitions = async (event, context) => {
 const deleteTaskDefinition = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.taskDefinitionId;
     // case is a keyword...
     await dynamodbConnector.deleteTaskDefinition(
       id
@@ -121,13 +86,7 @@ const deleteTaskDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
   } catch (err) {
@@ -135,13 +94,7 @@ const deleteTaskDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN,
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-        'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({errMsg})
     }
   }

@@ -46,8 +46,10 @@ provider:
     DYNAMODB_CASE_DEFINITIONS_TABLE: ${self:service}-case-definitions-${self:provider.stage}
     DYNAMODB_TASK_DEFINITIONS_TABLE: ${self:service}-task-definitions-${self:provider.stage}
     DYNAMODB_CASES_TABLE: ${self:service}-cases-${self:provider.stage}
+    DYNAMODB_CASES_ON_STATE_GSI: ${self:service}-cases-on-state-gsi-${self:provider.stage}
     DYNAMODB_TASKS_TABLE: ${self:service}-tasks-${self:provider.stage}
     DYNAMODB_TASKS_ON_CASE_GSI: ${self:service}-tasks-on-case-gsi-${self:provider.stage}
+    DYNAMODB_TASKS_ON_STATE_GSI: ${self:service}-tasks-on-state-gsi-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-task-messages-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_ON_CASE_GSI: ${self:service}-case-messages-on-case-gsi-${self:provider.stage}
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
@@ -150,12 +152,12 @@ functions:
     handler: handler.getCaseDefinition
     events:
       - http:
-          path: case-definitions/{id}
+          path: case-definitions/{caseDefinitionId}
           method: get
           request:
             parameters:
               paths:
-                id: true
+                caseDefinitionId: true
           cors: true
   listCaseDefinitions:
     name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
@@ -170,12 +172,12 @@ functions:
     handler: handler.deleteCaseDefinition
     events:
       - http:
-          path: case-definitions/{id}
+          path: case-definitions/{caseDefinitionId}
           method: delete
           request:
             parameters:
               paths:
-                id: true
+                caseDefinitionId: true
           cors: true
 
   createTaskDefinition:
@@ -192,12 +194,12 @@ functions:
     handler: handler.getTaskDefinition
     events:
       - http:
-          path: task-definitions/{id}
+          path: task-definitions/{taskDefinitionId}
           method: get
           request:
             parameters:
               paths:
-                id: true
+                taskDefinitionId: true
           cors: true
   listTaskDefinitions:
     name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
@@ -212,12 +214,12 @@ functions:
     handler: handler.deleteTaskDefinition
     events:
       - http:
-          path: task-definitions/{id}
+          path: task-definitions/{taskDefinitionId}
           method: delete
           request:
             parameters:
               paths:
-                id: true
+                taskDefinitionId: true
           cors: true
 
   createCase:
@@ -234,12 +236,12 @@ functions:
     handler: handler.getCase
     events:
       - http:
-          path: cases/{id}
+          path: cases/{caseId}
           method: get
           request:
             parameters:
               paths:
-                id: true
+                caseId: true
           cors: true
   listCases:
     name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
@@ -249,17 +251,29 @@ functions:
           path: cases
           method: get
           cors: true
+  completeCase:
+    name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}
+    handler: handler.completeCase
+    events:
+      - http:
+          path: cases/{caseId}
+          method: patch
+          request:
+            parameters:
+              paths:
+                caseId: true
+          cors: true
   deleteCase:
     name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
     handler: handler.deleteCase
     events:
       - http:
-          path: cases/{id}
+          path: cases/{caseId}
           method: delete
           request:
             parameters:
               paths:
-                id: true
+                caseId: true
           cors: true
 
   createTask:
@@ -267,8 +281,12 @@ functions:
     handler: handler.createTask
     events:
       - http:
-          path: tasks
+          path: cases/{caseId}/tasks
           method: post
+          request:
+            parameters:
+              paths:
+                caseId: true
           cors:
             origin: ${self:custom.corsOrigin} 
   getTask:
@@ -276,12 +294,21 @@ functions:
     handler: handler.getTask
     events:
       - http:
-          path: tasks/{id}
+          path: tasks/{taskId}
           method: get
           request:
             parameters:
               paths:
-                id: true
+                taskId: true
+          cors: true
+      - http:
+          path: cases/{caseId}/tasks/{taskId}
+          method: get
+          request:
+            parameters:
+              paths:
+                caseId: true
+                taskId: true
           cors: true
   listTasks:
     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
@@ -291,17 +318,46 @@ functions:
           path: tasks
           method: get
           cors: true
+      - http:
+          path: cases/{caseId}/tasks
+          method: get
+          request:
+            parameters:
+              paths:
+                caseId: true
+          cors: true
+  completeTask:
+    name: LAMBDA_${self:service}_http_complete_task_${self:provider.stage}
+    handler: handler.completeTask
+    events:
+      - http:
+          path: tasks/{taskId}/complete
+          method: patch
+          request:
+            parameters:
+              paths:
+                taskId: true
+          cors: true
+      - http:
+          path: cases/{caseId}/tasks/{taskId}/complete
+          method: patch
+          request:
+            parameters:
+              paths:
+                caseId: true
+                taskId: true
+          cors: true              
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
     handler: handler.deleteTask
     events:
       - http:
-          path: tasks/{id}
+          path: tasks/{taskId}
           method: delete
           request:
             parameters:
               paths:
-                id: true
+                taskId: true
           cors: true
 
   createCaseMessage:
@@ -318,12 +374,12 @@ functions:
     handler: handler.getCaseMessage
     events:
       - http:
-          path: case-messages/{id}
+          path: case-messages/{caseMessageId}
           method: get
           request:
             parameters:
               paths:
-                id: true
+                caseMessageId: true
           cors: true
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
@@ -342,12 +398,12 @@ functions:
     handler: handler.deleteCaseMessage
     events:
       - http:
-          path: case-messages/{id}
+          path: case-messages/{caseMessageId}
           method: delete
           request:
             parameters:
               paths:
-                id: true
+                caseMessageId: true
           cors: true
 
 resources:
@@ -433,11 +489,20 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
+          - AttributeName: state
+            AttributeType: S
         BillingMode: PAY_PER_REQUEST    
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         TableName: ${self:provider.environment.DYNAMODB_CASES_TABLE}
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.DYNAMODB_CASES_ON_STATE_GSI}
+            KeySchema:
+              - AttributeName: state
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL        
     TasksDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # For a production deployment, you'd want to retain your DB
@@ -449,6 +514,8 @@ resources:
             AttributeType: S
           - AttributeName: caseId
             AttributeType: S
+          - AttributeName: state
+            AttributeType: S
         BillingMode: PAY_PER_REQUEST    
         KeySchema:
           - AttributeName: id
@@ -458,6 +525,12 @@ resources:
           - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_CASE_GSI}
             KeySchema:
               - AttributeName: caseId
+                KeyType: HASH
+            Projection:
+              ProjectionType: ALL
+          - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_STATE_GSI}
+            KeySchema:
+              - AttributeName: state
                 KeyType: HASH
             Projection:
               ProjectionType: ALL

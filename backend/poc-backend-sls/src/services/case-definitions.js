@@ -2,13 +2,14 @@
 const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
+const uuid = require('uuid');
 
 const createCaseDefinition = async (event, context) => {  
   try {
     const id = uuid.v4();
     const data = JSON.parse(event.body);
 
-    const result = await dynamodbConnector.createCaseDefinition(
+    await dynamodbConnector.createCaseDefinition(
       id,
       data
     );
@@ -38,7 +39,7 @@ const createCaseDefinition = async (event, context) => {
 const getCaseDefinition = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.caseDefinitionId;
     // case is a keyword...
     const result = await dynamodbConnector.getCaseDefinition(
       id
@@ -95,7 +96,7 @@ const listCaseDefinitions = async (event, context) => {
 const deleteCaseDefinition = async (event, context) => {  
   try {
     const params = event.pathParameters;
-    const id = params.id;
+    const id = params.caseDefinitionId;
     // case is a keyword...
     await dynamodbConnector.deleteCaseDefinition(
       id

@@ -18,7 +18,14 @@ const CONSTANTS = {
   DYNAMODB_OPTIONS: {},
   KEYS_URL: process.env.KEYS_URL,
   SIGNED_URL_EXPIRE_SECONDS: 60 * 60,
-  WEBSOCKET_API_ENDPOINT: process.env.WEBSOCKET_API_ENDPOINT
+  WEBSOCKET_API_ENDPOINT: process.env.WEBSOCKET_API_ENDPOINT,
+  RESPONSE_HEADERS: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': process.env.CORS_ORIGIN,
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
+    'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
+  }
 };
 
 module.exports = CONSTANTS;
