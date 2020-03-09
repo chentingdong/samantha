@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import uuid4 from 'uuid';
-import { textStateColorClassName, currentUser } from '../libs/custom-functions';
+import { stateColor, currentUser } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper'
 
 function Cases ( props ) {
@@ -107,7 +106,7 @@ function Cases ( props ) {
         cases.map( ( c, index ) => {
         let className = 'btn btn-light d-flex justify-content-center rounded-circle case ';
         className += ( c.id === props.currentCaseId ) ? 'border-warning ' : 'border-light ';
-        className += textStateColorClassName(c.state)
+        className += stateColor(c.state)
         return (
           <div
             className={className}

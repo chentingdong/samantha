@@ -15,7 +15,7 @@ function formatDate ( date ) {
   return monthNames[ monthIndex ] + ' ' + day + ', ' + year;
 }
 
-function textStateColorClassName ( state ) {
+function stateColor ( state ) {
   let colorClass = '';
   switch ( state ) {
     case 'pending': colorClass = 'text-primary'; break;
@@ -31,4 +31,4 @@ async function currentUser () {
   return user;
 }
 
-export { formatDate, textStateColorClassName, currentUser };
+export { formatDate, stateColor, currentUser };

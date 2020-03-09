@@ -23,7 +23,7 @@ function VirtualAssistant ( props ) {
   let initialMessage = {
     id: 1,
     who: 'agent',
-    message: `Welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.`
+    message: ` welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.`
   }
 
   const [ messages, setMessages ] = useState([ initialMessage ])

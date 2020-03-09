@@ -3,7 +3,7 @@ import { ButtonGroup, DropdownButton, Dropdown, Modal } from 'react-bootstrap'
 import CreateFormTask from './create-form-task'
 import CreateApprovalTask from './create-approval-task'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {textStateColorClassName} from '../libs/custom-functions'
+import {stateColor} from '../libs/custom-functions'
 import apiWrapper from '../libs/api-wrapper';
 
 function Tasks (props) {
@@ -14,38 +14,17 @@ function Tasks (props) {
   const currentCaseId = props.currentCaseId
   const [ currentTask, setCurrentTask ] = useState({})
 
-  function findTasks ( ) {
-    // TODO: GET /cases/{currentCaseId}/tasks
-    const tasks = [
-      {
-        "id": "1",
-        "name": "intake form",
-        "dueDate": "2020/02/28",
-        "followUpDuration": "1 day",
-        "assignee": "baiji",
-        "state": "active",
-        "entryCriterions": []
-      },
-      {
-        "id": "2",
-        "name": "approval",
-        "dueDate": "2020/02/28",
-        "followUpDuration": "1 day",
-        "assignee": "baiji",
-        "state": "active",
-        "entryCriterions": [
-          {
-            "onParts": [ {
-              "planItemId": "1",
-              "state": "complete"
-            } ],
-            "ifPart": "{{expression}}"
-          }
-        ]
-      }
-    ]
-
-    setTasks(tasks)
+  function findTasks () {
+    apiWrapper
+      .get( '/tasks' )
+      .then( resp => {
+        let caseTasks = resp.data
+        console.log(JSON.stringify(resp.data))
+        setTasks( caseTasks)
+      } )
+      .catch( err => {
+        console.error(err)
+      })
   }
 
   function workOnTask (task) {
@@ -58,10 +37,10 @@ function Tasks (props) {
     // TODO: POST /cases/{currentCaseId}/tasks/{currentTaskId}/complete
     let path = `/case/${currentCaseId}/tasks/${currentTask.id}/complete`
     apiWrapper
-      .put( path )
+      .patch( path )
       .then ( resp => {
         if ( resp.status !== 200)
-          console.error('successful')
+          console.error(`something is wrong, ${resp.data}`)
       } )
       .catch( err => {
         console.error(err)
@@ -95,11 +74,10 @@ function Tasks (props) {
         </DropdownButton>
         <div className="ml-1">
           {tasks.map( ( task ) => {
-            let className = "btn btn-light btn-small mr-1 " + textStateColorClassName( task.state );
-
+            let className = "btn btn-light btn-small mr-1 " + stateColor( task.state );
             return (
-              <div className={className} key={task.name} onClick={e => { workOnTask(task); }}>
-                {task.name}
+              <div className={className} key={task.id} onClick={e => { workOnTask(task); }}>
+                {task.data.name}
               </div>
             )
           })}
@@ -139,7 +117,7 @@ function Tasks (props) {
       </Modal>
       <Modal show={showWorkOnTaskModal} onHide={e => setShowWorkOnTaskModal(false)}>
         <Modal.Header closeButton>
-          <Modal.Title>Work on task {currentTask.name}</Modal.Title>
+          <Modal.Title>Working on task {currentTask.name}</Modal.Title>
         </Modal.Header>
         <Modal.Footer>
           <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>no change</button>
