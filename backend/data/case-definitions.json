@@ -1,4 +1,5 @@
-{
+[
+  {
   "id": "4FBF030B-AC5E-4A73-AE8A-038808DFCF24",
   "data": {
     "name": "",
@@ -7,4 +8,4 @@
     "version": "0.0.1",
     "caseFile": {}
   }
-}
+}]
