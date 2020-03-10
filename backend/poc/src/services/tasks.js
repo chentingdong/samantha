@@ -31,7 +31,7 @@ const createTask = async (event, context) => {
 
     await dynamodbConnector.updateCaseData(
       caseId,
-      JSON.stringify(caseData)
+      caseData
     );
 
     return {
