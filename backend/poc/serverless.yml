@@ -365,17 +365,17 @@ functions:
           method: post
           cors:
             origin: ${self:custom.corsOrigin}
-  getCaseMessages:
+  getCaseMessage:
     name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
-    handler: handler.getCaseMessages
+    handler: handler.getCaseMessage
     events:
       - http:
-          path: case-messages/{caseId}
+          path: case-messages/{caseMessageId}
           method: get
           request:
             parameters:
               paths:
-                caseId: true
+                caseMessageId: true
           cors: true
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
