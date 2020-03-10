@@ -1,4 +1,4 @@
-service: poc-backend-sls-1-${self:custom.user}
+service: poc-${self:custom.user}
 
 # plugins:
 #   - serverless-dynamodb-local
@@ -50,8 +50,8 @@ provider:
     DYNAMODB_TASKS_TABLE: ${self:service}-tasks-${self:provider.stage}
     DYNAMODB_TASKS_ON_CASE_GSI: ${self:service}-tasks-on-case-gsi-${self:provider.stage}
     DYNAMODB_TASKS_ON_STATE_GSI: ${self:service}-tasks-on-state-gsi-${self:provider.stage}
-    DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-task-messages-${self:provider.stage}
-    DYNAMODB_CASE_MESSAGES_ON_CASE_GSI: ${self:service}-case-messages-on-case-gsi-${self:provider.stage}
+    DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-case-messages-${self:provider.stage}
+    DYNAMODB_CASE_MESSAGES_CASEID_GSI: ${self:service}-case-messages-caseid-gsi-${self:provider.stage}
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
     WEBSOCKET_API_ENDPOINT: !Join ['', ['https://', !Ref WebsocketsApi, '.execute-api.', '${self:provider.region}', '.amazonaws.com/', '${self:provider.stage}/']]
   # Define the service IAM permissions
@@ -128,7 +128,6 @@ functions:
     events:
       - websocket:
           route: interaction
-
   webhook:
     name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
     handler: handler.webhook
@@ -137,7 +136,6 @@ functions:
           path: webhook
           method: post
           cors: true
-
   createCaseDefinition:
     name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
     handler: handler.createCaseDefinition
@@ -146,7 +144,7 @@ functions:
           path: case-definitions
           method: post
           cors:
-            origin: ${self:custom.corsOrigin} 
+            origin: ${self:custom.corsOrigin}
   getCaseDefinition:
     name: LAMBDA_${self:service}_http_get_case_definition_${self:provider.stage}
     handler: handler.getCaseDefinition
@@ -179,7 +177,6 @@ functions:
               paths:
                 caseDefinitionId: true
           cors: true
-
   createTaskDefinition:
     name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
     handler: handler.createTaskDefinition
@@ -188,7 +185,7 @@ functions:
           path: task-definitions
           method: post
           cors:
-            origin: ${self:custom.corsOrigin} 
+            origin: ${self:custom.corsOrigin}
   getTaskDefinition:
     name: LAMBDA_${self:service}_http_get_task_definition_${self:provider.stage}
     handler: handler.getTaskDefinition
@@ -221,7 +218,6 @@ functions:
               paths:
                 taskDefinitionId: true
           cors: true
-
   createCase:
     name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
     handler: handler.createCase
@@ -230,7 +226,7 @@ functions:
           path: cases
           method: post
           cors:
-            origin: ${self:custom.corsOrigin} 
+            origin: ${self:custom.corsOrigin}
   getCase:
     name: LAMBDA_${self:service}_http_get_case_${self:provider.stage}
     handler: handler.getCase
@@ -288,7 +284,7 @@ functions:
               paths:
                 caseId: true
           cors:
-            origin: ${self:custom.corsOrigin} 
+            origin: ${self:custom.corsOrigin}
   getTask:
     name: LAMBDA_${self:service}_http_get_task_${self:provider.stage}
     handler: handler.getTask
@@ -346,7 +342,7 @@ functions:
               paths:
                 caseId: true
                 taskId: true
-          cors: true              
+          cors: true
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
     handler: handler.deleteTask
@@ -368,18 +364,18 @@ functions:
           path: case-messages
           method: post
           cors:
-            origin: ${self:custom.corsOrigin} 
-  getCaseMessage:
+            origin: ${self:custom.corsOrigin}
+  getCaseMessages:
     name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
-    handler: handler.getCaseMessage
+    handler: handler.getCaseMessages
     events:
       - http:
-          path: case-messages/{caseMessageId}
+          path: case-messages/{caseId}
           method: get
           request:
             parameters:
               paths:
-                caseMessageId: true
+                caseId: true
           cors: true
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
@@ -440,7 +436,7 @@ resources:
             AttributeType: S
           - AttributeName: userId
             AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
+        BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: connectionId
             KeyType: HASH
@@ -461,7 +457,7 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
+        BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -475,7 +471,7 @@ resources:
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
+        BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -491,7 +487,7 @@ resources:
             AttributeType: S
           - AttributeName: state
             AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
+        BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -502,7 +498,7 @@ resources:
               - AttributeName: state
                 KeyType: HASH
             Projection:
-              ProjectionType: ALL        
+              ProjectionType: ALL
     TasksDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # For a production deployment, you'd want to retain your DB
@@ -516,7 +512,7 @@ resources:
             AttributeType: S
           - AttributeName: state
             AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
+        BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
             KeyType: HASH
@@ -545,13 +541,13 @@ resources:
             AttributeType: S
           - AttributeName: caseId
             AttributeType: S
-        BillingMode: PAY_PER_REQUEST    
+        BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
             KeyType: HASH
         TableName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_TABLE}
         GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_ON_CASE_GSI}
+          - IndexName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_CASEID_GSI}
             KeySchema:
               - AttributeName: caseId
                 KeyType: HASH

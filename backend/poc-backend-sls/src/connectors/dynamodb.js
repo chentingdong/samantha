@@ -70,16 +70,17 @@ class DynamoDbConnector {
     return await this._connector.get(params).promise();
   }
 
-  async getCaseMessage ( caseId ) {
+  async getCaseMessages ( caseId ) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
-      KeyConditionExpression: 'caseId = :caseId',
+      IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
       ExpressionAttributeValues: {
         ':caseId': caseId
-      }
+      },
+      Key: {id, caseId, state, data }
     }
 
-    return await this._connector.delete( params ).promise();
+    return await this._connector.get( params ).promise();
   }
 
   async listCaseDefinitions() {
@@ -235,7 +236,7 @@ class DynamoDbConnector {
       KeyConditionExpression: 'caseId = :caseId',
       ExpressionAttributeValues: {
         ':caseId': caseId
-      }     
+      }
     };
     return await this._connector.query(queryParams).promise();
   }
@@ -282,7 +283,7 @@ class DynamoDbConnector {
   async listCaseMessagesByCase(caseId) {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
-      IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_ON_CASE_GSI,
+      IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
       KeyConditionExpression: 'caseId = :caseId',
       ExpressionAttributeValues: {
         ':caseId': caseId

@@ -30,13 +30,11 @@ const createCaseMessage = async (event, context) => {
   }
 };
 
-const getCaseMessage = async (event, context) => {
+const getCaseMessages = async (event, context) => {
   try {
-    const params = event.pathParameters;
-    const caseId = params.caseId;
-    const id = params.caseMessageId;
+    const caseId = event.pathParameters.caseId;
     // case is a keyword...
-    const result = await dynamodbConnector.getCaseMessage(
+    const result = await dynamodbConnector.listCaseMessages(
       caseId
     );
 
@@ -51,7 +49,7 @@ const getCaseMessage = async (event, context) => {
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
+      body: JSON.stringify({err})
     }
   }
 };
@@ -59,9 +57,9 @@ const getCaseMessage = async (event, context) => {
 const listCaseMessages = async (event, context) => {
   try {
     var result = {};
-    const params = event.queryStringParameters;
-    if (params && 'case-id' in params) {
-      result = await dynamodbConnector.listCaseMessagesByCase(params['case-id']);
+    const params = event.pathParameters;
+    if (params && 'caseId' in params) {
+      result = await dynamodbConnector.listCaseMessagesByCase(params['caseId']);
     } else {
       result = await dynamodbConnector.listCaseMessages();
     }
@@ -108,7 +106,7 @@ const deleteCaseMessage = async (event, context) => {
 
 module.exports = {
   createCaseMessage,
-  getCaseMessage,
+  getCaseMessages,
   listCaseMessages,
   deleteCaseMessage
 };

@@ -16,8 +16,10 @@ function Cases ( props ) {
 
   async function newCase () {
     // Only allow one new case for user for now.
-    let currentCase = cases.find(c => c.state === 'pending');
+    let currentCase = cases.find(c => c.state === 'Pending');
     if ( currentCase !== undefined ) return;
+
+    setCases( cases => [ initCase, ...cases ] )
 
     // TODO: shouldn't need this, check!
     let user = await currentUser()
@@ -26,6 +28,7 @@ function Cases ( props ) {
     apiWrapper
       .get( '/case-definitions' )
       .then( ( resp ) => {
+        debugger
         console.debug( `get case defination ${ resp }` )
         let caseInstance = initCase
         caseInstance.creator = user
