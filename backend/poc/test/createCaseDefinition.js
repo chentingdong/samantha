@@ -22,7 +22,6 @@ describe( 'CreateCaseDefinition is importing data', () => {
         .then( ( response ) => {
           console.debug( response.body );
           const data = JSON.parse( response.body );
-          expect( data.id ).to.not.be.empty;
           expect( data.id ).to.be.string;
         } )
         .catch( err => {
