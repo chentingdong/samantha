@@ -1,105 +1,123 @@
 {
-  "version": "0.2.0",
-  "configurations": [
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "list case messages",
-      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
-      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": ["invoke", "local", "-f", "listCaseMessages", "--data",
-        "{\"id\" : \"02C12017-B30A-49B9-88B1-8DBD61094F96\", \"caseId\" : \"4FBF030B-AC5E-4A73-AE8A-038808DFCF24\", \"message\" : \"Welcome, please type and follow our instructions.\"}"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "create case message",
-      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
-      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": [
-        "invoke",
-        "local",
-        "-f",
-        "createCaseMessages",
-        "--data",
-        "{\"pathParameters\":{\"caseId\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\" }}"
-      ]
-    },
-    {
-      "type" : "node",
-      "request" : "launch",
-      "name" : "get case message",
-      "cwd" : "${workspaceRoot}/backend/poc-backend-sls",
-      "program" : "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": [
-        "invoke",
-        "local",
-        "-f",
-        "listCaseMessages",
-        "--data",
-        "{\"pathParameters\":{\"caseId\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\"}}"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "createCase",
-      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
-      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": [
-        "invoke",
-        "local",
-        "-f",
-        "createCase",
-        "--data",
-        "{\"body\": \"{\\\"c\\\":\\\"3\\\"}\"}"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "listCases",
-      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
-      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": [
-        "invoke",
-        "local",
-        "-f",
-        "listCases",
-        "--data",
-        "{}"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "getCase",
-      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
-      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": [
-        "invoke",
-        "local",
-        "-f",
-        "getCase",
-        "--data",
-        "{\"pathParameters\":{\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\"}}"
-      ]
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "createTask",
-      "cwd": "${workspaceRoot}/backend/poc-backend-sls",
-      "program": "${workspaceRoot}/backend/poc-backend-sls/node_modules/.bin/sls",
-      "args": [
-        "invoke",
-        "local",
-        "-f",
-        "createTask",
-        "--data",
-        "{\"body\": \"{\\\"name\\\":\\\"baiji task\\\"}\", \"pathParameters\": {\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\"}}"
-      ]
-    }
-  ]
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Mocha Tests createCase",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"test",
+				"-f",
+				"createCase"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "list case messages",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"listCaseMessages",
+				"--data",
+				"{\"id\" : \"02C12017-B30A-49B9-88B1-8DBD61094F96\", \"caseId\" : \"4FBF030B-AC5E-4A73-AE8A-038808DFCF24\", \"message\" : \"Welcome, please type and follow our instructions.\"}"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "create case message",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"createCaseMessages",
+				"--data",
+				"{\"pathParameters\":{\"caseId\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\" }}"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "get case message",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"listCaseMessages",
+				"--data",
+				"{\"pathParameters\":{\"caseId\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\" }}"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "createCase",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"createCase",
+				"--data",
+				"{\"body\": \"{\\\"c\\\":\\\"3\\\"}\"}"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "listCases",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"listCases",
+				"--data",
+				"{}"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "getCase",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"getCase",
+				"--data",
+				"{\"pathParameters\":{\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\" }}"
+			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "createTask",
+			"cwd": "${workspaceRoot}/backend/poc",
+			"program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+			"args": [
+				"invoke",
+				"local",
+				"-f",
+				"createTask",
+				"--data",
+				"{\"body\": \"{\\\"name\\\":\\\"baiji task\\\"}\", \"pathParameters\": {\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\" }}"
+			]
+		}
+	]
 }

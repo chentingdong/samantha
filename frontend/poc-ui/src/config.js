@@ -24,7 +24,7 @@ const config = {
   },
   wsUrl: 'wss://n8jhaqype5.execute-api.us-east-1.amazonaws.com/dev',
   suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
-  apiBaseUrl: 'https://xo8vusiqoa.execute-api.us-east-1.amazonaws.com/dev'
+  apiBaseUrl: 'https://hczi1v5p99.execute-api.us-east-1.amazonaws.com/dev'
 }
 
 export default config;

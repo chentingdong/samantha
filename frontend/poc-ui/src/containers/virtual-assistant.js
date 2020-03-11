@@ -58,7 +58,6 @@ function VirtualAssistant ( props ) {
       message: message
     }
 
-    debugger
     setMessages([ ...messages, newMessage ])
 
     const payload = {

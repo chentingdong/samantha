@@ -8,10 +8,10 @@ function Cases ( props ) {
 
   const initCase = {
     // "id": uuid4(),
-    "name": "case 1",
-    "creator": props.user,
-    "state": "pending",
-    "planItems": []
+    name: " ",
+    creator: props.user,
+    state: "pending",
+    planItems: []
   }
 
   async function newCase () {
@@ -28,7 +28,6 @@ function Cases ( props ) {
     apiWrapper
       .get( '/case-definitions' )
       .then( ( resp ) => {
-        debugger
         console.debug( `get case defination ${ resp }` )
         let caseInstance = initCase
         caseInstance.creator = user
@@ -64,13 +63,13 @@ function Cases ( props ) {
     apiWrapper
       .get( path )
       .then( ( resp ) => {
-        console.debug( `Get cases: ${ resp }` );
+        console.debug( `Get cases: ${ JSON.stringify(resp) }` );
         let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator.id === user.id)
         setCases( _cases );
         if ( _cases.length > 0 )
           props.setCurrentCaseId( _cases[ 0 ].id );
       } )
-      .catch( (err) => {
+      .catch( ( err ) => {
         console.error(err)
       })
   }

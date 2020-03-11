@@ -1,7 +1,6 @@
 service: poc-${self:custom.user}
 
-plugins:
-  - serverless-mocha-plugin
+# plugins:
 #   - serverless-dynamodb-local
 #   - serverless-offline
 # frameworkVersion: ">=1.38.0 <2.0.0"
@@ -366,17 +365,17 @@ functions:
           method: post
           cors:
             origin: ${self:custom.corsOrigin}
-  getCaseMessage:
+  getCaseMessages:
     name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
-    handler: handler.getCaseMessage
+    handler: handler.getCaseMessages
     events:
       - http:
-          path: case-messages/{caseMessageId}
+          path: case-messages/{caseId}
           method: get
           request:
             parameters:
               paths:
-                caseMessageId: true
+                caseId: true
           cors: true
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}

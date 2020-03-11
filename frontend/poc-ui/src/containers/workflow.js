@@ -204,7 +204,6 @@ function Workflow () {
     //     return item2 && item1.text === item2.text
     //   }))
     // })
-    debugger
     document.getElementById("saved-model").value = diagram.model.toJson();
     diagram.isModified = false;
   }

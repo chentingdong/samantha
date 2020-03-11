@@ -51,7 +51,7 @@ function Tasks (props) {
 
   useEffect( () => {
     findTasks()
-  }, [ currentCaseId] )
+  }, [ ] )
 
   return (
     <div className={props.className}>

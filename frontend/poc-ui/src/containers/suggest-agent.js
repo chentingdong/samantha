@@ -12,7 +12,6 @@ function Suggest (props) {
   function getSuggestions(e) {
     setValue(e.target.value)
     let url = suggestUrl + '/' + e.target.value
-    debugger
 
     return axios
       .get(url)

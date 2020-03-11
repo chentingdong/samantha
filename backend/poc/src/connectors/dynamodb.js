@@ -1,6 +1,7 @@
 'use strict';
 
-const aws = require('aws-sdk');
+const aws = require( 'aws-sdk' );
+aws.config.update( { region: 'us-east-1' } );
 const CONSTANTS = require('../constants');
 
 // TODO: divide into multiple models
