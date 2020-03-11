@@ -6,7 +6,7 @@
   "author": "Baiji He <baiji@astound.ai>",
   "license": "MIT",
   "scripts": {
-    "initdb": "node test/import-demo-data.js"
+    "initdb": "test/initdb.sh"
   },
   "dependencies": {
     "amazon-cognito-identity-js": "3.0.12",

@@ -11,3 +11,9 @@ sls invoke test -f createTaskDefinition
 * debugging with vscode
 
 see configuration in launch.json.
+
+* initialize database
+
+```bash
+yarn initdb
+```
