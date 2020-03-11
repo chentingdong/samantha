@@ -15,7 +15,7 @@ function Cases ( props ) {
   }
 
   async function newCase () {
-    // Only allow one new case for user for now.
+    // TODO: Only allow one new case for user for now.
     let currentCase = cases.find(c => c.state === 'Pending');
     if ( currentCase !== undefined ) return;
 
