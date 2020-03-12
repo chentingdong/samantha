@@ -15,7 +15,7 @@ function formatDate ( date ) {
 
 function stateColor ( state ) {
   let colorClass = '';
-  switch ( state ) {
+  switch ( state.toLowerCase() ) {
     case 'pending': colorClass = 'text-primary'; break;
     case 'active': colorClass = 'text-success'; break;
     case 'complete': colorClass = 'text-dark'; break;

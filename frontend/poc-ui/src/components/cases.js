@@ -49,7 +49,7 @@ function Cases ( { currentCaseId, setCurrentCaseId} ) {
     apiWrapper
       .get( path )
       .then( ( resp ) => {
-        console.debug( `Get cases: ${ JSON.stringify(resp.data) }` );
+        // console.debug( `Get cases: ${ JSON.stringify(resp.data) }` );
         let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id)
         setCases( _cases );
         if ( _cases.length > 0 )

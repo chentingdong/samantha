@@ -1,55 +1,24 @@
 // This is a designtime component, but also used in runtime design.
-import React, { useEffect } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
-import { useFormFields } from '../libs/custom-hooks';
 import LoaderButton from './loader-button';
-import apiWrapper from '../libs/api-wrapper';
+import {useFormFields} from '../libs/custom-hooks'
 
-function CreateFormTaskForm ( { close, submitFormTask } ) {
-  const [ task, setTask ] = useFormFields( {} )
-  // TODO: cognito user api
-  const assigneeList = [
-    { name: 'Baiji', id: 'Baiji' },
-    { name: 'Ben', id: 'Ben' },
-    { name: 'Jin', id: 'Jin' },
-    { name: 'Ronda', id: 'Ronda' },
-    { name: 'Tingdong', id: 'Tingdong' }
-  ];
+function CreateFormTaskForm ( { newTask, setNewTask, close, submitFormTask, assigneeList } ) {
+  console.log(newTask)
+  const [ task, setTask ] = useFormFields( newTask )
 
-  function getTaskDefinition () {
-    // const taskDef = {
-    //   taskDescription: '',
-    //   assignee: assigneeList[ 1 ],
-    //   dueDate: new Date(),
-    //   followUpDays: 1,
-    //   formUrl: ''
-    // }
-
-    // TODO: GET /task-definitations/1
-
-    apiWrapper
-      .get( '/task-definitions' )
-      .then( resp => {
-        let taskDefinitions = resp.data
-        let taskDefination = taskDefinitions[0]
-        let taskDef = resp.data
-        setTask(taskDef)
-      } )
-      .catch( err => {
-        console.warn(err)
-      })
+  function submit () {
+    setNewTask( task )
+    submitFormTask()
   }
-
-  useEffect( () => {
-    getTaskDefinition()
-  }, [] )
 
   return (
     task &&
     <form onSubmit={e => e.preventDefault()} className="row">
       <div className="form-group col-6">
         <label>Task Name</label>
-        <input className="form-control" name="name" value={task.data.name} onChange={setTask} />
+        <input className="form-control" name="name" value={task.name} onChange={setTask} />
       </div>
       <div className="form-group col-6">
         <label>Depend on task</label>
@@ -59,7 +28,7 @@ function CreateFormTaskForm ( { close, submitFormTask } ) {
         <label>Task description</label>
         <textarea className="form-control"
           name="description"
-          value={task.data.description}
+          value={task.description}
           placeholder="Please fill in this form..."
           onChange={setTask} />
       </div>
@@ -68,7 +37,7 @@ function CreateFormTaskForm ( { close, submitFormTask } ) {
         <label>Assign to</label><br />
         <select className="form-control"
           name="assignee"
-          value={task.data.assignee}
+          value={task.assignee}
           onChange={setTask} >
           {assigneeList.map( ( assignee ) => {
             return <option value={assignee.id} key={assignee.id}>{assignee.name}</option>;
@@ -79,17 +48,18 @@ function CreateFormTaskForm ( { close, submitFormTask } ) {
         <label>Due date</label><br />
         <DatePicker className="form-control"
           name="dueDate"
-          selected={task.data.dueDate}
+          selected={task.dueDate}
           onChange={setTask}
         />
       </div>
-      <div className="form-group col-6">
-        <label>Remind in days</label><br />
-        <input className="form-control"
+      <div className="form-group col-6 row">
+        <label className="col-12">Remind in days</label>
+        <input className="form-control col-7"
           type="number"
-          name="followUpDays"
-          value={task.data.followUpDays}
+          name="followUpDuration"
+          value={parseInt(task.followUpDuration)}
           onChange={setTask} />
+        <span className="col-5">days</span>
       </div>
       <hr />
       <div className="form-group col-12">
@@ -98,12 +68,12 @@ function CreateFormTaskForm ( { close, submitFormTask } ) {
           type="url"
           name="formUrl"
           placeholder="form url"
-          value={task.data.formUrl}
+          value={task.formUrl}
           onChange={setTask} />
       </div>
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={close}>Cancel</button>
-        <LoaderButton className="btn-success" onClick={e => submitFormTask(task)}>submit!</LoaderButton>
+        <LoaderButton className="btn-success" onClick={submit}>submit!</LoaderButton>
       </div>
     </form>
   );

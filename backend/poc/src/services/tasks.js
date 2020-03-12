@@ -4,10 +4,10 @@ const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 const uuid = require('uuid');
 
-const createTask = async (event, context) => {  
+const createTask = async (event, context) => {
   try {
     const id = uuid.v4();
-    const state = 'Active';    
+    const state = 'Active';
     const params = event.pathParameters;
     const caseId = params.caseId;
     const data = JSON.parse(event.body);
@@ -50,7 +50,7 @@ const createTask = async (event, context) => {
   }
 };
 
-const getTask = async (event, context) => {  
+const getTask = async (event, context) => {
   try {
     const params = event.pathParameters;
     const id = params.taskId;
@@ -75,7 +75,7 @@ const getTask = async (event, context) => {
   }
 };
 
-const listTasks = async (event, context) => {  
+const listTasks = async (event, context) => {
   try {
     var result = {};
     const params = event.pathParameters;
@@ -101,7 +101,7 @@ const listTasks = async (event, context) => {
   }
 };
 
-const completeTask = async (event, context) => {  
+const completeTask = async (event, context) => {
   try {
     const params = event.pathParameters;
     const id = params.taskId;
@@ -128,7 +128,7 @@ const completeTask = async (event, context) => {
   }
 };
 
-const deleteTask = async (event, context) => {  
+const deleteTask = async (event, context) => {
   try {
     const params = event.pathParameters;
     const id = params.taskId;

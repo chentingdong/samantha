@@ -102,7 +102,6 @@ function VirtualAssistant ( props ) {
         currentCaseId={currentCaseId}
         setCurrentCaseId={setCurrentCaseId}/>
       <Tasks className="mt-1 row"
-        userMessage={userMessage}
         agentMessage={agentMessage}
         currentCaseId={currentCaseId} />
       <hr />

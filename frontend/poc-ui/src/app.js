@@ -7,7 +7,6 @@ import config from './config.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 import logo from './assets/bellhop.png';
-import { UserContext } from './libs/context';
 
 // Import and build a fontawesome icon library to share in the app
 import { library } from '@fortawesome/fontawesome-svg-core';
