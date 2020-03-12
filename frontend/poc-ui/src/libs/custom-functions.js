@@ -1,5 +1,3 @@
-import { Auth } from 'aws-amplify';
-
 function formatDate ( date ) {
   var monthNames = [
     "January", "February", "March",
@@ -26,9 +24,4 @@ function stateColor ( state ) {
   return colorClass;
 }
 
-async function currentUser () {
-  let user = await Auth.currentAuthenticatedUser()
-  return user;
-}
-
-export { formatDate, stateColor, currentUser };
+export { formatDate, stateColor };

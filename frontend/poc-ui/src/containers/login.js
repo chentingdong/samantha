@@ -20,27 +20,12 @@ const Federated = withFederated((props) => {
   )
 });
 
-function Login (props) {
+function Login ( {userHasAuthenticated}) {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ isAuthenticating, setIsAuthenticating ] = useState(false);
   Amplify.configure(config);
-
-  useEffect(() => {
-    function checkLogin () {
-      Auth
-        .currentAuthenticatedUser()
-        .then(() => {
-          props.userHasAuthenticated(true);
-          setIsAuthenticating(false);
-        })
-        .catch((e) => {
-          console.error(e)
-        })
-    }
-
-    checkLogin();
-  }, []);
+  const user = Auth.user
 
   function validateForm () {
     return email.length > 0 && password.length > 0;
@@ -51,7 +36,7 @@ function Login (props) {
 
     try {
       await Auth.signIn(email, password);
-      props.userHasAuthenticated(true);
+      userHasAuthenticated(true);
     } catch (e) {
       alert(e.message);
     }
@@ -59,7 +44,7 @@ function Login (props) {
 
   function handleFederatedLogin (state) {
     if (state === 'signedIn') {
-      props.userHasAuthenticated(true);
+      userHasAuthenticated(true);
     }
   }
 

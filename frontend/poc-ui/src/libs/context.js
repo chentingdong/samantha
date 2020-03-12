@@ -1,12 +1,9 @@
-import React, { createContext } from 'react';
-import Amplify, { Auth } from "aws-amplify";
-import config from '../config.js';
+// import React, { createContext } from 'react';
+// import Amplify, { Auth } from "aws-amplify";
+// import config from '../config.js';
 
-Amplify.configure( config );
+// Amplify.configure( config );
+// const user = Auth.user;
+// const UserContext = createContext( user );
 
-Auth.currentAuthenticatedUser()
-  .then( user => {
-    const UserContext = React.createContext( user );
-  } );
-
-export {UserContext}
+// export {UserContext}

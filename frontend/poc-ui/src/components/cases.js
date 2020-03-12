@@ -1,37 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { stateColor, currentUser } from '../libs/custom-functions';
+import { stateColor } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper'
+import { Auth } from 'aws-amplify'
 
-function Cases ( props ) {
+function Cases ( { currentCaseId, setCurrentCaseId} ) {
   const [ cases, setCases ] = useState( [] );
+  const user = Auth.user;
 
-  const initCase = {
-    // "id": uuid4(),
-    name: " ",
-    creator: props.user,
-    state: "pending",
-    planItems: []
-  }
-
-  async function newCase () {
-    // TODO: Only allow one new case for user for now.
-    let currentCase = cases.find(c => c.state === 'Pending');
-    if ( currentCase !== undefined ) return;
-
-    setCases( cases => [ initCase, ...cases ] )
-
-    // TODO: shouldn't need this, check!
-    let user = await currentUser()
-
-    // GET /case-defination
+  function newCase () {
     apiWrapper
       .get( '/case-definitions' )
       .then( ( resp ) => {
         console.debug( `get case defination ${ resp }` )
-        let caseInstance = initCase
-        caseInstance.creator = user
-        props.setCurrentCaseId( caseInstance.id );
+        // Only one case def for now
+        let caseInstance = resp.data[0].data
+        caseInstance.creator = user.id
+        setCurrentCaseId( caseInstance.id );
 
         // save immediately, for 2020Q1.
         postNewCase( caseInstance)
@@ -49,7 +34,9 @@ function Cases ( props ) {
     .post( '/cases', caseInstance )
     .then( resp => {
       if ( resp.status === 200 ) {
-        props.setCurrentCaseId(resp.data.id)
+        const caseInstance = resp.data
+        setCases([caseInstance, ...cases])
+        setCurrentCaseId( resp.data.id )
       }
     } )
     .catch( err => {
@@ -57,17 +44,16 @@ function Cases ( props ) {
     })
   }
 
-  async function getCases () {
-    let user = await currentUser()
+  function getCases () {
     let path = `/cases`
     apiWrapper
       .get( path )
       .then( ( resp ) => {
-        console.debug( `Get cases: ${ JSON.stringify(resp) }` );
-        let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator.id === user.id)
+        console.debug( `Get cases: ${ JSON.stringify(resp.data) }` );
+        let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id)
         setCases( _cases );
         if ( _cases.length > 0 )
-          props.setCurrentCaseId( _cases[ 0 ].id );
+          setCurrentCaseId( _cases[ 0 ].id );
       } )
       .catch( ( err ) => {
         console.error(err)
@@ -107,7 +93,7 @@ function Cases ( props ) {
       {cases.length > 0 &&
         cases.map( ( c, index ) => {
         let className = 'btn btn-light d-flex justify-content-center rounded-circle case ';
-        className += ( c.id === props.currentCaseId ) ? 'border-warning ' : 'border-light ';
+        className += ( c.id === currentCaseId ) ? 'border-warning ' : 'border-light ';
         className += stateColor(c.state)
         return (
           <div
@@ -116,7 +102,7 @@ function Cases ( props ) {
             data-toggle="tooltip"
             data-placement="right"
             style={style.case}
-            onClick={e => props.setCurrentCaseId(c.id)}
+            onClick={e => setCurrentCaseId(c.id)}
             title={c.name} >
             <FontAwesomeIcon icon="bell" className="align-self-center" />
           </div>
