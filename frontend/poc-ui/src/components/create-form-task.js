@@ -5,7 +5,6 @@ import LoaderButton from './loader-button';
 import {useFormFields} from '../libs/custom-hooks'
 
 function CreateFormTaskForm ( { newTask, setNewTask, close, submitFormTask, assigneeList } ) {
-  console.log(newTask)
   const [ task, setTask ] = useFormFields( newTask )
 
   function submit () {

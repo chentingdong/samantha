@@ -36,7 +36,7 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
       .get( path )
       .then( resp => {
         let caseTasks = resp.data;
-        console.log( `Get tasks with currentCaseId=${ currentCaseId }: ${ caseTasks }` );
+        console.log( `Get tasks with currentCaseId=${ currentCaseId }: ${ JSON.stringify(caseTasks) }` );
         setTasks( caseTasks );
       } )
       .catch( err => {
@@ -77,14 +77,18 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
   }
 
   function getUsers () {
-    let users1 = [
-      { name: 'Baiji', id: 'Baiji' },
-      { name: 'Ben', id: 'Ben' },
-      { name: 'Jin', id: 'Jin' },
-      { name: 'Ronda', id: 'Ronda' },
-      { name: 'Tingdong', id: 'Tingdong' }
-    ];
-    return setUsers(users1)
+    // let users1 = [
+    //   { name: 'Baiji', id: 'Baiji' },
+    //   { name: 'Ben', id: 'Ben' },
+    //   { name: 'Jin', id: 'Jin' },
+    //   { name: 'Ronda', id: 'Ronda' },
+    //   { name: 'Tingdong', id: 'Tingdong' }
+    // ];
+    apiWrapper
+      .get( '/users' )
+      .then( resp => {
+        setUsers( resp.data );
+      })
   }
   useEffect( () => {
     getUsers()
@@ -164,7 +168,6 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
             submitFormTask={submitFormTask} />
         </Modal.Body>
       </Modal>
-
       <Modal show={showWorkOnTaskModal} onHide={e => setShowWorkOnTaskModal( false )}>
         <Modal.Header closeButton>
           <Modal.Title>Working on task {currentTask.name}</Modal.Title>

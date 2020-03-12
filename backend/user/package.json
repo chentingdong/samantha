@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "mocha": "^7.1.0",
+    "serverless": "^1.66.0",
+    "serverless-mocha-plugin": "^1.11.0"
+  }
+}

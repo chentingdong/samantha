@@ -1,0 +1,31 @@
+service: user-${self:custom.user}
+
+custom:
+  corsOrigin: '*'
+  user: ${env:USER}
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  vpc:
+    securityGroupIds:
+      - sg-e25dbbb4
+    subnetIds:
+      - subnet-424b910f
+      - subnet-7e0b5240
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "ec2:CreateNetworkInterface"
+        - "ec2:DescribeNetworkInterfaces"
+        - "ec2:DetachNetworkInterface"
+        - "ec2:DeleteNetworkInterface"
+      Resource: "*"
+functions:
+  user:
+    handler: handler.listIdentityPoolUsers
+    events:
+      - http:
+          path: /users
+          method: get
+          cors: true
