@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Empty case",
+    "creator": {},
+    "version": "0.0.1",
+    "caseFile": {}
+  },
+  {
+    "name": "another Empty case for testing",
+    "creator": {},
+    "version": "0.0.1",
+    "caseFile": {}
+  }
+]

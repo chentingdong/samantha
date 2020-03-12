@@ -3,10 +3,10 @@ import React, { useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { useFormFields } from '../libs/custom-hooks';
 import LoaderButton from './loader-button';
-import { formatDate } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
 
-function CreateFormTaskForm ( props ) {
+function CreateFormTaskForm ( { close, submitFormTask } ) {
+  const [ task, setTask ] = useFormFields( {} )
   // TODO: cognito user api
   const assigneeList = [
     { name: 'Baiji', id: 'Baiji' },
@@ -16,72 +16,33 @@ function CreateFormTaskForm ( props ) {
     { name: 'Tingdong', id: 'Tingdong' }
   ];
 
-  let taskDef = {
-    caseId: 'e04c6e8b-fc6c-4cb0-886a-d4e36c6cb156',
-    data: {
-      assignee: 'Tingdong',
-      description: 'ask user to intake a form',
-      dueDate: '',
-      followUpDays: '1',
-      formUrl: 'http://example.com/doc',
-      name: 'choose form'
-    },
-    dependsOn: ' ',
-    state: 'Active'
-  }
-
-  const [ task, setTask ] = useFormFields( taskDef );
-
   function getTaskDefinition () {
+    // const taskDef = {
+    //   taskDescription: '',
+    //   assignee: assigneeList[ 1 ],
+    //   dueDate: new Date(),
+    //   followUpDays: 1,
+    //   formUrl: ''
+    // }
+
     // TODO: GET /task-definitations/1
-/*
+
     apiWrapper
-      .get( '/task-definitions/1' )
+      .get( '/task-definitions' )
       .then( resp => {
-        // let taskDef = resp.data
-        // setTask(taskDef)
+        let taskDefinitions = resp.data
+        let taskDefination = taskDefinitions[0]
+        let taskDef = resp.data
+        setTask(taskDef)
       } )
       .catch( err => {
         console.warn(err)
-      }) */
+      })
   }
 
   useEffect( () => {
     getTaskDefinition()
   }, [] )
-
-  function AfterPostMessage () {
-    if ( !task ) return '';
-
-    const dueDate = formatDate( task.data.dueDate || new Date() );
-    return (
-      task &&
-      <>
-        Your task is added to current case.
-        Your message is sent to <b>{task.data.assignee.name}</b>,
-        expecting to finish on <b>{dueDate}</b>.
-        I will inform him after <b>{task.data.followUpDays}</b> days if not finished.
-      </>
-    );
-  }
-
-  function postFormTask () {
-    let path = `/cases/${props.currentCaseId}/tasks`
-    apiWrapper
-      .post(path, task)
-      .then( resp => {
-        console.log( resp );
-        props.setTasks( tasks => [ task, ...tasks ] );
-        const html = AfterPostMessage();
-        props.agentMessage( html );
-      })
-      .catch( err => {
-        console.error(err)
-      } )
-      .then( () => {
-        props.close();
-      })
-  }
 
   return (
     task &&
@@ -141,8 +102,8 @@ function CreateFormTaskForm ( props ) {
           onChange={setTask} />
       </div>
       <div className="modal-footer col-12">
-        <button className="btn-secondary" onClick={props.close}>Cancel</button>
-        <LoaderButton className="btn-success" onClick={postFormTask}>submit!</LoaderButton>
+        <button className="btn-secondary" onClick={close}>Cancel</button>
+        <LoaderButton className="btn-success" onClick={e => submitFormTask(task)}>submit!</LoaderButton>
       </div>
     </form>
   );
