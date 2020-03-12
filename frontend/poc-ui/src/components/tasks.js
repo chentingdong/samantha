@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ButtonGroup, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
 import CreateFormTask from './create-form-task';
-import CreateApprovalTask from './create-approval-task';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { stateColor, formatDate } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
@@ -13,6 +12,7 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
   const [ currentTask, setCurrentTask ] = useState( {} );
   const [ showCreateModal, setShowCreateModal ] = useState( false );
   const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState( false );
+  const [ users, setUsers ] = useState( [] )
 
   function getTaskDefinitions () {
     let path = '/task-definitions';
@@ -76,17 +76,19 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
     setShowCreateModal( false );
   }
 
-  function getAssigneeList () {
-    let assigneeList = [
+  function getUsers () {
+    let users1 = [
       { name: 'Baiji', id: 'Baiji' },
       { name: 'Ben', id: 'Ben' },
       { name: 'Jin', id: 'Jin' },
       { name: 'Ronda', id: 'Ronda' },
       { name: 'Tingdong', id: 'Tingdong' }
     ];
-    return assigneeList
+    return setUsers(users1)
   }
-  getAssigneeList()
+  useEffect( () => {
+    getUsers()
+  }, [])
 
   function workOnTask ( task ) {
     setShowWorkOnTaskModal( true );
@@ -158,7 +160,7 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
             newTask={newTask}
             setNewTask={setNewTask}
             close={closeTask}
-            assigneeList={assigneeList}
+            assigneeList={users}
             submitFormTask={submitFormTask} />
         </Modal.Body>
       </Modal>

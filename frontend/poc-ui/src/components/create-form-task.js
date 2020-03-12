@@ -73,7 +73,7 @@ function CreateFormTaskForm ( { newTask, setNewTask, close, submitFormTask, assi
       </div>
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={close}>Cancel</button>
-        <LoaderButton className="btn-success" onClick={submit}>submit!</LoaderButton>
+        <LoaderButton className="btn-success" onClick={submit}>create task!</LoaderButton>
       </div>
     </form>
   );
