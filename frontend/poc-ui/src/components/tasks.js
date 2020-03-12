@@ -3,28 +3,51 @@ import { ButtonGroup, DropdownButton, Dropdown, Modal } from 'react-bootstrap'
 import CreateFormTask from './create-form-task'
 import CreateApprovalTask from './create-approval-task'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {stateColor} from '../libs/custom-functions'
+import { stateColor, formatDate } from '../libs/custom-functions'
 import apiWrapper from '../libs/api-wrapper';
 
-function Tasks (props) {
+function Tasks ( { className, currentCaseId, userMessage, agentMessage } ) {
+  const [ taskDefinitions, setTaskDefinitions] = useState([])
+  const [ tasks, setTasks ] = useState([])
   const [ showFormTaskModal, setShowFormTaskModal ] = useState(false)
   const [ showApprovalTaskModal, setShowApprovalTaskModal ] = useState( false )
-  const [ tasks, setTasks ] = useState([])
   const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState(false)
-  const currentCaseId = props.currentCaseId
   const [ currentTask, setCurrentTask ] = useState({})
 
-  function findTasks () {
+  function getCaseTasks () {
+    const path = `/cases/${ currentCaseId }/tasks`;
     apiWrapper
-      .get( '/tasks' )
+      .get( path )
       .then( resp => {
-        let caseTasks = resp.data
-        console.log(JSON.stringify(resp.data))
-        setTasks( caseTasks)
+        let caseTasks = resp.data;
+        console.log( `Get tasks with currentCaseId=${ currentCaseId }: ${ caseTasks }` );
+        setTasks( caseTasks );
       } )
       .catch( err => {
-        console.error(err)
-      })
+        console.error( err );
+      } );
+  }
+  useEffect( () => {
+      getCaseTasks();
+  }, [ currentCaseId] )
+
+  function closeTask () {
+    setShowFormTaskModal( false )
+  }
+
+  function submitFormTask ({task}) {
+    apiWrapper
+      .post( '/tasks', task )
+      .then( resp => {
+        setTasks( tasks => [ task, ...tasks ] );
+        agentMessage( <AfterPostMessage/> );
+      } )
+      .catch( err => {
+        console.error( err );
+      } )
+      .then( () => {
+        closeTask();
+      } );
   }
 
   function workOnTask (task) {
@@ -49,13 +72,10 @@ function Tasks (props) {
     setShowWorkOnTaskModal( false );
   }
 
-  useEffect( () => {
-    findTasks()
-  }, [ ] )
-
   return (
-    <div className={props.className}>
+    <div className={className}>
       <div className="nav row mt-1">
+        {tasks}
         <DropdownButton
           as={ButtonGroup}
           variant="light"
@@ -91,13 +111,9 @@ function Tasks (props) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateFormTask
-            close={e => setShowFormTaskModal( false )}
-            sendMessage={props.userMessage}
-            agentMessage={props.agentMessage}
-            tasks={tasks}
-            currentCaseId={currentCaseId}
-            setTasks={setTasks} />
+          <CreateFormTask close={closeTask}
+            taskDefinition={taskDefinitions[ 0 ]}
+            submitFormTask={e => { debugger; submitFormTask( e ); }} />
         </Modal.Body>
       </Modal>
       <Modal show={showApprovalTaskModal} onHide={e => setShowApprovalTaskModal( false )}>
@@ -110,8 +126,8 @@ function Tasks (props) {
         <Modal.Body>
           <CreateApprovalTask
             close={e => setShowApprovalTaskModal( false )}
-            sendMessage={props.userMessage}
-            agentMessage={props.agentMessage}
+            sendMessage={userMessage}
+            agentMessage={agentMessage}
             setTasks={setTasks} />
         </Modal.Body>
       </Modal>
@@ -120,13 +136,35 @@ function Tasks (props) {
           <Modal.Title>Working on task {currentTask.name}</Modal.Title>
         </Modal.Header>
         <Modal.Footer>
-          <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>no change</button>
-          <button className="btn-secondary" onClick={e => setShowWorkOnTaskModal( false )} disabled>cancel task</button>
-          <button className="btn-success" onClick={completeCurrentTask}>complete task</button>
+          <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>
+            no change
+          </button>
+          <button className="btn-secondary" onClick={e => setShowWorkOnTaskModal( false )} disabled>
+            cancel task
+          </button>
+          <button className="btn-success" onClick={completeCurrentTask}>
+            complete task
+          </button>
         </Modal.Footer>
       </Modal>
     </div>
   );
 };
+
+// TODO: this should come from backend, maybe use NLG to generate task reply, leave for future.
+function AfterPostMessage ( { task } ) {
+  if ( !task ) return '';
+
+  const dueDate = formatDate( task.data.dueDate || new Date() );
+  return (
+    task &&
+    <>
+      Your task is added to current case.
+        Your message is sent to <b>{task.data.assignee.name}</b>,
+        expecting to finish on <b>{dueDate}</b>.
+        I will inform him after <b>{task.data.followUpDays}</b> days if not finished.
+      </>
+  );
+}
 
 export default Tasks;
