@@ -2,6 +2,17 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "offline debug",
+      "cwd": "${workspaceRoot}/backend/poc",
+      "program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
+      "args": [
+        "offline",
+        "start"
+      ]
+    },    
+    {
       "type" : "node",
       "request" : "launch",
       "name" : "`yarn start`",
