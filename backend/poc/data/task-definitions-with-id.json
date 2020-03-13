@@ -1,0 +1,28 @@
+[
+  {
+    "id": "1",
+    "data": {
+      "name": "Intake a form",
+      "description": "a task with an form url attached for assignee to intake",
+      "faIcon": "user-cog",
+      "dueDate": " ",
+      "followUpDuration": "1",
+      "assignee": " ",
+      "entryCriterions": [],
+      "formUrl": "http://example.com/doc"
+    }
+  },
+  {
+    "id": "2",
+    "data": {
+      "name": "Ask for approval",
+      "description": "a task that provide approval/reject button for assignee",
+      "faIcon": "user-cog",
+      "dueDate": " ",
+      "followUpDuration": "1",
+      "assignee": " ",
+      "entryCriterions": [],
+      "formUrl": "http://example.com/doc"
+    }
+  }
+]

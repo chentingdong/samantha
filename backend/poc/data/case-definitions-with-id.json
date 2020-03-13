@@ -1,0 +1,22 @@
+[
+  {
+    "id": "1",
+    "data": {
+      "name": "Planning",
+      "creator": {},
+      "version": "0.0.1",
+      "caseFile": {},
+      "planItems": []
+    }
+  },
+  {
+    "id": "2",
+    "data": {
+      "name": "another Empty case for testing",
+      "creator": {},
+      "version": "0.0.1",
+      "caseFile": {},
+      "planItems": []
+    }
+  }
+]
