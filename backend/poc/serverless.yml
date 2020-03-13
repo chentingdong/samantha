@@ -2,9 +2,8 @@ service: poc-${self:custom.user}
 
 plugins:
   - serverless-mocha-plugin
-#   - serverless-dynamodb-local
-#   - serverless-offline
-# frameworkVersion: ">=1.38.0 <2.0.0"
+  - serverless-dynamodb-local
+  - serverless-offline
 
 custom:
   # This can be changed to the desired origin
@@ -12,15 +11,18 @@ custom:
   # https://github.com/serverless/serverless/issues/4681
   corsOrigin: '*'
   user: ${env:USER}
-  # dynamodb:
-  #   start:
-  #     port: 8700
-  #     inMemory: true
-  #     migrate: true
-  #   migration:
-  #     dir: offline/migrations
-  # serverless-offline:
-  #   port: 3700
+  dynamodb:
+    stages:
+      - dev
+      - test
+    start:
+      port: 8000
+      inMemory: true
+      migrate: true
+    migration:
+      dir: offline/migrations
+  #serverless-offline:
+  #  httpPort: 3000
 
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md

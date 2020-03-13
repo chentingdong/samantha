@@ -1,13 +1,13 @@
 'use strict';
 
 const aws = require( 'aws-sdk' );
-aws.config.update( { region: 'us-east-1' } );
 const CONSTANTS = require('../constants');
+const dynamodb = require('serverless-dynamodb-client');
 
 // TODO: divide into multiple models
 class DynamoDbConnector {
   constructor() {
-    this._connector = new aws.DynamoDB.DocumentClient(CONSTANTS.DYNAMODB_OPTIONS);
+    this._connector = dynamodb.doc;
   }
 
   get connector() {

@@ -721,6 +721,21 @@ aws-sdk@2.466.0:
     uuid "3.3.2"
     xml2js "0.4.19"
 
+aws-sdk@^2.3.19:
+  version "2.639.0"
+  resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.639.0.tgz#ae887a179939750de240ddeb680668300256900f"
+  integrity sha512-cbH69oV0ObZ4tapbjDqu0j3I779uscQNhRaewjIJY5O5At4RULtd7us24n72FtT4HIwM9cwORzVxA9rK6DHKOA==
+  dependencies:
+    buffer "4.9.1"
+    events "1.1.1"
+    ieee754 "1.1.13"
+    jmespath "0.15.0"
+    querystring "0.2.0"
+    sax "1.2.1"
+    url "0.10.3"
+    uuid "3.3.2"
+    xml2js "0.4.19"
+
 aws-sdk@^2.4.0, aws-sdk@^2.491.0:
   version "2.637.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.637.0.tgz#810e25e53acf2250d35fc74498f9d4492e154217"
@@ -3985,7 +4000,14 @@ semver@^6.1.1, semver@^6.2.0, semver@^6.3.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.0.tgz#ee0a64c8af5e8ceea67687b133761e1becbd1d3d"
   integrity sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
 
-serverless-dynamodb-local@^0.2.38:
+serverless-dynamodb-client@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/serverless-dynamodb-client/-/serverless-dynamodb-client-0.0.2.tgz#41a0200e1da74f50372cc4eeeca0a8aa9da82daa"
+  integrity sha1-QaAgDh2nT1A3LMTu7KCoqp2oLao=
+  dependencies:
+    aws-sdk "^2.3.19"
+
+serverless-dynamodb-local@^0.2.39:
   version "0.2.39"
   resolved "https://registry.yarnpkg.com/serverless-dynamodb-local/-/serverless-dynamodb-local-0.2.39.tgz#9022bb8fa5d2271b1959bf8728b03c8680e66ca2"
   integrity sha512-xhP64tfI9dwp15BkRPXvVpjcZxamHdpLXQlq8EFKxrLcCXay2aS5Tupl0dLdSB+e0b1AkjQPltNPFtRTgsnFRg==
