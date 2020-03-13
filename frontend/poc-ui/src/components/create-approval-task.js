@@ -3,56 +3,15 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { useFormFields } from '../libs/custom-hooks';
 import LoaderButton from './loader-button';
-import { formatDate } from '../libs/custom-functions';
 
-function CreateApprovalTask ( props ) {
-  // TODO: cognito user api
-  const assigneeList = [
-    { name: 'Baiji', id: 'Baiji' },
-    { name: 'Ben', id: 'Ben' },
-    { name: 'Jin', id: 'Jin' },
-    { name: 'Ronda', id: 'Ronda' },
-    { name: 'Tingdong', id: 'Tingdong' }
-  ];
+function CreateApprovalTask ( { newTask, close, submitCreateTaskForm, assigneeList } ) {
+  const [ task, setTask ] = useFormFields( newTask );
 
-  // TODO: default form task schema should come from an api.
-  const [ task, setTask ] = useFormFields( {
-    taskDescription: '',
-    assignee: assigneeList[ 1 ],
-    dueDate: new Date(),
-    followUpDays: 1,
-    formUrl: ''
-  } );
-
-  function AfterPostMessage () {
-    const dueDate = formatDate( task.dueDate );
-    return (
-      <span>
-        Your task is added to current case.
-        Your message is sent to <b>{task.assignee.name}</b>,
-        expecting to finish on <b>{dueDate}</b>.
-        I will inform him after <b>{task.followUpDays}</b> days if not finished.
-      </span>
-    );
+  function submit () {
+    submitCreateTaskForm();
   }
-
-  function postFormTask () {
-    // TODO: POST /cases/{id}/tasks/{id}/create
-    const resp = {
-      'success': true
-    };
-
-    console.log( resp );
-
-    props.setTasks( tasks => [ task, ...tasks ] );
-
-    const html = AfterPostMessage();
-    props.agentMessage( html );
-
-    props.close();
-  }
-
   return (
+    task &&
     <form onSubmit={e => e.preventDefault()} className="row">
       <div className="form-group col-6">
         <label>Task Name</label>
@@ -78,7 +37,7 @@ function CreateApprovalTask ( props ) {
           value={task.assignee}
           onChange={setTask} >
           {assigneeList.map( ( assignee ) => {
-            return <option value={assignee.id} key={assignee.id}>{assignee.name}</option>;
+            return <option value={assignee.IdentityId} key={assignee.IdentityId}>{assignee.IdentityId}</option>;
           } )}
         </select>
       </div>
@@ -109,8 +68,8 @@ function CreateApprovalTask ( props ) {
           onChange={setTask} />
       </div>
       <div className="modal-footer col-12">
-        <button className="btn-secondary" onClick={props.close}>Cancel</button>
-        <LoaderButton className="btn-success" onClick={postFormTask}>submit!</LoaderButton>
+        <button className="btn-secondary" onClick={close}>Cancel</button>
+        <LoaderButton className="btn-success" onClick={submit}>let's go</LoaderButton>
       </div>
     </form>
   );

@@ -2,6 +2,30 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type" : "node",
+      "request" : "launch",
+      "name" : "`yarn start`",
+      "cwd" : "${workspaceRoot}",
+      "runtimeExecutable" : "yarn",
+      "runtimeArgs" : ["start"],
+      "stopOnEntry" : false
+    },
+    {
+      "name" : "Chrome",
+      "type" : "chrome",
+      "request" : "attach",
+      "port" : 3000,
+      "url" : "https://localhost:3000/demo",
+      "webRoot" : "${workspaceRoot}",
+      "sourceMaps" : true,
+      "sourceMapPathOverrides" : {
+          "webpack:///./~/*": "${workspaceRoot}/../node_modules/*",
+          "webpack:///../*": "${workspaceRoot}/../node_modules/*",
+          "webpack:///./*": "${workspaceRoot}/../*",
+          "webpack:///*": "/*"
+      }
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "Tests createCase",
@@ -107,7 +131,7 @@
         "-f",
         "createTask",
         "--data",
-        "{\"body\": \"{\\\"name\\\":\\\"baiji task\\\"}\", \"pathParameters\": {\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\" }}"
+        "{ \"name\": \"Intake a form\", \"description\": \"a task with an form url attached for assignee to intake\", \"faIcon\": \"user-cog\", \"dueDate\": \" \", \"followUpDuration\": \"1\", \"assignee\": \" \", \"entryCriterions\": [], \"formUrl\": \"http://example.com/doc\" }"
       ]
     }
   ]

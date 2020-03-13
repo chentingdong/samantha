@@ -6,20 +6,8 @@ import Cases from '../components/cases'
 import Tasks from '../components/tasks'
 import Suggest from '../components/suggest'
 import apiWrapper from '../libs/api-wrapper';
-import {currentUser} from '../libs/custom-functions'
 
 function VirtualAssistant ( props ) {
-  let user = {};
-
-  useEffect( () => {
-    user = currentUser()
-      .then( (user) => {
-        initialMessage.message = 'Hi ' + user.name + ', ' + initialMessage.message;
-      } )
-  }, [] )
-
-  user = currentUser();
-
   let initialMessage = {
     id: 1,
     who: 'agent',
@@ -110,8 +98,12 @@ function VirtualAssistant ( props ) {
 
   return (
     <div className="container-fluid">
-      <Cases className="mt-1 row" currentCaseId={currentCaseId} setCurrentCaseId={setCurrentCaseId} user={user}/>
-      <Tasks userMessage={userMessage} agentMessage={agentMessage} currentCaseId={currentCaseId} user={user}/>
+      <Cases className="mt-1 row"
+        currentCaseId={currentCaseId}
+        setCurrentCaseId={setCurrentCaseId}/>
+      <Tasks className="mt-1 row"
+        agentMessage={agentMessage}
+        currentCaseId={currentCaseId} />
       <hr />
       <div className="messages">
         {messages.length > 0 &&
