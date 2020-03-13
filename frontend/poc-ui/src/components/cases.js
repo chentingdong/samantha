@@ -4,7 +4,7 @@ import { stateColor } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper'
 import { Auth } from 'aws-amplify'
 
-function Cases ( { currentCaseId, setCurrentCaseId} ) {
+function Cases ( { currentCaseId, setCurrentCaseId } ) {
   const [ cases, setCases ] = useState( [] );
   const user = Auth.user;
 
@@ -13,7 +13,7 @@ function Cases ( { currentCaseId, setCurrentCaseId} ) {
       .get( '/case-definitions' )
       .then( ( resp ) => {
         console.debug( `get case defination ${ resp }` )
-        // Only one case def for now
+        //TODO: Only one case def for now, will do select UX.
         let caseInstance = resp.data[0].data
         caseInstance.creator = user.id
         setCurrentCaseId( caseInstance.id );
@@ -35,6 +35,7 @@ function Cases ( { currentCaseId, setCurrentCaseId} ) {
     .then( resp => {
       if ( resp.status === 200 ) {
         const caseInstance = resp.data
+        debugger
         setCases([caseInstance, ...cases])
         setCurrentCaseId( resp.data.id )
       }
@@ -49,7 +50,7 @@ function Cases ( { currentCaseId, setCurrentCaseId} ) {
     apiWrapper
       .get( path )
       .then( ( resp ) => {
-        // console.debug( `Get cases: ${ JSON.stringify(resp.data) }` );
+        console.debug( `Got cases: ${ JSON.stringify(resp.data, null, 2) }` );
         let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id)
         setCases( _cases );
         if ( _cases.length > 0 )

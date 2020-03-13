@@ -4,15 +4,16 @@ import CreateFormTask from './create-form-task';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { stateColor, formatDate } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
+// import aws from 'aws-sdk';
 
-function Tasks ( { className, currentCaseId, agentMessage } ) {
+function Tasks ( { currentCaseId, agentMessage } ) {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ tasks, setTasks ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
   const [ currentTask, setCurrentTask ] = useState( {} );
   const [ showCreateModal, setShowCreateModal ] = useState( false );
   const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState( false );
-  const [ users, setUsers ] = useState( [] )
+  const [ users, setUsers ] = useState( [] );
 
   function getTaskDefinitions () {
     let path = '/task-definitions';
@@ -36,7 +37,7 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
       .get( path )
       .then( resp => {
         let caseTasks = resp.data;
-        console.log( `Get tasks with currentCaseId=${ currentCaseId }: ${ JSON.stringify(caseTasks) }` );
+        console.debug( `Got tasks\ncurrentCaseId=${ currentCaseId }: ${ JSON.stringify( caseTasks, null, 2 ) }` );
         setTasks( caseTasks );
       } )
       .catch( err => {
@@ -56,13 +57,20 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
     } );
   }
 
-  function submitFormTask () {
+  function submitCreateTaskForm (task) {
     let path = `/cases/${ currentCaseId }/tasks`;
     apiWrapper
-      .post( path, newTask )
+      .post( path, task )
       .then( resp => {
-        setTasks( tasks => [ newTask, ...tasks ] );
-        agentMessage( <AfterPostMessage /> );
+        let t = {
+          id: resp.data.id,
+          state: resp.data.state,
+          data: task
+        }
+        console.log(task)
+        setTasks( tasks => [ t, ...tasks ] );
+        console.log(tasks)
+        agentMessage( <AfterPostMessage task={t} /> );
       } )
       .catch( err => {
         console.error( err );
@@ -84,15 +92,55 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
     //   { name: 'Ronda', id: 'Ronda' },
     //   { name: 'Tingdong', id: 'Tingdong' }
     // ];
-    apiWrapper
+    let users2 = [
+      {
+        "IdentityId": "us-east-1:1d4915f3-cd7b-46dd-b477-8d7f3f66d4f6",
+      },
+      {
+        "IdentityId": "us-east-1:6f36981e-cc6c-448d-aff0-72cacc2a10c9",
+      },
+      {
+        "IdentityId": "us-east-1:7f632c70-1a02-4922-b0d3-dabf83b0fdc7",
+      },
+      {
+        "IdentityId": "us-east-1:9418115c-5056-4855-929a-2fc7d2497ff6",
+      },
+      {
+        "IdentityId": "us-east-1:b63a7951-7010-479d-9b0e-92155997ce99",
+      }
+    ];
+    setUsers( users2 )
+
+/*     apiWrapper
       .get( '/users' )
       .then( resp => {
         setUsers( resp.data );
       })
+    aws.config.update( {
+      region: 'us-east-1',
+      credentials: new aws.CognitoIdentityCredentials( {
+        IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc'
+      } )
+    } );
+
+    let cognitoidentity = new aws.CognitoIdentity();
+    let params = {
+      IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
+      MaxResults: 50
+    };
+
+    cognitoidentity.listIdentities( params, ( err, data ) => {
+      if ( err ) console.log( err, err.stack );
+      else {
+        console.log( data );
+        let users = data.Identities;
+        setUsers( users );
+      }
+    } ); */
   }
   useEffect( () => {
-    getUsers()
-  }, [])
+    getUsers();
+  }, [] );
 
   function workOnTask ( task ) {
     setShowWorkOnTaskModal( true );
@@ -101,7 +149,7 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
   }
 
   function completeCurrentTask () {
-    // TODO: POST /cases/{currentCaseId}/tasks/{currentTaskId}/complete
+    // User manually complete the task by clicking the complete button
     let path = `/case/${ currentCaseId }/tasks/${ currentTask.id }/complete`;
     apiWrapper
       .patch( path )
@@ -117,7 +165,7 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
   }
 
   return (
-    <div className={className}>
+    <div>
       <div className="nav row mt-1">
         <DropdownButton
           as={ButtonGroup}
@@ -162,10 +210,9 @@ function Tasks ( { className, currentCaseId, agentMessage } ) {
         <Modal.Body>
           <CreateFormTask
             newTask={newTask}
-            setNewTask={setNewTask}
             close={closeTask}
-            assigneeList={users}
-            submitFormTask={submitFormTask} />
+            users={users}
+            submitCreateTaskForm={submitCreateTaskForm} />
         </Modal.Body>
       </Modal>
       <Modal show={showWorkOnTaskModal} onHide={e => setShowWorkOnTaskModal( false )}>
@@ -193,14 +240,15 @@ function AfterPostMessage ( { task } ) {
   if ( !task ) return '';
 
   const dueDate = formatDate( task.data.dueDate || new Date() );
+  console.log(task)
   return (
     task &&
     <>
       Your task is added to current case.
-        Your message is sent to <b>{task.data.assignee.name}</b>,
-        expecting to finish on <b>{dueDate}</b>.
-        I will inform him after <b>{task.data.followUpDays}</b> days if not finished.
-      </>
+      Your message is sent to <b>{task.data.assignee}</b>,
+      expecting to finish on <b>{dueDate}</b>.
+      I will inform him after <b>{task.data.followUpDuration}</b> days if not finished.
+    </>
   );
 }
 

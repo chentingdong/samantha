@@ -4,12 +4,11 @@ import DatePicker from 'react-datepicker';
 import LoaderButton from './loader-button';
 import {useFormFields} from '../libs/custom-hooks'
 
-function CreateFormTaskForm ( { newTask, setNewTask, close, submitFormTask, assigneeList } ) {
+function CreateFormTaskForm ( { newTask, close, submitCreateTaskForm, users } ) {
   const [ task, setTask ] = useFormFields( newTask )
 
   function submit () {
-    setNewTask( task )
-    submitFormTask()
+    submitCreateTaskForm(task)
   }
 
   return (
@@ -38,8 +37,8 @@ function CreateFormTaskForm ( { newTask, setNewTask, close, submitFormTask, assi
           name="assignee"
           value={task.assignee}
           onChange={setTask} >
-          {assigneeList.map( ( assignee ) => {
-            return <option value={assignee.id} key={assignee.id}>{assignee.name}</option>;
+          {users.map( ( user ) => {
+            return <option value={user.IdentityId} key={user.IdentityId}>{user.IdentityId}</option>;
           } )}
         </select>
       </div>

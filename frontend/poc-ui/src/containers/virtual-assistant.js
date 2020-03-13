@@ -6,10 +6,8 @@ import Cases from '../components/cases'
 import Tasks from '../components/tasks'
 import Suggest from '../components/suggest'
 import apiWrapper from '../libs/api-wrapper';
-import { Auth } from 'aws-amplify'
 
 function VirtualAssistant ( props ) {
-  let user = Auth.user
   let initialMessage = {
     id: 1,
     who: 'agent',

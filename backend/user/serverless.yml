@@ -4,6 +4,11 @@ custom:
   corsOrigin: '*'
   user: ${env:USER}
 
+defaults:
+  stage: dev
+  region: us-east-1
+  timeout: 3
+
 provider:
   name: aws
   runtime: nodejs12.x

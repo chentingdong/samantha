@@ -3,16 +3,15 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import { useFormFields } from '../libs/custom-hooks';
 import LoaderButton from './loader-button';
-import { formatDate } from '../libs/custom-functions';
 
-function CreateApprovalTask ( { newTask, setNewTask, close, submitFormTask, assigneeList } ) {
+function CreateApprovalTask ( { newTask, close, submitCreateTaskForm, assigneeList } ) {
   const [ task, setTask ] = useFormFields( newTask );
 
   function submit () {
-    setNewTask( task );
-    submitFormTask();
+    submitCreateTaskForm();
   }
   return (
+    task &&
     <form onSubmit={e => e.preventDefault()} className="row">
       <div className="form-group col-6">
         <label>Task Name</label>
@@ -38,7 +37,7 @@ function CreateApprovalTask ( { newTask, setNewTask, close, submitFormTask, assi
           value={task.assignee}
           onChange={setTask} >
           {assigneeList.map( ( assignee ) => {
-            return <option value={assignee.id} key={assignee.id}>{assignee.name}</option>;
+            return <option value={assignee.IdentityId} key={assignee.IdentityId}>{assignee.IdentityId}</option>;
           } )}
         </select>
       </div>
@@ -69,7 +68,7 @@ function CreateApprovalTask ( { newTask, setNewTask, close, submitFormTask, assi
           onChange={setTask} />
       </div>
       <div className="modal-footer col-12">
-        <button className="btn-secondary" onClick={props.close}>Cancel</button>
+        <button className="btn-secondary" onClick={close}>Cancel</button>
         <LoaderButton className="btn-success" onClick={submit}>let's go</LoaderButton>
       </div>
     </form>
