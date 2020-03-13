@@ -35,7 +35,6 @@ function Cases ( { currentCaseId, setCurrentCaseId } ) {
     .then( resp => {
       if ( resp.status === 200 ) {
         const caseInstance = resp.data
-        debugger
         setCases([caseInstance, ...cases])
         setCurrentCaseId( resp.data.id )
       }

@@ -1,8 +1,8 @@
 const config = {
   Auth: {
-    identityPoolId: 'us-east-2:5372a990-3a22-457f-ac62-31a7be7fda9d',
-    region: 'us-east-2',
-    userPoolId: 'us-east-2_qYgDsExIj',
+    identityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
+    region: 'us-east-1',
+    userPoolId: 'us-east-1_6akVugwW4',
     userPoolWebClientId: '7fph2io9lg9g2vbntf9n440l60',
     authenticationFlowType: 'USER_PASSWORD_AUTH',
     oauth: {
@@ -19,7 +19,8 @@ const config = {
     identityPoolId: 'config.cognito.IDENTITY_POOL_ID'
   },
   social: {
-    google_client_id: "174411671261-g6u4v14c5caiag2db22kp42980bejik4.apps.googleusercontent.com",
+    // google_client_id: "174411671261-g6u4v14c5caiag2db22kp42980bejik4.apps.googleusercontent.com",
+    google_client_id: "258730687255-jn081g0coq4pm4s0ebu0ljghk5tunfor.apps.googleusercontent.com",
     facebook_app_id: "2505833796351691"
   },
   wsUrl: 'wss://n8jhaqype5.execute-api.us-east-1.amazonaws.com/dev',
