@@ -80,18 +80,20 @@ function VirtualAssistant ( props ) {
   }
 
   function getCaseMessages ( ) {
-    // TODO: /GET /case-messages?case-id={currentCaseId}
     let path = `/case-messages?case-id=${currentCaseId}`
     apiWrapper
       .get( path )
       .then( resp => {
         setMessages([resp.data])
+      } )
+      .catch( err => {
+        console.error( err );
       })
   }
 
-  // useEffect( () => {
-  //   getCaseMessages();
-  // }, [ currentCaseId ] )
+  useEffect( () => {
+    getCaseMessages();
+  }, [ currentCaseId ] )
 
   const style = {
     sendButton: {
