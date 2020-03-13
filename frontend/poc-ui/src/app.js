@@ -24,14 +24,8 @@ function App () {
   }, [] );
 
   async function checkLogin () {
-    Auth
-      .currentAuthenticatedUser()
-      .then( () => {
-        userHasAuthenticated( true );
-      } )
-      .catch( ( e ) => {
-        console.error( e );
-      } );
+    if ( Auth.user )
+      userHasAuthenticated( true );
   }
 
   function handleLogout () {

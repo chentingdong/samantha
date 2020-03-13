@@ -1,6 +1,6 @@
 const config = {
   Auth: {
-    identityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
+    identityPoolId: 'us-east-2:5372a990-3a22-457f-ac62-31a7be7fda9d',
     region: 'us-east-2',
     userPoolId: 'us-east-2_qYgDsExIj',
     userPoolWebClientId: '7fph2io9lg9g2vbntf9n440l60',

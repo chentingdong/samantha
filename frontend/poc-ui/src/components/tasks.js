@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ButtonGroup, DropdownButton, Dropdown, Modal } from 'react-bootstrap';
-import CreateFormTask from './create-form-task';
+import CreateTaskForm from './create-task-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { stateColor, formatDate } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
@@ -208,7 +208,7 @@ function Tasks ( { currentCaseId, agentMessage } ) {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateFormTask
+          <CreateTaskForm
             newTask={newTask}
             close={closeTask}
             users={users}
@@ -219,6 +219,11 @@ function Tasks ( { currentCaseId, agentMessage } ) {
         <Modal.Header closeButton>
           <Modal.Title>Working on task {currentTask.name}</Modal.Title>
         </Modal.Header>
+        <Modal.Body>
+          <pre>
+          {JSON.stringify(currentTask.data, null, 2)}
+          </pre>
+        </Modal.Body>
         <Modal.Footer>
           <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>
             no change

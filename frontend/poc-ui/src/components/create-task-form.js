@@ -3,8 +3,10 @@ import React from 'react';
 import DatePicker from 'react-datepicker';
 import LoaderButton from './loader-button';
 import {useFormFields} from '../libs/custom-hooks'
+import {IntakeFormDesign, IntakeFormRun} from './tasks/intake-form'
+import { AskApprovalDesign, AskApprovalRun} from './tasks/ask-approval'
 
-function CreateFormTaskForm ( { newTask, close, submitCreateTaskForm, users } ) {
+function CreateTaskFormForm ( { newTask, close, submitCreateTaskForm, users } ) {
   const [ task, setTask ] = useFormFields( newTask )
 
   function submit () {
@@ -14,6 +16,8 @@ function CreateFormTaskForm ( { newTask, close, submitCreateTaskForm, users } ) 
   return (
     task &&
     <form onSubmit={e => e.preventDefault()} className="row">
+      <h5 className="col-12">General task fields</h5>
+      <hr/>
       <div className="form-group col-6">
         <label>Task Name</label>
         <input className="form-control" name="name" value={task.name} onChange={setTask} />
@@ -60,15 +64,11 @@ function CreateFormTaskForm ( { newTask, close, submitCreateTaskForm, users } ) 
         <span className="col-5">days</span>
       </div>
       <hr />
-      <div className="form-group col-12">
-        <label className="block">Attach form</label><br />
-        <input className="form-control"
-          type="url"
-          name="formUrl"
-          placeholder="form url"
-          value={task.formUrl}
-          onChange={setTask} />
-      </div>
+      <h5 className="col-12">TODO: task management:</h5>
+      <hr/>
+      <IntakeFormDesign task={ task } setTask={setTask}></IntakeFormDesign>
+      <AskApprovalDesign task={ task } setTask={setTask}></AskApprovalDesign>
+
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={close}>Cancel</button>
         <LoaderButton className="btn-success" onClick={submit}>create task!</LoaderButton>
@@ -77,4 +77,4 @@ function CreateFormTaskForm ( { newTask, close, submitCreateTaskForm, users } ) 
   );
 }
 
-export default CreateFormTaskForm;
+export default CreateTaskFormForm;
