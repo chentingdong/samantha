@@ -263,11 +263,12 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createCaseMessage(id, data) {
+  async createCaseMessage(id, caseId, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       Item: {
         id,
+        caseId,
         data
       }
     };

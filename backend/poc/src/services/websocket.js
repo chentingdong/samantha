@@ -6,7 +6,7 @@ const CONSTANTS = require('../constants');
 
 const handleSocketDefault = async (event, context) => {
   try {
-    const data = JSON.parse(event.body);
+    const data = event.body;
     const action = data.action;
 
     const connectionId = event.requestContext.connectionId;

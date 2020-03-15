@@ -1,5 +1,11 @@
 {
-  "id": "02C12017-B30A-49B9-88B1-8DBD61094F96",
-  "caseId": "4FBF030B-AC5E-4A73-AE8A-038808DFCF24",
-  "message": "Welcome to Bellhop virtual assistant, please type and follow our instructions."
+  "headers": "",
+  "body": {
+    "id": "02C12017-B30A-49B9-88B1-8DBD61094F96",
+    "caseId": "4FBF030B-AC5E-4A73-AE8A-038808DFCF24",
+    "message": "Welcome to Bellhop virtual assistant, please type and follow our instructions."
+  },
+  "requestContext": {
+    "connectionId": "111111"
+  }
 }

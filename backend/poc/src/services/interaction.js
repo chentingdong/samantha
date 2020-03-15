@@ -26,6 +26,19 @@ const handleSocketInteraction = async (event, context) => {
       console.error(`Unable to add task ${taskData}`, err)
     }
 
+    // write to message queue
+    try {
+      await dynamodbConnector.createCaseMessage( {
+        id: messageId,
+        caseId: event.caseId,
+        data: event.message
+      })
+    }
+    catch ( err ) {
+      console.error(`Unable to add case message: ${message}`)
+    }
+
+    // response to user
     const responseMessage = {
       body: {
         utterance: `Working on ${taskData}. TaskId: ${taskId}`

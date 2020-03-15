@@ -11,7 +11,7 @@
         "offline",
         "start"
       ]
-    },    
+    },
     {
       "type" : "node",
       "request" : "launch",
@@ -56,22 +56,22 @@
         "-f",
         "listCaseMessages",
         "--data",
-        "{\"id\" : \"02C12017-B30A-49B9-88B1-8DBD61094F96\", \"caseId\" : \"4FBF030B-AC5E-4A73-AE8A-038808DFCF24\", \"message\" : \"Welcome, please type and follow our instructions.\"}"
+        "{\"id\" : \"02C12017-B30A-49B9-88B1-8DBD61094F96\", \"caseId\" : \"4FBF030B-AC5E-4A73-AE8A-038808DFCF24\""
       ]
     },
     {
       "type": "node",
       "request": "launch",
-      "name": "create case message",
+      "name": "message create through socket interaction",
       "cwd": "${workspaceRoot}/backend/poc",
       "program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
       "args": [
         "invoke",
         "local",
         "-f",
-        "createCaseMessages",
-        "--data",
-        "{\"pathParameters\":{\"caseId\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\" }}"
+        "handleSocketInteraction",
+        "--path",
+        "data/case-message.json"
       ]
     },
     {
@@ -88,7 +88,8 @@
         "--data",
         "{\"pathParameters\":{\"caseId\":\"56a0ac5d-2ea1-411d-84ce-47d7eeee1437\" }}"
       ]
-    }, {
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "createCase",
@@ -102,7 +103,8 @@
         "--data",
         "{\"body\": \"{\\\"c\\\":\\\"3\\\"}\"}"
       ]
-    }, {
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "listCases",
@@ -116,7 +118,8 @@
         "--data",
         "{}"
       ]
-    }, {
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "getCase",
@@ -130,7 +133,8 @@
         "--data",
         "{\"pathParameters\":{\"caseId\":\"092e9f67-d26f-4706-bc1c-53076915b9ea\" }}"
       ]
-    }, {
+    },
+    {
       "type": "node",
       "request": "launch",
       "name": "createTask",
