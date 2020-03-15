@@ -22,7 +22,7 @@ const config = {
     google_client_id: "258730687255-jn081g0coq4pm4s0ebu0ljghk5tunfor.apps.googleusercontent.com",
     facebook_app_id: "2505833796351691"
   },
-  wsUrl: 'ws://localhost:3001',
+  wsUrl: 'wss://localhost:3001',
   suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
   apiBaseUrl: 'http://localhost:3000'
 }
