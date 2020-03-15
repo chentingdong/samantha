@@ -8,8 +8,8 @@ const config = {
     oauth: {
       domain: 'samantha.auth.us-east-1.amazoncognito.com',
       scope: [ 'phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin' ],
-      redirectSignIn: 'https://localhost:2000/',
-      redirectSignOut: 'https://localhost:2000/',
+      redirectSignIn: 'https://localhost:3000/',
+      redirectSignOut: 'https://localhost:3000/',
       responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
     }
   },
@@ -19,12 +19,13 @@ const config = {
     identityPoolId: 'config.cognito.IDENTITY_POOL_ID'
   },
   social: {
+    // google_client_id: "174411671261-g6u4v14c5caiag2db22kp42980bejik4.apps.googleusercontent.com",
     google_client_id: "258730687255-jn081g0coq4pm4s0ebu0ljghk5tunfor.apps.googleusercontent.com",
     facebook_app_id: "2505833796351691"
   },
-  wsUrl: 'ws://localhost:3001',
+  wsUrl: 'wss://n8jhaqype5.execute-api.us-east-1.amazonaws.com/dev',
   suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
-  apiBaseUrl: 'http://localhost:3000'
+  apiBaseUrl: 'https://ieapza3e9g.execute-api.us-east-1.amazonaws.com/dev'
 }
 
 export default config;

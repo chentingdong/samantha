@@ -27,8 +27,8 @@ custom:
             sources: [./data/case-definitions-with-id.json]
           - table: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
             sources: [./data/task-definitions-with-id.json]
-  #serverless-offline:
-  #  httpPort: 3000
+  serverless-offline:
+    port: 3000
 
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md

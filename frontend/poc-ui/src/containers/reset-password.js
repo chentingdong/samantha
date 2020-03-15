@@ -43,7 +43,7 @@ function ResetPassword (props) {
           <Form.Control autoFocus
             type="email"
             value={email}
-            placeholder="Your email used in Astound"
+            placeholder="Your email used in Bellhop"
             onChange={e => setEmail(e.target.value)}
           />
         </Form.Group>
