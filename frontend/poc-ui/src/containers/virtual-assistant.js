@@ -1,100 +1,104 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import config from '../config'
+import React, { useState, useEffect, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import config from '../config';
 import { DebounceInput } from 'react-debounce-input';
-import Cases from '../components/cases'
-import Tasks from '../components/tasks'
-import Suggest from '../components/suggest'
+import Cases from '../components/cases';
+import Tasks from '../components/tasks';
+import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
-import uuidv4 from 'node-uuid'
+import uuidv4 from 'node-uuid';
 
 function VirtualAssistant ( props ) {
-  const [ messages, setMessages ] = useState([ ])
-  const [ currentMessage, setCurrentMessage ] = useState('')
-  const [ currentCaseId, setCurrentCaseId ] = useState()
+  const [ messages, setMessages ] = useState( [] );
+  const [ currentMessage, setCurrentMessage ] = useState( '' );
+  const [ currentCaseId, setCurrentCaseId ] = useState();
 
-  let [ selectedSuggestion, setselectedSuggestion ] = useState(0)
+  let [ selectedSuggestion, setselectedSuggestion ] = useState( 0 );
   const suggestRef = useRef();
 
-  let wsNew = new WebSocket(config.wsUrl, ['ws', 'wws'])
-  let [ ws, setWs ] = useState(wsNew)
+  let wsNew = new WebSocket( config.wsUrl, [ 'ws', 'wws' ] );
+  let [ ws, setWs ] = useState( wsNew );
 
   let agent = {
     name: 'agent'
-  }
+  };
 
   useEffect( () => {
     ws.onmessage = event => {
-      const data = JSON.parse( event.data )
-      console.log(data)
-      agentMessage(data)
-    }
+      const data = JSON.parse( event.data );
+      console.log( data );
+      agentMessage( data );
+    };
 
     ws.onopen = () => {
-      console.log('Connected websocket ' + config.wsUrl)
-    }
+      console.log( 'Connected websocket ' + config.wsUrl );
+    };
 
     ws.onclose = () => {
-      console.log('Disconnected websocket ' + config.wsUrl)
-      setWs(wsNew)
-    }
-  })
+      console.log( 'Disconnected websocket ' + config.wsUrl );
+      setWs( wsNew );
+    };
+  } );
 
   async function userMessage ( utterance ) {
-    setCurrentMessage( utterance )
+    setCurrentMessage( utterance );
 
     let newMessage = {
       fromUser: Auth.user,
       toUser: agent,
       utterance: utterance,
       createdAt: Date.now()
-    }
+    };
 
-    setMessages( [ ...messages, { data: newMessage } ])
+    setMessages( [ ...messages, { data: newMessage } ] );
 
     const payload = {
       action: "interaction",
       caseId: currentCaseId,
       data: newMessage
-    }
+    };
 
-    await ws.send(JSON.stringify(payload))
-    setCurrentMessage('')
+    await ws.send( JSON.stringify( payload ) );
+    setCurrentMessage( '' );
   }
 
-  function agentMessage (utterance) {
-    console.log( "received message: " + JSON.stringify( utterance))
+  function agentMessage ( utterance ) {
+    console.log( "received message: " + JSON.stringify( utterance ) );
     let newMessage = {
       fromUser: agent,
       toUser: Auth.user,
       utterance: utterance
-    }
-    setMessages([ ...messages, newMessage ])
+    };
+    setMessages( [ ...messages, newMessage ] );
   }
 
-  function getCaseMessages ( ) {
-    let path = `/case-messages`
+  function getCaseMessages () {
+    let path = `/case-messages`;
     let params = {
       caseId: currentCaseId
-    }
+    };
     apiWrapper
       .get( path, { params: params } )
       .then( resp => {
-        let msgs = resp.data.map( msg => {
-          msg.createdAt = resp.data.createdAt
-          return msg;
-        })
-        setMessages(msgs)
+        if ( !resp.data ) resp.data = [];
+        let msgs = resp.data
+          .sort( ( a, b ) => ( a.createdAt > b.createdAt ) ? 1 : -1 )
+          .map( msg => {
+            msg.createdAt = resp.data.createdAt;
+            return msg;
+          } )
+
+        setMessages( msgs );
       } )
       .catch( err => {
         console.error( err );
-      })
+      } );
   }
 
   useEffect( () => {
     getCaseMessages();
-  }, [ currentCaseId ] )
+  }, [ currentCaseId ] );
 
   const style = {
     inlineImage: {
@@ -110,61 +114,61 @@ function VirtualAssistant ( props ) {
       border: '1px solid #999999',
       borderRadius: '5px'
     }
-  }
+  };
 
   return (
     <div className="container-fluid">
       <Cases className="mt-1 row"
-        currentCaseId={currentCaseId}
-        setCurrentCaseId={setCurrentCaseId}/>
+        currentCaseId={ currentCaseId }
+        setCurrentCaseId={ setCurrentCaseId } />
       <Tasks className="mt-1 row"
-        agentMessage={agentMessage}
-        currentCaseId={currentCaseId} />
+        agentMessage={ agentMessage }
+        currentCaseId={ currentCaseId } />
       <hr />
       <div className="messages">
-        {messages &&
+        { messages &&
           messages.map( ( msg, index ) => {
-          return (
-            <div key={ index } className="small">
-              <span className="mr-3">
-                { ( () => {
-                  if ( msg.data.fromUser.name === 'agent' ) {
-                    return <FontAwesomeIcon icon="robot" />
-                  }
-                  else {
-                    return <img src={ msg.data.fromUser.picture } style={ style.inlineImage }/>
-                  }
-                })()}
-              </span>
-              <span>{ msg.createdAt }</span>
-              <span>{msg.data.utterance}</span>
-            </div>
-          )
-        })}
+            return (
+              <div key={ index } className="small">
+                <span className="mr-1">
+                  { ( () => {
+                    if ( msg.data.fromUser.name === 'agent' ) {
+                      return <FontAwesomeIcon icon="robot" />;
+                    }
+                    else {
+                      return <img src={ msg.data.fromUser.picture } style={ style.inlineImage } />;
+                    }
+                  } )() }
+                </span>
+                <span className="mr-1">{ msg.data.createdAt }:</span>
+                <span>{ msg.data.utterance }</span>
+              </div>
+            );
+          } ) }
       </div>
       <Suggest
-        currentMessage={currentMessage}
-        setCurrentMessage={setCurrentMessage}
-        userMessage={userMessage}
-        ref={suggestRef}
-        selectedSuggestion={selectedSuggestion}
-        setselectedSuggestion={setselectedSuggestion}
+        currentMessage={ currentMessage }
+        setCurrentMessage={ setCurrentMessage }
+        userMessage={ userMessage }
+        ref={ suggestRef }
+        selectedSuggestion={ selectedSuggestion }
+        setselectedSuggestion={ setselectedSuggestion }
       />
       <div className="fixed-bottom m-1">
         <DebounceInput
           className="col-12"
-          style={style.inputMessage}
-          minLength={2}
-          debounceTimeout={100}
-          autoFocus={true}
-          value={currentMessage}
-          onChange={e => { setCurrentMessage(e.target.value) }}
-          onKeyDown={e => {suggestRef.current.handleKeyDown(e, selectedSuggestion)}}
+          style={ style.inputMessage }
+          minLength={ 2 }
+          debounceTimeout={ 100 }
+          autoFocus={ true }
+          value={ currentMessage }
+          onChange={ e => { setCurrentMessage( e.target.value ); } }
+          onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
         />
-        <FontAwesomeIcon icon="bell" className="clickable" style={style.sendButton}/>
+        <FontAwesomeIcon icon="bell" className="clickable" style={ style.sendButton } />
       </div>
     </div>
-  )
+  );
 }
 
-export default VirtualAssistant
+export default VirtualAssistant;
