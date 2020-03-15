@@ -8,7 +8,8 @@ const dynamodbConnector = require('./dynamodb');
 class ApiGatewayConnector {
   constructor() {
     const CONNECTOR_OPTS = {
-      endpoint: CONSTANTS.WEBSOCKET_API_ENDPOINT
+      endpoint: CONSTANTS.WEBSOCKET_API_ENDPOINT,
+      sslEnabled: true
     };
     this._connector = new aws.ApiGatewayManagementApi(CONNECTOR_OPTS);
   }

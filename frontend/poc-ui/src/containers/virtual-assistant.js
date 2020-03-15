@@ -6,29 +6,33 @@ import Cases from '../components/cases'
 import Tasks from '../components/tasks'
 import Suggest from '../components/suggest'
 import apiWrapper from '../libs/api-wrapper';
+import { Auth } from 'aws-amplify';
+import uuidv4 from 'node-uuid'
 
 function VirtualAssistant ( props ) {
-  let initialMessage = {
-    id: 1,
-    who: 'agent',
-    message: ` welcome to Bellhop Virtual Assistant :), please start typing and follow our instructions.`
-  }
-
-  const [ messages, setMessages ] = useState([ initialMessage ])
+  const [ messages, setMessages ] = useState([ ])
   const [ currentMessage, setCurrentMessage ] = useState('')
   const [ currentCaseId, setCurrentCaseId ] = useState()
 
   let [ selectedSuggestion, setselectedSuggestion ] = useState(0)
   const suggestRef = useRef();
 
-  let wsNew = new WebSocket(config.wsUrl)
+  let wsNew = new WebSocket(config.wsUrl, ['ws', 'wws'])
   let [ ws, setWs ] = useState(wsNew)
 
-  useEffect(() => {
+  let agent = {
+    name: 'agent'
+  }
+
+  useEffect( () => {
     ws.onmessage = event => {
-      // TODO: ws returns string instead of json, shouldn't need to parse here.
-      const message = JSON.parse(event.data).body.utterance
-      agentMessage(message)
+      const data = JSON.parse( event.data )
+      console.log(data)
+      agentMessage(data)
+    }
+
+    ws.onopen = () => {
+      console.log('Connected websocket ' + config.wsUrl)
     }
 
     ws.onclose = () => {
@@ -37,42 +41,51 @@ function VirtualAssistant ( props ) {
     }
   })
 
-  async function userMessage (message) {
-    setCurrentMessage(message)
+  async function userMessage ( utterance ) {
+    setCurrentMessage( utterance )
 
     let newMessage = {
-      id: messages.length + 1,
-      who: 'user',
-      message: message
+      fromUser: Auth.user,
+      toUser: agent,
+      utterance: utterance,
+      createdAt: Date.now()
     }
 
-    setMessages([ ...messages, newMessage ])
+    setMessages( [ ...messages, { data: newMessage } ])
 
     const payload = {
-      "action": "interaction",
-      "task": message
+      action: "interaction",
+      caseId: currentCaseId,
+      data: newMessage
     }
 
     await ws.send(JSON.stringify(payload))
     setCurrentMessage('')
   }
 
-  function agentMessage (msg) {
-    console.log("received message: " + JSON.stringify(msg))
+  function agentMessage (utterance) {
+    console.log( "received message: " + JSON.stringify( utterance))
     let newMessage = {
-      id: messages.length + 1,
-      who: 'agent',
-      message: msg
+      fromUser: agent,
+      toUser: Auth.user,
+      utterance: utterance
     }
     setMessages([ ...messages, newMessage ])
   }
 
   function getCaseMessages ( ) {
-    let path = `/case-messages?case-id=${currentCaseId}`
+    let path = `/case-messages`
+    let params = {
+      caseId: currentCaseId
+    }
     apiWrapper
-      .get( path )
+      .get( path, { params: params } )
       .then( resp => {
-        setMessages([resp.data])
+        let msgs = resp.data.map( msg => {
+          msg.createdAt = resp.data.createdAt
+          return msg;
+        })
+        setMessages(msgs)
       } )
       .catch( err => {
         console.error( err );
@@ -84,6 +97,9 @@ function VirtualAssistant ( props ) {
   }, [ currentCaseId ] )
 
   const style = {
+    inlineImage: {
+      height: "1.5em"
+    },
     sendButton: {
       position: 'absolute',
       right: '0.5em',
@@ -106,20 +122,22 @@ function VirtualAssistant ( props ) {
         currentCaseId={currentCaseId} />
       <hr />
       <div className="messages">
-        {messages.length > 0 &&
+        {messages &&
           messages.map( ( msg, index ) => {
           return (
-            <div key={index} className="small">
+            <div key={ index } className="small">
               <span className="mr-3">
-                {(() => {
-                  switch (msg.who) {
-                    case "user": return <FontAwesomeIcon icon="user" />;
-                    case "agent": return <FontAwesomeIcon icon="robot" />;
-                    default: return '';
+                { ( () => {
+                  if ( msg.data.fromUser.name === 'agent' ) {
+                    return <FontAwesomeIcon icon="robot" />
+                  }
+                  else {
+                    return <img src={ msg.data.fromUser.picture } style={ style.inlineImage }/>
                   }
                 })()}
               </span>
-              <span>{msg.message}</span>
+              <span>{ msg.createdAt }</span>
+              <span>{msg.data.utterance}</span>
             </div>
           )
         })}

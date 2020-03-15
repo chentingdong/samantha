@@ -1,0 +1,28 @@
+{
+  "toUser": {
+    "M": {
+      "name": {
+        "S": "agent"
+      }
+    }
+  },
+  "fromUser": {
+    "M": {
+      "name": {
+        "S": "Tingdong Chen"
+      },
+      "id": {
+        "S": "us-east-1:abbd076f-9e4c-420b-9b88-7f262696a5a0"
+      },
+      "email": {
+        "S": "tchen@bellhop.io"
+      },
+      "picture": {
+        "S": "https://lh3.googleusercontent.com/--F2QG7mEzvo/AAAAAAAAAAI/AAAAAAAAAAA/AKF05nCbYiaDXxvQOUcPjWVumMVLrPX89A/s96-c/photo.jpg"
+      }
+    }
+  },
+  "utterance": {
+    "S": "hi"
+  }
+}

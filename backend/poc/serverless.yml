@@ -28,6 +28,7 @@ custom:
           - table: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
             sources: [./data/task-definitions-with-id.json]
   serverless-offline:
+    httpsProtocol: "certs"
     port: 3000
 
 # This article helped me find out how Serverless handles Cloud Formation naming
@@ -133,7 +134,7 @@ functions:
           route: $disconnect
   handleSocketInteraction:
     name: LAMBDA_${self:service}_socket_interaction_${self:provider.stage}
-    handler: handler.handleSocketDefault
+    handler: handler.handleSocketInteraction
     events:
       - websocket:
           route: interaction
@@ -396,7 +397,7 @@ functions:
           request:
             parameters:
               querystrings:
-                case-id: false
+                caseId: false
           cors: true
   deleteCaseMessage:
     name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
@@ -550,6 +551,8 @@ resources:
             AttributeType: S
           - AttributeName: caseId
             AttributeType: S
+          - AttributeName: createdAt
+            AttributeType: N
         BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
@@ -560,6 +563,8 @@ resources:
             KeySchema:
               - AttributeName: caseId
                 KeyType: HASH
+              - AttributeName: createdAt
+                KeyType: RANGE
             Projection:
               ProjectionType: ALL
 

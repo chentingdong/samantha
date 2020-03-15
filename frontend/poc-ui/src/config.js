@@ -24,7 +24,7 @@ const config = {
   },
   wsUrl: 'wss://localhost:3001',
   suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
-  apiBaseUrl: 'http://localhost:3000'
+  apiBaseUrl: 'https://localhost:3000'
 }
 
 export default config;

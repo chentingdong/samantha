@@ -13,35 +13,36 @@ const handleSocketInteraction = async (event, context) => {
     const connectionId = event.requestContext.connectionId;
 
     // Retrieve the message from the socket payload
-    const data = JSON.parse(event.body);
-    const taskData = data.task;
-    const taskId = uuidv4();
-    try {
-      await dynamodbConnector.createTask(
-        taskId,
-        userId,
-        taskData
-      );
-    } catch (err) {
-      console.error(`Unable to add task ${taskData}`, err)
-    }
+    // const data = JSON.parse(event.body);
+    // const taskData = data.task;
+    // const taskId = uuidv4();
+    // try {
+    //   await dynamodbConnector.createTask(
+    //     taskId,
+    //     userId,
+    //     taskData
+    //   );
+    // } catch (err) {
+    //   console.error(`Unable to add task ${taskData}`, err)
+    // }
 
     // write to message queue
+    let id = uuidv4()
+    let resp = JSON.parse( event.body )
+    let caseId = resp.caseId
+    let data = resp.data
+
     try {
-      await dynamodbConnector.createCaseMessage( {
-        id: messageId,
-        caseId: event.caseId,
-        data: event.message
-      })
+      await dynamodbConnector.createCaseMessage( id, caseId, data)
     }
     catch ( err ) {
-      console.error(`Unable to add case message: ${message}`)
+      console.error(`Unable to add case message: ${err}`)
     }
 
     // response to user
     const responseMessage = {
       body: {
-        utterance: `Working on ${taskData}. TaskId: ${taskId}`
+        utterance: `Got message: ${data.message}. caseId: ${caseId}`
       }
     };
 
