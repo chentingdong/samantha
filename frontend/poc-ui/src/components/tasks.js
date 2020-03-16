@@ -165,8 +165,8 @@ function Tasks ( { currentCaseId, agentMessage } ) {
   }
 
   return (
-    <div>
-      <div className="nav row mt-1">
+    <div className="row mt-1">
+      <div className="nav">
         <DropdownButton
           as={ButtonGroup}
           variant="light"
@@ -193,7 +193,7 @@ function Tasks ( { currentCaseId, agentMessage } ) {
               let className = "btn btn-light btn-small mr-1 " + stateColor( task.state );
               return (
                 <div className={className} key={task.id} onClick={e => { workOnTask( task ); }}>
-                  {task.data.name}
+                  <FontAwesomeIcon icon="tasks"/> {task.data.name}
                 </div>
               );
             } )

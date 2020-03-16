@@ -4,10 +4,11 @@ import config from '../config';
 import { DebounceInput } from 'react-debounce-input';
 import Cases from '../components/cases';
 import Tasks from '../components/tasks';
+import CaseMessages from '../components/case-messages';
 import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
-import uuidv4 from 'node-uuid';
+import logo from '../assets/bell.png';
 
 function VirtualAssistant ( props ) {
   const [ messages, setMessages ] = useState( [] );
@@ -68,7 +69,8 @@ function VirtualAssistant ( props ) {
     let newMessage = {
       fromUser: agent,
       toUser: Auth.user,
-      utterance: utterance
+      utterance: utterance,
+      createdAt: Date.now()
     };
     setMessages( [ ...messages, newMessage ] );
   }
@@ -81,13 +83,11 @@ function VirtualAssistant ( props ) {
     apiWrapper
       .get( path, { params: params } )
       .then( resp => {
-        if ( !resp.data ) resp.data = [];
+        if ( !resp.data )
+          resp.data = [];
+
         let msgs = resp.data
-          .sort( ( a, b ) => ( a.createdAt > b.createdAt ) ? 1 : -1 )
-          .map( msg => {
-            msg.createdAt = resp.data.createdAt;
-            return msg;
-          } )
+          .sort( ( a, b ) => ( a.data.createdAt > b.data.createdAt ) ? 1 : -1 );
 
         setMessages( msgs );
       } )
@@ -101,13 +101,11 @@ function VirtualAssistant ( props ) {
   }, [ currentCaseId ] );
 
   const style = {
-    inlineImage: {
-      height: "1.5em"
-    },
     sendButton: {
       position: 'absolute',
       right: '0.5em',
-      bottom: '0.5em'
+      bottom: '0.5em',
+      height: "1em"
     },
     inputMessage: {
       fontSize: '1.1em',
@@ -125,27 +123,9 @@ function VirtualAssistant ( props ) {
         agentMessage={ agentMessage }
         currentCaseId={ currentCaseId } />
       <hr />
-      <div className="messages">
-        { messages &&
-          messages.map( ( msg, index ) => {
-            return (
-              <div key={ index } className="small">
-                <span className="mr-1">
-                  { ( () => {
-                    if ( msg.data.fromUser.name === 'agent' ) {
-                      return <FontAwesomeIcon icon="robot" />;
-                    }
-                    else {
-                      return <img src={ msg.data.fromUser.picture } style={ style.inlineImage } />;
-                    }
-                  } )() }
-                </span>
-                <span className="mr-1">{ msg.data.createdAt }:</span>
-                <span>{ msg.data.utterance }</span>
-              </div>
-            );
-          } ) }
-      </div>
+      <CaseMessages className="row"
+        messages={ messages }
+      />
       <Suggest
         currentMessage={ currentMessage }
         setCurrentMessage={ setCurrentMessage }
@@ -165,7 +145,7 @@ function VirtualAssistant ( props ) {
           onChange={ e => { setCurrentMessage( e.target.value ); } }
           onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
         />
-        <FontAwesomeIcon icon="bell" className="clickable" style={ style.sendButton } />
+        <img src={ logo } style={ style.sendButton } />
       </div>
     </div>
   );

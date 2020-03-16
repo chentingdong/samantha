@@ -551,8 +551,6 @@ resources:
             AttributeType: S
           - AttributeName: caseId
             AttributeType: S
-          - AttributeName: createdAt
-            AttributeType: N
         BillingMode: PAY_PER_REQUEST
         KeySchema:
           - AttributeName: id
@@ -563,8 +561,6 @@ resources:
             KeySchema:
               - AttributeName: caseId
                 KeyType: HASH
-              - AttributeName: createdAt
-                KeyType: RANGE
             Projection:
               ProjectionType: ALL
 

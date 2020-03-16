@@ -264,13 +264,11 @@ class DynamoDbConnector {
   }
 
   async createCaseMessage ( id, caseId, data ) {
-    const createdAt = data.createdAt || Date.now()
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       Item: {
         id,
         caseId,
-        createdAt,
         data
       }
     };

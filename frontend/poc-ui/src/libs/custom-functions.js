@@ -1,16 +1,21 @@
 function formatDate ( date ) {
-  var monthNames = [
-    "January", "February", "March",
-    "April", "May", "June", "July",
-    "August", "September", "October",
-    "November", "December"
-  ];
+  let d = new Date( date )
 
-  var day = date.getDate();
-  var monthIndex = date.getMonth();
-  var year = date.getFullYear();
+  var dateString = d.getUTCFullYear() + "/"
+    + ( d.getUTCMonth() + 1 ) + "/" + d.getUTCDate();
 
-  return monthNames[ monthIndex ] + ' ' + day + ', ' + year;
+
+  return dateString
+}
+
+function formatTime ( timestamp ) {
+  let t = new Date( timestamp );
+
+  var timeString = formatDate(t) + " "
+    + t.getUTCHours() + ":" + t.getUTCMinutes() + ":" + t.getUTCSeconds();
+
+
+  return timeString;
 }
 
 function stateColor ( state ) {
@@ -26,4 +31,4 @@ function stateColor ( state ) {
   return colorClass;
 }
 
-export { formatDate, stateColor };
+export { formatDate, formatTime, stateColor};

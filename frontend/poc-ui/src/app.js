@@ -10,8 +10,8 @@ import logo from './assets/bellhop.png';
 
 // Import and build a fontawesome icon library to share in the app
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram } from '@fortawesome/free-solid-svg-icons';
-library.add( faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram );
+import { faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram, faTasks } from '@fortawesome/free-solid-svg-icons';
+library.add( faBell, faPlus, faEye, faFlag, faBomb, faCircleNotch, faUser, faUserCog, faRobot, faProjectDiagram, faTasks );
 
 
 function App () {
