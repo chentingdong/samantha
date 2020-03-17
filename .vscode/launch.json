@@ -28,12 +28,19 @@
       }
     },
     {
-      "type": "node",
-      "request": "launch",
-      "name": "Tests createCase",
-      "cwd": "${workspaceRoot}/backend/poc",
-      "program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
-      "args": ["invoke", "test", "-f", "createCase"]
+        "name": "UI",
+        "type": "chrome",
+        "request": "launch",
+        "port": 2622,
+        "url": "https://localhost:2000/demo",
+        "webRoot": "${workspaceRoot}",
+        "sourceMaps": true,
+        "sourceMapPathOverrides": {
+            "webpack:///./~/*": "${workspaceRoot}/../node_modules/*",
+            "webpack:///../*": "${workspaceRoot}/../node_modules/*",
+            "webpack:///./*": "${workspaceRoot}/../*",
+            "webpack:///*": "/*"
+        }
     }
   ]
 }
