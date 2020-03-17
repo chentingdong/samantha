@@ -55,8 +55,8 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "PORT=2000 HTTPS=true react-scripts start",
-    "debug": "PORT=2000 HTTPS=true react-scripts start --inspect-brk=2622",
+    "prestart": "(cat certs/cert.pem certs/key.pem > ./node_modules/webpack-dev-server/ssl/server.pem) || :",
+    "start": "PORT=2000 HTTPS=true BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
