@@ -47,14 +47,15 @@ Use the `--debug` flag if you'd like to learn what's happening behind the scenes
 $ serverless --debug
 ```
 
-### 3. Notes
 
-If you aren't using a custom domain, AWS Cloudfront and `HTTPS://` will not be set up. Instead, you will receive an `HTTP://` domain from AWS S3.
+### 4. UI debugging env with VScode
+* Prepare
+In vscode, install Chrome Debugger Extension
+When I need both frontend and backend debugging, I open two vscode window and run one debug process in each. There are two launch.json files.
+* Run
+In terminal run yarn start
+Run the frontend debugger with name "UI".
+Note the debugger is attached after yarn start. Run as normal, debug only when you need.
+* Breakpoints
+Set breakpoints in vscode javascript, you can close the browser inspector. This gives a consistent experience between UI and backend development.
 
-When you add a custom domain, AWS Cloudfront and `HTTPS://` will be set up automatically with it.
-
-Remember, once you deploy with a custom domain for the first time, it may take up to an hour for DNS servers to propagate that change.
-
-## New to Components?
-
-Checkout the [Serverless Components](https://github.com/serverless/components) repo for more information.
