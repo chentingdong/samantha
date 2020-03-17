@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "UI (not good)",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs": [
+        "start",
+        "--inspect-brk=2622"
+      ],
+      "port": 2622,
+      "url" : "https://localhost:2000/demo",
+      "webRoot" : "${workspaceRoot}",
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "name": "UI",
+      "type": "chrome",
+      "request": "launch",
+      "port": 2622,
+      "url": "https://localhost:2000/demo",
+      "webRoot": "${workspaceRoot}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${workspaceRoot}/../node_modules/*",
+        "webpack:///../*": "${workspaceRoot}/../node_modules/*",
+        "webpack:///./*": "${workspaceRoot}/../*",
+        "webpack:///*": "/*"
+      }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "`yarn start`",
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "yarn",
+      "runtimeArgs" : [ "start", "--inspect-brk=2622" ],
+      "stopOnEntry": false
+    },
+  ]
+}

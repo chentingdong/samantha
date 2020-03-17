@@ -55,7 +55,8 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "start": "PORT=2000 HTTPS=true react-scripts start",
+    "start": "PORT=2000 HTTPS=true react-scripts",
+    "debug": "PORT=2000 HTTPS=true react-scripts start --inspect-brk=2622",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
