@@ -27,11 +27,15 @@ function VirtualAssistant ( props ) {
 
   useEffect( () => {
     ws.onmessage = event => {
-      const data = JSON.parse( event.data );
-      console.log( data );
-      agentMessage( data );
+      if ( event.data ) {
+        const data = JSON.parse( event.data );
+        console.log( data );
+        agentMessage( data );
+      }
     };
+  }, [ ws ] );
 
+  useEffect(() => {
     ws.onopen = () => {
       console.log( 'Connected websocket ' + config.wsUrl );
     };
@@ -40,7 +44,7 @@ function VirtualAssistant ( props ) {
       console.log( 'Disconnected websocket ' + config.wsUrl );
       setWs( wsNew );
     };
-  } );
+  }, []);
 
   async function userMessage ( utterance ) {
     setCurrentMessage( utterance );
@@ -120,9 +124,10 @@ function VirtualAssistant ( props ) {
         currentCaseId={ currentCaseId }
         setCurrentCaseId={ setCurrentCaseId } />
       <Tasks className="mt-1 row"
+        agent={agent}
         agentMessage={ agentMessage }
         currentCaseId={ currentCaseId } />
-      <hr />
+      <hr className="row" />
       <CaseMessages className="row"
         messages={ messages }
       />
