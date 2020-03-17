@@ -3,7 +3,7 @@
 ## Setup
 * `mkdir -p .dynamodb/data`
 * `mkdir -p certs`
-* generate **key.pem** and **cert.pem**, place them in **certs/**
+* follow https://bellhop.slite.com/app/channels/OwMUP6Wu0s/notes/t80L0ZsaHP to generate **key.pem** and **cert.pem**, place them in **certs/**
 
 ## Running local server 
 For to run the api server and dynamodb locally, run `serverless offline start`, which will fire an init and a end lifecycle hook which is needed for `serverless-offline` and `serverless-dynamodb-local` to switch on/off resources.
@@ -20,4 +20,4 @@ For to run the api server and dynamodb locally, run `serverless offline start`, 
 
 
 ## calling APIs using curl command
-For example: `curl -k https://localhost:3000/case-definitions`
+For example: `curl https://localhost:3000/case-definitions`
