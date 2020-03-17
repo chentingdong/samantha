@@ -2,30 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Backend",
       "type": "node",
       "request": "launch",
-      "name": "offline debug",
       "cwd": "${workspaceRoot}/backend/poc",
       "program": "${workspaceRoot}/backend/poc/node_modules/.bin/sls",
       "args": [
         "offline",
         "start"
       ]
-    },
-    {
-      "name" : "Chrome",
-      "type" : "chrome",
-      "request" : "launch",
-      "port" : 9292,
-      "url" : "https://localhost:2000/demo",
-      "webRoot" : "${workspaceRoot}",
-      "sourceMaps" : true,
-      "sourceMapPathOverrides" : {
-          "webpack:///./~/*": "${workspaceRoot}/../node_modules/*",
-          "webpack:///../*": "${workspaceRoot}/../node_modules/*",
-          "webpack:///./*": "${workspaceRoot}/../*",
-          "webpack:///*": "/*"
-      }
     },
     {
         "name": "UI",
