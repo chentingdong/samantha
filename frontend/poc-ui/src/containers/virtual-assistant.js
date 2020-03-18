@@ -101,6 +101,7 @@ function VirtualAssistant ( props ) {
         if ( !resp.data )
           resp.data = [];
 
+        //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
         let msgs = resp.data
           .sort( ( a, b ) => ( a.data.createdAt > b.data.createdAt ) ? 1 : -1 );
 
