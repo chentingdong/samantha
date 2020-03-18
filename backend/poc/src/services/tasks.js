@@ -37,7 +37,7 @@ const createTask = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id, state})
+      body: JSON.stringify({id, state, caseId, data})
     };
   } catch (err) {
     const errMsg = 'Unable to create task';

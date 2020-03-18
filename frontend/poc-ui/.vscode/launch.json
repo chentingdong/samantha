@@ -6,7 +6,15 @@
       "type": "chrome",
       "request": "launch",
       "port": 2622,
-      "url": "https://localhost:2000"
+      "url": "https://localhost:2000/demo",
+      "webRoot": "${workspaceRoot}",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./~/*": "${workspaceRoot}/../node_modules/*",
+        "webpack:///../*": "${workspaceRoot}/../node_modules/*",
+        "webpack:///./*": "${workspaceRoot}/../*",
+        "webpack:///*": "/*"
+      }
     }
   ]
 }

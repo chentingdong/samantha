@@ -4,7 +4,7 @@ const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 const uuid = require('uuid');
 
-const createCaseDefinition = async (event, context) => {  
+const createCaseDefinition = async (event, context) => {
   try {
     const id = uuid.v4();
     const data = JSON.parse(event.body);
@@ -16,10 +16,7 @@ const createCaseDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify({id})
     };
   } catch (err) {
@@ -27,16 +24,13 @@ const createCaseDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: errMsg
     }
   }
 };
 
-const getCaseDefinition = async (event, context) => {  
+const getCaseDefinition = async (event, context) => {
   try {
     const params = event.pathParameters;
     const id = params.caseDefinitionId;
@@ -47,10 +41,7 @@ const getCaseDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Item)
     };
   } catch (err) {
@@ -58,25 +49,19 @@ const getCaseDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: errMsg
     }
   }
 };
 
-const listCaseDefinitions = async (event, context) => {  
+const listCaseDefinitions = async (event, context) => {
   try {
     const result = await dynamodbConnector.listCaseDefinitions();
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: JSON.stringify(result.Items)
     };
   } catch (err) {
@@ -84,16 +69,13 @@ const listCaseDefinitions = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: errMsg
     }
   }
 };
 
-const deleteCaseDefinition = async (event, context) => {  
+const deleteCaseDefinition = async (event, context) => {
   try {
     const params = event.pathParameters;
     const id = params.caseDefinitionId;
@@ -104,10 +86,7 @@ const deleteCaseDefinition = async (event, context) => {
 
     return {
       statusCode: 200,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
   } catch (err) {
@@ -115,10 +94,7 @@ const deleteCaseDefinition = async (event, context) => {
     console.error(errMsg, err);
     return {
       statusCode: 500,
-      headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin': CONSTANTS.CORS_ORIGIN
-      },
+      headers: CONSTANTS.RESPONSE_HEADERS,
       body: errMsg
     }
   }

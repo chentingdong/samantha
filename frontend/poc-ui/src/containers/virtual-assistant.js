@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import config from '../config';
 import { DebounceInput } from 'react-debounce-input';
 import Cases from '../components/cases';
@@ -33,38 +32,50 @@ function VirtualAssistant ( props ) {
         agentMessage( data );
       }
     };
-  }, [ ws ] );
 
-  useEffect(() => {
     ws.onopen = () => {
+      // to tell backend for connectionId
+      ws.send( 'hello' );
       console.log( 'Connected websocket ' + config.wsUrl );
     };
 
-    ws.onclose = () => {
-      console.log( 'Disconnected websocket ' + config.wsUrl );
-      setWs( wsNew );
-    };
-  }, []);
 
-  async function userMessage ( utterance ) {
+    ws.onclose = () => {
+      setWs( wsNew );
+      console.log( 'Disconnected websocket ' + config.wsUrl );
+    };
+
+    return function () {
+      //TODO: clean up here
+    };
+  } );
+
+  function userMessage ( utterance ) {
     setCurrentMessage( utterance );
 
-    let newMessage = {
-      fromUser: Auth.user,
-      toUser: agent,
-      utterance: utterance,
-      createdAt: Date.now()
-    };
-
-    setMessages( [ ...messages, { data: newMessage } ] );
-
-    const payload = {
-      action: "interaction",
+    const newMessage = {
+      id: '',
       caseId: currentCaseId,
-      data: newMessage
+      data: {
+        fromUser: Auth.user,
+        toUser: agent,
+        utterance: utterance,
+        createdAt: Date.now()
+      }
     };
 
-    await ws.send( JSON.stringify( payload ) );
+
+    // let resp = await ws.send( JSON.stringify( newMessage ) );
+    apiWrapper
+      .post( '/case-messages', newMessage )
+      .then( resp => {
+        setMessages( [ ...messages, newMessage ] );
+        console.debug( `userMessage post success, resp from backend: ${JSON.stringify(resp)}` );
+      } )
+      .catch( err => {
+        console.error(`userMessage post failed, ${err}`)
+      });
+
     setCurrentMessage( '' );
   }
 
@@ -124,7 +135,7 @@ function VirtualAssistant ( props ) {
         currentCaseId={ currentCaseId }
         setCurrentCaseId={ setCurrentCaseId } />
       <Tasks className="mt-1 row"
-        agent={agent}
+        agent={ agent }
         agentMessage={ agentMessage }
         currentCaseId={ currentCaseId } />
       <hr className="row" />

@@ -6,7 +6,7 @@ import { stateColor, formatDate } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
 // import aws from 'aws-sdk';
 
-function Tasks ( { currentCaseId, agentMessage } ) {
+function Tasks ( {agent, currentCaseId, agentMessage } ) {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ tasks, setTasks ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
@@ -37,7 +37,7 @@ function Tasks ( { currentCaseId, agentMessage } ) {
       .get( path )
       .then( resp => {
         let caseTasks = resp.data;
-        console.debug( `Got tasks\ncurrentCaseId=${ currentCaseId }: ${ JSON.stringify( caseTasks, null, 2 ) }` );
+        // console.debug( `Got tasks\ncurrentCaseId=${ currentCaseId }: ${ JSON.stringify( caseTasks, null, 2 ) }` );
         setTasks( caseTasks );
       } )
       .catch( err => {
@@ -62,15 +62,8 @@ function Tasks ( { currentCaseId, agentMessage } ) {
     apiWrapper
       .post( path, task )
       .then( resp => {
-        let t = {
-          id: resp.data.id,
-          state: resp.data.state,
-          data: task
-        }
-        console.log(task)
+        let t = resp.data
         setTasks( tasks => [ t, ...tasks ] );
-        console.log(tasks)
-        agentMessage( <AfterPostMessage task={t} /> );
       } )
       .catch( err => {
         console.error( err );
@@ -188,7 +181,7 @@ function Tasks ( { currentCaseId, agentMessage } ) {
           }
         </DropdownButton>
         <div className="ml-1">
-          {
+          { tasks &&
             tasks.map( ( task ) => {
               let className = "btn btn-light btn-small mr-1 " + stateColor( task.state );
               return (

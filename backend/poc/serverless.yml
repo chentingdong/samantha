@@ -132,12 +132,12 @@ functions:
     events:
       - websocket:
           route: $disconnect
-  handleSocketInteraction:
-    name: LAMBDA_${self:service}_socket_interaction_${self:provider.stage}
-    handler: handler.handleSocketInteraction
-    events:
-      - websocket:
-          route: interaction
+  # handleSocketInteraction:
+  #   name: LAMBDA_${self:service}_socket_interaction_${self:provider.stage}
+  #   handler: handler.handleSocketInteraction
+  #   events:
+  #     - websocket:
+  #         route: interaction
   webhook:
     name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
     handler: handler.webhook

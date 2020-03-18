@@ -20,6 +20,7 @@ const CONSTANTS = {
   WEBSOCKET_API_ENDPOINT: process.env.WEBSOCKET_API_ENDPOINT,
   RESPONSE_HEADERS: {
     'Content-Type': 'application/json',
+    "Set-Cookie": "HttpOnly;Secure;SameSite=Strict",
     'Access-Control-Allow-Origin': process.env.CORS_ORIGIN,
     'Access-Control-Allow-Credentials': 'true',
     'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',

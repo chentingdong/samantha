@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Widget, toggleWidget, addResponseMessage } from 'react-chat-widget';
 import avatar from '../assets/droid.png';
 import 'react-chat-widget/lib/styles.css';
-import './virtual-agent.css';
 
 const wsUrl = 'wss://jhempytc66.execute-api.us-east-1.amazonaws.com/test';
 

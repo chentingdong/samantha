@@ -1,35 +1,40 @@
 'use strict';
-const dynamodbConnector = require('../connectors/dynamodb');
-const CONSTANTS = require('../constants');
-const uuid = require('uuid');
+const dynamodbConnector = require( '../connectors/dynamodb' );
+const CONSTANTS = require( '../constants' );
+const uuid = require( 'uuid' );
 
-const createCaseMessage = async (event, context) => {
+const createCaseMessage = async ( event, context ) => {
   try {
     const id = uuid.v4();
-    const data = JSON.parse(event.body);
+    const payload = JSON.parse( event.body );
+    const caseId = payload.caseId || ' ';
+    const data = payload.data;
 
     await dynamodbConnector.createCaseMessage(
-      id,
-      data
+      {
+        id,
+        caseId,
+        data
+      }
     );
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id})
+      body: JSON.stringify( { id } )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to create case message';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const getCaseMessage = async (event, context) => {
+const getCaseMessage = async ( event, context ) => {
   try {
     const caseId = event.pathParameters.caseId;
     // case is a keyword...
@@ -40,25 +45,25 @@ const getCaseMessage = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Item)
+      body: JSON.stringify( result.Item )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to get case message';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({err})
-    }
+      body: JSON.stringify( { err } )
+    };
   }
 };
 
-const listCaseMessages = async (event, context) => {
+const listCaseMessages = async ( event, context ) => {
   try {
     var result = {};
     const params = event.queryStringParameters;
-    if (params && 'caseId' in params) {
-      result = await dynamodbConnector.listCaseMessagesByCase(params['caseId']);
+    if ( params && 'caseId' in params ) {
+      result = await dynamodbConnector.listCaseMessagesByCase( params[ 'caseId' ] );
     } else {
       result = [];
       // result = await dynamodbConnector.listCaseMessages();
@@ -66,20 +71,20 @@ const listCaseMessages = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Items)
+      body: JSON.stringify( result.Items )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to list case messages';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const deleteCaseMessage = async (event, context) => {
+const deleteCaseMessage = async ( event, context ) => {
   try {
     const params = event.pathParameters;
     const id = params.caseMessageId;
@@ -93,14 +98,14 @@ const deleteCaseMessage = async (event, context) => {
       headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to delete case message';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 

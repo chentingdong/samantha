@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import Amplify, { Auth } from "aws-amplify";
@@ -25,7 +25,6 @@ function Login ( {userHasAuthenticated}) {
   const [ password, setPassword ] = useState('');
   const [ isAuthenticating, setIsAuthenticating ] = useState(false);
   Amplify.configure(config);
-  const user = Auth.user
 
   function validateForm () {
     return email.length > 0 && password.length > 0;
@@ -33,10 +32,12 @@ function Login ( {userHasAuthenticated}) {
 
   async function handleEmailLogin (event) {
     event.preventDefault();
+    setIsAuthenticating( true );
 
     try {
       await Auth.signIn(email, password);
-      userHasAuthenticated(true);
+      userHasAuthenticated( true );
+      setIsAuthenticating(false)
     } catch (e) {
       alert(e.message);
     }
@@ -75,7 +76,7 @@ function Login ( {userHasAuthenticated}) {
             <Link to="reset-password"> Forgot password? </Link>
           </p>
         </Form.Text>
-        <LoaderButton disabled={!validateForm()} type="submit" >Login</LoaderButton>
+        <LoaderButton isLoading={isAuthenticating} disabled={!validateForm()} type="submit" >Login</LoaderButton>
         <hr />
         <Federated federated={config.social} onStateChange={handleFederatedLogin} />
       </Form>
