@@ -64,6 +64,7 @@ function Tasks ( { currentCaseId } ) {
       .post( path, task )
       .then( resp => {
         let t = resp.data;
+
         setTasks( tasks => [ t, ...tasks ] );
       } )
       .catch( err => {
@@ -188,7 +189,7 @@ function Tasks ( { currentCaseId } ) {
               return (
                 <div className={ className } key={ task.id } onClick={ e => { workOnTask( task ); } }>
                   <FontAwesomeIcon icon="tasks" />
-                  <span> { task.data.name } </span>
+                  <pre> { task.data.name } </pre>
                 </div>
               );
             } )
@@ -236,20 +237,20 @@ function Tasks ( { currentCaseId } ) {
 };
 
 // TODO: this should come from backend, maybe use NLG to generate task reply, leave for future.
-function AfterPostMessage ( { task } ) {
-  if ( !task ) return '';
+// function AfterPostMessage ( { task } ) {
+//   if ( !task ) return '';
 
-  const dueDate = formatDate( task.data.dueDate || new Date() );
-  console.log( task );
-  return (
-    task &&
-    <>
-      Your task is added to current case.
-      Your message is sent to <b>{ task.data.assignee }</b>,
-      expecting to finish on <b>{ dueDate }</b>.
-      I will inform him after <b>{ task.data.followUpDuration }</b> days if not finished.
-    </>
-  );
-}
+//   const dueDate = formatDate( task.data.dueDate || new Date() );
+//   console.log( task );
+//   return (
+//     task &&
+//     <>
+//       Your task is added to current case.
+//       Your message is sent to <b>{ task.data.assignee }</b>,
+//       expecting to finish on <b>{ dueDate }</b>.
+//       I will inform him after <b>{ task.data.followUpDuration }</b> days if not finished.
+//     </>
+//   );
+// }
 
 export default Tasks;

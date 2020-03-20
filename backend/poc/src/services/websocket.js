@@ -96,8 +96,7 @@ const crossDeviceBroadcast = async ( user, utterance ) => {
       console.error( `Unable to respond to ${ connectionId }`, err );
     }
   } );
-  const results = await Promise.all( promises );
-  console.debug( results );
+  await Promise.all( promises );
 };
 
 const groupNotice = async ( users, utterance ) => {

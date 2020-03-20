@@ -2,20 +2,26 @@ const uuidv4 = require( 'uuid/v4' );
 const dynamodbConnector = require( '../connectors/dynamodb' );
 const { crossDeviceBroadcast } = require( './websocket' );
 
-// templates for machine generated message, only showing general fields.
-const taskResponseToOwner = async ( { caseId, task } ) => {
+// templates for machine generated message, based on general fields of task wrapper.
+const taskBroadcastToOwner = async ( caseId, task ) => {
   try {
-    // response to owner after created a task, this should come from a task template that can be changed by task designer.
-    let utterance = `Task response msg generated from backend based on task data.`;
-    const user = task.owner;
+    // TODO: need templates for tasks. This is temperary.
+    let utterance = `Your task is added to current case.`
+      + `Your message is sent to ${ task.owner.name },`
+      + `expecting to finish on ${ task.dueDate },`
+      + `I will inform him after ${ task.followUpDuration} days if not finished.`
 
+    const user = task.owner;
+    const agent = {
+      name: 'agent'
+    }
     // write to message queue
     let message = {
       id: uuidv4(),
       caseId: caseId,
       data: {
         utterance: utterance,
-        fromUser: user,
+        fromUser: agent,
         toUser: user,
         createdAt: Date.now()
       }
@@ -31,11 +37,11 @@ const taskResponseToOwner = async ( { caseId, task } ) => {
   }
 };
 
-const taskNoticeAssignment = async ( { groupId, task } ) => {
+const taskNoticeAssigneeGroup = async ( { groupId, task } ) => {
   console.log( 'TODO: after group is settled down.' );
 }
 
 module.exports = {
-  taskResponseToOwner,
-  taskNoticeAssignment
+  taskBroadcastToOwner,
+  taskNoticeAssigneeGroup
 };

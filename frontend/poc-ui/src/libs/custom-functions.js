@@ -1,8 +1,8 @@
 function formatDate ( date ) {
   let d = new Date( date )
 
-  var dateString = d.getUTCFullYear() + "/"
-    + ( d.getUTCMonth() + 1 ) + "/" + d.getUTCDate();
+  var dateString = d.getUTCFullYear() + "-"
+    + ( d.getUTCMonth() + 1 ) + "-" + d.getUTCDate();
 
 
   return dateString
@@ -11,7 +11,7 @@ function formatDate ( date ) {
 function formatTime ( timestamp ) {
   let t = new Date( timestamp );
 
-  var timeString = formatDate(t) + " "
+  var timeString = formatDate( t ) + " "
     + t.getUTCHours() + ":" + t.getUTCMinutes() + ":" + t.getUTCSeconds();
 
 

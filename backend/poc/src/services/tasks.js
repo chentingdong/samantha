@@ -2,7 +2,7 @@
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 const uuid = require('uuid');
-const { taskResponseToOwner } = require('./task-templates')
+const { taskBroadcastToOwner } = require('./task-templates')
 
 const createTask = async (event, context) => {
   try {
@@ -34,12 +34,12 @@ const createTask = async (event, context) => {
       caseData
     );
 
-    taskResponseToOwner( { caseId, task } )
+    taskBroadcastToOwner( caseId, task )
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id, state, caseId, task})
+      body: JSON.stringify( { id, state, caseId, data: task})
     };
   } catch (err) {
     const errMsg = 'Unable to create task';

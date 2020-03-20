@@ -23,17 +23,18 @@ const CaseMessages = ( { messages } ) => {
               <div className="mr-1">
                 {
                   ( () => {
-                    if ( msg.data.fromUser.name === 'agent' ) {
+                    if (  msg.data.fromUser.name === 'agent' ) {
                       return <FontAwesomeIcon icon="robot" />;
                     }
                     else {
                       return <img src={ msg.data.fromUser.picture }
                         style={ style.inlineImage }
-                        alt="<Fontawesome icon='user'"/>;
+                        alt="<Fontawesome icon='user'/>" />;
                     }
-                  } )() }
+                  } )()
+                }
                 <span className="ml-1 text-secondary">
-                  { formatTime( msg.data.createdAt ) }:
+                  { formatTime( msg.data.createdAt ) }
                   </span><br />
               </div>
               <div>{ msg.data.utterance }</div>
