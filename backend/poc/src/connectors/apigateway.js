@@ -5,12 +5,31 @@ const aws = require('aws-sdk');
 const CONSTANTS = require('../constants');
 const dynamodbConnector = require('./dynamodb');
 
+const isOffline = function () {
+  // Depends on serverless-offline plugion which adds IS_OFFLINE to process.env when running offline
+  return process.env.IS_OFFLINE;
+};
+
 class ApiGatewayConnector {
   constructor() {
-    const CONNECTOR_OPTS = {
-      endpoint: CONSTANTS.WEBSOCKET_API_ENDPOINT,
-      sslEnabled: true
-    };
+    var CONNECTOR_OPTS = {};
+    if (isOffline()) {
+      const ca = require('fs').readFileSync(__dirname + '/../../certs/rootCA.pem');
+      const options = {ca};
+      const agent = new require('https').Agent(options);
+      CONNECTOR_OPTS = {
+        region: "localhost",
+        endpoint: "https://localhost:3001/",
+        sslEnabled: true,
+        httpOptions: {agent}
+      };
+    } else {
+      CONNECTOR_OPTS = {
+        endpoint: CONSTANTS.WEBSOCKET_API_ENDPOINT,
+        sslEnabled: true
+      };
+    }
+
     this._connector = new aws.ApiGatewayManagementApi(CONNECTOR_OPTS);
   }
 
