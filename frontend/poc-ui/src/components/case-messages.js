@@ -21,7 +21,7 @@ const CaseMessages = ( { messages } ) => {
             msg.data &&
             <div key={ index } className="card bg-light shadow-none row small mb-1 p-1 pl-2">
               <div className="mr-1">
-                {/* {
+                {
                   ( () => {
                     if ( msg.data.fromUser.name === 'agent' ) {
                       return <FontAwesomeIcon icon="robot" />;
@@ -31,12 +31,12 @@ const CaseMessages = ( { messages } ) => {
                         style={ style.inlineImage }
                         alt="<Fontawesome icon='user'"/>;
                     }
-                  } )() } */}
+                  } )() }
                 <span className="ml-1 text-secondary">
-                  {/* { formatTime( msg.data.createdAt ) }: */}
+                  { formatTime( msg.data.createdAt ) }:
                   </span><br />
               </div>
-              <pre>{ JSON.stringify(msg, null, 2) }</pre>
+              <div>{ msg.data.utterance }</div>
             </div>
           );
         } ) }

@@ -187,7 +187,8 @@ function Tasks ( { currentCaseId } ) {
               let className = "btn btn-light btn-small mr-1 " + stateColor( task.state );
               return (
                 <div className={ className } key={ task.id } onClick={ e => { workOnTask( task ); } }>
-                  <FontAwesomeIcon icon="tasks" /> { task.name }
+                  <FontAwesomeIcon icon="tasks" />
+                  <span> { task.data.name } </span>
                 </div>
               );
             } )

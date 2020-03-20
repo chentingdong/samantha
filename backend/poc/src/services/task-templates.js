@@ -2,6 +2,7 @@ const uuidv4 = require( 'uuid/v4' );
 const dynamodbConnector = require( '../connectors/dynamodb' );
 const { crossDeviceBroadcast } = require( './websocket' );
 
+// templates for machine generated message, only showing general fields.
 const taskResponseToOwner = async ( { caseId, task } ) => {
   try {
     // response to owner after created a task, this should come from a task template that can be changed by task designer.
@@ -30,7 +31,11 @@ const taskResponseToOwner = async ( { caseId, task } ) => {
   }
 };
 
+const taskNoticeAssignment = async ( { groupId, task } ) => {
+  console.log( 'TODO: after group is settled down.' );
+}
 
 module.exports = {
-  taskResponseToOwner
+  taskResponseToOwner,
+  taskNoticeAssignment
 };

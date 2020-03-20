@@ -62,10 +62,8 @@ const listCaseMessages = async ( event, context ) => {
     const params = event.queryStringParameters;
     if ( params && 'caseId' in params ) {
       result = await dynamodbConnector.listCaseMessagesByCase( params[ 'caseId' ] );
-    } else {
-      result = [];
-      // result = await dynamodbConnector.listCaseMessages();
     }
+
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
