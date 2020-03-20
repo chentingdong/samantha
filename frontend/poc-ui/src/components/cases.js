@@ -12,7 +12,7 @@ function Cases ( { currentCaseId, setCurrentCaseId } ) {
     apiWrapper
       .get( '/case-definitions' )
       .then( ( resp ) => {
-        console.debug( `get case defination ${ resp }` )
+        console.debug( `get case defination ${ JSON.stringify(resp) }` )
         //TODO: Only one case def for now, will do select UX.
         let caseInstance = resp.data[0].data
         caseInstance.creator = user.id

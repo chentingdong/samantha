@@ -1,7 +1,6 @@
 import React from "react";
 import { Switch } from 'react-router-dom'
 
-import VirtualAgent from '../containers/virtual-agent'
 import Suggest from '../containers/suggest-agent'
 import Home from '../containers/home'
 import Login from '../containers/login'
@@ -46,11 +45,6 @@ const routes = [
   {
     path: "/demo",
     component: VirtualAssistant,
-    tag: PrivateRoute
-  },
-  {
-    path: "/demo/agent-widget",
-    component: VirtualAgent,
     tag: PrivateRoute
   },
   {

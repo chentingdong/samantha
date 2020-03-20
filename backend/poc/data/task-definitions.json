@@ -6,6 +6,7 @@
     "dueDate": " ",
     "followUpDuration": "1",
     "assignee": " ",
+    "owner": " ",
     "entryCriterions": [],
     "formUrl": "http://example.com/doc"
   },
@@ -16,6 +17,7 @@
     "dueDate": " ",
     "followUpDuration": "1",
     "assignee": " ",
+    "owner": " ",
     "entryCriterions": [],
     "formUrl": "http://example.com/doc"
   }

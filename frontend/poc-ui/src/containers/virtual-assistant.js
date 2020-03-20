@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import config from '../config';
 import { DebounceInput } from 'react-debounce-input';
 import Cases from '../components/cases';
@@ -8,111 +8,127 @@ import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
 import logo from '../assets/bell.png';
+import useWebSocket from 'react-use-websocket';
+
 
 function VirtualAssistant ( props ) {
   const [ messages, setMessages ] = useState( [] );
   const [ currentMessage, setCurrentMessage ] = useState( '' );
-  const [ currentCaseId, setCurrentCaseId ] = useState();
 
-  let [ selectedSuggestion, setselectedSuggestion ] = useState( 0 );
+  const [ selectedSuggestion, setselectedSuggestion ] = useState( 0 );
   const suggestRef = useRef();
 
-  let wsNew = new WebSocket( config.wsUrl, [ 'ws', 'wws' ] );
-  let [ ws, setWs ] = useState( wsNew );
+  const [ currentCaseId, setCurrentCaseId ] = useState();
+  const wsOptions = useMemo( () => ( {
+    queryParams: {
+      'user': JSON.stringify(Auth.user)
+    }
+  } ), [] )
 
-  let agent = {
-    name: 'agent'
+  // initiate a websocket connection, register connectionId.
+  const [ sendMessage, lastMessage, readyState, getWebSocket ] = useWebSocket( config.wsUrl, wsOptions );
+
+  const agentUser = {
+    name: 'agent',
+    picture: '<Fontawesome icon="robot" />'
   };
 
   useEffect( () => {
-    ws.onmessage = event => {
-      if ( event.data ) {
-        const data = JSON.parse( event.data );
-        console.log( data );
-        agentMessage( data );
-      }
-    };
+    if ( lastMessage !== null ) {
+      agentMessage( lastMessage )
+    }
+  }, [ lastMessage ] );
 
-    ws.onopen = () => {
-      // to tell backend for connectionId
-      ws.send( 'hello' );
-      console.log( 'Connected websocket ' + config.wsUrl );
-    };
+  // let wsNew = new WebSocket( config.wsUrl, [ 'wss' ] );
+  // // let [ ws, setWs ] = useState( wsNew );
 
 
-    ws.onclose = () => {
-      setWs( wsNew );
-      console.log( 'Disconnected websocket ' + config.wsUrl );
-    };
+  // useEffect( () => {
+  //   ws.onmessage = event => {
+  //     if ( event.data ) {
+  //       const data = JSON.parse( event.data );
+  //       console.log( data );
+  //       agentMessage( data );
+  //     }
+  //   };
 
-    return function () {
-      //TODO: clean up here
-    };
-  } );
+  //   ws.onopen = () => {
+  //     // ws.send( JSON.stringify( {
+  //     //   userId: Auth.user.id
+  //     // }))
+  //     console.log( 'Connected websocket ' + config.wsUrl );
+  //   };
 
-  function userMessage ( utterance ) {
-    setCurrentMessage( utterance );
 
-    const newMessage = {
-      id: '',
+  //   ws.onclose = () => {
+  //     setWs( wsNew );
+  //     console.log( 'Disconnected websocket ' + config.wsUrl );
+  //   };
+
+  //   ws.onerror = ( err ) => {
+  //     console.error( `websocket error: ${ err } ` );
+  //     ws.close()
+  //   }
+  // } );
+
+  function buildMessage ( utterance, who ) {
+    return {
       caseId: currentCaseId,
       data: {
-        fromUser: Auth.user,
-        toUser: agent,
+        fromUser: who,
+        toUser: agentUser,
         utterance: utterance,
         createdAt: Date.now()
       }
-    };
+    }
+  }
 
-
-    // let resp = await ws.send( JSON.stringify( newMessage ) );
+  function userMessage ( utterance ) {
+    setCurrentMessage( utterance );
+    let newMessage = buildMessage(utterance, Auth.user)
     apiWrapper
       .post( '/case-messages', newMessage )
       .then( resp => {
+        newMessage.id = resp.data.id;
         setMessages( [ ...messages, newMessage ] );
-        console.debug( `userMessage post success, resp from backend: ${JSON.stringify(resp)}` );
+        console.debug( `user message post success, resp from backend: ${JSON.stringify(resp)}` );
       } )
       .catch( err => {
-        console.error(`userMessage post failed, ${err}`)
+        console.error(`user message post failed, ${err}`)
       });
 
     setCurrentMessage( '' );
   }
 
   function agentMessage ( utterance ) {
-    console.log( "received message: " + JSON.stringify( utterance ) );
-    let newMessage = {
-      fromUser: agent,
-      toUser: Auth.user,
-      utterance: utterance,
-      createdAt: Date.now()
-    };
+    console.log( "agent message: " + JSON.stringify( utterance ) );
+    let newMessage = buildMessage(utterance, agentUser)
     setMessages( [ ...messages, newMessage ] );
   }
 
-  function getCaseMessages () {
-    let path = `/case-messages`;
-    let params = {
-      caseId: currentCaseId
-    };
-    apiWrapper
-      .get( path, { params: params } )
-      .then( resp => {
-        if ( !resp.data )
-          resp.data = [];
-
-        //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
-        let msgs = resp.data
-          .sort( ( a, b ) => ( a.data.createdAt > b.data.createdAt ) ? 1 : -1 );
-
-        setMessages( msgs );
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
-  }
 
   useEffect( () => {
+    function getCaseMessages () {
+      let path = `/case-messages`;
+      let params = {
+        caseId: currentCaseId
+      };
+      apiWrapper
+        .get( path, {params: params} )
+        .then( resp => {
+          if ( !resp.data )
+            resp.data = [];
+
+          //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
+          let msgs = resp.data
+            .sort( ( a, b ) => ( a.data.createdAt > b.data.createdAt ) ? 1 : -1 );
+
+          setMessages( msgs );
+        } )
+        .catch( err => {
+          console.error( err );
+        } );
+    }
     getCaseMessages();
   }, [ currentCaseId ] );
 
@@ -136,11 +152,9 @@ function VirtualAssistant ( props ) {
         currentCaseId={ currentCaseId }
         setCurrentCaseId={ setCurrentCaseId } />
       <Tasks className="mt-1 row"
-        agent={ agent }
-        agentMessage={ agentMessage }
         currentCaseId={ currentCaseId } />
       <hr className="row" />
-      <CaseMessages className="row"
+      <CaseMessages className="row overflow-auto"
         messages={ messages }
       />
       <Suggest
@@ -162,7 +176,7 @@ function VirtualAssistant ( props ) {
           onChange={ e => { setCurrentMessage( e.target.value ); } }
           onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
         />
-        <img src={ logo } style={ style.sendButton } />
+        <img src={ logo } style={ style.sendButton } alt="Send"/>
       </div>
     </div>
   );

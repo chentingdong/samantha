@@ -7,6 +7,7 @@
       "faIcon": "user-cog",
       "dueDate": " ",
       "followUpDuration": "1",
+      "owner": " ",
       "assignee": " ",
       "entryCriterions": [],
       "formUrl": "http://example.com/doc"
@@ -20,6 +21,7 @@
       "faIcon": "user-cog",
       "dueDate": " ",
       "followUpDuration": "1",
+      "owner": " ",
       "assignee": " ",
       "entryCriterions": [],
       "formUrl": "http://example.com/doc"

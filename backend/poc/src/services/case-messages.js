@@ -7,16 +7,14 @@ const createCaseMessage = async ( event, context ) => {
   try {
     const id = uuid.v4();
     const payload = JSON.parse( event.body );
-    const caseId = payload.caseId || ' ';
-    const data = payload.data;
+    // const caseId = payload.caseId || ' ';
+    // const data = payload.data;
 
-    await dynamodbConnector.createCaseMessage(
-      {
-        id,
-        caseId,
-        data
-      }
-    );
+    await dynamodbConnector.createCaseMessage( {
+      id: uuid.v4(),
+      caseId: payload.caseId || ' ',
+      data: payload.data
+    } );
 
     return {
       statusCode: 200,

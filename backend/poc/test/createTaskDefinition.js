@@ -5,7 +5,6 @@
 
 const mochaPlugin = require( 'serverless-mocha-plugin' );
 const expect = mochaPlugin.chai.expect;
-let wrapped = mochaPlugin.getWrapper( 'createTaskDefinition', '/handler.js', 'createTaskDefinition' );
 const taskDefinitions = require( '../data/task-definitions.json' );
 
 describe( 'createTaskDefinition is importing data', () => {
@@ -19,7 +18,9 @@ describe( 'createTaskDefinition is importing data', () => {
       const event = {
         body: JSON.stringify( taskDefinition )
       };
-      return wrapped.run( event )
+      let wrapped = mochaPlugin.getWrapper( 'createTaskDefinition', '/handler.js', 'createTaskDefinition' );
+      return wrapped
+        .run( event )
         .then( ( response ) => {
           console.debug( response.body );
           const data = JSON.parse( response.body );

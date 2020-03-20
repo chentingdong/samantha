@@ -4,9 +4,9 @@ import CreateTaskForm from './create-task-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { stateColor, formatDate } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
-// import aws from 'aws-sdk';
+import { Auth } from 'aws-amplify';
 
-function Tasks ( {agent, currentCaseId, agentMessage } ) {
+function Tasks ( { currentCaseId } ) {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ tasks, setTasks ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
@@ -53,16 +53,17 @@ function Tasks ( {agent, currentCaseId, agentMessage } ) {
     setShowCreateModal( true );
     setNewTask( {
       ...taskDefinition.data,
+      owner: Auth.user,
       dueDate: new Date()
     } );
   }
 
-  function submitCreateTaskForm (task) {
+  function submitCreateTaskForm ( task ) {
     let path = `/cases/${ currentCaseId }/tasks`;
     apiWrapper
       .post( path, task )
       .then( resp => {
-        let t = resp.data
+        let t = resp.data;
         setTasks( tasks => [ t, ...tasks ] );
       } )
       .catch( err => {
@@ -102,34 +103,34 @@ function Tasks ( {agent, currentCaseId, agentMessage } ) {
         "IdentityId": "us-east-1:b63a7951-7010-479d-9b0e-92155997ce99",
       }
     ];
-    setUsers( users2 )
+    setUsers( users2 );
 
-/*     apiWrapper
-      .get( '/users' )
-      .then( resp => {
-        setUsers( resp.data );
-      })
-    aws.config.update( {
-      region: 'us-east-1',
-      credentials: new aws.CognitoIdentityCredentials( {
-        IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc'
-      } )
-    } );
+    /*     apiWrapper
+          .get( '/users' )
+          .then( resp => {
+            setUsers( resp.data );
+          })
+        aws.config.update( {
+          region: 'us-east-1',
+          credentials: new aws.CognitoIdentityCredentials( {
+            IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc'
+          } )
+        } );
 
-    let cognitoidentity = new aws.CognitoIdentity();
-    let params = {
-      IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
-      MaxResults: 50
-    };
+        let cognitoidentity = new aws.CognitoIdentity();
+        let params = {
+          IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
+          MaxResults: 50
+        };
 
-    cognitoidentity.listIdentities( params, ( err, data ) => {
-      if ( err ) console.log( err, err.stack );
-      else {
-        console.log( data );
-        let users = data.Identities;
-        setUsers( users );
-      }
-    } ); */
+        cognitoidentity.listIdentities( params, ( err, data ) => {
+          if ( err ) console.log( err, err.stack );
+          else {
+            console.log( data );
+            let users = data.Identities;
+            setUsers( users );
+          }
+        } ); */
   }
   useEffect( () => {
     getUsers();
@@ -161,70 +162,70 @@ function Tasks ( {agent, currentCaseId, agentMessage } ) {
     <div className="row mt-1">
       <div className="nav">
         <DropdownButton
-          as={ButtonGroup}
+          as={ ButtonGroup }
           variant="light"
           className="rounded-circle"
           size="sm"
-          title={<FontAwesomeIcon icon="plus" />} >
+          title={ <FontAwesomeIcon icon="plus" /> } >
           {
-            taskDefinitions &&
+            taskDefinitions.length > 0 &&
             taskDefinitions.map( taskDefinition => {
               return (
                 <Dropdown.Item eventKey="1"
-                  onClick={e => createTask( taskDefinition )}
-                  key={taskDefinition.id}>
-                  <FontAwesomeIcon icon={taskDefinition.data.faIcon} />
-                  <span> {taskDefinition.data.name}</span>
+                  onClick={ e => createTask( taskDefinition ) }
+                  key={ taskDefinition.id }>
+                  <FontAwesomeIcon icon={ taskDefinition.data.faIcon } />
+                  <span> { taskDefinition.data.name }</span>
                 </Dropdown.Item>
               );
             } )
           }
         </DropdownButton>
         <div className="ml-1">
-          { tasks &&
+          { tasks.length > 0 &&
             tasks.map( ( task ) => {
               let className = "btn btn-light btn-small mr-1 " + stateColor( task.state );
               return (
-                <div className={className} key={task.id} onClick={e => { workOnTask( task ); }}>
-                  <FontAwesomeIcon icon="tasks"/> {task.data.name}
+                <div className={ className } key={ task.id } onClick={ e => { workOnTask( task ); } }>
+                  <FontAwesomeIcon icon="tasks" /> { task.name }
                 </div>
               );
             } )
           }
         </div>
       </div >
-      <Modal show={showCreateModal} onHide={closeTask} key={newTask.id}>
+      <Modal show={ showCreateModal } onHide={ closeTask } key={ newTask.id }>
         <Modal.Header closeButton>
           <Modal.Title>
-            <h3>{newTask.name}</h3>
-            <h6>{newTask.description}</h6>
+            <h3>{ newTask.name }</h3>
+            <h6>{ newTask.description }</h6>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CreateTaskForm
-            newTask={newTask}
-            close={closeTask}
-            users={users}
-            submitCreateTaskForm={submitCreateTaskForm} />
+            newTask={ newTask }
+            close={ closeTask }
+            users={ users }
+            submitCreateTaskForm={ submitCreateTaskForm } />
         </Modal.Body>
       </Modal>
-      <Modal show={showWorkOnTaskModal} onHide={e => setShowWorkOnTaskModal( false )}>
+      <Modal show={ showWorkOnTaskModal } onHide={ e => setShowWorkOnTaskModal( false ) }>
         <Modal.Header closeButton>
-          <Modal.Title>Working on task {currentTask.name}</Modal.Title>
+          <Modal.Title>Working on task { currentTask.name }</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <pre>
-          {JSON.stringify(currentTask.data, null, 2)}
+            { JSON.stringify( currentTask.data, null, 2 ) }
           </pre>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn-light" onClick={e => setShowWorkOnTaskModal( false )}>
+          <button className="btn-light" onClick={ e => setShowWorkOnTaskModal( false ) }>
             no change
           </button>
-          <button className="btn-secondary" onClick={e => setShowWorkOnTaskModal( false )} disabled>
+          <button className="btn-secondary" onClick={ e => setShowWorkOnTaskModal( false ) } disabled>
             cancel task
           </button>
-          <button className="btn-success" onClick={completeCurrentTask}>
+          <button className="btn-success" onClick={ completeCurrentTask }>
             complete task
           </button>
         </Modal.Footer>
@@ -238,14 +239,14 @@ function AfterPostMessage ( { task } ) {
   if ( !task ) return '';
 
   const dueDate = formatDate( task.data.dueDate || new Date() );
-  console.log(task)
+  console.log( task );
   return (
     task &&
     <>
       Your task is added to current case.
-      Your message is sent to <b>{task.data.assignee}</b>,
-      expecting to finish on <b>{dueDate}</b>.
-      I will inform him after <b>{task.data.followUpDuration}</b> days if not finished.
+      Your message is sent to <b>{ task.data.assignee }</b>,
+      expecting to finish on <b>{ dueDate }</b>.
+      I will inform him after <b>{ task.data.followUpDuration }</b> days if not finished.
     </>
   );
 }

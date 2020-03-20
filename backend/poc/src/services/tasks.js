@@ -1,8 +1,8 @@
 'use strict';
-const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
 const CONSTANTS = require('../constants');
 const uuid = require('uuid');
+const { taskResponseToOwner } = require('./task-templates')
 
 const createTask = async (event, context) => {
   try {
@@ -10,7 +10,7 @@ const createTask = async (event, context) => {
     const state = 'Active';
     const params = event.pathParameters;
     const caseId = params.caseId;
-    const data = JSON.parse(event.body);
+    const task = JSON.parse(event.body);
 
     const caseItem = await dynamodbConnector.getCase(
       caseId
@@ -21,12 +21,12 @@ const createTask = async (event, context) => {
       id,
       caseId,
       state,
-      data
+      task
     );
 
     caseData.planItems.push({
       id,
-      ...data
+      ...task
     });
 
     await dynamodbConnector.updateCaseData(
@@ -34,10 +34,12 @@ const createTask = async (event, context) => {
       caseData
     );
 
+    taskResponseToOwner( { caseId, task } )
+
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id, state, caseId, data})
+      body: JSON.stringify({id, state, caseId, task})
     };
   } catch (err) {
     const errMsg = 'Unable to create task';
