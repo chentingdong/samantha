@@ -189,7 +189,7 @@ function Tasks ( { currentCaseId } ) {
               return (
                 <div className={ className } key={ task.id } onClick={ e => { workOnTask( task ); } }>
                   <FontAwesomeIcon icon="tasks" />
-                  <pre> { task.data.name } </pre>
+                  <span> { task.data.name } </span>
                 </div>
               );
             } )
