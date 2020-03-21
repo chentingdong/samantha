@@ -37,8 +37,6 @@ const handleSocketDefault = async ( event, context ) => {
 
 const handleSocketConnect = async ( event, context ) => {
   try {
-
-    // userId should be from Cognito
     const user = event.queryStringParameters.user;
     const userId = JSON.parse( user ).id;
     const connectionId = event.requestContext.connectionId;
@@ -81,6 +79,9 @@ const handleSocketDisconnect = async ( event, context ) => {
   }
 };
 
+/**
+ * Send message to all devices of one user.
+ */
 const crossDeviceBroadcast = async ( user, utterance ) => {
   const sockets = await dynamodbConnector.listSocketsByUser( user.id );
   const promises = [];
@@ -99,6 +100,9 @@ const crossDeviceBroadcast = async ( user, utterance ) => {
   await Promise.all( promises );
 };
 
+/**
+ * Send message to a group of users
+ */
 const groupNotice = async ( users, utterance ) => {
   if ( users.length > 0 ) {
     try {
