@@ -35,7 +35,7 @@ function VirtualAssistant ( props ) {
 
   useEffect( () => {
     if ( lastMessage !== null ) {
-      agentMessage( lastMessage )
+      agentMessage( lastMessage.data )
     }
   }, [ lastMessage ] );
 

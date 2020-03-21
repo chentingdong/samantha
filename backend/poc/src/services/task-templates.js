@@ -6,7 +6,7 @@ const { crossDeviceBroadcast } = require( './websocket' );
 const taskBroadcastToOwner = async ( caseId, task ) => {
   try {
     // TODO: need templates for tasks. This is temperary.
-    let utterance = `Your task is added to current case.`
+    let utterance = `Your task "${task.name}" is added to current case.`
       + `Your message is sent to ${ task.owner.name },`
       + `expecting to finish on ${ task.dueDate },`
       + `I will inform him after ${ task.followUpDuration} days if not finished.`
