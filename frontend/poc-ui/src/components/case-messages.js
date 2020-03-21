@@ -5,39 +5,34 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatTime } from '../libs/custom-functions';
+import logo from '../assets/bell.png';
 
 const CaseMessages = ( { messages } ) => {
-  const style = {
-    inlineImage: {
-      height: "1.5em"
-    }
-  };
-
   return (
-    <div className="messages mt-1">
+    <div>
       { messages &&
         messages.map( ( msg, index ) => {
           return (
             msg.data &&
-            <div key={ index } className="card bg-light shadow-none row small mb-1 p-1 pl-2">
-              <div className="mr-1">
+            <div key={ index } className="row mb-1 p-1 pl-2">
+              <div className="col-12">
                 {
                   ( () => {
-                    if (  msg.data.fromUser.name === 'agent' ) {
-                      return <FontAwesomeIcon icon="robot" />;
+                    if ( msg.data.fromUser.name === 'agent' ) {
+                      return <img className="thumbnail" src={ logo } alt='<Fontawesome icon="robot" />' />;
                     }
                     else {
                       return <img src={ msg.data.fromUser.picture }
-                        style={ style.inlineImage }
+                        className="thumbnail"
                         alt="<Fontawesome icon='user'/>" />;
                     }
                   } )()
                 }
                 <span className="ml-1 text-secondary">
                   { formatTime( msg.data.createdAt ) }
-                  </span><br />
+                </span>
               </div>
-              <div>{ msg.data.utterance }</div>
+              <div className="col-12">{ msg.data.utterance }</div>
             </div>
           );
         } ) }

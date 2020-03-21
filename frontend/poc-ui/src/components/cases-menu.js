@@ -67,15 +67,15 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
 
   return (
     <nav className="case text-light bg-dark">
-      <h2 className="mt-5">Case Menu</h2>
+      <h2 className="mt-4">Case Menu</h2>
       { cases.length > 0 &&
         cases.map( ( c, index ) => {
           return (
             <div key={ index }
-              className="nav-item nav-link cursor-pointer"
+              className="nav-item nav-link btn-dark"
               onClick={ e => setCurrentCaseId( c.id ) } >
               <div>
-                <FontAwesomeIcon icon="bell" className="" />
+                <FontAwesomeIcon icon="folder" className="" />
                 <span className="ml-2"> { c.data.name }</span>
               </div>
               <div>
@@ -83,7 +83,8 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
               </div>
             </div>
           );
-        } ) }
+        } )
+      }
       <div className="create">
         <div className="text-success d-flex"
           onClick={ newCase } >

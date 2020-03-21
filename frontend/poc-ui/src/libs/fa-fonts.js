@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
+  faAngleLeft,
   faBell,
   faBomb,
   faCircleNotch,
@@ -9,6 +10,9 @@ import {
   faFlag,
   faFolder,
   faHome,
+  faInfoCircle,
+  faLocationArrow,
+  faPen,
   faPlus,
   faPlusCircle,
   faProjectDiagram,
@@ -24,6 +28,7 @@ import {
 
 function buildFonts () {
   library.add(
+    faAngleLeft,
     faBell,
     faBomb,
     faCircleNotch,
@@ -32,6 +37,9 @@ function buildFonts () {
     faFlag,
     faFolder,
     faHome,
+    faInfoCircle,
+    faLocationArrow,
+    faPen,
     faPlus,
     faPlusCircle,
     faProjectDiagram,
@@ -46,4 +54,4 @@ function buildFonts () {
   );
 }
 
-export default buildFonts
+export default buildFonts;

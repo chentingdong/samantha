@@ -7,15 +7,13 @@ import CaseMessages from '../components/case-messages';
 import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
-import logo from '../assets/bell.png';
 import useWebSocket from 'react-use-websocket';
 import './virtual-assistant.css';
-import { Tab, Nav, Row, Col } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function VirtualAssistant ( props ) {
   const [ messages, setMessages ] = useState( [] );
   const [ currentMessage, setCurrentMessage ] = useState( '' );
-
   const [ selectedSuggestion, setselectedSuggestion ] = useState( 0 );
   const suggestRef = useRef();
 
@@ -119,51 +117,46 @@ function VirtualAssistant ( props ) {
 
   return (
     <div className="container-fluid">
-        <div className="row">
-          <div className="col-4 vh-100 bg-dark">
-            <CasesMenu currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
-          </div>
-          <div className="col-8">
-            <Tasks currentCaseId={ currentCaseId } />
-          </div>
+      <div className="row">
+        <div className="col-3 vh-100 bg-dark">
+          <CasesMenu currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
-      {/* <nav id="sidebar">
-        <Cases className="mt-1 row"
-          currentCaseId={ currentCaseId }
-          setCurrentCaseId={ setCurrentCaseId } />
-      </nav>
-      <div id="content">
-        <button type="button" id="sidebarCollapse" class="btn btn-info">
-          <i class="fas fa-align-left"></i>
-          <span>Toggle Sidebar</span>
-        </button>
-        <Tasks className="mt-1 row"
-          currentCaseId={ currentCaseId } />
-        <CaseMessages className="row overflow-auto"
-          messages={ messages }
-        />
-        <Suggest
-          currentMessage={ currentMessage }
-          setCurrentMessage={ setCurrentMessage }
-          userMessage={ userMessage }
-          ref={ suggestRef }
-          selectedSuggestion={ selectedSuggestion }
-          setselectedSuggestion={ setselectedSuggestion }
-        />
-        <div className="row">
-          <DebounceInput
-            className="col-12"
-            style={ style.inputMessage }
-            minLength={ 2 }
-            debounceTimeout={ 100 }
-            autoFocus={ true }
-            value={ currentMessage }
-            onChange={ e => { setCurrentMessage( e.target.value ); } }
-            onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
+        <div className="col-6">
+          <Tasks currentCaseId={ currentCaseId } />
+        </div>
+        <div className="col-3 card">
+          <h2 className="mt-4">Activity</h2>
+          <hr />
+          <CaseMessages className="row overflow-auto"
+            messages={ messages }
           />
-          <img src={ logo } style={ style.sendButton } alt="Send" />
+          <Suggest
+            currentMessage={ currentMessage }
+            setCurrentMessage={ setCurrentMessage }
+            userMessage={ userMessage }
+            ref={ suggestRef }
+            selectedSuggestion={ selectedSuggestion }
+            setselectedSuggestion={ setselectedSuggestion }
+          />
+          <div className="row">
+            <DebounceInput
+              className="col-12 rounded-0 border-left-0"
+              placeholder="Message"
+              style={ style.inputMessage }
+              minLength={ 2 }
+              debounceTimeout={ 100 }
+              autoFocus={ true }
+              value={ currentMessage }
+              onChange={ e => { setCurrentMessage( e.target.value ); } }
+              onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
+            />
+            {/* <img src={ logo } style={ style.sendButton } alt="Send" /> */ }
+            <div style={ style.sendButton }>
+              <FontAwesomeIcon icon="location-arrow" className="fa-rotate-315" />
+            </div>
+          </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

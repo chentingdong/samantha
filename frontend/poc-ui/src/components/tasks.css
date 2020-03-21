@@ -1,0 +1,7 @@
+.task-status {
+  border: 1px solid;
+  border-radius: 2em;
+  margin: 10px;
+  text-align: center;
+  box-shadow: 1px 1px;
+}

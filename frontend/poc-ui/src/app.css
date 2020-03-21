@@ -10,9 +10,12 @@
 }
 
 .text-success {
-  color: #197441 !important;
+  color: #17f6cc !important;
 }
 
+.clickable {
+  cursor: pointer;
+}
 /* login page */
 @media all and (min-width: 480px) {
   .centered-panel {

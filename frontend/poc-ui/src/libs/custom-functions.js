@@ -1,11 +1,11 @@
 function formatDate ( date ) {
-  let d = new Date( date )
+  let d = new Date( date );
 
   var dateString = d.getUTCFullYear() + "-"
     + ( d.getUTCMonth() + 1 ) + "-" + d.getUTCDate();
 
 
-  return dateString
+  return dateString;
 }
 
 function formatTime ( timestamp ) {
@@ -23,12 +23,11 @@ function stateColor ( state ) {
   if ( !state ) return '';
 
   switch ( state.toLowerCase() ) {
-    case 'pending': colorClass = 'text-primary'; break;
-    case 'active': colorClass = 'text-success'; break;
+    case 'active': colorClass = 'text-warning'; break;
     case 'complete': colorClass = 'text-dark'; break;
     default: colorClass = 'text-secondary';
   }
   return colorClass;
 }
 
-export { formatDate, formatTime, stateColor};
+export { formatDate, formatTime, stateColor };
