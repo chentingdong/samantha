@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import './mine-sweeper.css'
 
 function MineSwipper () {
   const board = {

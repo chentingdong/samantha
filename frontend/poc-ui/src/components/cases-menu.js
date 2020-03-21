@@ -3,8 +3,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { stateColor } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper'
 import { Auth } from 'aws-amplify'
+import { Tab, Nav, Row, Col } from 'react-bootstrap'
 
-function Cases ( { currentCaseId, setCurrentCaseId } ) {
+function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
   const [ cases, setCases ] = useState( [] );
   const user = Auth.user;
 
@@ -49,7 +50,7 @@ function Cases ( { currentCaseId, setCurrentCaseId } ) {
     apiWrapper
       .get( path )
       .then( ( resp ) => {
-        // console.debug( `Got cases: ${ JSON.stringify(resp.data, null, 2) }` );
+        console.debug( `Got cases: ${ JSON.stringify(resp.data, null, 2) }` );
         let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id)
         setCases( _cases );
         if ( _cases.length > 0 )
@@ -64,52 +65,33 @@ function Cases ( { currentCaseId, setCurrentCaseId } ) {
     getCases();
   }, [])
 
-  const style = {
-    case: {
-      width: '11vw',
-      height: '11vw',
-      marginRight: '1vw',
-      minWidth: '50px',
-      minHeight: '50px',
-      maxWidth: '100px',
-      maxHeight: '100px',
-      overflow: 'hidden',
-      position: 'relative',
-      border: '2px solid'
-    }
-  }
-
   return (
-    <div>
-      <div
-        className="btn btn-light d-flex justify-content-center border rounded-circle case"
-        style={style.case}
-        data-toggle="tooltip"
-        data-placement="right"
-        onClick={newCase}
-        title="create new case" >
-        <FontAwesomeIcon icon="plus" className="align-self-center"/>
-      </div>
-      {cases.length > 0 &&
+    <nav className="case text-light bg-dark">
+      <h2 className="mt-5">Case Menu</h2>
+      { cases.length > 0 &&
         cases.map( ( c, index ) => {
-        let className = 'btn btn-light d-flex justify-content-center rounded-circle case ';
-        className += ( c.id === currentCaseId ) ? 'border-warning ' : 'border-light ';
-        className += stateColor(c.state)
-        return (
-          <div
-            className={className}
-            key={index}
-            data-toggle="tooltip"
-            data-placement="right"
-            style={style.case}
-            onClick={e => setCurrentCaseId(c.id)}
-            title={c.name} >
-            <FontAwesomeIcon icon="bell" className="align-self-center" />
-          </div>
-        )
-      })}
-    </div>
+          return (
+            <div key={ index }
+              className="nav-item nav-link cursor-pointer"
+              onClick={ e => setCurrentCaseId( c.id ) } >
+              <div>
+                <FontAwesomeIcon icon="bell" className="" />
+                <span className="ml-2"> { c.data.name }</span>
+              </div>
+              <div>
+                {c.data.description}
+              </div>
+            </div>
+          );
+        } ) }
+      <div className="create">
+        <div className="text-success d-flex"
+          onClick={ newCase } >
+          <FontAwesomeIcon icon="plus-circle" />
+        </div>
+      </div>
+    </nav>
   );
 };
 
-export default Cases;
+export default CasesMenu;

@@ -3,6 +3,7 @@ import { Switch } from 'react-router-dom'
 
 import Suggest from '../containers/suggest-agent'
 import Home from '../containers/home'
+import Landing from '../containers/landing'
 import Login from '../containers/login'
 import Signup from '../containers/signup'
 import Settings from '../containers/settings'
@@ -19,8 +20,18 @@ import MineSweeper from '../games/mine-sweeper'
 const routes = [
   {
     path: "/",
-    component: Home,
+    component: Landing,
     tag: PublicRoute
+  },
+  {
+    path: "/home",
+    component: Home,
+    tag: PrivateRoute
+  },
+  {
+    path: "/demo",
+    component: VirtualAssistant,
+    tag: PrivateRoute
   },
   {
     path: "/user/user/signup",
@@ -40,11 +51,6 @@ const routes = [
   {
     path: "/user/password/reset",
     component: ResetPassword,
-    tag: PrivateRoute
-  },
-  {
-    path: "/demo",
-    component: VirtualAssistant,
     tag: PrivateRoute
   },
   {

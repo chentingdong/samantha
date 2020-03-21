@@ -1,0 +1,40 @@
+.mine-sweeper .board {
+  margin: 20px auto;
+}
+
+.mine-sweeper .cell {
+  border: 1px solid #999;
+  box-shadow: 1px 1px 5px #999;
+  background: #ddd;
+  display: block;
+  float: left;
+  margin: 0;
+  position: relative;
+  font-size: 1em;
+  padding: 0;
+}
+
+.mine-sweeper .cell .inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mine-sweeper .cell:hover {
+  background: radial-gradient(#eee, #fff);
+}
+
+.mine-sweeper .cell.revealed {
+  background: #fff;
+  box-shadow: 1px 1px 5px #666;
+}
+
+.mine-sweeper .cell .svg-inline--fa {
+  color: red;
+}
+
+.mine-sweeper .clear {
+  clear: both;
+  line-height: 0;
+}

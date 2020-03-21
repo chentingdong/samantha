@@ -1,0 +1,8 @@
+.create {
+  position: absolute;
+  bottom: 1.5em;
+  left: 50%;
+  margin-left: -10%;
+  font-size: 2em;
+  border-width: 2px;
+}
