@@ -1,7 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap");
+
 // variable override
-$primary: #0074d9;
+$primary: #308dc9;
+$secondary: #2d2c2c;
 $success: #17f6cc;
 $danger: #ff4136;
+$dark: #272727;
+
+$theme-colors: (
+  light-gray: #cccccc,
+  gray: #999999
+);
 
 // import bootstrap after variable override
 @import "bootstrap";
@@ -24,7 +33,7 @@ $danger: #ff4136;
 body {
   margin: 0;
   padding: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
   color: #333;
   -webkit-font-smoothing: antialiased;
@@ -33,15 +42,6 @@ body {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "PT Serif", serif;
 }
 
 select.form-control,

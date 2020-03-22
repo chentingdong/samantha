@@ -8,7 +8,7 @@ import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
 import useWebSocket from 'react-use-websocket';
-import './virtual-assistant.css';
+import './virtual-assistant.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function VirtualAssistant ( props ) {
@@ -116,7 +116,7 @@ function VirtualAssistant ( props ) {
   };
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid virtual-assistant">
       <div className="row">
         <div className="col-2 vh-100 bg-dark">
           <CasesMenu currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />

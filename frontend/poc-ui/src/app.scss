@@ -1,15 +1,9 @@
-/* container level theming */
+/* container level theming, keep this lean */
 
 /* app layout */
 .app {
   display: flex;
   align-items: stretch;
-}
-
-nav {
-  .bottom {
-    bottom: 0;
-  }
 }
 
 /* login page */

@@ -68,7 +68,7 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
 
   return (
     <nav className="case text-light bg-dark">
-      <h2 className="mt-4">Case Menu</h2>
+      <h2 className="mt-4">Cases</h2>
       { cases.length > 0 &&
         cases.map( ( c, index ) => {
           return (
@@ -88,9 +88,9 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
         } )
       }
       <div className="create">
-        <div className="text-success d-flex"
-          onClick={ newCase } >
-          <FontAwesomeIcon icon="plus-circle" />
+        <div className="p-3 d-flex border rounded-circle border-success text-success"
+          onClick={ newCase }>
+          <FontAwesomeIcon icon="plus" />
         </div>
       </div>
     </nav>

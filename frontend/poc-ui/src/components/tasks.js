@@ -136,7 +136,7 @@ function Tasks ( { currentCaseId } ) {
           n Tasks * m People
         </div>
         <div className="col-7">
-          <ProgressBar className="" variant="secondary" label={ `${ taskProgress }%` } now={ taskProgress } />
+          <ProgressBar className="" variant="light-gray" label={ `${ taskProgress }%` } now={ taskProgress } />
         </div>
       </div>
       <div className="card mt-4">
@@ -161,9 +161,14 @@ function Tasks ( { currentCaseId } ) {
                 let cn = 'task-status ' + stateColor( task.state );
                 return (
                   <tr key={ task.id }>
-                    <td className="p-2 clickable text-primary" onClick={ e => workOnTask( task ) }>{ task.data.name }</td>
-                    <td>{ formatDate( task.data.dueDate ) }</td>
+                    <td className="p-2 clickable text-primary" onClick={ e => workOnTask( task ) }>
+                      { task.data.name }
+                    </td>
                     <td>
+                      { formatDate( task.data.dueDate ) }
+                    </td>
+                    <td>
+                      {/* TODO: use assignee not owner */ }
                       <img className="thumbnail rounded-circle" src={ task.data.owner.picture } alt={ task.data.owner.name } />
                     </td>
                     <td>
