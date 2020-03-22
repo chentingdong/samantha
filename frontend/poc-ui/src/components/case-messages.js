@@ -7,9 +7,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatTime } from '../libs/custom-functions';
 import logo from '../assets/bell.png';
 
-const CaseMessages = ( { messages } ) => {
+const CaseMessages = ( { className, messages } ) => {
   return (
-    <div>
+    <div className={ className }>
       { messages &&
         messages.map( ( msg, index ) => {
           return (

@@ -99,17 +99,8 @@ function VirtualAssistant ( props ) {
   }, [ currentCaseId ] );
 
   const style = {
-    sendButton: {
-      position: 'absolute',
-      right: '0.5em',
-      bottom: '0.5em',
-      height: "1em"
-    },
     inputMessage: {
-      fontSize: '1.1em',
-      border: '1px solid #999999',
-      borderRadius: '5px',
-      position: 'fixed',
+      position: 'absolute',
       bottom: '0',
       width: '100%'
     }
@@ -122,13 +113,12 @@ function VirtualAssistant ( props ) {
           <CasesMenu className="text-light bg-dark case-menu row"
             currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
-        <div className="col col-lg-6 bg-lighter">
+        <div className="col col-lg-6 vh-100 bg-lighter">
           <Tasks currentCaseId={ currentCaseId } />
         </div>
-        <div className="col col-lg-3">
-          <h2 className="mt-4">Activity</h2>
-          <hr className="border-dark" />
-          <CaseMessages className="col overflow-auto"
+        <div className="col col-lg-3 vh-100">
+          <h2 className="m-2 mt-4">Activity</h2>
+          <CaseMessages className="overflow-auto border-top border-dark mt-4 pt-2"
             messages={ messages }
           />
           <Suggest className="col suggest"
@@ -140,20 +130,21 @@ function VirtualAssistant ( props ) {
             selectedSuggestion={ selectedSuggestion }
             setselectedSuggestion={ setselectedSuggestion }
           />
-          <div className="col">
-            <DebounceInput
-              className="col-12 rounded-0 border-left-0"
-              placeholder="Message"
-              style={ style.inputMessage }
-              minLength={ 2 }
-              debounceTimeout={ 100 }
-              autoFocus={ true }
-              value={ currentMessage }
-              onChange={ e => { setCurrentMessage( e.target.value ); } }
-              onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
-            />
-            <div style={ style.sendButton }>
-              <FontAwesomeIcon icon="location-arrow" className="fa-rotate-315" />
+          <div className="col col-12 position-absolute" style={ { bottom: '0', right: '0' } } >
+            <div className="position-relative row">
+              <DebounceInput
+                className="w-100 border-left-0 border-right-0 border-bottom-0 p-2"
+                placeholder="Message"
+                minLength={ 2 }
+                debounceTimeout={ 100 }
+                autoFocus={ true }
+                value={ currentMessage }
+                onChange={ e => { setCurrentMessage( e.target.value ); } }
+                onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
+              />
+              <div className="position-absolute" style={ { bottom: '5px', right: '10px' } }>
+                <FontAwesomeIcon icon="location-arrow" className="fa-rotate-315" />
+              </div>
             </div>
           </div>
         </div>
