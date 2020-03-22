@@ -131,9 +131,9 @@ function VirtualAssistant ( props ) {
             setselectedSuggestion={ setselectedSuggestion }
           />
           <div className="col col-12 position-absolute" style={ { bottom: '0', right: '0' } } >
-            <div className="position-relative row">
+            <div className="position-relative border-top border-gray row">
               <DebounceInput
-                className="w-100 border-left-0 border-right-0 border-bottom-0 p-2"
+                className="w-100 border-0 p-2"
                 placeholder="Message"
                 minLength={ 2 }
                 debounceTimeout={ 100 }
