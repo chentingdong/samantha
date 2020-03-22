@@ -19,15 +19,28 @@ function formatTime ( timestamp ) {
 }
 
 function stateColor ( state ) {
-  let colorClass = '';
   if ( !state ) return '';
 
+  let colorClass = '';
   switch ( state.toLowerCase() ) {
-    case 'active': colorClass = 'text-warning'; break;
-    case 'complete': colorClass = 'text-dark'; break;
-    default: colorClass = 'text-secondary';
+    case 'active': colorClass = 'warning'; break;
+    case 'block': colorClass = 'error'; break;
+    case 'complete': colorClass = 'success'; break;
+    default: colorClass = 'secondary';
   }
   return colorClass;
 }
 
-export { formatDate, formatTime, stateColor };
+function stateIcon ( state ) {
+  if ( !state ) return '';
+
+  let icon = '';
+  switch ( state.toLowerCase() ) {
+    case 'active': icon = 'bolt'; break;
+    case 'block': icon = 'lock'; break;
+    default: icon = '';
+  }
+  return icon;
+}
+
+export { formatDate, formatTime, stateColor, stateIcon };

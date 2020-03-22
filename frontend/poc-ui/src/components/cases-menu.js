@@ -2,49 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
+import CreateCase from './create-case';
 
 function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
   const [ cases, setCases ] = useState( [] );
   const user = Auth.user;
-
-  function newCase () {
-    apiWrapper
-      .get( '/case-definitions' )
-      .then( ( resp ) => {
-        console.debug( `get case defination ${ JSON.stringify( resp ) }` );
-        //TODO: Only one case def for now, will do select UX.
-        let caseInstance = resp.data[ 0 ].data;
-        caseInstance.creator = user.id;
-        setCurrentCaseId( caseInstance.id );
-
-        // save immediately, for 2020Q1.
-        postNewCase( caseInstance );
-
-        // add new case to cases in UI
-        setCases( cases => [ caseInstance, ...cases ] );
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
-  }
-
-  function postNewCase ( caseInstance ) {
-    apiWrapper
-      .post( '/cases', caseInstance )
-      .then( resp => {
-        if ( resp.status === 200 ) {
-          const caseInstance = resp.data;
-          setCases( cases => {
-            return [ caseInstance, ...cases ];
-          } );
-
-          setCurrentCaseId( resp.data.id );
-        }
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
-  }
 
   function getCases () {
     let path = `/cases`;
@@ -67,14 +29,16 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
   }, [] );
 
   return (
-    <nav className="case text-light bg-dark">
-      <h2 className="mt-4">Cases</h2>
+    <div className="case-menu row text-light bg-dark">
+      <h2 className="mt-5 ml-2">Cases</h2>
+      <hr className="border-light col-12 m-0" />
       { cases.length > 0 &&
         cases.map( ( c, index ) => {
+          const active = ( c.id === currentCaseId ) ? 'active' : '';
           return (
             c.data &&
             <div key={ index }
-              className="nav-item nav-link btn-dark"
+              className={ `menu-item col-12 bg-darker p-2 ${ active }` }
               onClick={ e => setCurrentCaseId( c.id ) } >
               <div>
                 <FontAwesomeIcon icon="folder" className="" />
@@ -87,13 +51,8 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
           );
         } )
       }
-      <div className="create">
-        <div className="p-3 d-flex border rounded-circle border-success text-success"
-          onClick={ newCase }>
-          <FontAwesomeIcon icon="plus" />
-        </div>
-      </div>
-    </nav>
+      <CreateCase cases={ cases } setCases={ setCases } setCurrentCaseId={ setCurrentCaseId } />
+    </div >
   );
 };
 

@@ -2,7 +2,10 @@
   {
     "id": "1",
     "data": {
-      "name": "Planning",
+      "name": "Planning Case",
+      "description": "Planning tasks on run time",
+      "icon": "",
+      "createdAt": "",
       "creator": {},
       "version": "0.0.1",
       "caseFile": {},
@@ -12,7 +15,10 @@
   {
     "id": "2",
     "data": {
-      "name": "another Empty case for testing",
+      "name": "Reset password",
+      "description": "A process to reset password",
+      "icon": "",
+      "createdAt": "",
       "creator": {},
       "version": "0.0.1",
       "caseFile": {},

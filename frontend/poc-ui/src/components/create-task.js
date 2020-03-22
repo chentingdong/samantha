@@ -64,7 +64,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="light border-secondary">
+        <Dropdown.Toggle variant="light border-secondary shadow-sm">
           <FontAwesomeIcon icon="plus-circle" />
           <span className="ml-1">New Task</span>
         </Dropdown.Toggle>

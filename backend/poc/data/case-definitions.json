@@ -1,13 +1,19 @@
 [
   {
-    "name": "Planning",
+    "name": "Planning Case",
+    "description": "Planning tasks on run time",
+    "icon": "",
+    "createdAt": "",
     "creator": {},
     "version": "0.0.1",
     "caseFile": {},
     "planItems": []
   },
   {
-    "name": "another Empty case for testing",
+    "name": "Reset password",
+    "description": "A process to reset password",
+    "icon": "",
+    "createdAt": "",
     "creator": {},
     "version": "0.0.1",
     "caseFile": {},

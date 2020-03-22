@@ -39,7 +39,7 @@ function App () {
   }
 
   return (
-    <div className="app vh-100">
+    <div className="app wrapper vh-100">
       <BrowserRouter>
         <nav className="d-flex align-items-start flex-column bg-secondary">
           <div className="mb-auto p-2 bd-highlight">

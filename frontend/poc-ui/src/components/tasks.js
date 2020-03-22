@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import apiWrapper from '../libs/api-wrapper';
-import NewTask from './new-task';
+import NewTask from './create-task';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { stateColor, formatDate } from '../libs/custom-functions';
+import { stateColor, formatDate, stateIcon } from '../libs/custom-functions';
 import './tasks.css';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
@@ -126,14 +126,14 @@ function Tasks ( { currentCaseId } ) {
       <hr />
       <div className="row">
         <div className="col-12">
-          <h2 className="d-inline-block mr-2">Stage 0</h2>
-          <FontAwesomeIcon icon="pen" />
+          <h3 className="d-inline-block mr-2">Stage 0</h3>
+          <FontAwesomeIcon className="text-primary border-bottom" icon="pen" />
         </div>
         <div className="col-12">
           Deadline: { formatDate( Date.now() ) }
         </div>
         <div className="col-5">
-          n Tasks * m People
+          { tasks.length } Tasks &#x2022; 2 People
         </div>
         <div className="col-7">
           <ProgressBar className="" variant="light-gray" label={ `${ taskProgress }%` } now={ taskProgress } />
@@ -141,7 +141,7 @@ function Tasks ( { currentCaseId } ) {
       </div>
       <div className="card mt-4">
         <div className="d-flex pt-2 pb-2">
-          <h2 className="col-6">Tasks</h2>
+          <h4 className="col-6">Tasks</h4>
           <div className="col-6 text-right">
             <NewTask users={ users } tasks={ tasks } setTasks={ setTasks } currentCaseId={ currentCaseId } />
           </div>
@@ -155,13 +155,13 @@ function Tasks ( { currentCaseId } ) {
               <th>Assigned to</th>
               <th>Status</th>
             </tr>
-
             { tasks.length > 0 &&
               tasks.map( ( task ) => {
-                let cn = 'task-status ' + stateColor( task.state );
+                const color = stateColor( task.state );
                 return (
-                  <tr key={ task.id }>
-                    <td className="p-2 clickable text-primary" onClick={ e => workOnTask( task ) }>
+                  <tr key={ task.id } className="border-bottom border-light" >
+                    <td className={ `p-2 pt-4 pb-4 clickable text-primary border-left border-${ color }` }
+                      onClick={ e => workOnTask( task ) }>
                       { task.data.name }
                     </td>
                     <td>
@@ -171,8 +171,11 @@ function Tasks ( { currentCaseId } ) {
                       {/* TODO: use assignee not owner */ }
                       <img className="thumbnail rounded-circle" src={ task.data.owner.picture } alt={ task.data.owner.name } />
                     </td>
-                    <td>
-                      <div className={ cn } >{ task.state } </div>
+                    <td className={ `border-right border-${ color }` }>
+                      <div className={ `text-${ color } badge badge-pill border border-${ color } shadow-sm` } >
+                        <FontAwesomeIcon icon={ stateIcon( task.state ) } />
+                        { task.state }
+                      </div>
                     </td>
                   </tr>
                 );

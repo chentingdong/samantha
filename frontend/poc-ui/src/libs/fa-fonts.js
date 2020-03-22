@@ -3,7 +3,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faAngleLeft,
   faBell,
+  faBolt,
   faBomb,
+  faCircle,
   faCircleNotch,
   faCog,
   faEye,
@@ -30,7 +32,9 @@ function buildFonts () {
   library.add(
     faAngleLeft,
     faBell,
+    faBolt,
     faBomb,
+    faCircle,
     faCircleNotch,
     faCog,
     faEye,
