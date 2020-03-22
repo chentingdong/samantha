@@ -109,14 +109,14 @@ function VirtualAssistant ( props ) {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col col-lg-3 vh-100 bg-dark">
+        <div className="col col-md-3 col-lg-2 vh-100 bg-dark">
           <CasesMenu className="text-light bg-dark case-menu row"
             currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
-        <div className="col col-lg-6 vh-100 bg-lighter">
+        <div className="col col-md-6 col-lg-7 vh-100 bg-lighter">
           <Tasks currentCaseId={ currentCaseId } />
         </div>
-        <div className="col col-lg-3 vh-100">
+        <div className="col col-md-3 vh-100">
           <h2 className="m-2 mt-4">Activity</h2>
           <CaseMessages className="overflow-auto border-top border-dark mt-4 pt-2"
             messages={ messages }
