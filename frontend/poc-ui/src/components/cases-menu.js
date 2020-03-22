@@ -3,35 +3,36 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
 import CreateCase from './create-case';
+import { formatDate } from '../libs/custom-functions';
 
-function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
+function CasesMenu ( { className, currentCaseId, setCurrentCaseId } ) {
   const [ cases, setCases ] = useState( [] );
   const user = Auth.user;
 
-  function getCases () {
-    let path = `/cases`;
-    apiWrapper
-      .get( path )
-      .then( ( resp ) => {
-        console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
-        let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id );
-        setCases( _cases );
-        if ( _cases.length > 0 )
-          setCurrentCaseId( _cases[ 0 ].id );
-      } )
-      .catch( ( err ) => {
-        console.error( err );
-      } );
-  }
-
   useEffect( () => {
+    function getCases () {
+      let path = `/cases`;
+      apiWrapper
+        .get( path )
+        .then( ( resp ) => {
+          console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
+          let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id );
+          setCases( _cases );
+          if ( _cases.length > 0 )
+            setCurrentCaseId( _cases[ 0 ].id );
+        } )
+        .catch( ( err ) => {
+          console.error( err );
+        } );
+    }
+
     getCases();
   }, [] );
 
   return (
-    <div className="case-menu row text-light bg-dark">
+    <div className={ className }>
       <h2 className="mt-5 ml-2">Cases</h2>
-      <hr className="border-light col-12 m-0" />
+      <hr className="border-gray col-12 m-0" />
       { cases.length > 0 &&
         cases.map( ( c, index ) => {
           const active = ( c.id === currentCaseId ) ? 'active' : '';
@@ -44,8 +45,8 @@ function CasesMenu ( { currentCaseId, setCurrentCaseId } ) {
                 <FontAwesomeIcon icon={ c.data.icon } className="" />
                 <span className="ml-2"> { c.data.name }</span>
               </div>
-              <div>
-                { c.data.description }
+              <div className="text-gray pl-4 small">
+                started { formatDate( c.data.createdAt ) }
               </div>
             </div>
           );

@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap");
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
+
+// color override
+$primary: #308dc9;
+$secondary: #2d2c2c;
+$success: #17f6cc;
+$danger: #ff4136;
+$dark: #272727;
+$light: #f4f4f4;
+
+// new colors
+$gray: #999999;
+$darker: #212121;
+$lighter: #f8f8f8;
+$light-gray: #cccccc;
+
+// add colors to palette
+$theme-colors: (
+  lighter: $lighter,
+  light-gray: $light-gray,
+  gray: $gray,
+  darker: $darker
+);
+
+// import bootstrap after variable override
+@import "bootstrap";

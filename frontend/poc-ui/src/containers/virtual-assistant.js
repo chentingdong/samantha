@@ -8,7 +8,7 @@ import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
 import useWebSocket from 'react-use-websocket';
-import './virtual-assistant.scss';
+import '../assets/virtual-assistant.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function VirtualAssistant ( props ) {
@@ -112,6 +112,10 @@ function VirtualAssistant ( props ) {
       position: 'fixed',
       bottom: '0',
       width: '100%'
+    },
+    suggest: {
+      position: 'absolute',
+      bottom: '0'
     }
   };
 
@@ -119,7 +123,8 @@ function VirtualAssistant ( props ) {
     <div className="container-fluid">
       <div className="row">
         <div className="col-3 vh-100 bg-dark">
-          <CasesMenu currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
+          <CasesMenu className="text-light bg-dark case-menu row"
+            currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
         <div className="col-6 bg-lighter">
           <Tasks currentCaseId={ currentCaseId } />
@@ -130,7 +135,8 @@ function VirtualAssistant ( props ) {
           <CaseMessages className="row overflow-auto"
             messages={ messages }
           />
-          <Suggest
+          <Suggest className="row"
+            style={ style.suggest }
             currentMessage={ currentMessage }
             setCurrentMessage={ setCurrentMessage }
             userMessage={ userMessage }
@@ -150,7 +156,6 @@ function VirtualAssistant ( props ) {
               onChange={ e => { setCurrentMessage( e.target.value ); } }
               onKeyDown={ e => { suggestRef.current.handleKeyDown( e, selectedSuggestion ); } }
             />
-            {/* <img src={ logo } style={ style.sendButton } alt="Send" /> */ }
             <div style={ style.sendButton }>
               <FontAwesomeIcon icon="location-arrow" className="fa-rotate-315" />
             </div>

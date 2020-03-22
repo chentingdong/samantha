@@ -4,7 +4,7 @@ import { BrowserRouter, NavLink } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import Routes from './routes/routes';
 import config from './config.js';
-import './app.scss';
+import './assets/app.scss';
 import buildFonts from './libs/fa-fonts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -41,8 +41,8 @@ function App () {
   return (
     <div className="app wrapper vh-100">
       <BrowserRouter>
-        <nav className="d-flex align-items-start flex-column bg-secondary">
-          <div className="mb-auto p-1 bd-highlight">
+        <div className="d-flex align-items-start flex-column bg-secondary app-nav">
+          <div className="mb-auto bd-highlight">
             <Nav.Link className="nav-link text-success" as={ NavLink } to="/home" >
               <h3>
                 <FontAwesomeIcon icon="home" />
@@ -54,7 +54,7 @@ function App () {
               </h3>
             </Nav.Link>
           </div>
-          <div className="p-1 bd-highlight">
+          <div className="bd-highlight">
             { isAuthenticated
               ?
               <>
@@ -84,7 +84,7 @@ function App () {
               </>
             }
           </div>
-        </nav>
+        </div>
         <Routes className="fixed-right" appProps={ { isAuthenticated, userHasAuthenticated } } />
       </BrowserRouter>
     </div>

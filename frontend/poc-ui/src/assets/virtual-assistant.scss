@@ -1,3 +1,5 @@
+@import "../assets/variables.scss";
+
 .create {
   position: absolute;
   bottom: 1.5em;
@@ -22,10 +24,10 @@
 
 .case-menu {
   .menu-item {
-    border-bottom: 1px solid #999999;
+    border-bottom: 1px solid $gray;
 
     &.active {
-      border-right: 3px solid #ffffff;
+      border-right: 5px solid $white;
     }
   }
 

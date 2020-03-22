@@ -1,8 +1,8 @@
 import React from "react";
-import "./loader-button.css";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import "../assets/loader-button.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function LoaderButton({
+function LoaderButton ( {
   isLoading,
   text = "OK",
   loadingText,
@@ -10,19 +10,19 @@ function LoaderButton({
   className = "",
   disabled = false,
   ...props
-}) {
-  loadingIcon = loadingIcon || <FontAwesomeIcon icon="circle-notch" className="spinning" />
-  loadingText = loadingText || props.children || "Loading..."
+} ) {
+  loadingIcon = loadingIcon || <FontAwesomeIcon icon="circle-notch" className="spinning" />;
+  loadingText = loadingText || props.children || "Loading...";
 
   return (
     <div
-      className={`btn loader-button ${className}`}
-      disabled={disabled || isLoading}
-      {...props}
+      className={ `btn loader-button ${ className }` }
+      disabled={ disabled || isLoading }
+      { ...props }
     >
-      {isLoading ? <> {loadingIcon} {loadingText}</> : props.children}
+      { isLoading ? <> { loadingIcon } { loadingText }</> : props.children }
     </div>
   );
 }
 
-export default LoaderButton
+export default LoaderButton;

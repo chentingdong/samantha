@@ -4,12 +4,12 @@ import apiWrapper from '../libs/api-wrapper';
 import NewTask from './create-task';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { stateColor, formatDate, stateIcon } from '../libs/custom-functions';
-import './tasks.css';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
 function Tasks ( { currentCaseId } ) {
   const [ tasks, setTasks ] = useState( [] );
   const [ currentTask, setCurrentTask ] = useState( {} );
+  const [ currentCaseName, setCurrentCaseName ] = useState( '' );
   const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState( false );
   const [ users, setUsers ] = useState( [] );
   const taskProgress = 60;
@@ -29,6 +29,19 @@ function Tasks ( { currentCaseId } ) {
         } );
     }
     getCaseTasks();
+  }, [ currentCaseId ] );
+
+  useEffect( () => {
+    const path = '/cases/' + currentCaseId;
+    apiWrapper
+      .get( path )
+      .then( resp => {
+        if ( resp.data.data )
+          setCurrentCaseName( resp.data.data.name );
+      } )
+      .catch( err => {
+        console.error( err );
+      } );
   }, [ currentCaseId ] );
 
   useEffect( () => {
@@ -118,7 +131,7 @@ function Tasks ( { currentCaseId } ) {
           <FontAwesomeIcon icon="angle-left" />
           <span className="pl-1">Back</span>
         </div>
-        <div className="col-8 text-center">{ currentCaseId }</div>
+        <h4 className="col-8 text-center">{ currentCaseName }</h4>
         <div className="col-2 text-right">
           <FontAwesomeIcon icon="info-circle" />
         </div>

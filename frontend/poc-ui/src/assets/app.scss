@@ -1,11 +1,15 @@
 /* container level theming, keep this lean */
-
 /* app layout */
 .wrapper {
   display: flex;
   align-items: stretch;
 }
 
+.app-nav {
+  .nav-link.active {
+    background: #212121;
+  }
+}
 /* login page */
 @media all and (min-width: 480px) {
   .centered-panel {
