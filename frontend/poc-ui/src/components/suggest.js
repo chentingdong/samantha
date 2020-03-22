@@ -74,7 +74,7 @@ const Suggest = forwardRef( ( props, ref ) => {
   return (
     <div className={ className }>
       { ( suggestions.length > 0 ) &&
-        <div className="container-fluid bottom mb-5">
+        <div className="container-fluid mb-5">
           <label>Bellhop suggestions:</label><br />
           <div className="row">
             { suggestions.map( ( suggestion, index ) => {

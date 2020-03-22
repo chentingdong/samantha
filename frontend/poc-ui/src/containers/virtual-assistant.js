@@ -112,10 +112,6 @@ function VirtualAssistant ( props ) {
       position: 'fixed',
       bottom: '0',
       width: '100%'
-    },
-    suggest: {
-      position: 'absolute',
-      bottom: '0'
     }
   };
 
@@ -135,7 +131,7 @@ function VirtualAssistant ( props ) {
           <CaseMessages className="row overflow-auto"
             messages={ messages }
           />
-          <Suggest className="row"
+          <Suggest className="row suggest"
             style={ style.suggest }
             currentMessage={ currentMessage }
             setCurrentMessage={ setCurrentMessage }
