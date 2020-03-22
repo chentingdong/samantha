@@ -34,6 +34,7 @@
     "monaco-editor": "^0.20.0",
     "node-sass": "^4.0.0",
     "node-uuid": "^1.4.8",
+    "postcss-loader": "^3.0.0",
     "react": "^16.12.0",
     "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^1.0.0-beta.16",

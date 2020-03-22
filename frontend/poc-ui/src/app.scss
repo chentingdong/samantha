@@ -1,21 +1,17 @@
-.app-logo {
-  height: 1.2em;
-  pointer-events: none;
-  vertical-align: text-bottom;
+/* container level theming */
+
+/* app layout */
+.app {
+  display: flex;
+  align-items: stretch;
 }
 
-.brand {
-  padding: 0 0 0 0.5em;
-  text-transform: uppercase;
+nav {
+  .bottom {
+    bottom: 0;
+  }
 }
 
-.text-success {
-  color: #17f6cc !important;
-}
-
-.clickable {
-  cursor: pointer;
-}
 /* login page */
 @media all and (min-width: 480px) {
   .centered-panel {
@@ -51,13 +47,4 @@
   height: 100%;
   border: solid 1px black;
   background-color: white;
-}
-
-/* app layout */
-.app {
-  display: flex;
-  align-items: stretch;
-}
-nav .bottom {
-  bottom: 0;
 }

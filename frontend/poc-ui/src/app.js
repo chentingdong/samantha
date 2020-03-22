@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Amplify, { Auth } from 'aws-amplify';
 import { BrowserRouter, NavLink } from 'react-router-dom';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
 import Routes from './routes/routes';
 import config from './config.js';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './app.css';
-import logo from './assets/bellhop.png';
+import './app.scss';
 import buildFonts from './libs/fa-fonts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
