@@ -10,7 +10,7 @@ import { Auth } from 'aws-amplify';
 * @function NewTask
 **/
 
-const NewTask = ( { tasks, setTasks, closeTask, currentCaseId, users } ) => {
+const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
   const [ showCreateModal, setShowCreateModal ] = useState( false );

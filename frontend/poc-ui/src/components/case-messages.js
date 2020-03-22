@@ -19,11 +19,11 @@ const CaseMessages = ( { messages } ) => {
                 {
                   ( () => {
                     if ( msg.data.fromUser.name === 'agent' ) {
-                      return <img className="thumbnail" src={ logo } alt='<Fontawesome icon="robot" />' />;
+                      return <img className="thumbnail small" src={ logo } alt='<Fontawesome icon="robot" />' />;
                     }
                     else {
                       return <img src={ msg.data.fromUser.picture }
-                        className="thumbnail"
+                        className="thumbnail rounded-circle"
                         alt="<Fontawesome icon='user'/>" />;
                     }
                   } )()

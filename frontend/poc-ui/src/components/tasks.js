@@ -143,7 +143,7 @@ function Tasks ( { currentCaseId } ) {
         <div className="d-flex pt-2 pb-2">
           <h2 className="col-6">Tasks</h2>
           <div className="col-6 text-right">
-            <NewTask users={ users } tasks={ tasks } setTasks={ setTasks } />
+            <NewTask users={ users } tasks={ tasks } setTasks={ setTasks } currentCaseId={ currentCaseId } />
           </div>
         </div>
 
@@ -164,7 +164,7 @@ function Tasks ( { currentCaseId } ) {
                     <td className="p-2 clickable text-primary" onClick={ e => workOnTask( task ) }>{ task.data.name }</td>
                     <td>{ formatDate( task.data.dueDate ) }</td>
                     <td>
-                      <img className="thumbnail" src={ task.data.owner.picture } alt={ task.data.owner.name } />
+                      <img className="thumbnail rounded-circle" src={ task.data.owner.picture } alt={ task.data.owner.name } />
                     </td>
                     <td>
                       <div className={ cn } >{ task.state } </div>
