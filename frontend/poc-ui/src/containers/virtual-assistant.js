@@ -118,10 +118,10 @@ function VirtualAssistant ( props ) {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-2 vh-100 bg-dark">
+        <div className="col-3 vh-100 bg-dark">
           <CasesMenu currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
-        <div className="col-7 bg-lighter">
+        <div className="col-6 bg-lighter">
           <Tasks currentCaseId={ currentCaseId } />
         </div>
         <div className="col-3 card">

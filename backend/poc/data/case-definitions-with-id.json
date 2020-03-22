@@ -4,8 +4,7 @@
     "data": {
       "name": "Planning Case",
       "description": "Planning tasks on run time",
-      "icon": "",
-      "createdAt": "",
+      "icon": "columns",
       "creator": {},
       "version": "0.0.1",
       "caseFile": {},
@@ -17,8 +16,7 @@
     "data": {
       "name": "Reset password",
       "description": "A process to reset password",
-      "icon": "",
-      "createdAt": "",
+      "icon": "key",
       "creator": {},
       "version": "0.0.1",
       "caseFile": {},

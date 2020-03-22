@@ -42,7 +42,7 @@ function App () {
     <div className="app wrapper vh-100">
       <BrowserRouter>
         <nav className="d-flex align-items-start flex-column bg-secondary">
-          <div className="mb-auto p-2 bd-highlight">
+          <div className="mb-auto p-1 bd-highlight">
             <Nav.Link className="nav-link text-success" as={ NavLink } to="/home" >
               <h3>
                 <FontAwesomeIcon icon="home" />
@@ -54,7 +54,7 @@ function App () {
               </h3>
             </Nav.Link>
           </div>
-          <div className="p-2 bd-highlight">
+          <div className="p-1 bd-highlight">
             { isAuthenticated
               ?
               <>

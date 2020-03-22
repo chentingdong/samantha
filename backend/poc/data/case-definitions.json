@@ -2,8 +2,7 @@
   {
     "name": "Planning Case",
     "description": "Planning tasks on run time",
-    "icon": "",
-    "createdAt": "",
+    "icon": " ",
     "creator": {},
     "version": "0.0.1",
     "caseFile": {},
@@ -12,8 +11,7 @@
   {
     "name": "Reset password",
     "description": "A process to reset password",
-    "icon": "",
-    "createdAt": "",
+    "icon": " ",
     "creator": {},
     "version": "0.0.1",
     "caseFile": {},

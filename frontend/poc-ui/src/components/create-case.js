@@ -11,7 +11,6 @@ import { Dropdown } from 'react-bootstrap';
 const CreateCase = ( { cases, setCases, setCurrentCaseId } ) => {
   const user = Auth.user;
   const [ caseDefinitions, setCaseDefinitions ] = useState( [] );
-  const [ newCase, setNewCase ] = useState( [] );
 
   useEffect( () => {
     function getCaseDefinitions () {
@@ -30,31 +29,13 @@ const CreateCase = ( { cases, setCases, setCurrentCaseId } ) => {
   }, [] );
 
 
-  function createCase () {
+  function createCase ( caseDefinition ) {
+    let caseInstance = caseDefinition.data;
+    caseInstance.creator = user.id;
+    caseInstance.createdAt = Date.now();
+
     apiWrapper
-      .get( '/case-definitions' )
-      .then( ( resp ) => {
-        console.debug( `get case defination ${ JSON.stringify( resp ) }` );
-        setCaseDefinitions( resp.data );
-
-        let caseInstance = resp.data[ 0 ].data;
-        caseInstance.creator = user.id;
-        setCurrentCaseId( caseInstance.id );
-
-        // save immediately, for 2020Q1.
-        postNewCase( caseInstance );
-
-        // add new case to cases in UI
-        setCases( cases => [ caseInstance, ...cases ] );
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
-  }
-
-  function postNewCase () {
-    apiWrapper
-      .post( '/cases', newCase )
+      .post( '/cases', caseInstance )
       .then( resp => {
         if ( resp.status === 200 ) {
           const newCase = resp.data;
@@ -62,14 +43,13 @@ const CreateCase = ( { cases, setCases, setCurrentCaseId } ) => {
             return [ newCase, ...cases ];
           } );
 
-          setCurrentCaseId( resp.data.id );
+          setCurrentCaseId( newCase.id );
         }
       } )
       .catch( err => {
         console.error( err );
       } );
   }
-
 
   return (
     <div className="create">
@@ -85,7 +65,7 @@ const CreateCase = ( { cases, setCases, setCurrentCaseId } ) => {
                 <Dropdown.Item eventKey="1"
                   onClick={ e => createCase( caseDefinition ) }
                   key={ caseDefinition.id }>
-                  <FontAwesomeIcon icon={ caseDefinition.data.faIcon } />
+                  <FontAwesomeIcon icon={ caseDefinition.data.icon } />
                   <span> { caseDefinition.data.name }</span>
                 </Dropdown.Item>
               );
