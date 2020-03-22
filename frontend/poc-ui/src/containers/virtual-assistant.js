@@ -118,20 +118,20 @@ function VirtualAssistant ( props ) {
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-3 vh-100 bg-dark">
+        <div className="col col-lg-3 vh-100 bg-dark">
           <CasesMenu className="text-light bg-dark case-menu row"
             currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
-        <div className="col-6 bg-lighter">
+        <div className="col col-lg-6 bg-lighter">
           <Tasks currentCaseId={ currentCaseId } />
         </div>
-        <div className="col-3 card">
+        <div className="col col-lg-3">
           <h2 className="mt-4">Activity</h2>
           <hr className="border-dark" />
-          <CaseMessages className="row overflow-auto"
+          <CaseMessages className="col overflow-auto"
             messages={ messages }
           />
-          <Suggest className="row suggest"
+          <Suggest className="col suggest"
             style={ style.suggest }
             currentMessage={ currentMessage }
             setCurrentMessage={ setCurrentMessage }
@@ -140,7 +140,7 @@ function VirtualAssistant ( props ) {
             selectedSuggestion={ selectedSuggestion }
             setselectedSuggestion={ setselectedSuggestion }
           />
-          <div className="row">
+          <div className="col">
             <DebounceInput
               className="col-12 rounded-0 border-left-0"
               placeholder="Message"
