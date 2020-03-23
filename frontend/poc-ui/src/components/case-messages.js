@@ -8,31 +8,31 @@ import { formatTime } from '../libs/custom-functions';
 import logo from '../assets/bell.png';
 
 const CaseMessages = ( { className, messages } ) => {
+  function GetIcon ( user ) {
+    if ( user.name === 'agent' ) {
+      return <img className="thumbnail small"
+        src={ logo }
+        alt='<Fontawesome icon="robot" />' />;
+    } else {
+      return <img className="thumbnail rounded-circle"
+        src={ user.picture }
+        alt="<Fontawesome icon='user'/>" />;
+    }
+  }
   return (
     <div className={ className }>
       { messages &&
         messages.map( ( msg, index ) => {
           return (
             msg.data &&
-            <div key={ index } className="row mb-1 p-1 pl-2">
-              <div className="col-12">
-                {
-                  ( () => {
-                    if ( msg.data.fromUser.name === 'agent' ) {
-                      return <img className="thumbnail small" src={ logo } alt='<Fontawesome icon="robot" />' />;
-                    }
-                    else {
-                      return <img src={ msg.data.fromUser.picture }
-                        className="thumbnail rounded-circle"
-                        alt="<Fontawesome icon='user'/>" />;
-                    }
-                  } )()
-                }
-                <span className="ml-1 text-secondary">
+            <div key={ index } className="mb-1 p-1 pl-2">
+              <span className="">
+                { GetIcon( msg.data.fromUser ) }
+                <span className="ml-1 text-gray d-inline">
                   { formatTime( msg.data.createdAt ) }
                 </span>
-              </div>
-              <div className="col-12">{ msg.data.utterance }</div>
+              </span>
+              <span className="col-12">{ msg.data.utterance }</span>
             </div>
           );
         } ) }

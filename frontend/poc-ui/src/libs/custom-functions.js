@@ -10,11 +10,13 @@ function formatDate ( date ) {
 
 function formatTime ( timestamp ) {
   let t = new Date( timestamp );
+  var timeString = t.getUTCHours() + ":" + t.getUTCMinutes() + ":" + t.getUTCSeconds();
+  return timeString;
+}
 
-  var timeString = formatDate( t ) + " "
-    + t.getUTCHours() + ":" + t.getUTCMinutes() + ":" + t.getUTCSeconds();
-
-
+function formatDateTime ( timestamp ) {
+  let t = new Date( timestamp );
+  var timeString = formatDate( t ) + " " + formatTime( t );
   return timeString;
 }
 

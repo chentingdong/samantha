@@ -30,14 +30,14 @@ function CasesCards ( { className, } ) {
 
   return (
     <div className={ className }>
-      <h2 className="mt-5 ml-2">Cases</h2>
+      <h2 className="mt-5 col-12">Cases</h2>
       <hr className="border-gray col-12 m-0" />
       { cases.length > 0 &&
         cases.map( ( c, index ) => {
           return (
             c.data &&
-            <div className="col-6" key={ index } >
-              <div className="card mt-4" style={ { minHeight: '100px' } }>
+            <div className="col col-12 col-sm-6" key={ index } >
+              <div className="card mt-2 mb-2" style={ { minHeight: '150px' } }>
                 <div className="card-header">
                   <div className="d-flex justify-content-star"> { c.data.name }</div>
                   <div className="d-flex justify-content-end">
@@ -57,7 +57,7 @@ function CasesCards ( { className, } ) {
                   <div>
                     started { formatDate( c.data.createdAt ) }
                   </div>
-                  <ProgressBar className="" variant="light-gray" now={ 60 } />
+                  <ProgressBar className="mt-4" variant="light-gray" now={ 60 } />
                 </div>
               </div>
             </div>
