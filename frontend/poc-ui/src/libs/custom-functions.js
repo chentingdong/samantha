@@ -45,4 +45,10 @@ function stateIcon ( state ) {
   return icon;
 }
 
-export { formatDate, formatTime, stateColor, stateIcon };
+export {
+  formatDate,
+  formatTime,
+  formatDateTime,
+  stateColor,
+  stateIcon
+};
