@@ -37,7 +37,7 @@ function CasesCards ( { className, } ) {
           return (
             c.data &&
             <div className="col-6" key={ index } >
-              <div className="card mt-4">
+              <div className="card mt-4" style={ { minHeight: '100px' } }>
                 <div className="card-header">
                   <div className="d-flex justify-content-star"> { c.data.name }</div>
                   <div className="d-flex justify-content-end">

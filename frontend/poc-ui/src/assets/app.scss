@@ -1,4 +1,6 @@
 /* container level theming, keep this lean */
+@import "../assets/variables.scss";
+
 /* app layout */
 .wrapper {
   display: flex;
@@ -7,20 +9,9 @@
 
 .app-nav {
   .nav-link.active {
-    background: #212121;
+    background: $dark;
   }
 }
-/* login page */
-// @media all and (min-width: 480px) {
-//   .centered-panel {
-//     padding: 60px 0;
-//   }
-
-//   .centered-panel {
-//     margin: 0 auto;
-//     max-width: 410px;
-//   }
-// }
 
 /* not found page */
 .not-found {
