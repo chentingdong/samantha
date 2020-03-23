@@ -1,9 +1,10 @@
 import React from 'react';
+import CasesCards from '../components/cases-cards';
 
 function Home ( props ) {
   return (
-    <div className="container centered-panel">
-      homepage goes here
+    <div className="container">
+      <CasesCards className="row" />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
+
 import {
   faAngleLeft,
   faBell,
@@ -30,6 +31,13 @@ import {
   faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 
+import {
+  faGoogle,
+  faGooglePlus,
+  faFacebook,
+  faFacebookF
+} from '@fortawesome/free-brands-svg-icons';
+
 function buildFonts () {
   library.add(
     faAngleLeft,
@@ -41,7 +49,11 @@ function buildFonts () {
     faColumns,
     faCog,
     faEye,
+    faFacebook,
+    faFacebookF,
     faFlag,
+    faGoogle,
+    faGooglePlus,
     faFolder,
     faHome,
     faInfoCircle,

@@ -6,7 +6,7 @@
   "dependencies": {
     "@aws-amplify/pubsub": "^1.2.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
-    "@fortawesome/free-brands-svg-icons": "^5.12.0",
+    "@fortawesome/free-brands-svg-icons": "^5.12.1",
     "@fortawesome/free-regular-svg-icons": "^5.12.1",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
@@ -59,7 +59,7 @@
   },
   "scripts": {
     "prestart": "(cat certs/cert.pem certs/key.pem > ./node_modules/webpack-dev-server/ssl/server.pem) || :",
-    "start": "PORT=2000 HTTPS=true react-scripts start",
+    "start": "PORT=2000 HTTPS=true BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

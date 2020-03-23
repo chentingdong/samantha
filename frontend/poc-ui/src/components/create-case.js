@@ -8,7 +8,7 @@ import { Auth } from 'aws-amplify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 
-const CreateCase = ( { cases, setCases, setCurrentCaseId } ) => {
+const CreateCase = ( { className, cases, setCases, setCurrentCaseId } ) => {
   const user = Auth.user;
   const [ caseDefinitions, setCaseDefinitions ] = useState( [] );
 
@@ -52,9 +52,9 @@ const CreateCase = ( { cases, setCases, setCurrentCaseId } ) => {
   }
 
   return (
-    <div className="create">
+    <div>
       <Dropdown>
-        <Dropdown.Toggle className="p-3 d-flex border rounded-circle border-success text-success bg-transparent">
+        <Dropdown.Toggle className={ className }>
           <FontAwesomeIcon icon="plus" />
         </Dropdown.Toggle>
         <Dropdown.Menu>

@@ -52,7 +52,15 @@ function CasesMenu ( { className, currentCaseId, setCurrentCaseId } ) {
           );
         } )
       }
-      <CreateCase cases={ cases } setCases={ setCases } setCurrentCaseId={ setCurrentCaseId } />
+      <div className="d-flex position-absolute"
+        style={ { bottom: '50px', left: 'calc(50% - 1.5em)' } }
+      >
+        <CreateCase className="create-case d-flex p-3 border border-success text-success rounded-circle bg-transparent"
+          cases={ cases }
+          setCases={ setCases }
+          setCurrentCaseId={ setCurrentCaseId }
+        />
+      </div>
     </div >
   );
 };
