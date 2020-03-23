@@ -3,14 +3,13 @@
  * @function CaseMessages
  **/
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { formatTime } from '../libs/custom-functions';
-import logo from '../assets/bell.png';
+import logo from '../assets/bell-round.png';
 
 const CaseMessages = ( { className, messages } ) => {
   function GetIcon ( user ) {
     if ( user.name === 'agent' ) {
-      return <img className="thumbnail small"
+      return <img className="thumbnail"
         src={ logo }
         alt='<Fontawesome icon="robot" />' />;
     } else {
