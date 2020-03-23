@@ -50,7 +50,7 @@ function App () {
             </Nav.Link>
             <Nav.Link className="nav-link text-success" as={ NavLink } to="/demo">
               <h3>
-                <FontAwesomeIcon icon="th-large" />
+                <FontAwesomeIcon icon="th" />
               </h3>
             </Nav.Link>
           </div>
