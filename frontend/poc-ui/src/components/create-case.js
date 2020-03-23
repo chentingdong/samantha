@@ -52,7 +52,7 @@ const CreateCase = ( { className, cases, setCases, setCurrentCaseId } ) => {
   }
 
   return (
-    <div>
+    <div className="create-case">
       <Dropdown>
         <Dropdown.Toggle className={ className }>
           <FontAwesomeIcon icon="plus" />
