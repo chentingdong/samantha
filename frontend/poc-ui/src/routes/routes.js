@@ -1,21 +1,21 @@
 import React from "react";
-import { Switch } from 'react-router-dom'
+import { Switch } from 'react-router-dom';
 
-import Suggest from '../containers/suggest-agent'
-import Home from '../containers/home'
-import Landing from '../containers/landing'
-import Login from '../containers/login'
-import Signup from '../containers/signup'
-import Settings from '../containers/settings'
-import ResetPassword from '../containers/reset-password'
-import NotFound from '../containers/not-found'
-import PublicRoute from './public-routes'
-import PrivateRoute from './private-routes'
-import VirtualAssistant from '../containers/virtual-assistant'
-import Workflow from '../containers/workflow'
-import Workflow1 from '../containers/workflow.1'
-import NodeTypes from '../ideas/node-types'
-import MineSweeper from '../games/mine-sweeper'
+import Suggest from '../containers/suggest-agent';
+import Home from '../containers/home';
+import Landing from '../containers/landing';
+import Login from '../containers/login';
+import Signup from '../containers/signup';
+import Settings from '../containers/settings';
+import ResetPassword from '../containers/reset-password';
+import NotFound from '../containers/not-found';
+import PublicRoute from './public-routes';
+import PrivateRoute from './private-routes';
+import VirtualAssistant from '../containers/virtual-assistant';
+import Workflow from '../containers/workflow';
+import Workflow1 from '../containers/workflow.1';
+import NodeTypes from '../ideas/node-types';
+import MineSweeper from '../games/mine-sweeper';
 
 const routes = [
   {
@@ -34,8 +34,8 @@ const routes = [
     tag: PrivateRoute
   },
   {
-    path: "/user/user/signup",
-    component: {Signup},
+    path: "/user/signup",
+    component: Signup,
     tag: PublicRoute
   },
   {
@@ -83,25 +83,25 @@ const routes = [
     component: NotFound,
     tag: PublicRoute
   }
-]
+];
 
-function Routes ({ appProps }) {
+function Routes ( { appProps } ) {
   return (
     <Switch>
-      {routes.map((route, index) => {
-        const TagName = route.tag || 'foo'
+      { routes.map( ( route, index ) => {
+        const TagName = route.tag || 'foo';
         return (
           <TagName
             exact
-            path={route.path}
-            component={route.component}
-            appProps={appProps}
-            key={index}
+            path={ route.path }
+            component={ route.component }
+            appProps={ appProps }
+            key={ index }
           />
-        )
-      })}
+        );
+      } ) }
     </Switch>
   );
 }
 
-export default Routes
+export default Routes;

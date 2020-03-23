@@ -51,7 +51,7 @@ function Login ( { userHasAuthenticated } ) {
 
   return (
     !isAuthenticating &&
-    <div className="container centered-panel">
+    <div className="m-auto col-6">
       <Form onSubmit={ handleEmailLogin }>
         <Form.Group controlId="email" >
           <Form.Label>Email</Form.Label>
