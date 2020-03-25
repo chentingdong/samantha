@@ -19,12 +19,12 @@ const config = {
     identityPoolId: 'config.cognito.IDENTITY_POOL_ID'
   },
   social: {
-    google_client_id: "258730687255-jn081g0coq4pm4s0ebu0ljghk5tunfor.apps.googleusercontent.com",
+    google_client_id: "207735501972-ocdbkaprm6s2mvsb7h91ecfq7r4fvmne.apps.googleusercontent.com",
     facebook_app_id: "2505833796351691"
   },
   wsUrl: 'wss://localhost:3001',
   suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
   apiBaseUrl: 'https://localhost:3000'
-}
+};
 
 export default config;
