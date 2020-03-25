@@ -1,11 +1,12 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Amplify, { Auth } from "aws-amplify";
+import { withFederated } from 'aws-amplify-react';
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import Amplify, { Auth } from "aws-amplify";
-import config from '../config.js';
 import LoaderButton from '../components/loader-button';
-import { withFederated } from 'aws-amplify-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SignInWithGoogle from "../components/sign-in-with-google.js";
+import config from '../config.js';
 
 const Federated = withFederated( ( props ) => {
   return (
@@ -77,9 +78,11 @@ function Login ( { userHasAuthenticated } ) {
           </p>
         </Form.Text>
         <LoaderButton isLoading={ isAuthenticating } disabled={ !validateForm() } type="submit" >Login</LoaderButton>
-        <hr />
-        <Federated federated={ config.social } onStateChange={ handleFederatedLogin } />
       </Form>
+      <hr />
+      <SignInWithGoogle userHasAuthenticated={ userHasAuthenticated } />
+      <hr />
+      <Federated federated={ config.social } onStateChange={ handleFederatedLogin } />
     </div>
   );
 }

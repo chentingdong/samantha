@@ -28,35 +28,25 @@ class SignInWithGoogle extends Component {
     );
   }
 
-  getAWSCredentials ( googleUser ) {
-    const resp = googleUser.getAuthResponse();
-    const { id_token, expires_at } = resp;
+  async getAWSCredentials ( googleUser ) {
+    const { id_token, expires_at } = googleUser.getAuthResponse();
     const profile = googleUser.getBasicProfile();
     let user = {
       email: profile.getEmail(),
       name: profile.getName()
     };
 
-    Auth
-      .federatedSignIn( {
-        provider: 'google',
-        response: { id_token, expires_at },
-        user: user
-      } )
-      .then( credentials => {
-        console.log( 'credentials', JSON.stringify( credentials, null, 2 ) );
-        return Auth.currentAuthenticatedUser();
-      } )
-      .catch( err => {
-        console.error( err );
-      } )
-      .then( user => {
-        console.log( `user: ${ user }` );
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
+    const credentials = await Auth.federatedSignIn(
+      'google',
+      { token: id_token, expires_at },
+      user
+    );
+    if ( credentials ) {
+      this.props.userHasAuthenticated( true );
+      console.log( 'credentials', credentials );
+    }
   }
+
 
   createScript () {
     // load the Google SDK

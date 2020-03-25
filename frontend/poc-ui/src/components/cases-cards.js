@@ -16,7 +16,7 @@ function CasesCards ( { className, } ) {
       apiWrapper
         .get( path )
         .then( ( resp ) => {
-          console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
+          // console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
           let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id );
           setCases( _cases );
         } )

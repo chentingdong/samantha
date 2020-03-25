@@ -3,25 +3,22 @@ import "../assets/loader-button.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function LoaderButton ( {
-  isLoading,
-  text = "OK",
-  loadingText,
-  loadingIcon,
+  isLoading = false,
+  text = 'Ok',
+  loadingText = 'loading',
+  loadingIcon = <FontAwesomeIcon icon="circle-notch" className="spinning" />,
   className = "",
   disabled = false,
   ...props
 } ) {
-  loadingIcon = loadingIcon || <FontAwesomeIcon icon="circle-notch" className="spinning" />;
-  loadingText = loadingText || props.children || "Loading...";
-
   return (
-    <div
+    <button
       className={ `btn loader-button ${ className }` }
       disabled={ disabled || isLoading }
       { ...props }
     >
       { isLoading ? <> { loadingIcon } { loadingText }</> : props.children }
-    </div>
+    </button>
   );
 }
 

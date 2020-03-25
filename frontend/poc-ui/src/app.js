@@ -18,14 +18,19 @@ function App () {
   }, [] );
 
   async function checkLogin () {
-    Auth
-      .currentAuthenticatedUser()
-      .then( () => {
+    try {
+      let user = await Auth.currentSession();
+      console.log( '--------------------' );
+      console.log( JSON.stringify( user, null, 2 ) );
+
+      if ( user.id )
         userHasAuthenticated( true );
-      } )
-      .catch( ( e ) => {
-        console.error( e );
-      } );
+      console.log( user );
+    }
+    catch ( err ) {
+      console.error( err );
+    }
+
   }
 
   function handleLogout () {

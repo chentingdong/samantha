@@ -182,6 +182,7 @@ function Tasks ( { currentCaseId } ) {
                     </td>
                     <td>
                       {/* TODO: use assignee not owner */ }
+                      { JSON.stringify( task.data.owner ) }
                       <img className="thumbnail rounded-circle" src={ task.data.owner.picture } alt={ task.data.owner.name } />
                     </td>
                     <td className={ `border-right border-${ color }` }>
