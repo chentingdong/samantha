@@ -413,7 +413,7 @@ functions:
           cors: true
   listUserPoolUsers:
     name: LAMBDA_${self:service}_list_users_${self:provider.stage}
-    handler: handler.listIdentityPoolUsers
+    handler: handler.listUserPoolUsers
     events:
       - http:
           path: users
