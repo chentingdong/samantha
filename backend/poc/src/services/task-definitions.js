@@ -1,13 +1,12 @@
 'use strict';
-const apigatewayConnector = require('../connectors/apigateway');
-const dynamodbConnector = require('../connectors/dynamodb');
-const CONSTANTS = require('../constants');
-const uuid = require('uuid');
+const dynamodbConnector = require( '../connectors/dynamodb' );
+const CONSTANTS = require( '../constants' );
+const uuid = require( 'uuid' );
 
-const createTaskDefinition = async (event, context) => {  
+const createTaskDefinition = async ( event, context ) => {
   try {
     const id = uuid.v4();
-    const data = JSON.parse(event.body);
+    const data = JSON.parse( event.body );
 
     await dynamodbConnector.createTaskDefinition(
       id,
@@ -17,20 +16,20 @@ const createTaskDefinition = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id})
+      body: JSON.stringify( { id } )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to create task definition';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const getTaskDefinition = async (event, context) => {  
+const getTaskDefinition = async ( event, context ) => {
   try {
     const params = event.pathParameters;
     const id = params.taskDefinitionId;
@@ -42,40 +41,40 @@ const getTaskDefinition = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Item)
+      body: JSON.stringify( result.Item )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to get task definition';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const listTaskDefinitions = async (event, context) => {  
+const listTaskDefinitions = async ( event, context ) => {
   try {
     const result = await dynamodbConnector.listTaskDefinitions();
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Items)
+      body: JSON.stringify( result.Items )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to list task definitions';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const deleteTaskDefinition = async (event, context) => {  
+const deleteTaskDefinition = async ( event, context ) => {
   try {
     const params = event.pathParameters;
     const id = params.taskDefinitionId;
@@ -89,14 +88,14 @@ const deleteTaskDefinition = async (event, context) => {
       headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to delete task definition';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 

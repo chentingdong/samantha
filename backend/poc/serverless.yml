@@ -411,6 +411,14 @@ functions:
               paths:
                 caseMessageId: true
           cors: true
+  listUserPoolUsers:
+    name: LAMBDA_${self:service}_list_users_${self:provider.stage}
+    handler: handler.listIdentityPoolUsers
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
 
 resources:
   Resources:
