@@ -5,7 +5,8 @@ import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
 import LoaderButton from '../components/loader-button';
-import SignInWithGoogle from "../components/sign-in-with-google.js";
+import SignInWithGoogle from '../components/sign-in-federated-google';
+
 import config from '../config.js';
 
 const Federated = withFederated( ( props ) => {
@@ -36,7 +37,7 @@ function Login ( { userHasAuthenticated } ) {
     setIsAuthenticating( true );
 
     try {
-      await Auth.signIn( email, password );
+      await Auth.signIn( email, password ).then( user => console.log( user ) );
       userHasAuthenticated( true );
       setIsAuthenticating( false );
     } catch ( e ) {

@@ -7,9 +7,9 @@ const config = {
     authenticationFlowType: 'USER_PASSWORD_AUTH',
     oauth: {
       domain: 'samantha.auth.us-east-1.amazoncognito.com',
-      scope: [ 'phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin' ],
+      scope: [ 'email', 'profile', 'openid' ],
       redirectSignIn: 'https://localhost:2000/',
-      redirectSignOut: 'https://localhost:2000/',
+      redirectSignOut: 'https://localhost:2000/user/login',
       // 'code' or 'token'. REFRESH token will only be generated when the responseType is code
       responseType: 'token'
     }

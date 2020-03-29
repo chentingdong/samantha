@@ -6,21 +6,21 @@ import Tasks from '../components/tasks';
 import CaseMessages from '../components/case-messages';
 import Suggest from '../components/suggest';
 import apiWrapper from '../libs/api-wrapper';
-import { Auth } from 'aws-amplify';
 import useWebSocket from 'react-use-websocket';
 import '../assets/virtual-assistant.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-function VirtualAssistant ( props ) {
+function VirtualAssistant ( { user } ) {
   const [ messages, setMessages ] = useState( [] );
   const [ currentMessage, setCurrentMessage ] = useState( '' );
   const [ selectedSuggestion, setselectedSuggestion ] = useState( 0 );
   const suggestRef = useRef();
 
+
   const [ currentCaseId, setCurrentCaseId ] = useState();
   const wsOptions = useMemo( () => ( {
     queryParams: {
-      'user': JSON.stringify( Auth.user )
+      'user': JSON.stringify( user )
     }
   } ), [] );
 
@@ -52,7 +52,7 @@ function VirtualAssistant ( props ) {
 
   function userMessage ( utterance ) {
     setCurrentMessage( utterance );
-    let newMessage = buildMessage( utterance, Auth.user );
+    let newMessage = buildMessage( utterance, user );
     apiWrapper
       .post( '/case-messages', newMessage )
       .then( resp => {
@@ -110,11 +110,11 @@ function VirtualAssistant ( props ) {
     <div className="container-fluid">
       <div className="row">
         <div className="col col-md-3 col-lg-2 vh-100 bg-dark">
-          <CasesMenu className="text-light bg-dark case-menu row"
+          <CasesMenu className="text-light bg-dark case-menu row" user={ user }
             currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter">
-          <Tasks currentCaseId={ currentCaseId } />
+          <Tasks currentCaseId={ currentCaseId } user={ user } />
         </div>
         <div className="col col-md-3 vh-100">
           <h2 className="m-2 mt-4">Activity</h2>
@@ -126,6 +126,7 @@ function VirtualAssistant ( props ) {
             currentMessage={ currentMessage }
             setCurrentMessage={ setCurrentMessage }
             userMessage={ userMessage }
+            user={ user }
             ref={ suggestRef }
             selectedSuggestion={ selectedSuggestion }
             setselectedSuggestion={ setselectedSuggestion }

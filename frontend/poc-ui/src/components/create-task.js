@@ -10,7 +10,7 @@ import { Auth } from 'aws-amplify';
 * @function NewTask
 **/
 
-const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
+const NewTask = ( { tasks, setTasks, currentCaseId, users, user } ) => {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
   const [ showCreateModal, setShowCreateModal ] = useState( false );
@@ -48,7 +48,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
     setShowCreateModal( true );
     setNewTask( {
       ...taskDefinition.data,
-      owner: Auth.user,
+      owner: user,
       dueDate: new Date()
     } );
   }
@@ -64,7 +64,9 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="light border-secondary shadow-sm">
+        <Dropdown.Toggle
+          // @ts-ignore
+          variant="light border-secondary shadow-sm">
           <FontAwesomeIcon icon="plus-circle" />
           <span className="ml-1">New Task</span>
         </Dropdown.Toggle>

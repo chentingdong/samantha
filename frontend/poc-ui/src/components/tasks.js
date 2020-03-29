@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { stateColor, formatDate, stateIcon } from '../libs/custom-functions';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-function Tasks ( { currentCaseId } ) {
+function Tasks ( { currentCaseId, user } ) {
   const [ tasks, setTasks ] = useState( [] );
   const [ currentTask, setCurrentTask ] = useState( {} );
   const [ currentCaseName, setCurrentCaseName ] = useState( '' );
@@ -156,7 +156,7 @@ function Tasks ( { currentCaseId } ) {
         <div className="d-flex pt-2 pb-2">
           <h4 className="col-6">Tasks</h4>
           <div className="col-6 text-right">
-            <NewTask users={ users } tasks={ tasks } setTasks={ setTasks } currentCaseId={ currentCaseId } />
+            <NewTask user={ user } users={ users } tasks={ tasks } setTasks={ setTasks } currentCaseId={ currentCaseId } />
           </div>
         </div>
 
@@ -182,7 +182,6 @@ function Tasks ( { currentCaseId } ) {
                     </td>
                     <td>
                       {/* TODO: use assignee not owner */ }
-                      { JSON.stringify( task.data.owner ) }
                       <img className="thumbnail rounded-circle" src={ task.data.owner.picture } alt={ task.data.owner.name } />
                     </td>
                     <td className={ `border-right border-${ color }` }>

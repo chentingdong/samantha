@@ -10,37 +10,45 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App () {
   const [ isAuthenticated, userHasAuthenticated ] = useState( false );
+  const [ user, setUser ] = useState( {} );
   buildFonts();
   Amplify.configure( config );
 
   useEffect( () => {
-    checkLogin();
+    async function getUser () {
+      let u = await Auth.currentAuthenticatedUser();
+      if ( u ) {
+        userHasAuthenticated( true );
+      }
+    };
+
+    getUser();
   }, [] );
 
-  async function checkLogin () {
+  async function signUp () {
     try {
-      let user = await Auth.currentSession();
-      console.log( '--------------------' );
-      console.log( JSON.stringify( user, null, 2 ) );
-
-      if ( user.id )
+      const credentials = await Auth.federatedSignIn();
+      if ( credentials ) {
         userHasAuthenticated( true );
-      console.log( user );
+        console.log( 'credentials', credentials );
+      }
     }
     catch ( err ) {
       console.error( err );
     }
-
   }
 
-  function handleLogout () {
-    Auth.signOut()
-      .then( () => {
-        userHasAuthenticated( false );
-      } )
-      .catch( ( e ) => {
-        console.error( e );
-      } );
+  async function handleLogout () {
+    try {
+      // const ga = window.gapi.auth2.getAuthInstance();
+      // await ga.signOut();
+      await Auth.signOut();
+      setUser( null );
+      userHasAuthenticated( false );
+    }
+    catch ( e ) {
+      console.error( e );
+    };
   }
 
   return (
@@ -48,12 +56,12 @@ function App () {
       <BrowserRouter>
         <div className="d-flex align-items-start flex-column bg-secondary app-nav">
           <div className="mb-auto bd-highlight">
-            <Nav.Link className="nav-link text-success" as={ NavLink } to="/home" >
+            <Nav.Link className="nav-link tex·t-success" as={ NavLink } to="/home" >
               <h3>
                 <FontAwesomeIcon icon="home" />
               </h3>
             </Nav.Link>
-            <Nav.Link className="nav-link text-success" as={ NavLink } to="/demo">
+            <Nav.Link className="nav-link text-success" as={ NavLink } to="/">
               <h3>
                 <FontAwesomeIcon icon="th" />
               </h3>
@@ -76,7 +84,7 @@ function App () {
               </>
               :
               <>
-                <Nav.Link className="nav-link text-success" as={ NavLink } to="/user/signup">
+                <Nav.Link className="nav-link text-success" onClick={ signUp }>
                   <h3>
                     <FontAwesomeIcon icon="user-plus" />
                   </h3>
@@ -90,7 +98,7 @@ function App () {
             }
           </div>
         </div>
-        <Routes className="fixed-right" appProps={ { isAuthenticated, userHasAuthenticated } } />
+        <Routes appProps={ { isAuthenticated, userHasAuthenticated, user } } />
       </BrowserRouter>
     </div>
   );
