@@ -25,7 +25,7 @@ function App () {
     getUser();
   }, [] );
 
-  async function signUp () {
+  async function federatedSignUp () {
     try {
       const credentials = await Auth.federatedSignIn();
       if ( credentials ) {
@@ -84,7 +84,7 @@ function App () {
               </>
               :
               <>
-                <Nav.Link className="nav-link text-success" onClick={ signUp }>
+                <Nav.Link className="nav-link text-success" onClick={ federatedSignUp }>
                   <h3>
                     <FontAwesomeIcon icon="user-plus" />
                   </h3>
