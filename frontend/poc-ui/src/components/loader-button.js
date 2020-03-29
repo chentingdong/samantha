@@ -7,13 +7,13 @@ function LoaderButton ( {
   text = 'Ok',
   loadingText = 'loading',
   loadingIcon = <FontAwesomeIcon icon="circle-notch" className="spinning" />,
-  className = "",
+  variant = "",
   disabled = false,
   ...props
 } ) {
   return (
     <button
-      className={ `btn loader-button ${ className }` }
+      className={ `btn loader-button ${ variant }` }
       disabled={ disabled || isLoading }
       { ...props }
     >

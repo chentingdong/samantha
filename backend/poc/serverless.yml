@@ -419,7 +419,18 @@ functions:
           path: users
           method: get
           cors: true
-
+  getUserPoolUser:
+    name: LAMBDA_${self:service}_get_user_${self:provider.stage}
+    handler: handler.getUserPoolUser
+    events:
+      - http:
+          path: users/{username}
+          method: get
+          request:
+            parameters:
+              paths:
+                username: true
+          cors: true
 resources:
   Resources:
     # CognitoUserPool:

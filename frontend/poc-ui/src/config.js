@@ -8,7 +8,7 @@ const config = {
     oauth: {
       domain: 'samantha.auth.us-east-1.amazoncognito.com',
       scope: [ 'email', 'profile', 'openid' ],
-      redirectSignIn: 'https://localhost:2000/demo',
+      redirectSignIn: 'https://localhost:2000',
       redirectSignOut: 'https://localhost:2000/user/login',
       // 'code' or 'token'. REFRESH token will only be generated when the responseType is code
       responseType: 'token'

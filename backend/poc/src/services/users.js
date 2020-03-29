@@ -41,7 +41,33 @@ const listUserPoolUsers = async () => {
   };
 };
 
+const getUserPoolUser = async ( event, context ) => {
+  let username = event.pathParameters.username;
+  let params = {
+    UserPoolId: config.cognito.userPoolId,
+    Username: username
+  };
+  let cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
+  try {
+    let user = await cognitoIdentityServiceProvider.adminGetUser( params ).promise();
+
+    return {
+      statusCode: 200,
+      headers: CONSTANTS.RESPONSE_HEADERS,
+      body: JSON.stringify( user )
+    };
+  }
+  catch ( err ) {
+    return {
+      statusCode: 200,
+      headers: CONSTANTS.RESPONSE_HEADERS,
+      body: null
+    };
+  }
+};
+
 module.exports = {
   listIdentityPoolUsers,
-  listUserPoolUsers
+  listUserPoolUsers,
+  getUserPoolUser
 };

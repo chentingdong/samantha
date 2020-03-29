@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Auth } from 'aws-amplify';
 import config from '../config';
+import apiWrapper from '../libs/api-wrapper';
 
 /**
 * @author tchen@bellhop.io
@@ -29,7 +30,7 @@ function initGapi () {
   } );
 }
 
-const SignInWithGoogle = ( { userHasAuthenticated } ) => {
+const SignInWithGoogle = ( { className } ) => {
   useEffect( () => {
     const ga = window.gapi && window.gapi.auth2 ?
       window.gapi.auth2.getAuthInstance() :
@@ -39,7 +40,26 @@ const SignInWithGoogle = ( { userHasAuthenticated } ) => {
     }
   }, [] );
 
-  async function getAWSCredentials ( googleUser ) {
+  async function signIn () {
+    const ga = window.gapi.auth2.getAuthInstance();
+    const googleUser = await ga.signIn();
+    await cognitoSignIn( googleUser );
+
+    // if the google user is not in userPool, redirect user to cognito hostUI to sign up.
+    const username = 'Google_' + googleUser.getId();
+    const path = '/users/' + username;
+    try {
+      let response = await apiWrapper.get( path );
+      if ( !response.data ) {
+        await Auth.federatedSignIn();
+      }
+    }
+    catch ( err ) {
+      console.error( `error sign in, ${ err }` );
+    }
+  }
+
+  async function cognitoSignIn ( googleUser ) {
     const { id_token, expires_at } = googleUser.getAuthResponse();
     const profile = googleUser.getBasicProfile();
     let user = {
@@ -47,32 +67,15 @@ const SignInWithGoogle = ( { userHasAuthenticated } ) => {
       name: profile.getName()
     };
 
-    const credentials = await Auth.federatedSignIn(
+    await Auth.federatedSignIn(
       'google',
       { token: id_token, expires_at },
       user
     );
-    if ( credentials ) {
-      userHasAuthenticated( true );
-      console.log( 'credentials', credentials );
-    }
-  }
-
-  async function signIn () {
-    const ga = window.gapi.auth2.getAuthInstance();
-    try {
-      const googleUser = await ga.signIn();
-      getAWSCredentials( googleUser );
-    }
-    catch ( err ) {
-      console.error( err );
-    }
   }
 
   return (
-    <div>
-      <button onClick={ signIn }>Sign in with Google</button>
-    </div>
+    <button className={ className } onClick={ signIn }>Sign in with Google</button>
   );
 };
 

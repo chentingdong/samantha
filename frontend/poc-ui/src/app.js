@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Amplify, { Auth } from 'aws-amplify';
+import Amplify, { Auth, Hub } from 'aws-amplify';
 import { BrowserRouter, NavLink } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import Routes from './routes/routes';
@@ -15,23 +15,37 @@ function App () {
   Amplify.configure( config );
 
   useEffect( () => {
-    async function getUser () {
-      let u = await Auth.currentAuthenticatedUser();
-      if ( u ) {
-        userHasAuthenticated( true );
+    Hub.listen( "auth", async ( { payload: { event, data } } ) => {
+      switch ( event ) {
+        case "signIn":
+          setUser( data );
+          userHasAuthenticated( true );
+          break;
+        case "signOut":
+          setUser( null );
+          userHasAuthenticated( false );
+          break;
+        case 'signIn_failure':
+          console.error( 'user sign in failed' );
+          break;
+        default:
+          break;
       }
-    };
-
-    getUser();
+    } );
+  }, [] );
+  useEffect( () => {
+    async function checkLogin () {
+      const user = await Auth.currentAuthenticatedUser();
+      if ( user.id )
+        userHasAuthenticated( true );
+    }
+    checkLogin();
   }, [] );
 
   async function federatedSignUp () {
     try {
-      const credentials = await Auth.federatedSignIn();
-      if ( credentials ) {
-        userHasAuthenticated( true );
-        console.log( 'credentials', credentials );
-      }
+      await Auth.federatedSignIn();
+      userHasAuthenticated( true );
     }
     catch ( err ) {
       console.error( err );
@@ -40,8 +54,6 @@ function App () {
 
   async function handleLogout () {
     try {
-      // const ga = window.gapi.auth2.getAuthInstance();
-      // await ga.signOut();
       await Auth.signOut();
       setUser( null );
       userHasAuthenticated( false );
@@ -76,19 +88,19 @@ function App () {
                     <FontAwesomeIcon icon="cog" />
                   </h3>
                 </Nav.Link>
-                <Nav.Link className="nav-link text-success" onClick={ handleLogout }>
+                <div className="nav-link text-success" onClick={ handleLogout }>
                   <h3>
                     <FontAwesomeIcon icon="sign-out-alt" />
                   </h3>
-                </Nav.Link>
+                </div>
               </>
               :
               <>
-                <Nav.Link className="nav-link text-success" onClick={ federatedSignUp }>
+                <div className="nav-link text-success" onClick={ federatedSignUp }>
                   <h3>
                     <FontAwesomeIcon icon="user-plus" />
                   </h3>
-                </Nav.Link>
+                </div>
                 <Nav.Link className="nav-link text-success" as={ NavLink } to="/user/login">
                   <h3>
                     <FontAwesomeIcon icon="sign-in-alt" />
