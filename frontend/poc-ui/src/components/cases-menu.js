@@ -14,7 +14,7 @@ function CasesMenu ( { user, className, currentCaseId, setCurrentCaseId } ) {
         .get( path )
         .then( ( resp ) => {
           // console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
-          let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id );
+          let _cases = resp.data.filter( ( c ) => c.data.owner && c.data.owner === user.username );
           setCases( _cases );
           if ( _cases.length > 0 )
             setCurrentCaseId( _cases[ 0 ].id );

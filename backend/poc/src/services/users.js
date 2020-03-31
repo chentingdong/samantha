@@ -33,11 +33,22 @@ const listUserPoolUsers = async () => {
   let cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
   let data = await cognitoIdentityServiceProvider.listUsers( params ).promise();
 
-  console.log( data.Users );
+  const users = data.Users.map( u => {
+    let attributes = {};
+    u.Attributes.forEach( attr => {
+      attributes[ attr.Name ] = attr.Value;
+    } );
+    let user = {
+      username: u.Username,
+      attributes: attributes
+    };
+    return user;
+  } );
+  console.log( `got users: ${ JSON.stringify( users, null, 2 ) }` );
   return {
     statusCode: 200,
     headers: CONSTANTS.RESPONSE_HEADERS,
-    body: JSON.stringify( data.Users )
+    body: JSON.stringify( users )
   };
 };
 

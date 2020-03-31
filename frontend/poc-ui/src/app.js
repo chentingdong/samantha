@@ -9,21 +9,35 @@ import buildFonts from './libs/fa-fonts';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App () {
-  const [ isAuthenticated, userHasAuthenticated ] = useState( false );
   const [ user, setUser ] = useState( {} );
+  const [ isAuthenticated, userHasAuthenticated ] = useState( false );
   buildFonts();
   Amplify.configure( config );
+
+  useEffect( () => {
+    async function getUserInfo () {
+      try {
+        const userInfo = await Auth.currentUserPoolUser();
+        setUser( userInfo );
+        userHasAuthenticated( true );
+      }
+      catch ( err ) {
+        console.log( err );
+      }
+    }
+
+    getUserInfo();
+  }, [] );
 
   useEffect( () => {
     Hub.listen( "auth", async ( { payload: { event, data } } ) => {
       switch ( event ) {
         case "signIn":
-          setUser( data );
           userHasAuthenticated( true );
           break;
         case "signOut":
-          setUser( null );
           userHasAuthenticated( false );
+          setUser( {} );
           break;
         case 'signIn_failure':
           console.error( 'user sign in failed' );
@@ -32,14 +46,6 @@ function App () {
           break;
       }
     } );
-  }, [] );
-  useEffect( () => {
-    async function checkLogin () {
-      const user = await Auth.currentAuthenticatedUser();
-      if ( user.id )
-        userHasAuthenticated( true );
-    }
-    checkLogin();
   }, [] );
 
   async function federatedSignUp () {
@@ -55,7 +61,6 @@ function App () {
   async function handleLogout () {
     try {
       await Auth.signOut();
-      setUser( null );
       userHasAuthenticated( false );
     }
     catch ( e ) {

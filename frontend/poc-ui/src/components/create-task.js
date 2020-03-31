@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiWrapper from '../libs/api-wrapper';
-import CreateTaskForm from './create-task-form';
-import { Auth } from 'aws-amplify';
+import CreateTaskContent from './create-task-content';
 
 /**
 * @author tchen@bellhop.io
 * @function NewTask
 **/
 
-const NewTask = ( { tasks, setTasks, currentCaseId, users, user } ) => {
+const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
   const [ showCreateModal, setShowCreateModal ] = useState( false );
@@ -48,7 +47,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users, user } ) => {
     setShowCreateModal( true );
     setNewTask( {
       ...taskDefinition.data,
-      owner: user,
+      owner: user.username,
       dueDate: new Date()
     } );
   }
@@ -76,8 +75,9 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users, user } ) => {
             taskDefinitions.map( taskDefinition => {
               return (
                 <Dropdown.Item eventKey="1"
+                  key={ taskDefinition.id }
                   onClick={ e => createTask( taskDefinition ) }
-                  key={ taskDefinition.id }>
+                >
                   <FontAwesomeIcon icon={ taskDefinition.data.faIcon } />
                   <span> { taskDefinition.data.name }</span>
                 </Dropdown.Item>
@@ -94,10 +94,11 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users, user } ) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateTaskForm
+          <CreateTaskContent
+            user={ user }
+            users={users}
             newTask={ newTask }
             close={ closeTask }
-            users={ users }
             submitCreateTaskForm={ submitCreateTaskForm } />
         </Modal.Body>
       </Modal>

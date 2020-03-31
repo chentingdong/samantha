@@ -30,14 +30,14 @@ const CreateCase = ( { user, className, cases, setCases, setCurrentCaseId } ) =>
 
   function createCase ( caseDefinition ) {
     let caseInstance = caseDefinition.data;
-    caseInstance.creator = user.id;
+    caseInstance.owner = user.username;
     caseInstance.createdAt = Date.now();
 
     apiWrapper
       .post( '/cases', caseInstance )
       .then( resp => {
         if ( resp.status === 200 ) {
-          const newCase = resp.data;
+          let newCase = resp.data;
           setCases( cases => {
             return [ newCase, ...cases ];
           } );

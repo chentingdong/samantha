@@ -16,7 +16,6 @@ function VirtualAssistant ( { user } ) {
   const [ selectedSuggestion, setselectedSuggestion ] = useState( 0 );
   const suggestRef = useRef();
 
-
   const [ currentCaseId, setCurrentCaseId ] = useState();
   const wsOptions = useMemo( () => ( {
     queryParams: {
@@ -110,7 +109,8 @@ function VirtualAssistant ( { user } ) {
     <div className="container-fluid">
       <div className="row">
         <div className="col col-md-3 col-lg-2 vh-100 bg-dark">
-          <CasesMenu className="text-light bg-dark case-menu row" user={ user }
+          <CasesMenu className="text-light bg-dark case-menu row"
+            user={ user }
             currentCaseId={ currentCaseId } setCurrentCaseId={ setCurrentCaseId } />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter">
@@ -119,6 +119,7 @@ function VirtualAssistant ( { user } ) {
         <div className="col col-md-3 vh-100">
           <h2 className="m-2 mt-4">Activity</h2>
           <CaseMessages className="overflow-auto border-top border-dark mt-4 pt-2"
+            user={ user }
             messages={ messages }
           />
           <Suggest className="col suggest"

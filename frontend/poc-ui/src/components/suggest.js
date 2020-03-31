@@ -9,11 +9,7 @@ import config from '../config';
 **/
 
 const Suggest = forwardRef( ( props, ref ) => {
-  const { className, selectedSuggestion, setselectedSuggestion } = props;
-
-  // const Suggest = (props) => {
-  const { currentMessage, setCurrentMessage, userMessage } = props;
-
+  const { className, userMessage, currentMessage, setCurrentMessage, selectedSuggestion, setselectedSuggestion } = props;
   let [ suggestions, setSuggestions ] = useState( [] );
 
   // autocomplete
