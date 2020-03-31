@@ -18,8 +18,9 @@ const CaseMessages = ( { className, messages } ) => {
         alt="<Fontawesome icon='user'/>" />;
     }
   }
+
   return (
-    <div className={ className }>
+    <div className={ className } style={ { height: 'calc(100vh - 125px)' } }>
       { messages &&
         messages.map( ( msg, index ) => {
           return (

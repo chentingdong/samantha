@@ -1,3 +1,7 @@
+const uiBaseUrl = window.location.origin;
+const apiBaseUrl = window.location.protocol + '//' + window.location.hostname + ':3000';
+const wsUrl = 'wss://' + window.location.hostname + ':3001';
+
 const config = {
   Auth: {
     identityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
@@ -7,10 +11,11 @@ const config = {
     authenticationFlowType: 'USER_PASSWORD_AUTH',
     oauth: {
       domain: 'samantha.auth.us-east-1.amazoncognito.com',
-      scope: [ 'phone', 'email', 'profile', 'openid', 'aws.cognito.signin.user.admin' ],
-      redirectSignIn: 'https://localhost:2000/',
-      redirectSignOut: 'https://localhost:2000/',
-      responseType: 'code' // or 'token', note that REFRESH token will only be generated when the responseType is code
+      scope: [ 'email', 'profile', 'openid' ],
+      redirectSignIn: uiBaseUrl,
+      redirectSignOut: uiBaseUrl + '/user/login',
+      // 'code' or 'token'. REFRESH token will only be generated when the responseType is code
+      responseType: 'token'
     }
   },
   Storage: {
@@ -22,9 +27,9 @@ const config = {
     google_client_id: "207735501972-ocdbkaprm6s2mvsb7h91ecfq7r4fvmne.apps.googleusercontent.com",
     facebook_app_id: "2505833796351691"
   },
-  wsUrl: 'wss://localhost:3001',
+  wsUrl: wsUrl,
   suggestUrl: 'https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest',
-  apiBaseUrl: 'https://localhost:3000'
+  apiBaseUrl: apiBaseUrl
 };
 
 export default config;

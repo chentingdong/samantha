@@ -30,6 +30,10 @@ custom:
   serverless-offline:
     httpsProtocol: "certs"
     port: 3000
+  splitStacks:
+    perFunction: false
+    perType: true
+    perGroupFunction: false
 
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
@@ -256,6 +260,19 @@ functions:
       - http:
           path: cases
           method: get
+          cors: true
+  addCaseParticipant:
+    name: LAMBDA_${self:service}_add_case_participant_${self:provider.stage}
+    handler: handler.addCaseParticipant
+    events:
+      - http:
+          path: cases/{caseId}/add-participant/{username}
+          method: patch
+          request:
+            parameters:
+              path:
+                caseId: true
+                username: true
           cors: true
   completeCase:
     name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}

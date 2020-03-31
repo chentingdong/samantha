@@ -44,63 +44,16 @@ function Tasks ( { currentCaseId } ) {
       } );
   }, [ currentCaseId ] );
 
-  useEffect( () => {
-    function getUsers () {
-      // let users1 = [
-      //   { name: 'Baiji', id: 'Baiji' },
-      //   { name: 'Ben', id: 'Ben' },
-      //   { name: 'Jin', id: 'Jin' },
-      //   { name: 'Ronda', id: 'Ronda' },
-      //   { name: 'Tingdong', id: 'Tingdong' }
-      // ];
-      let users2 = [
-        {
-          "IdentityId": "us-east-1:1d4915f3-cd7b-46dd-b477-8d7f3f66d4f6",
-        },
-        {
-          "IdentityId": "us-east-1:6f36981e-cc6c-448d-aff0-72cacc2a10c9",
-        },
-        {
-          "IdentityId": "us-east-1:7f632c70-1a02-4922-b0d3-dabf83b0fdc7",
-        },
-        {
-          "IdentityId": "us-east-1:9418115c-5056-4855-929a-2fc7d2497ff6",
-        },
-        {
-          "IdentityId": "us-east-1:b63a7951-7010-479d-9b0e-92155997ce99",
-        }
-      ];
-      setUsers( users2 );
-
-      /*     apiWrapper
-            .get( '/users' )
-            .then( resp => {
-              setUsers( resp.data );
-            })
-          aws.config.update( {
-            region: 'us-east-1',
-            credentials: new aws.CognitoIdentityCredentials( {
-              IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc'
-            } )
-          } );
-
-          let cognitoidentity = new aws.CognitoIdentity();
-          let params = {
-            IdentityPoolId: 'us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc',
-            MaxResults: 50
-          };
-
-          cognitoidentity.listIdentities( params, ( err, data ) => {
-            if ( err ) console.log( err, err.stack );
-            else {
-              console.log( data );
-              let users = data.Identities;
-              setUsers( users );
-            }
-          } ); */
+  function getUserAttribute ( username, attr ) {
+    try {
+      let user = users.filter( u => { return u.username === username; } );
+      if ( user.length === 1 )
+        return user[ 0 ].attributes[ attr ];
     }
-    getUsers();
-  }, [] );
+    catch ( err ) {
+      console.error( 'Error getting user attribute: ', err );
+    }
+  }
 
   function workOnTask ( task ) {
     setShowWorkOnTaskModal( true );

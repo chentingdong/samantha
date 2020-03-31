@@ -77,6 +77,31 @@ const listCases = async ( event, context ) => {
   }
 };
 
+const addCaseParticipant = async ( event, context ) => {
+  try {
+    const params = event.pathParameters;
+    const id = params.caseId;
+    const username = params.username;
+    const caseInstance = await dynamodbConnector.getCase( id );
+    const participants = 'participants' in caseInstance ? caseInstance[ 'participants' ] : [];
+    participants.push( username );
+    caseInstance[ 'participants' ] = participants;
+    return {
+      statusCode: 200,
+      headers: CONSTANTS.RESPONSE_HEADERS,
+      body: JSON.stringify( caseInstance )
+    };
+  }
+  catch ( err ) {
+    const errMsg = `Unable to add case paticipant: ${ err }`;
+    return {
+      statusCode: 500,
+      headers: CONSTANTS.RESPONSE_HEADERS,
+      body: JSON.stringify( { errMsg } )
+    };
+  }
+};
+
 const completeCase = async ( event, context ) => {
   try {
     const params = event.pathParameters;
@@ -133,6 +158,7 @@ module.exports = {
   createCase,
   getCase,
   listCases,
+  addCaseParticipant,
   completeCase,
   deleteCase
 };
