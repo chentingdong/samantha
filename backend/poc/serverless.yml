@@ -4,6 +4,7 @@ plugins:
   - serverless-mocha-plugin
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-plugin-split-stacks
 
 custom:
   # This can be changed to the desired origin
@@ -30,6 +31,10 @@ custom:
   serverless-offline:
     httpsProtocol: "certs"
     port: 3000
+  splitStacks:
+    perFunction: false
+    perType: true
+    perGroupFunction: false
 
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md

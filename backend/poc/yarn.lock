@@ -706,6 +706,11 @@ atob@^2.1.2:
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
 
+aws-info@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/aws-info/-/aws-info-1.0.0.tgz#2727d2417068169a1fe77658106e54e15e30763b"
+  integrity sha512-xhZfilnREzSwcaU/jXrfnTSY+1soseElFlkVuN0yWJnRtafH3gACXkd3vXddFgt3GvQxQ0d2g+gBtuZHoA7sZA==
+
 aws-sdk@2.466.0:
   version "2.466.0"
   resolved "https://registry.yarnpkg.com/aws-sdk/-/aws-sdk-2.466.0.tgz#02d819c5af058e15fd1942296ed3b1def9f4b14d"
@@ -4079,6 +4084,16 @@ serverless-offline@^5.12.1:
     update-notifier "^3.0.1"
     velocityjs "^1.1.5"
 
+serverless-plugin-split-stacks@^1.9.3:
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/serverless-plugin-split-stacks/-/serverless-plugin-split-stacks-1.9.3.tgz#3ba1f00643f6ec5d9c2f6613d8abed104ed89868"
+  integrity sha512-ZSPekmIZzN7aWVKSI3PRrVgxf7qLkczHTBUZdb68OzQbaahPga8HFAwpeFvhjMWuxU3YQX/OZSQHZJkUCWnXOw==
+  dependencies:
+    aws-info "^1.0.0"
+    lodash "^4.17.15"
+    semver "^6.3.0"
+    throat "^5.0.0"
+
 serverless@^1.67.0:
   version "1.67.0"
   resolved "https://registry.yarnpkg.com/serverless/-/serverless-1.67.0.tgz#001689ea607bb2364bc3207748f9c1d45f9e55cc"
@@ -4481,6 +4496,11 @@ term-size@^1.2.0:
   integrity sha1-RYuDiH8oj8Vtb/+/rSYuJmOO+mk=
   dependencies:
     execa "^0.7.0"
+
+throat@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/throat/-/throat-5.0.0.tgz#c5199235803aad18754a667d659b5e72ce16764b"
+  integrity sha512-fcwX4mndzpLQKBS1DVYhGAcYaYt7vsHNIvQV+WXMvnow5cgjPphq5CaayLaGsjRdSCKZFNGt7/GYAuXaNOiYCA==
 
 through@^2.3.6, through@^2.3.8:
   version "2.3.8"
