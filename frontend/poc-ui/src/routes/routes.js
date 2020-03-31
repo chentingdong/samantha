@@ -20,27 +20,17 @@ import MineSweeper from '../games/mine-sweeper';
 const routes = [
   {
     path: "/",
-    component: Landing,
-    tag: PublicRoute
-  },
-  {
-    path: "/home",
-    component: Home,
-    tag: PrivateRoute
-  },
-  {
-    path: "/demo",
-    component: VirtualAssistant,
-    tag: PrivateRoute
-  },
-  {
-    path: "/user/signup",
-    component: Signup,
+    component: Login,
     tag: PublicRoute
   },
   {
     path: "/user/login",
     component: Login,
+    tag: PublicRoute
+  },
+  {
+    path: "/user/signup",
+    component: Signup,
     tag: PublicRoute
   },
   {
@@ -51,6 +41,16 @@ const routes = [
   {
     path: "/user/password/reset",
     component: ResetPassword,
+    tag: PrivateRoute
+  },
+  {
+    path: "/home",
+    component: Home,
+    tag: PrivateRoute
+  },
+  {
+    path: "/demo",
+    component: VirtualAssistant,
     tag: PrivateRoute
   },
   {

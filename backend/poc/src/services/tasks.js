@@ -1,16 +1,16 @@
 'use strict';
-const dynamodbConnector = require('../connectors/dynamodb');
-const CONSTANTS = require('../constants');
-const uuid = require('uuid');
-const { taskBroadcastToOwner } = require('./task-templates')
+const dynamodbConnector = require( '../connectors/dynamodb' );
+const CONSTANTS = require( '../constants' );
+const uuid = require( 'uuid' );
+const { taskBroadcastToOwner } = require( './task-templates' );
 
-const createTask = async (event, context) => {
+const createTask = async ( event, context ) => {
   try {
     const id = uuid.v4();
     const state = 'Active';
     const params = event.pathParameters;
     const caseId = params.caseId;
-    const task = JSON.parse(event.body);
+    const task = JSON.parse( event.body );
 
     const caseItem = await dynamodbConnector.getCase(
       caseId
@@ -24,35 +24,35 @@ const createTask = async (event, context) => {
       task
     );
 
-    caseData.planItems.push({
+    caseData.planItems.push( {
       id,
       ...task
-    });
+    } );
 
     await dynamodbConnector.updateCaseData(
       caseId,
       caseData
     );
 
-    taskBroadcastToOwner( caseId, task )
+    taskBroadcastToOwner( caseId, task );
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( { id, state, caseId, data: task})
+      body: JSON.stringify( { id, state, caseId, data: task } )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to create task';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const getTask = async (event, context) => {
+const getTask = async ( event, context ) => {
   try {
     const params = event.pathParameters;
     const id = params.taskId;
@@ -64,25 +64,25 @@ const getTask = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Item)
+      body: JSON.stringify( result.Item )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to get task';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const listTasks = async (event, context) => {
+const listTasks = async ( event, context ) => {
   try {
     var result = {};
     const params = event.pathParameters;
-    if (params && 'caseId' in params) {
-      result = await dynamodbConnector.listTasksByCase(params.caseId);
+    if ( params && 'caseId' in params ) {
+      result = await dynamodbConnector.listTasksByCase( params.caseId );
     } else {
       result = await dynamodbConnector.listTasks();
     }
@@ -90,20 +90,20 @@ const listTasks = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Items)
+      body: JSON.stringify( result.Items )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to list tasks';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const completeTask = async (event, context) => {
+const completeTask = async ( event, context ) => {
   try {
     const params = event.pathParameters;
     const id = params.taskId;
@@ -117,20 +117,20 @@ const completeTask = async (event, context) => {
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id, state})
+      body: JSON.stringify( { id, state } )
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to complete task';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 
-const deleteTask = async (event, context) => {
+const deleteTask = async ( event, context ) => {
   try {
     const params = event.pathParameters;
     const id = params.taskId;
@@ -144,14 +144,14 @@ const deleteTask = async (event, context) => {
       headers: CONSTANTS.RESPONSE_HEADERS,
       body: 'Deleted'
     };
-  } catch (err) {
+  } catch ( err ) {
     const errMsg = 'Unable to delete task';
-    console.error(errMsg, err);
+    console.error( errMsg, err );
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({errMsg})
-    }
+      body: JSON.stringify( { errMsg } )
+    };
   }
 };
 

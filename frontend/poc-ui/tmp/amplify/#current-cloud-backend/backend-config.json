@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"samantha673e9c6e": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}

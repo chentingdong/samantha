@@ -1,10 +1,10 @@
 import React from 'react';
 import CasesCards from '../components/cases-cards';
 
-function Home ( props ) {
+function Home ( { user } ) {
   return (
     <div className="container">
-      <CasesCards className="row" />
+      <CasesCards className="row" user={ user } />
     </div>
   );
 }
