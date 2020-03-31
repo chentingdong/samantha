@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiWrapper from '../libs/api-wrapper';
-import { Auth } from 'aws-amplify';
 import CreateCase from './create-case';
 import { formatDate } from '../libs/custom-functions';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 
-function CasesCards ( { className, } ) {
+function CasesCards ( { className, user } ) {
   const [ cases, setCases ] = useState( [] );
-  const user = Auth.user;
 
   useEffect( () => {
     function getCases () {
@@ -16,7 +13,7 @@ function CasesCards ( { className, } ) {
       apiWrapper
         .get( path )
         .then( ( resp ) => {
-          console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
+          // console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
           let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id );
           setCases( _cases );
         } )
@@ -66,6 +63,7 @@ function CasesCards ( { className, } ) {
       }
       <div className="d-flex adjust-content-center m-auto">
         <CreateCase className="create-case mr-2 p-3 d-flex border rounded-circle border-dark text-dark bg-transparent"
+          user={ user }
           cases={ cases }
           setCases={ setCases } />
         <h2>New Cases</h2>

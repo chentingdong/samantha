@@ -4,6 +4,7 @@ plugins:
   - serverless-mocha-plugin
   - serverless-dynamodb-local
   - serverless-offline
+  - serverless-plugin-split-stacks
 
 custom:
   # This can be changed to the desired origin
@@ -428,7 +429,26 @@ functions:
               paths:
                 caseMessageId: true
           cors: true
-
+  listUserPoolUsers:
+    name: LAMBDA_${self:service}_list_users_${self:provider.stage}
+    handler: handler.listUserPoolUsers
+    events:
+      - http:
+          path: users
+          method: get
+          cors: true
+  getUserPoolUser:
+    name: LAMBDA_${self:service}_get_user_${self:provider.stage}
+    handler: handler.getUserPoolUser
+    events:
+      - http:
+          path: users/{username}
+          method: get
+          request:
+            parameters:
+              paths:
+                username: true
+          cors: true
 resources:
   Resources:
     # CognitoUserPool:

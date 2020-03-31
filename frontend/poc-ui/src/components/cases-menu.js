@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiWrapper from '../libs/api-wrapper';
-import { Auth } from 'aws-amplify';
 import CreateCase from './create-case';
 import { formatDate } from '../libs/custom-functions';
 
-function CasesMenu ( { className, currentCaseId, setCurrentCaseId } ) {
+function CasesMenu ( { user, className, currentCaseId, setCurrentCaseId } ) {
   const [ cases, setCases ] = useState( [] );
-  const user = Auth.user;
 
   useEffect( () => {
     function getCases () {
@@ -15,8 +13,8 @@ function CasesMenu ( { className, currentCaseId, setCurrentCaseId } ) {
       apiWrapper
         .get( path )
         .then( ( resp ) => {
-          console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
-          let _cases = resp.data.filter( ( c ) => c.data.creator && c.data.creator === user.id );
+          // console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
+          let _cases = resp.data.filter( ( c ) => c.data.owner && c.data.owner === user.username );
           setCases( _cases );
           if ( _cases.length > 0 )
             setCurrentCaseId( _cases[ 0 ].id );
@@ -56,6 +54,7 @@ function CasesMenu ( { className, currentCaseId, setCurrentCaseId } ) {
         style={ { bottom: '50px', left: 'calc(50% - 1.5em)' } }
       >
         <CreateCase className="create-case d-flex p-3 border border-success text-success rounded-circle bg-dark"
+          user={ user }
           cases={ cases }
           setCases={ setCases }
           setCurrentCaseId={ setCurrentCaseId }

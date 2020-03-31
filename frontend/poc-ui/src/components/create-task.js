@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Dropdown, Modal } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import apiWrapper from '../libs/api-wrapper';
-import CreateTaskForm from './create-task-form';
-import { Auth } from 'aws-amplify';
+import CreateTaskContent from './create-task-content';
 
 /**
 * @author tchen@bellhop.io
 * @function NewTask
 **/
 
-const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
+const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
   const [ taskDefinitions, setTaskDefinitions ] = useState( [] );
   const [ newTask, setNewTask ] = useState( {} );
   const [ showCreateModal, setShowCreateModal ] = useState( false );
@@ -48,7 +47,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
     setShowCreateModal( true );
     setNewTask( {
       ...taskDefinition.data,
-      owner: Auth.user,
+      owner: user.username,
       dueDate: new Date()
     } );
   }
@@ -64,7 +63,9 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle variant="light border-secondary shadow-sm">
+        <Dropdown.Toggle
+          // @ts-ignore
+          variant="light border-secondary shadow-sm">
           <FontAwesomeIcon icon="plus-circle" />
           <span className="ml-1">New Task</span>
         </Dropdown.Toggle>
@@ -74,8 +75,9 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
             taskDefinitions.map( taskDefinition => {
               return (
                 <Dropdown.Item eventKey="1"
+                  key={ taskDefinition.id }
                   onClick={ e => createTask( taskDefinition ) }
-                  key={ taskDefinition.id }>
+                >
                   <FontAwesomeIcon icon={ taskDefinition.data.faIcon } />
                   <span> { taskDefinition.data.name }</span>
                 </Dropdown.Item>
@@ -92,10 +94,11 @@ const NewTask = ( { tasks, setTasks, currentCaseId, users } ) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CreateTaskForm
+          <CreateTaskContent
+            user={ user }
+            users={users}
             newTask={ newTask }
             close={ closeTask }
-            users={ users }
             submitCreateTaskForm={ submitCreateTaskForm } />
         </Modal.Body>
       </Modal>

@@ -4,10 +4,8 @@ import { stateColor } from '../libs/custom-functions';
 import apiWrapper from '../libs/api-wrapper';
 import { Auth } from 'aws-amplify';
 
-function Cases ( { currentCaseId, setCurrentCaseId } ) {
+function Cases ( { user, currentCaseId, setCurrentCaseId } ) {
   const [ cases, setCases ] = useState( [] );
-  const user = Auth.user;
-
   function newCase () {
     apiWrapper
       .get( '/case-definitions' )
