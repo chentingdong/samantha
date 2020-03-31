@@ -31,6 +31,7 @@ const CreateCase = ( { user, className, cases, setCases, setCurrentCaseId } ) =>
   function createCase ( caseDefinition ) {
     let caseInstance = caseDefinition.data;
     caseInstance.owner = user.username;
+    caseInstance.participants = [];
     caseInstance.createdAt = Date.now();
 
     apiWrapper

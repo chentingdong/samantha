@@ -271,7 +271,7 @@ functions:
           method: patch
           request:
             parameters:
-              path:
+              paths:
                 caseId: true
                 username: true
           cors: true

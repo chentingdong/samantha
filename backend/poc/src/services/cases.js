@@ -80,16 +80,24 @@ const listCases = async ( event, context ) => {
 const addCaseParticipant = async ( event, context ) => {
   try {
     const params = event.pathParameters;
-    const id = params.caseId;
+    const caseId = params.caseId;
     const username = params.username;
-    const caseInstance = await dynamodbConnector.getCase( id );
-    const participants = 'participants' in caseInstance ? caseInstance[ 'participants' ] : [];
+    const caseItem = await dynamodbConnector.getCase( caseId );
+    const caseData = caseItem.Item.data;
+
+    const participants = 'participants' in caseData ? caseData[ 'participants' ] : [];
     participants.push( username );
-    caseInstance[ 'participants' ] = participants;
+    caseData[ 'participant' ] = participants;
+
+    await dynamodbConnector.updateCaseData(
+      caseId,
+      caseData
+    );
+
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( caseInstance )
+      body: JSON.stringify( { caseId, caseData } )
     };
   }
   catch ( err ) {
