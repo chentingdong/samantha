@@ -1,11 +1,15 @@
 name: website
 
+custom:
+  # user: ${env:USER}
+
 website:
   component: '@serverless/website'
   inputs:
-    code:
-      src: build
+    src:
+      src: ./src
       hook: yarn run build
-    domain: dev.bellhop.com
+      dist: ./dist
+    domain: tingdong.dev.bellhop.io
   plugins:
     - serverless-offline
