@@ -1,5 +1,4 @@
 'use strict';
-const apigatewayConnector = require( '../connectors/apigateway' );
 const dynamodbConnector = require( '../connectors/dynamodb' );
 const CONSTANTS = require( '../constants' );
 const uuid = require( 'uuid' );
@@ -82,17 +81,8 @@ const addCaseParticipant = async ( event, context ) => {
     const params = event.pathParameters;
     const caseId = params.caseId;
     const username = params.username;
-    const caseItem = await dynamodbConnector.getCase( caseId );
-    const caseData = caseItem.Item.data;
 
-    const participants = 'participants' in caseData ? caseData[ 'participants' ] : [];
-    participants.push( username );
-    caseData[ 'participant' ] = participants;
-
-    await dynamodbConnector.updateCaseData(
-      caseId,
-      caseData
-    );
+    let caseData = await addCaseParticipantToDb( caseId, username );
 
     return {
       statusCode: 200,
@@ -108,6 +98,22 @@ const addCaseParticipant = async ( event, context ) => {
       body: JSON.stringify( { errMsg } )
     };
   }
+};
+
+const addCaseParticipantToDb = async ( caseId, username ) => {
+  const caseItem = await dynamodbConnector.getCase( caseId );
+  const caseData = caseItem.Item.data;
+
+  const participants = 'participants' in caseData ? caseData[ 'participants' ] : [];
+  if ( participants.indexOf( username ) === -1 )
+    participants.push( username );
+  caseData[ 'participants' ] = participants;
+
+  await dynamodbConnector.updateCaseData(
+    caseId,
+    caseData
+  );
+  return caseData;
 };
 
 const completeCase = async ( event, context ) => {
@@ -167,6 +173,7 @@ module.exports = {
   getCase,
   listCases,
   addCaseParticipant,
+  addCaseParticipantToDb,
   completeCase,
   deleteCase
 };

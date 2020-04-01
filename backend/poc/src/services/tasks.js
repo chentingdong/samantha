@@ -3,6 +3,7 @@ const dynamodbConnector = require( '../connectors/dynamodb' );
 const CONSTANTS = require( '../constants' );
 const uuid = require( 'uuid' );
 const { taskBroadcastToOwner } = require( './task-templates' );
+const { addCaseParticipantToDb } = require( './cases' );
 
 const createTask = async ( event, context ) => {
   try {
@@ -17,6 +18,7 @@ const createTask = async ( event, context ) => {
     );
     const caseData = caseItem.Item.data;
 
+    // create task
     await dynamodbConnector.createTaskInCase(
       id,
       caseId,
@@ -24,6 +26,7 @@ const createTask = async ( event, context ) => {
       task
     );
 
+    // add task to case planItems.
     caseData.planItems.push( {
       id,
       ...task
@@ -34,8 +37,12 @@ const createTask = async ( event, context ) => {
       caseData
     );
 
-    taskBroadcastToOwner( caseId, task );
+    // add assignee to case participant
+    await addCaseParticipantToDb( caseId, task.assignee );
 
+    // notification
+    taskBroadcastToOwner( caseId, task );
+    task;
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,

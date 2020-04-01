@@ -3,23 +3,25 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import LoaderButton from './loader-button';
 import { useFormFields } from '../libs/custom-hooks';
-import apiWrapper from '../libs/api-wrapper';
 import { IntakeFormDesign, IntakeFormRun } from './tasks/intake-form';
 import { AskApprovalDesign, AskApprovalRun } from './tasks/ask-approval';
 
 function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
   const [ task, setTask ] = useFormFields( newTask );
 
-  function submit () {
-    if ( validateForm() )
+  function submit ( event ) {
+    event.preventDefault();
+    const valid = validateForm();
+    if ( valid )
       submitCreateTaskForm( task );
   }
 
   function validateForm () {
-    if ( !task.assignee ) {
+    if ( task.assignee.trim() === '' ) {
       alert( 'Please choose assignee.' );
       return false;
     }
+
     return true;
   }
   return (
@@ -50,7 +52,7 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
           name="assignee"
           value={ task.assignee }
           onChange={ setTask } >
-          <option value=''>Assign to</option>
+          <option value=''>-- Assign to --</option>
           { users.map( ( user ) => {
             return <option value={ user.username } key={ user.username }>{ user.attributes.name }</option>;
           } ) }
@@ -81,7 +83,7 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
 
       <div className="modal-footer col-12">
         <button className="btn-secondary" onClick={ close }>Cancel</button>
-        <LoaderButton className="btn-success" onClick={ submit }>create task!</LoaderButton>
+        <LoaderButton className="btn-success" onClick={ e => submit( e ) }>create task!</LoaderButton>
       </div>
     </form>
   );

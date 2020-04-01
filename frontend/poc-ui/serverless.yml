@@ -6,5 +6,6 @@ website:
     code:
       src: build
       hook: yarn run build
+    domain: dev.bellhop.com
   plugins:
     - serverless-offline

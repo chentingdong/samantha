@@ -2,7 +2,6 @@ import Amplify, { Auth } from "aws-amplify";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { Link } from 'react-router-dom';
-import SignInWithGoogle from '../components/sign-in-federated-google';
 
 import config from '../config.js';
 
@@ -16,6 +15,9 @@ function Login () {
     await Auth.signIn( email, password );
   }
 
+  async function handleFederatedLogin () {
+    Auth.federatedSignIn();
+  }
   return (
     <div className="m-auto col-5">
       <h3 className="text-center mb-4">Sign in Bellhop Virtual Assistant</h3>
@@ -46,7 +48,7 @@ function Login () {
         <button className="btn btn-light form-control" type="submit">Login</button>
       </Form>
       <hr />
-      <SignInWithGoogle className="btn btn-light form-control" />
+      <button className="btn btn-light form-control" onClick={ handleFederatedLogin }>Login with social accounts</button>
     </div>
   );
 }

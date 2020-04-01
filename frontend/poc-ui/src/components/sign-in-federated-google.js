@@ -41,23 +41,22 @@ const SignInWithGoogle = ( { className } ) => {
   }, [] );
 
   async function signIn () {
-    Auth.federatedSignIn();
-    // const ga = window.gapi.auth2.getAuthInstance();
-    // const googleUser = await ga.signIn();
-    // await cognitoSignIn( googleUser );
+    const ga = window.gapi.auth2.getAuthInstance();
+    const googleUser = await ga.signIn();
+    await cognitoSignIn( googleUser );
 
     // if the google user is not in userPool, redirect user to cognito hostUI to sign up.
-    // const username = 'Google_' + googleUser.getId();
-    // const path = '/users/' + username;
-    // try {
-    //   let response = await apiWrapper.get( path );
-    //   if ( !response.data ) {
-    //     await Auth.federatedSignIn();
-    //   }
-    // }
-    // catch ( err ) {
-    //   console.error( `error sign in, ${ err }` );
-    // }
+    const username = 'Google_' + googleUser.getId();
+    const path = '/users/' + username;
+    try {
+      let response = await apiWrapper.get( path );
+      if ( !response.data ) {
+        await Auth.federatedSignIn();
+      }
+    }
+    catch ( err ) {
+      console.error( `error sign in, ${ err }` );
+    }
   }
 
   async function cognitoSignIn ( googleUser ) {

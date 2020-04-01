@@ -10,15 +10,15 @@ const { crossDeviceBroadcast } = require( './websocket' );
  */
 const taskBroadcastToOwner = async ( caseId, task ) => {
   try {
-    let utterance = `Your task "${task.name}" is added to current case.`
-      + `Your message is sent to ${ task.owner.name },`
+    let utterance = `Your task "${ task.name }" is added to current case.`
+      + `Your message is sent to ${ task.assignee } (use name here, fix later),`
       + `expecting to finish on ${ task.dueDate },`
-      + `I will inform him after ${ task.followUpDuration} days if not finished.`
+      + `I will inform him after ${ task.followUpDuration } days if not finished.`;
 
     const user = task.owner;
     const agent = {
       name: 'agent'
-    }
+    };
     // write to message queue
     let message = {
       id: uuidv4(),
@@ -39,9 +39,9 @@ const taskBroadcastToOwner = async ( caseId, task ) => {
   }
 };
 
-const taskNoticeAssigneeGroup = async ( { groupId, task } ) => {
+const taskNoticeAssigneeGroup = async ( { users, task } ) => {
   console.log( 'TODO: after group is in place.' );
-}
+};
 
 module.exports = {
   taskBroadcastToOwner,

@@ -5,7 +5,8 @@
       "name": "Planning Case",
       "description": "Planning tasks on run time",
       "icon": "columns",
-      "creator": {},
+      "owner": {},
+      "participants": [],
       "version": "0.0.1",
       "caseFile": {},
       "planItems": []
@@ -17,7 +18,8 @@
       "name": "Reset password",
       "description": "A process to reset password",
       "icon": "key",
-      "creator": {},
+      "owner": {},
+      "participants": [],
       "version": "0.0.1",
       "caseFile": {},
       "planItems": []
