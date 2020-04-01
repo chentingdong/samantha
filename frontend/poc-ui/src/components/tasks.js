@@ -11,9 +11,9 @@ function Tasks ( { currentCaseId, user } ) {
   const [ tasks, setTasks ] = useState( [] );
   const [ currentTask, setCurrentTask ] = useState( {} );
   const [ currentCaseName, setCurrentCaseName ] = useState( '' );
+  const [ editTaskModal, setEditTaskModal ] = useState( false );
   const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState( false );
   const taskProgress = 60;
-
 
   useEffect( () => {
     apiWrapper.get( '/users' )
@@ -61,6 +61,11 @@ function Tasks ( { currentCaseId, user } ) {
     catch ( err ) {
       console.error( 'Error getting user attribute: ', err );
     }
+  }
+
+  function editTask ( task ) {
+    setEditTaskModal( true );
+    setCurrentTask( task );
   }
 
   function workOnTask ( task ) {
@@ -134,7 +139,9 @@ function Tasks ( { currentCaseId, user } ) {
                 const color = stateColor( task.state );
                 return (
                   <tr key={ task.id } className="border-bottom border-light" >
-                    <td className={ `p-2 pt-4 pb-4 clickable text-primary border-left border-${ color }` } >
+                    <td className={ `p-2 pt-4 pb-4 clickable text-primary border-left border-${ color }` }
+                      onClick={ e => editTask( task ) }
+                    >
                       { task.data.name }
                     </td>
                     <td>
@@ -159,16 +166,34 @@ function Tasks ( { currentCaseId, user } ) {
           </tbody>
         </table>
       </div >
-      <Modal show={ showWorkOnTaskModal } onHide={ e => setShowWorkOnTaskModal( false ) }>
+      <Modal show={ editTaskModal } onHide={ e => setEditTaskModal( false ) } >
         <Modal.Header closeButton>
-          <Modal.Title>Manually update status for task:
-            <b> { currentTask.data ? currentTask.data.name : JSON.stringify( currentTask.data ) }</b>
+          <Modal.Title>Edit task
+             <b> { currentTask.data ? currentTask.data.name : JSON.stringify( currentTask.data ) }</b>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <pre>
             { JSON.stringify( currentTask.data, null, 2 ) }
           </pre>
+        </Modal.Body>
+        <Modal.Footer>
+          <button className="btn-light" onClick={ e => setEditTaskModal( false ) }>
+            cancel
+          </button>
+          <button className="btn-light" onClick={ e => setEditTaskModal( false ) }>
+            save
+          </button>
+        </Modal.Footer>
+      </Modal>
+      <Modal show={ showWorkOnTaskModal } onHide={ e => setShowWorkOnTaskModal( false ) }>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <b> { currentTask.data ? currentTask.data.name : JSON.stringify( currentTask.data ) }</b>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Manually update the status of this task.</p>
         </Modal.Body>
         <Modal.Footer>
           <button className="btn-light" onClick={ e => setShowWorkOnTaskModal( false ) }>

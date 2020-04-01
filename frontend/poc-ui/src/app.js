@@ -90,7 +90,9 @@ function App () {
               <>
                 <Nav.Link className="text-success" as={ NavLink } to="/user/settings">
                   <h3>
-                    <FontAwesomeIcon icon="cog" />
+                    <img className="thumbnail-sm rounded-circle"
+                      src={ user.attributes.picture }
+                      alt={ <FontAwesomeIcon icon="cog" /> } />
                   </h3>
                 </Nav.Link>
                 <div className="nav-link text-success" onClick={ handleLogout }>

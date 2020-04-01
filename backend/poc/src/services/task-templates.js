@@ -1,6 +1,6 @@
 const uuidv4 = require( 'uuid/v4' );
 const dynamodbConnector = require( '../connectors/dynamodb' );
-const { crossDeviceBroadcast } = require( './websocket' );
+const { crossDeviceBroadcast, groupNotice } = require( './websocket' );
 
 /**
  * templates for machine generated message, based on general fields of task wrapper.
@@ -15,7 +15,6 @@ const taskBroadcastToOwner = async ( caseId, task ) => {
       + `expecting to finish on ${ task.dueDate },`
       + `I will inform him after ${ task.followUpDuration } days if not finished.`;
 
-    const user = task.owner;
     const agent = process.env.USER ? 'agent-' + process.env.USER : 'agent-smith';
     // write to message queue
     let message = {
@@ -24,13 +23,13 @@ const taskBroadcastToOwner = async ( caseId, task ) => {
       data: {
         utterance: utterance,
         fromUser: agent,
-        toUser: user,
+        toUser: task.owner,
         createdAt: Date.now()
       }
     };
 
     await dynamodbConnector.createCaseMessage( message );
-    await crossDeviceBroadcast( user, utterance );
+    await crossDeviceBroadcast( task.owner, utterance );
   }
   catch ( err ) {
     console.error( err );
@@ -38,7 +37,18 @@ const taskBroadcastToOwner = async ( caseId, task ) => {
 };
 
 const taskNoticeAssigneeGroup = async ( { users, task } ) => {
-  console.log( 'TODO: after group is in place.' );
+  try {
+    let utterance = `${ task.owner } assigned you a task "${ task.name }",`
+      + ` please try to finish it by ${ task.dueDate }`;
+
+    users.forEach( ( user ) => {
+      groupNotice( [ user ], utterance );
+    } );
+  }
+  catch ( err ) {
+    console.error( err );
+  }
+  console.log( 'Task notice to assignee success.' );
 };
 
 module.exports = {
