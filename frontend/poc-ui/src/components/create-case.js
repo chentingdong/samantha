@@ -4,7 +4,6 @@
 **/
 import React, { useState, useEffect } from 'react';
 import apiWrapper from '../libs/api-wrapper';
-import { Auth } from 'aws-amplify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Dropdown } from 'react-bootstrap';
 

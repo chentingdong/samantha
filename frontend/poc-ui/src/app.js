@@ -14,17 +14,17 @@ function App () {
   buildFonts();
   Amplify.configure( config );
 
-  useEffect( () => {
-    async function getUserInfo () {
-      try {
-        const userInfo = await Auth.currentUserPoolUser();
-        setUser( userInfo );
-        userHasAuthenticated( true );
-      }
-      catch ( err ) {
-        console.log( err );
-      }
+  async function getUserInfo () {
+    try {
+      const userInfo = await Auth.currentUserPoolUser();
+      setUser( userInfo );
+      userHasAuthenticated( true );
     }
+    catch ( err ) {
+      console.log( err );
+    }
+  }
+  useEffect( () => {
 
     getUserInfo();
   }, [] );
@@ -33,7 +33,7 @@ function App () {
     Hub.listen( "auth", async ( { payload: { event, data } } ) => {
       switch ( event ) {
         case "signIn":
-          userHasAuthenticated( true );
+          getUserInfo();
           break;
         case "signOut":
           userHasAuthenticated( false );
@@ -62,6 +62,7 @@ function App () {
     try {
       await Auth.signOut();
       userHasAuthenticated( false );
+      setUser( {} );
     }
     catch ( e ) {
       console.error( e );

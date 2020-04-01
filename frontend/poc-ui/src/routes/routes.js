@@ -1,9 +1,8 @@
 import React from "react";
-import { Switch } from 'react-router-dom';
+import { Switch, Redirect } from 'react-router-dom';
 
 import Suggest from '../containers/suggest-agent';
 import Home from '../containers/home';
-import Landing from '../containers/landing';
 import Login from '../containers/login';
 import Signup from '../containers/signup';
 import Settings from '../containers/settings';
@@ -89,7 +88,7 @@ function Routes ( { appProps } ) {
   return (
     <Switch>
       { routes.map( ( route, index ) => {
-        const TagName = route.tag || 'foo';
+        const TagName = route.tag;
         return (
           <TagName
             exact
