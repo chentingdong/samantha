@@ -16,9 +16,7 @@ const taskBroadcastToOwner = async ( caseId, task ) => {
       + `I will inform him after ${ task.followUpDuration } days if not finished.`;
 
     const user = task.owner;
-    const agent = {
-      name: 'agent'
-    };
+    const agent = process.env.USER ? 'agent-' + process.env.USER : 'agent-smith';
     // write to message queue
     let message = {
       id: uuidv4(),

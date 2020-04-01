@@ -82,8 +82,8 @@ const handleSocketDisconnect = async ( event, context ) => {
 /**
  * Send message to all devices of one user.
  */
-const crossDeviceBroadcast = async ( user, utterance ) => {
-  const sockets = await dynamodbConnector.listSocketsByUser( user.id );
+const crossDeviceBroadcast = async ( username, utterance ) => {
+  const sockets = await dynamodbConnector.listSocketsByUser( username );
   const promises = [];
   sockets.Items.forEach( function ( item ) {
     const connectionId = item.connectionId;
@@ -106,16 +106,16 @@ const crossDeviceBroadcast = async ( user, utterance ) => {
 const groupNotice = async ( users, utterance ) => {
   if ( users.length > 0 ) {
     try {
-      users.map( (user) => {
-        crossDeviceBroadcast( user.id, utterance )
-      } )
-      console.debug(`user notice sent: ${utterance}`)
+      users.map( ( user ) => {
+        crossDeviceBroadcast( user.id, utterance );
+      } );
+      console.debug( `user notice sent: ${ utterance }` );
     }
     catch ( err ) {
-      console.error(`group notice failed, ${err}`)
+      console.error( `group notice failed, ${ err }` );
     }
   }
-}
+};
 
 module.exports = {
   handleSocketDefault,

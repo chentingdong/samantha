@@ -134,8 +134,7 @@ function Tasks ( { currentCaseId, user } ) {
                 const color = stateColor( task.state );
                 return (
                   <tr key={ task.id } className="border-bottom border-light" >
-                    <td className={ `p-2 pt-4 pb-4 clickable text-primary border-left border-${ color }` }
-                      onClick={ e => workOnTask( task ) }>
+                    <td className={ `p-2 pt-4 pb-4 clickable text-primary border-left border-${ color }` } >
                       { task.data.name }
                     </td>
                     <td>
@@ -146,7 +145,9 @@ function Tasks ( { currentCaseId, user } ) {
                       <img className="thumbnail rounded-circle" src={ getUserAttribute( task.data.assignee, 'picture' ) } alt={ getUserAttribute( task.data.assignee, 'name' ) } />
                     </td>
                     <td className={ `border-right border-${ color }` }>
-                      <div className={ `text-${ color } badge badge-pill border border-${ color } shadow-sm` } >
+                      <div className={ `text-${ color } badge badge-pill border border-${ color } shadow-sm btn btn-light` }
+                        onClick={ e => workOnTask( task ) }
+                      >
                         <FontAwesomeIcon icon={ stateIcon( task.state ) } />
                         { task.state }
                       </div>
@@ -160,7 +161,9 @@ function Tasks ( { currentCaseId, user } ) {
       </div >
       <Modal show={ showWorkOnTaskModal } onHide={ e => setShowWorkOnTaskModal( false ) }>
         <Modal.Header closeButton>
-          <Modal.Title>Working on task { currentTask.name }</Modal.Title>
+          <Modal.Title>Manually update status for task:
+            <b> { currentTask.data ? currentTask.data.name : JSON.stringify( currentTask.data ) }</b>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <pre>

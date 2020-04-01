@@ -8,7 +8,7 @@ import logo from '../assets/bell-round.png';
 
 const CaseMessages = ( { className, messages } ) => {
   function GetIcon ( user ) {
-    if ( user.name === 'agent' ) {
+    if ( user && user.startsWith( 'agent' ) ) {
       return <img className="thumbnail"
         src={ logo }
         alt='<Fontawesome icon="robot" />' />;
