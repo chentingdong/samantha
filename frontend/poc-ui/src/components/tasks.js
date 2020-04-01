@@ -10,7 +10,7 @@ function Tasks ( { currentCaseId, user } ) {
   const [ users, setUsers ] = useState( [] );
   const [ tasks, setTasks ] = useState( [] );
   const [ currentTask, setCurrentTask ] = useState( {} );
-  const [ currentCaseName, setCurrentCaseName ] = useState( '' );
+  const [ currentCase, setCurrentCase ] = useState( '' );
   const [ editTaskModal, setEditTaskModal ] = useState( false );
   const [ showWorkOnTaskModal, setShowWorkOnTaskModal ] = useState( false );
   const taskProgress = 60;
@@ -45,7 +45,7 @@ function Tasks ( { currentCaseId, user } ) {
       .get( path )
       .then( resp => {
         if ( resp.data.data )
-          setCurrentCaseName( resp.data.data.name );
+          setCurrentCase( resp.data.data );
       } )
       .catch( err => {
         console.error( err );
@@ -91,13 +91,14 @@ function Tasks ( { currentCaseId, user } ) {
   }
 
   return (
+    currentCase &&
     <div className="">
       <div className="row mt-2 p-2">
         <div className="col-2">
           <FontAwesomeIcon icon="angle-left" />
           <span className="pl-1">Back</span>
         </div>
-        <h4 className="col-8 text-center">{ currentCaseName }</h4>
+        <h4 className="col-8 text-center">{ currentCase.name }</h4>
         <div className="col-2 text-right">
           <FontAwesomeIcon icon="info-circle" />
         </div>
@@ -105,14 +106,14 @@ function Tasks ( { currentCaseId, user } ) {
       <hr />
       <div className="row">
         <div className="col-12">
-          <h3 className="d-inline-block mr-2">Stage 0</h3>
+          <h3 className="d-inline-block mr-2">{ currentCase.name }</h3>
           <FontAwesomeIcon className="text-primary border-bottom" icon="pen" />
         </div>
         <div className="col-12">
           Deadline: { formatDate( Date.now() ) }
         </div>
         <div className="col-5">
-          { tasks.length } Tasks &#x2022; 2 People
+          { tasks.length } Tasks &#x2022;  { currentCase.participants.length } People
         </div>
         <div className="col-7">
           <ProgressBar className="" variant="light-gray" label={ `${ taskProgress }%` } now={ taskProgress } />
