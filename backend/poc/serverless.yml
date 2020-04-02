@@ -51,10 +51,6 @@ provider:
   # DynamoDB table name, as composed with parameters from this definition file
   environment:
     ENVIRONMENT: ${self:provider.stage}
-    # COGNITO_USER_POOL:
-    #   Ref: CognitoUserPool
-    # COGNITO_USER_POOL_CLIENT:
-    #   Ref: CognitoUserPoolClient
     CORS_ORIGIN: ${self:custom.corsOrigin}
     DYNAMODB_SOCKETS_TABLE: ${self:service}-sockets-${self:provider.stage}
     DYNAMODB_SOCKETS_USER_GSI: ${self:service}-sockets-user-gsi-${self:provider.stage}
@@ -90,29 +86,6 @@ provider:
         - "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 functions:
-  # authUser:
-  #   name: LAMBDA_${self:service}_auth_${self:provider.stage}
-  #   handler: handler.authUser
-  #   events:
-  #     - http:
-  #         path: auth
-  #         method: post
-  #         cors:
-  #           origin: ${self:custom.corsOrigin}
-  # authWebsocket:
-  #   name: LAMBDA_${self:service}_auth_websocket_${self:provider.stage}
-  #   handler: handler.authWebsocket
-  #   cors:
-  #     origin: ${self:custom.corsOrigin}
-  # refreshToken:
-  #   name: LAMBDA_${self:service}_auth_refresh_${self:provider.stage}
-  #   handler: handler.refreshToken
-  #   events:
-  #     - http:
-  #         path: auth/refresh
-  #         method: post
-  #         cors:
-  #           origin: ${self:custom.corsOrigin}
   handleSocketDefault:
     name: LAMBDA_${self:service}_socket_default_${self:provider.stage}
     handler: handler.handleSocketDefault
@@ -125,24 +98,12 @@ functions:
     events:
       - websocket:
           route: $connect
-          # references the authWebsocket function below, serverless doesn't provide any other
-          # way to perform this as of 01/07/2019
-          # authorizer:
-          #   name: authWebsocket
-          #   identitySource:
-          #     - 'route.request.querystring.Authorizer'
   handleSocketDisconnect:
     name: LAMBDA_${self:service}_socket_disconnect_${self:provider.stage}
     handler: handler.handleSocketDisconnect
     events:
       - websocket:
           route: $disconnect
-  # handleSocketInteraction:
-  #   name: LAMBDA_${self:service}_socket_interaction_${self:provider.stage}
-  #   handler: handler.handleSocketInteraction
-  #   events:
-  #     - websocket:
-  #         route: interaction
   webhook:
     name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
     handler: handler.webhook
@@ -451,27 +412,6 @@ functions:
           cors: true
 resources:
   Resources:
-    # CognitoUserPool:
-    #   Type: "AWS::Cognito::UserPool"
-    #   Properties:
-    #     AliasAttributes:
-    #       - preferred_username
-    #     MfaConfiguration: OFF
-    #     UserPoolName: ${self:service}-cognito-${self:provider.stage}
-    #     Policies:
-    #       PasswordPolicy:
-    #         MinimumLength: 6
-    #         RequireLowercase: False
-    #         RequireNumbers: True
-    #         RequireSymbols: False
-    #         RequireUppercase: True
-    # CognitoUserPoolClient:
-    #   Type: "AWS::Cognito::UserPoolClient"
-    #   Properties:
-    #     ClientName: ${self:service}-cognito-client-${self:provider.stage}
-    #     GenerateSecret: False
-    #     UserPoolId:
-    #       Ref: CognitoUserPool
     SocketsDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       # For a production deployment, you'd want to retain your DB
@@ -600,15 +540,3 @@ resources:
                 KeyType: HASH
             Projection:
               ProjectionType: ALL
-
-  # Outputs:
-  #   CognitoUserPoolId:
-  #     Value:
-  #       Ref: CognitoUserPool
-  #     Export:
-  #       Name: ASW-CognitoUserPoolId-${self:provider.stage}
-  #   CognitoUserPoolClientId:
-  #     Value:
-  #       Ref: CognitoUserPoolClient
-  #     Export:
-  #       Name: ASW-CognitoUserPoolClientId-${self:provider.stage}
