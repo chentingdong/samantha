@@ -11,7 +11,7 @@ const { crossDeviceBroadcast, groupNotice } = require( './websocket' );
 const taskBroadcastToOwner = async ( caseId, task ) => {
   try {
     let utterance = `Your task "${ task.name }" is added to current case.`
-      + `Your message is sent to ${ task.assignee } (use name here, fix later),`
+      + `Your message is sent to ${ task.participants } (use name here, fix later),`
       + `expecting to finish on ${ task.dueDate },`
       + `I will inform him after ${ task.followUpDuration } days if not finished.`;
 
@@ -48,7 +48,7 @@ const taskNoticeAssigneeGroup = async ( { users, task } ) => {
   catch ( err ) {
     console.error( err );
   }
-  console.log( 'Task notice to assignee success.' );
+  console.log( 'Task notice successfully sent to participants.' );
 };
 
 module.exports = {

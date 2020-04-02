@@ -100,13 +100,15 @@ const addCaseParticipant = async ( event, context ) => {
   }
 };
 
-const addCaseParticipantToDb = async ( caseId, username ) => {
+const addCaseParticipantToDb = async ( caseId, users ) => {
   const caseItem = await dynamodbConnector.getCase( caseId );
   const caseData = caseItem.Item.data;
 
   const participants = 'participants' in caseData ? caseData[ 'participants' ] : [];
-  if ( participants.indexOf( username ) === -1 )
-    participants.push( username );
+  users.forEach( user => {
+    if ( participants.indexOf( user ) === -1 )
+      participants.push( user );
+  } );
   caseData[ 'participants' ] = participants;
 
   await dynamodbConnector.updateCaseData(

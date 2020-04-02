@@ -17,8 +17,8 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
   }
 
   function validateForm () {
-    if ( task.assignee.trim() === '' ) {
-      alert( 'Please choose assignee.' );
+    if ( task.participants.length === 0 ) {
+      alert( 'Please add at one or more participants.' );
       return false;
     }
 
@@ -48,9 +48,9 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
       <hr />
       <div className="form-group col-12">
         <label>Assign to</label><br />
-        <select className="form-control" required
-          name="assignee"
-          value={ task.assignee }
+        <select className="form-control" required multiple
+          name="participants"
+          value={ task.participants }
           onChange={ setTask } >
           <option value=''>-- Assign to --</option>
           { users.map( ( user ) => {

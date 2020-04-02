@@ -149,8 +149,16 @@ function Tasks ( { currentCaseId, user } ) {
                       { formatDate( task.data.dueDate ) }
                     </td>
                     <td>
-                      {/* TODO: use assignee not owner */ }
-                      <img className="thumbnail rounded-circle" src={ getUserAttribute( task.data.assignee, 'picture' ) } alt={ getUserAttribute( task.data.assignee, 'name' ) } />
+                      { task.data.participants &&
+                        task.data.participants.map( participant => {
+                          return (
+                            <img className="thumbnail rounded-circle"
+                              key={ task.data.participants.name }
+                              src={ getUserAttribute( participant, 'picture' ) }
+                              alt={ getUserAttribute( participant, 'name' ) } />
+                          );
+                        } )
+                      }
                     </td>
                     <td className={ `border-right border-${ color }` }>
                       <div className={ `text-${ color } badge badge-pill border border-${ color } shadow-sm btn btn-light` }

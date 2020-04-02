@@ -6,8 +6,10 @@
       "description": "Planning tasks on run time",
       "icon": "columns",
       "owner": {},
+      "dueDate": " ",
+      "followUpDuration": "1",
       "participants": [],
-      "version": "0.0.1",
+      "entryCriterions": [],
       "caseFile": {},
       "planItems": []
     }
@@ -19,9 +21,10 @@
       "description": "A process to reset password",
       "icon": "key",
       "owner": {},
+      "dueDate": " ",
+      "followUpDuration": "1",
       "participants": [],
-      "version": "0.0.1",
-      "caseFile": {},
+      "entryCriterions": [],
       "planItems": []
     }
   }

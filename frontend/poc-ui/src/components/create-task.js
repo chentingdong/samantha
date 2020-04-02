@@ -78,7 +78,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
                   key={ taskDefinition.id }
                   onClick={ e => createTask( taskDefinition ) }
                 >
-                  <FontAwesomeIcon icon={ taskDefinition.data.faIcon } />
+                  <FontAwesomeIcon icon={ taskDefinition.data.icon } />
                   <span> { taskDefinition.data.name }</span>
                 </Dropdown.Item>
               );
@@ -96,7 +96,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
         <Modal.Body>
           <CreateTaskContent
             user={ user }
-            users={users}
+            users={ users }
             newTask={ newTask }
             close={ closeTask }
             submitCreateTaskForm={ submitCreateTaskForm } />

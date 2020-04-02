@@ -5,7 +5,7 @@
 
 const mochaPlugin = require( 'serverless-mocha-plugin' );
 const expect = mochaPlugin.chai.expect;
-const taskDefinitions = require( '../data/task-definitions.json' );
+const taskDefinitions = require( '../data/task-definitions-with-id.json' );
 
 describe( 'createTaskDefinition is importing data', () => {
   before( ( done ) => {

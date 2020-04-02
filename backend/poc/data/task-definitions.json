@@ -1,22 +1,22 @@
 [
   {
     "name": "Intake a form",
-    "description": "a task with an form url attached for assignee to intake",
-    "faIcon": "user-cog",
+    "description": "a task with an form url attached for assignments to intake",
+    "icon": "user-cog",
     "dueDate": " ",
     "followUpDuration": "1",
-    "assignee": " ",
+    "participants": [],
     "owner": " ",
     "entryCriterions": [],
     "formUrl": "http://example.com/doc"
   },
   {
     "name": "Ask for approval",
-    "description": "a task that provide approval/reject button for assignee",
-    "faIcon": "user-cog",
+    "description": "a task that provide approval/reject button for assignments",
+    "icon": "user-cog",
     "dueDate": " ",
     "followUpDuration": "1",
-    "assignee": " ",
+    "participants": [],
     "owner": " ",
     "entryCriterions": [],
     "formUrl": "http://example.com/doc"

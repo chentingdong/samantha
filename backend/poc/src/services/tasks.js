@@ -37,8 +37,8 @@ const createTask = async ( event, context ) => {
       caseData
     );
 
-    // add assignee to case participant
-    await addCaseParticipantToDb( caseId, task.assignee );
+    // add par to case participant
+    await addCaseParticipantToDb( caseId, task.participants );
 
     // notification
     taskBroadcastToOwner( caseId, task );

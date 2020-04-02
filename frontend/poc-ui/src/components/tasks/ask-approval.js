@@ -8,11 +8,11 @@ import React from 'react';
 const AskApprovalDesign = ( { task, setTask } ) => {
   return (
     <div className="form-group col-12">
-      <label>2. Button text</label><br/>
+      <label>2. Button text</label><br />
       <input
         className="form-control"
-        value="Ask for approval from assignee"
-        onChange={ setTask}
+        value="Ask for approval"
+        onChange={ setTask }
       />
     </div>
   );
@@ -21,8 +21,8 @@ const AskApprovalDesign = ( { task, setTask } ) => {
 const AskApprovalRun = ( { task } ) => {
   return (
     <div>
-      <div className="btn btn-light" >Ask for approval from assignee</div>
+      <div className="btn btn-light" >Ask for approval</div>
     </div>
   );
 };
-export { AskApprovalDesign, AskApprovalRun};
+export { AskApprovalDesign, AskApprovalRun };

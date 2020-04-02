@@ -1,6 +1,8 @@
 const uiBaseUrl = window.location.origin;
-const apiBaseUrl = window.location.protocol + '//' + window.location.hostname + ':3000';
-const wsUrl = 'wss://' + window.location.hostname + ':3001';
+const portWeb = uiBaseUrl.includes( 'local' ) ? ':3000' : '';
+const apiBaseUrl = window.location.protocol + '//' + window.location.hostname + portWeb;
+const portWs = uiBaseUrl.includes( 'local' ) ? ':3001' : '';
+const wsUrl = 'wss://' + window.location.hostname + portWs;
 
 const config = {
   Auth: {

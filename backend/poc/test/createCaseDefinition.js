@@ -6,7 +6,7 @@
 const mochaPlugin = require( 'serverless-mocha-plugin' );
 const expect = mochaPlugin.chai.expect;
 let wrapped = mochaPlugin.getWrapper( 'createCaseDefinition', '/handler.js', 'createCaseDefinition' );
-const caseDefinitions = require( '../data/case-definitions.json' );
+const caseDefinitions = require( '../data/case-definitions-with-id.json' );
 
 describe( 'CreateCaseDefinition is importing data', () => {
   before( ( done ) => {

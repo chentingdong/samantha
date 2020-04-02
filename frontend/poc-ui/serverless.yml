@@ -1,8 +1,5 @@
 name: website
 
-custom:
-  # user: ${env:USER}
-
 website:
   component: '@serverless/website'
   inputs:
