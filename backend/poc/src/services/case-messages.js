@@ -1,113 +1,29 @@
 'use strict';
-const dynamodbConnector = require( '../connectors/dynamodb' );
-const CONSTANTS = require( '../constants' );
-const uuid = require( 'uuid' );
+const dynamodbConnector = require('../connectors/dynamodb');
+const uuid = require('uuid');
 
-const createCaseMessage = async ( event, context ) => {
-  try {
-    const id = uuid.v4();
-    const payload = JSON.parse( event.body );
-    // const caseId = payload.caseId || ' ';
-    // const data = payload.data;
-
-    await dynamodbConnector.createCaseMessage( {
-      id: uuid.v4(),
-      caseId: payload.caseId || ' ',
-      data: payload.data
-    } );
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( { id } )
-    };
-  } catch ( err ) {
-    const errMsg = 'Unable to create case message';
-    console.error( errMsg, err );
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( { errMsg } )
-    };
-  }
+module.exports.createCaseMessage = async (event, context) => {
+  const id = uuid.v4();
+  const { caseId, data } = event.body;
+  await dynamodbConnector.createCaseMessage(id, caseId, data);
+  return { id };
 };
 
-const getCaseMessage = async ( event, context ) => {
-  try {
-    const caseId = event.pathParameters.caseId;
-    // case is a keyword...
-    const result = await dynamodbConnector.listCaseMessages(
-      caseId
-    );
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( result.Item )
-    };
-  } catch ( err ) {
-    const errMsg = 'Unable to get case message';
-    console.error( errMsg, err );
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( { err } )
-    };
-  }
+module.exports.getCaseMessage = async (event, context) => {
+  const { caseId } = event.path;
+  const { Item = {} } = await dynamodbConnector.listCaseMessages(caseId);
+  return Item;
 };
 
-const listCaseMessages = async ( event, context ) => {
-  try {
-    var result = {};
-    const params = event.queryStringParameters;
-    if ( params && 'caseId' in params ) {
-      result = await dynamodbConnector.listCaseMessagesByCase( params[ 'caseId' ] );
-    }
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( result.Items )
-    };
-  } catch ( err ) {
-    const errMsg = 'Unable to list case messages';
-    console.error( errMsg, err );
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( { errMsg } )
-    };
-  }
+module.exports.listCaseMessages = async (event, context) => {
+  // query params are optional, so deep destructuring with default values here
+  const { query: { caseId } = {} } = event;
+  const { Items = [] } = caseId ? await dynamodbConnector.listCaseMessagesByCase(caseId) : await dynamodbConnector.listCaseMessages();
+  return Items;
 };
 
-const deleteCaseMessage = async ( event, context ) => {
-  try {
-    const params = event.pathParameters;
-    const id = params.caseMessageId;
-    // case is a keyword...
-    await dynamodbConnector.deleteCaseMessage(
-      id
-    );
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Deleted'
-    };
-  } catch ( err ) {
-    const errMsg = 'Unable to delete case message';
-    console.error( errMsg, err );
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify( { errMsg } )
-    };
-  }
-};
-
-module.exports = {
-  createCaseMessage,
-  getCaseMessage,
-  listCaseMessages,
-  deleteCaseMessage
+module.exports.deleteCaseMessage = async (event, context) => {
+  const { caseMessageId: id } = event.path;
+  await dynamodbConnector.deleteCaseMessage(id);
+  return [];
 };

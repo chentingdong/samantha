@@ -111,7 +111,8 @@ functions:
       - http:
           path: webhook
           method: post
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   createCaseDefinition:
     name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
     handler: handler.createCaseDefinition
@@ -119,8 +120,8 @@ functions:
       - http:
           path: case-definitions
           method: post
-          cors:
-            origin: ${self:custom.corsOrigin}
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   getCaseDefinition:
     name: LAMBDA_${self:service}_http_get_case_definition_${self:provider.stage}
     handler: handler.getCaseDefinition
@@ -132,7 +133,8 @@ functions:
             parameters:
               paths:
                 caseDefinitionId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listCaseDefinitions:
     name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
     handler: handler.listCaseDefinitions
@@ -140,7 +142,8 @@ functions:
       - http:
           path: case-definitions
           method: get
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   deleteCaseDefinition:
     name: LAMBDA_${self:service}_http_delete_case_definition_${self:provider.stage}
     handler: handler.deleteCaseDefinition
@@ -152,7 +155,8 @@ functions:
             parameters:
               paths:
                 caseDefinitionId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   createTaskDefinition:
     name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
     handler: handler.createTaskDefinition
@@ -160,8 +164,8 @@ functions:
       - http:
           path: task-definitions
           method: post
-          cors:
-            origin: ${self:custom.corsOrigin}
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   getTaskDefinition:
     name: LAMBDA_${self:service}_http_get_task_definition_${self:provider.stage}
     handler: handler.getTaskDefinition
@@ -173,7 +177,8 @@ functions:
             parameters:
               paths:
                 taskDefinitionId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listTaskDefinitions:
     name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
     handler: handler.listTaskDefinitions
@@ -181,7 +186,8 @@ functions:
       - http:
           path: task-definitions
           method: get
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   deleteTaskDefinition:
     name: LAMBDA_${self:service}_http_delete_task_definition_${self:provider.stage}
     handler: handler.deleteTaskDefinition
@@ -193,7 +199,8 @@ functions:
             parameters:
               paths:
                 taskDefinitionId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   createCase:
     name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
     handler: handler.createCase
@@ -201,8 +208,8 @@ functions:
       - http:
           path: cases
           method: post
-          cors:
-            origin: ${self:custom.corsOrigin}
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   getCase:
     name: LAMBDA_${self:service}_http_get_case_${self:provider.stage}
     handler: handler.getCase
@@ -214,7 +221,8 @@ functions:
             parameters:
               paths:
                 caseId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listCases:
     name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
     handler: handler.listCases
@@ -222,7 +230,8 @@ functions:
       - http:
           path: cases
           method: get
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   addCaseParticipant:
     name: LAMBDA_${self:service}_add_case_participant_${self:provider.stage}
     handler: handler.addCaseParticipant
@@ -235,7 +244,8 @@ functions:
               paths:
                 caseId: true
                 username: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   completeCase:
     name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}
     handler: handler.completeCase
@@ -247,7 +257,8 @@ functions:
             parameters:
               paths:
                 caseId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   deleteCase:
     name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
     handler: handler.deleteCase
@@ -259,8 +270,8 @@ functions:
             parameters:
               paths:
                 caseId: true
-          cors: true
-
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   createTask:
     name: LAMBDA_${self:service}_http_create_task_${self:provider.stage}
     handler: handler.createTask
@@ -272,8 +283,8 @@ functions:
             parameters:
               paths:
                 caseId: true
-          cors:
-            origin: ${self:custom.corsOrigin}
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   getTask:
     name: LAMBDA_${self:service}_http_get_task_${self:provider.stage}
     handler: handler.getTask
@@ -285,7 +296,8 @@ functions:
             parameters:
               paths:
                 taskId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
       - http:
           path: cases/{caseId}/tasks/{taskId}
           method: get
@@ -294,7 +306,8 @@ functions:
               paths:
                 caseId: true
                 taskId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listTasks:
     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
     handler: handler.listTasks
@@ -302,7 +315,8 @@ functions:
       - http:
           path: tasks
           method: get
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
       - http:
           path: cases/{caseId}/tasks
           method: get
@@ -310,7 +324,8 @@ functions:
             parameters:
               paths:
                 caseId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   completeTask:
     name: LAMBDA_${self:service}_http_complete_task_${self:provider.stage}
     handler: handler.completeTask
@@ -322,7 +337,8 @@ functions:
             parameters:
               paths:
                 taskId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
       - http:
           path: cases/{caseId}/tasks/{taskId}/complete
           method: patch
@@ -331,7 +347,8 @@ functions:
               paths:
                 caseId: true
                 taskId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
     handler: handler.deleteTask
@@ -343,8 +360,9 @@ functions:
             parameters:
               paths:
                 taskId: true
-          cors: true
-
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
+  # case messages
   createCaseMessage:
     name: LAMBDA_${self:service}_http_create_case_message_${self:provider.stage}
     handler: handler.createCaseMessage
@@ -352,8 +370,8 @@ functions:
       - http:
           path: case-messages
           method: post
-          cors:
-            origin: ${self:custom.corsOrigin}
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   getCaseMessage:
     name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
     handler: handler.getCaseMessage
@@ -365,7 +383,8 @@ functions:
             parameters:
               paths:
                 caseMessageId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
     handler: handler.listCaseMessages
@@ -377,7 +396,8 @@ functions:
             parameters:
               querystrings:
                 caseId: false
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   deleteCaseMessage:
     name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
     handler: handler.deleteCaseMessage
@@ -389,7 +409,8 @@ functions:
             parameters:
               paths:
                 caseMessageId: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listUserPoolUsers:
     name: LAMBDA_${self:service}_list_users_${self:provider.stage}
     handler: handler.listUserPoolUsers
@@ -397,7 +418,8 @@ functions:
       - http:
           path: users
           method: get
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   getUserPoolUser:
     name: LAMBDA_${self:service}_get_user_${self:provider.stage}
     handler: handler.getUserPoolUser
@@ -409,134 +431,8 @@ functions:
             parameters:
               paths:
                 username: true
-          cors: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
+
 resources:
-  Resources:
-    SocketsDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: connectionId
-            AttributeType: S
-          - AttributeName: userId
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: connectionId
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_SOCKETS_TABLE}
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.DYNAMODB_SOCKETS_USER_GSI}
-            KeySchema:
-              - AttributeName: userId
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
-    CaseDefinitionsDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}
-    TaskDefinitionsDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
-    CasesDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-          - AttributeName: state
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_CASES_TABLE}
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.DYNAMODB_CASES_ON_STATE_GSI}
-            KeySchema:
-              - AttributeName: state
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
-    TasksDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-          - AttributeName: caseId
-            AttributeType: S
-          - AttributeName: state
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_TASKS_TABLE}
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_CASE_GSI}
-            KeySchema:
-              - AttributeName: caseId
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
-          - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_STATE_GSI}
-            KeySchema:
-              - AttributeName: state
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
-    CaseMessagesDynamoDbTable:
-      Type: 'AWS::DynamoDB::Table'
-      # For a production deployment, you'd want to retain your DB
-      # in case of re-deployment or stack removal to avoid data loss.
-      # DeletionPolicy: Retain
-      Properties:
-        AttributeDefinitions:
-          - AttributeName: id
-            AttributeType: S
-          - AttributeName: caseId
-            AttributeType: S
-        BillingMode: PAY_PER_REQUEST
-        KeySchema:
-          - AttributeName: id
-            KeyType: HASH
-        TableName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_TABLE}
-        GlobalSecondaryIndexes:
-          - IndexName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_CASEID_GSI}
-            KeySchema:
-              - AttributeName: caseId
-                KeyType: HASH
-            Projection:
-              ProjectionType: ALL
+  - ${file(resources/dynamodb.yml)}

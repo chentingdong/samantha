@@ -1,108 +1,27 @@
 'use strict';
-const apigatewayConnector = require('../connectors/apigateway');
 const dynamodbConnector = require('../connectors/dynamodb');
-const CONSTANTS = require('../constants');
 const uuid = require('uuid');
 
-const createCaseDefinition = async (event, context) => {
-  try {
-    const id = uuid.v4();
-    const data = JSON.parse(event.body);
-
-    await dynamodbConnector.createCaseDefinition(
-      id,
-      data
-    );
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify({id})
-    };
-  } catch (err) {
-    const errMsg = 'Unable to create case definition';
-    console.error(errMsg, err);
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: errMsg
-    }
-  }
+module.exports.createCaseDefinition = async (event, context) => {
+  const id = uuid.v4();
+  const data = event.body;
+  await dynamodbConnector.createCaseDefinition(id, data);
+  return { id };
 };
 
-const getCaseDefinition = async (event, context) => {
-  try {
-    const params = event.pathParameters;
-    const id = params.caseDefinitionId;
-    // case is a keyword...
-    const result = await dynamodbConnector.getCaseDefinition(
-      id
-    );
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Item)
-    };
-  } catch (err) {
-    const errMsg = 'Unable to get case definition';
-    console.error(errMsg, err);
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: errMsg
-    }
-  }
+module.exports.getCaseDefinition = async (event, context) => {
+  const { caseDefinitionId: id } = event.path;
+  const { Item = {} } = await dynamodbConnector.getCaseDefinition(id);
+  return Item;
 };
 
-const listCaseDefinitions = async (event, context) => {
-  try {
-    const result = await dynamodbConnector.listCaseDefinitions();
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: JSON.stringify(result.Items)
-    };
-  } catch (err) {
-    const errMsg = 'Unable to list case definitions';
-    console.error(errMsg, err);
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: errMsg
-    }
-  }
+module.exports.listCaseDefinitions = async (event, context) => {
+  const { Items = [] } = await dynamodbConnector.listCaseDefinitions();
+  return Items;
 };
 
-const deleteCaseDefinition = async (event, context) => {
-  try {
-    const params = event.pathParameters;
-    const id = params.caseDefinitionId;
-    // case is a keyword...
-    await dynamodbConnector.deleteCaseDefinition(
-      id
-    );
-
-    return {
-      statusCode: 200,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Deleted'
-    };
-  } catch (err) {
-    const errMsg = 'Unable to delete case definition';
-    console.error(errMsg, err);
-    return {
-      statusCode: 500,
-      headers: CONSTANTS.RESPONSE_HEADERS,
-      body: errMsg
-    }
-  }
-};
-
-module.exports = {
-  createCaseDefinition,
-  getCaseDefinition,
-  listCaseDefinitions,
-  deleteCaseDefinition
+module.exports.deleteCaseDefinition = async (event, context) => {
+  const { caseDefinitionId: id } = event.path;
+  await dynamodbConnector.deleteCaseDefinition(id);
+  return [];
 };

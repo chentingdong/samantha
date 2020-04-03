@@ -1,0 +1,129 @@
+Resources:
+  SocketsDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    # For a production deployment, you'd want to retain your DB
+    # in case of re-deployment or stack removal to avoid data loss.
+    # DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: connectionId
+          AttributeType: S
+        - AttributeName: userId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: connectionId
+          KeyType: HASH
+      TableName: ${self:provider.environment.DYNAMODB_SOCKETS_TABLE}
+      GlobalSecondaryIndexes:
+        - IndexName: ${self:provider.environment.DYNAMODB_SOCKETS_USER_GSI}
+          KeySchema:
+            - AttributeName: userId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+  CaseDefinitionsDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    # For a production deployment, you'd want to retain your DB
+    # in case of re-deployment or stack removal to avoid data loss.
+    # DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TableName: ${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}
+  TaskDefinitionsDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    # For a production deployment, you'd want to retain your DB
+    # in case of re-deployment or stack removal to avoid data loss.
+    # DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TableName: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
+  CasesDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    # For a production deployment, you'd want to retain your DB
+    # in case of re-deployment or stack removal to avoid data loss.
+    # DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: state
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TableName: ${self:provider.environment.DYNAMODB_CASES_TABLE}
+      GlobalSecondaryIndexes:
+        - IndexName: ${self:provider.environment.DYNAMODB_CASES_ON_STATE_GSI}
+          KeySchema:
+            - AttributeName: state
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+  TasksDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    # For a production deployment, you'd want to retain your DB
+    # in case of re-deployment or stack removal to avoid data loss.
+    # DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: caseId
+          AttributeType: S
+        - AttributeName: state
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TableName: ${self:provider.environment.DYNAMODB_TASKS_TABLE}
+      GlobalSecondaryIndexes:
+        - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_CASE_GSI}
+          KeySchema:
+            - AttributeName: caseId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+        - IndexName: ${self:provider.environment.DYNAMODB_TASKS_ON_STATE_GSI}
+          KeySchema:
+            - AttributeName: state
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
+  CaseMessagesDynamoDbTable:
+    Type: 'AWS::DynamoDB::Table'
+    # For a production deployment, you'd want to retain your DB
+    # in case of re-deployment or stack removal to avoid data loss.
+    # DeletionPolicy: Retain
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+        - AttributeName: caseId
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      TableName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_TABLE}
+      GlobalSecondaryIndexes:
+        - IndexName: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_CASEID_GSI}
+          KeySchema:
+            - AttributeName: caseId
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL

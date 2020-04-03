@@ -1,6 +1,5 @@
 'use strict';
 
-const aws = require( 'aws-sdk' );
 const CONSTANTS = require('../constants');
 const dynamodb = require('serverless-dynamodb-client');
 
@@ -64,24 +63,24 @@ class DynamoDbConnector {
   async getCaseDefinition(id) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
-      Item: {
+      Key: {
         id
       }
     };
     return await this._connector.get(params).promise();
   }
 
-  async getCaseMessages ( caseId ) {
+  async getCaseMessages(caseId) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
       ExpressionAttributeValues: {
         ':caseId': caseId
       },
-      Key: {id, caseId, state, data }
+      Key: { id, caseId, state, data }
     }
 
-    return await this._connector.get( params ).promise();
+    return await this._connector.get(params).promise();
   }
 
   async listCaseDefinitions() {
@@ -115,7 +114,7 @@ class DynamoDbConnector {
   async getTaskDefinition(id) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
-      Item: {
+      Key: {
         id
       }
     };
@@ -173,8 +172,8 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Key: { id },
       UpdateExpression: 'set #state = :state',
-      ExpressionAttributeNames: {'#state' : 'state'},
-      ExpressionAttributeValues: {':state': state}
+      ExpressionAttributeNames: { '#state': 'state' },
+      ExpressionAttributeValues: { ':state': state }
     };
     return await this._connector.update(params).promise();
   }
@@ -184,8 +183,8 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Key: { id },
       UpdateExpression: 'set #data = :data',
-      ExpressionAttributeNames: {'#data' : 'data'},
-      ExpressionAttributeValues: {':data': data}
+      ExpressionAttributeNames: { '#data': 'data' },
+      ExpressionAttributeValues: { ':data': data }
     };
     return await this._connector.update(params).promise();
   }
@@ -216,7 +215,7 @@ class DynamoDbConnector {
   async getTask(id) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
-      Item: {
+      Key: {
         id
       }
     };
@@ -247,8 +246,8 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Key: { id },
       UpdateExpression: 'set #state = :state',
-      ExpressionAttributeNames: {'#state' : 'state'},
-      ExpressionAttributeValues: {':state': state}
+      ExpressionAttributeNames: { '#state': 'state' },
+      ExpressionAttributeValues: { ':state': state }
     };
     return await this._connector.update(params).promise();
   }
@@ -263,10 +262,10 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createCaseMessage ( message ) {
+  async createCaseMessage(id, caseId, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
-      Item: message
+      Item: { id, caseId, data }
     };
     return await this._connector.put(params).promise();
   }

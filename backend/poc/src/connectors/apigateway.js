@@ -12,7 +12,7 @@ const isOffline = function () {
 
 class ApiGatewayConnector {
   constructor() {
-    var CONNECTOR_OPTS = {};
+    let CONNECTOR_OPTS = {};
     if (isOffline()) {
       const ca = require('fs').readFileSync(__dirname + '/../../certs/rootCA.pem');
       const options = {ca};
