@@ -10,7 +10,7 @@ custom:
   # This can be changed to the desired origin
   # When using lambda proxy integration, you have to manually add the CORS headers to responses...
   # https://github.com/serverless/serverless/issues/4681
-  corsOrigin: '*'
+  corsOrigin: "*"
   user: ${env:USER}
   dynamodb:
     stages:
@@ -64,7 +64,18 @@ provider:
     DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-case-messages-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_CASEID_GSI: ${self:service}-case-messages-caseid-gsi-${self:provider.stage}
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
-    WEBSOCKET_API_ENDPOINT: !Join ['', ['https://', !Ref WebsocketsApi, '.execute-api.', '${self:provider.region}', '.amazonaws.com/', '${self:provider.stage}/']]
+    WEBSOCKET_API_ENDPOINT:
+      !Join [
+        "",
+        [
+          "https://",
+          !Ref WebsocketsApi,
+          ".execute-api.",
+          "${self:provider.region}",
+          ".amazonaws.com/",
+          "${self:provider.stage}/",
+        ],
+      ]
   # Define the service IAM permissions
   iamRoleStatements:
     # Websocket permissions
@@ -327,7 +338,7 @@ functions:
           integration: lambda
           response: ${file(config/default-response-config.yml)}
   updateTaskState:
-    name: LAMBDA_${self:service}_http_complete_task_${self:provider.stage}
+    name: LAMBDA_${self:service}_http_update_task_state_${self:provider.stage}
     handler: handler.updateTaskState
     events:
       - http:
