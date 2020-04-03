@@ -9,7 +9,7 @@
       "followUpDuration": "1",
       "owner": " ",
       "participants": [],
-      "dependsOn": [],
+      "dependsOns": [],
       "planItems": []
     }
   },
@@ -23,7 +23,7 @@
       "followUpDuration": "1",
       "owner": " ",
       "participants": [],
-      "dependsOn": [],
+      "dependsOns": [],
       "planItems": []
     }
   }

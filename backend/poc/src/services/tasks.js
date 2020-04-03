@@ -19,7 +19,14 @@ const createTask = async ( event, context ) => {
     );
     const caseData = caseItem.Item.data;
 
-    // create task
+    // register event
+    // if ( task.dependsOns.length > 0 ) {
+    //   task.dependsOns.forEach( taskId => {
+    //     eventEmitter.addListener( 'dependsOnTaskCompleted', startTask( task ) );
+    //   } );
+    // }
+
+    // create task after registered dependsOn listeners
     await dynamodbConnector.createTaskInCase(
       id,
       caseId,
@@ -43,7 +50,6 @@ const createTask = async ( event, context ) => {
 
     // notification
     taskBroadcastToOwner( caseId, task );
-    task;
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
@@ -162,6 +168,10 @@ const deleteTask = async ( event, context ) => {
       body: JSON.stringify( { errMsg } )
     };
   }
+};
+
+const startTask = ( task ) => {
+  task.state = 'Active';
 };
 
 module.exports = {

@@ -86,7 +86,10 @@ const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
           }
         </Dropdown.Menu>
       </Dropdown>
-      <Modal show={ showCreateModal } onHide={ closeTask } key={ newTask.id }>
+      <Modal className="container-fluid"
+        show={ showCreateModal }
+        onHide={ closeTask }
+        key={ newTask.id }>
         <Modal.Header closeButton>
           <Modal.Title>
             <h3>{ newTask.name }</h3>

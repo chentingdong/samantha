@@ -37,8 +37,8 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users, task
         <label>Depend on task</label>
         { console.log( JSON.stringify( tasks, null, 2 ) ) }
         <select className="form-control" multiple
-          name="dependsOn"
-          value={ task.dependsOn }
+          name="dependsOns"
+          value={ task.dependsOns }
           onChange={ setTask }>
           { tasks.map( task => {
             return <option value={ task.id } key={ task.id }>{ task.data.name }</option>;
