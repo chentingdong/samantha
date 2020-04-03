@@ -78,7 +78,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
                   key={ taskDefinition.id }
                   onClick={ e => createTask( taskDefinition ) }
                 >
-                  <FontAwesomeIcon icon={ taskDefinition.data.icon } />
+                  <FontAwesomeIcon icon={ taskDefinition.data.icon || 'cog' } />
                   <span> { taskDefinition.data.name }</span>
                 </Dropdown.Item>
               );

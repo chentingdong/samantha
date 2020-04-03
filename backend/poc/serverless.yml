@@ -326,12 +326,12 @@ functions:
                 caseId: true
           integration: lambda
           response: ${file(config/default-response-config.yml)}
-  completeTask:
+  updateTaskState:
     name: LAMBDA_${self:service}_http_complete_task_${self:provider.stage}
-    handler: handler.completeTask
+    handler: handler.updateTaskState
     events:
       - http:
-          path: tasks/{taskId}/complete
+          path: tasks/{taskId}/{state}
           method: patch
           request:
             parameters:
@@ -340,7 +340,7 @@ functions:
           integration: lambda
           response: ${file(config/default-response-config.yml)}
       - http:
-          path: cases/{caseId}/tasks/{taskId}/complete
+          path: cases/{caseId}/tasks/{taskId}/{state}
           method: patch
           request:
             parameters:

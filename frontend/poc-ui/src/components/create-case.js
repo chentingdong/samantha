@@ -64,7 +64,7 @@ const CreateCase = ( { user, className, cases, setCases, setCurrentCaseId } ) =>
                 <Dropdown.Item eventKey="1"
                   onClick={ e => createCase( caseDefinition ) }
                   key={ caseDefinition.id }>
-                  <FontAwesomeIcon icon={ caseDefinition.data.icon } />
+                  <FontAwesomeIcon icon={ caseDefinition.data.icon || 'cog' } />
                   <span> { caseDefinition.data.name }</span>
                 </Dropdown.Item>
               );

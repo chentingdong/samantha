@@ -44,7 +44,7 @@ function CasesMenu ( { user, className, currentCaseId, setCurrentCaseId } ) {
               className={ `menu-item col-12 bg-darker p-2 clickable ${ active }` }
               onClick={ e => setCurrentCaseId( c.id ) } >
               <div>
-                <FontAwesomeIcon icon={ c.data.icon } className="" />
+                <FontAwesomeIcon icon={ c.data.icon || 'cog' } className="" />
                 <span className="ml-2"> { c.data.name }</span>
               </div>
               <div className="text-gray pl-4 small">

@@ -37,10 +37,11 @@ function stateIcon ( state ) {
   if ( !state ) return '';
 
   let icon = '';
-  switch ( state.toLowerCase() ) {
-    case 'active': icon = 'bolt'; break;
-    case 'block': icon = 'lock'; break;
-    default: icon = '';
+  switch ( state ) {
+    case 'Active': icon = 'bolt'; break;
+    case 'Pending': icon = 'lock'; break;
+    case 'Complete': icon = 'check'; break;
+    default: icon = 'cog';
   }
   return icon;
 }

@@ -81,20 +81,25 @@ function Tasks ( { currentCaseId, user } ) {
     setShowWorkOnTaskModal( false );
   }
 
-  function completeCurrentTask () {
+  async function updateCurrentTaskState ( state ) {
     // User manually complete the task by clicking the complete button
-    let path = `/tasks/${ currentTask.id }/complete`;
-    apiWrapper
-      .patch( path )
-      .then( resp => {
-        if ( resp.status !== 200 )
-          console.error( `something is wrong, ${ resp.data }` );
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
+    let path = `/tasks/${ currentTask.id }/${ state }`;
+    let resp = await apiWrapper.patch( path );
+    setCurrentTask( { [ state ]: resp.data.state, ...currentTask } );
 
+    // update currentTask in tasks listing
+    setTasks( ( tasks ) => {
+      let updatedTasks = tasks;
+      let currTask = updatedTasks.filter( t => t.id === currentTask.id )[ 0 ];
+      currTask.state = resp.data.state;
+      return updatedTasks;
+    } );
     setShowWorkOnTaskModal( false );
+  }
+
+  function reopenCurrentTask () {
+    if ( currentTask.state === 'Complete' )
+      updateCurrentTaskState( 'Active' );
   }
 
   return (
@@ -218,7 +223,13 @@ function Tasks ( { currentCaseId, user } ) {
           <button className="btn btn-secondary" onClick={ deleteCurrentTask }>
             abandon task
           </button>
-          <button className="btn btn-success" onClick={ completeCurrentTask }>
+          <button className="btn btn-secondary" onClick={ reopenCurrentTask }>
+            reopen task
+          </button>
+          <button className="btn btn-secondary" onClick={ e => updateCurrentTaskState( 'Active' ) }>
+            start task
+          </button>
+          <button className="btn btn-success" onClick={ e => updateCurrentTaskState( 'Complete' ) }>
             complete task
           </button>
         </Modal.Footer>

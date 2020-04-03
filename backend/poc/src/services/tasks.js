@@ -79,13 +79,16 @@ module.exports.deleteTask = async ( event, context ) => {
   return [];
 };
 
-module.exports.completeTask = async ( event, context ) => {
-  const { taskId: id } = event.path;
+module.exports.updateTaskState = async ( event, context ) => {
+  const { taskId: id, state } = event.path;
 
-  const { task = {} } = await dynamodbConnector.getTask( taskId );
+  const { task = {} } = await dynamodbConnector.getTask( id );
   eventEmitter.emit( 'taskComplete', task );
-  if ( task.state === 'Active' ) {
+  if ( task.state === 'Active' && state === 'Complete' ) {
     const state = 'Complete';
+    await dynamodbConnector.updateTaskState( id, state );
+  }
+  else {
     await dynamodbConnector.updateTaskState( id, state );
   }
 
