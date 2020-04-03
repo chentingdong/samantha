@@ -7,20 +7,22 @@ function useFormFields ( initialState ) {
     function ( event ) {
       if ( event.target ) {
         if ( event.target.tagName.toLowerCase() === 'select' && 'multiple' in event.target.attributes ) {
-          let value = [];
+          // multiple select
+          let values = [];
           event.target.childNodes.forEach( option => {
-            if ( option.selected && option.value ) value.push( option.value );
+            if ( option.selected && option.value && values.indexOf( option.value ) === -1 )
+              values.push( option.value );
           } );
           setValues( {
             ...fields,
-            [ event.target.name ]: value
+            [ event.target.name ]: values
           } );
         }
         else {
-          // exp. input, textarea, select.
+          // exp. input, textarea, single select.
           setValues( {
             ...fields,
-            [ event.target.name ]: event.target.name.push( event.target.value )
+            [ event.target.name ]: event.target.value
           } );
         }
       }

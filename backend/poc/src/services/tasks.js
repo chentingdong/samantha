@@ -4,6 +4,7 @@ const CONSTANTS = require( '../constants' );
 const uuid = require( 'uuid' );
 const { taskBroadcastToOwner } = require( './task-templates' );
 const { addCaseParticipantToDb } = require( './cases' );
+const { eventEmitter } = require( './events' );
 
 const createTask = async ( event, context ) => {
   try {
@@ -120,6 +121,7 @@ const completeTask = async ( event, context ) => {
       id,
       state
     );
+
 
     return {
       statusCode: 200,

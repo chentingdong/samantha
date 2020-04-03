@@ -9,7 +9,7 @@
       "dueDate": " ",
       "followUpDuration": "1",
       "participants": [],
-      "entryCriterions": [],
+      "dependsOn": [],
       "caseFile": {},
       "planItems": []
     }
@@ -24,7 +24,7 @@
       "dueDate": " ",
       "followUpDuration": "1",
       "participants": [],
-      "entryCriterions": [],
+      "dependsOn": [],
       "planItems": []
     }
   }

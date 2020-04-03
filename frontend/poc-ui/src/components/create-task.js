@@ -97,6 +97,7 @@ const NewTask = ( { tasks, setTasks, currentCaseId, user, users } ) => {
           <CreateTaskContent
             user={ user }
             users={ users }
+            tasks={ tasks }
             newTask={ newTask }
             close={ closeTask }
             submitCreateTaskForm={ submitCreateTaskForm } />

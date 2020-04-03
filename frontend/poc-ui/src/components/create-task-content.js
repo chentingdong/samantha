@@ -6,7 +6,7 @@ import { useFormFields } from '../libs/custom-hooks';
 import { IntakeFormDesign, IntakeFormRun } from './tasks/intake-form';
 import { AskApprovalDesign, AskApprovalRun } from './tasks/ask-approval';
 
-function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
+function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users, tasks } ) {
   const [ task, setTask ] = useFormFields( newTask );
 
   function submit ( event ) {
@@ -35,7 +35,15 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
       </div>
       <div className="form-group col-6">
         <label>Depend on task</label>
-        <input className="form-control" name="dependsOn" value={ task.dependsOn } onChange={ setTask } />
+        { console.log( JSON.stringify( tasks, null, 2 ) ) }
+        <select className="form-control" multiple
+          name="dependsOn"
+          value={ task.dependsOn }
+          onChange={ setTask }>
+          { tasks.map( task => {
+            return <option value={ task.id } key={ task.id }>{ task.data.name }</option>;
+          } ) }
+        </select>
       </div>
       <div className="form-group col-12">
         <label>Task description</label>
@@ -52,7 +60,6 @@ function CreateTaskContent ( { newTask, close, submitCreateTaskForm, users } ) {
           name="participants"
           value={ task.participants }
           onChange={ setTask } >
-          <option value=''>-- Assign to --</option>
           { users.map( ( user ) => {
             return <option value={ user.username } key={ user.username }>{ user.attributes.name }</option>;
           } ) }
