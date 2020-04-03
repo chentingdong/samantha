@@ -153,7 +153,7 @@ function Tasks ( { currentCaseId, user } ) {
                         task.data.participants.map( participant => {
                           return (
                             <img className="thumbnail rounded-circle"
-                              key={ task.data.participants.name }
+                              key={ participant }
                               src={ getUserAttribute( participant, 'picture' ) }
                               alt={ getUserAttribute( participant, 'name' ) } />
                           );

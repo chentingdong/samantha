@@ -25,6 +25,7 @@
     "eslint-plugin-flowtype": "^4.6.0",
     "fibers": "^4.0.2",
     "file-loader": "^5.1.0",
+    "flatted": "^2.0.2",
     "gojs": "^2.1.8",
     "gojs-react": "^1.0.5",
     "html-to-text": "^5.1.1",

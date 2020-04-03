@@ -120,14 +120,14 @@
 						"Ref": "AWS::StackId"
 					},
 					"permissions": "",
-					"dependsOn": "",
+					"dependsOns": "",
 					"hostedUIProviderCreds": "[]",
 					"env": "dev"
 				}
 			}
 		},
 		"UpdateRolesWithIDPFunction": {
-			"DependsOn": [
+			"dependsOns": [
 				"AuthRole",
 				"UnauthRole",
 				"authsamantha673e9c6e"

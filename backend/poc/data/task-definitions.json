@@ -7,7 +7,7 @@
     "followUpDuration": "1",
     "participants": [],
     "owner": " ",
-    "entryCriterions": [],
+    "dependsOns": [],
     "formUrl": "http://example.com/doc"
   },
   {
@@ -18,7 +18,7 @@
     "followUpDuration": "1",
     "participants": [],
     "owner": " ",
-    "entryCriterions": [],
+    "dependsOns": [],
     "formUrl": "http://example.com/doc"
   }
 ]
