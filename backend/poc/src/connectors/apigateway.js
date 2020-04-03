@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-const aws = require('aws-sdk');
+const aws = require("aws-sdk");
 
-const CONSTANTS = require('../constants');
-const dynamodbConnector = require('./dynamodb');
+const CONSTANTS = require("../constants");
+const dynamodbConnector = require("./dynamodb");
 
 const isOffline = function () {
   // Depends on serverless-offline plugion which adds IS_OFFLINE to process.env when running offline
@@ -14,19 +14,21 @@ class ApiGatewayConnector {
   constructor() {
     let CONNECTOR_OPTS = {};
     if (isOffline()) {
-      const ca = require('fs').readFileSync(__dirname + '/../../certs/rootCA.pem');
-      const options = {ca};
-      const agent = new require('https').Agent(options);
+      const ca = require("fs").readFileSync(
+        __dirname + "/../../certs/rootCA.pem"
+      );
+      const options = { ca };
+      const agent = new require("https").Agent(options);
       CONNECTOR_OPTS = {
         region: "localhost",
         endpoint: "https://localhost:3001/",
         sslEnabled: true,
-        httpOptions: {agent}
+        httpOptions: { agent },
       };
     } else {
       CONNECTOR_OPTS = {
         endpoint: CONSTANTS.WEBSOCKET_API_ENDPOINT,
-        sslEnabled: true
+        sslEnabled: true,
       };
     }
 
@@ -39,12 +41,14 @@ class ApiGatewayConnector {
 
   async generateSocketMessage(connectionId, data) {
     try {
-      return await this._connector.postToConnection({
-        ConnectionId: connectionId,
-        Data: data
-      }).promise();
+      return await this._connector
+        .postToConnection({
+          ConnectionId: connectionId,
+          Data: data,
+        })
+        .promise();
     } catch (error) {
-      console.error('Unable to generate socket message', error);
+      console.error("Unable to generate socket message", error);
       if (error.statusCode === 410) {
         console.log(`Removing stale connector ${connectionId}`);
         await dynamodbConnector.deleteSocket(connectionId);

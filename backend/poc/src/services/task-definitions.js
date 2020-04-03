@@ -1,6 +1,6 @@
-'use strict';
-const dynamodbConnector = require('../connectors/dynamodb');
-const uuid = require('uuid');
+"use strict";
+const dynamodbConnector = require("../connectors/dynamodb");
+const uuid = require("uuid");
 
 module.exports.createTaskDefinition = async (event, context) => {
   const id = uuid.v4();
@@ -10,7 +10,7 @@ module.exports.createTaskDefinition = async (event, context) => {
 };
 
 module.exports.getTaskDefinition = async (event, context) => {
-  const { taskDefinitionId : id } = event.path;
+  const { taskDefinitionId: id } = event.path;
   const { Item = {} } = await dynamodbConnector.getTaskDefinition(id);
   return Item;
 };
@@ -21,7 +21,7 @@ module.exports.listTaskDefinitions = async (event, context) => {
 };
 
 module.exports.deleteTaskDefinition = async (event, context) => {
-  const { taskDefinitionId : id } = event.path;
+  const { taskDefinitionId: id } = event.path;
   await dynamodbConnector.deleteTaskDefinition(id);
   return [];
 };

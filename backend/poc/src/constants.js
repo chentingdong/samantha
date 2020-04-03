@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 const CONSTANTS = {
   ENVIRONMENT: process.env.ENVIRONMENT,
@@ -14,18 +14,20 @@ const CONSTANTS = {
   DYNAMODB_TASKS_TABLE: process.env.DYNAMODB_TASKS_TABLE,
   DYNAMODB_TASKS_ON_CASE_GSI: process.env.DYNAMODB_TASKS_ON_CASE_GSI,
   DYNAMODB_CASE_MESSAGES_TABLE: process.env.DYNAMODB_CASE_MESSAGES_TABLE,
-  DYNAMODB_CASE_MESSAGES_CASEID_GSI: process.env.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
+  DYNAMODB_CASE_MESSAGES_CASEID_GSI:
+    process.env.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
   KEYS_URL: process.env.KEYS_URL,
   SIGNED_URL_EXPIRE_SECONDS: 60 * 60,
   WEBSOCKET_API_ENDPOINT: process.env.WEBSOCKET_API_ENDPOINT,
   RESPONSE_HEADERS: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
     "Set-Cookie": "HttpOnly;Secure;SameSite=Strict",
-    'Access-Control-Allow-Origin': process.env.CORS_ORIGIN,
-    'Access-Control-Allow-Credentials': 'true',
-    'Access-Control-Allow-Methods': 'GET,HEAD,OPTIONS,POST,PUT,DELETE',
-    'Access-Control-Allow-Headers': 'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'
-  }
+    "Access-Control-Allow-Origin": process.env.CORS_ORIGIN,
+    "Access-Control-Allow-Credentials": "true",
+    "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS,POST,PUT,DELETE",
+    "Access-Control-Allow-Headers":
+      "Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers",
+  },
 };
 
 module.exports = CONSTANTS;
