@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
-const CONSTANTS = require('../constants');
-const dynamodb = require('serverless-dynamodb-client');
+const CONSTANTS = require("../constants");
+const dynamodb = require("serverless-dynamodb-client");
 
 // TODO: divide into multiple models
 class DynamoDbConnector {
@@ -18,8 +18,8 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
       Item: {
         connectionId,
-        userId
-      }
+        userId,
+      },
     };
 
     return await this._connector.put(socketParams).promise();
@@ -29,8 +29,8 @@ class DynamoDbConnector {
     const socketParams = {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
       Key: {
-        connectionId
-      }
+        connectionId,
+      },
     };
 
     return await this._connector.delete(socketParams).promise();
@@ -40,10 +40,10 @@ class DynamoDbConnector {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
       IndexName: CONSTANTS.DYNAMODB_SOCKETS_USER_GSI,
-      KeyConditionExpression: 'userId = :userId',
+      KeyConditionExpression: "userId = :userId",
       ExpressionAttributeValues: {
-        ':userId': userId
-      }
+        ":userId": userId,
+      },
     };
 
     return await this._connector.query(queryParams).promise();
@@ -54,8 +54,8 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
       Item: {
         id,
-        data
-      }
+        data,
+      },
     };
     return await this._connector.put(params).promise();
   }
@@ -64,8 +64,8 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.get(params).promise();
   }
@@ -75,17 +75,17 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
       ExpressionAttributeValues: {
-        ':caseId': caseId
+        ":caseId": caseId,
       },
-      Key: { id, caseId, state, data }
-    }
+      Key: { id, caseId, state, data },
+    };
 
     return await this._connector.get(params).promise();
   }
 
   async listCaseDefinitions() {
     const queryParams = {
-      TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE
+      TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
     };
     return await this._connector.scan(queryParams).promise();
   }
@@ -94,8 +94,8 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_DEFINITIONS_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.delete(params).promise();
   }
@@ -105,8 +105,8 @@ class DynamoDbConnector {
       TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
       Item: {
         id,
-        data
-      }
+        data,
+      },
     };
     return await this._connector.put(params).promise();
   }
@@ -115,15 +115,15 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.get(params).promise();
   }
 
   async listTaskDefinitions() {
     const queryParams = {
-      TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE
+      TableName: CONSTANTS.DYNAMODB_TASK_DEFINITIONS_TABLE,
     };
     return await this._connector.scan(queryParams).promise();
   }
@@ -132,8 +132,8 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASK_DEFINITION_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.delete(params).promise();
   }
@@ -144,8 +144,8 @@ class DynamoDbConnector {
       Item: {
         id,
         state,
-        data
-      }
+        data,
+      },
     };
     return await this._connector.put(params).promise();
   }
@@ -154,15 +154,15 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.get(params).promise();
   }
 
   async listCases() {
     const queryParams = {
-      TableName: CONSTANTS.DYNAMODB_CASES_TABLE
+      TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
     };
     return await this._connector.scan(queryParams).promise();
   }
@@ -171,9 +171,9 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Key: { id },
-      UpdateExpression: 'set #state = :state',
-      ExpressionAttributeNames: { '#state': 'state' },
-      ExpressionAttributeValues: { ':state': state }
+      UpdateExpression: "set #state = :state",
+      ExpressionAttributeNames: { "#state": "state" },
+      ExpressionAttributeValues: { ":state": state },
     };
     return await this._connector.update(params).promise();
   }
@@ -182,9 +182,9 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Key: { id },
-      UpdateExpression: 'set #data = :data',
-      ExpressionAttributeNames: { '#data': 'data' },
-      ExpressionAttributeValues: { ':data': data }
+      UpdateExpression: "set #data = :data",
+      ExpressionAttributeNames: { "#data": "data" },
+      ExpressionAttributeValues: { ":data": data },
     };
     return await this._connector.update(params).promise();
   }
@@ -193,8 +193,8 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASES_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.delete(params).promise();
   }
@@ -206,8 +206,8 @@ class DynamoDbConnector {
         id,
         caseId,
         state,
-        data
-      }
+        data,
+      },
     };
     return await this._connector.put(params).promise();
   }
@@ -216,15 +216,15 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.get(params).promise();
   }
 
   async listTasks() {
     const queryParams = {
-      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE
+      TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
     };
     return await this._connector.scan(queryParams).promise();
   }
@@ -233,10 +233,10 @@ class DynamoDbConnector {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       IndexName: CONSTANTS.DYNAMODB_TASKS_ON_CASE_GSI,
-      KeyConditionExpression: 'caseId = :caseId',
+      KeyConditionExpression: "caseId = :caseId",
       ExpressionAttributeValues: {
-        ':caseId': caseId
-      }
+        ":caseId": caseId,
+      },
     };
     return await this._connector.query(queryParams).promise();
   }
@@ -245,9 +245,9 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Key: { id },
-      UpdateExpression: 'set #state = :state',
-      ExpressionAttributeNames: { '#state': 'state' },
-      ExpressionAttributeValues: { ':state': state }
+      UpdateExpression: "set #state = :state",
+      ExpressionAttributeNames: { "#state": "state" },
+      ExpressionAttributeValues: { ":state": state },
     };
     return await this._connector.update(params).promise();
   }
@@ -256,8 +256,8 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_TASKS_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.delete(params).promise();
   }
@@ -265,14 +265,14 @@ class DynamoDbConnector {
   async createCaseMessage(id, caseId, data) {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
-      Item: { id, caseId, data }
+      Item: { id, caseId, data },
     };
     return await this._connector.put(params).promise();
   }
 
   async listCaseMessages() {
     const queryParams = {
-      TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE
+      TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
     };
     return await this._connector.scan(queryParams).promise();
   }
@@ -281,10 +281,10 @@ class DynamoDbConnector {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       IndexName: CONSTANTS.DYNAMODB_CASE_MESSAGES_CASEID_GSI,
-      KeyConditionExpression: 'caseId = :caseId',
+      KeyConditionExpression: "caseId = :caseId",
       ExpressionAttributeValues: {
-        ':caseId': caseId
-      }
+        ":caseId": caseId,
+      },
     };
     return await this._connector.query(queryParams).promise();
   }
@@ -293,14 +293,12 @@ class DynamoDbConnector {
     const params = {
       TableName: CONSTANTS.DYNAMODB_CASE_MESSAGES_TABLE,
       Key: {
-        id
-      }
+        id,
+      },
     };
     return await this._connector.delete(params).promise();
   }
-
 }
-
 
 const DYNAMODB_CONNECTOR = new DynamoDbConnector();
 module.exports = DYNAMODB_CONNECTOR;

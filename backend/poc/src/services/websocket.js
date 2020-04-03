@@ -1,80 +1,89 @@
-'use strict';
+"use strict";
 
-const apigatewayConnector = require( '../connectors/apigateway' );
-const dynamodbConnector = require( '../connectors/dynamodb' );
-const CONSTANTS = require( '../constants' );
+const apigatewayConnector = require("../connectors/apigateway");
+const dynamodbConnector = require("../connectors/dynamodb");
+const CONSTANTS = require("../constants");
 
-module.exports.handleSocketDefault = async ( event, context ) => {
+module.exports.handleSocketDefault = async (event, context) => {
   try {
-    const data = JSON.parse( event.body );
+    const data = JSON.parse(event.body);
     const action = data.action;
 
     const connectionId = event.requestContext.connectionId;
-    switch ( action ) {
-      case 'PING':
-        const pingResponse = JSON.stringify( { action: 'PING', value: 'PONG' } );
-        await apigatewayConnector.generateSocketMessage( connectionId, pingResponse );
+    switch (action) {
+      case "PING":
+        const pingResponse = JSON.stringify({ action: "PING", value: "PONG" });
+        await apigatewayConnector.generateSocketMessage(
+          connectionId,
+          pingResponse
+        );
         break;
       default:
-        const invalidResponse = JSON.stringify( { action: 'ERROR', error: 'Invalid request' } );
-        await apigatewayConnector.generateSocketMessage( connectionId, invalidResponse );
+        const invalidResponse = JSON.stringify({
+          action: "ERROR",
+          error: "Invalid request",
+        });
+        await apigatewayConnector.generateSocketMessage(
+          connectionId,
+          invalidResponse
+        );
     }
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Default socket response.'
+      body: "Default socket response.",
     };
-  } catch ( err ) {
-    console.error( 'Unable to generate default response', err );
+  } catch (err) {
+    console.error("Unable to generate default response", err);
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Default socket response error.'
+      body: "Default socket response error.",
     };
   }
 };
 
-module.exports.handleSocketConnect = async ( event, context ) => {
+module.exports.handleSocketConnect = async (event, context) => {
   try {
     const user = event.queryStringParameters.user;
-    const userId = JSON.parse( user ).id;
+    const userId = JSON.parse(user).id;
     const connectionId = event.requestContext.connectionId;
 
-    await dynamodbConnector.createSocket( connectionId, userId );
+    await dynamodbConnector.createSocket(connectionId, userId);
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Socket successfully registered.'
+      body: "Socket successfully registered.",
     };
-  } catch ( err ) {
-    console.error( 'Unable to initialize socket connection', err );
+  } catch (err) {
+    console.error("Unable to initialize socket connection", err);
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Unable to register socket.'
+      body: "Unable to register socket.",
     };
   }
 };
 
-module.exports.handleSocketDisconnect = async ( event, context ) => {
+module.exports.handleSocketDisconnect = async (event, context) => {
   try {
     const connectionId = event.requestContext.connectionId;
 
-    await dynamodbConnector.deleteSocket( connectionId );
+    await dynamodbConnector.deleteSocket(connectionId);
 
     return {
       statusCode: 200,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Socket successfully terminated.'
+      body: "Socket successfully terminated.",
     };
-  } catch ( err ) {
-    console.error( 'Unable to terminate socket connection', err );
+  } catch (err) {
+    console.error("Unable to terminate socket connection", err);
     return {
       statusCode: 500,
       headers: CONSTANTS.RESPONSE_HEADERS,
-      body: 'Unable to terminate socket.'
+      body: "Unable to terminate socket.",
     };
   }
 };
@@ -82,22 +91,21 @@ module.exports.handleSocketDisconnect = async ( event, context ) => {
 /**
  * Send message to all devices of one user.
  */
-const crossDeviceBroadcast = async ( username, utterance ) => {
-  const sockets = await dynamodbConnector.listSocketsByUser( username );
+const crossDeviceBroadcast = async (username, utterance) => {
+  const sockets = await dynamodbConnector.listSocketsByUser(username);
   const promises = [];
-  sockets.Items.forEach( function ( item ) {
+  sockets.Items.forEach(function (item) {
     const connectionId = item.connectionId;
 
     try {
-      promises.push( apigatewayConnector.generateSocketMessage(
-        connectionId,
-        utterance
-      ) );
-    } catch ( err ) {
-      console.error( `Unable to respond to ${ connectionId }`, err );
+      promises.push(
+        apigatewayConnector.generateSocketMessage(connectionId, utterance)
+      );
+    } catch (err) {
+      console.error(`Unable to respond to ${connectionId}`, err);
     }
-  } );
-  await Promise.all( promises );
+  });
+  await Promise.all(promises);
 };
 
 module.exports.crossDeviceBroadcast = crossDeviceBroadcast;
@@ -105,16 +113,15 @@ module.exports.crossDeviceBroadcast = crossDeviceBroadcast;
 /**
  * Send message to a group of participants
  */
-module.exports.groupNotice = async ( participants, utterance ) => {
-  if ( participants.length > 0 ) {
+module.exports.groupNotice = async (participants, utterance) => {
+  if (participants.length > 0) {
     try {
-      participants.map( ( participant ) => {
-        crossDeviceBroadcast( participant, utterance );
-      } );
-      console.debug( `user notice sent: ${ utterance }` );
-    }
-    catch ( err ) {
-      console.error( `group notice failed, ${ err }` );
+      participants.map((participant) => {
+        crossDeviceBroadcast(participant, utterance);
+      });
+      console.debug(`user notice sent: ${utterance}`);
+    } catch (err) {
+      console.error(`group notice failed, ${err}`);
     }
   }
 };
