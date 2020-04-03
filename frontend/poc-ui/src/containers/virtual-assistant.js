@@ -19,7 +19,7 @@ function VirtualAssistant ( { user } ) {
   const [ currentCaseId, setCurrentCaseId ] = useState();
   const wsOptions = useMemo( () => ( {
     queryParams: {
-      'user': { user: user.name }
+      'user': { user: user.username }
     }
   } ), [] );
 
