@@ -1,17 +1,36 @@
 'use strict';
 const dynamodbConnector = require( '../connectors/dynamodb' );
 const uuid = require( 'uuid' );
-const { taskBroadcastToOwner } = require( './task-templates' );
+const { taskCreateBroadcastToOwner, taskTransitionNoticeParticipants } = require( './task-templates' );
 const { addCaseParticipantToDb } = require( './cases' );
+const { eventEmitter } = require( './events' );
 
 module.exports.createTask = async ( event, context ) => {
   const id = uuid.v4();
-  const state = 'Active';
+  const state = 'Pending';
   const { caseId } = event.path;
   const task = event.body;
 
   const { Item = {} } = await dynamodbConnector.getCase( caseId );
   const caseData = Item.data;
+
+  // taskDependencyListener
+  async function listenToDependentTask ( task ) {
+    if ( task.dependsOns.length === 0 ) {
+      task.state = 'Active';
+    }
+    else {
+      task.dependsOns.forEach( async ( dependOnTaskId ) => {
+        const { dependOnTask = {} } = await dynamodbConnector.getTask( dependOnTaskId );
+        eventEmitter.addListener( 'taskComplete', function ( dependOnTask ) {
+          taskTransitionNoticeParticipants( task.participants, dependOnTask, task );
+          task.state = 'Active';
+        } );
+      } );
+    }
+  }
+
+  listenToDependentTask( task );
 
   // create task
   await dynamodbConnector.createTaskInCase(
@@ -32,12 +51,11 @@ module.exports.createTask = async ( event, context ) => {
     caseData
   );
 
-  // add par to case participant
+  // add participant to case participants
   await addCaseParticipantToDb( caseId, task.participants );
 
   // notification
-  taskBroadcastToOwner( caseId, task );
-  task;
+  taskCreateBroadcastToOwner( caseId, task );
   return { id, state, caseId, data: task };
 };
 
@@ -63,7 +81,13 @@ module.exports.deleteTask = async ( event, context ) => {
 
 module.exports.completeTask = async ( event, context ) => {
   const { taskId: id } = event.path;
-  const state = 'Complete';
-  await dynamodbConnector.updateTaskState( id, state );
+
+  const { task = {} } = await dynamodbConnector.getTask( taskId );
+  eventEmitter.emit( 'taskComplete', task );
+  if ( task.state === 'Active' ) {
+    const state = 'Complete';
+    await dynamodbConnector.updateTaskState( id, state );
+  }
+
   return { id, state };
 };

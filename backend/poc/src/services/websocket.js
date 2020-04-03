@@ -4,7 +4,7 @@ const apigatewayConnector = require( '../connectors/apigateway' );
 const dynamodbConnector = require( '../connectors/dynamodb' );
 const CONSTANTS = require( '../constants' );
 
-const handleSocketDefault = async ( event, context ) => {
+module.exports.handleSocketDefault = async ( event, context ) => {
   try {
     const data = JSON.parse( event.body );
     const action = data.action;
@@ -35,7 +35,7 @@ const handleSocketDefault = async ( event, context ) => {
   }
 };
 
-const handleSocketConnect = async ( event, context ) => {
+module.exports.handleSocketConnect = async ( event, context ) => {
   try {
     const user = event.queryStringParameters.user;
     const userId = JSON.parse( user ).id;
@@ -58,7 +58,7 @@ const handleSocketConnect = async ( event, context ) => {
   }
 };
 
-const handleSocketDisconnect = async ( event, context ) => {
+module.exports.handleSocketDisconnect = async ( event, context ) => {
   try {
     const connectionId = event.requestContext.connectionId;
 
@@ -100,14 +100,16 @@ const crossDeviceBroadcast = async ( username, utterance ) => {
   await Promise.all( promises );
 };
 
+module.exports.crossDeviceBroadcast = crossDeviceBroadcast;
+
 /**
- * Send message to a group of users
+ * Send message to a group of participants
  */
-const groupNotice = async ( users, utterance ) => {
-  if ( users.length > 0 ) {
+module.exports.groupNotice = async ( participants, utterance ) => {
+  if ( participants.length > 0 ) {
     try {
-      users.map( ( user ) => {
-        crossDeviceBroadcast( user.id, utterance );
+      participants.map( ( participant ) => {
+        crossDeviceBroadcast( participant, utterance );
       } );
       console.debug( `user notice sent: ${ utterance }` );
     }
@@ -115,12 +117,4 @@ const groupNotice = async ( users, utterance ) => {
       console.error( `group notice failed, ${ err }` );
     }
   }
-};
-
-module.exports = {
-  handleSocketDefault,
-  handleSocketConnect,
-  handleSocketDisconnect,
-  crossDeviceBroadcast,
-  groupNotice
 };

@@ -74,9 +74,16 @@ function Tasks ( { currentCaseId, user } ) {
     console.debug( JSON.stringify( task ) );
   }
 
+  async function deleteCurrentTask () {
+    const path = `/tasks/${ currentTask.id }`;
+    await apiWrapper.delete( path );
+    tasks.splice( currentTask, 1 );
+    setShowWorkOnTaskModal( false );
+  }
+
   function completeCurrentTask () {
     // User manually complete the task by clicking the complete button
-    let path = `/case/${ currentCaseId }/tasks/${ currentTask.id }/complete`;
+    let path = `/tasks/${ currentTask.id }/complete`;
     apiWrapper
       .patch( path )
       .then( resp => {
@@ -205,13 +212,13 @@ function Tasks ( { currentCaseId, user } ) {
           <p>Manually update the status of this task.</p>
         </Modal.Body>
         <Modal.Footer>
-          <button className="btn-light" onClick={ e => setShowWorkOnTaskModal( false ) }>
+          <button className="btn btn-light" onClick={ e => setShowWorkOnTaskModal( false ) }>
             no change
           </button>
-          <button className="btn-secondary" onClick={ e => setShowWorkOnTaskModal( false ) } disabled>
-            cancel task
+          <button className="btn btn-secondary" onClick={ deleteCurrentTask }>
+            abandon task
           </button>
-          <button className="btn-success" onClick={ completeCurrentTask }>
+          <button className="btn btn-success" onClick={ completeCurrentTask }>
             complete task
           </button>
         </Modal.Footer>
