@@ -10,4 +10,4 @@ statusCodes:
   500:
     # regex pattern matched against $.errorMessage
     pattern: '.+' 
-    template: ${file(./error-response-template.yml)}
+    template: ${file(config/error-response-template.yml)}
