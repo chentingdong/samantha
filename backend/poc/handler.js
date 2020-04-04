@@ -10,4 +10,5 @@ module.exports = {
   ...require("./src/services/tasks"),
   ...require("./src/services/case-messages"),
   ...require("./src/services/users"),
+  ...require("./src/services/sockets"),
 };

@@ -36,6 +36,13 @@ class DynamoDbConnector {
     return await this._connector.delete(socketParams).promise();
   }
 
+  async listSockets() {
+    const queryParams = {
+      TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,
+    };
+    return await this._connector.scan(queryParams).promise();
+  }
+
   async listSocketsByUser(userId) {
     const queryParams = {
       TableName: CONSTANTS.DYNAMODB_SOCKETS_TABLE,

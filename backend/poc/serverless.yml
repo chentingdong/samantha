@@ -422,6 +422,42 @@ functions:
                 caseMessageId: true
           integration: lambda
           response: ${file(config/default-response-config.yml)}
+  # sockets
+  createSocket:
+    name: LAMBDA_${self:service}_http_create_socket_${self:provider.stage}
+    handler: handler.createSocket
+    events:
+      - http:
+          path: sockets
+          method: post
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
+  listSockets:
+    name: LAMBDA_${self:service}_http_list_sockets_${self:provider.stage}
+    handler: handler.listSockets
+    events:
+      - http:
+          path: sockets
+          method: get
+          request:
+            parameters:
+              querystrings:
+                userId: false
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
+  deleteSocket:
+    name: LAMBDA_${self:service}_http_delete_socket_${self:provider.stage}
+    handler: handler.deleteSocket
+    events:
+      - http:
+          path: sockets/{socketId}
+          method: delete
+          request:
+            parameters:
+              paths:
+                socketId: true
+          integration: lambda
+          response: ${file(config/default-response-config.yml)}
   listUserPoolUsers:
     name: LAMBDA_${self:service}_list_users_${self:provider.stage}
     handler: handler.listUserPoolUsers
