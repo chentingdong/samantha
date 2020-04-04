@@ -36,7 +36,7 @@ module.exports.deleteCase = async (event, context) => {
 
 module.exports.addCaseParticipant = async (event, context) => {
   const { caseId, username } = event.path;
-  const caseData = await addCaseParticipantToDb(caseId, username);
+  const caseData = await addCaseParticipantToDb(caseId, [username]);
   return { caseId, caseData };
 };
 
@@ -44,8 +44,7 @@ const addCaseParticipantToDb = async (caseId, users) => {
   const caseItem = await dynamodbConnector.getCase(caseId);
   const caseData = caseItem.Item.data;
 
-  const participants =
-    "participants" in caseData ? caseData["participants"] : [];
+  const { participants = [] } = caseData;
   users.forEach((user) => {
     if (participants.indexOf(user) === -1) participants.push(user);
   });

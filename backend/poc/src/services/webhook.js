@@ -3,25 +3,13 @@ const apigatewayConnector = require("../connectors/apigateway");
 const dynamodbConnector = require("../connectors/dynamodb");
 
 module.exports.webhook = async (event, context) => {
-  // Log the event argument for debugging and for use in local development.
-  console.log(JSON.stringify(event, undefined, 2));
-
   // Retrieve the message from the socket payload
-  const data = JSON.parse(event.body);
-  const taskId = data.taskId;
-  let tasks = [];
-  try {
-    tasks = await dynamodbConnector.getTask(taskId);
-    if (tasks.Items.length < 1) {
-      throw new Error("Tasks length less than 1");
-    }
-    console.log(JSON.stringify(tasks));
-  } catch (err) {
-    console.error(`Unable to find taskId ${taskId}`, err);
+  const { taskId } = event.body;
+  const { Item: task } = await dynamodbConnector.getTask(taskId);
+  if (!task) {
+    throw new Error("Can't find task");
   }
-
-  const task = tasks.Items[0];
-  const sockets = await dynamodbConnector.listSocketsByUser(task.userId);
+  const sockets = await dynamodbConnector.listSocketsByUser(task.data.userId);
   console.log(JSON.stringify(sockets));
   const promises = [];
   sockets.Items.forEach(function (item) {
