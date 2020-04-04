@@ -1,4 +1,4 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library } from "@fortawesome/fontawesome-svg-core";
 
 import {
   faAngleLeft,
@@ -16,6 +16,7 @@ import {
   faHome,
   faInfoCircle,
   faKey,
+  faLock,
   faLocationArrow,
   faPen,
   faPlus,
@@ -29,17 +30,17 @@ import {
   faThLarge,
   faUser,
   faUserCog,
-  faUserPlus
-} from '@fortawesome/free-solid-svg-icons';
+  faUserPlus,
+} from "@fortawesome/free-solid-svg-icons";
 
 import {
   faGoogle,
   faGooglePlus,
   faFacebook,
-  faFacebookF
-} from '@fortawesome/free-brands-svg-icons';
+  faFacebookF,
+} from "@fortawesome/free-brands-svg-icons";
 
-function buildFonts () {
+function buildFonts() {
   library.add(
     faAngleLeft,
     faBell,
@@ -60,6 +61,7 @@ function buildFonts () {
     faHome,
     faInfoCircle,
     faKey,
+    faLock,
     faLocationArrow,
     faPen,
     faPlus,

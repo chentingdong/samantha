@@ -327,7 +327,7 @@ functions:
           integration: lambda
           response: ${file(config/default-response-config.yml)}
   updateTaskState:
-    name: LAMBDA_${self:service}_http_complete_task_${self:provider.stage}
+    name: LAMBDA_${self:service}_http_update_task_state_${self:provider.stage}
     handler: handler.updateTaskState
     events:
       - http:
