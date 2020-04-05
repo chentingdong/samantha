@@ -16,8 +16,8 @@ module.exports.taskCreateBroadcastToOwner = async (caseId, task) => {
       `I will inform him after ${task.followUpDuration} days if not finished.`;
 
     let toUser = task.owner;
-    crossDeviceBroadcast(task.owner, utterance);
     await saveMessage(caseId, utterance, toUser);
+    crossDeviceBroadcast(task.owner, utterance);
   } catch (err) {
     console.error(err);
   }
