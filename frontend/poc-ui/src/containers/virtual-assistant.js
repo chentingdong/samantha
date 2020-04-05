@@ -107,14 +107,6 @@ function VirtualAssistant({ user }) {
     getCaseMessages();
   }, [currentCaseId]);
 
-  const style = {
-    inputMessage: {
-      position: "absolute",
-      bottom: "0",
-      width: "100%",
-    },
-  };
-
   return (
     <div className="container-fluid">
       <div className="row">
@@ -137,8 +129,8 @@ function VirtualAssistant({ user }) {
             messages={messages}
           />
           <Suggest
-            className="col suggest"
-            style={style.suggest}
+            className="col suggest position-absolute"
+            style={{ bottom: "0" }}
             currentMessage={currentMessage}
             setCurrentMessage={setCurrentMessage}
             userMessage={userMessage}
