@@ -32,10 +32,7 @@ function VirtualAssistant({ user }) {
     wsOptions
   );
 
-  const agentUser = {
-    name: "agent",
-    picture: '<Fontawesome icon="robot" />',
-  };
+  const agentUser = "agent";
 
   useEffect(() => {
     if (lastMessage !== null) {

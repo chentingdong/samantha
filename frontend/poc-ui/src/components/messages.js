@@ -8,7 +8,19 @@ import logo from "../assets/bell-round.png";
 
 const CaseMessages = ({ className, messages }) => {
   function GetIcon(user) {
-    if (user && user.name.startsWith("agent")) {
+    if (typeof user === "object") {
+      if (user.picture) {
+        return (
+          <img
+            className="thumbnail rounded-circle"
+            src={user.picture}
+            alt="<Fontawesome icon='user'/>"
+          />
+        );
+      } else {
+        return '<Fontawesome icon="user" />';
+      }
+    } else if (user && user.startsWith("agent")) {
       return (
         <img
           className="thumbnail"
@@ -19,9 +31,9 @@ const CaseMessages = ({ className, messages }) => {
     } else {
       return (
         <img
-          className="thumbnail rounded-circle"
-          src={user.picture}
-          alt="<Fontawesome icon='user'/>"
+          className="thumbnail"
+          src={logo}
+          alt='<Fontawesome icon="robot" />'
         />
       );
     }
