@@ -8,10 +8,12 @@ $primary: #308dc9;
 $secondary: #2d2c2c;
 $success: #17f6cc;
 $danger: #ff4136;
+$warning:#f6f217;
 $dark: #272727;
 $light: #f4f4f4;
 
 // new colors
+$green: #197441;
 $gray: #999999;
 $darker: #212121;
 $lighter: #f8f8f8;
@@ -22,6 +24,7 @@ $theme-colors: (
   lighter: $lighter,
   light-gray: $light-gray,
   gray: $gray,
+  green: $green,
   darker: $darker
 );
 
