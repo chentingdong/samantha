@@ -54,7 +54,7 @@ function VirtualAssistant({ user }) {
 
   function userMessage(utterance) {
     setCurrentMessage(utterance);
-    let newMessage = buildMessage(utterance, user);
+    let newMessage = buildMessage(utterance, user.username);
     apiWrapper
       .post("/case-messages", newMessage)
       .then((resp) => {
