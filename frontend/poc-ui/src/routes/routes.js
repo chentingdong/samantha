@@ -1,104 +1,104 @@
 import React from "react";
-import { Switch } from 'react-router-dom';
+import { Switch } from "react-router-dom";
 
-import Suggest from '../containers/suggest-agent';
-import Home from '../containers/home';
-import Login from '../containers/login';
-import Signup from '../containers/signup';
-import Settings from '../containers/settings';
-import ResetPassword from '../containers/reset-password';
-import NotFound from '../containers/not-found';
-import PublicRoute from './public-routes';
-import PrivateRoute from './private-routes';
-import VirtualAssistant from '../containers/virtual-assistant';
-import Workflow from '../containers/workflow';
-import Workflow1 from '../containers/workflow.1';
-import NodeTypes from '../ideas/node-types';
-import MineSweeper from '../games/mine-sweeper';
+import Suggest from "../ideas/suggest-agent";
+import Home from "../containers/home";
+import Login from "../user/login";
+import Signup from "../user/signup";
+import Settings from "../user/settings";
+import ResetPassword from "../user/reset-password";
+import NotFound from "../containers/not-found";
+import PublicRoute from "./public-routes";
+import PrivateRoute from "./private-routes";
+import VirtualAssistant from "../containers/virtual-assistant";
+import Workflow from "../ideas/workflow";
+import Workflow1 from "../ideas/workflow.1";
+import NodeTypes from "../ideas/node-types";
+import MineSweeper from "../games/mine-sweeper";
 
 const routes = [
   {
     path: "/",
     component: Login,
-    tag: PublicRoute
+    tag: PublicRoute,
   },
   {
     path: "/user/login",
     component: Login,
-    tag: PublicRoute
+    tag: PublicRoute,
   },
   {
     path: "/user/signup",
     component: Signup,
-    tag: PublicRoute
+    tag: PublicRoute,
   },
   {
     path: "/user/settings",
     component: Settings,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/user/password/reset",
     component: ResetPassword,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/home",
     component: Home,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/demo",
     component: VirtualAssistant,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/demo/suggest",
     component: Suggest,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/ideas/workflow",
     component: Workflow,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/ideas/workflow-1",
     component: Workflow1,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
-    path: '/ideas/state-types',
+    path: "/ideas/state-types",
     component: NodeTypes,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   {
     path: "/games/minesweeper",
     component: MineSweeper,
-    tag: PrivateRoute
+    tag: PrivateRoute,
   },
   // last, catch everything else as 404
   {
     component: NotFound,
-    tag: PublicRoute
-  }
+    tag: PublicRoute,
+  },
 ];
 
-function Routes ( { appProps } ) {
+function Routes({ appProps }) {
   return (
     <Switch>
-      { routes.map( ( route, index ) => {
+      {routes.map((route, index) => {
         const TagName = route.tag;
         return (
           <TagName
             exact
-            path={ route.path }
-            component={ route.component }
-            appProps={ appProps }
-            key={ index }
+            path={route.path}
+            component={route.component}
+            appProps={appProps}
+            key={index}
           />
         );
-      } ) }
+      })}
     </Switch>
   );
 }

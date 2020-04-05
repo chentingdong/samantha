@@ -1,17 +1,16 @@
-import React from 'react'
-import { Tab, Nav, Row, Col } from 'react-bootstrap'
-import ChangePassword from './change-password'
+import React from "react";
+import { Tab, Nav, Row, Col } from "react-bootstrap";
+import ChangePassword from "./change-password";
 
-function Settings (props) {
+function Settings(props) {
   return (
-    <div className='container mt-4'>
+    <div className="container mt-4">
       <Tab.Container id="left-tabs-example" defaultActiveKey="password">
         <Row className="row">
           <Col sm={4}>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
-                <Nav.Link eventKey="password">password
-                </Nav.Link>
+                <Nav.Link eventKey="password">password</Nav.Link>
               </Nav.Item>
               <Nav.Item>
                 <Nav.Link eventKey="email">email</Nav.Link>
@@ -42,11 +41,9 @@ function Settings (props) {
           <Col sm={8} className="container">
             <Tab.Content>
               <Tab.Pane eventKey="password">
-                <ChangePassword props={props}/>
+                <ChangePassword props={props} />
               </Tab.Pane>
-              <Tab.Pane eventKey="email">
-                TODO: change email form
-              </Tab.Pane>
+              <Tab.Pane eventKey="email">TODO: change email form</Tab.Pane>
               <Tab.Pane eventKey="phoneNumber">
                 TODO: change phone number form
               </Tab.Pane>
@@ -62,18 +59,14 @@ function Settings (props) {
               <Tab.Pane eventKey="familyName">
                 TODO: change last name form
               </Tab.Pane>
-              <Tab.Pane eventKey="picture">
-                TODO: change picture form
-              </Tab.Pane>
-              <Tab.Pane eventKey="gender">
-                TODO: change gender form
-              </Tab.Pane>
+              <Tab.Pane eventKey="picture">TODO: change picture form</Tab.Pane>
+              <Tab.Pane eventKey="gender">TODO: change gender form</Tab.Pane>
             </Tab.Content>
           </Col>
         </Row>
       </Tab.Container>
     </div>
-  )
+  );
 }
 
-export default Settings
+export default Settings;

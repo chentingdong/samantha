@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import apiWrapper from "../libs/api-wrapper";
-import NewTask from "./create-task";
+import CreateTask from "./create-task";
+import DesignTask from "./design-task";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { stateColor, formatDate, stateIcon } from "../libs/custom-functions";
 import CaseHeader from "../case/case-header";
@@ -9,9 +10,9 @@ import CaseHeader from "../case/case-header";
 function Tasks({ currentCaseId, user }) {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
-  const [currentTask, setCurrentTask] = useState({});
   const [currentCase, setCurrentCase] = useState("");
-  const [editTaskModal, setEditTaskModal] = useState(false);
+  const [currentTask, setCurrentTask] = useState({});
+  const [designTaskModal, setDesignTaskModal] = useState(false);
   const [showWorkOnTaskModal, setShowWorkOnTaskModal] = useState(false);
 
   useEffect(() => {
@@ -21,32 +22,31 @@ function Tasks({ currentCaseId, user }) {
   }, []);
 
   useEffect(() => {
-    function getCaseTasks() {
+    async function getCaseTasks() {
       let path = `/cases/${currentCaseId}/tasks`;
-      apiWrapper
-        .get(path)
-        .then((resp) => {
-          let caseTasks = resp.data;
-          // console.debug( `Got tasks\ncurrentCaseId=${ currentCaseId }: ${ JSON.stringify( caseTasks, null, 2 ) }` );
-          setTasks(caseTasks);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      try {
+        let resp = await apiWrapper.get(path);
+        let caseTasks = resp.data;
+        setTasks(caseTasks);
+      } catch (err) {
+        console.error(err);
+      }
     }
+
     getCaseTasks();
   }, [currentCaseId]);
 
   useEffect(() => {
-    const path = "/cases/" + currentCaseId;
-    apiWrapper
-      .get(path)
-      .then((resp) => {
+    async function getCurrentCase() {
+      try {
+        const path = "/cases/" + currentCaseId;
+        let resp = await apiWrapper.get(path);
         if (resp.data.data) setCurrentCase(resp.data.data);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error(err);
-      });
+      }
+    }
+    getCurrentCase();
   }, [currentCaseId]);
 
   function getUserAttribute(username, attr) {
@@ -61,7 +61,7 @@ function Tasks({ currentCaseId, user }) {
   }
 
   function editTask(task) {
-    setEditTaskModal(true);
+    setDesignTaskModal(true);
     setCurrentTask(task);
   }
 
@@ -106,12 +106,11 @@ function Tasks({ currentCaseId, user }) {
           <div className="d-flex pt-2 pb-2">
             <h4 className="col-6">Tasks</h4>
             <div className="col-6 text-right">
-              <NewTask
+              <CreateTask
                 user={user}
-                users={users}
-                tasks={tasks}
-                setTasks={setTasks}
-                currentCaseId={currentCaseId}
+                currentTask={currentTask}
+                setCurrentTask={setCurrentTask}
+                setDesignTaskModal={setDesignTaskModal}
               />
             </div>
           </div>
@@ -164,12 +163,20 @@ function Tasks({ currentCaseId, user }) {
             </tbody>
           </table>
         </div>
-        <Modal show={editTaskModal} onHide={(e) => setEditTaskModal(false)}>
+        <DesignTask
+          currentCaseId={currentCaseId}
+          currentTask={currentTask}
+          users={users}
+          tasks={tasks}
+          setTasks={setTasks}
+          close={(e) => setDesignTaskModal(false)}
+        />
+        currentTask &&
+        <Modal show={designTaskModal} onHide={(e) => setDesignTaskModal(false)}>
           <Modal.Header closeButton>
             <Modal.Title>
               Edit task
               <b>
-                {" "}
                 {currentTask.data
                   ? currentTask.data.name
                   : JSON.stringify(currentTask.data)}
@@ -182,13 +189,13 @@ function Tasks({ currentCaseId, user }) {
           <Modal.Footer>
             <button
               className="btn-light"
-              onClick={(e) => setEditTaskModal(false)}
+              onClick={(e) => setDesignTaskModal(false)}
             >
               cancel
             </button>
             <button
               className="btn-light"
-              onClick={(e) => setEditTaskModal(false)}
+              onClick={(e) => setDesignTaskModal(false)}
             >
               save
             </button>

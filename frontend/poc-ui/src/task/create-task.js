@@ -9,10 +9,13 @@ import CreateTaskContent from "./create-task-content";
  * @function NewTask
  **/
 
-const NewTask = ({ tasks, setTasks, currentCaseId, user, users }) => {
+const CreateTask = ({
+  user,
+  currentTask,
+  setCurrentTask,
+  setDesignTaskModal,
+}) => {
   const [taskDefinitions, setTaskDefinitions] = useState([]);
-  const [newTask, setNewTask] = useState({});
-  const [showCreateModal, setShowCreateModal] = useState(false);
 
   function getTaskDefinitions() {
     let path = "/task-definitions";
@@ -26,35 +29,35 @@ const NewTask = ({ tasks, setTasks, currentCaseId, user, users }) => {
       });
   }
 
-  function submitCreateTaskForm(task) {
-    let path = `/cases/${currentCaseId}/tasks`;
-    apiWrapper
-      .post(path, task)
-      .then((resp) => {
-        let t = resp.data;
+  // function submitCreateTaskForm(task) {
+  //   let path = `/cases/${currentCaseId}/tasks`;
+  //   apiWrapper
+  //     .post(path, task)
+  //     .then((resp) => {
+  //       let t = resp.data;
 
-        setTasks((tasks) => [t, ...tasks]);
-      })
-      .catch((err) => {
-        console.error(err);
-      })
-      .then(() => {
-        closeTask();
-      });
-  }
+  //       setTasks((tasks) => [t, ...tasks]);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     })
+  //     .then(() => {
+  //       closeTask();
+  //     });
+  // }
 
   function createTask(taskDefinition) {
-    setShowCreateModal(true);
-    setNewTask({
+    setDesignTaskModal(true);
+    setCurrentTask({
       ...taskDefinition.data,
       owner: user.username,
       dueDate: new Date(),
     });
   }
 
-  function closeTask() {
-    setShowCreateModal(false);
-  }
+  // function closeTask() {
+  //   setShowCreateModal(false);
+  // }
 
   useEffect(() => {
     getTaskDefinitions();
@@ -86,16 +89,16 @@ const NewTask = ({ tasks, setTasks, currentCaseId, user, users }) => {
             })}
         </Dropdown.Menu>
       </Dropdown>
-      <Modal
+      {/* <Modal
         className="container-fluid"
         show={showCreateModal}
         onHide={closeTask}
-        key={newTask.id}
+        key={currentTask.id}
       >
         <Modal.Header closeButton>
           <Modal.Title>
-            <h3>{newTask.name}</h3>
-            <h6>{newTask.description}</h6>
+            <h3>{currentTask.name}</h3>
+            <h6>{currentTask.description}</h6>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -103,14 +106,14 @@ const NewTask = ({ tasks, setTasks, currentCaseId, user, users }) => {
             user={user}
             users={users}
             tasks={tasks}
-            newTask={newTask}
+            currentTask={currentTask}
             close={closeTask}
             submitCreateTaskForm={submitCreateTaskForm}
           />
         </Modal.Body>
-      </Modal>
+      </Modal> */}
     </div>
   );
 };
 
-export default NewTask;
+export default CreateTask;
