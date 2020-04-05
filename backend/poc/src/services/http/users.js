@@ -1,6 +1,6 @@
 "use strict";
 const aws = require("aws-sdk");
-const config = require("../../config");
+const config = require("../../../config");
 
 module.exports.listIdentityPoolUsers = async () => {
   const cognitoidentity = new aws.CognitoIdentity();

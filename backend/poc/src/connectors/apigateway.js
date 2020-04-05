@@ -1,8 +1,6 @@
 "use strict";
 
 const aws = require("aws-sdk");
-
-const CONSTANTS = require("../constants");
 const dynamodbConnector = require("./dynamodb");
 
 const isOffline = function () {
@@ -27,7 +25,7 @@ class ApiGatewayConnector {
       };
     } else {
       CONNECTOR_OPTS = {
-        endpoint: CONSTANTS.WEBSOCKET_API_ENDPOINT,
+        endpoint: process.env.WEBSOCKET_API_ENDPOINT,
         sslEnabled: true,
       };
     }
