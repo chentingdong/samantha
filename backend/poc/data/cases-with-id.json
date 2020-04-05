@@ -1,0 +1,19 @@
+[
+    {
+        "data": {
+            "owner": "Google_111918078641246610063",
+            "followUpDuration": "1",
+            "createdAt": 1586063914828,
+            "caseFile": {},
+            "dueDate": " ",
+            "name": "Planning Case",
+            "icon": "columns",
+            "description": "Planning tasks on run time",
+            "dependsOns": [],
+            "planItems": [],
+            "participants": []
+        },
+        "id": "30ade410-83c4-43a1-97c0-045e714e76c9",
+        "state": "Active"
+    }
+]

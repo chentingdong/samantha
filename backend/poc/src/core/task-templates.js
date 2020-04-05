@@ -1,6 +1,6 @@
 const uuidv4 = require("uuid/v4");
 const dynamodbConnector = require("../connectors/dynamodb");
-const { crossDeviceBroadcast, groupNotice } = require("./websocket");
+const { crossDeviceBroadcast, groupNotice } = require("../services/websocket");
 
 /**
  * templates for machine generated message, based on general fields of task wrapper.
@@ -16,8 +16,8 @@ module.exports.taskCreateBroadcastToOwner = async (caseId, task) => {
       `I will inform him after ${task.followUpDayss} days if not finished.`;
 
     let toUser = task.owner;
-    saveMessage(caseId, utterance, toUser);
-    await crossDeviceBroadcast(task.owner, utterance);
+    await saveMessage(caseId, utterance, toUser);
+    crossDeviceBroadcast(task.owner, utterance);
   } catch (err) {
     console.error(err);
   }
@@ -61,16 +61,13 @@ module.exports.taskTransitionNoticeParticipants = async ({
 async function saveMessage(caseId, utterance, toUser) {
   const agent = process.env.USER ? "agent-" + process.env.USER : "agent-smith";
   // write to message queue
-  let message = {
-    id: uuidv4(),
-    caseId: caseId,
-    data: {
-      utterance: utterance,
-      fromUser: agent,
-      toUser: toUser,
-      createdAt: Date.now(),
-    },
+  const id = uuidv4();
+  const data = {
+    utterance: utterance,
+    fromUser: agent,
+    toUser: toUser,
+    createdAt: Date.now(),
   };
 
-  await dynamodbConnector.createCaseMessage(message);
+  await dynamodbConnector.createCaseMessage(id, caseId, data);
 }

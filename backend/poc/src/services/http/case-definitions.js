@@ -1,5 +1,5 @@
 "use strict";
-const dynamodbConnector = require("../connectors/dynamodb");
+const dynamodbConnector = require("../../connectors/dynamodb");
 const uuid = require("uuid");
 
 module.exports.createCaseDefinition = async (event, context) => {

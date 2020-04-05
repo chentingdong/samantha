@@ -1,12 +1,12 @@
 "use strict";
-const dynamodbConnector = require("../connectors/dynamodb");
+const dynamodbConnector = require("../../connectors/dynamodb");
 const uuid = require("uuid");
 const {
   taskCreateBroadcastToOwner,
   taskTransitionNoticeParticipants,
-} = require("./task-templates");
+} = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
-const { eventEmitter } = require("./events");
+const { eventEmitter } = require("../../core/events");
 
 module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
@@ -41,7 +41,7 @@ module.exports.createTask = async (event, context) => {
   await addCaseParticipantToDb(caseId, task.participants);
 
   // notification
-  // taskCreateBroadcastToOwner(caseId, task);
+  await taskCreateBroadcastToOwner(caseId, task);
   return { id, state, caseId, data: task };
 };
 

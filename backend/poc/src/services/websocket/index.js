@@ -1,8 +1,8 @@
 "use strict";
 
-const apigatewayConnector = require("../connectors/apigateway");
-const dynamodbConnector = require("../connectors/dynamodb");
-const CONSTANTS = require("../constants");
+const apigatewayConnector = require("../../connectors/apigateway");
+const dynamodbConnector = require("../../connectors/dynamodb");
+const CONSTANTS = require("../../constants");
 
 module.exports.handleSocketDefault = async (event, context) => {
   try {
@@ -96,7 +96,6 @@ const crossDeviceBroadcast = async (username, utterance) => {
     const promises = [];
     sockets.Items.forEach(function (item) {
       const connectionId = item.connectionId;
-
       promises.push(
         apigatewayConnector.generateSocketMessage(connectionId, utterance)
       );
