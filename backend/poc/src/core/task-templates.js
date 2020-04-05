@@ -1,6 +1,6 @@
 const uuidv4 = require("uuid/v4");
 const dynamodbConnector = require("../connectors/dynamodb");
-const { crossDeviceBroadcast, groupNotice } = require("./websocket");
+const { crossDeviceBroadcast, groupNotice } = require("../services/websocket");
 
 /**
  * templates for machine generated message, based on general fields of task wrapper.
