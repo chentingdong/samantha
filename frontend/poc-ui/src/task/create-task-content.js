@@ -108,8 +108,8 @@ function CreateTaskContent({
           <input
             className="form-control col-7"
             type="number"
-            name="followUpDuration"
-            value={parseInt(task.followUpDuration)}
+            name="followUpDays"
+            value={parseInt(task.followUpDays)}
             onChange={setTask}
           />
           <span className="col-5">days</span>

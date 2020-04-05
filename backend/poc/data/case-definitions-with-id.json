@@ -7,7 +7,7 @@
       "icon": "columns",
       "owner": {},
       "dueDate": " ",
-      "followUpDuration": "1",
+      "followUpDayss": "1",
       "participants": [],
       "dependsOns": [],
       "caseFile": {},
@@ -22,7 +22,7 @@
       "icon": "key",
       "owner": {},
       "dueDate": " ",
-      "followUpDuration": "1",
+      "followUpDayss": "1",
       "participants": [],
       "dependsOns": [],
       "planItems": []

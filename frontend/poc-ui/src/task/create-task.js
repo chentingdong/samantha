@@ -13,7 +13,7 @@ const CreateTask = ({
   user,
   currentTask,
   setCurrentTask,
-  setDesignTaskModal,
+  setShowDesignModal,
 }) => {
   const [taskDefinitions, setTaskDefinitions] = useState([]);
 
@@ -47,7 +47,7 @@ const CreateTask = ({
   // }
 
   function createTask(taskDefinition) {
-    setDesignTaskModal(true);
+    setShowDesignModal(true);
     setCurrentTask({
       ...taskDefinition.data,
       owner: user.username,

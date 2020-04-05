@@ -6,14 +6,15 @@ import DesignTask from "./design-task";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { stateColor, formatDate, stateIcon } from "../libs/custom-functions";
 import CaseHeader from "../case/case-header";
+import TaskRuntime from "../task/task-runtime";
 
 function Tasks({ currentCaseId, user }) {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [currentCase, setCurrentCase] = useState("");
   const [currentTask, setCurrentTask] = useState({});
-  const [designTaskModal, setDesignTaskModal] = useState(false);
-  const [showWorkOnTaskModal, setShowWorkOnTaskModal] = useState(false);
+  const [showDesignModal, setShowDesignModal] = useState(false);
+  const [showRuntimeModal, setShowRuntimeModal] = useState(false);
 
   useEffect(() => {
     apiWrapper.get("/users").then((resp) => {
@@ -41,13 +42,13 @@ function Tasks({ currentCaseId, user }) {
       try {
         const path = "/cases/" + currentCaseId;
         let resp = await apiWrapper.get(path);
-        if (resp.data.data) setCurrentCase(resp.data.data);
+        if (resp.data) setCurrentCase(resp.data);
       } catch (err) {
         console.error(err);
       }
     }
     getCurrentCase();
-  }, [currentCaseId]);
+  }, []);
 
   function getUserAttribute(username, attr) {
     try {
@@ -61,41 +62,12 @@ function Tasks({ currentCaseId, user }) {
   }
 
   function editTask(task) {
-    setDesignTaskModal(true);
     setCurrentTask(task);
   }
 
   function workOnTask(task) {
-    setShowWorkOnTaskModal(true);
     setCurrentTask(task);
     console.debug(JSON.stringify(task));
-  }
-
-  async function deleteCurrentTask() {
-    const path = `/tasks/${currentTask.id}`;
-    await apiWrapper.delete(path);
-    tasks.splice(currentTask, 1);
-    setShowWorkOnTaskModal(false);
-  }
-
-  async function updateCurrentTaskState(state) {
-    // User manually complete the task by clicking the complete button
-    let path = `/tasks/${currentTask.id}/${state}`;
-    let resp = await apiWrapper.patch(path);
-    setCurrentTask({ [state]: resp.data.state, ...currentTask });
-
-    // update currentTask in tasks listing
-    setTasks((tasks) => {
-      let updatedTasks = tasks;
-      let currTask = updatedTasks.filter((t) => t.id === currentTask.id)[0];
-      currTask.state = resp.data.state;
-      return updatedTasks;
-    });
-    setShowWorkOnTaskModal(false);
-  }
-
-  function reopenCurrentTask() {
-    if (currentTask.state === "Complete") updateCurrentTaskState("Active");
   }
 
   return (
@@ -110,7 +82,7 @@ function Tasks({ currentCaseId, user }) {
                 user={user}
                 currentTask={currentTask}
                 setCurrentTask={setCurrentTask}
-                setDesignTaskModal={setDesignTaskModal}
+                setShowDesignModal={setShowDesignModal}
               />
             </div>
           </div>
@@ -166,85 +138,21 @@ function Tasks({ currentCaseId, user }) {
         <DesignTask
           currentCaseId={currentCaseId}
           currentTask={currentTask}
+          setCurrentTask={setCurrentTask}
           users={users}
           tasks={tasks}
           setTasks={setTasks}
-          close={(e) => setDesignTaskModal(false)}
+          showDesignModal={showDesignModal}
+          setShowDesignModal={setShowDesignModal}
         />
-        currentTask &&
-        <Modal show={designTaskModal} onHide={(e) => setDesignTaskModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>
-              Edit task
-              <b>
-                {currentTask.data
-                  ? currentTask.data.name
-                  : JSON.stringify(currentTask.data)}
-              </b>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <pre>{JSON.stringify(currentTask.data, null, 2)}</pre>
-          </Modal.Body>
-          <Modal.Footer>
-            <button
-              className="btn-light"
-              onClick={(e) => setDesignTaskModal(false)}
-            >
-              cancel
-            </button>
-            <button
-              className="btn-light"
-              onClick={(e) => setDesignTaskModal(false)}
-            >
-              save
-            </button>
-          </Modal.Footer>
-        </Modal>
-        <Modal
-          show={showWorkOnTaskModal}
-          onHide={(e) => setShowWorkOnTaskModal(false)}
-        >
-          <Modal.Header closeButton>
-            <Modal.Title>
-              <b>
-                {" "}
-                {currentTask.data
-                  ? currentTask.data.name
-                  : JSON.stringify(currentTask.data)}
-              </b>
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>Manually update the status of this task.</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <button
-              className="btn btn-light"
-              onClick={(e) => setShowWorkOnTaskModal(false)}
-            >
-              no change
-            </button>
-            <button className="btn btn-secondary" onClick={deleteCurrentTask}>
-              abandon task
-            </button>
-            <button className="btn btn-secondary" onClick={reopenCurrentTask}>
-              reopen task
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={(e) => updateCurrentTaskState("Active")}
-            >
-              start task
-            </button>
-            <button
-              className="btn btn-success"
-              onClick={(e) => updateCurrentTaskState("Complete")}
-            >
-              complete task
-            </button>
-          </Modal.Footer>
-        </Modal>
+        <TaskRuntime
+          currentTask={currentTask}
+          setCurrentTask={setCurrentTask}
+          tasks={tasks}
+          setTasks={setTasks}
+          showRuntimeModal={showRuntimeModal}
+          setShowRuntimeModal={setShowRuntimeModal}
+        />
       </div>
     )
   );
