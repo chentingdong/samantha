@@ -13,7 +13,7 @@ module.exports.taskCreateBroadcastToOwner = async (caseId, task) => {
       `Your task "${task.name}" is added to current case.` +
       `Your message is sent to ${task.participants} (use name here, fix later),` +
       `expecting to finish on ${task.dueDate},` +
-      `I will inform him after ${task.followUpDuration} days if not finished.`;
+      `I will inform him after ${task.followUpDayss} days if not finished.`;
 
     let toUser = task.owner;
     await saveMessage(caseId, utterance, toUser);

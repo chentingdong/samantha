@@ -1,4 +1,10 @@
-import {useState} from 'react';
+import { useState } from "react";
+
+/**
+ * @author tchen@bellhop.io
+ * @function TaskRuntime
+ * TODO: This is not good for prod use, find a better solution.
+ **/
 
 function useFormFields(initialState) {
   const [fields, setValues] = useState(initialState);
@@ -7,8 +13,8 @@ function useFormFields(initialState) {
     function (event) {
       if (event.target) {
         if (
-          event.target.tagName.toLowerCase() === 'select' &&
-          'multiple' in event.target.attributes
+          event.target.tagName.toLowerCase() === "select" &&
+          "multiple" in event.target.attributes
         ) {
           // multiple select
           let values = [];
@@ -37,9 +43,11 @@ function useFormFields(initialState) {
           ...fields,
           [this.name]: event,
         });
+      } else {
+        console.log("here");
       }
     },
   ];
 }
 
-export {useFormFields};
+export { useFormFields };
