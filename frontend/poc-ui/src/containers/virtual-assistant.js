@@ -134,7 +134,6 @@ function VirtualAssistant({ user }) {
             currentMessage={currentMessage}
             setCurrentMessage={setCurrentMessage}
             userMessage={userMessage}
-            user={user}
             ref={suggestRef}
             selectedSuggestion={selectedSuggestion}
             setselectedSuggestion={setselectedSuggestion}

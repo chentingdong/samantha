@@ -8,7 +8,7 @@ import logo from "../assets/bell-round.png";
 
 const CaseMessages = ({ className, messages }) => {
   function GetIcon(user) {
-    if (user && user.startsWith("agent")) {
+    if (user && user.name.startsWith("agent")) {
       return (
         <img
           className="thumbnail"

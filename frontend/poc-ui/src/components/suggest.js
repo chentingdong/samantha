@@ -19,7 +19,6 @@ const Suggest = forwardRef((props, ref) => {
     currentMessage,
     setCurrentMessage,
     userMessage,
-    user,
     selectedSuggestion,
     setselectedSuggestion,
   } = props;
