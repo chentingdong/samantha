@@ -15,8 +15,6 @@ const TaskRuntime = ({
   showRuntimeModal,
   setShowRuntimeModal,
 }) => {
-  const [show, setShow] = useState(false);
-
   function close() {
     setShowRuntimeModal(false);
   }
@@ -49,7 +47,7 @@ const TaskRuntime = ({
 
   return (
     <div>
-      <Modal show={show} onHide={close}>
+      <Modal show={showRuntimeModal} onHide={close}>
         <Modal.Header closeButton>
           <Modal.Title>
             <b>

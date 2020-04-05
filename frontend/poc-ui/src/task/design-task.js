@@ -162,7 +162,7 @@ function TaskForm({
           className="form-control col-7"
           type="number"
           name="followUpDays"
-          value={parseInt(task.followUpDays)}
+          value={parseInt(task.followUpDays || "1")}
           onChange={setTask}
         />
         <span className="col-5">days</span>

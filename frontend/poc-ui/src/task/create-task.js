@@ -3,6 +3,7 @@ import { Dropdown, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import apiWrapper from "../libs/api-wrapper";
 import CreateTaskContent from "./create-task-content";
+import moment from "moment";
 
 /**
  * @author tchen@bellhop.io
@@ -48,10 +49,12 @@ const CreateTask = ({
 
   function createTask(taskDefinition) {
     setShowDesignModal(true);
+    let today = moment();
+    let tomorrow = today.add(1).day();
     setCurrentTask({
       ...taskDefinition.data,
       owner: user.username,
-      dueDate: new Date(),
+      dueDate: tomorrow,
     });
   }
 

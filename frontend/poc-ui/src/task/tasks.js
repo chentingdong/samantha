@@ -63,11 +63,12 @@ function Tasks({ currentCaseId, user }) {
 
   function editTask(task) {
     setCurrentTask(task);
+    setShowDesignModal(true);
   }
 
   function workOnTask(task) {
     setCurrentTask(task);
-    console.debug(JSON.stringify(task));
+    setShowRuntimeModal(true);
   }
 
   return (
