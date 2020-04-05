@@ -41,6 +41,7 @@ class ApiGatewayConnector {
 
   async generateSocketMessage(connectionId, data) {
     try {
+      console.log(`generateSocketMessage('${connectionId}', '${data}')`);
       return await this._connector
         .postToConnection({
           ConnectionId: connectionId,

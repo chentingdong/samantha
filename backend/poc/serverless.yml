@@ -28,6 +28,8 @@ custom:
             sources: [./data/case-definitions-with-id.json]
           - table: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
             sources: [./data/task-definitions-with-id.json]
+          - table: ${self:provider.environment.DYNAMODB_CASES_TABLE}
+            sources: [./data/cases-with-id.json]
   serverless-offline:
     httpsProtocol: "certs"
     port: 3000

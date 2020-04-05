@@ -13,6 +13,7 @@ module.exports.createTask = async (event, context) => {
   let state = "Active";
   const { caseId } = event.path;
   const task = event.body;
+  console.log(JSON.stringify(task));
 
   const { Item = {} } = await dynamodbConnector.getCase(caseId);
   const caseData = Item.data;
@@ -41,7 +42,7 @@ module.exports.createTask = async (event, context) => {
   await addCaseParticipantToDb(caseId, task.participants);
 
   // notification
-  // taskCreateBroadcastToOwner(caseId, task);
+  taskCreateBroadcastToOwner(caseId, task);
   return { id, state, caseId, data: task };
 };
 

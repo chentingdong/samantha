@@ -96,7 +96,6 @@ const crossDeviceBroadcast = async (username, utterance) => {
     const promises = [];
     sockets.Items.forEach(function (item) {
       const connectionId = item.connectionId;
-
       promises.push(
         apigatewayConnector.generateSocketMessage(connectionId, utterance)
       );
