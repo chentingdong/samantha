@@ -16,8 +16,8 @@ module.exports.taskCreateBroadcastToOwner = async (caseId, task) => {
       `I will inform him after ${task.followUpDuration} days if not finished.`;
 
     let toUser = task.owner;
-    saveMessage(caseId, utterance, toUser);
-    await crossDeviceBroadcast(task.owner, utterance);
+    crossDeviceBroadcast(task.owner, utterance);
+    await saveMessage(caseId, utterance, toUser);
   } catch (err) {
     console.error(err);
   }
@@ -61,16 +61,13 @@ module.exports.taskTransitionNoticeParticipants = async ({
 async function saveMessage(caseId, utterance, toUser) {
   const agent = process.env.USER ? "agent-" + process.env.USER : "agent-smith";
   // write to message queue
-  let message = {
-    id: uuidv4(),
-    caseId: caseId,
-    data: {
-      utterance: utterance,
-      fromUser: agent,
-      toUser: toUser,
-      createdAt: Date.now(),
-    },
+  const id = uuidv4();
+  const data = {
+    utterance: utterance,
+    fromUser: agent,
+    toUser: toUser,
+    createdAt: Date.now(),
   };
 
-  await dynamodbConnector.createCaseMessage(message);
+  await dynamodbConnector.createCaseMessage(id, caseId, data);
 }
