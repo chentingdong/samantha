@@ -1,41 +1,45 @@
+import React, { useState, useEffect } from "react";
+import { formatTime } from "../libs/custom-functions";
+import logo from "../assets/bell-round.png";
+import apiWrapper from "../libs/api-wrapper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 /**
  * @author tchen@bellhop.io
  * @function CaseMessages
  **/
-import React from "react";
-import { formatTime } from "../libs/custom-functions";
-import logo from "../assets/bell-round.png";
-
 const CaseMessages = ({ className, messages }) => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    apiWrapper.get("/users").then((resp) => {
+      setUsers(resp.data);
+    });
+  }, []);
+
   function GetIcon(user) {
-    if (typeof user === "object") {
-      if (user.picture) {
+    console.log(JSON.stringify(user));
+    try {
+      if (typeof user === "string" && user.startsWith("agent")) {
         return (
           <img
-            className="thumbnail rounded-circle"
-            src={user.picture}
-            alt="<Fontawesome icon='user'/>"
+            className="thumbnail"
+            src={logo}
+            alt='<Fontawesome icon="robot" />'
           />
         );
       } else {
-        return '<Fontawesome icon="user" />';
+        let userInfo = users.filter((u) => u.username === user)[0].attributes;
+        return (
+          <img
+            className="thumbnail rounded-circle"
+            src={userInfo.picture}
+            alt='<Fontawesome icon="robot" />'
+          />
+        );
       }
-    } else if (user && user.startsWith("agent")) {
-      return (
-        <img
-          className="thumbnail"
-          src={logo}
-          alt='<Fontawesome icon="robot" />'
-        />
-      );
-    } else {
-      return (
-        <img
-          className="thumbnail"
-          src={logo}
-          alt='<Fontawesome icon="robot" />'
-        />
-      );
+    } catch (err) {
+      return <FontAwesomeIcon icon="robot" />;
     }
   }
 
