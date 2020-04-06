@@ -18,7 +18,6 @@ const CaseMessages = ({ className, messages }) => {
   }, []);
 
   function GetIcon(user) {
-    console.log(JSON.stringify(user));
     try {
       if (typeof user === "string" && user.startsWith("agent")) {
         return (

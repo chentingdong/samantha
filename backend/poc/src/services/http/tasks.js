@@ -1,4 +1,3 @@
-"use strict";
 const dynamodbConnector = require("../../connectors/dynamodb");
 const uuid = require("uuid");
 const {
@@ -6,7 +5,7 @@ const {
   taskTransitionNoticeParticipants,
 } = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
-const { eventEmitter } = require("../../core/events");
+const { events } = require("../../core/events");
 
 module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
@@ -17,11 +16,13 @@ module.exports.createTask = async (event, context) => {
   const { Item = {} } = await dynamodbConnector.getCase(caseId);
   const caseData = Item.data;
 
+  // register listeners for dependsOn tasks
   if (task.dependsOns.length !== 0) {
     state = "Pending";
-    task.dependsOns.forEach(() => {
-      eventEmitter.on("taskComplete", function (task) {
-        console.log(`${task} finished`);
+    task.dependsOns.forEach((dependsOnTaskId) => {
+      let evt = `taskComplete-${dependsOnTaskId}`;
+      events.addListener(evt, () => {
+        console.log(`+++++++++++++++++++++++++++++  event finished`);
       });
     });
   }
@@ -42,6 +43,7 @@ module.exports.createTask = async (event, context) => {
 
   // notification
   await taskCreateBroadcastToOwner(caseId, task);
+  console.log(events.eventNames());
   return { id, state, caseId, data: task };
 };
 
@@ -66,9 +68,14 @@ module.exports.deleteTask = async (event, context) => {
 };
 
 module.exports.updateTaskState = async (event, context) => {
+  console.log(events.eventNames());
   const { taskId: id, state } = event.path;
   await dynamodbConnector.updateTaskState(id, state);
 
-  eventEmitter.emit("taskComplete", id);
+  if (state === "Complete") {
+    let evt = `taskComplete-${id}`;
+    events.emit(evt);
+  }
+
   return { id, state };
 };

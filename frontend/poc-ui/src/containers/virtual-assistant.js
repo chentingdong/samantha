@@ -115,7 +115,7 @@ function VirtualAssistant({ user }) {
             setCurrentCaseId={setCurrentCaseId}
           />
         </div>
-        <div className="col col-md-6 col-lg-7 vh-100 bg-lighter">
+        <div className="col col-md-6 col-lg-7 vh-100 bg-lighter overflow-auto">
           <Tasks currentCaseId={currentCaseId} user={user} />
         </div>
         <div className="col col-md-3 vh-100">
