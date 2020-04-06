@@ -1,0 +1,6 @@
+Resources:
+  taskCompleteQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 43200
+      QueueName: taskCompleteQueue

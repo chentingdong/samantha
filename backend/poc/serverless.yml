@@ -484,6 +484,20 @@ functions:
                 username: true
           integration: lambda
           response: ${file(config/default-response-config.yml)}
-
+  completeTask:
+    handler: src/servicess/http/tasks.completeTask
+    events:
+      - http:
+          method: patch
+          path: /tasks/complete
+  taskDependencyHandler:
+    handler: src/servicess/http/tasks.taskDependencyHandler
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - taskCompleteQueue
+              - Arn
 resources:
   - ${file(resources/dynamodb.yml)}
+  - ${file(resources/sqs.yml)}

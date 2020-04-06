@@ -1,0 +1,1 @@
+{"version":3,"file":"case-instance.js","sourceRoot":"","sources":["../src/core/models/case-instance.ts"],"names":[],"mappings":"AAAA,MAAM,OAAO,YAAY;IAIvB,YAAY,EAAE,EAAE,IAAI,EAAE,WAAW;QAC/B,IAAI,CAAC,EAAE,GAAG,EAAE,CAAC;QACb,IAAI,CAAC,IAAI,GAAG,IAAI,CAAC;QACjB,IAAI,CAAC,WAAW,GAAG,WAAW,CAAC;IACjC,CAAC;CACF"}

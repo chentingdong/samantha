@@ -9,7 +9,7 @@ module.exports.listIdentityPoolUsers = async () => {
     MaxResults: 50,
   };
   const data = await cognitoidentity.listIdentities(params).promise();
-  console.log(data);
+  // console.debug(data);
   return data.Identities;
 };
 
@@ -31,7 +31,7 @@ module.exports.listUserPoolUsers = async () => {
     };
     return user;
   });
-  console.log(`got users: ${JSON.stringify(users, null, 2)}`);
+  // console.debug(`got users: ${JSON.stringify(users, null, 2)}`);
   return users;
 };
 

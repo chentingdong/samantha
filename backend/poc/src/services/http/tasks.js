@@ -5,7 +5,6 @@ const {
   taskTransitionNoticeParticipants,
 } = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
-const { events } = require("../../core/events");
 
 module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
@@ -21,9 +20,10 @@ module.exports.createTask = async (event, context) => {
     state = "Pending";
     task.dependsOns.forEach((dependsOnTaskId) => {
       let evt = `taskComplete-${dependsOnTaskId}`;
-      events.addListener(evt, () => {
-        console.log(`+++++++++++++++++++++++++++++  event finished`);
-      });
+      // receiver(evt, context);
+      // events.addListener(evt, () => {
+      //   console.log(`+++++++++++++++++++++++++++++  event finished`);
+      // });
     });
   }
 
@@ -43,7 +43,6 @@ module.exports.createTask = async (event, context) => {
 
   // notification
   await taskCreateBroadcastToOwner(caseId, task);
-  console.log(events.eventNames());
   return { id, state, caseId, data: task };
 };
 
@@ -68,14 +67,22 @@ module.exports.deleteTask = async (event, context) => {
 };
 
 module.exports.updateTaskState = async (event, context) => {
-  console.log(events.eventNames());
   const { taskId: id, state } = event.path;
   await dynamodbConnector.updateTaskState(id, state);
 
   if (state === "Complete") {
-    let evt = `taskComplete-${id}`;
-    events.emit(evt);
+    let evt = { body: `taskComplete-${id}` };
+    // events.emit(evt);
+    // sender(evt, context);
   }
 
   return { id, state };
+};
+
+module.exports.completeTask = async (event, context) => {
+  console.log(event);
+};
+
+module.exports.taskDependencyHandler = async (event, context) => {
+  console.log(event);
 };

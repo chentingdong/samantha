@@ -26,8 +26,8 @@ const TaskRuntime = ({
 
   async function deleteCurrentTask() {
     const path = `/tasks/${currentTask.id}`;
-    await apiWrapper.delete(path);
-    tasks.splice(currentTask, 1);
+    let deletedTask = await apiWrapper.delete(path);
+    tasks.splice(deletedTask, 1);
     close();
   }
 
