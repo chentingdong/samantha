@@ -5,6 +5,7 @@ const {
   taskTransitionNoticeParticipants,
 } = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
+import { sender, receiver } from "../../core/events-handler";
 
 module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
@@ -18,12 +19,10 @@ module.exports.createTask = async (event, context) => {
   // register listeners for dependsOn tasks
   if (task.dependsOns.length !== 0) {
     state = "Pending";
-    task.dependsOns.forEach((dependsOnTaskId) => {
+    task.dependsOns.forEach(async (dependsOnTaskId) => {
       let evt = `taskComplete-${dependsOnTaskId}`;
-      // receiver(evt, context);
-      // events.addListener(evt, () => {
-      //   console.log(`+++++++++++++++++++++++++++++  event finished`);
-      // });
+      let resp = await receiver(event);
+      console.log(resp);
     });
   }
 
@@ -72,8 +71,7 @@ module.exports.updateTaskState = async (event, context) => {
 
   if (state === "Complete") {
     let evt = { body: `taskComplete-${id}` };
-    // events.emit(evt);
-    // sender(evt, context);
+    sender(evt, context);
   }
 
   return { id, state };

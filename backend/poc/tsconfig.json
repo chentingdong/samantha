@@ -1,20 +1,23 @@
 {
   "compilerOptions": {
-    "lib": ["es2017"],
-    "removeComments": true,
+    "allowJs": true,
+    "lib": ["esnext"],
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "rootDir": "./",
     "sourceMap": true,
-    "target": "es2017",
-    "outDir": "lib"
+    "strictNullChecks": true,
+    "target": "esnext",
+    "outDir": ".build",
+    "module": "commonjs"
   },
-  "include": ["./**/*.ts"],
+  "include": ["src"],
   "exclude": [
-    "node_modules/**/*",
-    ".serverless/**/*",
-    ".webpack/**/*",
-    "_warmup/**/*",
-    ".vscode/**/*"
+    "node_modules",
+    ".serverless",
+    ".webpack",
+    "_warmup",
+    ".vscode"
   ]
 }
