@@ -114,3 +114,6 @@ build
 
 # ssl
 *certs
+
+# serverless-plugin-typescript output
+.build

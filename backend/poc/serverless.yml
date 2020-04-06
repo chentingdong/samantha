@@ -1,6 +1,7 @@
 service: poc-${self:custom.user}
 
 plugins:
+  - serverless-plugin-typescript
   - serverless-mocha-plugin
   - serverless-dynamodb-local
   - serverless-offline
@@ -103,19 +104,19 @@ provider:
 functions:
   handleSocketDefault:
     name: LAMBDA_${self:service}_socket_default_${self:provider.stage}
-    handler: src/services/websocket.handleSocketDefault
+    handler: src/services/websocket/index.handleSocketDefault
     events:
       - websocket:
           route: $default
   handleSocketConnect:
     name: LAMBDA_${self:service}_socket_connect_${self:provider.stage}
-    handler: src/services/websocket.handleSocketConnect
+    handler: src/services/websocket/index.handleSocketConnect
     events:
       - websocket:
           route: $connect
   handleSocketDisconnect:
     name: LAMBDA_${self:service}_socket_disconnect_${self:provider.stage}
-    handler: src/services/websocket.handleSocketDisconnect
+    handler: src/services/websocket/index.handleSocketDisconnect
     events:
       - websocket:
           route: $disconnect

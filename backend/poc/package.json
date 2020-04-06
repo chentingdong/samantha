@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "initdb": "test/initdb.sh",
+    "start": "sls offline start",
     "test": "jest"
   },
   "jest": {
@@ -35,6 +36,7 @@
     "serverless-mocha-plugin": "^1.11.0",
     "serverless-offline": "^5.12.1",
     "serverless-plugin-split-stacks": "^1.9.3",
+    "serverless-plugin-typescript": "^1.1.9",
     "serverless-webpack": "^5.2.0",
     "ts-jest": "^25.3.0",
     "ts-loader": "^5.3.3",
