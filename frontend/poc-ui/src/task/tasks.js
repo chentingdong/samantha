@@ -80,6 +80,7 @@ function Tasks({ currentCaseId, user }) {
             <h4 className="col-6">Tasks</h4>
             <div className="col-6 text-right">
               <CreateTask
+                currentCaseId={currentCaseId}
                 user={user}
                 currentTask={currentTask}
                 setCurrentTask={setCurrentTask}

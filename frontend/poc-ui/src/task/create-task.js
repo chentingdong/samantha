@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import apiWrapper from "../libs/api-wrapper";
+import { formatDate } from "../libs/custom-functions";
 import CreateTaskContent from "./create-task-content";
 import moment from "moment";
 
@@ -11,6 +12,7 @@ import moment from "moment";
  **/
 
 const CreateTask = ({
+  currentCaseId,
   user,
   currentTask,
   setCurrentTask,
@@ -49,13 +51,13 @@ const CreateTask = ({
 
   function createTask(taskDefinition) {
     setShowDesignModal(true);
-    let today = moment();
-    let tomorrow = today.add(1).day();
-    setCurrentTask({
-      ...taskDefinition.data,
-      owner: user.username,
-      dueDate: tomorrow,
-    });
+    let today = new Date();
+    let tomorrow = today.setDate(today.getDate() + 1);
+    let taskInstance = Object.assign({}, taskDefinition);
+    taskInstance.caseId = currentCaseId;
+    taskInstance.data.owner = user.username;
+    taskInstance.data.dueDate = tomorrow;
+    setCurrentTask(taskInstance);
   }
 
   // function closeTask() {

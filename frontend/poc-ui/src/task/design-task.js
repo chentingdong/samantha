@@ -55,7 +55,7 @@ function TaskForm({
   setTasks,
   setShowDesignModal,
 }) {
-  const [task, setTask] = useFormFields(currentTask);
+  const [task, setTask] = useFormFields(currentTask.data);
 
   function close() {
     setShowDesignModal(false);
@@ -178,7 +178,7 @@ function TaskForm({
           Cancel
         </button>
         <LoaderButton className="btn-success" onClick={(e) => handleSubmit(e)}>
-          create task!
+          create/update task!
         </LoaderButton>
       </div>
     </form>
