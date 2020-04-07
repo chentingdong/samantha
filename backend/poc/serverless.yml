@@ -3,8 +3,8 @@ service: poc-${self:custom.user}
 plugins:
   # - serverless-plugin-typescript
   - serverless-mocha-plugin
-  - serverless-offline-sqs
   - serverless-dynamodb-local
+  - serverless-offline-sqs
   - serverless-offline
   - serverless-plugin-split-stacks
 
@@ -77,6 +77,8 @@ provider:
     DYNAMODB_TASKS_ON_STATE_GSI: ${self:service}-tasks-on-state-gsi-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-case-messages-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_CASEID_GSI: ${self:service}-case-messages-caseid-gsi-${self:provider.stage}
+    SQS_TASK_COMPLETE_QUEUE: ${self:service}-task-complete-queue-${self:provider.stage}
+    SQS_TASK_COMPLETE_URL: !Ref TaskCompleteQueue
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
     WEBSOCKET_API_ENDPOINT:
       !Join [
@@ -506,7 +508,7 @@ functions:
       - sqs:
           arn:
             Fn::GetAtt:
-              - taskCompleteQueue
+              - TaskCompleteQueue
               - Arn
 resources:
   - ${file(resources/dynamodb.yml)}

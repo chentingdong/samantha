@@ -16,7 +16,9 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
     };
   }
 
-  const queueUrl = "http://localhost:9324/queue/taskCompleteQueue";
+  const queueUrl = process.env.IS_OFFLINE
+    ? `http://localhost:9324/queue/${process.env.SQS_TASK_COMPLETE_QUEUE}`
+    : process.env.SQS_TASK_COMPLETE_URL;
 
   try {
     await sqs
