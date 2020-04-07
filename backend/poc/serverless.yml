@@ -2,13 +2,23 @@ service: poc-${self:custom.user}
 
 plugins:
   # - serverless-plugin-typescript
+  - serverless-pseudo-parameters
   - serverless-mocha-plugin
-  - serverless-dynamodb-local
-  - serverless-offline-sqs
+  # - serverless-dynamodb-local
+  # - serverless-offline-sqs
   - serverless-offline
   - serverless-plugin-split-stacks
 
 custom:
+  DB_NAME: samantha
+  USERNAME: root
+  PASSWORD: 'hCWK^z&T3Z!p;\tm'
+  AURORA:
+    HOST:
+      Fn::GetAtt: [AuroraRDSCluster, Endpoint.Address]
+    PORT:
+      Fn::GetAtt: [AuroraRDSCluster, Endpoint.Port]
+
   # This can be changed to the desired origin
   # When using lambda proxy integration, you have to manually add the CORS headers to responses...
   # https://github.com/serverless/serverless/issues/4681
@@ -54,6 +64,7 @@ custom:
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
 provider:
   name: aws
+  versionFunctions: false
   memorySize: 256
   runtime: nodejs12.x
   region: ${opt:region, 'us-east-1'}
@@ -63,6 +74,17 @@ provider:
   # Custom routes are selected by the value of the action property in the body
   websocketsApiRouteSelectionExpression: $request.body.action
   # DynamoDB table name, as composed with parameters from this definition file
+  vpc:
+    securityGroupIds:
+      - sg-0a7ab9d66d72cd854
+    subnetIds:
+      - subnet-aaeee4cd  
+      - subnet-ac5f4f82
+      - subnet-7e0b5240
+      - subnet-424b910f
+      - subnet-e878b4e6
+      - subnet-eba9beb7
+    DBSubnetGroupName: default-vpc-a30620d9      
   environment:
     ENVIRONMENT: ${self:provider.stage}
     CORS_ORIGIN: ${self:custom.corsOrigin}
@@ -78,20 +100,27 @@ provider:
     DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-case-messages-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_CASEID_GSI: ${self:service}-case-messages-caseid-gsi-${self:provider.stage}
     SQS_TASK_COMPLETE_QUEUE: ${self:service}-task-complete-queue-${self:provider.stage}
-    SQS_TASK_COMPLETE_URL: !Ref TaskCompleteQueue
+    # SQS_TASK_COMPLETE_URL: !Ref TaskCompleteQueue
     # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
-    WEBSOCKET_API_ENDPOINT:
-      !Join [
-        "",
-        [
-          "https://",
-          !Ref WebsocketsApi,
-          ".execute-api.",
-          "${self:provider.region}",
-          ".amazonaws.com/",
-          "${self:provider.stage}/",
-        ],
-      ]
+    # WEBSOCKET_API_ENDPOINT:
+    #   !Join [
+    #     "",
+    #     [
+    #       "https://",
+    #       !Ref WebsocketsApi,
+    #       ".execute-api.",
+    #       "${self:provider.region}",
+    #       ".amazonaws.com/",
+    #       "${self:provider.stage}/",
+    #     ],
+    #   ]
+    #aurora
+    AURORA_HOST: ${self:custom.AURORA.HOST}
+    AURORA_PORT: ${self:custom.AURORA.PORT}
+    #common
+    DB_NAME: ${self:custom.DB_NAME}
+    USERNAME: ${self:custom.USERNAME}
+    PASSWORD: ${self:custom.PASSWORD}      
   # Define the service IAM permissions
   iamRoleStatements:
     # Websocket permissions
@@ -113,403 +142,414 @@ provider:
         - "arn:aws:dynamodb:${self:provider.region}:*:table/*"
 
 functions:
-  handleSocketDefault:
-    name: LAMBDA_${self:service}_socket_default_${self:provider.stage}
-    handler: src/services/websocket/index.handleSocketDefault
-    events:
-      - websocket:
-          route: $default
-  handleSocketConnect:
-    name: LAMBDA_${self:service}_socket_connect_${self:provider.stage}
-    handler: src/services/websocket/index.handleSocketConnect
-    events:
-      - websocket:
-          route: $connect
-  handleSocketDisconnect:
-    name: LAMBDA_${self:service}_socket_disconnect_${self:provider.stage}
-    handler: src/services/websocket/index.handleSocketDisconnect
-    events:
-      - websocket:
-          route: $disconnect
-  webhook:
-    name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
-    handler: src/services/http/webhook.webhook
+#   handleSocketDefault:
+#     name: LAMBDA_${self:service}_socket_default_${self:provider.stage}
+#     handler: src/services/websocket/index.handleSocketDefault
+#     events:
+#       - websocket:
+#           route: $default
+#   handleSocketConnect:
+#     name: LAMBDA_${self:service}_socket_connect_${self:provider.stage}
+#     handler: src/services/websocket/index.handleSocketConnect
+#     events:
+#       - websocket:
+#           route: $connect
+#   handleSocketDisconnect:
+#     name: LAMBDA_${self:service}_socket_disconnect_${self:provider.stage}
+#     handler: src/services/websocket/index.handleSocketDisconnect
+#     events:
+#       - websocket:
+#           route: $disconnect
+#   webhook:
+#     name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
+#     handler: src/services/http/webhook.webhook
+#     events:
+#       - http:
+#           path: webhook
+#           method: post
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   createCaseDefinition:
+#     name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
+#     handler: src/services/http/case-definitions.createCaseDefinition
+#     events:
+#       - http:
+#           path: case-definitions
+#           method: post
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   getCaseDefinition:
+#     name: LAMBDA_${self:service}_http_get_case_definition_${self:provider.stage}
+#     handler: src/services/http/case-definitions.getCaseDefinition
+#     events:
+#       - http:
+#           path: case-definitions/{caseDefinitionId}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 caseDefinitionId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listCaseDefinitions:
+#     name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
+#     handler: src/services/http/case-definitions.listCaseDefinitions
+#     events:
+#       - http:
+#           path: case-definitions
+#           method: get
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   deleteCaseDefinition:
+#     name: LAMBDA_${self:service}_http_delete_case_definition_${self:provider.stage}
+#     handler: src/services/http/case-definitions.deleteCaseDefinition
+#     events:
+#       - http:
+#           path: case-definitions/{caseDefinitionId}
+#           method: delete
+#           request:
+#             parameters:
+#               paths:
+#                 caseDefinitionId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   createTaskDefinition:
+#     name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
+#     handler: src/services/http/task-definitions.createTaskDefinition
+#     events:
+#       - http:
+#           path: task-definitions
+#           method: post
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   getTaskDefinition:
+#     name: LAMBDA_${self:service}_http_get_task_definition_${self:provider.stage}
+#     handler: src/services/http/task-definitions.getTaskDefinition
+#     events:
+#       - http:
+#           path: task-definitions/{taskDefinitionId}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 taskDefinitionId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listTaskDefinitions:
+#     name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
+#     handler: src/services/http/task-definitions.listTaskDefinitions
+#     events:
+#       - http:
+#           path: task-definitions
+#           method: get
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   deleteTaskDefinition:
+#     name: LAMBDA_${self:service}_http_delete_task_definition_${self:provider.stage}
+#     handler: src/services/http/task-definitions.deleteTaskDefinition
+#     events:
+#       - http:
+#           path: task-definitions/{taskDefinitionId}
+#           method: delete
+#           request:
+#             parameters:
+#               paths:
+#                 taskDefinitionId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   createCase:
+#     name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
+#     handler: src/services/http/cases.createCase
+#     events:
+#       - http:
+#           path: cases
+#           method: post
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   getCase:
+#     name: LAMBDA_${self:service}_http_get_case_${self:provider.stage}
+#     handler: src/services/http/cases.getCase
+#     events:
+#       - http:
+#           path: cases/{caseId}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listCases:
+#     name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
+#     handler: src/services/http/cases.listCases
+#     events:
+#       - http:
+#           path: cases
+#           method: get
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   addCaseParticipant:
+#     name: LAMBDA_${self:service}_add_case_participant_${self:provider.stage}
+#     handler: src/services/http/cases.addCaseParticipant
+#     events:
+#       - http:
+#           path: cases/{caseId}/add-participant/{username}
+#           method: patch
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#                 username: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   completeCase:
+#     name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}
+#     handler: src/services/http/cases.completeCase
+#     events:
+#       - http:
+#           path: cases/{caseId}
+#           method: patch
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   deleteCase:
+#     name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
+#     handler: src/services/http/cases.deleteCase
+#     events:
+#       - http:
+#           path: cases/{caseId}
+#           method: delete
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   createTask:
+#     name: LAMBDA_${self:service}_http_create_task_${self:provider.stage}
+#     handler: src/services/http/tasks.createTask
+#     events:
+#       - http:
+#           path: cases/{caseId}/tasks
+#           method: post
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   getTask:
+#     name: LAMBDA_${self:service}_http_get_task_${self:provider.stage}
+#     handler: src/services/http/tasks.getTask
+#     events:
+#       - http:
+#           path: tasks/{taskId}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 taskId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#       - http:
+#           path: cases/{caseId}/tasks/{taskId}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#                 taskId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listTasks:
+#     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
+#     handler: src/services/http/tasks.listTasks
+#     events:
+#       - http:
+#           path: tasks
+#           method: get
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#       - http:
+#           path: cases/{caseId}/tasks
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   updateTaskState:
+#     name: LAMBDA_${self:service}_http_update_task_state_${self:provider.stage}
+#     handler: src/services/http/tasks.updateTaskState
+#     events:
+#       - http:
+#           path: tasks/{taskId}/{state}
+#           method: patch
+#           request:
+#             parameters:
+#               paths:
+#                 taskId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#       - http:
+#           path: cases/{caseId}/tasks/{taskId}/{state}
+#           method: patch
+#           request:
+#             parameters:
+#               paths:
+#                 caseId: true
+#                 taskId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   deleteTask:
+#     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
+#     handler: src/services/http/tasks.deleteTask
+#     events:
+#       - http:
+#           path: tasks/{taskId}
+#           method: delete
+#           request:
+#             parameters:
+#               paths:
+#                 taskId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   # case messages
+#   createCaseMessage:
+#     name: LAMBDA_${self:service}_http_create_case_message_${self:provider.stage}
+#     handler: src/services/http/case-messages.createCaseMessage
+#     events:
+#       - http:
+#           path: case-messages
+#           method: post
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   getCaseMessage:
+#     name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
+#     handler: src/services/http/case-messages.getCaseMessage
+#     events:
+#       - http:
+#           path: case-messages/{caseMessageId}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 caseMessageId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listCaseMessages:
+#     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
+#     handler: src/services/http/case-messages.listCaseMessages
+#     events:
+#       - http:
+#           path: case-messages
+#           method: get
+#           request:
+#             parameters:
+#               querystrings:
+#                 caseId: false
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   deleteCaseMessage:
+#     name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
+#     handler: src/services/http/case-messages.deleteCaseMessage
+#     events:
+#       - http:
+#           path: case-messages/{caseMessageId}
+#           method: delete
+#           request:
+#             parameters:
+#               paths:
+#                 caseMessageId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   # sockets
+#   createSocket:
+#     name: LAMBDA_${self:service}_http_create_socket_${self:provider.stage}
+#     handler: src/services/http/sockets.createSocket
+#     events:
+#       - http:
+#           path: sockets
+#           method: post
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listSockets:
+#     name: LAMBDA_${self:service}_http_list_sockets_${self:provider.stage}
+#     handler: src/services/http/sockets.listSockets
+#     events:
+#       - http:
+#           path: sockets
+#           method: get
+#           request:
+#             parameters:
+#               querystrings:
+#                 userId: false
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   deleteSocket:
+#     name: LAMBDA_${self:service}_http_delete_socket_${self:provider.stage}
+#     handler: src/services/http/sockets.deleteSocket
+#     events:
+#       - http:
+#           path: sockets/{socketId}
+#           method: delete
+#           request:
+#             parameters:
+#               paths:
+#                 socketId: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   listUserPoolUsers:
+#     name: LAMBDA_${self:service}_list_users_${self:provider.stage}
+#     handler: src/services/http/users.listUserPoolUsers
+#     events:
+#       - http:
+#           path: users
+#           method: get
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   getUserPoolUser:
+#     name: LAMBDA_${self:service}_get_user_${self:provider.stage}
+#     handler: src/services/http/users.getUserPoolUser
+#     events:
+#       - http:
+#           path: users/{username}
+#           method: get
+#           request:
+#             parameters:
+#               paths:
+#                 username: true
+#           integration: lambda
+#           response: ${file(config/default-response-config.yml)}
+#   completeTask:
+#     handler: src/services/http/tasks.completeTask
+#     events:
+#       - http:
+#           method: patch
+#           path: /tasks/complete
+#   taskDependencyHandler:
+#     handler: src/core/events-handler.taskDependencyHandler
+#     events:
+#       - sqs:
+#           arn:
+#             Fn::GetAtt:
+#               - TaskCompleteQueue
+#               - Arn
+  testTypeOrm:
+    handler: src/infra/db/index.testTypeOrm
     events:
       - http:
-          path: webhook
-          method: post
+          method: GET
+          path: /testtypeorm
           integration: lambda
           response: ${file(config/default-response-config.yml)}
-  createCaseDefinition:
-    name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
-    handler: src/services/http/case-definitions.createCaseDefinition
-    events:
-      - http:
-          path: case-definitions
-          method: post
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  getCaseDefinition:
-    name: LAMBDA_${self:service}_http_get_case_definition_${self:provider.stage}
-    handler: src/services/http/case-definitions.getCaseDefinition
-    events:
-      - http:
-          path: case-definitions/{caseDefinitionId}
-          method: get
-          request:
-            parameters:
-              paths:
-                caseDefinitionId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listCaseDefinitions:
-    name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
-    handler: src/services/http/case-definitions.listCaseDefinitions
-    events:
-      - http:
-          path: case-definitions
-          method: get
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  deleteCaseDefinition:
-    name: LAMBDA_${self:service}_http_delete_case_definition_${self:provider.stage}
-    handler: src/services/http/case-definitions.deleteCaseDefinition
-    events:
-      - http:
-          path: case-definitions/{caseDefinitionId}
-          method: delete
-          request:
-            parameters:
-              paths:
-                caseDefinitionId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  createTaskDefinition:
-    name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
-    handler: src/services/http/task-definitions.createTaskDefinition
-    events:
-      - http:
-          path: task-definitions
-          method: post
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  getTaskDefinition:
-    name: LAMBDA_${self:service}_http_get_task_definition_${self:provider.stage}
-    handler: src/services/http/task-definitions.getTaskDefinition
-    events:
-      - http:
-          path: task-definitions/{taskDefinitionId}
-          method: get
-          request:
-            parameters:
-              paths:
-                taskDefinitionId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listTaskDefinitions:
-    name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
-    handler: src/services/http/task-definitions.listTaskDefinitions
-    events:
-      - http:
-          path: task-definitions
-          method: get
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  deleteTaskDefinition:
-    name: LAMBDA_${self:service}_http_delete_task_definition_${self:provider.stage}
-    handler: src/services/http/task-definitions.deleteTaskDefinition
-    events:
-      - http:
-          path: task-definitions/{taskDefinitionId}
-          method: delete
-          request:
-            parameters:
-              paths:
-                taskDefinitionId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  createCase:
-    name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
-    handler: src/services/http/cases.createCase
-    events:
-      - http:
-          path: cases
-          method: post
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  getCase:
-    name: LAMBDA_${self:service}_http_get_case_${self:provider.stage}
-    handler: src/services/http/cases.getCase
-    events:
-      - http:
-          path: cases/{caseId}
-          method: get
-          request:
-            parameters:
-              paths:
-                caseId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listCases:
-    name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
-    handler: src/services/http/cases.listCases
-    events:
-      - http:
-          path: cases
-          method: get
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  addCaseParticipant:
-    name: LAMBDA_${self:service}_add_case_participant_${self:provider.stage}
-    handler: src/services/http/cases.addCaseParticipant
-    events:
-      - http:
-          path: cases/{caseId}/add-participant/{username}
-          method: patch
-          request:
-            parameters:
-              paths:
-                caseId: true
-                username: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  completeCase:
-    name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}
-    handler: src/services/http/cases.completeCase
-    events:
-      - http:
-          path: cases/{caseId}
-          method: patch
-          request:
-            parameters:
-              paths:
-                caseId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  deleteCase:
-    name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
-    handler: src/services/http/cases.deleteCase
-    events:
-      - http:
-          path: cases/{caseId}
-          method: delete
-          request:
-            parameters:
-              paths:
-                caseId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  createTask:
-    name: LAMBDA_${self:service}_http_create_task_${self:provider.stage}
-    handler: src/services/http/tasks.createTask
-    events:
-      - http:
-          path: cases/{caseId}/tasks
-          method: post
-          request:
-            parameters:
-              paths:
-                caseId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  getTask:
-    name: LAMBDA_${self:service}_http_get_task_${self:provider.stage}
-    handler: src/services/http/tasks.getTask
-    events:
-      - http:
-          path: tasks/{taskId}
-          method: get
-          request:
-            parameters:
-              paths:
-                taskId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-      - http:
-          path: cases/{caseId}/tasks/{taskId}
-          method: get
-          request:
-            parameters:
-              paths:
-                caseId: true
-                taskId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listTasks:
-    name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
-    handler: src/services/http/tasks.listTasks
-    events:
-      - http:
-          path: tasks
-          method: get
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-      - http:
-          path: cases/{caseId}/tasks
-          method: get
-          request:
-            parameters:
-              paths:
-                caseId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  updateTaskState:
-    name: LAMBDA_${self:service}_http_update_task_state_${self:provider.stage}
-    handler: src/services/http/tasks.updateTaskState
-    events:
-      - http:
-          path: tasks/{taskId}/{state}
-          method: patch
-          request:
-            parameters:
-              paths:
-                taskId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-      - http:
-          path: cases/{caseId}/tasks/{taskId}/{state}
-          method: patch
-          request:
-            parameters:
-              paths:
-                caseId: true
-                taskId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  deleteTask:
-    name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
-    handler: src/services/http/tasks.deleteTask
-    events:
-      - http:
-          path: tasks/{taskId}
-          method: delete
-          request:
-            parameters:
-              paths:
-                taskId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  # case messages
-  createCaseMessage:
-    name: LAMBDA_${self:service}_http_create_case_message_${self:provider.stage}
-    handler: src/services/http/case-messages.createCaseMessage
-    events:
-      - http:
-          path: case-messages
-          method: post
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  getCaseMessage:
-    name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
-    handler: src/services/http/case-messages.getCaseMessage
-    events:
-      - http:
-          path: case-messages/{caseMessageId}
-          method: get
-          request:
-            parameters:
-              paths:
-                caseMessageId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listCaseMessages:
-    name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
-    handler: src/services/http/case-messages.listCaseMessages
-    events:
-      - http:
-          path: case-messages
-          method: get
-          request:
-            parameters:
-              querystrings:
-                caseId: false
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  deleteCaseMessage:
-    name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
-    handler: src/services/http/case-messages.deleteCaseMessage
-    events:
-      - http:
-          path: case-messages/{caseMessageId}
-          method: delete
-          request:
-            parameters:
-              paths:
-                caseMessageId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  # sockets
-  createSocket:
-    name: LAMBDA_${self:service}_http_create_socket_${self:provider.stage}
-    handler: src/services/http/sockets.createSocket
-    events:
-      - http:
-          path: sockets
-          method: post
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listSockets:
-    name: LAMBDA_${self:service}_http_list_sockets_${self:provider.stage}
-    handler: src/services/http/sockets.listSockets
-    events:
-      - http:
-          path: sockets
-          method: get
-          request:
-            parameters:
-              querystrings:
-                userId: false
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  deleteSocket:
-    name: LAMBDA_${self:service}_http_delete_socket_${self:provider.stage}
-    handler: src/services/http/sockets.deleteSocket
-    events:
-      - http:
-          path: sockets/{socketId}
-          method: delete
-          request:
-            parameters:
-              paths:
-                socketId: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  listUserPoolUsers:
-    name: LAMBDA_${self:service}_list_users_${self:provider.stage}
-    handler: src/services/http/users.listUserPoolUsers
-    events:
-      - http:
-          path: users
-          method: get
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  getUserPoolUser:
-    name: LAMBDA_${self:service}_get_user_${self:provider.stage}
-    handler: src/services/http/users.getUserPoolUser
-    events:
-      - http:
-          path: users/{username}
-          method: get
-          request:
-            parameters:
-              paths:
-                username: true
-          integration: lambda
-          response: ${file(config/default-response-config.yml)}
-  completeTask:
-    handler: src/services/http/tasks.completeTask
-    events:
-      - http:
-          method: patch
-          path: /tasks/complete
-  taskDependencyHandler:
-    handler: src/core/events-handler.taskDependencyHandler
-    events:
-      - sqs:
-          arn:
-            Fn::GetAtt:
-              - TaskCompleteQueue
-              - Arn
 resources:
-  - ${file(resources/dynamodb.yml)}
-  - ${file(resources/sqs.yml)}
+  # - bastion was pre-created.
+  # - vpc, subnets, securitygroup were pre-created.
+  # - ${file(resources/dynamodb.yml)}
+  # - ${file(resources/sqs.yml)}
+  - ${file(resources/aurora.yml)}
