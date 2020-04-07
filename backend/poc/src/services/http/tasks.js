@@ -22,6 +22,7 @@ module.exports.createTask = async (event, context) => {
   // add task to case planItems.
   caseData.planItems.push({
     id,
+    state,
     ...task,
   });
 
@@ -60,10 +61,8 @@ module.exports.updateTaskState = async (event, context) => {
   await dynamodbConnector.updateTaskState(id, state);
 
   let evt = {
-    body: {
-      id: id,
-      state: state,
-    },
+    id: id,
+    state: state,
   };
   let resp = await taskCompleteSendEvent(evt, context);
   console.log(`sent to sqs: ${JSON.stringify(resp)}`);

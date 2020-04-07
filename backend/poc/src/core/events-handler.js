@@ -7,15 +7,6 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
   let statusCode = 200;
   let message = "";
 
-  if (!event.body) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({
-        message: "No body was found",
-      }),
-    };
-  }
-
   const queueUrl = process.env.IS_OFFLINE
     ? `http://localhost:9324/queue/${process.env.SQS_TASK_COMPLETE_QUEUE}`
     : process.env.SQS_TASK_COMPLETE_URL;
@@ -24,13 +15,7 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
     await sqs
       .sendMessage({
         QueueUrl: queueUrl,
-        MessageBody: JSON.stringify(event.body),
-        MessageAttributes: {
-          state: {
-            StringValue: event.body.state,
-            DataType: "String",
-          },
-        },
+        MessageBody: JSON.stringify(event),
       })
       .promise();
 
@@ -64,11 +49,16 @@ module.exports.taskDependencyHandler = async (event, context) => {
       let updatedTask = JSON.parse(record.body);
       const result = await dynamodbConnector.listTasks();
       result.Items.forEach((task) => {
-        let i = task.data.dependsOns.indexOf(updatedTask.id);
-        if (i > -1) {
-          task.data.dependsOns.splice(i, 1);
-          if (task.data.dependsOns.length === 0)
-            updateDependentTask(updatedTask, task);
+        if (updatedTask.id === task.id) {
+          updatedTask = task;
+        } else {
+          let i = task.data.dependsOns.indexOf(updatedTask.id);
+          if (i > -1) {
+            task.data.dependsOns.splice(i, 1);
+            // update states when thre is no more dependsOns
+            if (task.data.dependsOns.length === 0)
+              updateDependentTask(updatedTask, task);
+          }
         }
       });
     }
