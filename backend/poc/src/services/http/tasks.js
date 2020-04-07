@@ -11,12 +11,12 @@ module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
   const { caseId } = event.path;
   const task = event.body;
-  let state = task.dependsOns.length === 0 ? "Active" : "Pending";
 
   const { Item = {} } = await dynamodbConnector.getCase(caseId);
   const caseData = Item.data;
 
   // create task
+  let state = task.dependsOns.length === 0 ? "Active" : "Pending";
   await dynamodbConnector.createTaskInCase(id, caseId, state, task);
 
   // add task to case planItems.

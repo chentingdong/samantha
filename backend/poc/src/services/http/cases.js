@@ -7,7 +7,7 @@ module.exports.createCase = async (event, context) => {
   const state = "Active";
   const data = event.body;
   await dynamodbConnector.createCase(id, state, data);
-  return { id, state };
+  return { id, state, data };
 };
 
 module.exports.getCase = async (event, context) => {

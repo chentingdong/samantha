@@ -32,23 +32,6 @@ const CreateTask = ({
       });
   }
 
-  // function submitCreateTaskForm(task) {
-  //   let path = `/cases/${currentCaseId}/tasks`;
-  //   apiWrapper
-  //     .post(path, task)
-  //     .then((resp) => {
-  //       let t = resp.data;
-
-  //       setTasks((tasks) => [t, ...tasks]);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     })
-  //     .then(() => {
-  //       closeTask();
-  //     });
-  // }
-
   function createTask(taskDefinition) {
     setShowDesignModal(true);
     let today = new Date();
@@ -60,10 +43,6 @@ const CreateTask = ({
     setCurrentTask(taskInstance);
   }
 
-  // function closeTask() {
-  //   setShowCreateModal(false);
-  // }
-
   useEffect(() => {
     getTaskDefinitions();
   }, []);
@@ -71,10 +50,7 @@ const CreateTask = ({
   return (
     <div>
       <Dropdown>
-        <Dropdown.Toggle
-          // @ts-ignore
-          variant="light border-secondary shadow-sm"
-        >
+        <Dropdown.Toggle variant="light border-secondary shadow-sm">
           <FontAwesomeIcon icon="plus-circle" />
           <span className="ml-1">New Task</span>
         </Dropdown.Toggle>
@@ -94,29 +70,6 @@ const CreateTask = ({
             })}
         </Dropdown.Menu>
       </Dropdown>
-      {/* <Modal
-        className="container-fluid"
-        show={showCreateModal}
-        onHide={closeTask}
-        key={currentTask.id}
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>
-            <h3>{currentTask.name}</h3>
-            <h6>{currentTask.description}</h6>
-          </Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <CreateTaskContent
-            user={user}
-            users={users}
-            tasks={tasks}
-            currentTask={currentTask}
-            close={closeTask}
-            submitCreateTaskForm={submitCreateTaskForm}
-          />
-        </Modal.Body>
-      </Modal> */}
     </div>
   );
 };

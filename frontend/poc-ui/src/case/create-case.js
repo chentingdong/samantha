@@ -34,7 +34,7 @@ const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
 
     let resp = await apiWrapper.post("/cases", caseInstance);
     if (resp.status === 200) {
-      let newCase = await resp.data;
+      let newCase = resp.data;
       setCases((cases) => {
         return [newCase, ...cases];
       });

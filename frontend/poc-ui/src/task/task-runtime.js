@@ -9,8 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  **/
 
 const TaskRuntime = ({
+  currentCaseId,
   currentTask,
-  setCurrentTask,
   tasks,
   setTasks,
   showRuntimeModal,
@@ -19,7 +19,8 @@ const TaskRuntime = ({
   function close() {
     setShowRuntimeModal(false);
   }
-  function reopenCurrentTask() {
+
+  async function reopenCurrentTask() {
     if (currentTask.state === "Complete") updateCurrentTaskState("Active");
     close();
   }
@@ -31,20 +32,21 @@ const TaskRuntime = ({
     close();
   }
 
-  async function updateCurrentTaskState(state) {
-    // User manually complete the task by clicking the complete button
-    let path = `/tasks/${currentTask.id}/${state}`;
-    let resp = await apiWrapper.patch(path);
-    setCurrentTask({ [state]: resp.data.state, ...currentTask });
+  async function getCaseTasks() {
+    let path = `/cases/${currentCaseId}/tasks`;
+    try {
+      let resp = await apiWrapper.get(path);
+      let caseTasks = resp.data;
+      setTasks(caseTasks);
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
-    // update currentTask in tasks listing
-    setTasks((tasks) => {
-      let updatedTasks = tasks;
-      let currTask = updatedTasks.filter((t) => t.id === currentTask.id)[0];
-      currTask.state = resp.data.state;
-      setCurrentTask(updatedTasks);
-      return updatedTasks;
-    });
+  async function updateCurrentTaskState(state) {
+    let path = `/tasks/${currentTask.id}/${state}`;
+    await apiWrapper.patch(path);
+    await getCaseTasks();
     close();
   }
 

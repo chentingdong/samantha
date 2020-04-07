@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function App() {
   const [user, setUser] = useState({});
-  const [isAuthenticated, userHasAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   buildFonts();
   Amplify.configure(config);
 
@@ -18,7 +18,7 @@ function App() {
     try {
       const userInfo = await Auth.currentUserPoolUser();
       setUser(userInfo);
-      userHasAuthenticated(true);
+      setIsAuthenticated(true);
     } catch (err) {
       console.log(err);
     }
@@ -34,7 +34,7 @@ function App() {
           getUserInfo();
           break;
         case "signOut":
-          userHasAuthenticated(false);
+          setIsAuthenticated(false);
           setUser({});
           break;
         case "signIn_failure":
@@ -49,7 +49,7 @@ function App() {
   async function federatedSignUp() {
     try {
       await Auth.federatedSignIn();
-      userHasAuthenticated(true);
+      setIsAuthenticated(true);
     } catch (err) {
       console.error(err);
     }
@@ -58,7 +58,7 @@ function App() {
   async function handleLogout() {
     try {
       await Auth.signOut();
-      userHasAuthenticated(false);
+      setIsAuthenticated(false);
       setUser({});
     } catch (e) {
       console.error(e);
@@ -130,7 +130,7 @@ function App() {
             )}
           </div>
         </div>
-        <Routes appProps={{ isAuthenticated, userHasAuthenticated, user }} />
+        <Routes appProps={{ isAuthenticated, setIsAuthenticated, user }} />
       </BrowserRouter>
     </div>
   );
