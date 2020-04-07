@@ -2,7 +2,7 @@ const dynamodbConnector = require("../../connectors/dynamodb");
 const uuid = require("uuid");
 const {
   taskCreateBroadcastToOwner,
-  taskTransitionNoticeParticipants,
+  taskCreateNoticeParticipants,
 } = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
 const { taskCompleteSendEvent } = require("../../core/events-handler");
@@ -33,6 +33,7 @@ module.exports.createTask = async (event, context) => {
 
   // notification
   await taskCreateBroadcastToOwner(caseId, task);
+  await taskCreateNoticeParticipants(caseId, task);
   return { id, state, caseId, data: task };
 };
 
