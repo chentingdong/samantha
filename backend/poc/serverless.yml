@@ -501,7 +501,7 @@ functions:
           method: patch
           path: /tasks/complete
   taskDependencyHandler:
-    handler: src/services/http/tasks.taskDependencyHandler
+    handler: src/core/events-handler.taskDependencyHandler
     events:
       - sqs:
           arn:

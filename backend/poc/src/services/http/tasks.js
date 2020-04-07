@@ -19,11 +19,11 @@ module.exports.createTask = async (event, context) => {
   // register listeners for dependsOn tasks
   if (task.dependsOns.length !== 0) {
     state = "Pending";
-    task.dependsOns.forEach(async (dependsOnTaskId) => {
-      let evt = `taskComplete-${dependsOnTaskId}`;
-      let resp = await receiver(event);
-      console.log(resp);
-    });
+    //   task.dependsOns.forEach(async (dependsOnTaskId) => {
+    //     let evt = `taskComplete-${dependsOnTaskId}`;
+    //     let resp = await receiver(event);
+    //     console.log(resp);
+    //   });
   }
 
   // create task
@@ -75,12 +75,4 @@ module.exports.updateTaskState = async (event, context) => {
   }
 
   return { id, state };
-};
-
-module.exports.completeTask = async (event, context) => {
-  console.log(event);
-};
-
-module.exports.taskDependencyHandler = async (event, context) => {
-  console.log(event);
 };

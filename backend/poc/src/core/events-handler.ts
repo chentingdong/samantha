@@ -20,8 +20,7 @@ const sender: APIGatewayProxyHandler = async (event, context) => {
     };
   }
 
-  const queueUrl: string =
-    "https://sqs.us-east-1.amazonaws.com/079056339674/taskCompleteQueue";
+  const queueUrl: string = "http://localhost:9324/queue/taskCompleteQueue";
 
   try {
     await sqs
@@ -54,7 +53,7 @@ const sender: APIGatewayProxyHandler = async (event, context) => {
 
 module.exports.sender = sender;
 
-const receiver: SQSHandler = async (event) => {
+const taskDependencyHandler: SQSHandler = async (event, context) => {
   try {
     for (const record of event.Records) {
       const messageAttributes: SQSMessageAttributes = record.messageAttributes;
@@ -70,4 +69,4 @@ const receiver: SQSHandler = async (event) => {
   }
 };
 
-module.exports.receiver = receiver;
+module.exports.taskDependencyHandler = taskDependencyHandler;
