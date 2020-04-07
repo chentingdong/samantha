@@ -1,79 +1,72 @@
 /**
-* @author
-* @function CreateCase
-**/
-import React, { useState, useEffect } from 'react';
-import apiWrapper from '../libs/api-wrapper';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Dropdown } from 'react-bootstrap';
+ * @author
+ * @function CreateCase
+ **/
+import React, { useState, useEffect } from "react";
+import apiWrapper from "../libs/api-wrapper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dropdown } from "react-bootstrap";
 
-const CreateCase = ( { user, className, cases, setCases, setCurrentCaseId } ) => {
-  const [ caseDefinitions, setCaseDefinitions ] = useState( [] );
+const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
+  const [caseDefinitions, setCaseDefinitions] = useState([]);
 
-  useEffect( () => {
-    function getCaseDefinitions () {
-      let path = '/case-definitions';
+  useEffect(() => {
+    function getCaseDefinitions() {
+      let path = "/case-definitions";
       apiWrapper
-        .get( path )
-        .then( resp => {
-          setCaseDefinitions( resp.data );
-        } )
-        .catch( err => {
-          console.error( err );
-        } );
+        .get(path)
+        .then((resp) => {
+          setCaseDefinitions(resp.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     }
 
     getCaseDefinitions();
-  }, [] );
+  }, []);
 
-
-  function createCase ( caseDefinition ) {
+  async function createCase(caseDefinition) {
     let caseInstance = caseDefinition.data;
     caseInstance.owner = user.username;
     caseInstance.participants = [];
     caseInstance.createdAt = Date.now();
 
-    apiWrapper
-      .post( '/cases', caseInstance )
-      .then( resp => {
-        if ( resp.status === 200 ) {
-          let newCase = resp.data;
-          setCases( cases => {
-            return [ newCase, ...cases ];
-          } );
+    let resp = await apiWrapper.post("/cases", caseInstance);
+    if (resp.status === 200) {
+      let newCase = await resp.data;
+      setCases((cases) => {
+        return [newCase, ...cases];
+      });
 
-          setCurrentCaseId( newCase.id );
-        }
-      } )
-      .catch( err => {
-        console.error( err );
-      } );
+      setCurrentCaseId(newCase.id);
+    }
   }
 
   return (
     <div className="create-case">
       <Dropdown>
-        <Dropdown.Toggle className={ className }>
+        <Dropdown.Toggle className={className}>
           <FontAwesomeIcon icon="plus" />
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {
-            caseDefinitions.length > 0 &&
-            caseDefinitions.map( caseDefinition => {
+          {caseDefinitions.length > 0 &&
+            caseDefinitions.map((caseDefinition) => {
               return (
-                <Dropdown.Item eventKey="1"
-                  onClick={ e => createCase( caseDefinition ) }
-                  key={ caseDefinition.id }>
-                  <FontAwesomeIcon icon={ caseDefinition.data.icon || 'cog' } />
-                  <span> { caseDefinition.data.name }</span>
+                <Dropdown.Item
+                  eventKey="1"
+                  onClick={(e) => createCase(caseDefinition)}
+                  key={caseDefinition.id}
+                >
+                  <FontAwesomeIcon icon={caseDefinition.data.icon || "cog"} />
+                  <span> {caseDefinition.data.name}</span>
                 </Dropdown.Item>
               );
-            } )
-          }
+            })}
         </Dropdown.Menu>
       </Dropdown>
-    </div> );
-
+    </div>
+  );
 };
 
 export default CreateCase;

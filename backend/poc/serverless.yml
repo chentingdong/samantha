@@ -1,7 +1,7 @@
 service: poc-${self:custom.user}
 
 plugins:
-  - serverless-plugin-typescript
+  # - serverless-plugin-typescript
   - serverless-mocha-plugin
   - serverless-offline-sqs
   - serverless-dynamodb-local
@@ -501,7 +501,7 @@ functions:
           method: patch
           path: /tasks/complete
   taskDependencyHandler:
-    handler: src/services/http/tasks.taskDependencyHandler
+    handler: src/core/events-handler.taskDependencyHandler
     events:
       - sqs:
           arn:

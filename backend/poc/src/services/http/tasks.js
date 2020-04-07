@@ -5,26 +5,16 @@ const {
   taskTransitionNoticeParticipants,
 } = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
-import { sender, receiver } from "../../core/events-handler";
+const { taskCompleteSendEvent } = require("../../core/events-handler");
 
 module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
-  let state = "Active";
   const { caseId } = event.path;
   const task = event.body;
+  let state = task.dependsOns.length === 0 ? "Active" : "Pending";
 
   const { Item = {} } = await dynamodbConnector.getCase(caseId);
   const caseData = Item.data;
-
-  // register listeners for dependsOn tasks
-  if (task.dependsOns.length !== 0) {
-    state = "Pending";
-    task.dependsOns.forEach(async (dependsOnTaskId) => {
-      let evt = `taskComplete-${dependsOnTaskId}`;
-      let resp = await receiver(evt);
-      console.log(`received from sqs: ${JSON.stringify(resp)}`);
-    });
-  }
 
   // create task
   await dynamodbConnector.createTaskInCase(id, caseId, state, task);
@@ -70,18 +60,10 @@ module.exports.updateTaskState = async (event, context) => {
   await dynamodbConnector.updateTaskState(id, state);
 
   if (state === "Complete") {
-    let evt = { body: `taskComplete-${id}` };
-    let resp = await sender(evt, context);
+    let evt = { body: id };
+    let resp = await taskCompleteSendEvent(evt, context);
     console.log(`sent to sqs: ${JSON.stringify(resp)}`);
   }
 
   return { id, state };
-};
-
-module.exports.completeTask = async (event, context) => {
-  console.log(`completeTask ${event}`);
-};
-
-module.exports.taskDependencyHandler = async (event, context) => {
-  console.log(`taskDependencyHandler ${event}`);
 };

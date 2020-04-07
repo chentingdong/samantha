@@ -4,7 +4,11 @@ import apiWrapper from "../libs/api-wrapper";
 import CreateTask from "./create-task";
 import DesignTask from "./design-task";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { stateColor, formatDate, stateIcon } from "../libs/custom-functions";
+import {
+  stateColor,
+  formatDateTime,
+  stateIcon,
+} from "../libs/custom-functions";
 import CaseHeader from "../case/case-header";
 import TaskRuntime from "../task/task-runtime";
 
@@ -108,7 +112,7 @@ function Tasks({ currentCaseId, user }) {
                       >
                         {task.data.name}
                       </td>
-                      <td>{formatDate(task.data.dueDate)}</td>
+                      <td>{formatDateTime(task.data.dueDate)}</td>
                       <td>
                         {task.data.participants &&
                           task.data.participants.map((participant) => {
