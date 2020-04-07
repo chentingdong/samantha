@@ -17,6 +17,8 @@ module.exports.getCase = async (event, context) => {
 };
 
 module.exports.listCases = async (event, context) => {
+  const { CaseInstance } = require("../../core/models/case-instance");
+  // const ci = new CaseInstance();
   const { Items = [] } = await dynamodbConnector.listCases();
   return Items;
 };
