@@ -31,6 +31,7 @@ const TaskRuntime = ({
     let deletedTask = await apiWrapper.delete(path);
     tasks.splice(deletedTask, 1);
     close();
+    setCurrentTask({});
   }
 
   async function updateCurrentTaskState(state) {
