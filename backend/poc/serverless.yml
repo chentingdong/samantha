@@ -486,13 +486,13 @@ functions:
           integration: lambda
           response: ${file(config/default-response-config.yml)}
   completeTask:
-    handler: src/servicess/http/tasks.completeTask
+    handler: src/services/http/tasks.completeTask
     events:
       - http:
           method: patch
           path: /tasks/complete
   taskDependencyHandler:
-    handler: src/servicess/http/tasks.taskDependencyHandler
+    handler: src/services/http/tasks.taskDependencyHandler
     events:
       - sqs:
           arn:

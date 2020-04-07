@@ -21,8 +21,8 @@ module.exports.createTask = async (event, context) => {
     state = "Pending";
     task.dependsOns.forEach(async (dependsOnTaskId) => {
       let evt = `taskComplete-${dependsOnTaskId}`;
-      let resp = await receiver(event);
-      console.log(resp);
+      let resp = await receiver(evt);
+      console.log(`received from sqs: ${JSON.stringify(resp)}`);
     });
   }
 
@@ -71,16 +71,17 @@ module.exports.updateTaskState = async (event, context) => {
 
   if (state === "Complete") {
     let evt = { body: `taskComplete-${id}` };
-    sender(evt, context);
+    let resp = await sender(evt, context);
+    console.log(`sent to sqs: ${JSON.stringify(resp)}`);
   }
 
   return { id, state };
 };
 
 module.exports.completeTask = async (event, context) => {
-  console.log(event);
+  console.log(`completeTask ${event}`);
 };
 
 module.exports.taskDependencyHandler = async (event, context) => {
-  console.log(event);
+  console.log(`taskDependencyHandler ${event}`);
 };
