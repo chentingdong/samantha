@@ -22,10 +22,10 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
     await sqs
       .sendMessage({
         QueueUrl: queueUrl,
-        MessageBody: event.body,
+        MessageBody: JSON.stringify(event.body),
         MessageAttributes: {
-          AttributeNameHere: {
-            StringValue: "Attribute Value Here",
+          state: {
+            StringValue: event.body.state,
             DataType: "String",
           },
         },
@@ -48,19 +48,25 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
 };
 
 module.exports.taskDependencyHandler = async (event, context) => {
+  function updateDependentTask(updatedTask, task) {
+    console.log(`unblock/block ${task.id}`);
+    if (updatedTask.state === "Complete" && task.state === "Pending") {
+      dynamodbConnector.updateTaskState(task.id, "Active");
+    } else if (updatedTask.state === "Active" && task.state === "Active") {
+      dynamodbConnector.updateTaskState(task.id, "Pending");
+    }
+  }
+
   try {
     for (const record of event.Records) {
-      let completedTaskId = record.body;
+      let updatedTask = JSON.parse(record.body);
       const result = await dynamodbConnector.listTasks();
-      result.Items.forEach((dependentTask) => {
-        let i = dependentTask.data.dependsOns.indexOf(completedTaskId);
+      result.Items.forEach((task) => {
+        let i = task.data.dependsOns.indexOf(updatedTask.id);
         if (i > -1) {
-          dependentTask.data.dependsOns.splice(i, 1);
-          if (dependentTask.data.dependsOns.length === 0) {
-            console.log(`unblock ${dependentTask.id}`);
-            if (dependentTask.state === "Pending")
-              dynamodbConnector.updateTaskState(dependentTask.id, "Active");
-          }
+          task.data.dependsOns.splice(i, 1);
+          if (task.data.dependsOns.length === 0)
+            updateDependentTask(updatedTask, task);
         }
       });
     }

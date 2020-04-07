@@ -59,11 +59,14 @@ module.exports.updateTaskState = async (event, context) => {
   const { taskId: id, state } = event.path;
   await dynamodbConnector.updateTaskState(id, state);
 
-  if (state === "Complete") {
-    let evt = { body: id };
-    let resp = await taskCompleteSendEvent(evt, context);
-    console.log(`sent to sqs: ${JSON.stringify(resp)}`);
-  }
+  let evt = {
+    body: {
+      id: id,
+      state: state,
+    },
+  };
+  let resp = await taskCompleteSendEvent(evt, context);
+  console.log(`sent to sqs: ${JSON.stringify(resp)}`);
 
   return { id, state };
 };
