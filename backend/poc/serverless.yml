@@ -3,8 +3,8 @@ service: poc-${self:custom.user}
 plugins:
   - serverless-plugin-typescript
   - serverless-mocha-plugin
-  - serverless-dynamodb-local
   - serverless-offline-sqs
+  - serverless-dynamodb-local
   - serverless-offline
   - serverless-plugin-split-stacks
 
@@ -23,7 +23,7 @@ custom:
       # dbPath: .dynamodb/data
       migrate: true
       seed: true
-  seed:
+    seed:
       test:
         sources:
           - table: ${self:provider.environment.DYNAMODB_CASE_DEFINITIONS_TABLE}
@@ -42,8 +42,8 @@ custom:
     perType: true
     perGroupFunction: false
   serverless-offline-sqs:
-    autoCreate: true                 # create queue if not exists
-    apiVersion: '2012-11-05'
+    autoCreate: true # create queue if not exists
+    apiVersion: "2012-11-05"
     endpoint: http://0.0.0.0:9324
     region: us-east-1
     accessKeyId: root
