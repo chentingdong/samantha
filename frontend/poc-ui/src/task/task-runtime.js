@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const TaskRuntime = ({
   currentCaseId,
   currentTask,
+  setCurrentTask,
   tasks,
   setTasks,
   showRuntimeModal,
@@ -32,22 +33,11 @@ const TaskRuntime = ({
     close();
   }
 
-  async function getCaseTasks() {
-    let path = `/cases/${currentCaseId}/tasks`;
-    try {
-      let resp = await apiWrapper.get(path);
-      let caseTasks = resp.data;
-      setTasks(caseTasks);
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   async function updateCurrentTaskState(state) {
     let path = `/tasks/${currentTask.id}/${state}`;
     await apiWrapper.patch(path);
-    await getCaseTasks();
     close();
+    setCurrentTask({});
   }
 
   return (

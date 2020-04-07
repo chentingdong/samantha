@@ -39,7 +39,7 @@ function Tasks({ currentCaseId, user }) {
     }
 
     getCaseTasks();
-  }, [currentCaseId]);
+  }, [currentCaseId, currentTask]);
 
   useEffect(() => {
     async function getCurrentCase() {
@@ -154,6 +154,7 @@ function Tasks({ currentCaseId, user }) {
         <TaskRuntime
           currentCaseId={currentCaseId}
           currentTask={currentTask}
+          setCurrentTask={setCurrentTask}
           tasks={tasks}
           setTasks={setTasks}
           showRuntimeModal={showRuntimeModal}

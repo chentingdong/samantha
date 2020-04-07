@@ -35,12 +35,12 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
 };
 
 module.exports.taskDependencyHandler = async (event, context) => {
-  function updateDependentTask(updatedTask, task) {
+  async function updateDependentTask(updatedTask, task) {
     console.log(`unblock/block ${task.id}`);
     if (updatedTask.state === "Complete" && task.state === "Pending") {
-      dynamodbConnector.updateTaskState(task.id, "Active");
+      await dynamodbConnector.updateTaskState(task.id, "Active");
     } else if (updatedTask.state === "Active" && task.state === "Active") {
-      dynamodbConnector.updateTaskState(task.id, "Pending");
+      await dynamodbConnector.updateTaskState(task.id, "Pending");
     }
   }
 

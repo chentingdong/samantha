@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Dropdown, Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import apiWrapper from "../libs/api-wrapper";
-import { formatDate } from "../libs/custom-functions";
-import CreateTaskContent from "./create-task-content";
-import moment from "moment";
 
 /**
  * @author tchen@bellhop.io
