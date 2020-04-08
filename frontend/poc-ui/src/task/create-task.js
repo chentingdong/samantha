@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown, Modal } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import apiWrapper from "../libs/api-wrapper";
 
@@ -17,7 +17,7 @@ const CreateTask = ({
 }) => {
   const [taskDefinitions, setTaskDefinitions] = useState([]);
 
-  function getTaskDefinitions() {
+  function listTaskDefinitions() {
     let path = "/task-definitions";
     apiWrapper
       .get(path)
@@ -41,33 +41,33 @@ const CreateTask = ({
   }
 
   useEffect(() => {
-    getTaskDefinitions();
+    listTaskDefinitions();
   }, []);
 
   return (
-    <div>
+    currentCaseId !== undefined &&
+    taskDefinitions.length > 0 && (
       <Dropdown>
         <Dropdown.Toggle variant="light border-secondary shadow-sm">
           <FontAwesomeIcon icon="plus-circle" />
           <span className="ml-1">New Task</span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {taskDefinitions.length > 0 &&
-            taskDefinitions.map((taskDefinition) => {
-              return (
-                <Dropdown.Item
-                  eventKey="1"
-                  key={taskDefinition.id}
-                  onClick={(e) => createTask(taskDefinition)}
-                >
-                  <FontAwesomeIcon icon={taskDefinition.data.icon || "cog"} />
-                  <span> {taskDefinition.data.name}</span>
-                </Dropdown.Item>
-              );
-            })}
+          {taskDefinitions.map((taskDefinition) => {
+            return (
+              <Dropdown.Item
+                eventKey="1"
+                key={taskDefinition.id}
+                onClick={(e) => createTask(taskDefinition)}
+              >
+                <FontAwesomeIcon icon={taskDefinition.data.icon || "cog"} />
+                <span> {taskDefinition.data.name}</span>
+              </Dropdown.Item>
+            );
+          })}
         </Dropdown.Menu>
       </Dropdown>
-    </div>
+    )
   );
 };
 

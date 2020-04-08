@@ -96,6 +96,8 @@ function App() {
                   <h3>
                     <img
                       className="thumbnail-sm rounded-circle"
+                      data-toggle="tooltip"
+                      title={user.name}
                       src={user.attributes.picture}
                       alt={<FontAwesomeIcon icon="cog" />}
                     />

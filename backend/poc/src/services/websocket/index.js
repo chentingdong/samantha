@@ -12,20 +12,20 @@ module.exports.handleSocketDefault = async (event, context) => {
     const connectionId = event.requestContext.connectionId;
     switch (action) {
       case "PING":
-        const pingResponse = JSON.stringify({ action: "PING", value: "PONG" });
+        const pingResponse = { action: "PING", value: "PONG" };
         await apigatewayConnector.generateSocketMessage(
           connectionId,
-          pingResponse
+          JSON.stringify(pingResponse)
         );
         break;
       default:
-        const invalidResponse = JSON.stringify({
+        const invalidResponse = {
           action: "ERROR",
           error: "Invalid request",
-        });
+        };
         await apigatewayConnector.generateSocketMessage(
           connectionId,
-          invalidResponse
+          JSON.stringify(invalidResponse)
         );
     }
 
@@ -84,42 +84,5 @@ module.exports.handleSocketDisconnect = async (event, context) => {
       headers: CONSTANTS.RESPONSE_HEADERS,
       body: "Unable to terminate socket.",
     };
-  }
-};
-
-/**
- * Send message to all devices of one user.
- */
-const crossDeviceBroadcast = async (username, utterance) => {
-  try {
-    const sockets = await dynamodbConnector.listSocketsByUser(username);
-    const promises = [];
-    sockets.Items.forEach(function (item) {
-      const connectionId = item.connectionId;
-      promises.push(
-        apigatewayConnector.generateSocketMessage(connectionId, utterance)
-      );
-    });
-    await Promise.all(promises);
-  } catch (err) {
-    console.error(`failed cross device broadcasting, ${err}`);
-  }
-};
-
-module.exports.crossDeviceBroadcast = crossDeviceBroadcast;
-
-/**
- * Send message to a group of participants
- */
-module.exports.groupNotice = async (participants, utterance) => {
-  if (participants.length > 0) {
-    try {
-      participants.forEach((participant) => {
-        crossDeviceBroadcast(participant, utterance);
-      });
-      console.debug(`user notice sent: ${utterance}`);
-    } catch (err) {
-      console.error(`group notice failed, ${err}`);
-    }
   }
 };

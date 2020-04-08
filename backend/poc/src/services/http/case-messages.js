@@ -1,12 +1,10 @@
 "use strict";
 const dynamodbConnector = require("../../connectors/dynamodb");
-const uuid = require("uuid");
+const { saveMessage } = require("../websocket/message");
 
 module.exports.createCaseMessage = async (event, context) => {
-  const id = uuid.v4();
   const { caseId, data } = event.body;
-  await dynamodbConnector.createCaseMessage(id, caseId, data);
-  return { id };
+  saveMessage(caseId, " ", data);
 };
 
 module.exports.getCaseMessage = async (event, context) => {
