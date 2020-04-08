@@ -67,7 +67,7 @@ module.exports.deleteTask = async (event, context) => {
   const resp = await dynamodbConnector.getTask(id);
   const task = resp.Item;
   await dynamodbConnector.deleteTask(id);
-  if (task) uiRefreshTasks(task);
+  await uiRefresh("tasks", task.data);
   return [];
 };
 
@@ -82,8 +82,6 @@ module.exports.updateTaskState = async (event, context) => {
     state: state,
   };
   resp = await taskCompleteSendEvent(evt, context);
-  if (task) uiRefreshTasks(task);
-  console.log(`sent to sqs: ${JSON.stringify(resp)}`);
-
+  await uiRefresh("tasks", task.data);
   return { id, state };
 };

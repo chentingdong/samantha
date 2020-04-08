@@ -1,16 +1,14 @@
 const dynamodbConnector = require("../connectors/dynamodb");
 const { saveMessage } = require("../services/websocket/message");
 
-const {
-  crossDeviceBroadcast,
-  groupNotice,
-} = require("../services/websocket/message");
+// const {
+//   crossDeviceBroadcast,
+//   groupNotice,
+// } = require("../services/websocket/message");
 
 async function saveAgentMessages(message) {
   const { caseId, taskId, utterance, users } = message;
   const agent = process.env.USER ? "agent-" + process.env.USER : "agent-smith";
-  const promises = [];
-
   users.forEach(async (user) => {
     const data = {
       utterance: utterance,
@@ -18,9 +16,8 @@ async function saveAgentMessages(message) {
       toUser: user,
       createdAt: Date.now(),
     };
-    promises.push(saveMessage(caseId, taskId, data));
+    await saveMessage(caseId, taskId, data);
   });
-  await Promise.all(promises);
 }
 
 module.exports.taskNoticeCreateToOwner = async (task) => {
@@ -52,7 +49,7 @@ module.exports.taskNoticeCreateToParticipants = async (task) => {
       `participated users: ${task.data.participants.join(", ")}, ` +
       `and try to finish it by ${task.data.dueDate}.`;
 
-    await groupNotice(task.data.participants, utterance);
+    // await groupNotice(task.data.participants, utterance);
     let message = {
       caseId: task.caseId,
       taskId: task.id,
@@ -68,7 +65,7 @@ module.exports.taskNoticeCreateToParticipants = async (task) => {
 module.exports.taskNoticeStatusToParticipants = async (task) => {
   try {
     let utterance = `Your task "${task.data.name}" status is updated to "${task.state}".`;
-    await groupNotice(task.data.participants, utterance);
+    // await groupNotice(task.data.participants, utterance);
     let message = {
       caseId: task.caseId,
       taskId: task.id,
@@ -94,7 +91,7 @@ module.exports.taskNoticeDependencyStatusToParticipants = async (
       `For "${task.data.name}", the dependent task "${updatedTask.data.name}" ` +
       `status is updated to ${updatedTask.state}, ${blockUtterance}.`;
 
-    await groupNotice(updatedTask.data.participants, utterance);
+    // await groupNotice(updatedTask.data.participants, utterance);
     let message = {
       caseId: task.caseId,
       taskId: task.id,

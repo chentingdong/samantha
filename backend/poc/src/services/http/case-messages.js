@@ -1,10 +1,15 @@
 "use strict";
 const dynamodbConnector = require("../../connectors/dynamodb");
 const { saveMessage } = require("../websocket/message");
+// const { crossDeviceBroadcast, groupNotice } = require("../websocket/message");
+const { uiRefresh } = require("../websocket/message");
 
 module.exports.createCaseMessage = async (event, context) => {
   const { caseId, data } = event.body;
-  saveMessage(caseId, " ", data);
+  await saveMessage(caseId, "N/A", data);
+  let resp = await dynamodbConnector.getCase(caseId);
+  let caseData = resp.Item.data;
+  uiRefresh("MESSAGES", caseData);
 };
 
 module.exports.getCaseMessage = async (event, context) => {

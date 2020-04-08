@@ -40,6 +40,8 @@ function VirtualAssistant({ user }) {
     if (lastMessage) {
       let data = JSON.parse(lastMessage.data);
       if (data.type === "MESSAGE") agentMessage(data.utterance);
+      else if (data.type === "REFRESH" && data.target === "MESSAGES")
+        listCaseMessages();
     }
   }, [lastMessage]);
 
@@ -76,29 +78,28 @@ function VirtualAssistant({ user }) {
     setCurrentMessage("");
   }
 
-  useEffect(() => {
-    async function listCaseMessages() {
-      let path = `/case-messages`;
-      let params = {
-        caseId: currentCaseId,
-      };
-      try {
-        let resp = await apiWrapper.get(path, { params: params });
-        let msgs = resp.data || [];
-        msgs = msgs.filter(
-          (msg) =>
-            msg.data.toUser === user.username || msg.data.toUser === "agent"
-        );
-        //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
-        msgs = msgs.sort((a, b) =>
-          a.data.createdAt > b.data.createdAt ? 1 : -1
-        );
-        setMessages(msgs);
-      } catch (err) {
-        console.error(err);
-      }
+  async function listCaseMessages() {
+    let path = `/case-messages`;
+    let params = {
+      caseId: currentCaseId,
+    };
+    try {
+      let resp = await apiWrapper.get(path, { params: params });
+      let msgs = resp.data || [];
+      msgs = msgs.filter(
+        (msg) =>
+          msg.data.toUser === user.username || msg.data.toUser === "agent"
+      );
+      //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
+      msgs = msgs.sort((a, b) =>
+        a.data.createdAt > b.data.createdAt ? 1 : -1
+      );
+      setMessages(msgs);
+    } catch (err) {
+      console.error(err);
     }
-
+  }
+  useEffect(() => {
     listCaseMessages();
   }, [currentCaseId]);
 
