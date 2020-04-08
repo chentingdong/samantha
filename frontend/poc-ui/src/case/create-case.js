@@ -11,7 +11,7 @@ const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
   const [caseDefinitions, setCaseDefinitions] = useState([]);
 
   useEffect(() => {
-    function getCaseDefinitions() {
+    function listCaseDefinitions() {
       let path = "/case-definitions";
       apiWrapper
         .get(path)
@@ -23,7 +23,7 @@ const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
         });
     }
 
-    getCaseDefinitions();
+    listCaseDefinitions();
   }, []);
 
   async function createCase(caseDefinition) {

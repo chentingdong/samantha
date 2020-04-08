@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Modal } from "react-bootstrap";
 import apiWrapper from "../libs/api-wrapper";
 import CreateTask from "./create-task";
 import DesignTask from "./task-design";
@@ -52,7 +51,7 @@ function Tasks({ currentCaseId, user }) {
       }
     }
     getCurrentCase();
-  }, []);
+  }, [currentCaseId]);
 
   function getUserAttribute(username, attr) {
     try {

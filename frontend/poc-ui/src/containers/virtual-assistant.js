@@ -11,33 +11,33 @@ import "../assets/virtual-assistant.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function VirtualAssistant({ user }) {
-  const [messages, setMessages] = useState([]);
+  const [currentCaseId, setCurrentCaseId] = useState();
   const [currentMessage, setCurrentMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   const [selectedSuggestion, setselectedSuggestion] = useState(0);
   const suggestRef = useRef();
+  const agentUser = "agent";
 
-  const [currentCaseId, setCurrentCaseId] = useState();
+  // initiate a websocket connection, register connectionId.
   const wsOptions = useMemo(
     () => ({
       queryParams: {
         user: user.username,
       },
+      reconnectAttempts: 10,
+      reconnectInterval: 3000,
     }),
-    []
+    [user]
   );
 
-  // initiate a websocket connection, register connectionId.
-  const [sendMessage, lastMessage, readyState, getWebSocket] = useWebSocket(
+  const [sendMessage, lastMessage, readyState] = useWebSocket(
     config.wsUrl,
     wsOptions
   );
-
-  const agentUser = "agent";
+  console.log(`websocket activity with ${config.wsUrl}`);
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      agentMessage(lastMessage.data);
-    }
+    if (lastMessage) agentMessage(lastMessage.data);
   }, [lastMessage]);
 
   function buildMessage(utterance, who) {
@@ -52,54 +52,45 @@ function VirtualAssistant({ user }) {
     };
   }
 
-  function userMessage(utterance) {
-    setCurrentMessage(utterance);
-    let newMessage = buildMessage(utterance, user.username);
-    apiWrapper
-      .post("/case-messages", newMessage)
-      .then((resp) => {
-        newMessage.id = resp.data.id;
-        setMessages([...messages, newMessage]);
-        console.debug(
-          `user message post success, resp from backend: ${JSON.stringify(
-            resp
-          )}`
-        );
-      })
-      .catch((err) => {
-        console.error(`user message post failed, ${err}`);
-      });
-
-    setCurrentMessage("");
-  }
-
   function agentMessage(utterance) {
     console.log("agent message: " + JSON.stringify(utterance));
     let newMessage = buildMessage(utterance, agentUser);
     setMessages([...messages, newMessage]);
   }
 
+  async function userMessage(utterance) {
+    setCurrentMessage(utterance);
+    let newMessage = buildMessage(utterance, user.username);
+    try {
+      let resp = await apiWrapper.post("/case-messages", newMessage);
+      newMessage.id = resp.data.id;
+      setMessages([...messages, newMessage]);
+      console.debug(`user message post success: ${JSON.stringify(resp)}`);
+    } catch (err) {
+      console.error(`user message post failed, ${err}`);
+    }
+
+    setCurrentMessage("");
+  }
+
   useEffect(() => {
-    function getCaseMessages() {
+    async function getCaseMessages() {
       let path = `/case-messages`;
       let params = {
         caseId: currentCaseId,
       };
-      apiWrapper
-        .get(path, { params: params })
-        .then((resp) => {
-          if (!resp.data) resp.data = [];
-
-          //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
-          let msgs = resp.data.sort((a, b) =>
-            a.data.createdAt > b.data.createdAt ? 1 : -1
-          );
-
-          setMessages(msgs);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      try {
+        let resp = await apiWrapper.get(path, { params: params });
+        let msgs = resp.data || [];
+        msgs = msgs.filter((msg) => msg.data.toUser === user.username);
+        //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
+        msgs = msgs.sort((a, b) =>
+          a.data.createdAt > b.data.createdAt ? 1 : -1
+        );
+        setMessages(msgs);
+      } catch (err) {
+        console.error(err);
+      }
     }
     getCaseMessages();
   }, [currentCaseId]);

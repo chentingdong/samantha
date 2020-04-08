@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Dropdown, Modal } from "react-bootstrap";
+import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import apiWrapper from "../libs/api-wrapper";
 
@@ -17,7 +17,7 @@ const CreateTask = ({
 }) => {
   const [taskDefinitions, setTaskDefinitions] = useState([]);
 
-  function getTaskDefinitions() {
+  function listTaskDefinitions() {
     let path = "/task-definitions";
     apiWrapper
       .get(path)
@@ -41,7 +41,7 @@ const CreateTask = ({
   }
 
   useEffect(() => {
-    getTaskDefinitions();
+    listTaskDefinitions();
   }, []);
 
   return (

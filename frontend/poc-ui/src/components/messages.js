@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { formatTime } from "../libs/custom-functions";
 import logo from "../assets/bell-round.png";
 import apiWrapper from "../libs/api-wrapper";
@@ -8,8 +8,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  * @author tchen@bellhop.io
  * @function CaseMessages
  **/
-const CaseMessages = ({ className, messages }) => {
+const CaseMessages = ({ messages }) => {
   const [users, setUsers] = useState([]);
+  const messagesRef = useRef(null);
 
   useEffect(() => {
     apiWrapper.get("/users").then((resp) => {
@@ -17,25 +18,18 @@ const CaseMessages = ({ className, messages }) => {
     });
   }, []);
 
+  useEffect(() => {
+    // on messages, messages block scroll to the bottom.
+    messagesRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   function GetIcon(user) {
     try {
       if (typeof user === "string" && user.startsWith("agent")) {
-        return (
-          <img
-            className="thumbnail"
-            src={logo}
-            alt='<Fontawesome icon="robot" />'
-          />
-        );
+        return logo;
       } else {
         let userInfo = users.filter((u) => u.username === user)[0].attributes;
-        return (
-          <img
-            className="thumbnail rounded-circle"
-            src={userInfo.picture}
-            alt='<Fontawesome icon="robot" />'
-          />
-        );
+        return userInfo.picture;
       }
     } catch (err) {
       return <FontAwesomeIcon icon="robot" />;
@@ -43,23 +37,29 @@ const CaseMessages = ({ className, messages }) => {
   }
 
   return (
-    <div className={className} style={{ height: "calc(100vh - 125px)" }}>
+    <div
+      className="mr-2"
+      style={{ height: "calc(100vh - 130px)", overflow: "hidden" }}
+    >
       {messages &&
         messages.map((msg, index) => {
           return (
             msg.data && (
-              <div key={index} className="mb-1 p-1 pl-2">
-                <span className="">
-                  {GetIcon(msg.data.fromUser)}
-                  <span className="ml-1 text-gray d-inline">
-                    {formatTime(msg.data.createdAt)}
-                  </span>
+              <div key={index} className="mb-2">
+                <img
+                  className="thumbnail rounded-circle pull-left"
+                  src={GetIcon(msg.data.fromUser)}
+                  alt=""
+                />
+                <span className="ml-1 text-gray">
+                  {formatTime(msg.data.createdAt)}
                 </span>
-                <span className="col-12">{msg.data.utterance}</span>
+                <span className="ml-1">{msg.data.utterance}</span>
               </div>
             )
           );
         })}
+      <div ref={messagesRef} />
     </div>
   );
 };
