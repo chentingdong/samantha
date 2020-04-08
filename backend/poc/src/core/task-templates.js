@@ -23,20 +23,14 @@ module.exports.taskCreateBroadcastToOwner = async (caseId, task) => {
   }
 };
 
-module.exports.taskCreateNoticeParticipants = async ({
-  caseId,
-  participants,
-  task,
-}) => {
+module.exports.taskCreateNoticeParticipants = async (caseId, task) => {
   try {
     let utterance =
       `${task.owner} assigned you a task "${task.name}",` +
       ` please try to finish it by ${task.dueDate}`;
 
-    participants.forEach((participant) => {
-      groupNotice(participants, caseId, utterance);
-      saveMessage(caseId, utterance, participant);
-    });
+    await groupNotice(task.participants, utterance);
+    await saveMessage(caseId, utterance, task.participant);
   } catch (err) {
     console.error(err);
   }

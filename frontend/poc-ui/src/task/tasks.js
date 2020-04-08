@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Modal } from "react-bootstrap";
 import apiWrapper from "../libs/api-wrapper";
 import CreateTask from "./create-task";
-import DesignTask from "./design-task";
+import DesignTask from "./task-design";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   stateColor,
@@ -39,7 +39,7 @@ function Tasks({ currentCaseId, user }) {
     }
 
     getCaseTasks();
-  }, [currentCaseId]);
+  }, [currentCaseId, currentTask]);
 
   useEffect(() => {
     async function getCurrentCase() {
@@ -152,6 +152,7 @@ function Tasks({ currentCaseId, user }) {
           setShowDesignModal={setShowDesignModal}
         />
         <TaskRuntime
+          currentCaseId={currentCaseId}
           currentTask={currentTask}
           setCurrentTask={setCurrentTask}
           tasks={tasks}

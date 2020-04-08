@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
  **/
 
 const TaskRuntime = ({
+  currentCaseId,
   currentTask,
   setCurrentTask,
   tasks,
@@ -19,7 +20,8 @@ const TaskRuntime = ({
   function close() {
     setShowRuntimeModal(false);
   }
-  function reopenCurrentTask() {
+
+  async function reopenCurrentTask() {
     if (currentTask.state === "Complete") updateCurrentTaskState("Active");
     close();
   }
@@ -29,23 +31,14 @@ const TaskRuntime = ({
     let deletedTask = await apiWrapper.delete(path);
     tasks.splice(deletedTask, 1);
     close();
+    setCurrentTask({});
   }
 
   async function updateCurrentTaskState(state) {
-    // User manually complete the task by clicking the complete button
     let path = `/tasks/${currentTask.id}/${state}`;
-    let resp = await apiWrapper.patch(path);
-    setCurrentTask({ [state]: resp.data.state, ...currentTask });
-
-    // update currentTask in tasks listing
-    setTasks((tasks) => {
-      let updatedTasks = tasks;
-      let currTask = updatedTasks.filter((t) => t.id === currentTask.id)[0];
-      currTask.state = resp.data.state;
-      setCurrentTask(updatedTasks);
-      return updatedTasks;
-    });
+    await apiWrapper.patch(path);
     close();
+    setCurrentTask({});
   }
 
   return (

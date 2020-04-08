@@ -114,7 +114,7 @@ module.exports.crossDeviceBroadcast = crossDeviceBroadcast;
 module.exports.groupNotice = async (participants, utterance) => {
   if (participants.length > 0) {
     try {
-      participants.map((participant) => {
+      participants.forEach((participant) => {
         crossDeviceBroadcast(participant, utterance);
       });
       console.debug(`user notice sent: ${utterance}`);

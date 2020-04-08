@@ -2,7 +2,7 @@ const dynamodbConnector = require("../../connectors/dynamodb");
 const uuid = require("uuid");
 const {
   taskCreateBroadcastToOwner,
-  taskTransitionNoticeParticipants,
+  taskCreateNoticeParticipants,
 } = require("../../core/task-templates");
 const { addCaseParticipantToDb } = require("./cases");
 const { taskCompleteSendEvent } = require("../../core/events-handler");
@@ -11,17 +11,18 @@ module.exports.createTask = async (event, context) => {
   const id = uuid.v4();
   const { caseId } = event.path;
   const task = event.body;
-  let state = task.dependsOns.length === 0 ? "Active" : "Pending";
 
   const { Item = {} } = await dynamodbConnector.getCase(caseId);
   const caseData = Item.data;
 
   // create task
+  let state = task.dependsOns.length === 0 ? "Active" : "Pending";
   await dynamodbConnector.createTaskInCase(id, caseId, state, task);
 
   // add task to case planItems.
   caseData.planItems.push({
     id,
+    state,
     ...task,
   });
 
@@ -32,6 +33,7 @@ module.exports.createTask = async (event, context) => {
 
   // notification
   await taskCreateBroadcastToOwner(caseId, task);
+  await taskCreateNoticeParticipants(caseId, task);
   return { id, state, caseId, data: task };
 };
 
@@ -60,10 +62,8 @@ module.exports.updateTaskState = async (event, context) => {
   await dynamodbConnector.updateTaskState(id, state);
 
   let evt = {
-    body: {
-      id: id,
-      state: state,
-    },
+    id: id,
+    state: state,
   };
   let resp = await taskCompleteSendEvent(evt, context);
   console.log(`sent to sqs: ${JSON.stringify(resp)}`);
