@@ -1,16 +1,24 @@
-const uuidv4 = require("uuid/v4");
 const dynamodbConnector = require("../connectors/dynamodb");
+const { saveMessage } = require("../services/websocket/message");
+
 const {
   crossDeviceBroadcast,
   groupNotice,
 } = require("../services/websocket/message");
 
-/**
- * templates for machine generated message, based on general fields of task wrapper.
- * TODO: These utterances should be data, not codes.
- * @param {*} caseId
- * @param {*} task
- */
+async function saveAgentMessages(caseId, taskId, utterance, users) {
+  const agent = process.env.USER ? "agent-" + process.env.USER : "agent-smith";
+  users.forEach(async (user) => {
+    const data = {
+      utterance: utterance,
+      fromUser: agent,
+      toUser: user,
+      createdAt: Date.now(),
+    };
+    await saveMessage(caseId, taskId, data);
+  });
+}
+
 module.exports.taskNoticeCreateToOwner = async (task) => {
   try {
     let toUser = task.data.owner;
@@ -21,7 +29,7 @@ module.exports.taskNoticeCreateToOwner = async (task) => {
       `I will inform him after ${task.data.followUpDays} days if not finished.`;
 
     crossDeviceBroadcast(task.data.owner, utterance);
-    await saveMessage(task.caseId, task.id, utterance, [toUser]);
+    await saveAgentMessages(task.caseId, task.id, utterance, [toUser]);
   } catch (err) {
     console.error(err);
   }
@@ -35,7 +43,12 @@ module.exports.taskNoticeCreateToParticipants = async (task) => {
       `and try to finish it by ${task.data.dueDate}.`;
 
     await groupNotice(task.data.participants, utterance);
-    await saveMessage(task.caseId, task.id, utterance, task.data.participants);
+    await saveAgentMessages(
+      task.caseId,
+      task.id,
+      utterance,
+      task.data.participants
+    );
   } catch (err) {
     console.error(err);
   }
@@ -45,7 +58,12 @@ module.exports.taskNoticeStatusToParticipants = async (task) => {
   try {
     let utterance = `Your task "${task.data.name}" status is updated to "${task.state}".`;
     await groupNotice(task.data.participants, utterance);
-    await saveMessage(task.caseId, task.id, utterance, task.data.participants);
+    await saveAgentMessages(
+      task.caseId,
+      task.id,
+      utterance,
+      task.data.participants
+    );
   } catch (err) {
     console.error(err);
   }
@@ -65,24 +83,13 @@ module.exports.taskNoticeDependencyStatusToParticipants = async (
       `status is updated to ${updatedTask.state}, ${blockUtterance}.`;
 
     await groupNotice(updatedTask.data.participants, utterance);
-    await saveMessage(task.caseId, task.id, utterance, task.data.participants);
+    await saveAgentMessages(
+      task.caseId,
+      task.id,
+      utterance,
+      task.data.participants
+    );
   } catch (err) {
     console.error(err);
   }
 };
-
-async function saveMessage(caseId, taskId, utterance, users) {
-  const agent = process.env.USER ? "agent-" + process.env.USER : "agent-smith";
-  // write to message queue
-  users.forEach(async (user) => {
-    const id = uuidv4();
-    const data = {
-      utterance: utterance,
-      fromUser: agent,
-      toUser: user,
-      createdAt: Date.now(),
-    };
-
-    await dynamodbConnector.createCaseMessage(id, caseId, taskId, data);
-  });
-}

@@ -1,3 +1,4 @@
+const uuidv4 = require("uuid/v4");
 const apigatewayConnector = require("../../connectors/apigateway");
 const dynamodbConnector = require("../../connectors/dynamodb");
 
@@ -36,4 +37,12 @@ module.exports.groupNotice = (participants, utterance) => {
   } catch (err) {
     console.error(`group notice failed, ${err}`);
   }
+};
+
+/**
+ * save messages to persist.
+ */
+module.exports.saveMessage = async (caseId, taskId, data) => {
+  const id = uuidv4();
+  await dynamodbConnector.createCaseMessage(id, caseId, taskId, data);
 };

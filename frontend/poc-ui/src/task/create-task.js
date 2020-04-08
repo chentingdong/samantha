@@ -45,29 +45,29 @@ const CreateTask = ({
   }, []);
 
   return (
-    <div>
+    currentCaseId !== undefined &&
+    taskDefinitions.length > 0 && (
       <Dropdown>
         <Dropdown.Toggle variant="light border-secondary shadow-sm">
           <FontAwesomeIcon icon="plus-circle" />
           <span className="ml-1">New Task</span>
         </Dropdown.Toggle>
         <Dropdown.Menu>
-          {taskDefinitions.length > 0 &&
-            taskDefinitions.map((taskDefinition) => {
-              return (
-                <Dropdown.Item
-                  eventKey="1"
-                  key={taskDefinition.id}
-                  onClick={(e) => createTask(taskDefinition)}
-                >
-                  <FontAwesomeIcon icon={taskDefinition.data.icon || "cog"} />
-                  <span> {taskDefinition.data.name}</span>
-                </Dropdown.Item>
-              );
-            })}
+          {taskDefinitions.map((taskDefinition) => {
+            return (
+              <Dropdown.Item
+                eventKey="1"
+                key={taskDefinition.id}
+                onClick={(e) => createTask(taskDefinition)}
+              >
+                <FontAwesomeIcon icon={taskDefinition.data.icon || "cog"} />
+                <span> {taskDefinition.data.name}</span>
+              </Dropdown.Item>
+            );
+          })}
         </Dropdown.Menu>
       </Dropdown>
-    </div>
+    )
   );
 };
 
