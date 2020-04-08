@@ -1,11 +1,7 @@
 "use strict";
 const aws = require("aws-sdk");
 const dynamodbConnector = require("./dynamodb");
-
-const isOffline = function () {
-  // Depends on serverless-offline plugion which adds IS_OFFLINE to process.env when running offline
-  return process.env.IS_OFFLINE;
-};
+const { isOffline } = require("../utils");
 
 class ApiGatewayConnector {
   constructor() {

@@ -1,0 +1,17 @@
+Resources:
+  AuroraRDSCluster: 
+    Type: AWS::RDS::DBCluster
+    Properties:
+      DatabaseName: ${self:custom.DB_NAME}
+      DBSubnetGroupName: ${self:provider.vpc.DBSubnetGroupName}
+      EnableHttpEndpoint: true # enable Data API
+      Engine: aurora
+      EngineMode : serverless
+      MasterUsername: ${self:custom.USERNAME}
+      MasterUserPassword: ${self:custom.PASSWORD}
+      VpcSecurityGroupIds: ${self:provider.vpc.securityGroupIds}
+      ScalingConfiguration:
+        AutoPause: true
+        MinCapacity: 1
+        MaxCapacity: 4
+        SecondsUntilAutoPause: 1800
