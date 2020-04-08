@@ -11,32 +11,35 @@ import "../assets/virtual-assistant.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function VirtualAssistant({ user }) {
-  const [messages, setMessages] = useState([]);
+  const [currentCaseId, setCurrentCaseId] = useState();
   const [currentMessage, setCurrentMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   const [selectedSuggestion, setselectedSuggestion] = useState(0);
   const suggestRef = useRef();
+  const agentUser = "agent";
 
-  const [currentCaseId, setCurrentCaseId] = useState();
+  // initiate a websocket connection, register connectionId.
   const wsOptions = useMemo(
     () => ({
       queryParams: {
         user: user.username,
       },
+      reconnectAttempts: 10,
+      reconnectInterval: 3000,
     }),
-    []
+    [user]
   );
 
-  // initiate a websocket connection, register connectionId.
-  const [sendMessage, lastMessage, readyState, getWebSocket] = useWebSocket(
+  const [sendMessage, lastMessage, readyState] = useWebSocket(
     config.wsUrl,
     wsOptions
   );
-
-  const agentUser = "agent";
+  console.log(`websocket activity with ${config.wsUrl}`);
 
   useEffect(() => {
-    if (lastMessage !== null) {
-      agentMessage(lastMessage.data);
+    if (lastMessage) {
+      let data = JSON.parse(lastMessage.data);
+      if (data.type === "MESSAGE") agentMessage(data.utterance);
     }
   }, [lastMessage]);
 
@@ -52,56 +55,51 @@ function VirtualAssistant({ user }) {
     };
   }
 
-  function userMessage(utterance) {
-    setCurrentMessage(utterance);
-    let newMessage = buildMessage(utterance, user.username);
-    apiWrapper
-      .post("/case-messages", newMessage)
-      .then((resp) => {
-        newMessage.id = resp.data.id;
-        setMessages([...messages, newMessage]);
-        console.debug(
-          `user message post success, resp from backend: ${JSON.stringify(
-            resp
-          )}`
-        );
-      })
-      .catch((err) => {
-        console.error(`user message post failed, ${err}`);
-      });
-
-    setCurrentMessage("");
-  }
-
   function agentMessage(utterance) {
     console.log("agent message: " + JSON.stringify(utterance));
     let newMessage = buildMessage(utterance, agentUser);
     setMessages([...messages, newMessage]);
   }
 
+  async function userMessage(utterance) {
+    setCurrentMessage(utterance);
+    let newMessage = buildMessage(utterance, user.username);
+    try {
+      let resp = await apiWrapper.post("/case-messages", newMessage);
+      newMessage.id = resp.data.id;
+      setMessages([...messages, newMessage]);
+      console.debug(`user message post success: ${JSON.stringify(resp)}`);
+    } catch (err) {
+      console.error(`user message post failed, ${err}`);
+    }
+
+    setCurrentMessage("");
+  }
+
   useEffect(() => {
-    function getCaseMessages() {
+    async function listCaseMessages() {
       let path = `/case-messages`;
       let params = {
         caseId: currentCaseId,
       };
-      apiWrapper
-        .get(path, { params: params })
-        .then((resp) => {
-          if (!resp.data) resp.data = [];
-
-          //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
-          let msgs = resp.data.sort((a, b) =>
-            a.data.createdAt > b.data.createdAt ? 1 : -1
-          );
-
-          setMessages(msgs);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      try {
+        let resp = await apiWrapper.get(path, { params: params });
+        let msgs = resp.data || [];
+        msgs = msgs.filter(
+          (msg) =>
+            msg.data.toUser === user.username || msg.data.toUser === "agent"
+        );
+        //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
+        msgs = msgs.sort((a, b) =>
+          a.data.createdAt > b.data.createdAt ? 1 : -1
+        );
+        setMessages(msgs);
+      } catch (err) {
+        console.error(err);
+      }
     }
-    getCaseMessages();
+
+    listCaseMessages();
   }, [currentCaseId]);
 
   return (
@@ -116,7 +114,11 @@ function VirtualAssistant({ user }) {
           />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter overflow-auto">
-          <Tasks currentCaseId={currentCaseId} user={user} />
+          <Tasks
+            currentCaseId={currentCaseId}
+            lastMessage={lastMessage}
+            user={user}
+          />
         </div>
         <div className="col col-md-3 vh-100">
           <h2 className="m-2 mt-4">Activity</h2>

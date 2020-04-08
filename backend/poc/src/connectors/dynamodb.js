@@ -56,7 +56,7 @@ class DynamoDbConnector {
   }
 
   async createCaseDefinition(id, data) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_CASE_DEFINITIONS_TABLE,
       Item: {
         id,
@@ -64,7 +64,7 @@ class DynamoDbConnector {
       },
     };
     try {
-      return await this._connector.put(params).promise();
+      return await this._connector.put(queryParams).promise();
     } catch (err) {
       console.error(err);
     }
@@ -135,6 +135,7 @@ class DynamoDbConnector {
     const queryParams = {
       TableName: process.env.DYNAMODB_TASK_DEFINITIONS_TABLE,
     };
+
     return await this._connector.scan(queryParams).promise();
   }
 
@@ -189,28 +190,28 @@ class DynamoDbConnector {
   }
 
   async updateCaseData(id, data) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_CASES_TABLE,
       Key: { id },
       UpdateExpression: "set #data = :data",
       ExpressionAttributeNames: { "#data": "data" },
       ExpressionAttributeValues: { ":data": data },
     };
-    return await this._connector.update(params).promise();
+    return await this._connector.update(queryParams).promise();
   }
 
   async deleteCase(id) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_CASES_TABLE,
       Key: {
         id,
       },
     };
-    return await this._connector.delete(params).promise();
+    return await this._connector.delete(queryParams).promise();
   }
 
   async createTaskInCase(id, caseId, state, data) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_TASKS_TABLE,
       Item: {
         id,
@@ -219,17 +220,17 @@ class DynamoDbConnector {
         data,
       },
     };
-    return await this._connector.put(params).promise();
+    return await this._connector.put(queryParams).promise();
   }
 
   async getTask(id) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_TASKS_TABLE,
       Key: {
         id,
       },
     };
-    return await this._connector.get(params).promise();
+    return await this._connector.get(queryParams).promise();
   }
 
   async listTasks() {
@@ -252,32 +253,30 @@ class DynamoDbConnector {
   }
 
   async updateTaskState(id, state) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_TASKS_TABLE,
       Key: { id },
       UpdateExpression: "set #state = :state",
       ExpressionAttributeNames: { "#state": "state" },
       ExpressionAttributeValues: { ":state": state },
     };
-    return await this._connector.update(params).promise();
+    return await this._connector.update(queryParams).promise();
   }
 
   async deleteTask(id) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_TASKS_TABLE,
-      Key: {
-        id,
-      },
+      Key: { id },
     };
-    return await this._connector.delete(params).promise();
+    return await this._connector.delete(queryParams).promise();
   }
 
-  async createCaseMessage(id, caseId, data) {
-    const params = {
+  async createCaseMessage(id, caseId, taskId, data) {
+    const queryParams = {
       TableName: process.env.DYNAMODB_CASE_MESSAGES_TABLE,
-      Item: { id, caseId, data },
+      Item: { id, caseId, taskId, data },
     };
-    return await this._connector.put(params).promise();
+    return await this._connector.put(queryParams).promise();
   }
 
   async listCaseMessages() {
@@ -300,13 +299,11 @@ class DynamoDbConnector {
   }
 
   async deleteCaseMessage(id) {
-    const params = {
+    const queryParams = {
       TableName: process.env.DYNAMODB_CASE_MESSAGES_TABLE,
-      Key: {
-        id,
-      },
+      Key: { id },
     };
-    return await this._connector.delete(params).promise();
+    return await this._connector.delete(queryParams).promise();
   }
 }
 

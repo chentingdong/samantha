@@ -2,6 +2,7 @@ const path = require("path");
 const slsw = require("serverless-webpack");
 const nodeExternals = require("webpack-node-externals");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+// const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   context: __dirname,
@@ -11,36 +12,58 @@ module.exports = {
     ? "cheap-module-eval-source-map"
     : "source-map",
   resolve: {
-    extensions: [".mjs", ".json", ".ts"],
+    extensions: [".mjs", ".json", ".ts", ".tsx", ".js", ".jsx", ".pem"],
     symlinks: false,
     cacheWithContext: false,
   },
   output: {
-    libraryTarget: "commonjs",
+    libraryTarget: "commonjs2",
     path: path.join(__dirname, ".webpack"),
     filename: "[name].js",
   },
+  watch: false,
   target: "node",
+	node: {
+		__dirname: false,
+		__filename: false,
+	},
   externals: [nodeExternals()],
   module: {
     rules: [
-      // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
       {
-        test: /\.(tsx?)$/,
-        loader: "ts-loader",
-        exclude: [
-          [
-            path.resolve(__dirname, "node_modules"),
-            path.resolve(__dirname, ".serverless"),
-            path.resolve(__dirname, ".webpack"),
-          ],
-        ],
+        test: /\.(ts|js)x?$/,
+        loader: "babel-loader",
         options: {
-          transpileOnly: true,
-          experimentalWatchApi: true,
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: {
+                  node: true,
+                },
+              },
+            ],
+            "@babel/typescript",
+          ],
         },
+        include: [__dirname],
+        exclude: /node_modules/,
+      },
+      {
+        test: /\.pem$/i,
+        use: [
+          {
+            loader: "raw-loader",
+            options: {
+              esModule: false,
+            },
+          },
+        ],
       },
     ],
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
   },
   plugins: [
     // new ForkTsCheckerWebpackPlugin({

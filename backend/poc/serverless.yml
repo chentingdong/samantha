@@ -1,11 +1,11 @@
 service: poc-${self:custom.user}
 
 plugins:
-  # - serverless-plugin-typescript
   - serverless-pseudo-parameters
+  - serverless-webpack
   - serverless-mocha-plugin
-  # - serverless-dynamodb-local
-  # - serverless-offline-sqs
+  - serverless-dynamodb-local
+  - serverless-offline-sqs
   - serverless-offline
   - serverless-plugin-split-stacks
 
@@ -30,7 +30,7 @@ custom:
       - test
     start:
       port: 8000
-      # dbPath: .dynamodb/data
+      dbPath: .dynamodb/data
       migrate: true
       seed: true
     seed:
@@ -59,7 +59,9 @@ custom:
     accessKeyId: root
     secretAccessKey: root
     skipCacheInvalidation: false
-
+  webpack:
+    webpackConfig: webpack.config.js
+    packager: 'yarn'
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
 provider:
@@ -100,20 +102,19 @@ provider:
     DYNAMODB_CASE_MESSAGES_TABLE: ${self:service}-case-messages-${self:provider.stage}
     DYNAMODB_CASE_MESSAGES_CASEID_GSI: ${self:service}-case-messages-caseid-gsi-${self:provider.stage}
     SQS_TASK_COMPLETE_QUEUE: ${self:service}-task-complete-queue-${self:provider.stage}
-    # SQS_TASK_COMPLETE_URL: !Ref TaskCompleteQueue
-    # KEYS_URL: !Join ['', ['https://cognito-idp.', '${self:provider.region}', '.amazonaws.com/', !Ref CognitoUserPool, '/.well-known/jwks.json']]
-    # WEBSOCKET_API_ENDPOINT:
-    #   !Join [
-    #     "",
-    #     [
-    #       "https://",
-    #       !Ref WebsocketsApi,
-    #       ".execute-api.",
-    #       "${self:provider.region}",
-    #       ".amazonaws.com/",
-    #       "${self:provider.stage}/",
-    #     ],
-    #   ]
+    SQS_TASK_COMPLETE_URL: !Ref TaskCompleteQueue
+    WEBSOCKET_API_ENDPOINT:
+      !Join [
+        "",
+        [
+          "https://",
+          !Ref WebsocketsApi,
+          ".execute-api.",
+          "${self:provider.region}",
+          ".amazonaws.com/",
+          "${self:provider.stage}/",
+        ],
+      ]
     #aurora
     AURORA_HOST: ${self:custom.AURORA.HOST}
     AURORA_PORT: ${self:custom.AURORA.PORT}
@@ -550,6 +551,6 @@ functions:
 resources:
   # - bastion was pre-created.
   # - vpc, subnets, securitygroup were pre-created.
-  # - ${file(resources/dynamodb.yml)}
-  # - ${file(resources/sqs.yml)}
+  - ${file(resources/dynamodb.yml)}
+  - ${file(resources/sqs.yml)}
   - ${file(resources/aurora.yml)}

@@ -1,6 +1,11 @@
 const { SQS } = require("aws-sdk");
 const dynamodbConnector = require("../connectors/dynamodb");
 const { isOffline } = require("../utils");
+const {
+  taskNoticeStatusToParticipants,
+  taskNoticeDependencyStatusToParticipants,
+} = require("./task-notifications");
+const sqs = new SQS();
 
 module.exports.taskCompleteSendEvent = async (event, context) => {
   let statusCode = 200;
@@ -35,37 +40,39 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
 
 module.exports.taskDependencyHandler = async (event, context) => {
   async function updateDependentTask(updatedTask, task) {
-    console.log(`unblock/block ${task.id}`);
     if (updatedTask.state === "Complete" && task.state === "Pending") {
       await dynamodbConnector.updateTaskState(task.id, "Active");
     } else if (updatedTask.state === "Active" && task.state === "Active") {
       await dynamodbConnector.updateTaskState(task.id, "Pending");
     }
+    console.debug(`successfully unblock/block ${task.id}`);
   }
 
   try {
     for (const record of event.Records) {
-      let updatedTask = JSON.parse(record.body);
+      let updatedTaskPartial = JSON.parse(record.body);
       const result = await dynamodbConnector.listTasks();
-      result.Items.forEach((task) => {
-        if (updatedTask.id === task.id) {
-          updatedTask = task;
-        } else {
-          let i = task.data.dependsOns.indexOf(updatedTask.id);
-          if (i > -1) {
-            task.data.dependsOns.splice(i, 1);
-            // update states when thre is no more dependsOns
-            if (task.data.dependsOns.length === 0)
-              updateDependentTask(updatedTask, task);
+      let updatedTask = result.Items.filter(
+        (t) => t.id === updatedTaskPartial.id
+      )[0];
+      await taskNoticeStatusToParticipants(updatedTask);
+      result.Items.forEach(async (task) => {
+        let i = task.data.dependsOns.indexOf(updatedTask.id);
+        if (i > -1) {
+          task.data.dependsOns.splice(i, 1);
+          // update states when thre is no more dependsOns
+          if (task.data.dependsOns.length === 0) {
+            await updateDependentTask(updatedTask, task);
+            await taskNoticeDependencyStatusToParticipants(updatedTask, task);
           }
         }
       });
     }
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
   return {
     statusCode: 200,
-    body: "taskDependencyHandler successfully unblocked dependend tasks.",
+    body: "taskDependencyHandler successfully updated dependend tasks states.",
   };
 };
