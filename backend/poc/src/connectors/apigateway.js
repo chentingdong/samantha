@@ -13,8 +13,8 @@ class ApiGatewayConnector {
     let CONNECTOR_OPTS = {};
     if (isOffline()) {
       // const ca = require("fs").readFileSync("../../../certs/rootCA.pem");
-      const { ca } = require("rootCA.pem");
-      const options = { ca: caCert };
+      const { ca } = require("../../certs/rootCA.pem");
+      const options = { ca };
       const agent = new require("https").Agent(options);
       CONNECTOR_OPTS = {
         region: "localhost",

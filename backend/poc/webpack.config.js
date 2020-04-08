@@ -2,7 +2,7 @@ const path = require("path");
 const slsw = require("serverless-webpack");
 const nodeExternals = require("webpack-node-externals");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
+// const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   context: __dirname,
@@ -12,7 +12,7 @@ module.exports = {
     ? "cheap-module-eval-source-map"
     : "source-map",
   resolve: {
-    extensions: [".mjs", ".json", ".ts", ".tsx", ".js", ".jsx"],
+    extensions: [".mjs", ".json", ".ts", ".tsx", ".js", ".jsx", ".pem"],
     symlinks: false,
     cacheWithContext: false,
   },
@@ -23,6 +23,10 @@ module.exports = {
   },
   watch: false,
   target: "node",
+	node: {
+		__dirname: false,
+		__filename: false,
+	},
   externals: [nodeExternals()],
   module: {
     rules: [
@@ -62,7 +66,6 @@ module.exports = {
     extensions: [".ts", ".js"],
   },
   plugins: [
-    new CopyPlugin([{ from: "certs/rootCA.pem", to: "rootCA.pem" }]),
     // new ForkTsCheckerWebpackPlugin({
     //   eslint: true,
     //   eslintOptions: {
