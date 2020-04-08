@@ -2,6 +2,7 @@ service: poc-${self:custom.user}
 
 plugins:
   # - serverless-plugin-typescript
+  - serverless-webpack
   - serverless-mocha-plugin
   - serverless-dynamodb-local
   - serverless-offline-sqs
@@ -49,7 +50,9 @@ custom:
     accessKeyId: root
     secretAccessKey: root
     skipCacheInvalidation: false
-
+  webpack:
+    webpackConfig: webpack.config.js
+    packager: 'yarn'
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
 provider:
