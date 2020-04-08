@@ -11,8 +11,15 @@ const crossDeviceBroadcast = async (username, utterance) => {
     const promises = [];
     sockets.Items.forEach(function (item) {
       const connectionId = item.connectionId;
+      const data = {
+        utterance: utterance,
+        type: "MESSAGE",
+      };
       promises.push(
-        apigatewayConnector.generateSocketMessage(connectionId, utterance)
+        apigatewayConnector.generateSocketMessage(
+          connectionId,
+          JSON.stringify(data)
+        )
       );
     });
     await Promise.all(promises);
@@ -36,6 +43,32 @@ module.exports.groupNotice = (participants, utterance) => {
     }
   } catch (err) {
     console.error(`group notice failed, ${err}`);
+  }
+};
+
+/**
+ * Tell UI to refresh, exp., tasks, cases, etc.
+ */
+module.exports.refreshUI = async (username, target) => {
+  try {
+    const sockets = await dynamodbConnector.listSocketsByUser(username);
+    const promises = [];
+    sockets.Items.forEach(function (item) {
+      const connectionId = item.connectionId;
+      const data = {
+        target: target,
+        type: "REFRESH",
+      };
+      promises.push(
+        apigatewayConnector.generateSocketMessage(
+          connectionId,
+          JSON.stringify(data)
+        )
+      );
+    });
+    await Promise.all(promises);
+  } catch (err) {
+    console.error(`failed cross device broadcasting, ${err}`);
   }
 };
 

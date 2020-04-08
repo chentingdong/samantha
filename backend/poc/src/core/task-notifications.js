@@ -39,7 +39,7 @@ module.exports.taskNoticeCreateToParticipants = async (task) => {
   try {
     let utterance =
       `${task.data.owner} assigned you a task "${task.data.name}", ` +
-      `please cooperate with ${task.data.participants.join(", ")}, ` +
+      `participated users: ${task.data.participants.join(", ")}, ` +
       `and try to finish it by ${task.data.dueDate}.`;
 
     await groupNotice(task.data.participants, utterance);

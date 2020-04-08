@@ -37,7 +37,10 @@ function VirtualAssistant({ user }) {
   console.log(`websocket activity with ${config.wsUrl}`);
 
   useEffect(() => {
-    if (lastMessage) agentMessage(lastMessage.data);
+    if (lastMessage) {
+      let data = JSON.parse(lastMessage.data);
+      if (data.type === "MESSAGE") agentMessage(data.utterance);
+    }
   }, [lastMessage]);
 
   function buildMessage(utterance, who) {
@@ -74,7 +77,7 @@ function VirtualAssistant({ user }) {
   }
 
   useEffect(() => {
-    async function getCaseMessages() {
+    async function listCaseMessages() {
       let path = `/case-messages`;
       let params = {
         caseId: currentCaseId,
@@ -82,7 +85,10 @@ function VirtualAssistant({ user }) {
       try {
         let resp = await apiWrapper.get(path, { params: params });
         let msgs = resp.data || [];
-        msgs = msgs.filter((msg) => msg.data.toUser === user.username);
+        msgs = msgs.filter(
+          (msg) =>
+            msg.data.toUser === user.username || msg.data.toUser === "agent"
+        );
         //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
         msgs = msgs.sort((a, b) =>
           a.data.createdAt > b.data.createdAt ? 1 : -1
@@ -92,7 +98,8 @@ function VirtualAssistant({ user }) {
         console.error(err);
       }
     }
-    getCaseMessages();
+
+    listCaseMessages();
   }, [currentCaseId]);
 
   return (
@@ -107,7 +114,11 @@ function VirtualAssistant({ user }) {
           />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter overflow-auto">
-          <Tasks currentCaseId={currentCaseId} user={user} />
+          <Tasks
+            currentCaseId={currentCaseId}
+            lastMessage={lastMessage}
+            user={user}
+          />
         </div>
         <div className="col col-md-3 vh-100">
           <h2 className="m-2 mt-4">Activity</h2>

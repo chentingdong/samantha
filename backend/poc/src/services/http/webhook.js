@@ -10,14 +10,13 @@ module.exports.webhook = async (event, context) => {
     throw new Error("Can't find task");
   }
   const sockets = await dynamodbConnector.listSocketsByUser(task.data.userId);
-  console.log(JSON.stringify(sockets));
+  console.debug(`User ${task.data.userId} sockets ${JSON.stringify(sockets)}`);
   const promises = [];
   sockets.Items.forEach(function (item) {
     const connectionId = item.connectionId;
     const responseMessage = {
-      body: {
-        utterance: `Finished task ${task.data}. TaskId: ${taskId}`,
-      },
+      action: "WEBHOOK",
+      message: "",
     };
     try {
       promises.push(

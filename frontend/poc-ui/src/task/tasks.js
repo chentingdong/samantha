@@ -11,7 +11,7 @@ import {
 import CaseHeader from "../case/case-header";
 import TaskRuntime from "../task/task-runtime";
 
-function Tasks({ currentCaseId, user }) {
+function Tasks({ currentCaseId, lastMessage, user }) {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [currentCase, setCurrentCase] = useState("");
@@ -25,20 +25,29 @@ function Tasks({ currentCaseId, user }) {
     });
   }, []);
 
+  async function getCaseTasks() {
+    let path = `/cases/${currentCaseId}/tasks`;
+    try {
+      let resp = await apiWrapper.get(path);
+      let caseTasks = resp.data;
+      setTasks(caseTasks);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
-    async function getCaseTasks() {
-      let path = `/cases/${currentCaseId}/tasks`;
-      try {
-        let resp = await apiWrapper.get(path);
-        let caseTasks = resp.data;
-        setTasks(caseTasks);
-      } catch (err) {
-        console.error(err);
+    getCaseTasks();
+  }, [currentCaseId]);
+
+  useEffect(() => {
+    if (lastMessage) {
+      let data = JSON.parse(lastMessage.data);
+      if (data.type === "REFRESH" && data.target === "tasks") {
+        getCaseTasks();
       }
     }
-
-    getCaseTasks();
-  }, [currentCaseId, currentTask]);
+  }, [lastMessage]);
 
   useEffect(() => {
     async function getCurrentCase() {

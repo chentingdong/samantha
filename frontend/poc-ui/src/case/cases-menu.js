@@ -8,25 +8,19 @@ function CasesMenu({ user, className, currentCaseId, setCurrentCaseId }) {
   const [cases, setCases] = useState([]);
 
   useEffect(() => {
-    function listCases() {
+    async function listCases() {
       let path = `/cases`;
-      apiWrapper
-        .get(path)
-        .then((resp) => {
-          // console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
-          let _cases = resp.data.filter((c) => {
-            let isOwnerCase = c.data.owner && c.data.owner === user.username;
-            let isParticipantCase =
-              c.data.participants &&
-              c.data.participants.indexOf(user.username) > 0;
-            return isOwnerCase || isParticipantCase;
-          });
-          setCases(_cases);
-          if (_cases.length > 0) setCurrentCaseId(_cases[0].id);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      let resp = await apiWrapper.get(path);
+      // console.debug(`Got cases: ${JSON.stringify(resp.data, null, 2)}`);
+      let _cases = resp.data.filter((c) => {
+        let isOwnerCase = c.data.owner && c.data.owner === user.username;
+        let isParticipantCase =
+          c.data.participants &&
+          c.data.participants.indexOf(user.username) > -1;
+        return isOwnerCase || isParticipantCase;
+      });
+      setCases(_cases);
+      if (_cases.length > 0) setCurrentCaseId(_cases[0].id);
     }
 
     listCases();

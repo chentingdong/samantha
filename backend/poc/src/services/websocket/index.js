@@ -12,20 +12,20 @@ module.exports.handleSocketDefault = async (event, context) => {
     const connectionId = event.requestContext.connectionId;
     switch (action) {
       case "PING":
-        const pingResponse = JSON.stringify({ action: "PING", value: "PONG" });
+        const pingResponse = { action: "PING", value: "PONG" };
         await apigatewayConnector.generateSocketMessage(
           connectionId,
-          pingResponse
+          JSON.stringify(pingResponse)
         );
         break;
       default:
-        const invalidResponse = JSON.stringify({
+        const invalidResponse = {
           action: "ERROR",
           error: "Invalid request",
-        });
+        };
         await apigatewayConnector.generateSocketMessage(
           connectionId,
-          invalidResponse
+          JSON.stringify(invalidResponse)
         );
     }
 
