@@ -10,7 +10,8 @@
       "program": "${workspaceRoot}/node_modules/.bin/sls",
       "args": [
         "offline",
-        "start"
+        "start",
+        "--skipCacheInvalidation"
       ]
     }
   ]
