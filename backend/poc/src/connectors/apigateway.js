@@ -1,5 +1,4 @@
 "use strict";
-// import caCert from "./rootCA.pem";
 const aws = require("aws-sdk");
 const dynamodbConnector = require("./dynamodb");
 
