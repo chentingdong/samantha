@@ -17,8 +17,10 @@ function App() {
   async function getUserInfo() {
     try {
       const userInfo = await Auth.currentUserPoolUser();
-      setUser(userInfo);
-      setIsAuthenticated(true);
+      if (userInfo) {
+        setUser(userInfo);
+        setIsAuthenticated(true);
+      }
     } catch (err) {
       console.log(err);
     }

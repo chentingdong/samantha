@@ -4,28 +4,41 @@ import apiWrapper from "../libs/api-wrapper";
 import CreateCase from "./create-case";
 import { formatDate } from "../libs/custom-functions";
 
-function CasesMenu({ user, className, currentCaseId, setCurrentCaseId }) {
+function CasesMenu({
+  user,
+  className,
+  currentCaseId,
+  setCurrentCaseId,
+  lastMessage,
+}) {
   const [cases, setCases] = useState([]);
 
+  async function listCases() {
+    let path = `/cases`;
+    let resp = await apiWrapper.get(path);
+    // console.debug(`Got cases: ${JSON.stringify(resp.data, null, 2)}`);
+    let _cases = resp.data.filter((c) => {
+      let isOwnerCase = c.data.owner && c.data.owner === user.username;
+      let isParticipantCase =
+        c.data.participants && c.data.participants.indexOf(user.username) > -1;
+      return isOwnerCase || isParticipantCase;
+    });
+    setCases(_cases);
+    if (_cases.length > 0) setCurrentCaseId(_cases[0].id);
+  }
+
   useEffect(() => {
-    async function listCases() {
-      let path = `/cases`;
-      let resp = await apiWrapper.get(path);
-      // console.debug(`Got cases: ${JSON.stringify(resp.data, null, 2)}`);
-      let _cases = resp.data.filter((c) => {
-        let isOwnerCase = c.data.owner && c.data.owner === user.username;
-        let isParticipantCase =
-          c.data.participants &&
-          c.data.participants.indexOf(user.username) > -1;
-        return isOwnerCase || isParticipantCase;
-      });
-      setCases(_cases);
-      if (_cases.length > 0) setCurrentCaseId(_cases[0].id);
-    }
-
     listCases();
-  }, [setCurrentCaseId, user]);
+  }, [setCurrentCaseId]);
 
+  useEffect(() => {
+    if (lastMessage) {
+      let data = JSON.parse(lastMessage.data);
+      if (data.type === "REFRESH" && data.target === "cases") {
+        listCases();
+      }
+    }
+  }, [lastMessage]);
   return (
     <div className={className}>
       <h2 className="mt-5 ml-2">Cases</h2>

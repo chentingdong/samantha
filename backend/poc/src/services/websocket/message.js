@@ -49,7 +49,7 @@ module.exports.groupNotice = (participants, utterance) => {
 /**
  * Tell UI to refresh, exp., tasks, cases, etc.
  */
-module.exports.refreshUI = async (username, target) => {
+const uiRefreshOne = async (username, target) => {
   try {
     const sockets = await dynamodbConnector.listSocketsByUser(username);
     const promises = [];
@@ -72,10 +72,18 @@ module.exports.refreshUI = async (username, target) => {
   }
 };
 
+module.exports.uiRefresh = async (target, data) => {
+  let allUsers = [...data.participants, data.owner];
+  allUsers.forEach(async (u) => {
+    await uiRefreshOne(u, target);
+  });
+};
+
 /**
  * save messages to persist.
  */
 module.exports.saveMessage = async (caseId, taskId, data) => {
   const id = uuidv4();
-  await dynamodbConnector.createCaseMessage(id, caseId, taskId, data);
+  caseMessage = { id, caseId, taskId, data };
+  return await dynamodbConnector.createCaseMessage(caseMessage);
 };

@@ -111,6 +111,7 @@ function VirtualAssistant({ user }) {
             user={user}
             currentCaseId={currentCaseId}
             setCurrentCaseId={setCurrentCaseId}
+            lastMessage={lastMessage}
           />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter overflow-auto">

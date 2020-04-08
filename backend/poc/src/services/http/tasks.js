@@ -4,42 +4,37 @@ const {
   taskNoticeCreateToOwner,
   taskNoticeCreateToParticipants,
 } = require("../../core/task-notifications");
-const { refreshUI } = require("../websocket/message");
+const { uiRefresh } = require("../websocket/message");
 const { addCaseParticipantToDb } = require("./cases");
 const { taskCompleteSendEvent } = require("../../core/events-handler");
 
 module.exports.createTask = async (event, context) => {
-  const id = uuid.v4();
-  const { caseId } = event.path;
   const taskData = event.body;
-
-  const { Item = {} } = await dynamodbConnector.getCase(caseId);
-  const caseData = Item.data;
+  const task = {
+    id: uuid.v4(),
+    caseId: event.path.caseId,
+    state: (await task_blocked(taskData)) ? "Pending" : "Active",
+    data: taskData,
+  };
 
   // create task
-  let state = (await task_blocked(taskData)) ? "Pending" : "Active";
-  await dynamodbConnector.createTaskInCase(id, caseId, state, taskData);
+  await dynamodbConnector.createTaskInCase(task);
 
   // add participant to case participants
-  await addCaseParticipantToDb(caseId, taskData.participants);
+  const caseItem = await addCaseParticipantToDb(
+    task.caseId,
+    task.data.participants
+  );
 
   // notification
-  let task = { id, caseId, state, data: taskData };
   await taskNoticeCreateToOwner(task);
   await taskNoticeCreateToParticipants(task);
 
-  // refresh UI for task changes
-  uiRefreshTasks(task);
-
+  // refresh UI for case and task changes
+  await uiRefresh("cases", caseItem.data);
+  await uiRefresh("tasks", task.data);
   return task;
 };
-
-function uiRefreshTasks(task) {
-  let allUsers = [...task.data.participants, task.data.owner];
-  allUsers.forEach(async (u) => {
-    await refreshUI(u, "tasks");
-  });
-}
 
 async function task_blocked(taskData) {
   let dependsOns = taskData.dependsOns;

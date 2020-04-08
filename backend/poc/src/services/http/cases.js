@@ -3,11 +3,13 @@ const dynamodbConnector = require("../../connectors/dynamodb");
 const uuid = require("uuid");
 
 module.exports.createCase = async (event, context) => {
-  const id = uuid.v4();
-  const state = "Active";
-  const data = event.body;
-  await dynamodbConnector.createCase(id, state, data);
-  return { id, state, data };
+  const newCase = {
+    id: uuid.v4(),
+    state: "Active",
+    data: event.body,
+  };
+  await dynamodbConnector.createCase(newCase);
+  return newCase;
 };
 
 module.exports.getCase = async (event, context) => {
@@ -41,16 +43,15 @@ module.exports.addCaseParticipant = async (event, context) => {
 };
 
 const addCaseParticipantToDb = async (caseId, users) => {
-  const caseItem = await dynamodbConnector.getCase(caseId);
-  const caseData = caseItem.Item.data;
-
-  const { participants = [] } = caseData;
+  const resp = await dynamodbConnector.getCase(caseId);
+  const caseItem = resp.Item;
+  const participants = caseItem.data.participants;
   users.forEach((user) => {
     if (participants.indexOf(user) === -1) participants.push(user);
   });
-  caseData["participants"] = participants;
+  caseItem.data["participants"] = participants;
 
-  await dynamodbConnector.updateCaseData(caseId, caseData);
-  return caseData;
+  await dynamodbConnector.updateCaseData(caseItem.id, caseItem.data);
+  return caseItem;
 };
 module.exports.addCaseParticipantToDb = addCaseParticipantToDb;

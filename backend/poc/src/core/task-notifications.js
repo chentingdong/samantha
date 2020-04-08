@@ -6,8 +6,11 @@ const {
   groupNotice,
 } = require("../services/websocket/message");
 
-async function saveAgentMessages(caseId, taskId, utterance, users) {
+async function saveAgentMessages(message) {
+  const { caseId, taskId, utterance, users } = message;
   const agent = process.env.USER ? "agent-" + process.env.USER : "agent-smith";
+  const promises = [];
+
   users.forEach(async (user) => {
     const data = {
       utterance: utterance,
@@ -15,8 +18,9 @@ async function saveAgentMessages(caseId, taskId, utterance, users) {
       toUser: user,
       createdAt: Date.now(),
     };
-    await saveMessage(caseId, taskId, data);
+    promises.push(saveMessage(caseId, taskId, data));
   });
+  await Promise.all(promises);
 }
 
 module.exports.taskNoticeCreateToOwner = async (task) => {
@@ -28,8 +32,14 @@ module.exports.taskNoticeCreateToOwner = async (task) => {
       `expecting to finish on ${task.data.dueDate}. ` +
       `I will inform him after ${task.data.followUpDays} days if not finished.`;
 
-    crossDeviceBroadcast(task.data.owner, utterance);
-    await saveAgentMessages(task.caseId, task.id, utterance, [toUser]);
+    await crossDeviceBroadcast(task.data.owner, utterance);
+    let message = {
+      caseId: task.caseId,
+      taskId: task.id,
+      utterance: utterance,
+      users: [toUser],
+    };
+    await saveAgentMessages(message);
   } catch (err) {
     console.error(err);
   }
@@ -43,12 +53,13 @@ module.exports.taskNoticeCreateToParticipants = async (task) => {
       `and try to finish it by ${task.data.dueDate}.`;
 
     await groupNotice(task.data.participants, utterance);
-    await saveAgentMessages(
-      task.caseId,
-      task.id,
-      utterance,
-      task.data.participants
-    );
+    let message = {
+      caseId: task.caseId,
+      taskId: task.id,
+      utterance: utterance,
+      users: task.data.participants,
+    };
+    await saveAgentMessages(message);
   } catch (err) {
     console.error(err);
   }
@@ -58,12 +69,13 @@ module.exports.taskNoticeStatusToParticipants = async (task) => {
   try {
     let utterance = `Your task "${task.data.name}" status is updated to "${task.state}".`;
     await groupNotice(task.data.participants, utterance);
-    await saveAgentMessages(
-      task.caseId,
-      task.id,
-      utterance,
-      task.data.participants
-    );
+    let message = {
+      caseId: task.caseId,
+      taskId: task.id,
+      utterance: utterance,
+      users: task.data.participants,
+    };
+    await saveAgentMessages(message);
   } catch (err) {
     console.error(err);
   }
@@ -83,12 +95,13 @@ module.exports.taskNoticeDependencyStatusToParticipants = async (
       `status is updated to ${updatedTask.state}, ${blockUtterance}.`;
 
     await groupNotice(updatedTask.data.participants, utterance);
-    await saveAgentMessages(
-      task.caseId,
-      task.id,
-      utterance,
-      task.data.participants
-    );
+    let message = {
+      caseId: task.caseId,
+      taskId: task.id,
+      utterance: utterance,
+      users: task.data.participants,
+    };
+    await saveAgentMessages(message);
   } catch (err) {
     console.error(err);
   }

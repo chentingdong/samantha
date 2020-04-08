@@ -25,7 +25,7 @@ function Tasks({ currentCaseId, lastMessage, user }) {
     });
   }, []);
 
-  async function getCaseTasks() {
+  async function listCaseTasks() {
     let path = `/cases/${currentCaseId}/tasks`;
     try {
       let resp = await apiWrapper.get(path);
@@ -36,31 +36,29 @@ function Tasks({ currentCaseId, lastMessage, user }) {
     }
   }
 
+  async function getCurrentCase() {
+    try {
+      const path = "/cases/" + currentCaseId;
+      let resp = await apiWrapper.get(path);
+      if (resp.data) setCurrentCase(resp.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
-    getCaseTasks();
+    listCaseTasks();
+    getCurrentCase();
   }, [currentCaseId]);
 
   useEffect(() => {
     if (lastMessage) {
       let data = JSON.parse(lastMessage.data);
       if (data.type === "REFRESH" && data.target === "tasks") {
-        getCaseTasks();
+        listCaseTasks();
       }
     }
   }, [lastMessage]);
-
-  useEffect(() => {
-    async function getCurrentCase() {
-      try {
-        const path = "/cases/" + currentCaseId;
-        let resp = await apiWrapper.get(path);
-        if (resp.data) setCurrentCase(resp.data);
-      } catch (err) {
-        console.error(err);
-      }
-    }
-    getCurrentCase();
-  }, [currentCaseId]);
 
   function getUserAttribute(username, attr) {
     try {

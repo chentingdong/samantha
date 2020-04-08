@@ -52,7 +52,12 @@ class DynamoDbConnector {
       },
     };
 
-    return await this._connector.query(queryParams).promise();
+    try {
+      return await this._connector.query(queryParams).promise();
+    } catch (err) {
+      console.error(`wierd error: ${err}`);
+      return [];
+    }
   }
 
   async createCaseDefinition(id, data) {
@@ -64,10 +69,11 @@ class DynamoDbConnector {
       },
     };
     try {
-      return await this._connector.put(queryParams).promise();
+      let resp = await this._connector.put(queryParams).promise();
     } catch (err) {
       console.error(err);
     }
+    return resp;
   }
 
   async getCaseDefinition(id) {
@@ -149,14 +155,10 @@ class DynamoDbConnector {
     return await this._connector.delete(params).promise();
   }
 
-  async createCase(id, state, data) {
+  async createCase(caseItem) {
     const params = {
       TableName: process.env.DYNAMODB_CASES_TABLE,
-      Item: {
-        id,
-        state,
-        data,
-      },
+      Item: caseItem,
     };
     return await this._connector.put(params).promise();
   }
@@ -210,15 +212,10 @@ class DynamoDbConnector {
     return await this._connector.delete(queryParams).promise();
   }
 
-  async createTaskInCase(id, caseId, state, data) {
+  async createTaskInCase(caseItem) {
     const queryParams = {
       TableName: process.env.DYNAMODB_TASKS_TABLE,
-      Item: {
-        id,
-        caseId,
-        state,
-        data,
-      },
+      Item: caseItem,
     };
     return await this._connector.put(queryParams).promise();
   }
@@ -271,10 +268,10 @@ class DynamoDbConnector {
     return await this._connector.delete(queryParams).promise();
   }
 
-  async createCaseMessage(id, caseId, taskId, data) {
+  async createCaseMessage(message) {
     const queryParams = {
       TableName: process.env.DYNAMODB_CASE_MESSAGES_TABLE,
-      Item: { id, caseId, taskId, data },
+      Item: message,
     };
     return await this._connector.put(queryParams).promise();
   }
