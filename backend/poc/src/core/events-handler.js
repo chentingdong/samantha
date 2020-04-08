@@ -1,5 +1,6 @@
 const { SQS } = require("aws-sdk");
 const dynamodbConnector = require("../connectors/dynamodb");
+const { isOffline } = require("../utils");
 const {
   taskNoticeStatusToParticipants,
   taskNoticeDependencyStatusToParticipants,
@@ -10,12 +11,12 @@ module.exports.taskCompleteSendEvent = async (event, context) => {
   let statusCode = 200;
   let message = "";
 
-  const queueUrl = process.env.IS_OFFLINE
+  const queueUrl = isOffline()
     ? `http://localhost:9324/queue/${process.env.SQS_TASK_COMPLETE_QUEUE}`
     : process.env.SQS_TASK_COMPLETE_URL;
 
   try {
-    await sqs
+    await new SQS()
       .sendMessage({
         QueueUrl: queueUrl,
         MessageBody: JSON.stringify(event),

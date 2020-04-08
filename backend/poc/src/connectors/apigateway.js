@@ -1,20 +1,14 @@
 "use strict";
-
 const aws = require("aws-sdk");
 const dynamodbConnector = require("./dynamodb");
-
-const isOffline = function () {
-  // Depends on serverless-offline plugion which adds IS_OFFLINE to process.env when running offline
-  return process.env.IS_OFFLINE;
-};
+const { isOffline } = require("../utils");
 
 class ApiGatewayConnector {
   constructor() {
     let CONNECTOR_OPTS = {};
     if (isOffline()) {
-      const ca = require("fs").readFileSync(
-        __dirname + "/../../certs/rootCA.pem"
-      );
+      // const ca = require("fs").readFileSync("../../../certs/rootCA.pem");
+      const { ca } = require("../../certs/rootCA.pem");
       const options = { ca };
       const agent = new require("https").Agent(options);
       CONNECTOR_OPTS = {
