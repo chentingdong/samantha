@@ -8,10 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown } from "react-bootstrap";
 
 const CreateCase = ({
-  user,
   className,
+  user,
   cases,
   setCases,
+  tasks,
   setTasks,
   setCurrentTask,
   currentCaseId,
@@ -70,6 +71,7 @@ const CreateCase = ({
       let resp = await apiWrapper.post(path, taskInstance);
       let t = resp.data;
       setCurrentTask(t);
+      console.log(tasks);
       setTasks((tasks) => [t, ...tasks]);
     }
   }

@@ -5,13 +5,15 @@ import CreateCase from "./create-case";
 import { formatDate } from "../libs/custom-functions";
 
 function CasesMenu({
-  user,
   className,
+  user,
   currentCaseId,
   currentCaseStatus,
   setCurrentCaseStatus,
   setCurrentCaseId,
+  tasks,
   setTasks,
+  currentTask,
   setCurrentTask,
   lastMessage,
 }) {
@@ -77,6 +79,7 @@ function CasesMenu({
           user={user}
           cases={cases}
           setCases={setCases}
+          tasks={tasks}
           setTasks={setTasks}
           setCurrentTask={setCurrentTask}
           currentCaseId={currentCaseId}

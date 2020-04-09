@@ -95,6 +95,7 @@ function Tasks({
         <CaseHeader
           currentCaseId={currentCaseId}
           tasks={tasks}
+          setTasks={setTasks}
           currentCaseStatus={currentCaseStatus}
           setCurrentCaseStatus={setCurrentCaseStatus}
         />
