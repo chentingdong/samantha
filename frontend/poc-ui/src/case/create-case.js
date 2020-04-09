@@ -7,7 +7,14 @@ import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown } from "react-bootstrap";
 
-const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
+const CreateCase = ({
+  user,
+  className,
+  cases,
+  setCases,
+  setCurrentCaseId,
+  setCurrentCaseStatus,
+}) => {
   const [caseDefinitions, setCaseDefinitions] = useState([]);
 
   useEffect(() => {
@@ -24,7 +31,7 @@ const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
     }
 
     listCaseDefinitions();
-  }, []);
+  }, [setCurrentCaseStatus]);
 
   async function createCase(caseDefinition) {
     let caseInstance = caseDefinition.data;

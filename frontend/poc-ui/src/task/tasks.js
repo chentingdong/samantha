@@ -11,7 +11,13 @@ import {
 import CaseHeader from "../case/case-header";
 import TaskRuntime from "../task/task-runtime";
 
-function Tasks({ currentCaseId, lastMessage, user }) {
+function Tasks({
+  currentCaseId,
+  lastMessage,
+  user,
+  currentCaseStatus,
+  setCurrentCaseStatus,
+}) {
   const [users, setUsers] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [currentCase, setCurrentCase] = useState("");
@@ -84,7 +90,12 @@ function Tasks({ currentCaseId, lastMessage, user }) {
   return (
     currentCase && (
       <div className="">
-        <CaseHeader currentCaseId={currentCaseId} tasks={tasks} />
+        <CaseHeader
+          currentCaseId={currentCaseId}
+          tasks={tasks}
+          currentCaseStatus={currentCaseStatus}
+          setCurrentCaseStatus={setCurrentCaseStatus}
+        />
         <div className="card mt-4">
           <div className="d-flex pt-2 pb-2">
             <h4 className="col-6">Tasks</h4>

@@ -1,5 +1,5 @@
 const dynamodbConnector = require("../connectors/dynamodb");
-const { saveMessage } = require("../services/websocket/message");
+const { saveMessage, uiRefreshOne } = require("../services/websocket/message");
 
 // const {
 //   crossDeviceBroadcast,
@@ -29,7 +29,7 @@ module.exports.taskNoticeCreateToOwner = async (task) => {
       `expecting to finish on ${task.data.dueDate}. ` +
       `I will inform him after ${task.data.followUpDays} days if not finished.`;
 
-    await crossDeviceBroadcast(task.data.owner, utterance);
+    await uiRefreshOne(task.data.owner, utterance);
     let message = {
       caseId: task.caseId,
       taskId: task.id,
