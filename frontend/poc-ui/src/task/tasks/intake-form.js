@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const IntakeFormDesign = ({ task, setTask, planItemIndex }) => {
   const initUrls = task.planItems[planItemIndex].data.urls || [];
+  const title = task.planItems[planItemIndex].data.title || "";
+
   const [urls, setUrls] = useState(initUrls);
 
   function add() {
@@ -21,7 +23,7 @@ const IntakeFormDesign = ({ task, setTask, planItemIndex }) => {
   return (
     <div className="form-group col-12">
       <div className="d-flex">
-        <span>add a form </span>
+        <span>{title} </span>
         <span className="clickable ml-2" onClick={add}>
           <FontAwesomeIcon icon="plus" />
         </span>

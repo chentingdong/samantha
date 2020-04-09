@@ -35,7 +35,13 @@
       "owner": " ",
       "participants": [],
       "dependsOns": [],
-      "planItems": []
+      "planItems": [        {
+          "tagName": "AskApprovalDesign",
+          "data": {
+            "title": "Can approve when task is in pending mode?",
+            "checked": true
+          }
+        }]
     }
   }
 ]

@@ -24,9 +24,6 @@ function TaskDesign({
       onHide={(e) => setShowDesignModal(false)}
       key={currentTask.id}
     >
-      <Modal.Header closeButton>
-        <h4>Task designer</h4>
-      </Modal.Header>
       <Modal.Body>
         <TaskForm
           currentCaseId={currentCaseId}
@@ -82,6 +79,7 @@ function TaskForm({
 
   return (
     <form className="card" onSubmit={(e) => e.preventDefault()}>
+      <h4>Task designer - {task.name}</h4>
       <div className="d-flex card-header">
         <div className="flex-fill p-2">
           <div className="form-group">
@@ -173,7 +171,7 @@ function TaskForm({
             const TagName = taskContentComponents[item.tagName];
             return (
               <div key={index}>
-                <h5>{TagName}</h5>
+                <h5>{item.tagName}</h5>
                 <TagName
                   exact
                   task={task}
