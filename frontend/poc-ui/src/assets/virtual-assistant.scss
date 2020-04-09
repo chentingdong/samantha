@@ -46,3 +46,17 @@
   position: absolute;
   bottom: 0;
 }
+
+.tasks-tab {
+  a.nav-link {
+    font-size: 1.2em;
+    position: absolute;
+    top: 0;
+    &[data-rb-event-key="list"] {
+      left: 100px;
+    }
+        &[data-rb-event-key="kanban"] {
+      left: 140px;
+    }
+  }
+}

@@ -7,7 +7,7 @@ import React from "react";
 
 const AskApprovalDesign = ({ task, setTask, planItemIndex }) => {
   const data = task.planItems[planItemIndex].data;
-
+  function doSomething() {}
   return (
     <div className="form-group col-12">
       <input
@@ -15,6 +15,7 @@ const AskApprovalDesign = ({ task, setTask, planItemIndex }) => {
         type="checkbox"
         id="preApprove"
         checked={data.checked}
+        onChange={doSomething}
       />
       <label htmlFor="preApprove">{data.title}</label>
     </div>

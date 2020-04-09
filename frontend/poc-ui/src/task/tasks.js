@@ -4,7 +4,10 @@ import CreateTask from "./create-task";
 import TaskDesign from "./task-design";
 import TasksTable from "./tasks-table";
 import CaseHeader from "../case/case-header";
-import TaskRuntime from "../task/task-runtime";
+import TaskRuntime from "./task-runtime";
+import TasksKanban from "./tasks-kanban";
+import { Tabs, Tab } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function Tasks({
   currentCaseId,
@@ -74,7 +77,7 @@ function Tasks({
           setCurrentCaseStatus={setCurrentCaseStatus}
         />
         <div className="card mt-4">
-          <div className="d-flex pt-2 pb-2">
+          <div className="d-flex pt-2 pb-2 border-bottom">
             <h4 className="col-6">Tasks</h4>
             <div className="col-6 text-right">
               <CreateTask
@@ -86,13 +89,38 @@ function Tasks({
               />
             </div>
           </div>
-          <TasksTable
-            tasks={tasks}
-            users={users}
-            setCurrentTask={setCurrentTask}
-            setShowDesignModal={setShowDesignModal}
-            setShowRuntimeModal={setShowRuntimeModal}
-          />
+          <Tabs defaultActiveKey="list" variant="none" className="tasks-tab">
+            <Tab
+              eventKey="kanban"
+              title={
+                <FontAwesomeIcon icon="columns" className="text-primary" />
+              }
+            >
+              <TasksKanban
+                tasks={tasks}
+                setTasks={setTasks}
+                users={users}
+                setCurrentTask={setCurrentTask}
+                setShowDesignModal={setShowDesignModal}
+                setShowRuntimeModal={setShowRuntimeModal}
+              />
+            </Tab>
+            <Tab
+              eventKey="list"
+              title={
+                <FontAwesomeIcon icon="list-alt" className="text-primary" />
+              }
+            >
+              <TasksTable
+                tasks={tasks}
+                users={users}
+                setTasks={setTasks}
+                setCurrentTask={setCurrentTask}
+                setShowDesignModal={setShowDesignModal}
+                setShowRuntimeModal={setShowRuntimeModal}
+              />
+            </Tab>
+          </Tabs>
         </div>
         <TaskDesign
           currentCaseId={currentCaseId}

@@ -20,6 +20,9 @@ const IntakeFormDesign = ({ task, setTask, planItemIndex }) => {
     updated.splice(index, 1);
     setUrls(updated);
   }
+  function updateField() {
+    console.log("here");
+  }
   return (
     <div className="form-group col-12">
       <div className="d-flex">
@@ -38,6 +41,7 @@ const IntakeFormDesign = ({ task, setTask, planItemIndex }) => {
                 name="formUrl"
                 placeholder="Add url to a new form..."
                 value={url}
+                onChange={updateField}
               />
             </span>
             <span className="col-1 clickable" onClick={(e) => remove(index)}>
