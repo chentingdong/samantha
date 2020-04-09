@@ -15,3 +15,9 @@ Resources:
         MinCapacity: 1
         MaxCapacity: 4
         SecondsUntilAutoPause: 1800
+
+Outputs:
+  AuroraRDSClusterHostname:
+    Description: The hostname for the Aurora cluster
+    Value:
+      'Fn::GetAtt': [AuroraRDSCluster, Endpoint.Address]

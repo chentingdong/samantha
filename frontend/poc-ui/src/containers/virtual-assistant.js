@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function VirtualAssistant({ user }) {
   const [currentCaseId, setCurrentCaseId] = useState();
   const [currentCaseStatus, setCurrentCaseStatus] = useState("");
+  const [tasks, setTasks] = useState([]);
+  const [currentTask, setCurrentTask] = useState({});
   const [currentMessage, setCurrentMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [selectedSuggestion, setselectedSuggestion] = useState(0);
@@ -102,7 +104,7 @@ function VirtualAssistant({ user }) {
   }
   useEffect(() => {
     listCaseMessages();
-  }, [currentCaseId, setCurrentCaseStatus]);
+  }, [currentCaseId, currentCaseStatus, setCurrentCaseStatus]);
 
   return (
     <div className="container-fluid">
@@ -115,6 +117,10 @@ function VirtualAssistant({ user }) {
             currentCaseStatus={currentCaseStatus}
             setCurrentCaseStatus={setCurrentCaseStatus}
             setCurrentCaseId={setCurrentCaseId}
+            tasks={tasks}
+            setTasks={setTasks}
+            currentTask={currentTask}
+            setCurrentTask={setCurrentTask}
             lastMessage={lastMessage}
           />
         </div>
@@ -125,6 +131,10 @@ function VirtualAssistant({ user }) {
             setCurrentCaseStatus={setCurrentCaseStatus}
             lastMessage={lastMessage}
             user={user}
+            tasks={tasks}
+            setTasks={setTasks}
+            currentTask={currentTask}
+            setCurrentTask={setCurrentTask}
           />
         </div>
         <div className="col col-md-3 vh-100">

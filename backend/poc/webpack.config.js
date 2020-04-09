@@ -7,7 +7,10 @@ const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 module.exports = {
   context: __dirname,
   mode: slsw.lib.webpack.isLocal ? "development" : "production",
-  entry: slsw.lib.entries,
+  entry: {
+    ...slsw.lib.entries,
+    "src/config/ormconfig": "./src/config/ormconfig.js",
+  },
   devtool: slsw.lib.webpack.isLocal
     ? "cheap-module-eval-source-map"
     : "source-map",
@@ -23,10 +26,10 @@ module.exports = {
   },
   watch: false,
   target: "node",
-	node: {
-		__dirname: false,
-		__filename: false,
-	},
+  node: {
+    __dirname: false,
+    __filename: false,
+  },
   externals: [nodeExternals()],
   module: {
     rules: [

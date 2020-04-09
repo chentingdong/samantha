@@ -1,28 +1,16 @@
-const typeorm = require("typeorm"); // import * as typeorm from "typeorm";
-const Post = require("./model/Post").Post; // import {Post} from "./model/Post";
-const Category = require("./model/Category").Category; // import {Category} from "./model/Category";
+const { getConnectionManager, createConnection } = require("typeorm"); // import * as typeorm from "typeorm";
+const Post = require("../../core/models/Post").Post; // import {Post} from "./model/Post";
+const Category = require("../../core/models/Category").Category; // import {Category} from "./model/Category";
 const { isOffline } = require("../../utils");
+const { getConnectionOptions } = require("../../../ormconfig");
 
 module.exports.testTypeOrm = async (event, context) => {
-  const connectionManager = typeorm.getConnectionManager();
+  const connectionOptions = getConnectionOptions();
+  const connection = getConnectionManager().has("default")
+    ? getConnectionManager().get("default")
+    : await createConnection(connectionOptions);
 
-  const connectionParams = {
-    type: "mysql",
-    host: isOffline() ? "127.0.0.1" : process.env.AURORA_HOST,
-    port: isOffline() ? 3306 : process.env.AURORA_PORT,
-    username: isOffline() ? "root" : process.env.USERNAME,
-    password: isOffline() ? "root" : process.env.PASSWORD,
-    database: isOffline() ? "samantha" : process.env.DB_NAME,
-    synchronize: true,
-    logging: false,
-    entities: [
-      require("./entity/PostSchema"),
-      require("./entity/CategorySchema"),
-    ],
-  };
-
-  const connection = connectionManager.create(connectionParams);
-  await connection.connect();
+  console.log(connectionOptions);
 
   const category1 = new Category(0, "TypeScript");
   const category2 = new Category(0, "Programming");
@@ -41,6 +29,6 @@ module.exports.testTypeOrm = async (event, context) => {
   console.log("Now lets load all posts: ");
 
   const results = await postRepository.find();
-  await connection.close();
+  // await connection.close();
   return results;
 };
