@@ -9,6 +9,10 @@ plugins:
   - serverless-offline
   - serverless-plugin-split-stacks
 
+package:
+  exclude:
+    - node_modules/aws-sdk/**
+
 custom:
   DB_NAME: samantha
   USERNAME: root
