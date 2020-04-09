@@ -4,3 +4,9 @@ Resources:
     Properties:
       VisibilityTimeout: 43200
       QueueName: ${self:provider.environment.SQS_TASK_COMPLETE_QUEUE}
+
+Outputs:
+  TaskCompleteQueueUrl:
+    Description: The hostname for the Aurora cluster
+    Value:
+      Ref: TaskCompleteQueue

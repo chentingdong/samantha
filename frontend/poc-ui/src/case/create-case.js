@@ -7,7 +7,19 @@ import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown } from "react-bootstrap";
 
-const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
+const CreateCase = ({
+  className,
+  user,
+  cases,
+  setCases,
+  tasks,
+  setTasks,
+  setCurrentTask,
+  currentCaseId,
+  setCurrentCaseId,
+  currentCaseStatus,
+  setCurrentCaseStatus,
+}) => {
   const [caseDefinitions, setCaseDefinitions] = useState([]);
 
   useEffect(() => {
@@ -24,7 +36,7 @@ const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
     }
 
     listCaseDefinitions();
-  }, []);
+  }, [currentCaseStatus, setCurrentCaseStatus]);
 
   async function createCase(caseDefinition) {
     let caseInstance = caseDefinition.data;
@@ -38,8 +50,29 @@ const CreateCase = ({ user, className, cases, setCases, setCurrentCaseId }) => {
       setCases((cases) => {
         return [newCase, ...cases];
       });
-
       setCurrentCaseId(newCase.id);
+    }
+    // loop through caseDef planItems and create tasks for new case
+
+    caseInstance.planItems.map((planItem) => {
+      console.log("planItem");
+      console.log(planItem);
+      let taskInstance = planItem.data;
+      taskInstance.caseId = currentCaseId;
+      taskInstance.owner = user.username;
+      let today = new Date();
+      let tomorrow = today.setDate(today.getDate() + 1);
+      taskInstance.dueDate = tomorrow;
+      createCaseTasks(taskInstance);
+    });
+
+    async function createCaseTasks(taskInstance) {
+      let path = `/cases/${currentCaseId}/tasks`;
+      let resp = await apiWrapper.post(path, taskInstance);
+      let t = resp.data;
+      setCurrentTask(t);
+      console.log(tasks);
+      setTasks((tasks) => [t, ...tasks]);
     }
   }
 
