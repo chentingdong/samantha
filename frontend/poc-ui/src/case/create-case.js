@@ -13,6 +13,7 @@ const CreateCase = ({
   cases,
   setCases,
   setCurrentCaseId,
+  currentCaseStatus,
   setCurrentCaseStatus,
 }) => {
   const [caseDefinitions, setCaseDefinitions] = useState([]);
@@ -31,7 +32,7 @@ const CreateCase = ({
     }
 
     listCaseDefinitions();
-  }, [setCurrentCaseStatus]);
+  }, [currentCaseStatus, setCurrentCaseStatus]);
 
   async function createCase(caseDefinition) {
     let caseInstance = caseDefinition.data;

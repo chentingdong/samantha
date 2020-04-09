@@ -102,7 +102,7 @@ function VirtualAssistant({ user }) {
   }
   useEffect(() => {
     listCaseMessages();
-  }, [currentCaseId, setCurrentCaseStatus]);
+  }, [currentCaseId, currentCaseStatus, setCurrentCaseStatus]);
 
   return (
     <div className="container-fluid">

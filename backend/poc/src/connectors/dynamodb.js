@@ -69,11 +69,13 @@ class DynamoDbConnector {
       },
     };
     try {
-      let resp = await this._connector.put(queryParams).promise();
+      return await this._connector.put(queryParams).promise();
     } catch (err) {
       console.error(err);
+      return {};
     }
-    return resp;
+
+    // return resp;
   }
 
   async getCaseDefinition(id) {

@@ -30,8 +30,8 @@ custom:
       - test
     start:
       port: 8000
-      dbPath: .dynamodb/data
-      migrate: false
+      # dbPath: .dynamodb/data
+      migrate: true
       seed: true
     seed:
       test:

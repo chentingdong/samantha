@@ -31,7 +31,7 @@ function CasesMenu({
 
   useEffect(() => {
     listCases();
-  }, [setCurrentCaseId, setCurrentCaseStatus]);
+  }, [setCurrentCaseId, currentCaseStatus, setCurrentCaseStatus]);
 
   useEffect(() => {
     if (lastMessage) {
@@ -76,6 +76,7 @@ function CasesMenu({
           cases={cases}
           setCases={setCases}
           setCurrentCaseId={setCurrentCaseId}
+          currentCaseStatus={currentCaseStatus}
           setCurrentCaseStatus={setCurrentCaseStatus}
         />
       </div>
