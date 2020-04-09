@@ -13,6 +13,7 @@ import {
 
 const TasksTable = ({
   tasks,
+  setTasks,
   users,
   setCurrentTask,
   setShowDesignModal,
