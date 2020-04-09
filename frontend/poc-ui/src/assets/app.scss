@@ -37,3 +37,8 @@
   border: solid 1px black;
   background-color: white;
 }
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  display: block;
+}

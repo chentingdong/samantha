@@ -1,27 +1,30 @@
-import React from 'react';
+import React from "react";
 
 /**
-* @author tchen@bellhop.io
-* @function AskApproval
-**/
+ * @author tchen@bellhop.io
+ * @function AskApproval
+ **/
 
-const AskApprovalDesign = ( { task, setTask } ) => {
+const AskApprovalDesign = ({ task, setTask, planItemIndex }) => {
+  const data = task.planItems[planItemIndex].data;
+
   return (
     <div className="form-group col-12">
-      <label>2. Button text</label><br />
       <input
-        className="form-control"
-        value="Ask for approval"
-        onChange={ setTask }
+        className="mr-2"
+        type="checkbox"
+        id="preApprove"
+        checked={data.checked}
       />
+      <label htmlFor="preApprove">{data.title}</label>
     </div>
   );
 };
 
-const AskApprovalRun = ( { task } ) => {
+const AskApprovalRun = ({ task }) => {
   return (
     <div>
-      <div className="btn btn-light" >Ask for approval</div>
+      <div className="btn btn-light">Ask for approval</div>
     </div>
   );
 };

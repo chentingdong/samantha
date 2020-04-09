@@ -10,7 +10,18 @@
       "owner": " ",
       "participants": [],
       "dependsOns": [],
-      "planItems": []
+      "planItems": [
+        {
+          "tagName": "IntakeFormDesign",
+          "data": {
+            "title": "Add a form",
+            "urls": [
+              "http://example.com",
+              "http://bellhop.io"
+            ]
+          }
+        }
+      ]
     }
   },
   {
@@ -24,7 +35,13 @@
       "owner": " ",
       "participants": [],
       "dependsOns": [],
-      "planItems": []
+      "planItems": [        {
+          "tagName": "AskApprovalDesign",
+          "data": {
+            "title": "Can approve when task is in pending mode?",
+            "checked": true
+          }
+        }]
     }
   }
 ]

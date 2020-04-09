@@ -17,10 +17,11 @@ function App() {
   async function getUserInfo() {
     try {
       const userInfo = await Auth.currentUserPoolUser();
-      if (userInfo) {
-        setUser(userInfo);
+      setUser(userInfo);
+      // temp hack to avoid userInfo change cause trouble.
+      setTimeout(() => {
         setIsAuthenticated(true);
-      }
+      }, 10);
     } catch (err) {
       console.log(err);
     }

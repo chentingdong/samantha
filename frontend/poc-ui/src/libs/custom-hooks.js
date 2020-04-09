@@ -3,7 +3,7 @@ import { useState } from "react";
 /**
  * @author tchen@bellhop.io
  * @function TaskRuntime
- * TODO: This is not good for prod use, find a better solution.
+ * TODO: This is not good enough for prod use, find a better solution.
  **/
 
 function useFormFields(initialState) {
@@ -44,7 +44,7 @@ function useFormFields(initialState) {
           [this.name]: event,
         });
       } else {
-        console.log("here");
+        console.log("here, useFormFields");
       }
     },
   ];
