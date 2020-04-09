@@ -10,7 +10,16 @@
             "icon": "user-cog",
             "description": "a task with an form url attached for assignments to intake",
             "dependsOns": [],
-            "planItems": [],
+            "planItems": [{
+                "tagName": "IntakeForm",
+                "data": {
+                    "title": "intake a form inst 1",
+                    "urls": [
+                        "http://example.com",
+                        "http://bellhop.io"
+                    ]
+                }
+            }],
             "participants": [
                 "Google_103472621531484531270"
             ]

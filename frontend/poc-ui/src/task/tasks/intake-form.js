@@ -1,29 +1,29 @@
-import React from 'react';
+import React from "react";
 
 /**
-* @author tchen@bellhop.io
-* @function IntakeForm
-**/
+ * @author tchen@bellhop.io
+ * @function IntakeForm
+ **/
 
-const IntakeFormDesign = ( {task, setTask} ) => {
+const IntakeFormDesign = ({ task, setTask, data }) => {
   return (
     <div className="form-group col-12">
-      <label>1. Attach form</label><br />
-      <input className="form-control"
+      <label>{data.title}</label>
+      <br />
+      <input
+        className="form-control"
         type="url"
         name="formUrl"
         placeholder="form url"
-        value={ task.formUrl }
-        onChange={ setTask } />
+        value={data.urls[0]}
+        onChange={setTask}
+      />
     </div>
   );
 };
 
-const IntakeFormRun = ( { task } ) => {
-  return (
-    task.formUrl &&
-    <a href={ task.formUlr }>task.formUrl</a>
-  )
-}
+const IntakeFormRun = ({ task }) => {
+  return task.formUrl && <a href={task.formUlr}>task.formUrl</a>;
+};
 
-export { IntakeFormDesign, IntakeFormRun};
+export { IntakeFormDesign, IntakeFormRun };

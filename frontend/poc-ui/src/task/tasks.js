@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import apiWrapper from "../libs/api-wrapper";
 import CreateTask from "./create-task";
-import DesignTask from "./task-design";
+import TaskDesign from "./task-design";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   stateColor,
@@ -147,7 +147,7 @@ function Tasks({ currentCaseId, lastMessage, user }) {
             </tbody>
           </table>
         </div>
-        <DesignTask
+        <TaskDesign
           currentCaseId={currentCaseId}
           currentTask={currentTask}
           setCurrentTask={setCurrentTask}

@@ -32,7 +32,7 @@ custom:
       port: 8000
       dbPath: .dynamodb/data
       migrate: false
-      seed: false
+      seed: true
     seed:
       test:
         sources:
@@ -80,13 +80,13 @@ provider:
     securityGroupIds:
       - sg-0a7ab9d66d72cd854
     subnetIds:
-      - subnet-aaeee4cd  
+      - subnet-aaeee4cd
       - subnet-ac5f4f82
       - subnet-7e0b5240
       - subnet-424b910f
       - subnet-e878b4e6
       - subnet-eba9beb7
-    DBSubnetGroupName: default-vpc-a30620d9      
+    DBSubnetGroupName: default-vpc-a30620d9
   environment:
     ENVIRONMENT: ${self:provider.stage}
     CORS_ORIGIN: ${self:custom.corsOrigin}
@@ -121,7 +121,7 @@ provider:
     #common
     DB_NAME: ${self:custom.DB_NAME}
     USERNAME: ${self:custom.USERNAME}
-    PASSWORD: ${self:custom.PASSWORD}      
+    PASSWORD: ${self:custom.PASSWORD}
   # Define the service IAM permissions
   iamRoleStatements:
     # Websocket permissions
