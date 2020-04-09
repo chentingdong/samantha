@@ -1,6 +1,6 @@
 const typeorm = require("typeorm"); // import * as typeorm from "typeorm";
-const Post = require("./model/Post").Post; // import {Post} from "./model/Post";
-const Category = require("./model/Category").Category; // import {Category} from "./model/Category";
+const Post = require("../../core/models/Post").Post; // import {Post} from "./model/Post";
+const Category = require("../../core/models/Category").Category; // import {Category} from "./model/Category";
 const { isOffline } = require("../../utils");
 
 module.exports.testTypeOrm = async (event, context) => {
