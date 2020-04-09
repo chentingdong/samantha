@@ -11,6 +11,8 @@ function CasesMenu({
   currentCaseStatus,
   setCurrentCaseStatus,
   setCurrentCaseId,
+  setTasks,
+  setCurrentTask,
   lastMessage,
 }) {
   const [cases, setCases] = useState([]);
@@ -75,6 +77,9 @@ function CasesMenu({
           user={user}
           cases={cases}
           setCases={setCases}
+          setTasks={setTasks}
+          setCurrentTask={setCurrentTask}
+          currentCaseId={currentCaseId}
           setCurrentCaseId={setCurrentCaseId}
           currentCaseStatus={currentCaseStatus}
           setCurrentCaseStatus={setCurrentCaseStatus}

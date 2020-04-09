@@ -17,11 +17,13 @@ function Tasks({
   user,
   currentCaseStatus,
   setCurrentCaseStatus,
+  tasks,
+  setTasks,
+  currentTask,
+  setCurrentTask,
 }) {
   const [users, setUsers] = useState([]);
-  const [tasks, setTasks] = useState([]);
   const [currentCase, setCurrentCase] = useState("");
-  const [currentTask, setCurrentTask] = useState({});
   const [showDesignModal, setShowDesignModal] = useState(false);
   const [showRuntimeModal, setShowRuntimeModal] = useState(false);
 

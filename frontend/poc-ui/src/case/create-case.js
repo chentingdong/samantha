@@ -12,6 +12,9 @@ const CreateCase = ({
   className,
   cases,
   setCases,
+  setTasks,
+  setCurrentTask,
+  currentCaseId,
   setCurrentCaseId,
   currentCaseStatus,
   setCurrentCaseStatus,
@@ -46,8 +49,28 @@ const CreateCase = ({
       setCases((cases) => {
         return [newCase, ...cases];
       });
-
       setCurrentCaseId(newCase.id);
+    }
+    // loop through caseDef planItems and create tasks for new case
+
+    caseInstance.planItems.map((planItem) => {
+      console.log("planItem");
+      console.log(planItem);
+      let taskInstance = planItem.data;
+      taskInstance.caseId = currentCaseId;
+      taskInstance.owner = user.username;
+      let today = new Date();
+      let tomorrow = today.setDate(today.getDate() + 1);
+      taskInstance.dueDate = tomorrow;
+      createCaseTasks(taskInstance);
+    });
+
+    async function createCaseTasks(taskInstance) {
+      let path = `/cases/${currentCaseId}/tasks`;
+      let resp = await apiWrapper.post(path, taskInstance);
+      let t = resp.data;
+      setCurrentTask(t);
+      setTasks((tasks) => [t, ...tasks]);
     }
   }
 
