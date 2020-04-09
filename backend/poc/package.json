@@ -5,7 +5,6 @@
   "main": "handler.js",
   "author": "Baiji He",
   "license": "MIT",
-  "type": "module",
   "scripts": {
     "initdb": "test/initdb.sh",
     "start": "sls offline start --skipCacheInvalidation",
