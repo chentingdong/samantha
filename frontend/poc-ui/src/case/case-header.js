@@ -1,17 +1,51 @@
 import React, { useState, useEffect } from "react";
 import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Dropdown, Modal } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { formatDate } from "../libs/custom-functions";
+import SaveCaseDefinition from "./save-caseDef";
 
 /**
  * @author tchen@bellhop.io
  * @function CaseHeader
  **/
 
-const CaseHeader = ({ currentCaseId, tasks }) => {
+const CaseHeader = ({
+  currentCaseId,
+  tasks,
+  currentCaseStatus,
+  setCurrentCaseStatus,
+}) => {
   const [currentCase, setCurrentCase] = useState({});
   const taskProgress = 60;
+  const [showDefModal, setShowDefModal] = useState(false);
+  const caseOptions = React.forwardRef(({ children, onClick }, ref) => (
+    <a
+      href=""
+      ref={ref}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick(e);
+      }}
+    >
+      &#x25bc;
+      {children}
+    </a>
+  ));
+
+  function saveCaseAsDefinition(currentCase) {
+    console.log("saving currentCase.....");
+    setShowDefModal(true);
+  }
+  function completeCase(currentCase) {
+    //let today = new Date();
+    console.log(currentCase);
+  }
+  function cancelCase(currentCase) {
+    //let today = new Date();
+    console.log(currentCase);
+  }
 
   useEffect(() => {
     const path = "/cases/" + currentCaseId;
@@ -35,7 +69,32 @@ const CaseHeader = ({ currentCaseId, tasks }) => {
           </div>
           <h4 className="col-8 text-center">{currentCase.name}</h4>
           <div className="col-2 text-right">
-            <FontAwesomeIcon icon="info-circle" />
+            <Dropdown>
+              <Dropdown.Toggle as={caseOptions} id="dropdown-custom-components">
+                <FontAwesomeIcon icon="info-circle" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  eventKey="1"
+                  active
+                  onClick={(e) => completeCase(currentCase)}
+                >
+                  complete
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="2"
+                  onClick={(e) => cancelCase(currentCase)}
+                >
+                  cancel
+                </Dropdown.Item>
+                <Dropdown.Item
+                  eventKey="3"
+                  onClick={(e) => saveCaseAsDefinition(currentCase)}
+                >
+                  save
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </div>
         </div>
         <hr className="row" />
@@ -62,6 +121,14 @@ const CaseHeader = ({ currentCaseId, tasks }) => {
               now={taskProgress}
             />
           </div>
+          <SaveCaseDefinition
+            currentCase={currentCase}
+            tasks={tasks}
+            showDefModal={showDefModal}
+            setShowDefModal={setShowDefModal}
+            currentCaseStatus={currentCaseStatus}
+            setCurrentCaseStatus={setCurrentCaseStatus}
+          />
         </div>
       </div>
     )

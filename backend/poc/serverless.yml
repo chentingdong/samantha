@@ -61,7 +61,7 @@ custom:
     skipCacheInvalidation: false
   webpack:
     webpackConfig: webpack.config.js
-    packager: 'yarn'
+    packager: "yarn"
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
 provider:
