@@ -5,8 +5,7 @@ import { Modal } from "react-bootstrap";
 import LoaderButton from "../components/loader-button";
 import { useFormFields } from "../libs/custom-hooks";
 import apiWrapper from "../libs/api-wrapper";
-import { IntakeFormDesign, IntakeFormRun } from "./tasks/intake-form";
-import { AskApprovalDesign, AskApprovalRun } from "./tasks/ask-approval";
+import { taskContentComponents } from "./tasks/index";
 
 function TaskDesign({
   currentCaseId,
@@ -82,7 +81,7 @@ function TaskForm({
   }
 
   return (
-    <form onSubmit={(e) => e.preventDefault()}>
+    <form className="card" onSubmit={(e) => e.preventDefault()}>
       <div className="d-flex card-header">
         <div className="flex-fill p-2">
           <div className="form-group">
@@ -168,31 +167,32 @@ function TaskForm({
         </div>
       </div>
 
-      <div className="d-flex card-body">
-        <h5>task content:</h5>
+      <div className="card-body">
         {task.planItems &&
-          task.planItems.forEach((item, index) => {
-            const TagName = item.tagName;
+          task.planItems.map((item, index) => {
+            const TagName = taskContentComponents[item.tagName];
             return (
-              <div>
-                {index}
+              <div key={index}>
+                <h5>{TagName}</h5>
                 <TagName
                   exact
-                  key={`planItems-${index}`}
                   task={task}
                   setTask={setTask}
-                  data={item.data}
+                  planItemIndex={index}
                 />
               </div>
             );
           })}
       </div>
 
-      <div className="modal-footer">
-        <button className="btn-secondary" onClick={close}>
+      <div className="card-footer">
+        <button className="btn btn-secondary m-2" onClick={close}>
           Cancel
         </button>
-        <LoaderButton className="btn-success" onClick={(e) => handleSubmit(e)}>
+        <LoaderButton
+          className="btn btn-success"
+          onClick={(e) => handleSubmit(e)}
+        >
           create/update task!
         </LoaderButton>
       </div>
