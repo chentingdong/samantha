@@ -90,7 +90,6 @@ provider:
       - subnet-ac5f4f82
       - subnet-7e0b5240
       - subnet-424b910f
-      - subnet-e878b4e6
       - subnet-eba9beb7
     DBSubnetGroupName: default-vpc-a30620d9
   environment:
