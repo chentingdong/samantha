@@ -83,6 +83,7 @@ module.exports.updateTaskState = async (event, context) => {
     state: state,
   };
   await taskUpdateStateSendEvent(evt, context);
-  uiRefresh("tasks", task.data);
+  await uiRefresh("tasks", task.data);
+  await uiRefresh("messages", task.data);
   return { id, state };
 };
