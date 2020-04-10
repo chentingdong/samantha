@@ -46,9 +46,9 @@ custom:
           - table: ${self:provider.environment.DYNAMODB_TASK_DEFINITIONS_TABLE}
             sources: [./data/task-definitions-with-id.json]
           - table: ${self:provider.environment.DYNAMODB_CASES_TABLE}
-            sources: [./data/cases-with-id.json]
+            sources: []
           - table: ${self:provider.environment.DYNAMODB_TASKS_TABLE}
-            sources: [./data/tasks-with-id.json]
+            sources: []
           - table: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_TABLE}
             sources: []
   serverless-offline:
