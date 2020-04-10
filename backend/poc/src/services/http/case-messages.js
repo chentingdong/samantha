@@ -8,7 +8,7 @@ module.exports.createCaseMessage = async (event, context) => {
   await saveMessage(caseId, "N/A", data);
   let resp = await dynamodbConnector.getCase(caseId);
   let caseData = resp.Item.data;
-  uiRefresh("MESSAGES", caseData);
+  uiRefresh("messages", caseData);
 };
 
 module.exports.getCaseMessage = async (event, context) => {

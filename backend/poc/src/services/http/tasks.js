@@ -33,6 +33,7 @@ module.exports.createTask = async (event, context) => {
   // refresh UI for case and task changes
   await uiRefresh("cases", caseItem.data);
   await uiRefresh("tasks", task.data);
+  await uiRefresh("messages", task.data);
   return task;
 };
 

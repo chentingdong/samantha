@@ -43,7 +43,7 @@ function VirtualAssistant({ user }) {
     if (lastMessage) {
       let data = JSON.parse(lastMessage.data);
       if (data.type === "MESSAGE") agentMessage(data.utterance);
-      else if (data.type === "REFRESH" && data.target === "MESSAGES")
+      else if (data.type === "REFRESH" && data.target === "messages")
         listCaseMessages();
     }
   }, [lastMessage]);
