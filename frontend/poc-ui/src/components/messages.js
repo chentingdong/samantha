@@ -39,7 +39,7 @@ const CaseMessages = ({ messages }) => {
   return (
     <div
       className="mr-2"
-      style={{ height: "calc(100vh - 130px)", overflow: "hidden" }}
+      style={{ height: "calc(100vh - 130px)", overflow: "auto" }}
     >
       {messages &&
         messages.map((msg, index) => {

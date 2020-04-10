@@ -18,7 +18,7 @@ const CaseHeader = ({
   setCurrentCaseStatus,
 }) => {
   const [currentCase, setCurrentCase] = useState({});
-  const taskProgress = 60;
+  const [taskProgress, setTaskProgress] = useState(60);
   const [showDefModal, setShowDefModal] = useState(false);
   const caseOptions = React.forwardRef(({ children, onClick }, ref) => (
     <a
@@ -48,16 +48,23 @@ const CaseHeader = ({
   }
 
   useEffect(() => {
-    const path = "/cases/" + currentCaseId;
-    apiWrapper
-      .get(path)
-      .then((resp) => {
-        if (resp.data.data) setCurrentCase(resp.data.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    async function getCurrentCase() {
+      const path = "/cases/" + currentCaseId;
+      let resp = await apiWrapper.get(path);
+      if (resp.data.data) setCurrentCase(resp.data.data);
+    }
+    getCurrentCase();
   }, [currentCaseId]);
+
+  useEffect(() => {
+    function updateProgress() {
+      let completedTasks = tasks.filter((task) => task.state === "Complete");
+      let percentage = (completedTasks.length / tasks.length) * 100;
+      setTaskProgress(percentage);
+    }
+
+    updateProgress();
+  }, [tasks]);
 
   return (
     currentCase !== {} && (
