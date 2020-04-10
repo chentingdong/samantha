@@ -89,11 +89,8 @@ provider:
       - sg-0a7ab9d66d72cd854
     subnetIds:
       - subnet-aaeee4cd
-      - subnet-ac5f4f82
       - subnet-7e0b5240
       - subnet-424b910f
-      - subnet-e878b4e6
-      - subnet-eba9beb7
     DBSubnetGroupName: default-vpc-a30620d9
   environment:
     ENVIRONMENT: ${self:provider.stage}
