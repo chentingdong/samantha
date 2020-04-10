@@ -35,9 +35,9 @@ custom:
       - test
     start:
       port: 8000
-      dbPath: .dynamodb/data
-      migrate: false
-      seed: false
+      # dbPath: .dynamodb/data
+      migrate: true
+      seed: true
     seed:
       test:
         sources:
@@ -49,6 +49,8 @@ custom:
             sources: [./data/cases-with-id.json]
           - table: ${self:provider.environment.DYNAMODB_TASKS_TABLE}
             sources: [./data/tasks-with-id.json]
+          - table: ${self:provider.environment.DYNAMODB_CASE_MESSAGES_TABLE}
+            sources: []
   serverless-offline:
     httpsProtocol: "certs"
     port: 3000

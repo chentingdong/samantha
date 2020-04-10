@@ -3,15 +3,15 @@
         "id": "4ba4f487-9081-4817-ade5-9f2fbe606035",
         "state": "Active",
         "data": {
-            "followUpDuration": "1",
-            "owner": "Google_111918078641246610063",
+            "followUpDays": "1",
+            "owner": "Google_11541918636888487854",
             "dueDate": "2020-04-05T05:24:30.909Z",
             "name": "Intake a form",
             "icon": "user-cog",
             "description": "a task with an form url attached for assignments to intake",
             "dependsOns": [],
             "planItems": [{
-                "tagName": "IntakeForm",
+                "tagName": "IntakeFormDesign",
                 "data": {
                     "title": "intake a form inst 1",
                     "urls": [
@@ -21,9 +21,9 @@
                 }
             }],
             "participants": [
-                "Google_103472621531484531270"
+                "Google_115419186368884878540"
             ]
         },
-        "caseId": "30ade410-83c4-43a1-97c0-045e714e76c9"
+        "caseId": "4fa9acc1-e1e5-4bc3-8ab3-82e973574ee3"
     }
 ]

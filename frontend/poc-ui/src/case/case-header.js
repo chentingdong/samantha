@@ -60,6 +60,7 @@ const CaseHeader = ({
     function updateProgress() {
       let completedTasks = tasks.filter((task) => task.state === "Complete");
       let percentage = (completedTasks.length / tasks.length) * 100;
+      percentage = +percentage.toFixed(1);
       setTaskProgress(percentage);
     }
 

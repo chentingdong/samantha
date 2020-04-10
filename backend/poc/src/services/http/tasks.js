@@ -6,7 +6,7 @@ const {
 } = require("../../core/task-notifications");
 const { uiRefresh } = require("../websocket/message");
 const { addCaseParticipantToDb } = require("./cases");
-const { taskCompleteSendEvent } = require("../../core/events-handler");
+const { taskUpdateStateSendEvent } = require("../../core/events-handler");
 
 module.exports.createTask = async (event, context) => {
   const taskData = event.body;
@@ -81,7 +81,7 @@ module.exports.updateTaskState = async (event, context) => {
     id: id,
     state: state,
   };
-  resp = await taskCompleteSendEvent(evt, context);
-  await uiRefresh("tasks", task.data);
+  await taskUpdateStateSendEvent(evt, context);
+  uiRefresh("tasks", task.data);
   return { id, state };
 };

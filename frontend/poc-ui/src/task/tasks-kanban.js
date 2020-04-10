@@ -90,7 +90,6 @@ const TasksKanban = ({
 };
 
 function CardTitle({ task, users }) {
-  console.log(users);
   function getUserAttribute(username, attr) {
     try {
       let user = users.filter((u) => {

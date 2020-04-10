@@ -35,12 +35,11 @@ class ApiGatewayConnector {
 
   async generateSocketMessage(connectionId, data) {
     try {
-      return await this._connector
-        .postToConnection({
-          ConnectionId: connectionId,
-          Data: data,
-        })
-        .promise();
+      let resp = await this._connector.postToConnection({
+        ConnectionId: connectionId,
+        Data: data,
+      });
+      return resp;
     } catch (error) {
       console.error("Unable to generate socket message", error);
       if (error.statusCode === 410) {

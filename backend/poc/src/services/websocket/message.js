@@ -8,31 +8,33 @@ const dynamodbConnector = require("../../connectors/dynamodb");
 const uiRefreshOne = async (username, target) => {
   try {
     const sockets = await dynamodbConnector.listSocketsByUser(username);
-    const promises = [];
-    sockets.Items.forEach(function (item) {
+    sockets.Items.forEach(async (item) => {
       const connectionId = item.connectionId;
       const data = {
         target: target,
         type: "REFRESH",
       };
+      let promises = [];
       promises.push(
         apigatewayConnector.generateSocketMessage(
           connectionId,
           JSON.stringify(data)
         )
       );
+      await Promise.all(promises);
     });
-    await Promise.all(promises);
   } catch (err) {
-    console.error(`failed cross device broadcasting, ${err}`);
+    console.error(`failed to refresh UI, ${err}`);
   }
 };
 
 module.exports.uiRefresh = async (target, data) => {
   let allUsers = [...data.participants, data.owner];
+  let promises = [];
   allUsers.forEach(async (u) => {
-    await uiRefreshOne(u, target);
+    promises.push(uiRefreshOne(u, target));
   });
+  await Promise.all(promises);
 };
 
 /**

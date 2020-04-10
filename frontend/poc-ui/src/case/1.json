@@ -1,0 +1,58 @@
+{
+  "owner": {
+    "S": "Google_118064244823600999254"
+  },
+  "dueDate": {
+    "N": "1586579831715"
+  },
+  "name": {
+    "S": "Intake a form"
+  },
+  "icon": {
+    "S": "user-cog"
+  },
+  "description": {
+    "S": "a task with an form url attached for assignments to intake"
+  },
+  "followUpDays": {
+    "S": "1"
+  },
+  "dependsOns": {
+    "L": []
+  },
+  "planItems": {
+    "L": [
+      {
+        "M": {
+          "tagName": {
+            "S": "IntakeFormDesign"
+          },
+          "data": {
+            "M": {
+              "title": {
+                "S": "Add a form"
+              },
+              "urls": {
+                "L": [
+                  {
+                    "S": "http://example.com"
+                  },
+                  {
+                    "S": "http://bellhop.io"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "participants": {
+    "L": [
+      {
+        "S": "Google_113745384879976312025"
+      }
+    ]
+  }
+}

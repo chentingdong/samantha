@@ -7,7 +7,7 @@ const {
 } = require("./task-notifications");
 const sqs = new SQS();
 
-module.exports.taskCompleteSendEvent = async (event, context) => {
+module.exports.taskUpdateStateSendEvent = async (event, context) => {
   let statusCode = 200;
   let message = "";
 

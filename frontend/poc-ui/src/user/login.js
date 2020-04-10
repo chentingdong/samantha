@@ -1,42 +1,46 @@
 import Amplify, { Auth } from "aws-amplify";
 import React, { useState } from "react";
 import { Form } from "react-bootstrap";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
+import logo from "../assets/bellhop.png";
+import config from "../config.js";
 
-import config from '../config.js';
+function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  Amplify.configure(config);
 
-function Login () {
-  const [ email, setEmail ] = useState( '' );
-  const [ password, setPassword ] = useState( '' );
-  Amplify.configure( config );
-
-  async function handleEmailLogin ( event ) {
+  async function handleEmailLogin(event) {
     event.preventDefault();
-    await Auth.signIn( email, password );
+    await Auth.signIn(email, password);
   }
 
-  async function handleFederatedLogin () {
+  async function handleFederatedLogin() {
     Auth.federatedSignIn();
   }
   return (
-    <div className="m-auto col-5">
-      <h3 className="text-center mb-4">Sign in Bellhop Virtual Assistant</h3>
-      <Form onSubmit={ handleEmailLogin }>
+    <div className="m-auto col-4">
+      <div className="text-center mb-4">
+        <img src={logo} alt="" style={{ height: "5em" }} />
+      </div>
+      <Form className="mt-4" onSubmit={handleEmailLogin}>
         <div className="form-group">
           <label>Email</label>
-          <input className="form-control"
+          <input
+            className="form-control"
             type="text"
-            value={ email }
-            autoComplete='false'
-            onChange={ e => setEmail( e.target.value ) }
+            value={email}
+            autoComplete="false"
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
-        <div className="form-group" >
+        <div className="form-group">
           <label>Password</label>
-          <input className="form-control"
-            value={ password }
+          <input
+            className="form-control"
+            value={password}
             autoComplete="new-password"
-            onChange={ e => setPassword( e.target.value ) }
+            onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
         </div>
@@ -45,10 +49,17 @@ function Login () {
             <Link to="reset-password"> Forgot password? </Link>
           </p>
         </div>
-        <button className="btn btn-light form-control" type="submit">Login</button>
+        <button className="btn btn-light form-control" type="submit">
+          Login
+        </button>
       </Form>
       <hr />
-      <button className="btn btn-light form-control" onClick={ handleFederatedLogin }>Login with social accounts</button>
+      <button
+        className="btn btn-primary form-control"
+        onClick={handleFederatedLogin}
+      >
+        Login with social accounts
+      </button>
     </div>
   );
 }
