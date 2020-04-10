@@ -51,6 +51,7 @@ const CreateCase = ({
         return [newCase, ...cases];
       });
       setCurrentCaseId(newCase.id);
+      caseInstance.id = newCase.id;
     }
     // loop through caseDef planItems and create tasks for new case
 
@@ -58,7 +59,7 @@ const CreateCase = ({
       console.log("planItem");
       console.log(planItem);
       let taskInstance = planItem.data;
-      taskInstance.caseId = currentCaseId;
+      taskInstance.caseId = caseInstance.id;
       taskInstance.owner = user.username;
       let today = new Date();
       let tomorrow = today.setDate(today.getDate() + 1);
@@ -67,7 +68,7 @@ const CreateCase = ({
     });
 
     async function createCaseTasks(taskInstance) {
-      let path = `/cases/${currentCaseId}/tasks`;
+      let path = `/cases/${caseInstance.id}/tasks`;
       let resp = await apiWrapper.post(path, taskInstance);
       let t = resp.data;
       setCurrentTask(t);
