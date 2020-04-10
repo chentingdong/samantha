@@ -7,6 +7,6 @@ website:
       src: ./src
       hook: yarn run build
       dist: ./dist
-    domain: tingdong.dev.bellhop.io
+    domain: ${env:USER}.dev.bellhop.io
   plugins:
     - serverless-offline
