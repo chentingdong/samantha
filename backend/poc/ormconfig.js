@@ -1,7 +1,7 @@
 const { isOffline } = require("./src/utils");
 const glob = require("glob");
 
-module.exports.getConnectionOptions = () => {
+function getConnectionOptions() {
   // had to glob and require ourselves because typeorm will complain can't import
   // prefix './' is important for require() to work properly
   const entities = glob
@@ -19,4 +19,6 @@ module.exports.getConnectionOptions = () => {
     logging: false,
     entities: entities,
   };
-};
+}
+
+module.exports = getConnectionOptions();

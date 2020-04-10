@@ -2,15 +2,11 @@ const { getConnectionManager, createConnection } = require("typeorm"); // import
 const Post = require("../../core/models/Post").Post; // import {Post} from "./model/Post";
 const Category = require("../../core/models/Category").Category; // import {Category} from "./model/Category";
 const { isOffline } = require("../../utils");
-const { getConnectionOptions } = require("../../../ormconfig");
 
 module.exports.testTypeOrm = async (event, context) => {
-  const connectionOptions = getConnectionOptions();
   const connection = getConnectionManager().has("default")
     ? getConnectionManager().get("default")
-    : await createConnection(connectionOptions);
-
-  console.log(connectionOptions);
+    : await createConnection();
 
   const category1 = new Category(0, "TypeScript");
   const category2 = new Category(0, "Programming");
