@@ -15,7 +15,7 @@ function CasesCards({ className, user }) {
         .then((resp) => {
           // console.debug( `Got cases: ${ JSON.stringify( resp.data, null, 2 ) }` );
           let _cases = resp.data.filter(
-            (c) => c.data.creator && c.data.creator === user.id
+            (c) => c.data.owner && c.data.owner === user.username
           );
           setCases(_cases);
         })
