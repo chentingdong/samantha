@@ -1,6 +1,6 @@
 const { getConnectionManager, createConnection } = require("typeorm"); // import * as typeorm from "typeorm";
-const Post = require("../../core/models/Post").Post; // import {Post} from "./model/Post";
-const Category = require("../../core/models/Category").Category; // import {Category} from "./model/Category";
+const Post = require("../../models/Post").Post; // import {Post} from "./model/Post";
+const Category = require("../../models/Category").Category; // import {Category} from "./model/Category";
 const { isOffline } = require("../../utils");
 
 module.exports.testTypeOrm = async (event, context) => {

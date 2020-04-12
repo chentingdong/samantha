@@ -1,6 +1,6 @@
 "use strict";
-const apigatewayConnector = require("../../connectors/apigateway");
-const dynamodbConnector = require("../../connectors/dynamodb");
+const apigatewayConnector = require("../../infra/apigateway");
+const dynamodbConnector = require("../../infra/dynamodb");
 
 module.exports.webhook = async (event, context) => {
   // Retrieve the message from the socket payload

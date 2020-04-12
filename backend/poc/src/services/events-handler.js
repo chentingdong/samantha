@@ -1,5 +1,5 @@
 const { SQS } = require("aws-sdk");
-const dynamodbConnector = require("../connectors/dynamodb");
+const dynamodbConnector = require("../infra/dynamodb");
 const { isOffline } = require("../utils");
 const {
   taskNoticeStatusToParticipants,

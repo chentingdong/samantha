@@ -1,12 +1,12 @@
-const dynamodbConnector = require("../../connectors/dynamodb");
+const dynamodbConnector = require("../../infra/dynamodb");
 const uuid = require("uuid");
 const {
   taskNoticeCreateToOwner,
   taskNoticeCreateToParticipants,
-} = require("../../core/task-notifications");
+} = require("../../services/task-notifications");
 const { uiRefresh } = require("../websocket/message");
 const { addCaseParticipantToDb } = require("./cases");
-const { taskUpdateStateSendEvent } = require("../../core/events-handler");
+const { taskUpdateStateSendEvent } = require("../../services/events-handler");
 
 module.exports.createTask = async (event, context) => {
   const taskData = event.body;

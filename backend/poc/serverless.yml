@@ -68,7 +68,7 @@ custom:
     skipCacheInvalidation: false
   webpack:
     webpackConfig: webpack.config.js
-    packager: 'yarn'
+    packager: "yarn"
     includeModules: true
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
@@ -150,25 +150,25 @@ provider:
 functions:
   handleSocketDefault:
     name: LAMBDA_${self:service}_socket_default_${self:provider.stage}
-    handler: src/services/websocket/index.handleSocketDefault
+    handler: src/api/websocket/index.handleSocketDefault
     events:
       - websocket:
           route: $default
   handleSocketConnect:
     name: LAMBDA_${self:service}_socket_connect_${self:provider.stage}
-    handler: src/services/websocket/index.handleSocketConnect
+    handler: src/api/websocket/index.handleSocketConnect
     events:
       - websocket:
           route: $connect
   handleSocketDisconnect:
     name: LAMBDA_${self:service}_socket_disconnect_${self:provider.stage}
-    handler: src/services/websocket/index.handleSocketDisconnect
+    handler: src/api/websocket/index.handleSocketDisconnect
     events:
       - websocket:
           route: $disconnect
   webhook:
     name: LAMBDA_${self:service}_http_webhook_${self:provider.stage}
-    handler: src/services/http/webhook.webhook
+    handler: src/api/http/webhook.webhook
     events:
       - http:
           path: webhook
@@ -177,7 +177,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   createCaseDefinition:
     name: LAMBDA_${self:service}_http_create_case_definition_${self:provider.stage}
-    handler: src/services/http/case-definitions.createCaseDefinition
+    handler: src/api/http/case-definitions.createCaseDefinition
     events:
       - http:
           path: case-definitions
@@ -186,7 +186,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   getCaseDefinition:
     name: LAMBDA_${self:service}_http_get_case_definition_${self:provider.stage}
-    handler: src/services/http/case-definitions.getCaseDefinition
+    handler: src/api/http/case-definitions.getCaseDefinition
     events:
       - http:
           path: case-definitions/{caseDefinitionId}
@@ -199,7 +199,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listCaseDefinitions:
     name: LAMBDA_${self:service}_http_list_case_definitions_${self:provider.stage}
-    handler: src/services/http/case-definitions.listCaseDefinitions
+    handler: src/api/http/case-definitions.listCaseDefinitions
     events:
       - http:
           path: case-definitions
@@ -208,7 +208,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   deleteCaseDefinition:
     name: LAMBDA_${self:service}_http_delete_case_definition_${self:provider.stage}
-    handler: src/services/http/case-definitions.deleteCaseDefinition
+    handler: src/api/http/case-definitions.deleteCaseDefinition
     events:
       - http:
           path: case-definitions/{caseDefinitionId}
@@ -221,7 +221,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   createTaskDefinition:
     name: LAMBDA_${self:service}_http_create_task_definition_${self:provider.stage}
-    handler: src/services/http/task-definitions.createTaskDefinition
+    handler: src/api/http/task-definitions.createTaskDefinition
     events:
       - http:
           path: task-definitions
@@ -230,7 +230,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   getTaskDefinition:
     name: LAMBDA_${self:service}_http_get_task_definition_${self:provider.stage}
-    handler: src/services/http/task-definitions.getTaskDefinition
+    handler: src/api/http/task-definitions.getTaskDefinition
     events:
       - http:
           path: task-definitions/{taskDefinitionId}
@@ -243,7 +243,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listTaskDefinitions:
     name: LAMBDA_${self:service}_http_list_task_definitions_${self:provider.stage}
-    handler: src/services/http/task-definitions.listTaskDefinitions
+    handler: src/api/http/task-definitions.listTaskDefinitions
     events:
       - http:
           path: task-definitions
@@ -252,7 +252,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   deleteTaskDefinition:
     name: LAMBDA_${self:service}_http_delete_task_definition_${self:provider.stage}
-    handler: src/services/http/task-definitions.deleteTaskDefinition
+    handler: src/api/http/task-definitions.deleteTaskDefinition
     events:
       - http:
           path: task-definitions/{taskDefinitionId}
@@ -265,7 +265,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   createCase:
     name: LAMBDA_${self:service}_http_create_case_${self:provider.stage}
-    handler: src/services/http/cases.createCase
+    handler: src/api/http/cases.createCase
     events:
       - http:
           path: cases
@@ -274,7 +274,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   getCase:
     name: LAMBDA_${self:service}_http_get_case_${self:provider.stage}
-    handler: src/services/http/cases.getCase
+    handler: src/api/http/cases.getCase
     events:
       - http:
           path: cases/{caseId}
@@ -287,7 +287,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listCases:
     name: LAMBDA_${self:service}_http_list_cases_${self:provider.stage}
-    handler: src/services/http/cases.listCases
+    handler: src/api/http/cases.listCases
     events:
       - http:
           path: cases
@@ -296,7 +296,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   addCaseParticipant:
     name: LAMBDA_${self:service}_add_case_participant_${self:provider.stage}
-    handler: src/services/http/cases.addCaseParticipant
+    handler: src/api/http/cases.addCaseParticipant
     events:
       - http:
           path: cases/{caseId}/add-participant/{username}
@@ -310,7 +310,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   completeCase:
     name: LAMBDA_${self:service}_http_complete_case_${self:provider.stage}
-    handler: src/services/http/cases.completeCase
+    handler: src/api/http/cases.completeCase
     events:
       - http:
           path: cases/{caseId}
@@ -323,7 +323,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   deleteCase:
     name: LAMBDA_${self:service}_http_delete_case_${self:provider.stage}
-    handler: src/services/http/cases.deleteCase
+    handler: src/api/http/cases.deleteCase
     events:
       - http:
           path: cases/{caseId}
@@ -336,7 +336,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   createTask:
     name: LAMBDA_${self:service}_http_create_task_${self:provider.stage}
-    handler: src/services/http/tasks.createTask
+    handler: src/api/http/tasks.createTask
     events:
       - http:
           path: cases/{caseId}/tasks
@@ -349,7 +349,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   getTask:
     name: LAMBDA_${self:service}_http_get_task_${self:provider.stage}
-    handler: src/services/http/tasks.getTask
+    handler: src/api/http/tasks.getTask
     events:
       - http:
           path: tasks/{taskId}
@@ -372,7 +372,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listTasks:
     name: LAMBDA_${self:service}_http_list_tasks_${self:provider.stage}
-    handler: src/services/http/tasks.listTasks
+    handler: src/api/http/tasks.listTasks
     events:
       - http:
           path: tasks
@@ -390,7 +390,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   updateTaskState:
     name: LAMBDA_${self:service}_http_update_task_state_${self:provider.stage}
-    handler: src/services/http/tasks.updateTaskState
+    handler: src/api/http/tasks.updateTaskState
     events:
       - http:
           path: tasks/{taskId}/{state}
@@ -413,7 +413,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   deleteTask:
     name: LAMBDA_${self:service}_http_delete_task_${self:provider.stage}
-    handler: src/services/http/tasks.deleteTask
+    handler: src/api/http/tasks.deleteTask
     events:
       - http:
           path: tasks/{taskId}
@@ -427,7 +427,7 @@ functions:
   # case messages
   createCaseMessage:
     name: LAMBDA_${self:service}_http_create_case_message_${self:provider.stage}
-    handler: src/services/http/case-messages.createCaseMessage
+    handler: src/api/http/case-messages.createCaseMessage
     events:
       - http:
           path: case-messages
@@ -436,7 +436,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   getCaseMessage:
     name: LAMBDA_${self:service}_http_get_case_message_${self:provider.stage}
-    handler: src/services/http/case-messages.getCaseMessage
+    handler: src/api/http/case-messages.getCaseMessage
     events:
       - http:
           path: case-messages/{caseMessageId}
@@ -449,7 +449,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listCaseMessages:
     name: LAMBDA_${self:service}_http_list_case_messages_${self:provider.stage}
-    handler: src/services/http/case-messages.listCaseMessages
+    handler: src/api/http/case-messages.listCaseMessages
     events:
       - http:
           path: case-messages
@@ -462,7 +462,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   deleteCaseMessage:
     name: LAMBDA_${self:service}_http_delete_case_message_${self:provider.stage}
-    handler: src/services/http/case-messages.deleteCaseMessage
+    handler: src/api/http/case-messages.deleteCaseMessage
     events:
       - http:
           path: case-messages/{caseMessageId}
@@ -476,7 +476,7 @@ functions:
   # sockets
   createSocket:
     name: LAMBDA_${self:service}_http_create_socket_${self:provider.stage}
-    handler: src/services/http/sockets.createSocket
+    handler: src/api/http/sockets.createSocket
     events:
       - http:
           path: sockets
@@ -485,7 +485,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listSockets:
     name: LAMBDA_${self:service}_http_list_sockets_${self:provider.stage}
-    handler: src/services/http/sockets.listSockets
+    handler: src/api/http/sockets.listSockets
     events:
       - http:
           path: sockets
@@ -498,7 +498,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   deleteSocket:
     name: LAMBDA_${self:service}_http_delete_socket_${self:provider.stage}
-    handler: src/services/http/sockets.deleteSocket
+    handler: src/api/http/sockets.deleteSocket
     events:
       - http:
           path: sockets/{socketId}
@@ -511,7 +511,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   listUserPoolUsers:
     name: LAMBDA_${self:service}_list_users_${self:provider.stage}
-    handler: src/services/http/users.listUserPoolUsers
+    handler: src/api/http/users.listUserPoolUsers
     events:
       - http:
           path: users
@@ -520,7 +520,7 @@ functions:
           response: ${file(config/default-response-config.yml)}
   getUserPoolUser:
     name: LAMBDA_${self:service}_get_user_${self:provider.stage}
-    handler: src/services/http/users.getUserPoolUser
+    handler: src/api/http/users.getUserPoolUser
     events:
       - http:
           path: users/{username}
@@ -532,7 +532,7 @@ functions:
           integration: lambda
           response: ${file(config/default-response-config.yml)}
   completeTask:
-    handler: src/services/http/tasks.completeTask
+    handler: src/api/http/tasks.completeTask
     events:
       - http:
           method: patch

@@ -1,5 +1,5 @@
 "use strict";
-const dynamodbConnector = require("../../connectors/dynamodb");
+const dynamodbConnector = require("../../infra/dynamodb");
 const uuid = require("uuid");
 
 module.exports.createSocket = async (event, context) => {
