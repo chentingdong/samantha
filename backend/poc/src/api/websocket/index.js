@@ -1,7 +1,7 @@
 "use strict";
 
-const apigatewayConnector = require("../../connectors/apigateway");
-const dynamodbConnector = require("../../connectors/dynamodb");
+const apigatewayConnector = require("../../infra/apigateway");
+const dynamodbConnector = require("../../infra/dynamodb");
 const CONSTANTS = require("../../constants");
 
 module.exports.handleSocketDefault = async (event, context) => {

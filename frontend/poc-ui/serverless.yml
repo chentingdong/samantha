@@ -1,12 +1,11 @@
-name: website
+component: website
+name: poc-ui
+stage: dev
 
-website:
-  component: '@serverless/website'
-  inputs:
-    src:
-      src: ./src
-      hook: yarn run build
-      dist: ./dist
-    domain: ${env:USER}.dev.bellhop.io
-  plugins:
-    - serverless-offline
+inputs:
+  src:
+    src: ./src
+    hook: yarn run build
+    dist: ./build
+#  domain: ${env:USER}.dev.bellhop.io
+  region: us-east-1
