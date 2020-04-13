@@ -7,7 +7,8 @@ const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = {
   context: __dirname,
-  mode: slsw.lib.webpack.isLocal ? "development" : "production",
+  // mode: slsw.lib.webpack.isLocal ? "development" : "production",
+  mode: "development",
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
@@ -20,6 +21,7 @@ module.exports = {
   },
   entry: {
     ...slsw.lib.entries,
+    ormconfig: "./ormconfig.js",
   },
   devtool: slsw.lib.webpack.isLocal
     ? "cheap-module-eval-source-map"
