@@ -4,9 +4,9 @@ const glob = require("glob");
 function getConnectionOptions() {
   // had to glob and require ourselves because typeorm will complain can't import
   // prefix './' is important for require() to work properly
-  const entities = glob
-    .sync("./src/**/entity/*.js")
-    .map((file) => require(file));
+  // const entities = glob
+  //   .sync("./src/**/entity/*.js")
+  //   .map((file) => require(file));
 
   return {
     type: "mysql",
@@ -17,7 +17,8 @@ function getConnectionOptions() {
     database: isOffline() ? "samantha" : process.env.DB_NAME,
     synchronize: true,
     logging: false,
-    entities: entities,
+    // entities: entities,
+    entities: ["./src/infra/db/entity/*.js"],
   };
 }
 

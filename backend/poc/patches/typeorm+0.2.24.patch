@@ -1,0 +1,14 @@
+diff --git a/node_modules/typeorm/connection/Connection.js b/node_modules/typeorm/connection/Connection.js
+index 827ffec..fb1c0dc 100644
+--- a/node_modules/typeorm/connection/Connection.js
++++ b/node_modules/typeorm/connection/Connection.js
+@@ -461,6 +461,9 @@ var Connection = /** @class */ (function () {
+      */
+     Connection.prototype.findMetadata = function (target) {
+         return this.entityMetadatas.find(function (metadata) {
++            if (metadata.target.name && metadata.target.name === target.name) {
++                return true;
++            }
+             if (metadata.target === target)
+                 return true;
+             if (target instanceof __1.EntitySchema) {

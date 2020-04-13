@@ -2,7 +2,7 @@ service: poc-${self:custom.user}
 
 plugins:
   - serverless-pseudo-parameters
-  # - serverless-webpack
+  - serverless-webpack
   - serverless-mocha-plugin
   - serverless-dynamodb-local
   - serverless-offline-sqs
@@ -538,7 +538,7 @@ functions:
           method: patch
           path: /tasks/complete
   taskDependencyHandler:
-    handler: src/core/events-handler.taskDependencyHandler
+    handler: src/services/events-handler.taskDependencyHandler
     events:
       - sqs:
           arn:
