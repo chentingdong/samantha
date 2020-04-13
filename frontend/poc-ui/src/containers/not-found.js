@@ -1,4 +1,7 @@
-import React from 'react';
+/**
+ * customized 404 not found page.
+ */
+import React from "react";
 
 function NotFound() {
   return (

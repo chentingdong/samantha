@@ -1,9 +1,7 @@
-import React from "react";
-
 /**
- * @author tchen@bellhop.io
- * @function AskApproval
+ * task definition template.
  **/
+import React from "react";
 
 const AskApprovalDesign = ({ task, setTask, planItemIndex }) => {
   const data = task.planItems[planItemIndex].data;

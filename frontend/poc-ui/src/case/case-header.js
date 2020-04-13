@@ -1,3 +1,8 @@
+/**
+ * substantial design task area header. Mar, 2020.
+ * @author tchen@bellhop.io
+ * @function CaseHeader
+ **/
 import React, { useState, useEffect } from "react";
 import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -5,11 +10,6 @@ import { Dropdown, Modal } from "react-bootstrap";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import { formatDate } from "../libs/custom-functions";
 import SaveCaseDefinition from "./save-caseDef";
-
-/**
- * @author tchen@bellhop.io
- * @function CaseHeader
- **/
 
 const CaseHeader = ({
   currentCaseId,

@@ -1,3 +1,6 @@
+/**
+ * active case menu page block
+ */
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import apiWrapper from "../libs/api-wrapper";

@@ -1,13 +1,14 @@
+/**
+ * chatbot like messaging widget.
+ * @author tchen@bellhop.io
+ * @function CaseMessages
+ **/
 import React, { useState, useEffect, useRef } from "react";
 import { formatTime } from "../libs/custom-functions";
 import logo from "../assets/bell-round.png";
 import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-/**
- * @author tchen@bellhop.io
- * @function CaseMessages
- **/
 const CaseMessages = ({ messages }) => {
   const [users, setUsers] = useState([]);
   const messagesRef = useRef(null);

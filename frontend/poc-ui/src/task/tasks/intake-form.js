@@ -1,10 +1,9 @@
+/**
+ * task definition template, intake a form.
+ **/
+
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-/**
- * @author tchen@bellhop.io
- * @function IntakeForm
- **/
 
 const IntakeFormDesign = ({ task, setTask, planItemIndex }) => {
   const initUrls = task.planItems[planItemIndex].data.urls || [];

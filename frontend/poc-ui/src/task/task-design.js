@@ -1,4 +1,7 @@
-// This is a designtime component, but also used in runtime design.
+/**
+ * This is a design-time component, but also used in run-time design.
+ */
+
 import React from "react";
 import DatePicker from "react-datepicker";
 import { Modal } from "react-bootstrap";

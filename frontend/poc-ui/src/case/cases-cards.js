@@ -1,3 +1,8 @@
+/**
+ * for cards layout. 2 columns by default.
+ * @designed by Substantial, Mar 2020.
+ * @author tchen@bellhop.io
+ */
 import React, { useState, useEffect } from "react";
 import apiWrapper from "../libs/api-wrapper";
 import CreateCase from "./create-case";
@@ -39,7 +44,6 @@ function CasesCards({ className, user }) {
                 <div className="card mt-2 mb-2" style={{ minHeight: "150px" }}>
                   <div className="card-header">
                     <div className="d-flex justify-content-star">
-                      {" "}
                       {c.data.name}
                     </div>
                     <div className="d-flex justify-content-end">

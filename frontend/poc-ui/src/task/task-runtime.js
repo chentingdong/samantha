@@ -1,12 +1,10 @@
+/**
+ * Task run-time manual controls.
+ **/
 import React from "react";
 import { Modal } from "react-bootstrap";
 import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-/**
- * @author tchen@bellhop.io
- * @function TaskRuntime
- **/
 
 const TaskRuntime = ({
   currentCaseId,

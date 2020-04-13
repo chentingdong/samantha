@@ -1,3 +1,8 @@
+/**
+ * TODO: suggest from solor indexed cases. currently from placeholder data.
+ * @author tchen@bellhop.io
+ * @function Suggest
+ **/
 import React, {
   useState,
   useEffect,
@@ -7,11 +12,6 @@ import React, {
 import axios from "axios";
 import htmlToText from "html-to-text";
 import config from "../config";
-
-/**
- * @author tchen@bellhop.io
- * @function Suggest
- **/
 
 const Suggest = forwardRef((props, ref) => {
   const {

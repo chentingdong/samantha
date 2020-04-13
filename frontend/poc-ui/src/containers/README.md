@@ -1,2 +1,1 @@
-This directory contains all full page components.
-We will restructure the folder structure by function, later.
+This folder holds full page containers.

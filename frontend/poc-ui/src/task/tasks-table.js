@@ -1,3 +1,6 @@
+/**
+ * tasks list view.
+ **/
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -5,11 +8,6 @@ import {
   formatDateTime,
   stateIcon,
 } from "../libs/custom-functions";
-
-/**
- * @author tchen@bellhop.io
- * @function TasksTable
- **/
 
 const TasksTable = ({
   tasks,

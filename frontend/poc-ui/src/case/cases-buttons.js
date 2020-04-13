@@ -1,3 +1,7 @@
+/**
+ * used for mobile first layout. Jan, 2020.
+ * @author tchen@bellhop.io
+ */
 import React, { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { stateColor } from "../libs/custom-functions";

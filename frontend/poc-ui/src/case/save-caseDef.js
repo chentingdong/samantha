@@ -1,4 +1,6 @@
-// This is a designtime component, but also used in runtime design.
+/**
+ * This is a designtime component, but also used in runtime design.
+ **/
 import React from "react";
 import { Modal } from "react-bootstrap";
 import LoaderButton from "../components/loader-button";

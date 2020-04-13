@@ -1,3 +1,7 @@
+/**
+ * poc 1 demo page. Designed by Substantial, Mar, 2020.
+ * @author tchen@bellhop.io
+ */
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import config from "../config";
 import { DebounceInput } from "react-debounce-input";

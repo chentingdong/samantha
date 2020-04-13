@@ -1,5 +1,6 @@
 /**
- * @author
+ * create case from dropdown menu with list of case definitions.
+ * @author tchen@bellhop.io
  * @function CreateCase
  **/
 import React, { useState, useEffect } from "react";

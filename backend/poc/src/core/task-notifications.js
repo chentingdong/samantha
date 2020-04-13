@@ -70,7 +70,7 @@ module.exports.taskNoticeStatusToParticipants = async (task) => {
     };
     await saveAgentMessages(message);
   } catch (err) {
-    console.error(err);
+    console.warn("Task not found, ${err}");
   }
 };
 

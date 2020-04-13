@@ -1,11 +1,9 @@
+/**
+ * kanban view for tasks.
+ **/
 import React, { useEffect, useState } from "react";
 import Board, { addCard } from "@lourenci/react-kanban";
 import apiWrapper from "../libs/api-wrapper";
-
-/**
- * @author tchen@bellhop.io
- * @function TasksKanban
- **/
 
 const TasksKanban = ({
   tasks,
