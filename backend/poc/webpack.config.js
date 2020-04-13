@@ -1,9 +1,20 @@
+const glob = require("glob");
 const path = require("path");
 const slsw = require("serverless-webpack");
 const nodeExternals = require("webpack-node-externals");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+
+const dbEntries = glob
+  .sync(path.resolve("src/infra/db/entity/*.js"))
+  .reduce((entries, filename) => {
+    const relativeFilename = path.relative(__dirname, filename);
+    const filenameWoExt = relativeFilename.split(".").slice(0, -1).join(".");
+    return Object.assign({}, entries, {
+      [filenameWoExt]: "./" + relativeFilename,
+    });
+  }, {});
 
 module.exports = {
   context: __dirname,
@@ -21,6 +32,7 @@ module.exports = {
   },
   entry: {
     ...slsw.lib.entries,
+    ...dbEntries,
     ormconfig: "./ormconfig.js",
   },
   devtool: slsw.lib.webpack.isLocal
