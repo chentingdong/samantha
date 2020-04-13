@@ -3,16 +3,18 @@ const aws = require("aws-sdk");
 const dynamodbConnector = require("./dynamodb");
 const { isOffline } = require("../utils");
 
+function readCA() {
+  const caPath = require.resolve("../../certs/rootCA.pem");
+  return require("fs").readFileSync(caPath);
+}
+
+module.exports.readCA = readCA;
+
 class ApiGatewayConnector {
   constructor() {
     let CONNECTOR_OPTS = {};
     if (isOffline()) {
-      const ca = require("fs").readFileSync(
-        __dirname + "/../../certs/rootCA.pem"
-      );
-      // const { ca } = require("../../certs/rootCA.pem");
-      const options = { ca };
-      const agent = new require("https").Agent(options);
+      const agent = new require("https").Agent({ ca: readCA() });
       CONNECTOR_OPTS = {
         region: "localhost",
         endpoint: "https://localhost:3001/",
@@ -52,4 +54,4 @@ class ApiGatewayConnector {
 }
 
 const APIGW_CONNECTOR = new ApiGatewayConnector();
-module.exports = APIGW_CONNECTOR;
+module.exports.apiGatewayConnector = APIGW_CONNECTOR;
