@@ -74,6 +74,10 @@ custom:
       scripts:
         - cp -r ../../patches ./
         - node_modules/.bin/patch-package
+        - yarn autoclean --init
+        - rm .yarnclean && cat ../../.yarnclean >> .yarnclean && echo '\n*.ts' >> .yarnclean
+        - rm -rf node_modules/aws-sdk
+        - yarn autoclean --force
     individually: true
     includeModules:
       forceInclude:
