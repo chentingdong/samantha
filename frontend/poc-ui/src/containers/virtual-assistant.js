@@ -6,6 +6,7 @@ import React, { useState, useEffect, useRef, useMemo } from "react";
 import config from "../config";
 import { DebounceInput } from "react-debounce-input";
 import CasesMenu from "../case/cases-menu";
+import CaseHeader from "../case/case-header";
 import Tasks from "../task/tasks";
 import CaseMessages from "../components/messages";
 import Suggest from "../components/suggest";
@@ -129,6 +130,12 @@ function VirtualAssistant({ user }) {
           />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter overflow-auto">
+          <CaseHeader
+            currentCaseId={currentCaseId}
+            tasks={tasks}
+            currentCaseStatus={currentCaseStatus}
+            setCurrentCaseStatus={setCurrentCaseStatus}
+          />
           <Tasks
             currentCaseId={currentCaseId}
             currentCaseStatus={currentCaseStatus}

@@ -6,7 +6,6 @@ import apiWrapper from "../libs/api-wrapper";
 import CreateTask from "./create-task";
 import TaskDesign from "./task-design";
 import TasksTable from "./tasks-table";
-import CaseHeader from "../case/case-header";
 import TaskRuntime from "./task-runtime";
 import TasksKanban from "./tasks-kanban";
 import { Tabs, Tab } from "react-bootstrap";
@@ -72,12 +71,6 @@ function Tasks({
   return (
     currentCase && (
       <div className="">
-        <CaseHeader
-          currentCaseId={currentCaseId}
-          tasks={tasks}
-          currentCaseStatus={currentCaseStatus}
-          setCurrentCaseStatus={setCurrentCaseStatus}
-        />
         <div className="card mt-4">
           <div className="d-flex pt-2 pb-2 border-bottom">
             <h4 className="col-6">Tasks</h4>

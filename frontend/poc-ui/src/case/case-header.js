@@ -3,7 +3,7 @@
  * @author tchen@bellhop.io
  * @function CaseHeader
  **/
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown, Modal } from "react-bootstrap";
@@ -20,29 +20,16 @@ const CaseHeader = ({
   const [currentCase, setCurrentCase] = useState({});
   const [taskProgress, setTaskProgress] = useState(60);
   const [showDefModal, setShowDefModal] = useState(false);
-  const caseOptions = React.forwardRef(({ children, onClick }, ref) => (
-    <a
-      href=""
-      ref={ref}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick(e);
-      }}
-    >
-      &#x25bc;
-      {children}
-    </a>
-  ));
 
-  function saveCaseAsDefinition(currentCase) {
+  function saveCaseAsDefinition() {
     console.log("saving currentCase.....");
     setShowDefModal(true);
   }
-  function completeCase(currentCase) {
+  function completeCase() {
     //let today = new Date();
     console.log(currentCase);
   }
-  function cancelCase(currentCase) {
+  function cancelCase() {
     //let today = new Date();
     console.log(currentCase);
   }
@@ -78,26 +65,26 @@ const CaseHeader = ({
           <h4 className="col-8 text-center">{currentCase.name}</h4>
           <div className="col-2 text-right">
             <Dropdown>
-              <Dropdown.Toggle as={caseOptions} id="dropdown-custom-components">
-                <FontAwesomeIcon icon="info-circle" />
+              <Dropdown.Toggle
+                id="dropdown-custom-components"
+                className="btn-light"
+              >
+                <FontAwesomeIcon icon="save" className="text-primary" />
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
                   eventKey="1"
                   active
-                  onClick={(e) => completeCase(currentCase)}
+                  onClick={(e) => completeCase()}
                 >
                   complete
                 </Dropdown.Item>
-                <Dropdown.Item
-                  eventKey="2"
-                  onClick={(e) => cancelCase(currentCase)}
-                >
+                <Dropdown.Item eventKey="2" onClick={(e) => cancelCase()}>
                   cancel
                 </Dropdown.Item>
                 <Dropdown.Item
                   eventKey="3"
-                  onClick={(e) => saveCaseAsDefinition(currentCase)}
+                  onClick={(e) => saveCaseAsDefinition()}
                 >
                   save
                 </Dropdown.Item>
