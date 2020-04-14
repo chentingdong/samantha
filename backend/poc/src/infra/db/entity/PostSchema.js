@@ -4,6 +4,7 @@ const Category = require("../../../models/Category").Category; // import {Catego
 
 module.exports = new EntitySchema({
   name: "Post",
+  tableName: "Post",
   target: Post,
   columns: {
     id: {

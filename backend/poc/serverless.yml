@@ -2,7 +2,7 @@ service: poc-${self:custom.user}
 
 plugins:
   - serverless-pseudo-parameters
-  # - serverless-webpack
+  - serverless-webpack
   - serverless-mocha-plugin
   - serverless-dynamodb-local
   - serverless-offline-sqs
@@ -68,8 +68,24 @@ custom:
     skipCacheInvalidation: false
   webpack:
     webpackConfig: webpack.config.js
-    packager: "yarn"
-    includeModules: true
+    packager: yarn
+    packagerOptions: 
+      ignoreScripts: false
+      scripts:
+        - cp -r ../../patches ./
+        - node_modules/.bin/patch-package
+        - yarn autoclean --init
+        - rm .yarnclean && cat ../../.yarnclean >> .yarnclean && echo '\n*.ts' >> .yarnclean
+        - rm -rf node_modules/aws-sdk
+        - yarn autoclean --force
+    individually: true
+    includeModules:
+      forceInclude:
+        - mysql
+        - postinstall-postinstall
+        - patch-package
+      forceExclude:
+        - aws-sdk
 # This article helped me find out how Serverless handles Cloud Formation naming
 # https://github.com/serverless/serverless/blob/master/docs/providers/aws/guide/resources.md
 provider:
@@ -538,7 +554,7 @@ functions:
           method: patch
           path: /tasks/complete
   taskDependencyHandler:
-    handler: src/core/events-handler.taskDependencyHandler
+    handler: src/services/events-handler.taskDependencyHandler
     events:
       - sqs:
           arn:

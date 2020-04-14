@@ -13,6 +13,18 @@
         "start",
         "--skipCacheInvalidation"
       ]
-    }
+    },
+    {
+      "name": "Serverless packaging",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceRoot}",
+      "environment": [{"name": "SLS_DEBUG", "value": "*"}],
+      "program": "${workspaceRoot}/node_modules/.bin/sls",
+      "args": [
+        "package",
+        "--verbose"
+      ]
+    }    
   ]
 }

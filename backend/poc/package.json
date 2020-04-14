@@ -8,7 +8,8 @@
   "scripts": {
     "initdb": "test/initdb.sh",
     "start": "sls offline start --skipCacheInvalidation",
-    "test": "jest"
+    "test": "jest",
+    "postinstall": "patch-package"
   },
   "jest": {
     "testEnvironment": "node",
@@ -16,7 +17,10 @@
   },
   "dependencies": {
     "aws-sdk": "^2.652.0",
+    "glob": "^7.1.6",
     "mysql": "^2.18.1",
+    "patch-package": "^6.2.2",
+    "postinstall-postinstall": "^2.1.0",
     "serverless-dynamodb-client": "^0.0.2",
     "source-map-support": "^0.5.10",
     "typeorm": "^0.2.24",
@@ -48,6 +52,7 @@
     "ts-jest": "^25.3.0",
     "ts-loader": "^5.3.3",
     "typescript": "^3.2.4",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.29.0",
     "webpack-node-externals": "^1.7.2"
   }

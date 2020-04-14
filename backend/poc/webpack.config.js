@@ -1,15 +1,39 @@
+const glob = require("glob");
 const path = require("path");
 const slsw = require("serverless-webpack");
 const nodeExternals = require("webpack-node-externals");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-// const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+
+const dbEntries = glob
+  .sync(path.resolve("src/infra/db/entity/*.js"))
+  .reduce((entries, filename) => {
+    const relativeFilename = path.relative(__dirname, filename);
+    const filenameWoExt = relativeFilename.split(".").slice(0, -1).join(".");
+    return Object.assign({}, entries, {
+      [filenameWoExt]: "./" + relativeFilename,
+    });
+  }, {});
 
 module.exports = {
   context: __dirname,
-  mode: slsw.lib.webpack.isLocal ? "development" : "production",
+  // mode: slsw.lib.webpack.isLocal ? "development" : "production",
+  mode: "development",
+  optimization: {
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          keep_classnames: true,
+          keep_fnames: true,
+        },
+      }),
+    ],
+  },
   entry: {
     ...slsw.lib.entries,
-    "src/config/ormconfig": "./src/config/ormconfig.js",
+    ...dbEntries,
+    ormconfig: "./ormconfig.js",
   },
   devtool: slsw.lib.webpack.isLocal
     ? "cheap-module-eval-source-map"
@@ -68,12 +92,5 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js"],
   },
-  plugins: [
-    // new ForkTsCheckerWebpackPlugin({
-    //   eslint: true,
-    //   eslintOptions: {
-    //     cache: true
-    //   }
-    // })
-  ],
+  plugins: [],
 };
