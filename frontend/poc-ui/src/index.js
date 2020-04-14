@@ -3,8 +3,32 @@ import ReactDOM from "react-dom";
 import "./assets/index.scss";
 import App from "./app";
 import * as serviceWorker from "./serviceWorker";
+import { createStore, StoreProvider } from "react-context-global-store";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+const store = createStore({
+  user: {
+    currentUser: {},
+    users: [],
+  },
+  case: {
+    currentCase: {},
+    cases: [],
+  },
+  task: {
+    currentTask: {},
+    tasks: [],
+  },
+  message: {
+    currentMessage: {},
+    messages: [],
+  },
+});
+ReactDOM.render(
+  <StoreProvider store={store}>
+    <App />
+  </StoreProvider>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

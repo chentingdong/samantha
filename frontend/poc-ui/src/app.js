@@ -7,9 +7,11 @@ import config from "./config.js";
 import "./assets/app.scss";
 import buildFonts from "./libs/fa-fonts";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { connect } from "react-context-global-store";
+import apiWrapper from "./libs/api-wrapper";
 
-function App() {
-  const [user, setUser] = useState({});
+function App(props) {
+  const { currentUser, users } = props.store.user;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   buildFonts();
   Amplify.configure(config);
@@ -17,7 +19,20 @@ function App() {
   async function getUserInfo() {
     try {
       const userInfo = await Auth.currentUserPoolUser();
-      setUser(userInfo);
+      props.setStore({
+        user: {
+          currentUser: userInfo,
+          users,
+        },
+      });
+      apiWrapper.get("/users").then((resp) => {
+        props.setStore({
+          user: {
+            currentUser,
+            users: resp.data,
+          },
+        });
+      });
       // temp hack to avoid userInfo change cause trouble.
       setTimeout(() => {
         setIsAuthenticated(true);
@@ -38,7 +53,7 @@ function App() {
           break;
         case "signOut":
           setIsAuthenticated(false);
-          setUser({});
+          props.setStore({}, users);
           break;
         case "signIn_failure":
           console.error("user sign in failed");
@@ -62,7 +77,7 @@ function App() {
     try {
       await Auth.signOut();
       setIsAuthenticated(false);
-      setUser({});
+      props.setStore({}, users);
     } catch (e) {
       console.error(e);
     }
@@ -100,8 +115,8 @@ function App() {
                     <img
                       className="thumbnail-sm rounded-circle"
                       data-toggle="tooltip"
-                      title={user.name}
-                      src={user.attributes.picture}
+                      title={currentUser.username}
+                      src={currentUser.attributes.picture}
                       alt={<FontAwesomeIcon icon="cog" />}
                     />
                   </h3>
@@ -135,10 +150,16 @@ function App() {
             )}
           </div>
         </div>
-        <Routes appProps={{ isAuthenticated, setIsAuthenticated, user }} />
+        <Routes
+          appProps={{
+            isAuthenticated,
+            setIsAuthenticated,
+            user: props.store.user.currentUser,
+          }}
+        />
       </BrowserRouter>
     </div>
   );
 }
 
-export default App;
+export default connect(App, ["user", "case", "task", "message"]);
