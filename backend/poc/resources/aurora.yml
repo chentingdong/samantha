@@ -14,7 +14,7 @@ Resources:
         AutoPause: true
         MinCapacity: 1
         MaxCapacity: 4
-        SecondsUntilAutoPause: 1800
+        SecondsUntilAutoPause: 7200
 
 Outputs:
   AuroraRDSClusterHostname:
