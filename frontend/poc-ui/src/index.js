@@ -14,6 +14,9 @@ const store = createStore({
     currentCase: {},
     cases: [],
   },
+  caseDefinitions: {
+    caseDefinitions: [],
+  },
   task: {
     currentTask: {},
     tasks: [],
