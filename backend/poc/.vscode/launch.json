@@ -6,12 +6,13 @@
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceRoot}",
-      "environment": [{"name": "SLS_DEBUG", "value": "*"}],
+      "env": {"SLS_DEBUG": "*"},
       "program": "${workspaceRoot}/node_modules/.bin/sls",
       "args": [
         "offline",
         "start",
-        "--skipCacheInvalidation"
+        "--skipCacheInvalidation",
+        "--verbose"
       ]
     },
     {
@@ -19,7 +20,7 @@
       "type": "node",
       "request": "launch",
       "cwd": "${workspaceRoot}",
-      "environment": [{"name": "SLS_DEBUG", "value": "*"}],
+      "env": {"SLS_DEBUG": "*"},
       "program": "${workspaceRoot}/node_modules/.bin/sls",
       "args": [
         "package",
