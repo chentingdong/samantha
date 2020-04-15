@@ -1,7 +1,6 @@
 # Optionally uncomment *.ts in production/when deploying only
 # test directories
 __tests__
-test
 tests
 powered-test
 
