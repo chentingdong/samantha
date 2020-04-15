@@ -1,6 +1,6 @@
 "use strict";
 
-const { apigatewayConnector } = require("../../infra/apigateway");
+const { apiGatewayConnector } = require("../../infra/apigateway");
 const dynamodbConnector = require("../../infra/dynamodb");
 const CONSTANTS = require("../../constants");
 
@@ -13,7 +13,7 @@ module.exports.handleSocketDefault = async (event, context) => {
     switch (action) {
       case "PING":
         const pingResponse = { action: "PING", value: "PONG" };
-        await apigatewayConnector.generateSocketMessage(
+        await apiGatewayConnector.generateSocketMessage(
           connectionId,
           JSON.stringify(pingResponse)
         );
@@ -23,7 +23,7 @@ module.exports.handleSocketDefault = async (event, context) => {
           action: "ERROR",
           error: "Invalid request",
         };
-        await apigatewayConnector.generateSocketMessage(
+        await apiGatewayConnector.generateSocketMessage(
           connectionId,
           JSON.stringify(invalidResponse)
         );

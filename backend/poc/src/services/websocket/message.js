@@ -1,6 +1,6 @@
 const uuidv4 = require("uuid/v4");
-const { apiGatewayConnector } = require("../../infra/apigateway");
-const dynamodbConnector = require("../../infra/dynamodb");
+const apiGatewayConnector = require("../../connectors/apigateway");
+const dynamodbConnector = require("../../connectors/dynamodb");
 
 /**
  * Tell UI to refresh, exp., tasks, cases, etc.

@@ -1,3 +1,6 @@
+/**
+ * aws sqs handle event queue.
+ */
 const { SQS } = require("aws-sdk");
 const dynamodbConnector = require("../infra/dynamodb");
 const { isOffline } = require("../utils");

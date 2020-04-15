@@ -54,4 +54,4 @@ class ApiGatewayConnector {
 }
 
 const APIGW_CONNECTOR = new ApiGatewayConnector();
-module.exports.apigatewayConnector = APIGW_CONNECTOR;
+module.exports.apiGatewayConnector = APIGW_CONNECTOR;

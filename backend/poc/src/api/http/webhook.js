@@ -1,5 +1,5 @@
 "use strict";
-const { apigatewayConnector } = require("../../infra/apigateway");
+const { apiGatewayConnector } = require("../../infra/apigateway");
 const dynamodbConnector = require("../../infra/dynamodb");
 
 module.exports.webhook = async (event, context) => {
@@ -20,7 +20,7 @@ module.exports.webhook = async (event, context) => {
     };
     try {
       promises.push(
-        apigatewayConnector.generateSocketMessage(
+        apiGatewayConnector.generateSocketMessage(
           connectionId,
           JSON.stringify(responseMessage)
         )
