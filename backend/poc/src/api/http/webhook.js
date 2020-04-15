@@ -1,5 +1,5 @@
 "use strict";
-const { apiGatewayConnector } = require("../../infra/apigateway");
+const apiGatewayConnector = require("../../infra/apigateway");
 const dynamodbConnector = require("../../infra/dynamodb");
 
 module.exports.webhook = async (event, context) => {

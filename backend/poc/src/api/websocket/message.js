@@ -1,5 +1,5 @@
 const uuidv4 = require("uuid/v4");
-const { apiGatewayConnector } = require("../../infra/apigateway");
+const apiGatewayConnector = require("../../infra/apigateway");
 const dynamodbConnector = require("../../infra/dynamodb");
 
 /**

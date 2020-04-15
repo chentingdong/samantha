@@ -8,8 +8,6 @@ function readCA() {
   return require("fs").readFileSync(caPath);
 }
 
-module.exports.readCA = readCA;
-
 class ApiGatewayConnector {
   constructor() {
     let CONNECTOR_OPTS = {};
@@ -54,4 +52,4 @@ class ApiGatewayConnector {
 }
 
 const APIGW_CONNECTOR = new ApiGatewayConnector();
-module.exports.apiGatewayConnector = APIGW_CONNECTOR;
+module.exports = APIGW_CONNECTOR;

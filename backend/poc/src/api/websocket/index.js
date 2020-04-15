@@ -1,6 +1,6 @@
 "use strict";
 
-const { apiGatewayConnector } = require("../../infra/apigateway");
+const apiGatewayConnector = require("../../infra/apigateway");
 const dynamodbConnector = require("../../infra/dynamodb");
 const CONSTANTS = require("../../constants");
 
