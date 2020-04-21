@@ -20,7 +20,7 @@
     "lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
     "prestart": "(cat certs/cert.pem certs/key.pem > ./node_modules/webpack-dev-server/ssl/server.pem) || :",
     "start": "yarn run start-dev",
-    "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --https --port 2020",
+    "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --https --port 2000",
     "start-prod": "yarn run build && node express.js --https --port 2021",
     "test": "jest --coverage --watchAll --config=configs/jest.json"
   },

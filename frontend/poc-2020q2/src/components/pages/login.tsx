@@ -5,20 +5,22 @@ import logo from '../../assets/img/bellhop.png'
 
 function Login() {
   Amplify.configure(config)
-  async function handleFederatedLogin() {
+  function handleFederatedLogin() {
     Auth.federatedSignIn()
   }
   return (
-    <div className="m-auto col-4">
-      <div className="text-center mb-4">
-        <img src={logo} alt="" style={{ height: '5em' }} />
+    <div className="row vh-100">
+      <div className="m-auto my-auto">
+        <div className="text-center mb-4">
+          <img src={logo} alt="" style={{ height: '5em', maxWidth: '100%' }} />
+        </div>
+        <button
+          className="btn btn-primary form-control"
+          onClick={handleFederatedLogin}
+        >
+          Login with social accounts
+        </button>
       </div>
-      <button
-        className="btn btn-primary form-control"
-        onClick={handleFederatedLogin}
-      >
-        Login with social accounts
-      </button>
     </div>
   )
 }

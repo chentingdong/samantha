@@ -43,11 +43,21 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        loaders: [
-          'url-loader?limit=25000',
-          'file-loader?hash=sha512&digest=hex&name=img/[hash].[ext]',
-          'image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&gifsicle.interlaced=false',
+        test: /\.html$/,
+        exclude: /node_modules/,
+        loader: 'html-loader',
+      },
+      {
+        test: /\.(png|jp(e*)g|svg)$/,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              // Convert images < 8kb to base64 strings
+              limit: 8000,
+              name: 'images/[hash]-[name].[ext]',
+            },
+          },
         ],
       },
     ],
