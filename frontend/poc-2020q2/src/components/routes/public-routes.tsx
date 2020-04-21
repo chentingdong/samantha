@@ -31,7 +31,7 @@ export default function PublicRoute({
           <Component {...props} {...appProps} />
         ) : (
           <Redirect
-            to={redirect === '' || redirect === null ? '/demo' : redirect}
+            to={redirect === '' || redirect === null ? '/' : redirect}
           />
         )
       }

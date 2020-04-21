@@ -14,7 +14,7 @@ export default function PrivateRoute({
         return appProps.isAuthenticated ? (
           <Component {...props} {...appProps} />
         ) : (
-          <Redirect to={`/user/login?redirect=${redirect}`} />
+          <Redirect to={`/login?redirect=${redirect}`} />
         )
       }}
     />

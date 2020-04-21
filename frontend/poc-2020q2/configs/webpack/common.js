@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
@@ -21,6 +21,11 @@ module.exports = {
       {
         test: /\.tsx?$/,
         use: ['babel-loader', 'awesome-typescript-loader'],
+      },
+      {
+        test: /\.mjs$/,
+        include: /node_modules/,
+        type: 'javascript/auto',
       },
       {
         test: /\.css$/,
@@ -40,6 +45,7 @@ module.exports = {
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
         loaders: [
+          'url-loader?limit=25000',
           'file-loader?hash=sha512&digest=hex&name=img/[hash].[ext]',
           'image-webpack-loader?bypassOnDebug&optipng.optimizationLevel=7&gifsicle.interlaced=false',
         ],
@@ -52,7 +58,6 @@ module.exports = {
   ],
   externals: {
     react: 'React',
-    'react-dom': 'ReactDOM',
   },
   performance: {
     hints: false,

@@ -10,6 +10,7 @@
     "allowJs": true,
     "target": "es6",
     "jsx": "react",
+    "esModuleInterop": true,
     "lib": ["es5", "es6", "dom"]
   },
   "exclude": ["./node_modules/**/*"],
