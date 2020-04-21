@@ -3,12 +3,17 @@ import { Switch } from 'react-router-dom'
 import PublicRoute from './public-routes'
 import PrivateRoute from './private-routes'
 import VirtualAssistant from '../pages/virtual-assistant'
+import NotFound from '../pages/not-found'
 
 const routes = [
   {
     path: '/demo',
     component: VirtualAssistant,
     tag: PrivateRoute,
+  },
+  {
+    component: NotFound,
+    tag: PublicRoute,
   },
 ]
 

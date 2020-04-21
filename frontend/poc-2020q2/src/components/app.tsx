@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { hot } from 'react-hot-loader/root'
 import { AppContextInterface, AppContextProvider } from './utils/AppContext'
+import Routes from './routes/routes'
 
 const reactLogo = require('./../assets/img/react_logo.svg')
-import './../assets/scss/App.scss'
+import './../assets/scss/app.scss'
 
 const initialContext: AppContextInterface = {
   user: {},
@@ -20,7 +21,7 @@ const initialContext: AppContextInterface = {
 export const App = () => {
   return (
     <AppContextProvider value={initialContext}>
-      <h1>hello</h1>
+      <Routes appProps={{}} />
     </AppContextProvider>
   )
 }
