@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "UI",
+      "type": "chrome",
+      "request": "launch",
+      "port": 2622,
+      "url": "https://localhost:2020",
+      "webRoot": "${workspaceRoot}/src",
+      "sourceMaps": true
+    }
+  ]
+}
