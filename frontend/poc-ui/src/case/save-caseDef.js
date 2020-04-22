@@ -82,21 +82,6 @@ function CaseDefinitionForm({ currentCase, tasks, setShowDefModal, store }) {
     close();
   }
 
-  async function listCaseDefinitions() {
-    let path = "/case-definitions";
-    try {
-      let resp = await apiWrapper.get(path);
-      //store.caseDefinitions.caseDefinitions = resp.data;
-      setStore({
-        caseDefinitions: {
-          caseDefinitions: resp.data,
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   return (
     <form onSubmit={(e) => e.preventDefault()} className="row">
       <h5 className="col-12">Save As Case Definition</h5>

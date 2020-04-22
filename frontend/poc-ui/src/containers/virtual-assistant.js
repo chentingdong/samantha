@@ -97,7 +97,8 @@ function VirtualAssistant({ user, props }) {
       let msgs = resp.data || [];
       msgs = msgs.filter(
         (msg) =>
-          msg.data.toUser === user.username || msg.data.toUser === "agent"
+          msg.data.toUser === currentUser.username ||
+          msg.data.toUser === "agent"
       );
       //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
       msgs = msgs.sort((a, b) =>
