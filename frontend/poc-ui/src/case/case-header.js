@@ -11,12 +11,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 import { formatDate } from "../libs/custom-functions";
 import SaveCaseDefinition from "./save-caseDef";
 
-const CaseHeader = ({
-  currentCaseId,
-  tasks,
-  currentCaseStatus,
-  setCurrentCaseStatus,
-}) => {
+const CaseHeader = ({ currentCaseId, tasks }) => {
   const [currentCase, setCurrentCase] = useState({});
   const [taskProgress, setTaskProgress] = useState(60);
   const [showDefModal, setShowDefModal] = useState(false);
@@ -121,8 +116,6 @@ const CaseHeader = ({
             tasks={tasks}
             showDefModal={showDefModal}
             setShowDefModal={setShowDefModal}
-            currentCaseStatus={currentCaseStatus}
-            setCurrentCaseStatus={setCurrentCaseStatus}
           />
         </div>
       </div>

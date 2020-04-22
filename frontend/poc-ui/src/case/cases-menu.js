@@ -11,8 +11,6 @@ function CasesMenu({
   className,
   user,
   currentCaseId,
-  currentCaseStatus,
-  setCurrentCaseStatus,
   setCurrentCaseId,
   tasks,
   setTasks,
@@ -38,7 +36,7 @@ function CasesMenu({
 
   useEffect(() => {
     listCases();
-  }, [setCurrentCaseId, currentCaseStatus, setCurrentCaseStatus]);
+  }, [setCurrentCaseId]);
 
   useEffect(() => {
     if (lastMessage) {
@@ -87,8 +85,6 @@ function CasesMenu({
           setCurrentTask={setCurrentTask}
           currentCaseId={currentCaseId}
           setCurrentCaseId={setCurrentCaseId}
-          currentCaseStatus={currentCaseStatus}
-          setCurrentCaseStatus={setCurrentCaseStatus}
         />
       </div>
     </div>

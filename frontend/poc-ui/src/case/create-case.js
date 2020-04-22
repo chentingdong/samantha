@@ -3,10 +3,14 @@
  * @author tchen@bellhop.io
  * @function CreateCase
  **/
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import apiWrapper from "../libs/api-wrapper";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Dropdown } from "react-bootstrap";
+//import { CaseDefContext } from "../context/caseDef-context";
+import { getCaseDefList } from "../models/caseDef-backend";
+
+import { connect, setStore } from "react-context-global-store";
 
 const CreateCase = ({
   className,
@@ -16,32 +20,36 @@ const CreateCase = ({
   tasks,
   setTasks,
   setCurrentTask,
-  currentCaseId,
   setCurrentCaseId,
-  currentCaseStatus,
-  setCurrentCaseStatus,
+  store,
 }) => {
-  const [caseDefinitions, setCaseDefinitions] = useState([]);
-
   useEffect(() => {
-    function listCaseDefinitions() {
-      let path = "/case-definitions";
-      apiWrapper
-        .get(path)
-        .then((resp) => {
-          setCaseDefinitions(resp.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    }
+    apiWrapper.get("/case-definitions").then((resp) => {
+      setStore({
+        caseDefinitions: {
+          caseDefinitions: resp.data,
+        },
+      });
+    });
+  }, []);
 
-    listCaseDefinitions();
-  }, [currentCaseStatus, setCurrentCaseStatus]);
+  // const [state, dispatch] = useContext(CaseDefContext);
+  const { caseDefinitions } = store.caseDefinitions;
+  const { currentUser, users } = store.user;
+  const caseDefinitionItems = caseDefinitions.map((caseDefinition) => (
+    <Dropdown.Item
+      eventKey="1"
+      onClick={(e) => createCase(caseDefinition)}
+      key={caseDefinition.id}
+    >
+      <FontAwesomeIcon icon={caseDefinition.data.icon || "cog"} />
+      <span> {caseDefinition.data.name}</span>
+    </Dropdown.Item>
+  ));
 
   async function createCase(caseDefinition) {
     let caseInstance = caseDefinition.data;
-    caseInstance.owner = user.username;
+    caseInstance.owner = currentUser.username;
     caseInstance.participants = [];
     caseInstance.createdAt = Date.now();
 
@@ -84,24 +92,10 @@ const CreateCase = ({
         <Dropdown.Toggle className={className}>
           <FontAwesomeIcon icon="plus" />
         </Dropdown.Toggle>
-        <Dropdown.Menu>
-          {caseDefinitions.length > 0 &&
-            caseDefinitions.map((caseDefinition) => {
-              return (
-                <Dropdown.Item
-                  eventKey="1"
-                  onClick={(e) => createCase(caseDefinition)}
-                  key={caseDefinition.id}
-                >
-                  <FontAwesomeIcon icon={caseDefinition.data.icon || "cog"} />
-                  <span> {caseDefinition.data.name}</span>
-                </Dropdown.Item>
-              );
-            })}
-        </Dropdown.Menu>
+        <Dropdown.Menu>{caseDefinitionItems}</Dropdown.Menu>
       </Dropdown>
     </div>
   );
 };
 
-export default CreateCase;
+export default connect(CreateCase, ["user", "caseDefinitions"]);

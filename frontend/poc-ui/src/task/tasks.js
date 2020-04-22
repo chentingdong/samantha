@@ -15,8 +15,6 @@ function Tasks({
   currentCaseId,
   lastMessage,
   user,
-  currentCaseStatus,
-  setCurrentCaseStatus,
   tasks,
   setTasks,
   currentTask,

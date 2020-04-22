@@ -154,12 +154,19 @@ function App(props) {
           appProps={{
             isAuthenticated,
             setIsAuthenticated,
-            user: props.store.user.currentUser,
+            props: props,
           }}
+          props={props}
         />
       </BrowserRouter>
     </div>
   );
 }
 
-export default connect(App, ["user", "case", "task", "message"]);
+export default connect(App, [
+  "user",
+  "case",
+  "caseDefinitions",
+  "task",
+  "message",
+]);
