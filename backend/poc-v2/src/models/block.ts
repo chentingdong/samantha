@@ -9,3 +9,15 @@ export class Block {
     if (description) this.description = description;
   }
 }
+
+export class UIBlock extends Block {
+
+}
+
+export class CompositeBlock extends Block {
+
+}
+
+export class RequestBlock extends Block {
+
+}
