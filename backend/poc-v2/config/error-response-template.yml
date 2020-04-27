@@ -1,0 +1,1 @@
+'{"errorType" : $input.json("$.errorType"),"errorMessage" : $input.json("$.errorMessage")}'

@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "rootDir": "./",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "esnext",
+    "outDir": ".build",
+    "module": "commonjs"
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    ".serverless",
+    ".webpack",
+    "_warmup",
+    ".vscode"
+  ]
+}

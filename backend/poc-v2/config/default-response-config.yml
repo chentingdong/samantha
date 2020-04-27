@@ -1,0 +1,13 @@
+headers:
+  Content-Type: "'application/json'"
+  Set-Cookie: "'HttpOnly;Secure;SameSite=Strict'"
+  # cors settings doesn't work well with lambda integration
+  Access-Control-Allow-Origin: "'*'"
+  Access-Control-Allow-Credentials: "'true'"
+  Access-Control-Allow-Methods: "'GET,HEAD,OPTIONS,POST,PUT,PATCH,DELETE'"
+  Access-Control-Allow-Headers: "'Access-Control-Allow-Methods, Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers'"
+statusCodes:
+  500:
+    # regex pattern matched against $.errorMessage
+    pattern: '.+' 
+    template: ${file(config/error-response-template.yml)}
