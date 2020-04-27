@@ -1,11 +1,11 @@
 export class Request {
   id: string;
   name: string;
-  description: string;
+  description?: string;
 
-  constructor(id, name, description) {
+  constructor(id: string, name: string, description?: string) {
     this.id = id;
-    this.name = name;
-    this.description = description;
+    this.name = name;    
+    if (description) this.description = description;
   }
 }
