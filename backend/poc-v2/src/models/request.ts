@@ -1,5 +1,5 @@
 export class Request {
-  id: string;
+  readonly id: string;
   name: string;
   description?: string;
 
