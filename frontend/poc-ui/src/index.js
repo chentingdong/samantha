@@ -3,29 +3,9 @@ import ReactDOM from "react-dom";
 import "./assets/index.scss";
 import App from "./app";
 import * as serviceWorker from "./serviceWorker";
-import { createStore, StoreProvider } from "react-context-global-store";
+import { StoreProvider } from "react-context-global-store";
+import store from "./context/store-base";
 
-const store = createStore({
-  user: {
-    currentUser: {},
-    users: [],
-  },
-  case: {
-    currentCase: {},
-    cases: [],
-  },
-  caseDefinitions: {
-    caseDefinitions: [],
-  },
-  task: {
-    currentTask: {},
-    tasks: [],
-  },
-  message: {
-    currentMessage: {},
-    messages: [],
-  },
-});
 ReactDOM.render(
   <StoreProvider store={store}>
     <App />

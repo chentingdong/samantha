@@ -1,19 +1,19 @@
 /**
  * This is a designtime component, but also used in runtime design.
  **/
-import React from "react";
+import React, { useContext } from "react";
 import { Modal } from "react-bootstrap";
 import LoaderButton from "../components/loader-button";
 import { useFormFields } from "../libs/custom-hooks";
 import apiWrapper from "../libs/api-wrapper";
+import { connect, setStore } from "react-context-global-store";
 
 function SaveCaseDefinition({
   currentCase,
   tasks,
   showDefModal,
   setShowDefModal,
-  currentCaseStatus,
-  setCurrentCaseStatus,
+  store,
 }) {
   //  console.log(currentCase);
 
@@ -35,22 +35,16 @@ function SaveCaseDefinition({
           currentCase={currentCase}
           tasks={tasks}
           setShowDefModal={setShowDefModal}
-          currentCaseStatus={currentCaseStatus}
-          setCurrentCaseStatus={setCurrentCaseStatus}
+          store={store}
         />
       </Modal.Body>
     </Modal>
   );
 }
 
-function CaseDefinitionForm({
-  currentCase,
-  tasks,
-  setShowDefModal,
-  currentCaseStatus,
-  setCurrentCaseStatus,
-}) {
+function CaseDefinitionForm({ currentCase, tasks, setShowDefModal, store }) {
   const [caseDefinition, setCaseDefinition] = useFormFields(currentCase);
+  //const { caseDefinitions } = store.caseDefinitions;
 
   console.log("ready to save currentCase");
   currentCase.planItems = tasks;
@@ -75,14 +69,16 @@ function CaseDefinitionForm({
   async function submitForm() {
     let path = `/case-definitions/`;
     let resp = await apiWrapper.post(path, caseDefinition);
-    let caseDevCreateResp = resp.data;
     console.log("saved caseDefinition:");
     console.log(caseDefinition);
-    console.log("caseDevCreateResp: " + caseDevCreateResp);
-    setCurrentCaseStatus(caseDefinition.name);
-
-    console.log("setCurrentCaseStatus called and set to: " + currentCaseStatus);
-
+    //    listCaseDefinitions();
+    apiWrapper.get("/case-definitions").then((resp) => {
+      setStore({
+        caseDefinitions: {
+          caseDefinitions: resp.data,
+        },
+      });
+    });
     close();
   }
 
@@ -124,4 +120,4 @@ function CaseDefinitionForm({
   );
 }
 
-export default SaveCaseDefinition;
+export default connect(SaveCaseDefinition, ["caseDefinitions"]);

@@ -14,10 +14,10 @@ import apiWrapper from "../libs/api-wrapper";
 import useWebSocket from "react-use-websocket";
 import "../assets/virtual-assistant.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { connect } from "react-context-global-store";
 
-function VirtualAssistant({ user }) {
+function VirtualAssistant({ user, props }) {
   const [currentCaseId, setCurrentCaseId] = useState();
-  const [currentCaseStatus, setCurrentCaseStatus] = useState("");
   const [tasks, setTasks] = useState([]);
   const [currentTask, setCurrentTask] = useState({});
   const [currentMessage, setCurrentMessage] = useState("");
@@ -25,12 +25,13 @@ function VirtualAssistant({ user }) {
   const [selectedSuggestion, setselectedSuggestion] = useState(0);
   const suggestRef = useRef();
   const agentUser = "agent";
+  const { currentUser, users } = props.store.user;
 
   // initiate a websocket connection, register connectionId.
   const wsOptions = useMemo(
     () => ({
       queryParams: {
-        user: user.username,
+        user: currentUser.username,
       },
       reconnectAttempts: 10,
       reconnectInterval: 3000,
@@ -96,7 +97,8 @@ function VirtualAssistant({ user }) {
       let msgs = resp.data || [];
       msgs = msgs.filter(
         (msg) =>
-          msg.data.toUser === user.username || msg.data.toUser === "agent"
+          msg.data.toUser === currentUser.username ||
+          msg.data.toUser === "agent"
       );
       //TODO: dynamodb doesn't easily sort, do sorting in UI for now, until move to rds
       msgs = msgs.sort((a, b) =>
@@ -109,7 +111,7 @@ function VirtualAssistant({ user }) {
   }
   useEffect(() => {
     listCaseMessages();
-  }, [currentCaseId, currentCaseStatus, setCurrentCaseStatus]);
+  }, [currentCaseId]);
 
   return (
     <div className="container-fluid">
@@ -117,10 +119,8 @@ function VirtualAssistant({ user }) {
         <div className="col col-md-3 col-lg-2 vh-100 bg-dark">
           <CasesMenu
             className="text-light bg-dark case-menu row"
-            user={user}
+            user={currentUser}
             currentCaseId={currentCaseId}
-            currentCaseStatus={currentCaseStatus}
-            setCurrentCaseStatus={setCurrentCaseStatus}
             setCurrentCaseId={setCurrentCaseId}
             tasks={tasks}
             setTasks={setTasks}
@@ -130,18 +130,11 @@ function VirtualAssistant({ user }) {
           />
         </div>
         <div className="col col-md-6 col-lg-7 vh-100 bg-lighter overflow-auto">
-          <CaseHeader
-            currentCaseId={currentCaseId}
-            tasks={tasks}
-            currentCaseStatus={currentCaseStatus}
-            setCurrentCaseStatus={setCurrentCaseStatus}
-          />
+          <CaseHeader currentCaseId={currentCaseId} tasks={tasks} />
           <Tasks
             currentCaseId={currentCaseId}
-            currentCaseStatus={currentCaseStatus}
-            setCurrentCaseStatus={setCurrentCaseStatus}
             lastMessage={lastMessage}
-            user={user}
+            user={currentUser}
             tasks={tasks}
             setTasks={setTasks}
             currentTask={currentTask}
@@ -152,7 +145,7 @@ function VirtualAssistant({ user }) {
           <h2 className="m-2 mt-4">Activity</h2>
           <CaseMessages
             className="overflow-auto border-top border-dark mt-4 pt-2"
-            user={user}
+            user={currentUser}
             messages={messages}
           />
           <Suggest
@@ -201,4 +194,10 @@ function VirtualAssistant({ user }) {
   );
 }
 
-export default VirtualAssistant;
+export default connect(VirtualAssistant, [
+  "user",
+  "case",
+  "caseDefinitions",
+  "task",
+  "message",
+]);
