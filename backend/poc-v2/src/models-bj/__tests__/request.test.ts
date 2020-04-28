@@ -2,15 +2,28 @@ import { Request, State } from "../request";
 import { Block } from "../block";
 import { BlockDef } from "../block-def";
 import { BlockLib } from "../block-lib";
+import { user1, user2 } from "./user.test";
 
 describe("Request", () => {
-  it.todo("should have a title");
+  let request = new Request("test title");
 
-  it.todo("can have a requestor");
+  it("should have a title", () => {
+    expect(request.title).toBe("test title");
+  });
 
-  it.todo("can have responders");
+  it("can have a requestor", () => {
+    request.setRequestor(user1);
+    expect(request.requestor).toBe(user1);
+  });
 
-  it.todo("should be in active state after creation");
+  it("can have responders", () => {
+    request.addResponder(user2);
+    expect(request.reqsponders.indexOf(user2)).toBeGreaterThanOrEqual(0);
+  });
+
+  it("should be in active state after creation", () => {
+    expect(request.state).toBe(State.ACTIVE);
+  });
 
   it.todo("can manual complete");
 

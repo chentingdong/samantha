@@ -22,6 +22,18 @@ export class Request {
     this.state = State.ACTIVE;
   }
 
+  setRequestor(requestor: User) {
+    this.requestor = requestor;
+  }
+
+  addResponder(responder: User) {
+    this.reqsponders.push(responder);
+  }
+
+  addBlock(block: Block) {
+    this.blocks.push(block);
+  }
+
   getRequestorsView() { }
   
   getRespondersView() { }

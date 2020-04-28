@@ -6,7 +6,7 @@ class TestBlockDef extends BlockDef {
   }
 }
 
-export let testBlockDef = new TestBlockDef("test block def");
+export const testBlockDef = new TestBlockDef("test block def");
 
 describe("Block Def", () => {
   it("should have a name", () => {
