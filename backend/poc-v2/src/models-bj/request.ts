@@ -1,26 +1,26 @@
 import { Block } from "./block"
 import { User } from "./user";
+import uuid from 'uuid';
 
-export enum STATE {
+export enum State {
   PENDING = "pending",
   ACTIVE = "active",
   COMPLETE = "complete"
 }
 
 export class Request {
-  readonly id: string;
-  name: string;
+  readonly id: string = uuid.v4();
+  title: string;
   description?: string;
-  state: STATE;
+  state: State;
   blocks: Block[] = [];
-  requestors: User[] = [];
+  requestor?: User;
   reqsponders: User[] = [];
 
-  constructor(id: string, name: string, description?: string) {
-    this.id = id;
-    this.name = name;    
+  constructor(title: string, description?: string) {
+    this.title = title;    
     if (description) this.description = description;
-    this.state = STATE.PENDING
+    this.state = State.PENDING
   }
 
   getRequestorsView() { }

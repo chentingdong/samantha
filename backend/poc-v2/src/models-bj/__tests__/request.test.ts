@@ -1,22 +1,26 @@
-import { Request, STATE } from "../request";
+import { Request, State } from "../request";
 import { Block } from "../block";
+import { BlockDef } from "../block-def";
+import { BlockLib } from "../block-lib";
 
 describe("Request", () => {
-  it("should return the name of the request", () => {
-    const request = new Request("1", "a", "test");
-    expect(request.name).toBe("a");
-  });
+  it.todo("should have a title");
 
-  it("should be in pending state by default", () => {
-    const request = new Request("1", "a", "test");
-    expect(request.state).toBe(STATE.PENDING);
-  });
+  it.todo("can have a requestor");
 
-  it("should be able to contain blocks", () => {
-    const request = new Request("1", "a", "test");
-    const block1 = new Block("1", "x", "test");
-    const block2 = new Block("2", "y", "test");
-    request.blocks = [block1, block2];
-    expect(request.blocks.length).toBe(2);
-  });
+  it.todo("can have responders");
+
+  it.todo("should be in active state after creation");
+
+  it.todo("can manual complete");
+
+  it.todo("can have blocks");
+
+  it.todo("can return pending blocks");
+
+  it.todo("can return active blocks");
+
+  it.todo("can return requestor view");
+
+  it.todo("can return responder view");
 });
