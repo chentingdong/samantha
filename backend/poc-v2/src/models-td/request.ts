@@ -1,5 +1,6 @@
 import { Block } from "./block"
 import { User } from "./user";
+import uuid from 'uuid';
 
 export enum STATE {
   PENDING = "pending",
@@ -8,7 +9,7 @@ export enum STATE {
 }
 
 export class Request {
-  readonly id: string;
+  readonly id: string = uuid.v4();
   name: string;
   description?: string;
   state: STATE;
@@ -16,14 +17,13 @@ export class Request {
   requestors: User[] = [];
   reqsponders: User[] = [];
 
-  constructor(id: string, name: string, description?: string) {
-    this.id = id;
-    this.name = name;    
+  constructor(name: string, description?: string) {
+    this.name = name;
     if (description) this.description = description;
     this.state = STATE.PENDING
   }
 
   getRequestorsView() { }
-  
+
   getRespondersView() { }
 }

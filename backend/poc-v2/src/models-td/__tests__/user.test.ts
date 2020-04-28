@@ -13,7 +13,7 @@ describe("User", () => {
 
   it("list users with attributes", async () => {
     await User.listUserPoolUsers();
-    console.log(context.users[0]);
+    console.log(context.users?.slice(1, 3));
     expect(context.users).toHaveLength;
   });
 });

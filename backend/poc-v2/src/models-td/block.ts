@@ -1,10 +1,10 @@
+import uuid from "uuid";
 export class Block {
-  readonly id: string;
+  readonly id: string = uuid.v4();
   name: string;
   description?: string;
-  
-  constructor(id: string, name: string, description?: string) {
-    this.id = id;
+
+  constructor(name: string, description?: string) {
     this.name = name;
     if (description) this.description = description;
   }
