@@ -20,7 +20,7 @@ describe("Request", () => {
 
   it("can have responders", () => {
     request.addResponder(user2);
-    expect(request.reqsponders.indexOf(user2)).toBeGreaterThanOrEqual(0);
+    expect(request.responders.indexOf(user2)).toBeGreaterThanOrEqual(0);
   });
 
   it("should be in active state after creation", () => {

@@ -14,7 +14,7 @@ export class Request {
   state: State;
   blocks: Block[] = [];
   requestor?: User;
-  reqsponders: User[] = [];
+  responders: User[] = [];
 
   constructor(title: string, description?: string) {
     this.title = title;    
@@ -27,7 +27,7 @@ export class Request {
   }
 
   addResponder(responder: User) {
-    this.reqsponders.push(responder);
+    this.responders.push(responder);
   }
 
   addBlock(block: Block) {
