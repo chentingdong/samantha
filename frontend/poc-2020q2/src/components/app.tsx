@@ -18,7 +18,7 @@ export const App = () => {
       const userInfo = await Auth.currentUserPoolUser()
       if (userInfo) {
         dispatch({ type: 'authenticate', isAuthenticated: true })
-        console.log(`user logged in. ${JSON.stringify(state)}`)
+        console.log(`user logged in. ${JSON.stringify(userInfo)}`)
       } else {
         console.log('not logged in')
       }

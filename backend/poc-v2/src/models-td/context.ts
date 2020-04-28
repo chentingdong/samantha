@@ -7,6 +7,7 @@ export class Context {
   readonly id: string = uuid.v4();
   isAuthenticated?: boolean;
   user?: object;
+  users?: object[];
 
   private constructor () {
     if (!Context.instance) {
@@ -23,4 +24,3 @@ export class Context {
     this[key] = value
   }
 }
-
