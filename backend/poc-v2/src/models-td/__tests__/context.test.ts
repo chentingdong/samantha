@@ -5,7 +5,7 @@ import { User } from "../user";
 describe("Context", () => {
   const context = Context.getInstance();
 
-  it("has user authentication status", () => {
+  it("can change authentication status", () => {
     context.set("isAuthenticated", false);
     expect(context.isAuthenticated).toEqual(false);
   });

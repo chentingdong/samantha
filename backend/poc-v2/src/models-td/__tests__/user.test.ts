@@ -7,7 +7,8 @@ describe("User", () => {
   it("get user info from cognito", async () => {
     const username = "Google_115419186368884878540";
     await User.getUserPoolUser(username);
-    expect(context.user).toHaveProperty("UserAttributes");
+    console.log(context.user);
+    expect(context.user).toHaveProperty("attributes");
   });
 
   it("list users with attributes", async () => {

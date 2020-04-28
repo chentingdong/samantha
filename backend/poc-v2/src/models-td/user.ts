@@ -4,13 +4,10 @@ import aws from "aws-sdk";
 
 export class User {
   readonly id: string;
-  name: string;
-  email?: string;
+  attributes: object;
 
   constructor(id: string, name: string, email?: string) {
     this.id = id;
-    this.name = name;
-    if (email) this.email = email;
   }
 
   static login = () => {
@@ -27,6 +24,13 @@ export class User {
     const user = await cognitoIdentityServiceProvider
       .adminGetUser(params)
       .promise();
+
+    let attributes = {};
+    user.UserAttributes.forEach((attr: object) => {
+      attributes[attr.Name] = attr.Value;
+    });
+    delete(user.UserAttributes)
+    user['attributes'] = attributes;
     const context = Context.getInstance()
     context.set('user', user)
     return user;
