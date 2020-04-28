@@ -1,4 +1,4 @@
-import { Block } from "./block"
+import { Block, State as BlockState } from "./block"
 import { User } from "./user";
 import uuid from 'uuid';
 
@@ -32,6 +32,20 @@ export class Request {
 
   addBlock(block: Block) {
     this.blocks.push(block);
+  }
+
+  listPendingBlocks(): Block[] {
+    return this.blocks.filter((block) => block.state == BlockState.PENDING);
+  }
+
+  listActiveBlocks(): Block[] {
+    return this.blocks.filter((block) => block.state == BlockState.ACTIVE);
+  }
+
+  complete(): boolean {
+    if (this.state != State.ACTIVE) return false;
+    this.state = State.COMPLETE;
+    return true;
   }
 
   getRequestorsView() { }

@@ -16,6 +16,21 @@ export class Block {
     this.definition = definition;
     this.state = State.PENDING;
   }
+
+  start(): boolean {
+    if (this.state != State.PENDING)
+      return false;
+    this.state = State.ACTIVE;
+    return true;
+  }
+
+  complete(): boolean {
+    if (this.state != State.ACTIVE)
+      return false;
+    this.state = State.COMPLETE;
+    return true;
+  }
+
 }
 
 export class UIBlock extends Block {

@@ -1,11 +1,13 @@
 import { Request, State } from "../request";
 import { Block } from "../block";
 import { BlockDef } from "../block-def";
-import { BlockLib } from "../block-lib";
+import { blockLib } from "../block-lib";
 import { user1, user2 } from "./user.test";
+import { testBlockDef } from "./block-def.test";
 
 describe("Request", () => {
-  let request = new Request("test title");
+  const request = new Request("test title");
+  const testBlock = new Block(testBlockDef);
 
   it("should have a title", () => {
     expect(request.title).toBe("test title");
@@ -25,15 +27,28 @@ describe("Request", () => {
     expect(request.state).toBe(State.ACTIVE);
   });
 
-  it.todo("can manual complete");
+  it("can have blocks", () => {
+    request.addBlock(testBlock);
+    expect(request.blocks.length).toBe(1);
+  });
 
-  it.todo("can have blocks");
+  it("can return pending blocks", () => {
+    const pendingBlocks = request.listPendingBlocks();
+    expect(pendingBlocks.length).toBe(1);
+    expect(pendingBlocks[0]).toBe(testBlock);
+  });
 
-  it.todo("can return pending blocks");
-
-  it.todo("can return active blocks");
+  it("can return active blocks", () => {
+    const activeBlocks = request.listActiveBlocks();
+    expect(activeBlocks.length).toBe(0);
+  });
 
   it.todo("can return requestor view");
 
   it.todo("can return responder view");
+
+  it("can manual complete", () => {
+    request.complete();
+    expect(request.state).toBe(State.COMPLETE);
+  });
 });
