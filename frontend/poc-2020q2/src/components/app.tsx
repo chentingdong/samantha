@@ -1,28 +1,68 @@
 import * as React from 'react'
+import Amplify, { Auth, Hub } from 'aws-amplify'
+import { useEffect, useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
-import { AppContextInterface, AppContextProvider } from './utils/AppContext'
 import Routes from './routes/routes'
 import './../assets/scss/app.scss'
-
-const initialContext: AppContextInterface = {
-  user: {},
-  users: [],
-  currentBlock: {},
-  blocks: [],
-  blockDefinitions: [],
-  messages: [],
-  listUsers: () => [],
-  listBlocks: () => [],
-  listMessages: () => [],
-}
-
-const appProps = {}
+import { Context } from './context/store'
+import config from '../../configs/config'
+import { getUser, getUsers } from './user'
 
 export const App = () => {
+  const { state, dispatch } = useContext(Context)
+
+  Amplify.configure(config)
+
+  useEffect(() => {
+    async function checkLogin() {
+      const userInfo = await Auth.currentUserPoolUser()
+      if (userInfo) {
+        dispatch({ type: 'authenticate', isAuthenticated: true })
+        console.log(`user logged in. ${JSON.stringify(state)}`)
+      } else {
+        console.log('not logged in')
+      }
+    }
+    checkLogin()
+  }, [])
+
+  const logout = async () => {
+    await Auth.signOut()
+  }
+
+  useEffect(() => {
+    Hub.listen('auth', async ({ payload: { event } }) => {
+      switch (event) {
+        case 'signIn':
+          dispatch({ type: 'authenticate', isAuthenticated: true })
+          const user = await getUser()
+          dispatch({ type: 'setUser', user: user })
+          const users = await getUsers()
+          dispatch({ type: 'setUsers', users: users })
+          break
+        case 'signOut':
+          dispatch({ type: 'authenticate', isAuthenticated: false })
+          dispatch({ type: 'setUser', user: {} })
+          dispatch({ type: 'setUsers', users: [] })
+          break
+        case 'signIn_failure':
+          console.error('user sign in failed')
+          break
+        default:
+          break
+      }
+    })
+  }, [])
+
   return (
-    <AppContextProvider value={initialContext}>
-      <Routes appProps={appProps} />
-    </AppContextProvider>
+    <div className="app wrapper vh-100">
+      {state.isAuthenticated && (
+        <div className="btn float-right" onClick={logout}>
+          logout
+        </div>
+      )}
+      <Routes />
+    </div>
   )
 }
 

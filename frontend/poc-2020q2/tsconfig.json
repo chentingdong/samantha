@@ -11,7 +11,7 @@
     "target": "es6",
     "jsx": "react",
     "esModuleInterop": true,
-    "lib": ["es5", "es6", "dom"]
+    "lib": ["es6", "dom"]
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"],

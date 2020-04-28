@@ -67,7 +67,9 @@
     "react-hot-loader": "^4.12.20",
     "react-router-dom": "^5.1.2",
     "reactstrap": "^8.4.1",
+    "regenerator-runtime": "^0.13.5",
     "source-map-loader": "^0.2.4",
-    "url-loader": "^4.1.0"
+    "url-loader": "^4.1.0",
+    "use-reducer-async": "^2.0.1"
   }
 }

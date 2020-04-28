@@ -23,7 +23,7 @@ const routes = [
   },
 ]
 
-function Routes({ appProps }) {
+function Routes() {
   return (
     <BrowserRouter>
       <Switch>
@@ -34,7 +34,6 @@ function Routes({ appProps }) {
               exact
               path={route.path}
               component={route.component}
-              appProps={appProps}
               key={index}
             />
           )
