@@ -9,11 +9,11 @@ class Platform {
     this.requests.push(request);
   }
 
-  listRequestsByRequestor(requestor: User) {
+  listActiveRequestsByRequestor(requestor: User) {
     return this.requests.filter((req) => req.requestor == requestor);
   }
 
-  listRequestsByResponder(responder: User) {
+  listActiveRequestsByResponder(responder: User) {
     return this.requests.filter(
       (req) => req.responders.indexOf(responder) != -1
     );

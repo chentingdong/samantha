@@ -21,13 +21,13 @@ describe("Platform", () => {
   });
 
   it("can find requests by requestor", () => {
-    expect(platform.listRequestsByRequestor(user1)).toEqual([request]);
-    expect(platform.listRequestsByRequestor(user2)).toEqual([]);
+    expect(platform.listActiveRequestsByRequestor(user1)).toEqual([request]);
+    expect(platform.listActiveRequestsByRequestor(user2)).toEqual([]);
   });
 
   it("can find requests by responder", () => {
-    expect(platform.listRequestsByResponder(user1)).toEqual([]);
-    expect(platform.listRequestsByResponder(user2)).toEqual([request]);
+    expect(platform.listActiveRequestsByResponder(user1)).toEqual([]);
+    expect(platform.listActiveRequestsByResponder(user2)).toEqual([request]);
   });
 
   it("can find active blocks by responder", () => {

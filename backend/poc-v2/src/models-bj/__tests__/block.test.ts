@@ -33,8 +33,12 @@ describe("Block", () => {
 
 describe("Form Block", () => {});
 
+describe("API Block", () => {});
+
 describe("Approval Block", () => {});
 
 describe("Dependency Block", () => {});
 
 describe("Request Block", () => {});
+
+describe("Composite Block", () => {});

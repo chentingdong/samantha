@@ -44,3 +44,7 @@ export class CompositeBlock extends Block {
 export class RequestBlock extends Block {
 
 }
+
+export class DependencyBlock extends Block {
+
+}
