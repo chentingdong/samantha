@@ -1,14 +1,13 @@
 import {Context} from './context'
 import config from "../../config/cognito.json";
 import aws from "aws-sdk";
+import uuid from 'uuid';
 
 export class User {
-  readonly id: string;
-  attributes: object;
+  readonly id: string = uuid.v4();
+  attributes: object = {};
 
-  constructor(id: string, name: string, email?: string) {
-    this.id = id;
-  }
+  constructor() { }
 
   static login = () => {
     const context = Context.getInstance()
@@ -21,18 +20,21 @@ export class User {
       Username: username,
     };
     const cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
-    const user = await cognitoIdentityServiceProvider
+    const userInfo = await cognitoIdentityServiceProvider
       .adminGetUser(params)
       .promise();
 
     let attributes = {};
-    user.UserAttributes.forEach((attr: object) => {
+    userInfo.UserAttributes?.forEach((attr: object) => {
       attributes[attr.Name] = attr.Value;
     });
-    delete(user.UserAttributes)
-    user['attributes'] = attributes;
+
+    let user = new User();
+    user.attributes = attributes;
+
     const context = Context.getInstance()
     context.set('user', user)
+
     return user;
   }
 
@@ -43,7 +45,7 @@ export class User {
     };
     const cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
     const data = await cognitoIdentityServiceProvider.listUsers(params).promise();
-    const users = data.Users.map((u: object) => {
+    const users = data.Users?.map((u: object) => {
       let attributes = {};
       u.Attributes.forEach((attr: object) => {
         attributes[attr.Name] = attr.Value;
