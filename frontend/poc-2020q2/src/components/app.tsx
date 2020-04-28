@@ -57,7 +57,7 @@ export const App = () => {
   return (
     <div className="app wrapper vh-100">
       {state.isAuthenticated && (
-        <div className="btn float-right" onClick={logout}>
+        <div className="btn btn-light float-right" onClick={logout}>
           logout
         </div>
       )}
