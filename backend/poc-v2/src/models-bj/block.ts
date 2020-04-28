@@ -1,12 +1,12 @@
+import uuid from 'uuid';
+import { BlockDef } from './block-def';
+
 export class Block {
-  readonly id: string;
-  name: string;
-  description?: string;
+  readonly id: string = uuid.v4();
+  definition: BlockDef;
   
-  constructor(id: string, name: string, description?: string) {
-    this.id = id;
-    this.name = name;
-    if (description) this.description = description;
+  constructor(definition: BlockDef) {
+    this.definition = definition;
   }
 }
 
