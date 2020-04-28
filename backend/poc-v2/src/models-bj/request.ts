@@ -3,7 +3,6 @@ import { User } from "./user";
 import uuid from 'uuid';
 
 export enum State {
-  PENDING = "pending",
   ACTIVE = "active",
   COMPLETE = "complete"
 }
@@ -20,7 +19,7 @@ export class Request {
   constructor(title: string, description?: string) {
     this.title = title;    
     if (description) this.description = description;
-    this.state = State.PENDING
+    this.state = State.ACTIVE;
   }
 
   getRequestorsView() { }

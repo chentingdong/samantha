@@ -1,7 +1,19 @@
 import { BlockDef } from "../block-def";
 
-describe("Block Def", () => {
-  it.todo("should have a name");
+class TestBlockDef extends BlockDef {
+  execute(): void {
+    console.log(this.name);
+  }
+}
 
-  it.todo("should have an execute function");
+export let testBlockDef = new TestBlockDef("test block def");
+
+describe("Block Def", () => {
+  it("should have a name", () => {
+    expect(testBlockDef.name).toBe("test block def");
+  });
+
+  it("should have an execute function", () => {
+    expect(testBlockDef.execute).toBeDefined();
+  });
 });

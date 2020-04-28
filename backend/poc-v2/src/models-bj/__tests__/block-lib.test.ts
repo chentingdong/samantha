@@ -1,11 +1,16 @@
-import { BlockLib } from "../block-lib";
+import { blockLib } from "../block-lib";
+import { testBlockDef } from "./block-def.test";
 
 describe("Block Lib", () => {
-  it.todo("should contain a list of block defs");
+  it("can add block defs", () => {
+    blockLib.add(testBlockDef);
+  });
 
-  it.todo("can add block defs");
+  it("should contain block defs", () => {
+    expect(blockLib.definitions.size).toBeGreaterThanOrEqual(0);
+  });
 
-  it.todo("can find block defs by name");
-
-  it.todo("find block defs by name should always return the same references");
+  it("can find block defs by name", () => {
+    expect(blockLib.find(testBlockDef.name)).toBe(testBlockDef);
+  });
 });
