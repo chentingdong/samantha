@@ -3,7 +3,7 @@ import Amplify, { Auth, Hub } from 'aws-amplify'
 import { useEffect, useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
 import Routes from './routes/routes'
-import './../assets/scss/app.scss'
+import '../assets/scss/app.scss'
 import { Context } from './context/store'
 import config from '../../configs/config'
 import { getUser, getUsers } from './user'
@@ -18,9 +18,6 @@ export const App = () => {
       const userInfo = await Auth.currentUserPoolUser()
       if (userInfo) {
         dispatch({ type: 'authenticate', isAuthenticated: true })
-        console.log(`user logged in. ${JSON.stringify(userInfo)}`)
-      } else {
-        console.log('not logged in')
       }
     }
     checkLogin()
@@ -56,11 +53,6 @@ export const App = () => {
 
   return (
     <div className="app wrapper vh-100">
-      {state.isAuthenticated && (
-        <div className="btn btn-light float-right" onClick={logout}>
-          logout
-        </div>
-      )}
       <Routes />
     </div>
   )

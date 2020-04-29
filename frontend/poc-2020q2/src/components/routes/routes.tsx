@@ -2,7 +2,7 @@ import * as React from 'react'
 import { BrowserRouter, Switch } from 'react-router-dom'
 import PublicRoute from './public-routes'
 import PrivateRoute from './private-routes'
-import VirtualAssistant from '../pages/virtual-assistant'
+import VirtualAssistant from '../pages/virtual-assistant.js'
 import Login from '../pages/login'
 import NotFound from '../pages/not-found'
 
