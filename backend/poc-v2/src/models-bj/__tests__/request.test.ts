@@ -1,7 +1,7 @@
 import { Request, State } from "../request";
 import { Block } from "../block";
 import { BlockDef } from "../block-def";
-import { blockLib } from "../block-lib";
+import { blockCatalog } from "../block-catalog";
 import { user1, user2 } from "./user.test";
 import { testBlockDef } from "./block-def.test";
 
@@ -43,9 +43,9 @@ describe("Request", () => {
     expect(activeBlocks.length).toBe(0);
   });
 
-  it.todo("can return requestor view");
+  it.todo("can return request surface");
 
-  it.todo("can return responder view");
+  it.todo("can return response surface");
 
   it("can manual complete", () => {
     request.complete();
