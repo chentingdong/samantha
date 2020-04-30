@@ -1,7 +1,7 @@
 import * as React from 'react'
 import FormBuilder from 'react-form-builder2'
 
-function CreateRequestDef() {
+function CreateBlockDef() {
   let items = [
     {
       key: 'Header',
@@ -40,4 +40,4 @@ function CreateRequestDef() {
   )
 }
 
-export { CreateRequestDef }
+export { CreateBlockDef }

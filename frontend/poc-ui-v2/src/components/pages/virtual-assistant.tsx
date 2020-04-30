@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Tab, Nav, Row, Col } from 'react-bootstrap'
 import { Requests, RequestsMade, RequestsReceived } from '../request/requests'
 import { RequestDefsMenu } from '../request/request-defs-menu'
-import { CreateRequestDef } from '../request/create-block-def'
+import { CreateRequestDef } from '../block/create-block-def'
 import { Context } from '../context/store'
 import { useContext, useState } from 'react'
 
