@@ -10,6 +10,9 @@ type State = {
   blocks: []
   blockDefinitions: []
   messages: []
+  uiComponent: {
+    showCreateRequestDef: boolean
+  }
 }
 
 const initialState: State = {
@@ -20,6 +23,9 @@ const initialState: State = {
   blocks: [],
   blockDefinitions: [],
   messages: [],
+  uiComponent: {
+    showCreateRequestDef: false,
+  },
 }
 
 const Store: React.FC = ({ children }) => {

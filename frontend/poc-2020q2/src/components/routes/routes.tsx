@@ -35,6 +35,7 @@ function Routes() {
               path={route.path}
               component={route.component}
               key={index}
+              className="vh-100"
             />
           )
         })}
