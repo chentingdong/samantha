@@ -10,10 +10,6 @@ describe("Request Catalog", () => {
     testRequestCatalog = new RequestCatalog();
   });
 
-  afterEach(() => {
-    testRequestCatalog.requestDefinitions.clear();
-  });
-
   it("should contain request defs", () => {
     expect(testRequestCatalog.requestDefinitions.size).toBeGreaterThanOrEqual(
       0

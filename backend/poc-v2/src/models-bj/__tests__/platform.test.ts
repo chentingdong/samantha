@@ -1,16 +1,22 @@
 import { platform } from "../platform";
 import { Request } from "../request";
 import { Block } from "../block";
-import { testBlockDef } from "./block-def.test";
-import { user1, user2 } from "./user.test";
+import { TestBlockDef } from "./block-def.test";
+import { User } from "../user";
 
 describe("Platform", () => {
-  const testBlock = new Block(testBlockDef);
-  const request = new Request("test title");
+  const user1 = new User("Dolores");
+  const user2 = new User("Caleb");
+  const testBlockDef = new TestBlockDef("test block def");
+
+  let testBlock: Block;
+  let request: Request;
 
   beforeAll(() => {
+    request = new Request("test request title");
     request.setRequestor(user1);
     request.addResponder(user2);
+    testBlock = new Block(testBlockDef);
     request.addBlock(testBlock);
     platform.addRequest(request);
     testBlock.start();

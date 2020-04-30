@@ -11,10 +11,6 @@ describe("Block Catalog", () => {
     testBlockCatalog.add(testBlockDef);
   });
 
-  afterEach(() => {
-    testBlockCatalog.blockDefinitions.clear();
-  });
-
   it("can add block defs", () => {
     expect(testBlockCatalog.blockDefinitions.size).toBeGreaterThanOrEqual(0);
     testBlockCatalog.add(testBlockDef);

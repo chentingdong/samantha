@@ -6,9 +6,9 @@ export class TestBlockDef extends BlockDef {
   }
 }
 
-export const testBlockDef = new TestBlockDef("test block def");
-
 describe("Block Def", () => {
+  const testBlockDef = new TestBlockDef("test block def");
+
   it("should have a name", () => {
     expect(testBlockDef.name).toBe("test block def");
   });
