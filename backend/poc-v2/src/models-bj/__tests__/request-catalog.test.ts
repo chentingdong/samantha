@@ -1,16 +1,31 @@
-import { requestCatalog } from "../request-catalog";
-import { testRequestDef } from "./request-def.test";
+import { RequestCatalog } from "../request-catalog";
+import { RequestDef } from "../request-def";
 
 describe("Request Catalog", () => {
-  it("can add request defs", () => {
-    requestCatalog.add(testRequestDef);
+  let testRequestDef: RequestDef;
+  let testRequestCatalog: RequestCatalog;
+
+  beforeEach(() => {
+    testRequestDef = new RequestDef("test request def");
+    testRequestCatalog = new RequestCatalog();
+  });
+
+  afterEach(() => {
+    testRequestCatalog.requestDefinitions.clear();
   });
 
   it("should contain request defs", () => {
-    expect(requestCatalog.requestDefinitions.size).toBeGreaterThanOrEqual(0);
+    expect(testRequestCatalog.requestDefinitions.size).toBeGreaterThanOrEqual(
+      0
+    );
+    testRequestCatalog.add(testRequestDef);
+    expect(testRequestCatalog.requestDefinitions.size).toBeGreaterThanOrEqual(
+      1
+    );
   });
 
   it("can find request defs by name", () => {
-    expect(requestCatalog.find(testRequestDef.name)).toBe(testRequestDef);
+    testRequestCatalog.add(testRequestDef);
+    expect(testRequestCatalog.find(testRequestDef.name)).toBe(testRequestDef);
   });
 });

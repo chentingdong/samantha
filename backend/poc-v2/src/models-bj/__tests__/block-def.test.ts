@@ -1,6 +1,6 @@
 import { BlockDef } from "../block-def";
 
-class TestBlockDef extends BlockDef {
+export class TestBlockDef extends BlockDef {
   execute(): void {
     console.log(this.name);
   }

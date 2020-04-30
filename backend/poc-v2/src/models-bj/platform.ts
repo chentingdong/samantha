@@ -2,7 +2,7 @@ import { Request } from "./request";
 import { User } from "./user";
 import { Block } from "./block";
 
-class Platform {
+export class Platform {
   requests: Request[] = [];
 
   addRequest(request: Request) {
