@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Tab, Nav, Row, Col } from 'react-bootstrap'
 import { Requests, RequestsMade, RequestsReceived } from '../request/requests'
 import { RequestDefsMenu } from '../request/request-defs-menu'
-import { CreateRequestDef } from '../block/create-block-def'
+import { CreateRequestDef } from '../request/create-request-def'
 import { Context } from '../context/store'
 import { useContext, useState } from 'react'
 
@@ -19,7 +19,7 @@ function VirtualAssistant() {
     <div className="container-fluid">
       <div
         className="btn btn-link col-2 offset-10"
-        style={{ top: '0', right: '0', zIndex: '100' }}
+        style={{ top: '0', right: '0', zIndex: 100 }}
         onClick={toggleCreateRequestDef}
       >
         {showCreateRequestDef ? (
@@ -31,7 +31,7 @@ function VirtualAssistant() {
       {showCreateRequestDef && (
         <div
           className="col-10 offset-2 position-fixed bg-white"
-          style={{ zIndex: '5' }}
+          style={{ zIndex: 5 }}
         >
           <CreateRequestDef />
         </div>

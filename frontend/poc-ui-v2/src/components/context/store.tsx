@@ -2,17 +2,23 @@ import React from 'react'
 import 'regenerator-runtime/runtime.js'
 import { reducer, Action } from './reducer'
 
+type UiState = {
+  showCreateRequestDef: boolean
+}
+
+const uiState = {
+  showCreateRequestDef: false,
+}
+
 type State = {
   isAuthenticated: boolean
-  user: {}
+  user: object
   users: []
   currentBlock: {}
   blocks: []
   blockDefinitions: []
   messages: []
-  uiComponent: {
-    showCreateRequestDef: boolean
-  }
+  uiState: UiState
 }
 
 const initialState: State = {
@@ -23,9 +29,7 @@ const initialState: State = {
   blocks: [],
   blockDefinitions: [],
   messages: [],
-  uiComponent: {
-    showCreateRequestDef: false,
-  },
+  uiState: uiState,
 }
 
 const Store: React.FC = ({ children }) => {
