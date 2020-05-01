@@ -5,7 +5,7 @@ type Action =
   | { type: 'authenticate'; isAuthenticated: boolean }
   | { type: 'setUser'; user: object }
   | { type: 'setUsers'; users: [] }
-  | { type: 'setUiComponent'; uiComponent: object }
+  | { type: 'setUiState'; uiState: object }
 
 const reducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
@@ -24,10 +24,10 @@ const reducer = (state: State = initialState, action: Action) => {
         ...state,
         users: action.users,
       }
-    case 'setUiComponent':
+    case 'setUiState':
       return {
         ...state,
-        uiComponent: action.uiComponent,
+        uiState: action.uiState,
       }
     default:
       return state

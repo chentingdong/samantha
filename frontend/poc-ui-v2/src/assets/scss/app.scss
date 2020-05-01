@@ -1,9 +1,13 @@
-@import './variables.scss';
-@import '~react-form-builder2/dist/app.css';
+@import "./variables.scss";
+@import "~react-form-builder2/dist/app.css";
 
 .app {
   font-family: helvetica, arial, sans-serif;
+  color: #000;
 
+  h2 {
+    padding: 20px 0;
+  }
   .vh-75 {
     height: 75vh !important;
   }

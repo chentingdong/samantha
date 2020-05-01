@@ -22,8 +22,12 @@
     "start": "yarn run start-dev",
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --https --port 2000",
     "start-prod": "yarn run build && node express.js --https --port 2021",
-    "test": "jest --coverage --watchAll --config=configs/jest.json",
+    "test": "jest",
     "postinstall": "cd node_modules/react-bootstrap && yarn install"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "verbose": true
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
