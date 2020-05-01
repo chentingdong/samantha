@@ -4,7 +4,7 @@ import { State, initialState } from './store'
 type Action =
   | { type: 'authenticate'; isAuthenticated: boolean }
   | { type: 'setUser'; user: object }
-  | { type: 'setUsers'; users: [] }
+  | { type: 'setUsers'; users: object[] }
   | { type: 'setUiState'; uiState: object }
 
 const reducer = (state: State = initialState, action: Action) => {

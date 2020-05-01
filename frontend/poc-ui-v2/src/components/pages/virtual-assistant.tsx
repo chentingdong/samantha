@@ -45,9 +45,11 @@ function VirtualAssistant() {
           </div>
         </Tab.Container>
       </main>
-      <footer className="vh-25 overflow-scroll border-top">
+      <footer className="vh-25 overflow-scroll border-top small">
         <h5>context state</h5>
-        <pre>{JSON.stringify(state, null, 2)}</pre>
+        <pre>
+          <code>{JSON.stringify(state, null, 2)}</code>
+        </pre>
       </footer>
     </div>
   )

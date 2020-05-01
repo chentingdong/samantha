@@ -1,6 +1,11 @@
 [
   {
-    "name": "form",
+    "name": "intake a form",
+    "description": "ask responder(s) to intake a form",
+    "form": {}
+  },
+  {
+    "name": "approval",
     "description": "ask responder(s) to intake a form",
     "form": {}
   }

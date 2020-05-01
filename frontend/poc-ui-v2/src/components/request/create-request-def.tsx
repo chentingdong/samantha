@@ -18,6 +18,7 @@ const CreateRequestDef = (props) => {
           return (
             <>
               <h5>{blockDef.name}</h5>
+              <p>{blockDef.description}</p>
             </>
           )
         })}

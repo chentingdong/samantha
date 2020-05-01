@@ -2,23 +2,15 @@ import React from 'react'
 import 'regenerator-runtime/runtime.js'
 import { reducer, Action } from './reducer'
 
-type UiState = {
-  showCreateRequestDef: boolean
-}
-
-const uiState = {
-  showCreateRequestDef: false,
-}
-
-type State = {
+interface State {
   isAuthenticated: boolean
   user: object
-  users: []
-  currentBlock: {}
-  blocks: []
-  blockDefinitions: []
-  messages: []
-  uiState: UiState
+  users: object[]
+  currentBlock: object
+  blocks: object[]
+  blockDefinitions: object[]
+  messages: object[]
+  uiState: object
 }
 
 const initialState: State = {
@@ -29,7 +21,9 @@ const initialState: State = {
   blocks: [],
   blockDefinitions: [],
   messages: [],
-  uiState: uiState,
+  uiState: {
+    showCreateRequestDef: false,
+  },
 }
 
 const Store: React.FC = ({ children }) => {
@@ -47,4 +41,4 @@ const Context = React.createContext<{
   dispatch: () => {},
 })
 
-export { State, initialState, Context, Store, Action }
+export { State, initialState, Context, Store }
