@@ -1,9 +1,10 @@
 import React, { FC, useState, useContext } from 'react'
 import blockDefs from '../../../data/blockDefs.json'
-import { Context } from '../context/store'
 
 const CreateRequestDef = (props) => {
-  const { state, dispatch } = useContext(Context)
+  const addBlockToRequest = (e) => {
+    console.log(e.target)
+  }
 
   return (
     <div className="row h-100">
@@ -11,17 +12,23 @@ const CreateRequestDef = (props) => {
         <h2>Create Request Def</h2>
         <p>Request description</p>
         <p>Request Owner</p>
+        {}
       </main>
-      <aside className="flex-column col-4 border-left border-gray">
+      <aside className="flex-column col-4 border-left border-gray row">
         <h2>Block Palette</h2>
-        {blockDefs.map((blockDef) => {
-          return (
-            <>
-              <h5>{blockDef.name}</h5>
-              <p>{blockDef.description}</p>
-            </>
-          )
-        })}
+        <div className="row">
+          {blockDefs.map((blockDef, index) => {
+            return (
+              <div className="card p-3 m-2 col-4 border-dark" key={index}>
+                <h4>{blockDef.name}</h4>
+                <p>{blockDef.description}</p>
+                <button className="btn btn-light" onClick={addBlockToRequest}>
+                  +
+                </button>
+              </div>
+            )
+          })}
+        </div>
       </aside>
     </div>
   )

@@ -3,7 +3,7 @@ import * as React from 'react'
 function Requests() {
   return (
     <div>
-      <h2>Request Made</h2>
+      <h2>TODO: Request Made</h2>
     </div>
   )
 }
@@ -11,7 +11,7 @@ function Requests() {
 function RequestsMade() {
   return (
     <div>
-      <h2>Request Made</h2>
+      <h2>TODO: Request Made</h2>
     </div>
   )
 }
@@ -19,7 +19,7 @@ function RequestsMade() {
 function RequestsReceived() {
   return (
     <div>
-      <h2>Request Received</h2>
+      <h2>TODDO: Request Received</h2>
     </div>
   )
 }

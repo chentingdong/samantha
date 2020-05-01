@@ -22,7 +22,7 @@ const initialState: State = {
   blockDefinitions: [],
   messages: [],
   uiState: {
-    showCreateRequestDef: false,
+    showCreateRequestDef: true,
   },
 }
 

@@ -13,7 +13,7 @@ function RequestDefsMenu() {
     dispatch({
       type: 'setUiState',
       uiState: {
-        showCreateRequestDef: !state.uiState.showCreateRequestDef,
+        showCreateRequestDef: !state.uiState['showCreateRequestDef'],
       },
     })
   }
@@ -28,17 +28,17 @@ function RequestDefsMenu() {
           style={{ zIndex: 100 }}
           onClick={toggleCreateRequestDef}
         >
-          {state.uiState.showCreateRequestDef ? (
+          {state.uiState['showCreateRequestDef'] ? (
             <span>Return to menu</span>
           ) : (
             <span>Add Request to Menu</span>
           )}
         </div>
       </div>
-      {state.uiState.showCreateRequestDef && (
+      {state.uiState['showCreateRequestDef'] && (
         <div
           id="createRequestDef"
-          className="col-12 position-absolute bg-light vh-75"
+          className="col-12 position-absolute bg-light vh-100"
           style={{ top: '0', zIndex: 5 }}
         >
           <CreateRequestDef />

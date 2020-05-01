@@ -31,13 +31,13 @@ function VirtualAssistant() {
             </div>
             <div className="col-10 pt-2">
               <Tab.Content>
-                <Tab.Pane eventKey="requestMenu" className="vh-75">
+                <Tab.Pane eventKey="requestMenu" className="vh-100">
                   <RequestDefsMenu></RequestDefsMenu>
                 </Tab.Pane>
-                <Tab.Pane eventKey="requestMade" className="vh-75">
+                <Tab.Pane eventKey="requestMade" className="vh-100">
                   <RequestsMade></RequestsMade>
                 </Tab.Pane>
-                <Tab.Pane eventKey="requestReceived" className="vh-75">
+                <Tab.Pane eventKey="requestReceived" className="vh-100">
                   <RequestsReceived></RequestsReceived>
                 </Tab.Pane>
               </Tab.Content>
