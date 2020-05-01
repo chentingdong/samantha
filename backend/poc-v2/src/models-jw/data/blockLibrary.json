@@ -1,0 +1,28 @@
+{
+  "simpleBlocks": [
+    {
+      "id": "id001",
+      "name": "intake-form",
+      "description": "fill a form",
+      "config": {},
+      "data": {}
+    },
+    {
+      "id": "id002",
+      "name": "get-approval",
+      "description": "get approval",
+      "config": {},
+      "data": {}
+    },
+    {
+      "id": "id003",
+      "name": "form-review",
+      "description": "get review notes",
+      "config": {},
+      "data": {}
+    }
+  ],
+  "compositeBlocks": [
+    {}
+  ]
+}
