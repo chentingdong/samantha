@@ -45,6 +45,10 @@ export class Block {
     this.state = State.COMPLETE;
     return true;
   }
+
+  public toDTO(): Object {
+    return this;
+  }
 }
 
 export class CompositeBlock extends Block {
@@ -56,5 +60,13 @@ export class CompositeBlock extends Block {
 
   public listActiveBlocks(): Block[] {
     return this.blocks.filter((block) => block.state == State.ACTIVE);
-  }  
+  }
+
+  public toDTO(includeBlocks?: boolean): Object {
+    const clone = _.cloneDeep(this);
+    if (!includeBlocks) {
+      delete clone.blocks;
+    }
+    return clone;
+  }
 }
