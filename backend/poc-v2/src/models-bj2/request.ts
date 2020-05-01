@@ -1,7 +1,6 @@
 import { CompositeBlock } from "./block";
+import { Context } from "./context";
 
 export class Request extends CompositeBlock {
-  getRequestorsView() {}
-
-  getRespondersView() {}
+  context: Context = new Context();
 }
