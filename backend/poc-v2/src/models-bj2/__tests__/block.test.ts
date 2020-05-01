@@ -45,7 +45,7 @@ describe("Block", () => {
   });
 
   it("can clone itself with same users", () => {
-    const clone = block.clone();
+    const clone = block.clone(null);
     expect(clone).not.toBe(block);
     expect(clone.id).not.toEqual(block.id);
     expect(clone.name).toBe("test block");
@@ -54,7 +54,7 @@ describe("Block", () => {
   });
 
   it("can clone itself with different users", () => {
-    const clone = block.clone([user1], [user2]);
+    const clone = block.clone(null, [user1], [user2]);
     expect(clone).not.toBe(block);
     expect(clone.id).not.toEqual(block.id);
     expect(clone.name).toBe("test block");
@@ -83,7 +83,7 @@ describe("Composite Block", () => {
   });
 
   it("can clone itself including sub blocks", () => {
-    let clone = compositeBlock.clone();
+    let clone = compositeBlock.clone(null);
     expect(clone).not.toBe(compositeBlock);
     expect(clone.id).not.toEqual(compositeBlock.id);
     expect(clone.name).toBe("test composite block");
