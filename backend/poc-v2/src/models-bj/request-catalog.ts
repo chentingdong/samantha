@@ -1,6 +1,6 @@
 import { RequestDef } from "./request-def";
 
-class RequestCatalog {
+export class RequestCatalog {
   requestDefinitions = new Map<string, RequestDef>();
 
   add(requestDef: RequestDef) {

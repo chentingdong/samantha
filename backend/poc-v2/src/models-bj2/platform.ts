@@ -10,19 +10,17 @@ export class Platform {
   }
 
   listActiveRequestsByRequestor(requestor: User) {
-    return this.requests.filter((req) => req.requestor == requestor);
+    return this.requests.filter((req) => req.requestors.includes(requestor));
   }
 
   listActiveRequestsByResponder(responder: User) {
-    return this.requests.filter(
-      (req) => req.responders.indexOf(responder) != -1
-    );
+    return this.requests.filter((req) => req.responders.includes(responder));
   }
 
   listActiveBlocksByResponder(responder: User) {
     let results: Block[] = [];
     this.requests.map((req) => {
-      if (req.responders.indexOf(responder) != -1) {
+      if (req.responders.includes(responder)) {
         results = [...results, ...req.listActiveBlocks()];
       }
     });

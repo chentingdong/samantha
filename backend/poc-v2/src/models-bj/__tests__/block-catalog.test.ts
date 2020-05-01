@@ -1,16 +1,24 @@
-import { blockCatalog } from "../block-catalog";
-import { testBlockDef } from "./block-def.test";
+import { BlockCatalog } from "../block-catalog";
+import { TestBlockDef } from "./block-def.test";
 
 describe("Block Catalog", () => {
-  it("can add block defs", () => {
-    blockCatalog.add(testBlockDef);
+  let testBlockDef: TestBlockDef;
+  let testBlockCatalog: BlockCatalog;
+
+  beforeEach(() => {
+    testBlockDef = new TestBlockDef("test block def");
+    testBlockCatalog = new BlockCatalog();
+    testBlockCatalog.add(testBlockDef);
   });
 
-  it("should contain block defs", () => {
-    expect(blockCatalog.blockDefinitions.size).toBeGreaterThanOrEqual(0);
+  it("can add block defs", () => {
+    expect(testBlockCatalog.blockDefinitions.size).toBeGreaterThanOrEqual(0);
+    testBlockCatalog.add(testBlockDef);
+    expect(testBlockCatalog.blockDefinitions.size).toBeGreaterThanOrEqual(1);
   });
 
   it("can find block defs by name", () => {
-    expect(blockCatalog.find(testBlockDef.name)).toBe(testBlockDef);
+    testBlockCatalog.add(testBlockDef);
+    expect(testBlockCatalog.find(testBlockDef.name)).toBe(testBlockDef);
   });
 });

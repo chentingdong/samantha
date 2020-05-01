@@ -1,7 +1,8 @@
 import { Block, State } from "../block";
-import { testBlockDef } from "./block-def.test";
+import { TestBlockDef } from "./block-def.test";
 
 describe("Block", () => {
+  const testBlockDef = new TestBlockDef("test block def");
   const testBlock = new Block(testBlockDef);
 
   it("should have an id", () => {

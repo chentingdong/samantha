@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noResolve": false,
+    "removeComments": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es6",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "lib": ["es6", "dom"],
+    "resolveJsonModule": true
+  },
+  "exclude": ["./node_modules/**/*"],
+  "include": ["./src/**/*"],
+  "awesomeTypescriptLoaderOptions": {
+    "reportFiles": ["./src/**/*"]
+  }
+}

@@ -1,6 +1,6 @@
 import { BlockDef } from "./block-def";
 
-class BlockCatalog {
+export class BlockCatalog {
   blockDefinitions = new Map<string, BlockDef>();
 
   add(blockDef: BlockDef) {

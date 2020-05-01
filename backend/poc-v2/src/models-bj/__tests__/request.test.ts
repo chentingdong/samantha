@@ -1,13 +1,14 @@
 import { Request, State } from "../request";
 import { Block } from "../block";
-import { BlockDef } from "../block-def";
-import { blockCatalog } from "../block-catalog";
-import { user1, user2 } from "./user.test";
-import { testBlockDef } from "./block-def.test";
+import { TestBlockDef } from "./block-def.test";
+import { User } from "../user";
 
 describe("Request", () => {
   const request = new Request("test title");
+  const testBlockDef = new TestBlockDef("test block def");
   const testBlock = new Block(testBlockDef);
+  const user1 = new User("Dolores");
+  const user2 = new User("Caleb");
 
   it("should have a title", () => {
     expect(request.title).toBe("test title");
