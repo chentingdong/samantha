@@ -1,11 +1,13 @@
 import React from 'react'
-import { State, initialState } from './store'
+import { State, initialState, UiState, RequestDef, BlockDef } from './store'
 
 type Action =
   | { type: 'authenticate'; isAuthenticated: boolean }
   | { type: 'setUser'; user: object }
   | { type: 'setUsers'; users: object[] }
-  | { type: 'setUiState'; uiState: object }
+  | { type: 'setUiState'; uiState: UiState }
+  | { type: 'saveRequestDefs'; requestDefs: RequestDef[] }
+  | { type: 'saveBlockDefs'; blockDefs: BlockDef[] }
 
 const reducer = (state: State = initialState, action: Action) => {
   switch (action.type) {
@@ -28,6 +30,17 @@ const reducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         uiState: action.uiState,
+      }
+    case 'saveRequestDefs':
+      return {
+        ...state,
+        currentRequestDef: {},
+        requestDefs: action.requestDefs,
+      }
+    case 'saveBlockDefs':
+      return {
+        ...state,
+        blockDefs: action.blockDefs,
       }
     default:
       return state

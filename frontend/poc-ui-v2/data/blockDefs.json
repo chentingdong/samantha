@@ -1,12 +1,34 @@
 [
   {
+    "id": "1",
     "name": "intake a form",
     "description": "ask responder(s) to intake a form",
+    "requester": "",
+    "responders": [],
     "form": {}
   },
   {
+    "id": "2",
     "name": "approval",
     "description": "ask responder(s) to intake a form",
+    "requester": "",
+    "responders": [],
+    "form": {}
+  },
+  {
+    "id": "3",
+    "name": "add a teammate",
+    "description": "add a teammate is a sub request?",
+    "requester": "",
+    "responders": [],
+    "form": {}
+  },
+  {
+    "id": "4",
+    "name": "collect timesheet",
+    "description": "collect timesheets from team",
+    "requester": "",
+    "responders": [],
     "form": {}
   }
 ]

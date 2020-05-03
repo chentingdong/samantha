@@ -1,13 +1,15 @@
 import * as React from 'react'
 import requestDefs from '../../../data/requestDefs.json'
-import { useState } from 'react'
+import { useEffect } from 'react'
 import { CreateRequestDef } from './create-request-def'
 import { Context } from '../context/store'
 
 function RequestDefsMenu() {
-  // TODO: context ui component
-  // const [showCreateRequestDef, setShowCreateRequestDef] = useState(false)
   const { state, dispatch } = React.useContext(Context)
+
+  useEffect(() => {
+    dispatch({ type: 'saveRequestDefs', requestDefs: requestDefs })
+  }, [requestDefs])
 
   const toggleCreateRequestDef = () => {
     dispatch({
