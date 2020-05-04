@@ -1,0 +1,29 @@
+{
+  "isAuthenticated": false,
+  "user": {},
+  "users": [],
+  "currentRequest": {
+    "id": "",
+    "name": "",
+    "description": "",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  "requestDefs": [],
+  "currentBlock": {
+    "id": "",
+    "name": "",
+    "description": "",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "form": {}
+  },
+  "blockDefs": [],
+  "messages": [],
+  "uiState": {
+    "showCreateRequestDef": true
+  }
+}

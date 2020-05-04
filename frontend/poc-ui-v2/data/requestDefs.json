@@ -4,17 +4,17 @@
     "name": "default",
     "description": "empty request wrapper",
     "state": "pending",
-    "blocks": [],
     "requester": "",
-    "responders": []
+    "responders": [],
+    "blocks": []
   },
   {
     "id": "2",
     "name": "request def 2",
     "description": "request 2 description",
     "state": "pending",
-    "blocks": [],
     "requester": "",
-    "responders": []
+    "responders": [],
+    "blocks": []
   }
 ]

@@ -1,21 +1,15 @@
 import * as React from 'react'
-import requestDefs from '../../../data/requestDefs.json'
-import { useEffect } from 'react'
 import { CreateRequestDef } from './create-request-def'
 import { Context } from '../context/store'
 
 function RequestDefsMenu() {
   const { state, dispatch } = React.useContext(Context)
 
-  useEffect(() => {
-    dispatch({ type: 'saveRequestDefs', requestDefs: requestDefs })
-  }, [requestDefs])
-
   const toggleCreateRequestDef = () => {
     dispatch({
       type: 'setUiState',
       uiState: {
-        showCreateRequestDef: !state.uiState['showCreateRequestDef'],
+        showCreateRequestDef: !state.uiState.showCreateRequestDef,
       },
     })
   }
@@ -46,15 +40,22 @@ function RequestDefsMenu() {
           <CreateRequestDef />
         </div>
       )}
-      {requestDefs.map((requestDef, index) => {
-        return (
-          <div key={`request-${index}`} className="card mt-2 p-2">
-            <h4>{requestDef.name}</h4>
-            <p>{requestDef.description}</p>
-            <p>{requestDef.requester}</p>
-          </div>
-        )
-      })}
+      {state.requestDefs &&
+        state.requestDefs.map((requestDef, index) => {
+          return (
+            <div key={`request-${index}`} className="card mt-2 p-2">
+              <h4>{requestDef.name}</h4>
+              <p>{requestDef.description}</p>
+              <p>{requestDef.requester}</p>
+              <p>
+                {requestDef.blocks &&
+                  requestDef.blocks.map((block, index2) => {
+                    return <span key={`block-${index2}`}>{block.name}</span>
+                  })}
+              </p>
+            </div>
+          )
+        })}
     </div>
   )
 }
