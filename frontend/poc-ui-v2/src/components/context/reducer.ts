@@ -1,6 +1,5 @@
 import React from 'react'
 import { State, UiState, RequestDef, BlockDef } from './interface'
-import { initialState } from './store'
 
 // TODO: rewrite this when make sense.
 type Action =
@@ -12,7 +11,7 @@ type Action =
   | { type: 'saveCurrentRequest'; currentRequest: RequestDef }
   | { type: 'saveBlockDefs'; blockDefs: BlockDef[] }
 
-const reducer = (state: State = initialState, action: Action) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'authenticate':
       return {

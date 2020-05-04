@@ -18,6 +18,8 @@ export const App = () => {
       const userInfo = await Auth.currentUserPoolUser()
       if (userInfo) {
         dispatch({ type: 'authenticate', isAuthenticated: true })
+        const user = await getUser()
+        dispatch({ type: 'setUser', user: user })
       }
     }
     checkLogin()
