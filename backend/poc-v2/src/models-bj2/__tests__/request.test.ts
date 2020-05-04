@@ -23,7 +23,6 @@ describe("Request", () => {
   it("should return response surface for responder", () => {
     const surface = request.getSurface(user2);
     expect(surface).toHaveProperty("blocks");
-    console.log(surface);
   });
 
   it("should return null for non user", () => {

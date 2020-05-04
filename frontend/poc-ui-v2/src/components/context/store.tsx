@@ -1,30 +1,8 @@
 import React from 'react'
 import 'regenerator-runtime/runtime.js'
 import { reducer, Action } from './reducer'
-
-interface State {
-  isAuthenticated: boolean
-  user: object
-  users: object[]
-  currentBlock: object
-  blocks: object[]
-  blockDefinitions: object[]
-  messages: object[]
-  uiState: object
-}
-
-const initialState: State = {
-  isAuthenticated: false,
-  user: {},
-  users: [],
-  currentBlock: {},
-  blocks: [],
-  blockDefinitions: [],
-  messages: [],
-  uiState: {
-    showCreateRequestDef: false,
-  },
-}
+import { State } from './interface'
+import initialState from '../../../data/initialState.json'
 
 const Store: React.FC = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
@@ -41,4 +19,4 @@ const Context = React.createContext<{
   dispatch: () => {},
 })
 
-export { State, initialState, Context, Store }
+export { Context, Store }

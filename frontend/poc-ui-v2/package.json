@@ -75,6 +75,7 @@
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
     "react-form-builder2": "^0.4.4",
+    "react-hook-form": "^5.6.1",
     "react-hot-loader": "^4.12.20",
     "react-router-dom": "^5.1.2",
     "react-transition-group": "^4.3.0",

@@ -1,13 +1,17 @@
 import React from 'react'
-import { State, initialState } from './store'
+import { State, UiState, RequestDef, BlockDef } from './interface'
 
+// TODO: rewrite this when make sense.
 type Action =
   | { type: 'authenticate'; isAuthenticated: boolean }
   | { type: 'setUser'; user: object }
   | { type: 'setUsers'; users: object[] }
-  | { type: 'setUiState'; uiState: object }
+  | { type: 'setUiState'; uiState: UiState }
+  | { type: 'saveRequestDefs'; requestDefs: RequestDef[] }
+  | { type: 'saveCurrentRequest'; currentRequest: RequestDef }
+  | { type: 'saveBlockDefs'; blockDefs: BlockDef[] }
 
-const reducer = (state: State = initialState, action: Action) => {
+const reducer = (state: State, action: Action) => {
   switch (action.type) {
     case 'authenticate':
       return {
@@ -28,6 +32,22 @@ const reducer = (state: State = initialState, action: Action) => {
       return {
         ...state,
         uiState: action.uiState,
+      }
+    case 'saveRequestDefs':
+      return {
+        ...state,
+        currentRequestDef: {},
+        requestDefs: action.requestDefs,
+      }
+    case 'saveCurrentRequest':
+      return {
+        ...state,
+        currentRequest: action.currentRequest,
+      }
+    case 'saveBlockDefs':
+      return {
+        ...state,
+        blockDefs: action.blockDefs,
       }
     default:
       return state
