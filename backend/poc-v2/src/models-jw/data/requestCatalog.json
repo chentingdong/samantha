@@ -12,7 +12,7 @@
       "id": "id002",
       "name": "Collect Team Timesheets",
       "description": "get Timesheets from team and send to VP",
-      "blockDefs": [],
+      "blockDefs": [{},{},{}],
       "config": {},
       "data": {},
       "tag":["TEAM", "Manager"]
