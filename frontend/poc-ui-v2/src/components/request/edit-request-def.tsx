@@ -1,22 +1,17 @@
 import uuid from 'uuid'
-import React, { FC, useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
+import initialState from '../../../data/initialState.json'
 
-const CreateRequestDef = (props) => {
+const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
-
-  console.log(state.requestDefs)
-  const defaultRequest: RequestDef = state.requestDefs.find(
-    (rd: RequestDef) => {
-      return rd.name === 'default'
-    }
-  )
+  const defaultRequest: RequestDef = initialState.currentRequest
 
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: defaultRequest,
+    defaultValues: state.currentRequest,
   })
 
   const onSumbit = (data) => {
@@ -51,13 +46,15 @@ const CreateRequestDef = (props) => {
 
     await dispatch({
       type: 'saveCurrentRequest',
-      currentRequest: { ...state.currentRequest, id: uuid.v4() },
+      currentRequest: currentRequest,
     })
 
-    await dispatch({
-      type: 'saveRequestDefs',
-      requestDefs: [...state.requestDefs, currentRequest],
-    })
+    if (state.requestDefs.indexOf(currentRequest) < 0) {
+      await dispatch({
+        type: 'saveRequestDefs',
+        requestDefs: [...state.requestDefs, currentRequest],
+      })
+    }
 
     setValue('object', {})
     await dispatch({
@@ -72,7 +69,7 @@ const CreateRequestDef = (props) => {
     dispatch({
       type: 'setUiState',
       uiState: {
-        showCreateRequestDef: false,
+        showEditRequestDef: false,
       },
     })
   }
@@ -149,4 +146,4 @@ const CreateRequestDef = (props) => {
   )
 }
 
-export { CreateRequestDef }
+export { EditRequestDef }

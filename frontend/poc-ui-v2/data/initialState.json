@@ -24,6 +24,6 @@
   "blockDefs": [],
   "messages": [],
   "uiState": {
-    "showCreateRequestDef": true
+    "showEditRequestDef": false
   }
 }

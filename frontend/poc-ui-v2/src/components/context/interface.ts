@@ -19,7 +19,7 @@ export interface BlockDef {
 }
 
 export interface UiState {
-  showCreateRequestDef: boolean
+  showEditRequestDef: boolean
 }
 
 export interface User {
