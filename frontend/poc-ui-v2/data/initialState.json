@@ -1,6 +1,9 @@
 {
   "isAuthenticated": false,
-  "user": {},
+  "user": {
+    "id": "",
+    "attributes": {}
+  },
   "users": [],
   "currentRequest": {
     "id": "",

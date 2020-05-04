@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
-import initialState from '../../../data/initialState.json'
+import { initialState } from '../context/store'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)

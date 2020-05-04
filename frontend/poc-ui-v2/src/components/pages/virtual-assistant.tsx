@@ -4,16 +4,9 @@ import { Tab, Nav, Row, Col } from 'react-bootstrap'
 import { Requests, RequestsMade, RequestsReceived } from '../request/requests'
 import { RequestDefsMenu } from '../request/request-defs-menu'
 import { Context } from '../context/store'
-import blockDefs from '../../../data/blockDefs.json'
-import requestDefs from '../../../data/requestDefs.json'
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
-
-  useEffect(() => {
-    dispatch({ type: 'saveRequestDefs', requestDefs: requestDefs })
-    dispatch({ type: 'saveBlockDefs', blockDefs: blockDefs })
-  }, [])
 
   return (
     <div className="container-fluid">

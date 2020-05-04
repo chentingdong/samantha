@@ -1,21 +1,21 @@
 export interface RequestDef {
-  id?: string
-  name?: string
-  description?: string
-  state?: string
-  requester?: string
-  responders?: string[]
-  blocks?: BlockDef[]
+  id: string
+  name: string
+  description: string
+  state: string
+  requester: string
+  responders: string[]
+  blocks: BlockDef[]
 }
 
 export interface BlockDef {
-  id?: string
-  name?: string
-  description?: string
-  state?: string
-  requester?: string
-  responders?: string[]
-  form?: object
+  id: string
+  name: string
+  description: string
+  state: string
+  requester: string
+  responders: string[]
+  form: object
 }
 
 export interface UiState {
@@ -23,8 +23,8 @@ export interface UiState {
 }
 
 export interface User {
-  id: string
-  attribute: object
+  id?: string
+  attributes?: object
 }
 
 export interface State {

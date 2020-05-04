@@ -3,6 +3,7 @@
     "id": "1",
     "name": "intake a form",
     "description": "ask responder(s) to intake a form",
+    "state": "active",
     "requester": "",
     "responders": [],
     "form": {}
@@ -11,6 +12,7 @@
     "id": "2",
     "name": "approval",
     "description": "ask responder(s) to intake a form",
+    "state": "pending",
     "requester": "",
     "responders": [],
     "form": {}
@@ -19,6 +21,7 @@
     "id": "3",
     "name": "add a teammate",
     "description": "add a teammate is a sub request?",
+    "state": "active",
     "requester": "",
     "responders": [],
     "form": {}
@@ -27,6 +30,7 @@
     "id": "4",
     "name": "collect timesheet",
     "description": "collect timesheets from team",
+    "state": "active",
     "requester": "",
     "responders": [],
     "form": {}

@@ -4,7 +4,7 @@ import { useEffect, useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
 import Routes from './routes/routes'
 import '../assets/scss/app.scss'
-import { Context } from './context/store'
+import { Context, initialState } from './context/store'
 import config from '../../configs/config'
 import { getUser, getUsers } from './user'
 
@@ -41,8 +41,8 @@ export const App = () => {
           break
         case 'signOut':
           dispatch({ type: 'authenticate', isAuthenticated: false })
-          dispatch({ type: 'setUser', user: {} })
-          dispatch({ type: 'setUsers', users: [] })
+          dispatch({ type: 'setUser', user: initialState.user })
+          dispatch({ type: 'setUsers', users: initialState.users })
           break
         case 'signIn_failure':
           console.error('user sign in failed')
@@ -55,6 +55,9 @@ export const App = () => {
 
   return (
     <div className="app wrapper vh-100">
+      <button className="btn btn-link position-absolute" onClick={logout}>
+        Log out
+      </button>
       <Routes />
     </div>
   )

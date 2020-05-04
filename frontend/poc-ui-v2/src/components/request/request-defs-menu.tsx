@@ -3,7 +3,7 @@ import uuid from 'uuid'
 import { EditRequestDef } from './edit-request-def'
 import { Context } from '../context/store'
 import { RequestDef } from '../context/interface'
-import initialState from '../../../data/initialState.json'
+import { initialState } from '../context/store'
 
 function RequestDefsMenu() {
   const { state, dispatch } = React.useContext(Context)
