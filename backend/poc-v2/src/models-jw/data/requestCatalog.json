@@ -1,0 +1,29 @@
+[
+    {
+      "id": "id001",
+      "name": "Add New Team Member",
+      "blockDefs": [],
+      "description": "Fill a needed spot",
+      "config": {},
+      "data": {},
+      "tag":["TEAM", "HR", "Manager"]
+    },
+    {
+      "id": "id002",
+      "name": "Collect Team Timesheets",
+      "description": "get Timesheets from team and send to VP",
+      "blockDefs": [{},{},{}],
+      "config": {},
+      "data": {},
+      "tag":["TEAM", "Manager"]
+    },
+    {
+      "id": "id003",
+      "name": "Project Review",
+      "description": "Get project review reports and send to Exec",
+      "blockDefs": [],
+      "config": {},
+      "data": {},
+      "tag":["TEAM", "Project", "Manager"]
+    }
+  ]
