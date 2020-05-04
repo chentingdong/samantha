@@ -8,10 +8,10 @@ import { initialState } from '../context/store'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
-  const defaultRequest: RequestDef = initialState.currentRequest
+  const defaultRequest: RequestDef = initialState.currentRequestDef
 
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: state.currentRequest,
+    defaultValues: state.currentRequestDef,
   })
 
   const onSumbit = (data) => {
@@ -25,41 +25,45 @@ const EditRequestDef: React.FC = (props) => {
       requester: state.user.id,
     })
 
-    let blocks = state.currentRequest.blocks
+    let blocks = state.currentRequestDef.blocks
     blocks.push(currentBock)
 
     dispatch({
-      type: 'saveCurrentRequest',
-      currentRequest: {
-        ...state.currentRequest,
-        id: uuid.v4(),
+      type: 'saveCurrentRequestDef',
+      currentRequestDef: {
+        ...state.currentRequestDef,
         blocks: blocks,
       },
     })
   }
 
   const saveRequestDef = async () => {
-    let currentRequest: RequestDef = Object.assign(
-      state.currentRequest,
-      getValues()
+    const found = state.requestDefs.some(
+      (rd) => rd.id === state.currentRequestDef.id
+    )
+
+    const newValues = getValues()
+    let currentRequestDef: RequestDef = Object.assign(
+      state.currentRequestDef,
+      newValues
     )
 
     await dispatch({
-      type: 'saveCurrentRequest',
-      currentRequest: currentRequest,
+      type: 'saveCurrentRequestDef',
+      currentRequestDef: currentRequestDef,
     })
 
-    if (state.requestDefs.indexOf(currentRequest) < 0) {
+    if (!found) {
       await dispatch({
         type: 'saveRequestDefs',
-        requestDefs: [...state.requestDefs, currentRequest],
+        requestDefs: [...state.requestDefs, currentRequestDef],
       })
     }
 
     setValue('object', {})
     await dispatch({
-      type: 'saveCurrentRequest',
-      currentRequest: defaultRequest,
+      type: 'saveCurrentRequestDef',
+      currentRequestDef: defaultRequest,
     })
 
     close()
@@ -96,7 +100,7 @@ const EditRequestDef: React.FC = (props) => {
             />
           </div>
           <div className="form-group col-12">
-            {state.currentRequest.blocks.map(
+            {state.currentRequestDef.blocks?.map(
               (block: BlockDef, index: number) => {
                 return (
                   <div

@@ -7,12 +7,12 @@ import { initialState } from '../context/store'
 
 function RequestDefsMenu() {
   const { state, dispatch } = React.useContext(Context)
-  const defaultRequest: RequestDef = initialState.currentRequest
+  const defaultRequest: RequestDef = initialState.currentRequestDef
 
   const createRequestDef = () => {
-    let currentRequest = defaultRequest
-    currentRequest.id = uuid.v4()
-    currentRequest.requester = state.user.id
+    let currentRequestDef = defaultRequest
+    currentRequestDef.id = uuid.v4()
+    currentRequestDef.requester = state.user.id
 
     dispatch({
       type: 'setUiState',
@@ -23,9 +23,11 @@ function RequestDefsMenu() {
   }
 
   const editRequestDef = (index: number) => {
-    let currentRequest = state.requestDefs[index]
-    currentRequest.requester = state.user.id
-    dispatch({ type: 'saveCurrentRequest', currentRequest: currentRequest })
+    let currentRequestDef = state.requestDefs[index]
+    dispatch({
+      type: 'saveCurrentRequestDef',
+      currentRequestDef: currentRequestDef,
+    })
     dispatch({
       type: 'setUiState',
       uiState: {

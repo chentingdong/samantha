@@ -1,11 +1,11 @@
 export interface RequestDef {
-  id: string
-  name: string
-  description: string
-  state: string
-  requester: string
-  responders: string[]
-  blocks: BlockDef[]
+  id?: string
+  name?: string
+  description?: string
+  state?: string
+  requester?: string
+  responders?: string[]
+  blocks?: BlockDef[]
 }
 
 export interface BlockDef {
@@ -31,9 +31,9 @@ export interface State {
   isAuthenticated: boolean
   user: User
   users: User[]
-  currentRequest: RequestDef
+  currentRequestDef: RequestDef
   requestDefs: RequestDef[]
-  currentBlock: BlockDef
+  currentBlockDef: BlockDef
   blockDefs: BlockDef[]
   messages: object[]
   uiState: UiState

@@ -8,7 +8,7 @@ type Action =
   | { type: 'setUsers'; users: object[] }
   | { type: 'setUiState'; uiState: UiState }
   | { type: 'saveRequestDefs'; requestDefs: RequestDef[] }
-  | { type: 'saveCurrentRequest'; currentRequest: RequestDef }
+  | { type: 'saveCurrentRequestDef'; currentRequestDef: RequestDef }
   | { type: 'saveBlockDefs'; blockDefs: BlockDef[] }
 
 const reducer = (state: State, action: Action) => {
@@ -39,10 +39,10 @@ const reducer = (state: State, action: Action) => {
         currentRequestDef: {},
         requestDefs: action.requestDefs,
       }
-    case 'saveCurrentRequest':
+    case 'saveCurrentRequestDef':
       return {
         ...state,
-        currentRequest: action.currentRequest,
+        currentRequestDef: action.currentRequestDef,
       }
     case 'saveBlockDefs':
       return {

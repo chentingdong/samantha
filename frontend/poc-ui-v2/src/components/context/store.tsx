@@ -14,6 +14,8 @@ const Store: React.FC = ({ children }) => {
   React.useEffect(() => {
     dispatch({ type: 'saveRequestDefs', requestDefs: requestDefs })
     dispatch({ type: 'saveBlockDefs', blockDefs: blockDefs })
+    dispatch({ type: 'setUser', user: user })
+    dispatch({ type: 'setUsers', users: users })
   }, [])
 
   return (
