@@ -27,9 +27,9 @@ function Request({ request }) {
   }
 
   return (
-    <div className="card mt-2 pt-2">
+    <div className="card mt-2">
       <div className="d-flex justify-content-between">
-        <div className="col-7" onClick={requestView}>
+        <div className="col-8 btn text-left" onClick={requestView}>
           <h4>{request.name}</h4>
           <p>{request.description}</p>
           <p>Requester: {request.requester}</p>
@@ -54,7 +54,7 @@ function Request({ request }) {
               })}
           </p>
         </div>
-        <div className="col-3">
+        <div className="col-4 text-right">
           {request.name !== 'default' && (
             <button className="btn btn-link" onClick={editRequest}>
               View/Edit
