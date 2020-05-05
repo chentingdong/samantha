@@ -19,7 +19,8 @@ export interface BlockDef {
 }
 
 export interface UiState {
-  showEditRequestDef: boolean
+  showEditRequestDef?: boolean
+  showEditRequest?: boolean
 }
 
 export interface User {
@@ -35,6 +36,8 @@ export interface State {
   requestDefs: RequestDef[]
   currentBlockDef: BlockDef
   blockDefs: BlockDef[]
+  currentRequest?: RequestDef
+  requests: RequestDef[]
   messages: object[]
   uiState: UiState
 }

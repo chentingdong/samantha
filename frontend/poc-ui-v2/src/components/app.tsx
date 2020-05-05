@@ -19,7 +19,10 @@ export const App = () => {
       if (userInfo) {
         dispatch({ type: 'authenticate', isAuthenticated: true })
         const user = await getUser()
-        dispatch({ type: 'setUser', user: user })
+        await dispatch({
+          type: 'set',
+          data: { user: user },
+        })
       }
     }
     checkLogin()
@@ -35,14 +38,14 @@ export const App = () => {
         case 'signIn':
           dispatch({ type: 'authenticate', isAuthenticated: true })
           const user = await getUser()
-          dispatch({ type: 'setUser', user: user })
+          dispatch({ type: 'set', data: { user: user } })
           const users = await getUsers()
-          dispatch({ type: 'setUsers', users: users })
+          dispatch({ type: 'set', data: { users: users } })
           break
         case 'signOut':
           dispatch({ type: 'authenticate', isAuthenticated: false })
-          dispatch({ type: 'setUser', user: initialState.user })
-          dispatch({ type: 'setUsers', users: initialState.users })
+          dispatch({ type: 'set', data: { user: initialState.user } })
+          dispatch({ type: 'set', data: { users: initialState.users } })
           break
         case 'signIn_failure':
           console.error('user sign in failed')
@@ -55,9 +58,11 @@ export const App = () => {
 
   return (
     <div className="app wrapper vh-100">
-      <button className="btn btn-link position-absolute" onClick={logout}>
-        Log out
-      </button>
+      {state.isAuthenticated && (
+        <button className="btn btn-link fixed-bottom m-2" onClick={logout}>
+          Log out
+        </button>
+      )}
       <Routes />
     </div>
   )

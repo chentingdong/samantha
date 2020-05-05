@@ -1,5 +1,5 @@
 import uuid from 'uuid'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
@@ -8,72 +8,64 @@ import { initialState } from '../context/store'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
-  const defaultRequest: RequestDef = initialState.currentRequestDef
+  const defaultRequestDef = initialState.currentRequestDef
+  const [prevRequestDef, setPrevRequestDef] = useState(state.currentRequestDef)
 
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: state.currentRequestDef,
+    defaultValues: prevRequestDef,
   })
 
   const onSumbit = (data) => {
     console.log(JSON.stringify(data))
   }
 
-  const addBlockToRequest = async (index) => {
-    let currentBock = Object.assign(state.blockDefs[index], {
-      id: uuid.v4(),
-      state: 'pending',
-      requester: state.user.id,
-    })
-
-    let blocks = state.currentRequestDef.blocks
-    blocks.push(currentBock)
-
+  const addBlockToRequestDef = async (index) => {
+    let currentBlockDef = state.blockDefs[index]
+    let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
+    let updatedRequestDef = {
+      ...state.currentRequestDef,
+      blocks: updatedBlocks,
+    }
     dispatch({
-      type: 'saveCurrentRequestDef',
-      currentRequestDef: {
-        ...state.currentRequestDef,
-        blocks: blocks,
-      },
+      type: 'set',
+      data: { currentRequestDef: updatedRequestDef },
     })
   }
 
   const saveRequestDef = async () => {
-    const found = state.requestDefs.some(
-      (rd) => rd.id === state.currentRequestDef.id
-    )
-
-    const newValues = getValues()
+    const formValues = getValues()
     let currentRequestDef: RequestDef = Object.assign(
       state.currentRequestDef,
-      newValues
+      formValues
     )
 
-    await dispatch({
-      type: 'saveCurrentRequestDef',
-      currentRequestDef: currentRequestDef,
+    let requestDefs = state.requestDefs
+    let found = false
+    requestDefs.forEach((rd, index) => {
+      if (rd.id === currentRequestDef.id) {
+        requestDefs[index] = currentRequestDef
+        found = true
+        return
+      }
     })
-
     if (!found) {
-      await dispatch({
-        type: 'saveRequestDefs',
-        requestDefs: [...state.requestDefs, currentRequestDef],
-      })
+      requestDefs.push(currentRequestDef)
     }
-
-    setValue('object', {})
+    await dispatch({ type: 'set', data: { requestDefs: requestDefs } })
     await dispatch({
-      type: 'saveCurrentRequestDef',
-      currentRequestDef: defaultRequest,
+      type: 'set',
+      data: { currentRequestDef: defaultRequestDef },
     })
-
+    setValue('object', {})
     close()
   }
 
   const close = () => {
     dispatch({
-      type: 'setUiState',
-      uiState: {
+      type: 'setUi',
+      data: {
         showEditRequestDef: false,
+        currentRequestDef: prevRequestDef,
       },
     })
   }
@@ -100,7 +92,7 @@ const EditRequestDef: React.FC = (props) => {
             />
           </div>
           <div className="form-group col-12">
-            {state.currentRequestDef.blocks?.map(
+            {state.currentRequestDef.blocks.map(
               (block: BlockDef, index: number) => {
                 return (
                   <div
@@ -137,7 +129,7 @@ const EditRequestDef: React.FC = (props) => {
                 <div className="card-body">{blockDef.description}</div>
                 <button
                   className="btn btn-light card-footer"
-                  onClick={(e) => addBlockToRequest(index)}
+                  onClick={(e) => addBlockToRequestDef(index)}
                 >
                   +
                 </button>

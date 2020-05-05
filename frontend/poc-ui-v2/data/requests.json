@@ -1,20 +1,11 @@
 [
   {
     "id": "1",
-    "name": "request 1",
-    "requestDef": "request 1 description",
+    "name": "default",
+    "description": "empty request wrapper",
     "state": "pending",
-    "blocks": [],
-    "requester": "a",
-    "responders": ["b", "c"]
-  },
-  {
-    "id": "2",
-    "name": "request 2",
-    "requestDef": "request 2 description",
-    "state": "pending",
-    "blocks": [],
-    "requester": "b",
-    "responders": ["a", "c"]
+    "requester": "Google_103472621531484531270",
+    "responders": [],
+    "blocks": []
   }
 ]

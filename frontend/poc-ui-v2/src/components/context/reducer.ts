@@ -1,15 +1,10 @@
 import React from 'react'
-import { State, UiState, RequestDef, BlockDef } from './interface'
+import { State } from './interface'
 
-// TODO: rewrite this when make sense.
 type Action =
   | { type: 'authenticate'; isAuthenticated: boolean }
-  | { type: 'setUser'; user: object }
-  | { type: 'setUsers'; users: object[] }
-  | { type: 'setUiState'; uiState: UiState }
-  | { type: 'saveRequestDefs'; requestDefs: RequestDef[] }
-  | { type: 'saveCurrentRequestDef'; currentRequestDef: RequestDef }
-  | { type: 'saveBlockDefs'; blockDefs: BlockDef[] }
+  | { type: 'set'; data: object }
+  | { type: 'setUi'; data: object }
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -18,37 +13,12 @@ const reducer = (state: State, action: Action) => {
         ...state,
         isAuthenticated: action.isAuthenticated,
       }
-    case 'setUser':
-      return {
-        ...state,
-        user: action.user,
-      }
-    case 'setUsers':
-      return {
-        ...state,
-        users: action.users,
-      }
-    case 'setUiState':
-      return {
-        ...state,
-        uiState: action.uiState,
-      }
-    case 'saveRequestDefs':
-      return {
-        ...state,
-        currentRequestDef: {},
-        requestDefs: action.requestDefs,
-      }
-    case 'saveCurrentRequestDef':
-      return {
-        ...state,
-        currentRequestDef: action.currentRequestDef,
-      }
-    case 'saveBlockDefs':
-      return {
-        ...state,
-        blockDefs: action.blockDefs,
-      }
+    case 'set':
+      return Object.assign({}, state, action.data)
+    case 'setUi':
+      return Object.assign({}, state, {
+        uiState: action.data,
+      })
     default:
       return state
   }

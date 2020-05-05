@@ -25,8 +25,11 @@
     "form": {}
   },
   "blockDefs": [],
+  "currentRequest": {},
+  "requests": [],
   "messages": [],
   "uiState": {
-    "showEditRequestDef": false
+    "showEditRequestDef": false,
+    "showEditRequest": false
   }
 }

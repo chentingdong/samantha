@@ -15,28 +15,34 @@ function RequestDefsMenu() {
     currentRequestDef.requester = state.user.id
 
     dispatch({
-      type: 'setUiState',
-      uiState: {
-        showEditRequestDef: !state.uiState.showEditRequestDef,
-      },
+      type: 'setUi',
+      data: { showEditRequestDef: !state.uiState.showEditRequestDef },
     })
   }
 
   const editRequestDef = (index: number) => {
     let currentRequestDef = state.requestDefs[index]
     dispatch({
-      type: 'saveCurrentRequestDef',
-      currentRequestDef: currentRequestDef,
+      type: 'set',
+      data: { currentRequestDef: currentRequestDef },
     })
     dispatch({
-      type: 'setUiState',
-      uiState: {
-        showEditRequestDef: true,
-      },
+      type: 'setUi',
+      data: { showEditRequestDef: true },
     })
   }
 
-  const makeRequest = () => {}
+  const makeRequest = (index) => {
+    let currentRequest = state.requestDefs[index]
+    dispatch({
+      type: 'set',
+      data: { currentRequest: currentRequest },
+    })
+    dispatch({
+      type: 'setUi',
+      data: { showEditRequest: true },
+    })
+  }
 
   return (
     <div className="">
@@ -56,7 +62,6 @@ function RequestDefsMenu() {
       </div>
       {state.uiState['showEditRequestDef'] && (
         <div
-          id="createRequestDef"
           className="col-12 position-absolute bg-light vh-100"
           style={{ top: '0', zIndex: 5 }}
         >
@@ -77,13 +82,21 @@ function RequestDefsMenu() {
                       {requestDef.blocks &&
                         requestDef.blocks.map((block, index2) => {
                           return (
-                            <span key={`block-${index2}`}>{block.name}</span>
+                            <span
+                              className="border p-2 mr-2"
+                              key={`block-${index2}`}
+                            >
+                              {block.name}
+                            </span>
                           )
                         })}
                     </p>
                   </div>
                   <div className="col-3">
-                    <button className="btn btn-link" onClick={makeRequest}>
+                    <button
+                      className="btn btn-link"
+                      onClick={(e) => makeRequest(index)}
+                    >
                       Make a request
                     </button>
                     <br />
