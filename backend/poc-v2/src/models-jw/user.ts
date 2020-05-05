@@ -2,6 +2,8 @@ import {Context} from './context'
 import config from "../../config/cognito.json";
 import aws from "aws-sdk";
 
+aws.config.update(config);
+
 export class User {
   readonly id: string;
   name: string;
@@ -35,13 +37,13 @@ export class User {
   static listUserPoolUsers = async () => {
     const params = {
       UserPoolId: config.userPoolId,
-      AttributesToGet: ["name", "email", "picture", "sub", "given_name"],
+      // AttributesToGet: ["name", "email", "picture", "sub", "given_name"],
     };
     const cognitoIdentityServiceProvider = new aws.CognitoIdentityServiceProvider();
     const data = await cognitoIdentityServiceProvider.listUsers(params).promise();
-    const users = data.Users.map((u: object) => {
-      let attributes = {};
-      u.Attributes.forEach((attr: object) => {
+    const users = data.Users?.map((u: any) => {
+      let attributes:any = {};
+      u.Attributes.forEach((attr: any) => {
         attributes[attr.Name] = attr.Value;
       });
       let user = {
