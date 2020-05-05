@@ -9,7 +9,7 @@ import { initialState } from '../context/store'
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
   const defaultRequestDef = initialState.currentRequestDef
-  const [prevRequestDef, setPrevRequestDef] = useState(state.currentRequestDef)
+  const prevRequestDef = state.currentRequestDef
 
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: prevRequestDef,
@@ -33,6 +33,7 @@ const EditRequestDef: React.FC = (props) => {
   }
 
   const saveRequestDef = async () => {
+    // apply form changes
     const formValues = getValues()
     let currentRequestDef: RequestDef = Object.assign(
       state.currentRequestDef,
@@ -40,6 +41,8 @@ const EditRequestDef: React.FC = (props) => {
     )
 
     let requestDefs = state.requestDefs
+
+    // add/modify currentRequestDef in requestDefs, if found update, otherwise create
     let found = false
     requestDefs.forEach((rd, index) => {
       if (rd.id === currentRequestDef.id) {
@@ -51,11 +54,18 @@ const EditRequestDef: React.FC = (props) => {
     if (!found) {
       requestDefs.push(currentRequestDef)
     }
-    await dispatch({ type: 'set', data: { requestDefs: requestDefs } })
+
+    await dispatch({
+      type: 'set',
+      data: { requestDefs: requestDefs },
+    })
+
+    // reset after finish
     await dispatch({
       type: 'set',
       data: { currentRequestDef: defaultRequestDef },
     })
+
     setValue('object', {})
     close()
   }
@@ -63,10 +73,11 @@ const EditRequestDef: React.FC = (props) => {
   const close = () => {
     dispatch({
       type: 'setUi',
-      data: {
-        showEditRequestDef: false,
-        currentRequestDef: prevRequestDef,
-      },
+      data: { showEditRequestDef: false },
+    })
+    dispatch({
+      type: 'set',
+      data: { currentRequestDef: defaultRequestDef },
     })
   }
 

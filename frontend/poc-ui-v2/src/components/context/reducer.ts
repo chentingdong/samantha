@@ -17,7 +17,7 @@ const reducer = (state: State, action: Action) => {
       return Object.assign({}, state, action.data)
     case 'setUi':
       return Object.assign({}, state, {
-        uiState: action.data,
+        uiState: Object.assign({}, state.uiState, action.data),
       })
     default:
       return state

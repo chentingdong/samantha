@@ -1,0 +1,78 @@
+import * as React from 'react'
+import { Context } from '../context/store'
+import { useContext } from 'react'
+
+function Request({ request }) {
+  const { state, dispatch } = useContext(Context)
+
+  const editRequest = () => {
+    let currentRequest = request
+    dispatch({
+      type: 'set',
+      data: { currentRequest: currentRequest },
+    })
+    dispatch({
+      type: 'setUi',
+      data: { showEditRequest: true },
+    })
+  }
+
+  return (
+    <div className="card mt-2 pt-2">
+      <div className="d-flex justify-content-between">
+        <div className="col-7">
+          <h4>{request.name}</h4>
+          <p>{request.description}</p>
+          <p>Owner: {request.requester}</p>
+          <p>
+            {request.blocks &&
+              request.blocks.map((block, index2) => {
+                return (
+                  <span className="border p-2 mr-2" key={`block-${index2}`}>
+                    {block.name}
+                  </span>
+                )
+              })}
+          </p>
+        </div>
+        <div className="col-3">
+          {request.name !== 'default' && (
+            <button className="btn btn-link" onClick={editRequest}>
+              View/Edit
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function RequestsMade() {
+  const { state, dispatch } = useContext(Context)
+  return (
+    <div>
+      <h2>TODO: Request Made</h2>
+      {state.requests
+        .filter((req) => req.requester === state.user.id)
+        .map((request, index) => {
+          return <Request key={`request-${index}`} request={request} />
+        })}
+    </div>
+  )
+}
+
+function RequestsReceived() {
+  const { state, dispatch } = useContext(Context)
+  return (
+    <div>
+      <h2>TODDO: Request Received</h2>
+      {state.requests
+        .filter((req) => req.responders.indexOf(state.user.id) > -1)
+        .map((request, index) => {
+          return <Request key={`request-${index}`} request={request} />
+        })}
+    </div>
+  )
+}
+
+export { RequestsMade, RequestsReceived }

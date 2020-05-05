@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import { Tab, Nav, Row, Col } from 'react-bootstrap'
-import { Requests, RequestsMade, RequestsReceived } from '../request/requests'
+import { RequestsMade, RequestsReceived } from '../request/requests-menu'
 import { RequestDefsMenu } from '../request/request-defs-menu'
 import { Context } from '../context/store'
+import { EditRequest } from '../request/edit-request'
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
@@ -44,6 +45,14 @@ function VirtualAssistant() {
             </div>
           </div>
         </Tab.Container>
+        {state.uiState.showEditRequest && (
+          <div
+            className="col-10 position-absolute bg-light vh-100"
+            style={{ top: '0', right: '0', zIndex: 5 }}
+          >
+            <EditRequest />
+          </div>
+        )}
       </main>
       <footer className="vh-25 overflow-scroll border-top small">
         <h5>context state</h5>

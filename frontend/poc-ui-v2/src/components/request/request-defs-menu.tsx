@@ -16,10 +16,19 @@ function RequestDefsMenu() {
 
     dispatch({
       type: 'setUi',
-      data: { showEditRequestDef: !state.uiState.showEditRequestDef },
+      data: { showEditRequestDef: true },
     })
   }
 
+  const returnToMenu = () => {
+    dispatch({
+      type: 'setUi',
+      data: {
+        showEditRequestDef: false,
+        showEditRequest: false,
+      },
+    })
+  }
   const editRequestDef = (index: number) => {
     let currentRequestDef = state.requestDefs[index]
     dispatch({
@@ -32,8 +41,13 @@ function RequestDefsMenu() {
     })
   }
 
-  const makeRequest = (index) => {
-    let currentRequest = state.requestDefs[index]
+  const EditRequest = (index) => {
+    let currentRequest = {
+      ...state.requestDefs[index],
+      id: uuid.v4(),
+      name: '',
+      requester: state.user.id,
+    }
     dispatch({
       type: 'set',
       data: { currentRequest: currentRequest },
@@ -48,19 +62,15 @@ function RequestDefsMenu() {
     <div className="">
       <div className="d-flex justify-content-between">
         <h2 className="col-4">Request Defs Menu</h2>
-        <div
-          className="btn btn-link col-3 text-right"
-          style={{ zIndex: 100 }}
-          onClick={createRequestDef}
-        >
-          {state.uiState['showEditRequestDef'] ? (
-            <span>Return to menu</span>
+        <div className="btn btn-link col-3 text-right" style={{ zIndex: 100 }}>
+          {state.uiState.showEditRequestDef || state.uiState.showEditRequest ? (
+            <span onClick={returnToMenu}>Return to menu</span>
           ) : (
-            <span>Add Request to Menu</span>
+            <span onClick={createRequestDef}>Add Request to Menu</span>
           )}
         </div>
       </div>
-      {state.uiState['showEditRequestDef'] && (
+      {state.uiState.showEditRequestDef && (
         <div
           className="col-12 position-absolute bg-light vh-100"
           style={{ top: '0', zIndex: 5 }}
@@ -95,7 +105,7 @@ function RequestDefsMenu() {
                   <div className="col-3">
                     <button
                       className="btn btn-link"
-                      onClick={(e) => makeRequest(index)}
+                      onClick={(e) => EditRequest(index)}
                     >
                       Make a request
                     </button>
