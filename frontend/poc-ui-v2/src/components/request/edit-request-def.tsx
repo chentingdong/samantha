@@ -5,6 +5,7 @@ import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
+import { BlockDefPalette } from '../block/block-def-palette'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
@@ -43,6 +44,7 @@ const EditRequestDef: React.FC = (props) => {
     let requestDefs = state.requestDefs
 
     // add/modify currentRequestDef in requestDefs, if found update, otherwise create
+    // TODO: rewrite the following block with elegent codes
     let found = false
     requestDefs.forEach((rd, index) => {
       if (rd.id === currentRequestDef.id) {
@@ -128,26 +130,7 @@ const EditRequestDef: React.FC = (props) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <h2>Block Palette</h2>
-        <div className="row">
-          {state.blockDefs.map((blockDef: BlockDef, index) => {
-            return (
-              <div
-                className="card p-0 m-4 col-4 border-dark"
-                key={`blockDef-${index}`}
-              >
-                <strong className="card-header">{blockDef.name}</strong>
-                <div className="card-body">{blockDef.description}</div>
-                <button
-                  className="btn btn-light card-footer"
-                  onClick={(e) => addBlockToRequestDef(index)}
-                >
-                  +
-                </button>
-              </div>
-            )
-          })}
-        </div>
+        <BlockDefPalette addBlockToRequestDef={addBlockToRequestDef} />
       </aside>
     </div>
   )

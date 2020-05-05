@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Context } from '../context/store'
 import { useContext } from 'react'
 import { Modal } from 'react-bootstrap'
+import { Chat } from './chat'
 
 export const RequestViewRequester = () => {
   const { state, dispatch } = useContext(Context)
@@ -11,19 +12,32 @@ export const RequestViewRequester = () => {
   }
 
   return (
-    <Modal
-      size="lg"
-      show={state.uiState.showRequestViewRequester}
-      onHide={close}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>Requester surface</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        this is the requester's view for request{' '}
-        {JSON.stringify(state.currentRequest)}
-      </Modal.Body>
-    </Modal>
+    state.uiState.showRequestViewRequester && (
+      <div
+        className="bg-white position-absolute col-10 offset-2 vh-100"
+        style={{ top: '0' }}
+      >
+        <div className="row">
+          <div className="col-8">
+            <button
+              className="position-absolute btn btn-link m-2"
+              style={{ right: '0' }}
+              onClick={close}
+            >
+              back to request menu
+            </button>
+            <h1>Requester surface</h1>
+            <div>
+              this is the requester's view for request{' '}
+              {JSON.stringify(state.currentRequest, null, 2)}
+            </div>
+          </div>
+          <div className="col-4 border-left">
+            <Chat />
+          </div>
+        </div>
+      </div>
+    )
   )
 }
 
@@ -34,18 +48,29 @@ export const RequestViewResponder = () => {
   }
 
   return (
-    <Modal
-      size="lg"
-      show={state.uiState.showRequestViewResponder}
-      onHide={close}
-    >
-      <Modal.Header closeButton>
-        <Modal.Title>Responder surface</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        this is the responder's view for request{' '}
-        {JSON.stringify(state.currentRequest)}
-      </Modal.Body>
-    </Modal>
+    state.uiState.showRequestViewResponder && (
+      <div
+        className="bg-white position-absolute col-10 offset-2 vh-100"
+        style={{ top: '0' }}
+      >
+        <div className="row">
+          <div className="col-8">
+            <button
+              className="position-absolute btn btn-link m-2"
+              style={{ right: '0' }}
+              onClick={close}
+            >
+              back to request menu
+            </button>
+            <h1>Responder surface</h1>
+            <p>this is the responder's view for request </p>
+            <pre>{JSON.stringify(state.currentRequest, null, 2)}</pre>
+          </div>
+          <div className="col-4 border-left">
+            <Chat />
+          </div>
+        </div>
+      </div>
+    )
   )
 }
