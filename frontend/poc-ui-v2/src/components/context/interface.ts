@@ -21,6 +21,8 @@ export interface BlockDef {
 export interface UiState {
   showEditRequestDef?: boolean
   showEditRequest?: boolean
+  showRequestViewRequester?: boolean
+  showRequestViewResponder?: boolean
 }
 
 export interface User {

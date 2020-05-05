@@ -30,6 +30,8 @@
   "messages": [],
   "uiState": {
     "showEditRequestDef": false,
-    "showEditRequest": false
+    "showEditRequest": false,
+    "showRequestViewRequester": true,
+    "showRequestViewResponder": false
   }
 }

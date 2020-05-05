@@ -5,6 +5,10 @@ import { RequestsMade, RequestsReceived } from '../request/requests-menu'
 import { RequestDefsMenu } from '../request/request-defs-menu'
 import { Context } from '../context/store'
 import { EditRequest } from '../request/edit-request'
+import {
+  RequestViewResponder,
+  RequestViewRequester,
+} from '../request/request-view'
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
@@ -45,17 +49,12 @@ function VirtualAssistant() {
             </div>
           </div>
         </Tab.Container>
-        {state.uiState.showEditRequest && (
-          <div
-            className="col-10 position-absolute bg-light vh-100"
-            style={{ top: '0', right: '0', zIndex: 5 }}
-          >
-            <EditRequest />
-          </div>
-        )}
+        <EditRequest />
+        <RequestViewRequester />
+        <RequestViewResponder />
       </main>
       <footer className="vh-25 overflow-scroll border-top small">
-        <h5>context state</h5>
+        <h5>context</h5>
         <pre>
           <code>{JSON.stringify(state, null, 2)}</code>
         </pre>

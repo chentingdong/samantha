@@ -17,10 +17,19 @@ function Request({ request }) {
     })
   }
 
+  const requestView = () => {
+    dispatch({ type: 'set', data: { currentRequest: request } })
+    if (isRequester(request, state)) {
+      dispatch({ type: 'setUi', data: { showRequestViewRequester: true } })
+    } else if (isResponder(request, state)) {
+      dispatch({ type: 'setUi', data: { showRequestViewResponder: true } })
+    }
+  }
+
   return (
     <div className="card mt-2 pt-2">
       <div className="d-flex justify-content-between">
-        <div className="col-7">
+        <div className="col-7" onClick={requestView}>
           <h4>{request.name}</h4>
           <p>{request.description}</p>
           <p>Requester: {request.requester}</p>
@@ -57,13 +66,22 @@ function Request({ request }) {
   )
 }
 
+function isRequester(request, state) {
+  return request.requester === state.user.id
+}
+
+function isResponder(request, state) {
+  return request.responders.indexOf(state.user.id) > -1
+}
+
 function RequestsMade() {
-  const { state, dispatch } = useContext(Context)
+  const { state } = useContext(Context)
+
   return (
     <div>
       <h2>Requests Made</h2>
       {state.requests
-        .filter((req) => req.requester === state.user.id)
+        .filter((req) => isRequester(req, state))
         .map((request, index) => {
           return <Request key={`request-${index}`} request={request} />
         })}
@@ -77,7 +95,7 @@ function RequestsReceived() {
     <div>
       <h2>Requests Received</h2>
       {state.requests
-        .filter((req) => req.responders.indexOf(state.user.id) > -1)
+        .filter((req) => isResponder(req, state))
         .map((request, index) => {
           return <Request key={`request-${index}`} request={request} />
         })}
