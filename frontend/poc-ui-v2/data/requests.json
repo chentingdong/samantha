@@ -23,8 +23,11 @@
     "name": "test, I'm one of the responder",
     "description": "empty request wrapper",
     "state": "pending",
-    "requester": "",
-    "responders": ["Google_115419186368884878540"],
+    "requester": "Google_103472621531484531270",
+    "responders": [
+      "Google_115419186368884878540",
+      "Google_103472621531484531270"
+    ],
     "blocks": [
       {
         "id": "1",

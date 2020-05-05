@@ -23,7 +23,17 @@ function Request({ request }) {
         <div className="col-7">
           <h4>{request.name}</h4>
           <p>{request.description}</p>
-          <p>Owner: {request.requester}</p>
+          <p>Requester: {request.requester}</p>
+          <p>
+            Responders:
+            {request.responders.map((responder, index) => {
+              return (
+                <span key={`responder-${index}`} className="p-2">
+                  {responder}
+                </span>
+              )
+            })}
+          </p>
           <p>
             {request.blocks &&
               request.blocks.map((block, index2) => {
@@ -51,7 +61,7 @@ function RequestsMade() {
   const { state, dispatch } = useContext(Context)
   return (
     <div>
-      <h2>TODO: Request Made</h2>
+      <h2>Requests Made</h2>
       {state.requests
         .filter((req) => req.requester === state.user.id)
         .map((request, index) => {
@@ -65,7 +75,7 @@ function RequestsReceived() {
   const { state, dispatch } = useContext(Context)
   return (
     <div>
-      <h2>TODDO: Request Received</h2>
+      <h2>Requests Received</h2>
       {state.requests
         .filter((req) => req.responders.indexOf(state.user.id) > -1)
         .map((request, index) => {
