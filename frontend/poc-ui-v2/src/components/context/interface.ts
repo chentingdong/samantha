@@ -12,10 +12,11 @@ export interface BlockDef {
   id: string
   name: string
   description: string
+  type: string
   state: string
   requester: string
   responders: string[]
-  form: object
+  data: object
 }
 
 export interface UiState {

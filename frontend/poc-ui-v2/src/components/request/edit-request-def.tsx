@@ -6,6 +6,7 @@ import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block/block-def-palette'
+import { DragTargetBox } from '../utils/drag-target-box'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
@@ -20,8 +21,10 @@ const EditRequestDef: React.FC = (props) => {
     console.log(JSON.stringify(data))
   }
 
-  const addBlockToRequestDef = async (index) => {
-    let currentBlockDef = state.blockDefs[index]
+  const addBlockToRequestDef = async (item) => {
+    let currentBlockDef = state.blockDefs.find(
+      (blockDef) => blockDef.id === item.blockDef.id
+    )
     let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
     let updatedRequestDef = {
       ...state.currentRequestDef,
@@ -104,7 +107,7 @@ const EditRequestDef: React.FC = (props) => {
               name="description"
             />
           </div>
-          <div className="form-group col-12">
+          <div className="form-group col-12 row">
             {state.currentRequestDef.blocks.map(
               (block: BlockDef, index: number) => {
                 return (
@@ -119,6 +122,12 @@ const EditRequestDef: React.FC = (props) => {
               }
             )}
           </div>
+          <div className="border-light">
+            <DragTargetBox
+              accept="block"
+              onDrop={(item) => addBlockToRequestDef(item)}
+            />
+          </div>
           <ButtonGroup className="col-12">
             <button className="btn btn-light" onClick={saveRequestDef}>
               save
@@ -130,7 +139,7 @@ const EditRequestDef: React.FC = (props) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <BlockDefPalette addBlockToRequestDef={addBlockToRequestDef} />
+        <BlockDefPalette />
       </aside>
     </div>
   )

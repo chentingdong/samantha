@@ -19,17 +19,18 @@
     "id": "",
     "name": "",
     "description": "",
+    "type": "leaf",
     "state": "pending",
     "requester": "",
     "responders": [],
-    "form": {}
+    "data": {}
   },
   "blockDefs": [],
   "currentRequest": {},
   "requests": [],
   "messages": [],
   "uiState": {
-    "showEditRequestDef": false,
+    "showEditRequestDef": true,
     "showEditRequest": false,
     "showRequestViewRequester": true,
     "showRequestViewResponder": false

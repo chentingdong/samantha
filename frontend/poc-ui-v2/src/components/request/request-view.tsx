@@ -32,7 +32,7 @@ export const RequestViewRequester = () => {
               {JSON.stringify(state.currentRequest, null, 2)}
             </div>
           </div>
-          <div className="col-4 border-left">
+          <div className="col-4 border-left p-0">
             <Chat />
           </div>
         </div>
@@ -66,7 +66,7 @@ export const RequestViewResponder = () => {
             <p>this is the responder's view for request </p>
             <pre>{JSON.stringify(state.currentRequest, null, 2)}</pre>
           </div>
-          <div className="col-4 border-left">
+          <div className="col-4 border-left p-0">
             <Chat />
           </div>
         </div>

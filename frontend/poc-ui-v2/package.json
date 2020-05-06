@@ -23,7 +23,7 @@
     "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --https --port 2000",
     "start-prod": "yarn run build && node express.js --https --port 2021",
     "test": "jest",
-    "postinstall": "cd node_modules/react-bootstrap && yarn install"
+    "postinstall": "cd node_modules/react-bootstrap && yarn install && cd ../../node_modules/react-dnd && yarn install"
   },
   "jest": {
     "testEnvironment": "node",
@@ -73,7 +73,10 @@
     "path-to-regexp": "^6.1.0",
     "prop-types": "^15.7.2",
     "react-bootstrap": "^1.0.1",
+    "react-dnd": "^10.0.2",
+    "react-dnd-html5-backend": "^10.0.2",
     "react-dom": "^16.13.1",
+    "react-error-boundary": "^2.2.1",
     "react-form-builder2": "^0.4.4",
     "react-hook-form": "^5.6.1",
     "react-hot-loader": "^4.12.20",

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import { Tab, Nav, Row, Col } from 'react-bootstrap'
+import { DndProvider } from 'react-dnd'
 import { RequestsMade, RequestsReceived } from '../request/requests-menu'
 import { RequestDefsMenu } from '../request/request-defs-menu'
 import { Context } from '../context/store'
