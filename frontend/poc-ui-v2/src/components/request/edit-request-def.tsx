@@ -6,7 +6,8 @@ import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block/block-def-palette'
-import { DragTargetBox } from '../utils/drag-target-box'
+import { DndTargetBox } from '../utils/dnd-target-box'
+import { BlockCard } from '../block/block-card'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
@@ -37,7 +38,7 @@ const EditRequestDef: React.FC = (props) => {
   }
 
   const saveRequestDef = async () => {
-    // apply form changes
+    // apply user's form changes
     const formValues = getValues()
     let currentRequestDef: RequestDef = Object.assign(
       state.currentRequestDef,
@@ -46,7 +47,7 @@ const EditRequestDef: React.FC = (props) => {
 
     let requestDefs = state.requestDefs
 
-    // add/modify currentRequestDef in requestDefs, if found update, otherwise create
+    // if blockDef is found in blockDefs, then update, otherwise create
     // TODO: rewrite the following block with elegent codes
     let found = false
     requestDefs.forEach((rd, index) => {
@@ -107,26 +108,23 @@ const EditRequestDef: React.FC = (props) => {
               name="description"
             />
           </div>
-          <div className="form-group col-12 row">
-            {state.currentRequestDef.blocks.map(
-              (block: BlockDef, index: number) => {
-                return (
-                  <div
-                    className="card p-0 m-4 col-4 border-dark"
-                    key={`block-${index}`}
-                  >
-                    <strong className="card-header">{block.name}</strong>
-                    <div className="card-body">{block.description}</div>
-                  </div>
-                )
-              }
-            )}
-          </div>
-          <div className="border-light">
-            <DragTargetBox
+          <div className="form-group col-12">
+            <DndTargetBox
               accept="block"
               onDrop={(item) => addBlockToRequestDef(item)}
-            />
+            >
+              {state.currentRequestDef.blocks.map(
+                (block: BlockDef, index: number) => {
+                  return (
+                    <BlockCard
+                      className="card p-0 m-2 col-4 border-dark"
+                      block={block}
+                      key={`block-${index}`}
+                    />
+                  )
+                }
+              )}
+            </DndTargetBox>
           </div>
           <ButtonGroup className="col-12">
             <button className="btn btn-light" onClick={saveRequestDef}>

@@ -1,7 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap');
-@import 'node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap");
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
 
 // color override
 $primary: #308dc9;
@@ -17,7 +17,7 @@ $green: #197441;
 $gray: #999999;
 $darker: #212121;
 $lighter: #f8f8f8;
-$light-gray: #cccccc;
+$light-gray: #f0eedf;
 
 // add colors to palette
 $theme-colors: (
@@ -26,7 +26,8 @@ $theme-colors: (
   gray: $gray,
   green: $green,
   darker: $darker,
+  highlight: $light-gray,
 );
 
 // import bootstrap after variable override
-@import 'bootstrap';
+@import "bootstrap";
