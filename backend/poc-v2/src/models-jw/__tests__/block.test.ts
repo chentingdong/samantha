@@ -1,15 +1,17 @@
 import { Block, State } from "../block";
-import { testBlockDef } from "./block-def.test";
+import blockTestData from "../data/blockTestData.json";
+import { v4 as uuid } from "uuid";
 
-describe("Block", () => {
-  const testBlock = new Block(testBlockDef);
+describe("Timesheet Block", () => {
+  const testBlockDef = Block.getBlockById("LEAF", blockTestData.testBlockId);
+  const testBlock = new Block("Timesheet #22", testBlockDef);
 
   it("should have an id", () => {
     expect(testBlock.id).toBeDefined();
   });
 
   it("should have a definition", () => {
-    expect(testBlock.definition).toBe(testBlockDef);
+    expect(testBlock.blockDef).toMatchObject(testBlockDef);
   });
 
   it("should have a state", () => {

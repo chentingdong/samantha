@@ -1,20 +1,35 @@
 import blockLibrary from "./data/blockLibrary.json"
+import { v4 as uuid } from "uuid";
+
+export enum State {
+  PENDING = "pending",
+  ACTIVE = "active",
+  COMPLETE = "complete"
+}
 
 export class Block {
-  readonly id: string;
+  readonly id: string = uuid();
   name: string;
+  state: State;
   description?: string;
-  
-  constructor(id: string, name: string, description?: string) {
-    this.id = id;
+  blockDef?: Block;
+  config: {};
+  data: {};
+
+  constructor(name: string, blockDef: Block) {
     this.name = name;
-    if (description) this.description = description;
+    this.blockDef = blockDef;
+    this.state = State.PENDING;
+
+    //if (description) this.description = description;
+    this.config = blockDef.config;
+    this.data = blockDef.data;
   }
 
   static getBlockLibrary = (blockType: string) => {
     switch (blockType) {
-      case "SIMPLE":
-        return blockLibrary.simpleBlocks;
+      case "LEAF":
+        return blockLibrary.leafBlocks;
       case "COMPOSITE":
         return blockLibrary.compositeBlocks;
       default:
@@ -24,24 +39,64 @@ export class Block {
 
   static getBlockById = (blockType: string, blockId: string) => {
     switch (blockType) {
-      case "SIMPLE":
-        console.log('********************* blockId: ' + blockId);
+      case "LEAF":
         let blockFound = {};
-        blockLibrary.simpleBlocks.map((b: Block) => {
-          console.log("***************** ---- b.id: " + b.id + "  (b.id === blockId): " + (b.id === blockId));
+        blockLibrary.leafBlocks.map((b: Block) => {
           if (b.id === blockId) blockFound = b;
         });
-        console.log('blockFound: ');
-        console.log(blockFound);
         return blockFound;
+
       case "COMPOSITE":
-        blockLibrary.simpleBlocks.map((b: Block) => {
-          if(b.id === blockId) return b;        
+        blockLibrary.compositeBlocks.map((b: Block) => {
+          if (b.id === blockId) return b;
         });
       default:
-        return {};
+        return { "message": "Not Found" };
     }
   }
+
+  static getBlockByName = (blockType: string, blockName: string) => {
+    switch (blockType) {
+      case "LEAF":
+        let blockFound = {};
+        blockLibrary.leafBlocks.map((b: Block) => {
+          if (b.name === blockName) blockFound = b;
+        });
+        return blockFound;
+
+      case "COMPOSITE":
+        blockLibrary.compositeBlocks.map((b: Block) => {
+          if (b.name === blockName) return b;
+        });
+      default:
+        return { "message": "Not Found" };
+    }
+  }
+
+  setConfig(): boolean {
+    let dataString = JSON.stringify(this.data);
+    for (var attribute in this.config) {
+      dataString = dataString.replace('config.' + attribute, this.config[attribute]);
+    }
+    // this.dataString = dataString;
+    this.data = JSON.parse(dataString);
+    return true;
+  }
+
+  start(): boolean {
+    if (this.state != State.PENDING)
+      return false;
+    this.state = State.ACTIVE;
+    return true;
+  }
+
+  complete(): boolean {
+    if (this.state != State.ACTIVE)
+      return false;
+    this.state = State.COMPLETE;
+    return true;
+  }
+
 
 }
 

@@ -3,11 +3,12 @@ import requestDefinitions from "./data/requestCatalog.json";
 import { BlockDef } from "./block-def";
 
 class RequestCatalog {
-  blockDefinitions: Map<string, BlockDef>;
+  requestDefs: Map<string, RequestDef>;
+
   constructor() {
-    blockDefinitions = new Map<string, BlockDef>();
+    this.requestDefs = new Map<string, RequestDef>();
     for(var rd in requestDefinitions) { 
-      blockDefinitions.set(rd.name, rd]);
+      this.requestDefs.set(rd.name, rd);
     }  
     
   }
@@ -17,7 +18,7 @@ class RequestCatalog {
   }
 
   find(requestDefName: string): RequestDef | undefined {
-    return this.definitionList.get(requestDefName);
+    return this.requestDefs.get(requestDefName);
   }
 
   list(requestType: string): Map {}

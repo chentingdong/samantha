@@ -1,25 +1,35 @@
 import { Block, State as BlockState } from "./block"
 import { User } from "./user";
-import uuid from 'uuid';
+import { v4 as uuid } from "uuid";
+import reqeustCatalog from "./data/requestCatalog.json";
 
 export enum State {
+  PENDING = "pending",
   ACTIVE = "active",
   COMPLETE = "complete"
 }
 
 export class Request {
-  readonly id: string = uuid.v4();
-  title: string;
-  description?: string;
+  readonly id: string = uuid();
+  name: string;
+  description: string;
   state: State;
   blocks: Block[] = [];
-  requestor?: User;
+  blockDefs: Block[] = [];
+  requestor: User;
   responders: User[] = [];
+  originalRequestDef: Request;
 
-  constructor(title: string, description?: string) {
-    this.title = title;    
-    if (description) this.description = description;
-    this.state = State.ACTIVE;
+  constructor(name: string, description: string, requestDef: Request) {
+    this.name = name;
+    this.requestor = {"id":"", "name":"", "email":""};
+    this.description = description;
+    this.state = State.PENDING;
+    this.blocks = [];
+    this.blockDefs = requestDef.blockDefs;
+    this.originalRequestDef = requestDef;
+    this.responders = [];
+  
   }
 
   setRequestor(requestor: User) {
@@ -28,6 +38,38 @@ export class Request {
 
   addResponder(responder: User) {
     this.responders.push(responder);
+    this.checkState("responder");  // this would be a context store state auto detect
+  }
+
+  // this would be a main area for state / lifecycle discussion
+  private checkState(stateScope: String) {
+    // if a block state, if config done and responder defined, no dependency change to Active
+    switch (stateScope) {
+      case "responder":
+        // loop through blocks if no dependencies, set all blocks active and trigger notification
+        break;
+      case "block":
+        // check blocks if CRUD, update state with dependencies and  trigger notification
+        break;
+      case "dependency":
+        // loop through blocks with dependencies, set all blocks state accordingly and trigger notification
+        break;
+    
+      default:
+        break;
+    }
+
+    // start blocks when no dependencies found
+    this.blocks.map((b: Block) => {
+      b.start()
+    });
+
+    this.state = State.ACTIVE;
+  }
+
+
+  addBlockDef(block: Block) {
+    this.blockDefs.push(block);
   }
 
   addBlock(block: Block) {
@@ -49,6 +91,40 @@ export class Request {
   }
 
   getRequestorsView() { }
-  
+
   getRespondersView() { }
+
+  static getRequestMade = (requester: User) => { // need to have a db search of request
+    return [{}, {}]
+  }
+
+    static getRequestReceived = (requester: User) => { // need to have a db search of request
+    return [{}, {}]
+  }
+
+  static getRequestCatalog = (tags: string[]) => {
+
+    return reqeustCatalog;
+  }
+
+  static getRequestDefById = (requestDefId?: string) => {
+    if (!requestDefId) return reqeustCatalog[0];
+    // search by id
+    let requestDefFound = {};
+    reqeustCatalog.map((r: Request) => {
+      if (r.id === requestDefId) requestDefFound = r;
+    });
+    return requestDefFound;
+  }
+
+    static getRequestDefByName = (requestDefName?: string) => {
+    if (!requestDefName) return reqeustCatalog[0];
+    // search by name
+    let requestDefFound = {};
+    reqeustCatalog.map((r: Request) => {
+      if (r.name === requestDefName) requestDefFound = r;
+    });
+    return requestDefFound;
+  }
+
 }

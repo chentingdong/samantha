@@ -1,11 +1,11 @@
-import { Request, State } from "../request";
+import { Request, STATE } from "../request";
 import { Block } from "../block";
 import reqeustCatalog from "../data/requestCatalog.json";
 import blockTestData from "../data/blockTestData.json";
 import { User } from "../user";
 import { v4 as uuid } from "uuid";
 
-describe("Request", () => {
+describe("Request From Empty", () => {
   const currentUser = new User(uuid(), "Jin", "jwang@bellhop.io");
 
   it("should be able to get a pre-defiend request from catalog", () => {
@@ -39,19 +39,13 @@ describe("Request", () => {
     expect(newRequest.requestor).toMatchObject(currentUser);
   });
 
-  // TODO: db search for request made by currentUser, not implemented yet.
-  it("should be able in the list of 'made request' for requester", () => {
-    const makeRequest = Request.getRequestMade(currentUser);
-    expect(makeRequest).toBeDefined;
-  });
-
   it("should be in pending state by default", () => {
     expect(newRequest.state).toBe("pending");
   });
 
   it("should be able to add block from blockLibrary", () => {
     const testBlockDef = Block.getBlockById("LEAF", blockTestData.testBlockId);
-    const testBlock = new Block(uuid(), "Timesheet #22", testBlockDef); // block has no config in this test case. config covered in timesheet for specific config required
+    const testBlock = new Block(uuid(), "Timesheet #22", testBlockDef);
     newRequest.addBlockDef(testBlockDef);
     newRequest.addBlock(testBlock);
     expect(newRequest.blockDefs[0]).toMatchObject(testBlockDef);
@@ -63,30 +57,6 @@ describe("Request", () => {
     newRequest.addResponder(userBaiji);
     expect(newRequest.responders[0]).toMatchObject(userBaiji);
   });
-
-  it("should be in active state by when added responders without dependency", () => {
-    expect(newRequest.state).toBe("active");
-  });
-
-  // TODO: dependency check
-  it("should be able to become active request for requestoer and responders", () => {});
-
-  // TODO: notification module
-  it("should send notification to responder", () => {});
-
-  // TODO: db search for request made by currentUser, not implemented yet.
-  it("should give a list of 'request received' for responder", () => {
-    const requestReceived = Request.getRequestReceived(currentUser);
-    expect(requestReceived).toBeDefined;
-  });
-  it("should be able to give responders responder UI", () => {});
-
-  it("should be able to let responders to complete request", () => {
-    // two scenarios? all block complete auto complete reqeust? manual send .complete()?
-    newRequest.blocks.map((b: Block) => {
-      b.complete();
-    });
-    newRequest.complete();
-    expect(newRequest.state).toBe(State.COMPLETE);
-  });
 });
+
+describe("NDA Form", () => {});

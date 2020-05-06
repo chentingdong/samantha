@@ -1,28 +1,111 @@
 {
-  "simpleBlocks": [
-    {
-      "id": "id001",
+  "leafBlocks": [{
+      "id": "LB001",
       "name": "intake-form",
       "description": "fill a form",
-      "config": {},
-      "data": {}
+      "extendedFrom": "",
+      "config": {
+        "formType": ["bellhop", "external", "integrated"]
+      },
+      "data": {
+        "fields": [{
+          "name": "input field 1",
+          "dataType": "string",
+          "value": "place-holding string"
+        }, {
+          "name": "input field 2",
+          "dataType": "number",
+          "value": 123.45
+        }],
+        "externalLink": "https://",
+        "integratedSystemName": "sharepoint"
+      },
+      "requestUI": {
+        "formEngine": "bellhopForm"
+      },
+      "responderUI": {
+        "formEngine": "onlineForm"
+      }
     },
     {
-      "id": "id002",
+      "id": "LBE345",
+      "name": "weekly timesheet",
+      "description": "report weekly timesheet, leaf block extended from LB001 intake-form",
+      "extendedFrom": "id001",
+      "config": {
+        "formType": "external",
+        "formLink": "https://",
+        "reportWeek": "",
+        "projectName": ""
+      },
+      "data": {
+        "fields": [{
+          "name": "reportWeek",
+          "dataType": "string",
+          "value": "config.reportWeek"
+        }, {
+          "name": "projectName",
+          "dataType": "string",
+          "value": "config.projectName"
+        }],
+        "externalLink": "config.formLink",
+        "integratedSystemName": ""
+      },
+      "requestUI": {
+        "formEngine": "onlineForm", "formId":"form001"
+      },
+      "responderUI": {
+        "formEngine": "onlineForm"
+      }
+    },
+    {
+      "id": "LB002",
       "name": "get-approval",
       "description": "get approval",
       "config": {},
       "data": {}
     },
     {
-      "id": "id003",
+      "id": "LB003",
       "name": "form-review",
       "description": "get review notes",
       "config": {},
       "data": {}
     }
   ],
-  "compositeBlocks": [
-    {}
-  ]
+  "compositeBlocks": [{
+    "id": "CB001",
+    "name": "serial steps",
+    "description": "multiple steps filling forms",
+    "config": {
+      "forms": [{
+        "form1": {
+          "name": "form 1",
+          "type": ["bellhop", "external", "integrated"],
+          "externalLink": "config.formLink",
+          "integratedSystemName": ""
+        }
+      }, {
+        "form2": {
+          "name": "form 2",
+          "type": ["bellhop", "external", "integrated"],
+          "externalLink": "config.formLink",
+          "integratedSystemName": ""
+        }
+      }],
+      "dependencies": [{
+        "type": ["serial", "parallel", "optional"],
+        "from": "form1",
+        "to": "form2"
+      }]
+    },
+    "data": {},
+    "requestUI": {
+      "formEngine": "onlineForm"
+    },
+    "responderUI": {
+      "formEngine": "onlineForm"
+    }
+
+  }]
 }

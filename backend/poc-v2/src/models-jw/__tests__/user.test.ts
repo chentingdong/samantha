@@ -3,7 +3,6 @@ import { Context } from "../context";
 
 describe("User", () => {
   const context = Context.getInstance();
-
   it("get user info from cognito", async () => {
     const username = "Google_115419186368884878540";
     await User.getUserPoolUser(username);
