@@ -9,7 +9,7 @@ import initialState from '../../../data/initialState.json'
 import user from '../../../data/user.json'
 import users from '../../../data/users.json'
 
-const Store: React.FC = ({ children }) => {
+const Store = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
   React.useEffect(() => {

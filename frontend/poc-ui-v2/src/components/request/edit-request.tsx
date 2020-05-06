@@ -6,7 +6,7 @@ import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
 
-export const EditRequest: React.FC = (props) => {
+export const EditRequest = (props) => {
   const { state, dispatch } = useContext(Context)
   const prevRequest = state.currentRequest
   const defaultRequest = initialState.currentRequest

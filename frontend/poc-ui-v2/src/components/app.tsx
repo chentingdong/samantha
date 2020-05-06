@@ -7,8 +7,6 @@ import '../assets/scss/app.scss'
 import { Context, initialState } from './context/store'
 import config from '../../configs/config'
 import { getUser, getUsers } from './user'
-import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
 
 export const App = () => {
   const { state, dispatch } = useContext(Context)
@@ -65,9 +63,7 @@ export const App = () => {
           Log out
         </button>
       )}
-      <DndProvider backend={Backend}>
-        <Routes />
-      </DndProvider>
+      <Routes />
     </div>
   )
 }

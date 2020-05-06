@@ -1,16 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { useDrop } from 'react-dnd'
 
-export interface TargetBoxProps {
+export const DndTargetBox: React.FC<{
   accept: string
   onDrop: (item: any) => void
-}
-
-export const DndTargetBox: React.FC<TargetBoxProps> = ({
-  accept,
-  onDrop,
-  children,
-}) => {
+}> = ({ accept, onDrop, children }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: accept,
     hover: (item, monitor) => {
@@ -25,16 +19,15 @@ export const DndTargetBox: React.FC<TargetBoxProps> = ({
 
   const hoverClass = isOver && canDrop ? 'bg-highlight' : ''
   return (
-    <div ref={drop}>
-      <div
-        className={`w-100 h-100 border-gray d-flex ${hoverClass}`}
-        style={{ minHeight: '100px', borderStyle: 'dashed' }}
-      >
-        {React.Children.toArray(children).length === 0 && (
-          <div className="m-auto align-self-center">drag a block here...</div>
-        )}
-        {children}
-      </div>
+    <div
+      ref={drop}
+      className={`border-gray ${hoverClass}`}
+      style={{ minHeight: '100px', borderStyle: 'dashed' }}
+    >
+      {React.Children.toArray(children).length === 0 && (
+        <div className="m-auto align-self-center">drag a block here...</div>
+      )}
+      {children}
     </div>
   )
 }

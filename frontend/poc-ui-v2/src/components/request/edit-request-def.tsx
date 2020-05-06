@@ -7,9 +7,9 @@ import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block/block-def-palette'
 import { DndTargetBox } from '../utils/dnd-target-box'
-import { BlockCard } from '../block/block-card'
+import { RequestBlocks } from '../block/request-blocks'
 
-const EditRequestDef: React.FC = (props) => {
+const EditRequestDef = (props) => {
   const { state, dispatch } = useContext(Context)
   const defaultRequestDef = initialState.currentRequestDef
   const prevRequestDef = state.currentRequestDef
@@ -111,26 +111,16 @@ const EditRequestDef: React.FC = (props) => {
           <div className="form-group col-12">
             <DndTargetBox
               accept="block"
-              onDrop={(item) => addBlockToRequestDef(item)}
+              onDrop={(blockDef) => addBlockToRequestDef(blockDef)}
             >
-              {state.currentRequestDef.blocks.map(
-                (block: BlockDef, index: number) => {
-                  return (
-                    <BlockCard
-                      className="card p-0 m-2 col-4 border-dark"
-                      block={block}
-                      key={`block-${index}`}
-                    />
-                  )
-                }
-              )}
+              <RequestBlocks blocks={state.currentRequestDef.blocks} />
             </DndTargetBox>
           </div>
-          <ButtonGroup className="col-12">
-            <button className="btn btn-light" onClick={saveRequestDef}>
+          <ButtonGroup className="d-flex justify-content-around col-12">
+            <button className="btn btn-gray col-2" onClick={saveRequestDef}>
               save
             </button>
-            <button className="btn btn-light" onClick={close}>
+            <button className="btn btn-gray col-2" onClick={close}>
               cancel
             </button>
           </ButtonGroup>
