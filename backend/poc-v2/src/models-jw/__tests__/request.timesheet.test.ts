@@ -1,23 +1,21 @@
 import { Request, STATE } from "../request";
-import { requestCatalog } from "../request-catalog";
+//import { requestCatalog } from "../request-catalog";
+import reqeustCatalog from "../data/requestCatalog.json";
 
 import { Block } from "../block";
 import { RequestDef } from "../../models-bj/request-def";
 import { DependencyBlock } from "../../models-bj/block";
 import { request } from "http";
 
-describe("use case - timesheet", () => {
-  requestCatalog;
-
+describe("Request Use Case - Timesheet", () => {
   it("should return the list of request definitions from request Catalog", () => {
-    const requestDefinitionList = requestCatalog.getList("TEAM");
+    const requestDefinitionList = reqeustCatalog;
     expect(requestDefinitionList.length).toBeGreaterThan(0);
   });
 
   it("should find 'Collect Team Timesheets' definition from request Catalog", () => {
-    const timesheetDef = new RequestDef("Collect Team Timesheets");
-    const findTimesheetDef = requestCatalog.find("Collect Team Timesheets");
-    expect(findTimesheetDef).toEqual(timesheetDef);
+    const findTimesheetDef = Request.getRequestDefByName("Collect Timesheets");
+    expect(findTimesheetDef).toMatchObject(reqeustCatalog[2]);
   });
 
   it("should find 3 blockDefs in 'Collect Team Timesheets' definition ", () => {
@@ -82,7 +80,7 @@ describe("use case - timesheet", () => {
     );
   });
 
-  it('should be able to become active request for requestoer and responders', () => {
+  it("should be able to become active request for requestoer and responders", () => {
     const findTimesheetDef = requestCatalog.find("Collect Team Timesheets");
     const block1 = findTimesheetDef.blockDefs[0];
     const block3 = findTimesheetDef.blockDefs[2];
@@ -91,9 +89,6 @@ describe("use case - timesheet", () => {
     const userGroupEng = new userGroup("Engineering");
     timesheetReq.config.teamMember = userGroupEng.members; // array of users
     timesheetReq.config.approver = User.find({ title: "VP of Engineering" });
-    
-    timesheetReq.
-    
   });
 
   it("should ", () => {});
@@ -107,5 +102,4 @@ describe("use case - timesheet", () => {
   it("should ", () => {});
   it("should ", () => {});
   it("should ", () => {});
-
 });

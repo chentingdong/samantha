@@ -5,7 +5,7 @@ import blockTestData from "../data/blockTestData.json";
 import { User } from "../user";
 import { v4 as uuid } from "uuid";
 
-describe("Request", () => {
+describe("Request From Empty", () => {
   const currentUser = new User(uuid(), "Jin", "jwang@bellhop.io");
 
   it("should be able to get a pre-defiend request from catalog", () => {
