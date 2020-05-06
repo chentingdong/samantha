@@ -6,7 +6,7 @@ import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block/block-def-palette'
-import { DndTargetBox } from '../utils/dnd-target-box'
+import { DndTargetBox } from '../block/dnd-target-box'
 import { RequestBlocks } from '../block/request-blocks'
 
 const EditRequestDef = (props) => {

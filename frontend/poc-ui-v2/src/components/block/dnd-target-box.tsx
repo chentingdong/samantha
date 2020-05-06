@@ -1,9 +1,10 @@
 import React, { useState, useCallback } from 'react'
 import { useDrop } from 'react-dnd'
+import { BlockDef } from '../context/interface'
 
 export const DndTargetBox: React.FC<{
   accept: string
-  onDrop: (item: any) => void
+  onDrop: (item: BlockDef) => void
 }> = ({ accept, onDrop, children }) => {
   const [{ isOver, canDrop }, drop] = useDrop({
     accept: accept,
@@ -22,11 +23,8 @@ export const DndTargetBox: React.FC<{
     <div
       ref={drop}
       className={`border-gray ${hoverClass}`}
-      style={{ minHeight: '100px', borderStyle: 'dashed' }}
+      style={{ minHeight: '100px', borderStyle: 'dotted' }}
     >
-      {React.Children.toArray(children).length === 0 && (
-        <div className="m-auto align-self-center">drag a block here...</div>
-      )}
       {children}
     </div>
   )

@@ -1,8 +1,7 @@
 import React from 'react'
 import { Context } from '../context/store'
 import { BlockDef } from '../context/interface'
-import { RequestBlocks } from './request-blocks'
-import { DndSourceBox } from '../utils/dnd-source-box'
+import { DndSourceBox } from './dnd-source-box'
 
 export const BlockDefPalette = () => {
   const { state, dispatch } = React.useContext(Context)
@@ -18,7 +17,7 @@ export const BlockDefPalette = () => {
                 <div className="card">
                   <strong className="card-header">{blockDef.name}</strong>
                   <div className="card-body">{blockDef.description}</div>{' '}
-                </div>{' '}
+                </div>
               </DndSourceBox>
             </div>
           )
