@@ -1,4 +1,5 @@
 import blockLibrary from "./data/blockLibrary.json"
+import { v4 as uuid } from "uuid";
 
 export enum State {
   PENDING = "pending",
@@ -7,7 +8,7 @@ export enum State {
 }
 
 export class Block {
-  readonly id: string;
+  readonly id: string = uuid();
   name: string;
   state: State;
   description?: string;
@@ -15,10 +16,9 @@ export class Block {
   config: {};
   data: {};
 
-  constructor(id: string, name: string, blockDef: Block) {
-    this.blockDef = blockDef;
-    this.id = id;
+  constructor(name: string, blockDef: Block) {
     this.name = name;
+    this.blockDef = blockDef;
     this.state = State.PENDING;
 
     //if (description) this.description = description;

@@ -51,9 +51,9 @@
   },
   {
     "id": "id002",
-    "name": "Collect Timesheets",
+    "name": "Collect Timesheet",
     "state": "active",
-    "description": "get Timesheets from an user",
+    "description": "get Timesheet from an user",
     "blockDefs": [{
       "id": "LBE345",
       "name": "weekly timesheet",

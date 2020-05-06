@@ -1,10 +1,9 @@
 import { Block, State } from "../block";
 import blockTestData from "../data/blockTestData.json";
-import { v4 as uuid } from "uuid";
 
 describe("Block Timesheet Use Case", () => {
   const testBlockDef = Block.getBlockById("LEAF", blockTestData.testBlockId);
-  const testBlock = new Block(uuid(), "Timesheet #22", testBlockDef);
+  const testBlock = new Block("Timesheet #22", testBlockDef);
 
   it("should have an id", () => {
     expect(testBlock.id).toBeDefined();
@@ -12,7 +11,7 @@ describe("Block Timesheet Use Case", () => {
 
   it("should be able to be created from a def in block library", () => {
     const testBlockDef = Block.getBlockById("LEAF", blockTestData.testBlockId);
-    const testBlock = new Block(uuid(), "Timesheet #22", testBlockDef);
+    const testBlock = new Block("Timesheet #22", testBlockDef);
     expect(testBlock.blockDef).toMatchObject(testBlockDef);
     expect(testBlock.config).toMatchObject(testBlockDef.config);
     expect(testBlock.data).toMatchObject(testBlockDef.data);
@@ -54,7 +53,6 @@ describe("LEAF Block", () => {
 
 it("should be able to config and reflect config into data", () => {
   const testBlock = new Block(
-    uuid(),
     "Timesheet #22",
     Block.getBlockById("LEAF", blockTestData.testBlockId)
   );

@@ -1,6 +1,6 @@
 import { Block, State as BlockState } from "./block"
 import { User } from "./user";
-import uuid from 'uuid';
+import { v4 as uuid } from "uuid";
 import reqeustCatalog from "./data/requestCatalog.json";
 
 export enum State {
@@ -10,7 +10,7 @@ export enum State {
 }
 
 export class Request {
-  readonly id: string = uuid.v4();
+  readonly id: string = uuid();
   name: string;
   description: string;
   state: State;
@@ -25,7 +25,7 @@ export class Request {
     this.requestor = {"id":"", "name":"", "email":""};
     this.description = description;
     this.state = State.PENDING;
-    this.blocks = requestDef.blocks;
+    this.blocks = [];
     this.blockDefs = requestDef.blockDefs;
     this.originalRequestDef = requestDef;
     this.responders = [];
@@ -38,7 +38,35 @@ export class Request {
 
   addResponder(responder: User) {
     this.responders.push(responder);
+    this.checkState("responder");  // this would be a context store state auto detect
   }
+
+  // this would be a main area for state / lifecycle discussion
+  private checkState(stateScope: String) {
+    // if a block state, if config done and responder defined, no dependency change to Active
+    switch (stateScope) {
+      case "responder":
+        // loop through blocks if no dependencies, set all blocks active and trigger notification
+        break;
+      case "block":
+        // check blocks if CRUD, update state with dependencies and  trigger notification
+        break;
+      case "dependency":
+        // loop through blocks with dependencies, set all blocks state accordingly and trigger notification
+        break;
+    
+      default:
+        break;
+    }
+
+    // start blocks when no dependencies found
+    this.blocks.map((b: Block) => {
+      b.start()
+    });
+
+    this.state = State.ACTIVE;
+  }
+
 
   addBlockDef(block: Block) {
     this.blockDefs.push(block);
@@ -66,9 +94,12 @@ export class Request {
 
   getRespondersView() { }
 
-  static getRequestMade = (requester: User) => {
-    
-    return []
+  static getRequestMade = (requester: User) => { // need to have a db search of request
+    return [{}, {}]
+  }
+
+    static getRequestReceived = (requester: User) => { // need to have a db search of request
+    return [{}, {}]
   }
 
   static getRequestCatalog = (tags: string[]) => {

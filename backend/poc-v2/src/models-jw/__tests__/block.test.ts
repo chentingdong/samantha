@@ -4,7 +4,7 @@ import { v4 as uuid } from "uuid";
 
 describe("Timesheet Block", () => {
   const testBlockDef = Block.getBlockById("LEAF", blockTestData.testBlockId);
-  const testBlock = new Block(uuid(), "Timesheet #22", testBlockDef);
+  const testBlock = new Block("Timesheet #22", testBlockDef);
 
   it("should have an id", () => {
     expect(testBlock.id).toBeDefined();
