@@ -1,8 +1,11 @@
 {
   "isAuthenticated": false,
-  "user": {},
+  "user": {
+    "id": "",
+    "attributes": {}
+  },
   "users": [],
-  "currentRequest": {
+  "currentRequestDef": {
     "id": "",
     "name": "",
     "description": "",
@@ -12,18 +15,24 @@
     "blocks": []
   },
   "requestDefs": [],
-  "currentBlock": {
+  "currentBlockDef": {
     "id": "",
     "name": "",
     "description": "",
+    "type": "leaf",
     "state": "pending",
     "requester": "",
     "responders": [],
-    "form": {}
+    "data": {}
   },
   "blockDefs": [],
+  "currentRequest": {},
+  "requests": [],
   "messages": [],
   "uiState": {
-    "showEditRequestDef": false
+    "showEditRequestDef": true,
+    "showEditRequest": false,
+    "showRequestViewRequester": true,
+    "showRequestViewResponder": false
   }
 }

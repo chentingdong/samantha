@@ -3,58 +3,75 @@ import uuid from 'uuid'
 import { EditRequestDef } from './edit-request-def'
 import { Context } from '../context/store'
 import { RequestDef } from '../context/interface'
-import initialState from '../../../data/initialState.json'
+import { initialState } from '../context/store'
 
 function RequestDefsMenu() {
   const { state, dispatch } = React.useContext(Context)
-  const defaultRequest: RequestDef = initialState.currentRequest
+  const defaultRequest: RequestDef = initialState.currentRequestDef
 
   const createRequestDef = () => {
-    let currentRequest = defaultRequest
-    currentRequest.id = uuid.v4()
-    currentRequest.requester = state.user.id
+    let currentRequestDef = defaultRequest
+    currentRequestDef.id = uuid.v4()
+    currentRequestDef.requester = state.user.id
 
     dispatch({
-      type: 'setUiState',
-      uiState: {
-        showEditRequestDef: !state.uiState.showEditRequestDef,
-      },
+      type: 'setUi',
+      data: { showEditRequestDef: true },
     })
   }
 
+  const returnToMenu = () => {
+    dispatch({
+      type: 'setUi',
+      data: {
+        showEditRequestDef: false,
+        showEditRequest: false,
+      },
+    })
+  }
   const editRequestDef = (index: number) => {
-    let currentRequest = state.requestDefs[index]
-    currentRequest.requester = state.user.id
-    dispatch({ type: 'saveCurrentRequest', currentRequest: currentRequest })
+    let currentRequestDef = state.requestDefs[index]
     dispatch({
-      type: 'setUiState',
-      uiState: {
-        showEditRequestDef: true,
-      },
+      type: 'set',
+      data: { currentRequestDef: currentRequestDef },
+    })
+    dispatch({
+      type: 'setUi',
+      data: { showEditRequestDef: true },
     })
   }
 
-  const makeRequest = () => {}
+  const EditRequest = (index) => {
+    let currentRequest = {
+      ...state.requestDefs[index],
+      id: uuid.v4(),
+      name: '',
+      requester: state.user.id,
+    }
+    dispatch({
+      type: 'set',
+      data: { currentRequest: currentRequest },
+    })
+    dispatch({
+      type: 'setUi',
+      data: { showEditRequest: true },
+    })
+  }
 
   return (
     <div className="">
       <div className="d-flex justify-content-between">
         <h2 className="col-4">Request Defs Menu</h2>
-        <div
-          className="btn btn-link col-3 text-right"
-          style={{ zIndex: 100 }}
-          onClick={createRequestDef}
-        >
-          {state.uiState['showEditRequestDef'] ? (
-            <span>Return to menu</span>
+        <div className="btn btn-link col-3 text-right" style={{ zIndex: 100 }}>
+          {state.uiState.showEditRequestDef || state.uiState.showEditRequest ? (
+            <span onClick={returnToMenu}>Return to menu</span>
           ) : (
-            <span>Add Request to Menu</span>
+            <span onClick={createRequestDef}>Add Request to Menu</span>
           )}
         </div>
       </div>
-      {state.uiState['showEditRequestDef'] && (
+      {state.uiState.showEditRequestDef && (
         <div
-          id="createRequestDef"
           className="col-12 position-absolute bg-light vh-100"
           style={{ top: '0', zIndex: 5 }}
         >
@@ -75,13 +92,21 @@ function RequestDefsMenu() {
                       {requestDef.blocks &&
                         requestDef.blocks.map((block, index2) => {
                           return (
-                            <span key={`block-${index2}`}>{block.name}</span>
+                            <span
+                              className="border p-2 mr-2"
+                              key={`block-${index2}`}
+                            >
+                              {block.name}
+                            </span>
                           )
                         })}
                     </p>
                   </div>
                   <div className="col-3">
-                    <button className="btn btn-link" onClick={makeRequest}>
+                    <button
+                      className="btn btn-link"
+                      onClick={(e) => EditRequest(index)}
+                    >
                       Make a request
                     </button>
                     <br />

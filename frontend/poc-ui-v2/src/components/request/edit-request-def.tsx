@@ -1,76 +1,89 @@
 import uuid from 'uuid'
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
-import initialState from '../../../data/initialState.json'
+import { initialState } from '../context/store'
+import { BlockDefPalette } from '../block/block-def-palette'
+import { DndTargetBox } from '../utils/dnd-target-box'
+import { BlockCard } from '../block/block-card'
 
 const EditRequestDef: React.FC = (props) => {
   const { state, dispatch } = useContext(Context)
-  const defaultRequest: RequestDef = initialState.currentRequest
+  const defaultRequestDef = initialState.currentRequestDef
+  const prevRequestDef = state.currentRequestDef
 
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: state.currentRequest,
+    defaultValues: prevRequestDef,
   })
 
   const onSumbit = (data) => {
     console.log(JSON.stringify(data))
   }
 
-  const addBlockToRequest = async (index) => {
-    let currentBock = Object.assign(state.blockDefs[index], {
-      id: uuid.v4(),
-      state: 'pending',
-      requester: state.user.id,
-    })
-
-    let blocks = state.currentRequest.blocks
-    blocks.push(currentBock)
-
+  const addBlockToRequestDef = async (item) => {
+    let currentBlockDef = state.blockDefs.find(
+      (blockDef) => blockDef.id === item.blockDef.id
+    )
+    let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
+    let updatedRequestDef = {
+      ...state.currentRequestDef,
+      blocks: updatedBlocks,
+    }
     dispatch({
-      type: 'saveCurrentRequest',
-      currentRequest: {
-        ...state.currentRequest,
-        id: uuid.v4(),
-        blocks: blocks,
-      },
+      type: 'set',
+      data: { currentRequestDef: updatedRequestDef },
     })
   }
 
   const saveRequestDef = async () => {
-    let currentRequest: RequestDef = Object.assign(
-      state.currentRequest,
-      getValues()
+    // apply user's form changes
+    const formValues = getValues()
+    let currentRequestDef: RequestDef = Object.assign(
+      state.currentRequestDef,
+      formValues
     )
 
-    await dispatch({
-      type: 'saveCurrentRequest',
-      currentRequest: currentRequest,
-    })
+    let requestDefs = state.requestDefs
 
-    if (state.requestDefs.indexOf(currentRequest) < 0) {
-      await dispatch({
-        type: 'saveRequestDefs',
-        requestDefs: [...state.requestDefs, currentRequest],
-      })
+    // if blockDef is found in blockDefs, then update, otherwise create
+    // TODO: rewrite the following block with elegent codes
+    let found = false
+    requestDefs.forEach((rd, index) => {
+      if (rd.id === currentRequestDef.id) {
+        requestDefs[index] = currentRequestDef
+        found = true
+        return
+      }
+    })
+    if (!found) {
+      requestDefs.push(currentRequestDef)
     }
 
-    setValue('object', {})
     await dispatch({
-      type: 'saveCurrentRequest',
-      currentRequest: defaultRequest,
+      type: 'set',
+      data: { requestDefs: requestDefs },
     })
 
+    // reset after finish
+    await dispatch({
+      type: 'set',
+      data: { currentRequestDef: defaultRequestDef },
+    })
+
+    setValue('object', {})
     close()
   }
 
   const close = () => {
     dispatch({
-      type: 'setUiState',
-      uiState: {
-        showEditRequestDef: false,
-      },
+      type: 'setUi',
+      data: { showEditRequestDef: false },
+    })
+    dispatch({
+      type: 'set',
+      data: { currentRequestDef: defaultRequestDef },
     })
   }
 
@@ -96,19 +109,22 @@ const EditRequestDef: React.FC = (props) => {
             />
           </div>
           <div className="form-group col-12">
-            {state.currentRequest.blocks.map(
-              (block: BlockDef, index: number) => {
-                return (
-                  <div
-                    className="card p-0 m-4 col-4 border-dark"
-                    key={`block-${index}`}
-                  >
-                    <strong className="card-header">{block.name}</strong>
-                    <div className="card-body">{block.description}</div>
-                  </div>
-                )
-              }
-            )}
+            <DndTargetBox
+              accept="block"
+              onDrop={(item) => addBlockToRequestDef(item)}
+            >
+              {state.currentRequestDef.blocks.map(
+                (block: BlockDef, index: number) => {
+                  return (
+                    <BlockCard
+                      className="card p-0 m-2 col-4 border-dark"
+                      block={block}
+                      key={`block-${index}`}
+                    />
+                  )
+                }
+              )}
+            </DndTargetBox>
           </div>
           <ButtonGroup className="col-12">
             <button className="btn btn-light" onClick={saveRequestDef}>
@@ -121,26 +137,7 @@ const EditRequestDef: React.FC = (props) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <h2>Block Palette</h2>
-        <div className="row">
-          {state.blockDefs.map((blockDef: BlockDef, index) => {
-            return (
-              <div
-                className="card p-0 m-4 col-4 border-dark"
-                key={`blockDef-${index}`}
-              >
-                <strong className="card-header">{blockDef.name}</strong>
-                <div className="card-body">{blockDef.description}</div>
-                <button
-                  className="btn btn-light card-footer"
-                  onClick={(e) => addBlockToRequest(index)}
-                >
-                  +
-                </button>
-              </div>
-            )
-          })}
-        </div>
+        <BlockDefPalette />
       </aside>
     </div>
   )

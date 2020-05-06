@@ -4,9 +4,11 @@ import { useEffect, useContext } from 'react'
 import { hot } from 'react-hot-loader/root'
 import Routes from './routes/routes'
 import '../assets/scss/app.scss'
-import { Context } from './context/store'
+import { Context, initialState } from './context/store'
 import config from '../../configs/config'
 import { getUser, getUsers } from './user'
+import { DndProvider } from 'react-dnd'
+import Backend from 'react-dnd-html5-backend'
 
 export const App = () => {
   const { state, dispatch } = useContext(Context)
@@ -19,7 +21,10 @@ export const App = () => {
       if (userInfo) {
         dispatch({ type: 'authenticate', isAuthenticated: true })
         const user = await getUser()
-        dispatch({ type: 'setUser', user: user })
+        await dispatch({
+          type: 'set',
+          data: { user: user },
+        })
       }
     }
     checkLogin()
@@ -35,14 +40,14 @@ export const App = () => {
         case 'signIn':
           dispatch({ type: 'authenticate', isAuthenticated: true })
           const user = await getUser()
-          dispatch({ type: 'setUser', user: user })
+          dispatch({ type: 'set', data: { user: user } })
           const users = await getUsers()
-          dispatch({ type: 'setUsers', users: users })
+          dispatch({ type: 'set', data: { users: users } })
           break
         case 'signOut':
           dispatch({ type: 'authenticate', isAuthenticated: false })
-          dispatch({ type: 'setUser', user: {} })
-          dispatch({ type: 'setUsers', users: [] })
+          dispatch({ type: 'set', data: { user: initialState.user } })
+          dispatch({ type: 'set', data: { users: initialState.users } })
           break
         case 'signIn_failure':
           console.error('user sign in failed')
@@ -55,7 +60,14 @@ export const App = () => {
 
   return (
     <div className="app wrapper vh-100">
-      <Routes />
+      {state.isAuthenticated && (
+        <button className="btn btn-link fixed-bottom m-2" onClick={logout}>
+          Log out
+        </button>
+      )}
+      <DndProvider backend={Backend}>
+        <Routes />
+      </DndProvider>
     </div>
   )
 }

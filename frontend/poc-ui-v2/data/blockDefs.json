@@ -1,34 +1,56 @@
 [
   {
-    "id": "1",
+    "id": "composite-1",
+    "name": "sequencial stage container",
+    "description": "a composite block that support request stages",
+    "type": "sequenceStage",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "data": {
+      "stages": ["stage 1", "stage 2", "stage 3"]
+    }
+  },
+  {
+    "id": "composite-2",
+    "name": "parallel stage container",
+    "description": "a composite block container, block in same group ",
+    "type": "parallelStage",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "data": {
+      "stages": ["group 1", "group 2"]
+    }
+  },
+  {
+    "id": "leaf-1",
     "name": "intake a form",
     "description": "ask responder(s) to intake a form",
+    "type": "leaf",
+    "state": "active",
     "requester": "",
     "responders": [],
-    "form": {}
+    "data": {}
   },
   {
-    "id": "2",
+    "id": "leaf-2",
     "name": "approval",
-    "description": "ask responder(s) to intake a form",
+    "description": "ask for approval",
+    "type": "leaf",
+    "state": "pending",
     "requester": "",
     "responders": [],
-    "form": {}
+    "data": {}
   },
   {
-    "id": "3",
-    "name": "add a teammate",
-    "description": "add a teammate is a sub request?",
-    "requester": "",
-    "responders": [],
-    "form": {}
-  },
-  {
-    "id": "4",
+    "id": "leaf-3",
     "name": "collect timesheet",
-    "description": "collect timesheets from team",
+    "description": "collect timesheets",
+    "type": "leaf",
+    "state": "active",
     "requester": "",
     "responders": [],
-    "form": {}
+    "data": {}
   }
 ]

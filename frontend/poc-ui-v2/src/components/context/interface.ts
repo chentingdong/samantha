@@ -9,32 +9,38 @@ export interface RequestDef {
 }
 
 export interface BlockDef {
-  id?: string
-  name?: string
-  description?: string
-  state?: string
-  requester?: string
-  responders?: string[]
-  form?: object
+  id: string
+  name: string
+  description: string
+  type: string
+  state: string
+  requester: string
+  responders: string[]
+  data: object
 }
 
 export interface UiState {
-  showEditRequestDef: boolean
+  showEditRequestDef?: boolean
+  showEditRequest?: boolean
+  showRequestViewRequester?: boolean
+  showRequestViewResponder?: boolean
 }
 
 export interface User {
-  id: string
-  attribute: object
+  id?: string
+  attributes?: object
 }
 
 export interface State {
   isAuthenticated: boolean
   user: User
   users: User[]
-  currentRequest: RequestDef
+  currentRequestDef: RequestDef
   requestDefs: RequestDef[]
-  currentBlock: BlockDef
+  currentBlockDef: BlockDef
   blockDefs: BlockDef[]
+  currentRequest?: RequestDef
+  requests: RequestDef[]
   messages: object[]
   uiState: UiState
 }

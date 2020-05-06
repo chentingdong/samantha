@@ -1,19 +1,18 @@
 import * as React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import { Tab, Nav, Row, Col } from 'react-bootstrap'
-import { Requests, RequestsMade, RequestsReceived } from '../request/requests'
+import { DndProvider } from 'react-dnd'
+import { RequestsMade, RequestsReceived } from '../request/requests-menu'
 import { RequestDefsMenu } from '../request/request-defs-menu'
 import { Context } from '../context/store'
-import blockDefs from '../../../data/blockDefs.json'
-import requestDefs from '../../../data/requestDefs.json'
+import { EditRequest } from '../request/edit-request'
+import {
+  RequestViewResponder,
+  RequestViewRequester,
+} from '../request/request-view'
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
-
-  useEffect(() => {
-    dispatch({ type: 'saveRequestDefs', requestDefs: requestDefs })
-    dispatch({ type: 'saveBlockDefs', blockDefs: blockDefs })
-  }, [])
 
   return (
     <div className="container-fluid">
@@ -51,9 +50,12 @@ function VirtualAssistant() {
             </div>
           </div>
         </Tab.Container>
+        <EditRequest />
+        <RequestViewRequester />
+        <RequestViewResponder />
       </main>
       <footer className="vh-25 overflow-scroll border-top small">
-        <h5>context state</h5>
+        <h5>context</h5>
         <pre>
           <code>{JSON.stringify(state, null, 2)}</code>
         </pre>

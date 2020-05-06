@@ -1,20 +1,45 @@
 [
   {
-    "id": "1",
-    "name": "request 1",
-    "requestDef": "request 1 description",
+    "id": "0518ba8c-47b0-4ad9-b672-63ac56855f77",
+    "name": "test, I'm requester",
+    "description": "empty request wrapper",
     "state": "pending",
-    "blocks": [],
-    "requester": "a",
-    "responders": ["b", "c"]
+    "requester": "Google_115419186368884878540",
+    "responders": [],
+    "blocks": [
+      {
+        "id": "1",
+        "name": "intake a form",
+        "description": "ask responder(s) to intake a form",
+        "type": "leaf",
+        "state": "active",
+        "requester": "",
+        "responders": [],
+        "data": {}
+      }
+    ]
   },
   {
-    "id": "2",
-    "name": "request 2",
-    "requestDef": "request 2 description",
+    "id": "0518ba8c-47b0-4ad9-b672-63ac56855f77",
+    "name": "test, I'm one of the responder",
+    "description": "empty request wrapper",
     "state": "pending",
-    "blocks": [],
-    "requester": "b",
-    "responders": ["a", "c"]
+    "requester": "Google_103472621531484531270",
+    "responders": [
+      "Google_115419186368884878540",
+      "Google_103472621531484531270"
+    ],
+    "blocks": [
+      {
+        "id": "1",
+        "name": "intake a form",
+        "description": "ask responder(s) to intake a form",
+        "type": "leaf",
+        "state": "active",
+        "requester": "",
+        "responders": [],
+        "data": {}
+      }
+    ]
   }
 ]
