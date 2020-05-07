@@ -41,7 +41,7 @@ const SegmentSequenceStages: React.FC<{ subBlocks: BlockDef[] }> = ({
         greedy={false}
         onDrop={(item) => addSubBlock(item)}
       >
-        <RequestBlocks blocks={subBlocks} />
+        <RequestBlocks blocks={subBlocks} cardClass="col m-0" />
       </DndTargetBox>
     </div>
   )

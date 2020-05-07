@@ -2,7 +2,7 @@
   {
     "id": "composite-1",
     "name": "sequencial stage container",
-    "description": "a composite block that support request stages",
+    "description": "a composite block that support running request stages in sequence",
     "type": "sequenceStages",
     "state": "active",
     "requester": "",

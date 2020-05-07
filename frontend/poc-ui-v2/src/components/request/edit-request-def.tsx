@@ -112,7 +112,10 @@ const EditRequestDef = (props) => {
               greedy={false}
               onDrop={(blockDef) => addBlockToRequestDef(blockDef)}
             >
-              <RequestBlocks blocks={state.currentRequestDef.blocks} />
+              <RequestBlocks
+                blocks={state.currentRequestDef.blocks}
+                cardClass="col-12"
+              />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">

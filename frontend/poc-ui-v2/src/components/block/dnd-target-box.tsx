@@ -36,7 +36,7 @@ export const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   return (
     <div
       ref={drop}
-      className={`border-gray ${hoverClass}`}
+      className={`border-gray pb-4 ${hoverClass}`}
       style={{ minHeight: '100px', borderStyle: 'dotted' }}
     >
       {children}
