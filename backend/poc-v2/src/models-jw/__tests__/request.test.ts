@@ -64,8 +64,10 @@ describe("Request", () => {
     expect(newRequest.responders[0]).toMatchObject(userBaiji);
   });
 
-  it("should be in active state by when added responders without dependency", () => {
+  it("should be in active state when start, blocks without dependency staet should be active", () => {
+    newRequest.start();
     expect(newRequest.state).toBe("active");
+    expect(newRequest.blocks[0].state).toBe(State.ACTIVE);
   });
 
   // TODO: dependency check
@@ -86,7 +88,7 @@ describe("Request", () => {
     newRequest.blocks.map((b: Block) => {
       b.complete();
     });
-    newRequest.complete();
+    newRequest.complete(); // TODO: engien should set this complete
     expect(newRequest.state).toBe(State.COMPLETE);
   });
 });

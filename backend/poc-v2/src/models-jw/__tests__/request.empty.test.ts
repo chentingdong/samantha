@@ -8,7 +8,7 @@ import { v4 as uuid } from "uuid";
 describe("Request From Empty", () => {
   const currentUser = new User(uuid(), "Jin", "jwang@bellhop.io");
 
-  it("should be able to get a pre-defiend request from catalog", () => {
+  it("should be able to get a list of pre-defiend requests from catalog", () => {
     const requestDefinitions = Request.getRequestCatalog([""]);
     expect(requestDefinitions.length).toBeGreaterThan(0);
   });
@@ -43,13 +43,19 @@ describe("Request From Empty", () => {
     expect(newRequest.state).toBe("pending");
   });
 
-  it("should be able to add block from blockLibrary", () => {
+  it("should be able to add block from blockLibrary and set config", () => {
     const testBlockDef = Block.getBlockById("LEAF", blockTestData.testBlockId);
-    const testBlock = new Block(uuid(), "Timesheet #22", testBlockDef);
     newRequest.addBlockDef(testBlockDef);
+    const testBlock = new Block("Timesheet #22", testBlockDef);
+    testBlock.config.formType = "external";
+    testBlock.config.formLink = "https://sheet.gdrive.com/234567";
+    testBlock.setConfig();
     newRequest.addBlock(testBlock);
     expect(newRequest.blockDefs[0]).toMatchObject(testBlockDef);
     expect(newRequest.blocks[0]).toMatchObject(testBlock);
+    expect(newRequest.blocks[0].data.externalLink).toBe(
+      "https://sheet.gdrive.com/234567"
+    );
   });
 
   it("should be able to add responders", () => {

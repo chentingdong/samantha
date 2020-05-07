@@ -1,7 +1,7 @@
-import { Request, STATE } from "../request";
+import { Request, State } from "../request";
 import reqeustCatalog from "../data/requestCatalog.json";
 import { Block } from "../block";
-import { DependencyBlock } from "../../models-bj/block";
+//import { DependencyBlock } from "../../models-bj/block";
 
 describe("Request Use Case - Timesheet", () => {
   it("should return the list of request definitions from request Catalog", () => {
@@ -58,16 +58,4 @@ describe("Request Use Case - Timesheet", () => {
       "https://sheet.gdrive.com/timesheet"
     );
   });
-
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
-  it("should ", () => {});
 });
