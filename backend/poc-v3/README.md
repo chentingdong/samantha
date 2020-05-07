@@ -33,7 +33,7 @@
 
 - JSON data type support is coming soon: https://github.com/prisma/prisma/issues/186
 
-- one to many self relation creates a unique index, which should be non-unique: https://github.com/prisma/migrate/issues/405. Example manual fix:
+~~- one to many self relation creates a unique index, which should be non-unique: https://github.com/prisma/migrate/issues/405. Example manual fix:~~
 
-  - `drop index "Block_parent";`
-  - `create index "Block_parent" on "Block"("parent")`
+- ~~`drop index "Block_parent";`~~
+- ~~`create index "Block_parent" on "Block"("parent")`~~
