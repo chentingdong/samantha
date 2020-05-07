@@ -38,6 +38,13 @@ schema.queryType({
       ordering: true,
       filtering: true,
     })
+    t.list.field('customQuery', {
+      type: 'User',
+      resolve(parent, args, ctx) {
+        console.log('in customQuery resolver')
+        return ctx.db.user.findMany() // <== `ctx.db` is your Prisma Client instance
+      },
+    })
   },
 })
 
@@ -51,5 +58,12 @@ schema.mutationType({
     t.crud.updateOneBlock()
     t.crud.upsertOneBlock()
     t.crud.deleteOneBlock()
+    t.list.field('customMutation', {
+      type: 'User',
+      resolve(parent, args, ctx) {
+        console.log('in customMutation resolver')
+        return ctx.db.user.findMany() // <== `ctx.db` is your Prisma Client instance
+      },
+    })
   },
 })
