@@ -21,6 +21,15 @@
       ]
     },
     {
+      "tag": "CreateEnum",
+      "enum": "Catalog",
+      "values": [
+        "NONE",
+        "BLOCK",
+        "REQUEST"
+      ]
+    },
+    {
       "tag": "CreateSource",
       "source": "db"
     },
@@ -227,6 +236,166 @@
     {
       "tag": "CreateField",
       "model": "Block",
+      "field": "type",
+      "type": "BlockType",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "type"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "type"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "COMPOSITE_PARALLEL"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "catalog",
+      "type": "Catalog",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "catalog"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "catalog"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "NONE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "state",
+      "type": "State",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "state"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "state"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "ACTIVE"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "control",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "control"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "control"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"{}\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "context",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "context"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "context"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"{}\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
       "field": "parentId",
       "type": "Int",
       "arity": "Optional"
@@ -347,102 +516,6 @@
       },
       "argument": "",
       "value": "\"parentChildren\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "Block",
-      "field": "state",
-      "type": "State",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "state"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "state"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "ACTIVE"
-    },
-    {
-      "tag": "CreateField",
-      "model": "Block",
-      "field": "control",
-      "type": "String",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "control"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "control"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "\"{}\""
-    },
-    {
-      "tag": "CreateField",
-      "model": "Block",
-      "field": "type",
-      "type": "BlockType",
-      "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "type"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "type"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "COMPOSITE_PARALLEL"
     },
     {
       "tag": "CreateField",
