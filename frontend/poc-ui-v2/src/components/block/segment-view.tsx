@@ -1,46 +1,54 @@
-import React from 'react'
+import uuid from 'uuid'
+import React, { useContext } from 'react'
 import { BlockDef } from '../context/interface'
 import { DndTargetBox } from './dnd-target-box'
+import { RequestBlocks } from './request-blocks'
+import { Context } from '../context/store'
 
 export const SegmentView: React.FC<{ block: BlockDef }> = ({ block }) => {
   switch (block.type) {
     case 'sequenceStages':
-      return <SegmentSequenceStages stages={block.blocks} />
+      return <SegmentSequenceStages subBlocks={block.blocks} />
     case 'parallelStages':
-      return <SegmentParallelStages stages={block.blocks} />
+    // return <SegmentParallelStages subBlocks={block.blocks} />
     default:
       return <span />
   }
 }
 
-const SegmentSequenceStages: React.FC<{ stages: BlockDef[] }> = ({
-  stages,
+const SegmentSequenceStages: React.FC<{ subBlocks: BlockDef[] }> = ({
+  subBlocks,
 }) => {
-  const addBlockToStage = (subBlock: BlockDef) => {
-    console.log(subBlock)
+  const { state, dispatch } = useContext(Context)
+
+  const addSubBlock = (blockDef: BlockDef) => {
+    subBlocks.push({ ...blockDef, id: uuid.v4() })
+    dispatch({
+      type: 'set',
+      data: {
+        currentRequestDef: {
+          ...state.currentRequestDef,
+          blocks: state.currentRequestDef.blocks,
+        },
+      },
+    })
   }
 
   return (
-    <div className="d-flex">
-      {stages.map((stage) => {
-        return (
-          <div className="flex-fill p-2" key={stage.id}>
-            <div className="text-center">{stage.name}</div>
-            <DndTargetBox
-              accept="block"
-              onDrop={(subBlock) => addBlockToStage(subBlock)}
-            >
-              <div>{stage.blocks}</div>
-            </DndTargetBox>
-          </div>
-        )
-      })}
+    <div className="col-12">
+      <DndTargetBox
+        accept="block"
+        greedy={false}
+        onDrop={(item) => addSubBlock(item)}
+      >
+        <RequestBlocks blocks={subBlocks} />
+      </DndTargetBox>
     </div>
   )
 }
 
-const SegmentParallelStages: React.FC<{ stages: BlockDef[] }> = ({
-  stages,
-}) => {
-  return <div>Parallel stages: {JSON.stringify(stages)}</div>
-}
+// const SegmentParallelStages: React.FC<{ stages: BlockDef[] }> = ({
+//   stages,
+// }) => {
+//   return <div>Parallel stages: {JSON.stringify(stages)}</div>
+// }

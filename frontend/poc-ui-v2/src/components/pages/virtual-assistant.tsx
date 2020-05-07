@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { useContext, useState, useEffect } from 'react'
 import { Tab, Nav } from 'react-bootstrap'
 import { RequestsMade, RequestsReceived } from '../request/requests-menu'
 import { RequestDefsMenu } from '../request/request-defs-menu'
@@ -8,6 +7,7 @@ import {
   RequestViewResponder,
   RequestViewRequester,
 } from '../request/request-view'
+import { ContextViewCodes } from '../context/context-view-codes'
 
 function VirtualAssistant() {
   return (
@@ -50,7 +50,9 @@ function VirtualAssistant() {
         <RequestViewRequester />
         <RequestViewResponder />
       </main>
-      <footer className="border-top small"></footer>
+      <footer className="border-top small">
+        <ContextViewCodes />
+      </footer>
     </div>
   )
 }

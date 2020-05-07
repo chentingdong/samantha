@@ -2,9 +2,9 @@ import React, { useContext } from 'react'
 import AceEditor from 'react-ace'
 import 'ace-builds/src-noconflict/mode-json'
 import 'ace-builds/src-noconflict/theme-github'
-import { Context } from '../context/store'
+import { Context } from './store'
 
-export const ContextDesiplayCodes = () => {
+export const ContextViewCodes = () => {
   const { state, dispatch } = useContext(Context)
   return (
     <div>
