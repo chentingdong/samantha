@@ -49,40 +49,15 @@ export class Block {
     return true;
   }
 
-  public getSurface(user: User): Object|null {
+  public getSurface(user: User): any {
     if (this.responders.includes(user) || this.requestors.includes(user)) {
-      return this;
+      return _.cloneDeep(this);
     }
     return null;
   }  
 }
 
-export class CompositeBlock extends Block {
-  blocks: Block[] = [];
 
-  public addBlock(block: Block) {
-    this.blocks.push(block);
-  }
+export class FormBlock extends Block { }
 
-  public listActiveBlocks(): Block[] {
-    return this.blocks.filter((block) => block.state == State.ACTIVE);
-  }
-
-  private toDTO(includeBlocks?: boolean): Object {
-    const clone = _.cloneDeep(this);
-    if (!includeBlocks) {
-      delete clone.blocks;
-    }
-    return clone;
-  }
-
-  public getSurface(user: User): Object|null {
-    if (this.responders.includes(user)) {
-      return this.toDTO(true);;
-    }
-    if (this.requestors.includes(user)) {
-      return this.toDTO(false);
-    }
-    return null;
-  }  
-}
+export class APIBlock extends Block { }

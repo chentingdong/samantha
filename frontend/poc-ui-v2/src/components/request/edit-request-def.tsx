@@ -22,10 +22,8 @@ const EditRequestDef = (props) => {
     console.log(JSON.stringify(data))
   }
 
-  const addBlockToRequestDef = async (item) => {
-    let currentBlockDef = state.blockDefs.find(
-      (blockDef) => blockDef.id === item.blockDef.id
-    )
+  const addBlockToRequestDef = async (blockDef: BlockDef) => {
+    let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
     let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
     let updatedRequestDef = {
       ...state.currentRequestDef,
@@ -108,12 +106,16 @@ const EditRequestDef = (props) => {
               name="description"
             />
           </div>
-          <div className="form-group col-12">
+          <div className="form-group col-12 ">
             <DndTargetBox
               accept="block"
+              greedy={false}
               onDrop={(blockDef) => addBlockToRequestDef(blockDef)}
             >
-              <RequestBlocks blocks={state.currentRequestDef.blocks} />
+              <RequestBlocks
+                blocks={state.currentRequestDef.blocks}
+                cardClass="col-12"
+              />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">

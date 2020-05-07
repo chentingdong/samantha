@@ -2,27 +2,41 @@ import React, { useState, useCallback } from 'react'
 import { useDrop } from 'react-dnd'
 import { BlockDef } from '../context/interface'
 
-export const DndTargetBox: React.FC<{
+type DndTargetBoxProps = {
   accept: string
+  greedy?: boolean
   onDrop: (item: BlockDef) => void
-}> = ({ accept, onDrop, children }) => {
-  const [{ isOver, canDrop }, drop] = useDrop({
+}
+export const DndTargetBox: React.FC<DndTargetBoxProps> = ({
+  accept,
+  onDrop,
+  greedy = false,
+  children,
+}) => {
+  const [hasDropped, setHasDropped] = useState(false)
+  const [hasDroppedOnChild, setHasDroppedOnChild] = useState(false)
+  const [{ isOver, isOverCurrent }, drop] = useDrop({
     accept: accept,
     hover: (item, monitor) => {
-      monitor.isOver({ shallow: true })
+      monitor.isOver()
     },
-    drop: onDrop,
+    drop: (item: { type: 'string'; blockDef: BlockDef }, monitor) => {
+      if (monitor.didDrop()) {
+        return
+      }
+      onDrop(item.blockDef)
+    },
     collect: (monitor) => ({
-      isOver: monitor.isOver(),
-      canDrop: monitor.canDrop(),
+      isOver: monitor.isOver({ shallow: false }),
+      isOverCurrent: monitor.isOver({ shallow: true }),
     }),
   })
 
-  const hoverClass = isOver && canDrop ? 'bg-highlight' : ''
+  const hoverClass = isOverCurrent || (isOver && greedy) ? 'bg-highlight' : ''
   return (
     <div
       ref={drop}
-      className={`border-gray ${hoverClass}`}
+      className={`border-gray pb-4 ${hoverClass}`}
       style={{ minHeight: '100px', borderStyle: 'dotted' }}
     >
       {children}
