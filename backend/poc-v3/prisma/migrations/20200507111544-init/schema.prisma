@@ -20,6 +20,12 @@ enum BlockType {
   LEAF_API
 }
 
+enum Catalog {
+  NONE
+  BLOCK
+  REQUEST
+}
+
 model User {
   id              String  @id
   name            String
@@ -31,12 +37,14 @@ model User {
 model Block {
   id         Int       @default(autoincrement()) @id
   name       String
+  type       BlockType @default(COMPOSITE_PARALLEL)
+  catalog    Catalog   @default(NONE)
+  state      State     @default(ACTIVE)
+  control    String    @default("{}")
+  context    String    @default("{}")
   parentId   Int?      @map("parent")
   parent     Block?    @relation("parentChildren", fields: [parentId], references: [id])
   children   Block[]   @relation("parentChildren")
-  state      State     @default(ACTIVE)
-  control    String    @default("{}")
-  type       BlockType @default(COMPOSITE_PARALLEL)
   requestors User[]    @relation("requestors", references: [id])
   responders User[]    @relation("responders", references: [id])
 }
