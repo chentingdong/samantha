@@ -1,0 +1,37 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "context",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "context"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "context"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"{}\""
+    }
+  ]
+}
