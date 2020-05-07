@@ -1,5 +1,7 @@
-@import "./variables.scss";
-@import "~react-form-builder2/dist/app.css";
+@import './variables.scss';
+@import '~codemirror/lib/codemirror.css';
+// @import '~codemirror/theme/duotone-light.css';
+@import '~react-form-builder2/dist/app.css';
 
 .app {
   font-family: helvetica, arial, sans-serif;
@@ -10,6 +12,9 @@
   }
   .vh-75 {
     height: 75vh !important;
+  }
+  .vh-50 {
+    height: 50vh !important;
   }
   .vh-25 {
     height: 25vh !important;
@@ -37,5 +42,8 @@
       height: 75vh;
       overflow: scroll;
     }
+  }
+  .CodeMirror {
+    height: 100%;
   }
 }

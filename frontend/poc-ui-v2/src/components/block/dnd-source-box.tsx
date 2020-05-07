@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react'
+import React from 'react'
 import { useDrag, DragSourceMonitor } from 'react-dnd'
 
 export const DndSourceBox = ({ blockDef, type, children }) => {

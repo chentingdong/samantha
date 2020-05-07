@@ -16,7 +16,7 @@ export interface BlockDef {
   state: string
   requester: string
   responders: string[]
-  data: object
+  blocks?: BlockDef[]
 }
 
 export interface UiState {

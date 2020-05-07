@@ -59,7 +59,7 @@ export const App = () => {
   return (
     <div className="app wrapper vh-100">
       {state.isAuthenticated && (
-        <button className="btn btn-link fixed-bottom m-2" onClick={logout}>
+        <button className="btn btn-link m-2" onClick={logout}>
           Log out
         </button>
       )}

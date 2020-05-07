@@ -4,27 +4,33 @@ import { DndTargetBox } from './dnd-target-box'
 
 export const SegmentView: React.FC<{ block: BlockDef }> = ({ block }) => {
   switch (block.type) {
-    case 'sequenceStage':
-      return <SegmentSequenceStage stages={block.data['stages']} />
-    case 'parallelStage':
-      return <SegmentParallelStage stages={block.data['stages']} />
+    case 'sequenceStages':
+      return <SegmentSequenceStages stages={block.blocks} />
+    case 'parallelStages':
+      return <SegmentParallelStages stages={block.blocks} />
     default:
-      return <></>
+      return <span />
   }
 }
 
-const SegmentSequenceStage: React.FC<{ stages: string[] }> = ({ stages }) => {
-  const addBlockToStage = (blockDef: BlockDef) {
-    console.log(blockDef)
+const SegmentSequenceStages: React.FC<{ stages: BlockDef[] }> = ({
+  stages,
+}) => {
+  const addBlockToStage = (subBlock: BlockDef) => {
+    console.log(subBlock)
   }
 
   return (
     <div className="d-flex">
       {stages.map((stage) => {
         return (
-          <div className="flex-fill p-2">
-            <strong className="text-center">{stage}</strong>
-            <DndTargetBox accept='block' onDrop={(blockDef) => addBlockToStage(blockDef)}>
+          <div className="flex-fill p-2" key={stage.id}>
+            <div className="text-center">{stage.name}</div>
+            <DndTargetBox
+              accept="block"
+              onDrop={(subBlock) => addBlockToStage(subBlock)}
+            >
+              <div>{stage.blocks}</div>
             </DndTargetBox>
           </div>
         )
@@ -33,6 +39,8 @@ const SegmentSequenceStage: React.FC<{ stages: string[] }> = ({ stages }) => {
   )
 }
 
-const SegmentParallelStage: React.FC<{ stages: string[] }> = ({ stages }) => {
+const SegmentParallelStages: React.FC<{ stages: BlockDef[] }> = ({
+  stages,
+}) => {
   return <div>Parallel stages: {JSON.stringify(stages)}</div>
 }
