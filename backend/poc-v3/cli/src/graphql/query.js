@@ -89,7 +89,7 @@ module.exports.requestCatalog = async () => {
     query: gql`
       query requestCatalog {
         blocks(
-          orderBy: { id: desc }
+          orderBy: { id: asc }
           where: {
             AND: [
               { inCatalog: { equals: true } }
@@ -127,7 +127,7 @@ module.exports.blockCatalog = async () => {
   const { data } = await client.query({
     query: gql`
       query blockCatalog {
-        blocks(orderBy: { id: desc }, where: { inCatalog: { equals: true } }) {
+        blocks(orderBy: { id: asc }, where: { inCatalog: { equals: true } }) {
           id
           name
           parent {

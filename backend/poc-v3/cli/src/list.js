@@ -50,13 +50,7 @@ const listRequestCatalog = async () => {
         'Request catalog is empty. Try to create some requests in the catalog!',
       ),
     )
-  blocks.map((block) =>
-    printBlockLine(
-      colors.gray(
-        'Request catalog is empty. Try to create some requests in the catalog!',
-      ),
-    ),
-  )
+  blocks.map((block) => printBlockLine(block))
 }
 
 const listBlockCatalog = async () => {
