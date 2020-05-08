@@ -1,17 +1,30 @@
 [
   {
     "id": "1",
-    "name": "default",
+    "name": "default request, parallel block container",
     "description": "empty request wrapper",
+    "type": "parallelStages",
     "state": "pending",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "blocks": [
+      {
+        "id": "leaf-3",
+        "name": "collect timesheet",
+        "description": "collect timesheets",
+        "type": "leaf",
+        "state": "active",
+        "requester": "",
+        "responders": [],
+        "blocks": []
+      }
+    ]
   },
   {
     "id": "2",
-    "name": "request def 2",
-    "description": "request 2 description",
+    "name": "sequencial request",
+    "description": "request container with sequencial request",
+    "type": "sequenceStages",
     "state": "pending",
     "requester": "",
     "responders": [],

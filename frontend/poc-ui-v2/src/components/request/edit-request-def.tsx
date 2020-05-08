@@ -88,7 +88,7 @@ const EditRequestDef = (props) => {
   return (
     <div className="row h-100">
       <main className="d-flex flex-column col-8 mr-2">
-        <h2>Create Request Def</h2>
+        <h2>Create/Modify Request Def</h2>
         <form onSubmit={handleSubmit(onSumbit)} className="row">
           <div className="form-group col-6">
             <label>Name: </label>
@@ -129,7 +129,7 @@ const EditRequestDef = (props) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <BlockDefPalette />
+        <BlockDefPalette blocks={state.blockDefs} />
       </aside>
     </div>
   )

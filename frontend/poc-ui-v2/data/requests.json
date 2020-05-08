@@ -3,6 +3,7 @@
     "id": "0518ba8c-47b0-4ad9-b672-63ac56855f77",
     "name": "test, I'm requester",
     "description": "empty request wrapper",
+    "type": "parallelStages",
     "state": "pending",
     "requester": "Google_115419186368884878540",
     "responders": [],
@@ -15,7 +16,7 @@
         "state": "active",
         "requester": "",
         "responders": [],
-        "data": {}
+        "blocks": []
       }
     ]
   },
@@ -23,6 +24,7 @@
     "id": "0518ba8c-47b0-4ad9-b672-63ac56855f77",
     "name": "test, I'm one of the responder",
     "description": "empty request wrapper",
+    "type": "parallelStages",
     "state": "pending",
     "requester": "Google_103472621531484531270",
     "responders": [
@@ -38,7 +40,7 @@
         "state": "active",
         "requester": "",
         "responders": [],
-        "data": {}
+        "blocks": []
       }
     ]
   }

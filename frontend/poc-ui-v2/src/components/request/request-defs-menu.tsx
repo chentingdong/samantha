@@ -12,7 +12,6 @@ function RequestDefsMenu() {
   const createRequestDef = () => {
     let currentRequestDef = defaultRequest
     currentRequestDef.id = uuid.v4()
-    currentRequestDef.requester = state.user.id
 
     dispatch({
       type: 'setUi',
@@ -29,8 +28,8 @@ function RequestDefsMenu() {
       },
     })
   }
-  const editRequestDef = (index: number) => {
-    let currentRequestDef = state.requestDefs[index]
+  const editRequestDef = (requestDef: RequestDef) => {
+    let currentRequestDef = requestDef
     dispatch({
       type: 'set',
       data: { currentRequestDef: currentRequestDef },
@@ -41,13 +40,22 @@ function RequestDefsMenu() {
     })
   }
 
-  const EditRequest = (index) => {
-    let currentRequest = {
-      ...state.requestDefs[index],
+  const createRequest = (requestDef: RequestDef) => {
+    let currentRequest = Object.assign({}, requestDef, {
       id: uuid.v4(),
       name: '',
       requester: state.user.id,
-    }
+    })
+    // let currentRequest = {
+    //   ...requestDef,
+    //   id: uuid.v4(),
+    //   name: '',
+    //   requester: state.user.id,
+    // }
+    // currentRequest.id = uuid.v4()
+    // currentRequest.name = ''
+    // currentRequest.requester = state.user.id
+    console.log(currentRequest)
     dispatch({
       type: 'set',
       data: { currentRequest: currentRequest },
@@ -105,19 +113,17 @@ function RequestDefsMenu() {
                   <div className="col-3">
                     <button
                       className="btn btn-link"
-                      onClick={(e) => EditRequest(index)}
+                      onClick={(e) => createRequest(requestDef)}
                     >
                       Make a request
                     </button>
                     <br />
-                    {requestDef.name !== 'default' && (
-                      <button
-                        className="btn btn-link"
-                        onClick={(e) => editRequestDef(index)}
-                      >
-                        View/Edit
-                      </button>
-                    )}
+                    <button
+                      className="btn btn-link"
+                      onClick={(e) => editRequestDef(requestDef)}
+                    >
+                      View/Edit
+                    </button>
                   </div>
                 </div>
               </div>

@@ -2,12 +2,12 @@ export interface RequestDef {
   id?: string
   name?: string
   description?: string
+  type: string
   state?: string
   requester?: string
   responders?: string[]
   blocks?: BlockDef[]
 }
-
 export interface BlockDef {
   id: string
   name: string

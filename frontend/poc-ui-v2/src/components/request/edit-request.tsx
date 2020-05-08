@@ -5,8 +5,11 @@ import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { RequestDef, BlockDef } from '../context/interface'
 import { initialState } from '../context/store'
+import { BlockDefPalette } from '../block/block-def-palette'
+import { DndTargetBox } from '../block/dnd-target-box'
+import { RequestBlocks } from '../block/request-blocks'
 
-export const EditRequest = (props) => {
+export const EditRequest = () => {
   const { state, dispatch } = useContext(Context)
   const prevRequest = state.currentRequest
   const defaultRequest = initialState.currentRequest
@@ -19,9 +22,9 @@ export const EditRequest = (props) => {
     console.log(JSON.stringify(data))
   }
 
-  const addBlockToRequest = async (index) => {
-    let currentBlock = state.blockDefs[index]
-    let updatedBlocks = [...state.currentRequest.blocks, currentBlock]
+  const addBlockToRequest = async (block: BlockDef) => {
+    block.id = uuid.v4()
+    let updatedBlocks = [...state.currentRequest.blocks, block]
     let updatedRequest = {
       ...state.currentRequest,
       blocks: updatedBlocks,
@@ -87,7 +90,7 @@ export const EditRequest = (props) => {
       >
         <div className="row h-100">
           <main className="d-flex flex-column col-8 mr-2">
-            <h2>Create Request</h2>
+            <h2>Create/Modify Request</h2>
             <form onSubmit={handleSubmit(onSumbit)} className="row">
               <div className="form-group col-6">
                 <label>Name: </label>
@@ -110,19 +113,16 @@ export const EditRequest = (props) => {
                 />
               </div>
               <div className="form-group col-12">
-                {state.currentRequest.blocks?.map(
-                  (block: BlockDef, index: number) => {
-                    return (
-                      <div
-                        className="card p-0 m-4 col-4 border-dark"
-                        key={`block-${index}`}
-                      >
-                        <strong className="card-header">{block.name}</strong>
-                        <div className="card-body">{block.description}</div>
-                      </div>
-                    )
-                  }
-                )}
+                <DndTargetBox
+                  accept="block"
+                  greedy={false}
+                  onDrop={(blockDef) => addBlockToRequest(blockDef)}
+                >
+                  <RequestBlocks
+                    blocks={state.currentRequest.blocks}
+                    cardClass="col-12"
+                  />
+                </DndTargetBox>
               </div>
               <ButtonGroup className="col-12">
                 <button className="btn btn-light" onClick={saveRequest}>
@@ -135,26 +135,7 @@ export const EditRequest = (props) => {
             </form>
           </main>
           <aside className="d-flex flex-column col-4 border-left border-gray row">
-            <h2>Block Palette</h2>
-            <div className="row">
-              {state.blockDefs.map((blockDef: BlockDef, index) => {
-                return (
-                  <div
-                    className="card p-0 m-4 col-4 border-dark"
-                    key={`blockDef-${index}`}
-                  >
-                    <strong className="card-header">{blockDef.name}</strong>
-                    <div className="card-body">{blockDef.description}</div>
-                    <button
-                      className="btn btn-light card-footer"
-                      onClick={(e) => addBlockToRequest(index)}
-                    >
-                      +
-                    </button>
-                  </div>
-                )
-              })}
-            </div>
+            <BlockDefPalette blocks={state.blockDefs} />
           </aside>
         </div>
       </div>

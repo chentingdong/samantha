@@ -55,11 +55,9 @@ function Request({ request }) {
           </p>
         </div>
         <div className="col-4 text-right">
-          {request.name !== 'default' && (
-            <button className="btn btn-link" onClick={editRequest}>
-              View/Edit
-            </button>
-          )}
+          <button className="btn btn-link" onClick={editRequest}>
+            View/Edit
+          </button>
         </div>
       </div>
     </div>
@@ -82,8 +80,8 @@ function RequestsMade() {
       <h2>Requests Made</h2>
       {state.requests
         .filter((req) => isRequester(req, state))
-        .map((request, index) => {
-          return <Request key={`request-${index}`} request={request} />
+        .map((request) => {
+          return <Request key={request.id} request={request} />
         })}
     </div>
   )
@@ -96,8 +94,8 @@ function RequestsReceived() {
       <h2>Requests Received</h2>
       {state.requests
         .filter((req) => isResponder(req, state))
-        .map((request, index) => {
-          return <Request key={`request-${index}`} request={request} />
+        .map((request) => {
+          return <Request key={request.id} request={request} />
         })}
     </div>
   )
