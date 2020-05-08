@@ -9,6 +9,7 @@
     "id": "",
     "name": "",
     "description": "",
+    "type": "parallelStages",
     "state": "pending",
     "requester": "",
     "responders": [],
@@ -23,16 +24,25 @@
     "state": "pending",
     "requester": "",
     "responders": [],
-    "data": {}
+    "blocks": []
   },
   "blockDefs": [],
-  "currentRequest": {},
+  "currentRequest": {
+    "id": "",
+    "name": "",
+    "description": "",
+    "type": "parallelStages",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
   "requests": [],
   "messages": [],
   "uiState": {
-    "showEditRequestDef": true,
+    "showEditRequestDef": false,
     "showEditRequest": false,
-    "showRequestViewRequester": true,
+    "showRequestViewRequester": false,
     "showRequestViewResponder": false
   }
 }

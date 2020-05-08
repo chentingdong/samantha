@@ -1,14 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "esnext",
     "module": "commonjs",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "strict": true,
-    "rootDir": "api"
+    "rootDir": "api",
+    "esModuleInterop": true
   },
-  "include": [
-    "api"
-  ]
+  "include": ["api", "api/__tests__/jest.environment.ts"]
 }

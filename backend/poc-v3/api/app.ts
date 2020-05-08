@@ -4,6 +4,7 @@ import { auth } from 'nexus-plugin-jwt-auth'
 import { shield } from 'nexus-plugin-shield'
 import { APP_SECRET } from './utils'
 import { rules } from './permissions'
+import { settings } from 'nexus'
 
 // Enables the Prisma plugin
 use(prisma())
@@ -13,3 +14,9 @@ use(auth({ appSecret: APP_SECRET }))
 
 // Enables the Shield plugin
 use(shield({ rules }))
+
+settings.change({
+  logger: {
+    level: 'debug',
+  },
+})

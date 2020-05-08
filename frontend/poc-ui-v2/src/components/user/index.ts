@@ -12,7 +12,7 @@ const getUser = async (): Promise<User> => {
     }
     return currentUser
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
 
@@ -28,7 +28,7 @@ const getUsers = async (): Promise<User[]> => {
     // return users
     return await users
   } catch (err) {
-    console.log(err)
+    console.error(err)
     return []
   }
 }

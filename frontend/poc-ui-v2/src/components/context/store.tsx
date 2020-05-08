@@ -2,16 +2,15 @@ import React from 'react'
 import 'regenerator-runtime/runtime.js'
 import { reducer, Action } from './reducer'
 import { State } from './interface'
+import initialState from '../../../data/initialState.json'
 import blockDefs from '../../../data/blockDefs.json'
 import requestDefs from '../../../data/requestDefs.json'
 import requests from '../../../data/requests.json'
-import initialState from '../../../data/initialState.json'
 import user from '../../../data/user.json'
 import users from '../../../data/users.json'
 
 const Store = ({ children }) => {
   const [state, dispatch] = React.useReducer(reducer, initialState)
-
   React.useEffect(() => {
     dispatch({ type: 'set', data: { requestDefs: requestDefs } })
     dispatch({ type: 'set', data: { blockDefs: blockDefs } })

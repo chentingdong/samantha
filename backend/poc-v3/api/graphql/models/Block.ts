@@ -9,6 +9,8 @@ schema.objectType({
     t.model.children()
     t.model.state()
     t.model.control()
+    t.model.inCatalog()
+    t.model.context()
     t.model.type()
     t.model.requestors()
     t.model.responders()

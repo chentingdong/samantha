@@ -21,15 +21,6 @@
       ]
     },
     {
-      "tag": "CreateEnum",
-      "enum": "Catalog",
-      "values": [
-        "NONE",
-        "BLOCK",
-        "REQUEST"
-      ]
-    },
-    {
       "tag": "CreateSource",
       "source": "db"
     },
@@ -268,8 +259,8 @@
     {
       "tag": "CreateField",
       "model": "Block",
-      "field": "catalog",
-      "type": "Catalog",
+      "field": "inCatalog",
+      "type": "Boolean",
       "arity": "Required"
     },
     {
@@ -278,7 +269,7 @@
         "path": {
           "tag": "Field",
           "model": "Block",
-          "field": "catalog"
+          "field": "inCatalog"
         },
         "directive": "default"
       }
@@ -290,12 +281,12 @@
         "path": {
           "tag": "Field",
           "model": "Block",
-          "field": "catalog"
+          "field": "inCatalog"
         },
         "directive": "default"
       },
       "argument": "",
-      "value": "NONE"
+      "value": "false"
     },
     {
       "tag": "CreateField",

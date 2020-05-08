@@ -26,6 +26,7 @@ const rules = {
     upsertOneBlock: isAuthenticated,
     deleteOneBlock: isAuthenticated,
     customMutation: isAuthenticated,
+    cloneOneBlock: isAuthenticated,
   },
 }
 

@@ -13,8 +13,6 @@ export const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   greedy = false,
   children,
 }) => {
-  const [hasDropped, setHasDropped] = useState(false)
-  const [hasDroppedOnChild, setHasDroppedOnChild] = useState(false)
   const [{ isOver, isOverCurrent }, drop] = useDrop({
     accept: accept,
     hover: (item, monitor) => {
@@ -36,7 +34,7 @@ export const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   return (
     <div
       ref={drop}
-      className={`border-gray pb-4 ${hoverClass}`}
+      className={`border-gray pb-2 ${hoverClass}`}
       style={{ minHeight: '100px', borderStyle: 'dotted' }}
     >
       {children}

@@ -2,7 +2,7 @@
   {
     "id": "composite-1",
     "name": "sequencial stage container",
-    "description": "a composite block that support running request stages in sequence",
+    "description": "a composite block that support running blocks in sequence",
     "type": "sequenceStages",
     "state": "active",
     "requester": "",
@@ -12,8 +12,8 @@
   {
     "id": "composite-2",
     "name": "parallel stage container",
-    "description": "a composite block container, block in same group ",
-    "type": "parallelStage",
+    "description": "a composite block that support running blocks in parallel ",
+    "type": "parallelStages",
     "state": "active",
     "requester": "",
     "responders": [],
