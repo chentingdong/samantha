@@ -12,10 +12,9 @@ import { RequestBlocks } from '../block/request-blocks'
 const EditRequestDef = (props) => {
   const { state, dispatch } = useContext(Context)
   const defaultRequestDef = initialState.currentRequestDef
-  const prevRequestDef = state.currentRequestDef
 
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: prevRequestDef,
+    defaultValues: state.currentRequestDef,
   })
 
   const onSumbit = (data) => {
@@ -95,7 +94,7 @@ const EditRequestDef = (props) => {
             <input className="form-control" ref={register} name="name" />
           </div>
           <div className="form-group col-6">
-            <label>Request Owner: </label>
+            <label>Requester: </label>
             <input className="form-control" ref={register} name="requester" />
           </div>
           <div className="form-group col-12">
@@ -129,7 +128,7 @@ const EditRequestDef = (props) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <BlockDefPalette blocks={state.blockDefs} />
+        <BlockDefPalette />
       </aside>
     </div>
   )

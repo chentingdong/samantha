@@ -1,5 +1,5 @@
 import uuid from 'uuid'
-import React, { useState, useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
@@ -11,11 +11,10 @@ import { RequestBlocks } from '../block/request-blocks'
 
 export const EditRequest = () => {
   const { state, dispatch } = useContext(Context)
-  const prevRequest = state.currentRequest
   const defaultRequest = initialState.currentRequest
 
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: prevRequest,
+    defaultValues: state.currentRequest,
   })
 
   const onSumbit = (data) => {
@@ -63,12 +62,12 @@ export const EditRequest = () => {
     })
 
     // reset after finish
+    setValue('object', {})
     await dispatch({
       type: 'set',
       data: { currentRequest: defaultRequest },
     })
 
-    setValue('object', {})
     close()
   }
 
@@ -77,68 +76,60 @@ export const EditRequest = () => {
       type: 'setUi',
       data: {
         showEditRequest: false,
-        currentRequest: defaultRequest,
       },
     })
   }
 
   return (
-    state.uiState.showEditRequest && (
-      <div
-        className="col-10 position-absolute bg-light vh-100"
-        style={{ top: '0', right: '0', zIndex: 5 }}
-      >
-        <div className="row h-100">
-          <main className="d-flex flex-column col-8 mr-2">
-            <h2>Create/Modify Request</h2>
-            <form onSubmit={handleSubmit(onSumbit)} className="row">
-              <div className="form-group col-6">
-                <label>Name: </label>
-                <input className="form-control" ref={register} name="name" />
-              </div>
-              <div className="form-group col-6">
-                <label>Request Owner: </label>
-                <input
-                  className="form-control"
-                  ref={register}
-                  name="requester"
-                />
-              </div>
-              <div className="form-group col-12">
-                <label>Description: </label>
-                <textarea
-                  className="form-control"
-                  ref={register}
-                  name="description"
-                />
-              </div>
-              <div className="form-group col-12">
-                <DndTargetBox
-                  accept="block"
-                  greedy={false}
-                  onDrop={(blockDef) => addBlockToRequest(blockDef)}
-                >
-                  <RequestBlocks
-                    blocks={state.currentRequest.blocks}
-                    cardClass="col-12"
-                  />
-                </DndTargetBox>
-              </div>
-              <ButtonGroup className="col-12">
-                <button className="btn btn-light" onClick={saveRequest}>
-                  save
-                </button>
-                <button className="btn btn-light" onClick={close}>
-                  cancel
-                </button>
-              </ButtonGroup>
-            </form>
-          </main>
-          <aside className="d-flex flex-column col-4 border-left border-gray row">
-            <BlockDefPalette blocks={state.blockDefs} />
-          </aside>
-        </div>
-      </div>
-    )
+    <div className="row h-100" style={{ top: '0', right: '0', zIndex: 5 }}>
+      <main className="d-flex flex-column col-8 mr-2">
+        <h2>Create/Modify Request</h2>
+        <form onSubmit={handleSubmit(onSumbit)} className="row">
+          <div className="form-group col-6">
+            <label>Name: </label>
+            <input className="form-control" ref={register} name="name" />
+          </div>
+          <div className="form-group col-6">
+            <label>Request Owner: </label>
+            <input className="form-control" ref={register} name="requester" />
+          </div>
+          <div className="form-group col-6">
+            <label>Description: </label>
+            <textarea
+              className="form-control"
+              ref={register}
+              name="description"
+            />
+          </div>
+          <div className="form-group col-6">
+            <label>Responders: </label>
+            <input className="form-control" ref={register} name="responders" />
+          </div>
+          <div className="form-group col-12">
+            <DndTargetBox
+              accept="block"
+              greedy={false}
+              onDrop={(blockDef) => addBlockToRequest(blockDef)}
+            >
+              <RequestBlocks
+                blocks={state.currentRequest.blocks}
+                cardClass="col-12"
+              />
+            </DndTargetBox>
+          </div>
+          <ButtonGroup className="col-12">
+            <button className="btn btn-light" onClick={saveRequest}>
+              save
+            </button>
+            <button className="btn btn-light" onClick={close}>
+              cancel
+            </button>
+          </ButtonGroup>
+        </form>
+      </main>
+      <aside className="d-flex flex-column col-4 border-left border-gray row">
+        <BlockDefPalette />
+      </aside>
+    </div>
   )
 }

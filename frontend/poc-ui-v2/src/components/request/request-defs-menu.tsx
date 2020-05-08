@@ -4,13 +4,13 @@ import { EditRequestDef } from './edit-request-def'
 import { Context } from '../context/store'
 import { RequestDef } from '../context/interface'
 import { initialState } from '../context/store'
+import { EditRequest } from './edit-request'
 
 function RequestDefsMenu() {
   const { state, dispatch } = React.useContext(Context)
-  const defaultRequest: RequestDef = initialState.currentRequestDef
 
   const createRequestDef = () => {
-    let currentRequestDef = defaultRequest
+    let currentRequestDef = initialState.currentRequestDef
     currentRequestDef.id = uuid.v4()
 
     dispatch({
@@ -40,22 +40,12 @@ function RequestDefsMenu() {
     })
   }
 
-  const createRequest = (requestDef: RequestDef) => {
-    let currentRequest = Object.assign({}, requestDef, {
+  const makeRequest = (requestDef: RequestDef) => {
+    let currentRequest: RequestDef = Object.assign({}, requestDef, {
       id: uuid.v4(),
       name: '',
       requester: state.user.id,
     })
-    // let currentRequest = {
-    //   ...requestDef,
-    //   id: uuid.v4(),
-    //   name: '',
-    //   requester: state.user.id,
-    // }
-    // currentRequest.id = uuid.v4()
-    // currentRequest.name = ''
-    // currentRequest.requester = state.user.id
-    console.log(currentRequest)
     dispatch({
       type: 'set',
       data: { currentRequest: currentRequest },
@@ -78,14 +68,6 @@ function RequestDefsMenu() {
           )}
         </div>
       </div>
-      {state.uiState.showEditRequestDef && (
-        <div
-          className="col-12 position-absolute bg-light vh-100"
-          style={{ top: '0', zIndex: 5 }}
-        >
-          <EditRequestDef />
-        </div>
-      )}
       <div className="container-fluid">
         {state.requestDefs &&
           state.requestDefs.map((requestDef, index) => {
@@ -98,7 +80,7 @@ function RequestDefsMenu() {
                     <p>Owner: {requestDef.requester}</p>
                     <p>
                       {requestDef.blocks &&
-                        requestDef.blocks.map((block, index2) => {
+                        requestDef.blocks?.map((block, index2) => {
                           return (
                             <span
                               className="border p-2 mr-2"
@@ -113,7 +95,7 @@ function RequestDefsMenu() {
                   <div className="col-3">
                     <button
                       className="btn btn-link"
-                      onClick={(e) => createRequest(requestDef)}
+                      onClick={(e) => makeRequest(requestDef)}
                     >
                       Make a request
                     </button>

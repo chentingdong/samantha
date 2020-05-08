@@ -25,7 +25,7 @@ export const RequestBlocks: React.FC<{
             <BlockCard
               key={block.id}
               block={block}
-              cardClass=""
+              cardClass={cardClass}
               index={index}
               updateOneBlock={updateOneBlock}
             />

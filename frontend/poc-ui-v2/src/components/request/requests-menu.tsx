@@ -1,12 +1,14 @@
 import * as React from 'react'
 import { Context } from '../context/store'
 import { useContext } from 'react'
+import { RequestDef } from '../context/interface'
+import { EditRequest } from './edit-request'
 
 function Request({ request }) {
   const { state, dispatch } = useContext(Context)
 
   const editRequest = () => {
-    let currentRequest = request
+    let currentRequest: RequestDef = request
     dispatch({
       type: 'set',
       data: { currentRequest: currentRequest },
@@ -44,14 +46,13 @@ function Request({ request }) {
             })}
           </p>
           <p>
-            {request.blocks &&
-              request.blocks.map((block, index2) => {
-                return (
-                  <span className="border p-2 mr-2" key={`block-${index2}`}>
-                    {block.name}
-                  </span>
-                )
-              })}
+            {request.blocks?.map((block, index2) => {
+              return (
+                <span className="border p-2 mr-2" key={`block-${index2}`}>
+                  {block.name}
+                </span>
+              )
+            })}
           </p>
         </div>
         <div className="col-4 text-right">

@@ -2,7 +2,7 @@ export interface RequestDef {
   id?: string
   name?: string
   description?: string
-  type: string
+  type?: string
   state?: string
   requester?: string
   responders?: string[]

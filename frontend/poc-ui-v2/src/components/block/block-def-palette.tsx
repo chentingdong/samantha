@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Context } from '../context/store'
 import { BlockDef } from '../context/interface'
 import { DndSourceBox } from './dnd-source-box'
 
-export const BlockDefPalette: React.FC<{
-  blocks: BlockDef[]
-}> = ({ blocks }) => {
+export const BlockDefPalette = () => {
+  const { state, dispatch } = useContext(Context)
+
   return (
     <div>
       <h2>Block Palette</h2>
       <small className="row">
-        {blocks.map((block: BlockDef) => {
+        {state.blockDefs?.map((block: BlockDef) => {
           return (
             <div className="card p-0 m-4 col-4" key={block.id}>
               <DndSourceBox type="block" blockDef={block}>
