@@ -25,15 +25,31 @@ const EditRequestDef = (props) => {
   const addBlockToRequestDef = async (blockDef: BlockDef) => {
     // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
     let currentBlockDef = blockDef
+    dispatch({
+      type: 'set',
+      data: {
+        currentBlockDef: currentBlockDef,
+      },
+    })
     let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
     let updatedRequestDef = {
       ...state.currentRequestDef,
       blocks: updatedBlocks,
     }
+    let prevBlockDef = currentBlockDef
     dispatch({
       type: 'set',
       data: {
         currentRequestDef: updatedRequestDef,
+      },
+    })
+    dispatch({
+      type: 'set',
+      data: {
+        BlockDefs: state.blockDefs.slice(
+          state.blockDefs.indexOf(currentBlockDef),
+          1
+        ),
       },
     })
   }
