@@ -70,7 +70,6 @@ const EditRequestDef = (props) => {
       data: { currentRequestDef: defaultRequestDef },
     })
 
-    setValue('object', {})
     close()
   }
 

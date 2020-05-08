@@ -28,6 +28,38 @@
     "state": "pending",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "blocks": [
+      {
+        "id": "composite-1",
+        "name": "sequencial stage container",
+        "description": "a composite block that support running blocks in sequence",
+        "type": "sequenceStages",
+        "state": "active",
+        "requester": "",
+        "responders": [],
+        "blocks": [
+          {
+            "id": "ff3f6d12-eadc-4b8e-a685-0a13c5482040",
+            "name": "intake a form",
+            "description": "ask responder(s) to intake a form",
+            "type": "leaf",
+            "state": "active",
+            "requester": "",
+            "responders": [],
+            "blocks": []
+          },
+          {
+            "id": "d041b3bb-cf55-4e28-bd39-8c897df5c66a",
+            "name": "approval",
+            "description": "ask for approval",
+            "type": "leaf",
+            "state": "pending",
+            "requester": "",
+            "responders": [],
+            "blocks": []
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -79,6 +79,10 @@ export const EditRequest = () => {
         showEditRequest: false,
       },
     })
+    dispatch({
+      type: 'set',
+      data: { currentRequest: initialState.currentRequest },
+    })
   }
 
   return (

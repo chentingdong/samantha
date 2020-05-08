@@ -11,15 +11,20 @@ import { Context } from '../context/store'
 import { ContextViewCodes } from '../context/context-view-codes'
 import { EditRequestDef } from '../request/edit-request-def'
 import { useContext } from 'react'
+import { Animated } from 'react-animated-css'
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
+
   return (
     <div className="container-fluid">
       <main>
         <Tab.Container defaultActiveKey="requestMenu">
           <div className="row">
-            <div className="col-2 mt-4">
+            <div
+              className="col-2 mt-4"
+              onClick={(e) => dispatch({ type: 'resetUi' })}
+            >
               <Nav className="flex-column">
                 <Nav.Link className="mt-2 btn btn-light" eventKey="requestMenu">
                   requestMenu
@@ -59,12 +64,26 @@ function VirtualAssistant() {
       >
         {state.uiState.showEditRequestDef && (
           <div className="vh-100">
-            <EditRequestDef />
+            <Animated
+              animationIn="slideInRight"
+              animationInDuration={300}
+              animationOut="bounceOutRight"
+              isVisible={true}
+            >
+              <EditRequestDef />
+            </Animated>
           </div>
         )}
         {state.uiState.showEditRequest && (
           <div className="vh-100">
-            <EditRequest />
+            <Animated
+              animationIn="slideInDown"
+              animationInDuration={300}
+              animationOut="bounceOutRight"
+              isVisible={true}
+            >
+              <EditRequest />
+            </Animated>
           </div>
         )}
       </div>

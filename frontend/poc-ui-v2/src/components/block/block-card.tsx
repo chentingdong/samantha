@@ -7,8 +7,8 @@ export const BlockCard: React.FC<{
   cardClass?: string
   index: number
   updateOneBlock: (block: BlockDef) => void
-}> = ({ block, cardClass = 'col-4', index, updateOneBlock }) => {
-  const blockWidth = block?.type === 'leaf' ? 'col-4' : 'col-12'
+}> = ({ block, cardClass = 'col-3', index, updateOneBlock }) => {
+  const blockWidth = block?.type === 'leaf' ? 'col-3' : 'col-12'
   const color = block.type === 'leaf' ? 'light-green' : 'light-brown'
 
   return (

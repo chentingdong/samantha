@@ -34,7 +34,7 @@ const SegmentStages: React.FC<{
     updateBlock(block)
   }
 
-  const cardWidth = type === 'sequenceStages' ? 'col-4' : 'col-12'
+  const cardWidth = type === 'sequenceStages' ? 'col-3' : 'col-12'
   return (
     <div className="col-12">
       <DndTargetBox

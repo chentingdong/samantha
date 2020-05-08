@@ -21,6 +21,10 @@ function RequestDefsMenu() {
 
   const returnToMenu = () => {
     dispatch({
+      type: 'set',
+      data: { currentRequestDef: initialState.currentRequestDef },
+    })
+    dispatch({
       type: 'setUi',
       data: {
         showEditRequestDef: false,
