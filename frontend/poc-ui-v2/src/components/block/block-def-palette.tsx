@@ -16,7 +16,7 @@ export const BlockDefPalette = () => {
               <DndSourceBox type="block" blockDef={block}>
                 <div className="card">
                   <strong className="card-header">{block.name}</strong>
-                  <div className="card-body">{block.description}</div>{' '}
+                  <div className="card-body">{block.description}</div>
                 </div>
               </DndSourceBox>
             </div>

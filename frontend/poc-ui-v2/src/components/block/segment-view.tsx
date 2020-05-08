@@ -29,9 +29,18 @@ const SegmentStages: React.FC<{
   subBlocks: BlockDef[]
   updateBlock: (block: BlockDef) => void
 }> = ({ type, subBlocks, updateBlock }) => {
+  const { state, dispatch } = useContext(Context)
+
   const addSubBlock = (block: BlockDef) => {
     subBlocks.push({ ...block, id: uuid.v4() })
     updateBlock(block)
+    resetPalette()
+  }
+  // TODO: temp solution by resetting all
+  const resetPalette = () => {
+    state.blockDefs.forEach((blockDef) => {
+      blockDef.blocks = []
+    })
   }
 
   const cardWidth = type === 'sequenceStages' ? 'col-3' : 'col-12'

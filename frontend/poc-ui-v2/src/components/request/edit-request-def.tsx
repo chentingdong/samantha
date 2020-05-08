@@ -23,7 +23,8 @@ const EditRequestDef = (props) => {
   }
 
   const addBlockToRequestDef = async (blockDef: BlockDef) => {
-    let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
+    // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
+    let currentBlockDef = blockDef
     let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
     let updatedRequestDef = {
       ...state.currentRequestDef,
@@ -31,7 +32,9 @@ const EditRequestDef = (props) => {
     }
     dispatch({
       type: 'set',
-      data: { currentRequestDef: updatedRequestDef },
+      data: {
+        currentRequestDef: updatedRequestDef,
+      },
     })
   }
 
@@ -64,23 +67,17 @@ const EditRequestDef = (props) => {
       data: { requestDefs: requestDefs },
     })
 
-    // reset after finish
-    await dispatch({
-      type: 'set',
-      data: { currentRequestDef: defaultRequestDef },
-    })
-
     close()
   }
 
   const close = () => {
     dispatch({
-      type: 'setUi',
-      data: { showEditRequestDef: false },
-    })
-    dispatch({
       type: 'set',
       data: { currentRequestDef: defaultRequestDef },
+    })
+    dispatch({
+      type: 'setUi',
+      data: { showEditRequestDef: false },
     })
   }
 
