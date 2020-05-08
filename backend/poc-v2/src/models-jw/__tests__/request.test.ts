@@ -88,7 +88,8 @@ describe("Request", () => {
     newRequest.blocks.map((b: Block) => {
       b.complete();
     });
-    newRequest.complete(); // TODO: engien should set this complete
+    newRequest.checkState(); // TODO: engien should set this complete
+    newRequest.complete();
     expect(newRequest.state).toBe(State.COMPLETE);
   });
 });
