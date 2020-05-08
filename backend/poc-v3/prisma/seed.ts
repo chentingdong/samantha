@@ -14,7 +14,7 @@ async function main() {
       },
       {
         id: 'Google_103472621531484531270',
-        name: 'Jin Wawng',
+        name: 'Jin Wang',
         email: 'jwang@bellhop.io',
       },
       {
