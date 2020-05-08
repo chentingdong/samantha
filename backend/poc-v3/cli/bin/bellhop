@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 
 const program = require('commander')
-const whoami = require('../lib/whoami')
-const list = require('../lib/list')
-const show = require('../lib/show')
+const whoami = require('../src/whoami')
+const list = require('../src/list')
+const show = require('../src/show')
+const create = require('../src/create')
 
 program
   .command('whoami')
@@ -15,7 +16,7 @@ program
 program
   .command('list')
   .description(
-    'List ( Requests Made | Requests Received | Request Catalog | Block Catalog | Users )',
+    'List < Requests Made | Requests Received | Request Catalog | Block Catalog | Users >',
   )
   .action(async function () {
     const userId = await whoami({ quiet: true })
@@ -24,10 +25,18 @@ program
 
 program
   .command('show')
-  .description('Show ( Request Surface | Response Surface | Design Surface )')
+  .description('Show < Request Surface | Response Surface | Design Surface >')
   .action(async function () {
     const userId = await whoami({ quiet: true })
     await show({ userId })
+  })
+
+program
+  .command('create')
+  .description('Create a Request >')
+  .action(async function () {
+    const userId = await whoami({ quiet: true })
+    await create({ userId })
   })
 
 program.parse(process.argv)

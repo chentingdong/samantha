@@ -1,47 +1,41 @@
 const inquirer = require('inquirer')
-const pad = require('pad')
 const colors = require('colors')
-const { requestSurface, responseSurface, designSurface } = require('./graphql')
+const { r, y, g, b, gr, sc, dash } = require('./style')
+const action = require('./action')
+const {
+  requestSurface,
+  responseSurface,
+  designSurface,
+} = require('./graphql/query')
 
-const r20 = (s) => colors.red(pad('' + s, 20))
-const y20 = (s) => colors.yellow(pad('' + s, 20))
-const g20 = (s) => colors.green(pad('' + s, 20))
-const b20 = (s) => colors.blue(pad('' + s, 20))
+// printing functions
 
 const printRequestSurface = (block) => {
   console.log(
     [
-      `ID: ${g20(block.id)}`,
-      `parent :${g20(block.parent ? block.parent.id : 'null')}`,
-      `name: ${g20(block.name)}`,
-      `state: ${g20(block.state)}`,
-      `Requestors: ${y20(block.requestors.map((user) => user.name).join(','))}`,
-      `Responders: ${y20(block.responders.map((user) => user.name).join(','))}`,
+      `ID: ${g(block.id)}`,
+      `parent :${g(block.parent ? block.parent.id : 'null')}`,
+      `name: ${g(block.name)}`,
+      `state: ${sc(block.state)}`,
+      `Requestors: ${y(block.requestors.map((user) => user.name).join(','))}`,
+      `Responders: ${y(block.responders.map((user) => user.name).join(','))}`,
     ].join(' '),
   )
   if (block.type.includes('COMPOSITE')) {
     if (block.type === 'COMPOSITE_PARALLEL') {
-      console.log(
-        '-'.repeat(40),
-        colors.blue('Parallel Container'),
-        '-'.repeat(40),
-      )
+      console.log(dash, colors.blue('Parallel Container'), dash)
     }
     if (block.type === 'COMPOSITE_SEQUENTIAL') {
-      console.log(
-        '-'.repeat(40),
-        colors.blue('Sequential Container'),
-        '-'.repeat(40),
-      )
+      console.log(dash, colors.blue('Sequential Container'), dash)
     }
     block.children.map((block) => {
       console.log(
         [
           ' '.repeat(8),
-          `ID: ${g20(block.id)}`,
-          `name: ${g20(block.name)}`,
-          `state: ${g20(block.state)}`,
-          `type: ${g20(block.type)}`,
+          `ID: ${g(block.id)}`,
+          `name: ${g(block.name)}`,
+          `state: ${sc(block.state)}`,
+          `type: ${g(block.type)}`,
         ].join(' '),
       )
     })
@@ -51,7 +45,7 @@ const printRequestSurface = (block) => {
 const printResponseSurface = (block) => {
   printRequestSurface(block)
   if (block.type === 'LEAF_FORM') {
-    console.log('-'.repeat(40), colors.blue('FORM'), '-'.repeat(40))
+    console.log(dash, colors.blue('FORM'), dash)
     console.log(
       ' '.repeat(8),
       colors.gray(`TODO: dynamically prompt through context.form object`),
@@ -62,12 +56,14 @@ const printResponseSurface = (block) => {
 const printDesignSurface = (block) => {
   console.log(
     [
-      `ID: ${g20(block.id)}`,
-      `name: ${g20(block.name)}`,
-      `type: ${g20(block.type)}`,
+      `ID: ${g(block.id)}`,
+      `name: ${g(block.name)}`,
+      `type: ${g(block.type)}`,
     ].join(' '),
   )
 }
+
+// prompt for show command
 
 const showRequestSurface = async ({ id, userId }) => {
   const { block } = await requestSurface({ id })
@@ -80,6 +76,8 @@ const showRequestSurface = async ({ id, userId }) => {
     return
   }
   printRequestSurface(block)
+
+  action({ block, userId })
 }
 
 const showResponseSurface = async ({ id, userId }) => {
@@ -93,6 +91,8 @@ const showResponseSurface = async ({ id, userId }) => {
     return
   }
   printResponseSurface(block)
+
+  action({ block, userId, asResponder: true })
 }
 
 const showDesignSurface = async ({ id, userId }) => {
@@ -100,27 +100,26 @@ const showDesignSurface = async ({ id, userId }) => {
   printDesignSurface(block)
 }
 
-const choices = {
-  'Request Surface': showRequestSurface,
-  'Response Surface': showResponseSurface,
-  'Design Surface': showDesignSurface,
-}
+module.exports = async ({ userId }) => {
+  const choices = {
+    'Request Surface': showRequestSurface,
+    'Response Surface': showResponseSurface,
+    'Design Surface': showDesignSurface,
+  }
 
-const questions = [
-  {
-    type: 'list',
-    name: 'choices',
-    message: 'What do you want to show?',
-    choices: Object.keys(choices),
-  },
-  {
-    type: 'number',
-    name: 'id',
-    message: 'Please enter the ID',
-  },
-]
-
-module.exports = function ({ userId }) {
+  const questions = [
+    {
+      type: 'list',
+      name: 'choices',
+      message: 'What do you want to show?',
+      choices: Object.keys(choices),
+    },
+    {
+      type: 'number',
+      name: 'id',
+      message: 'Please enter the ID',
+    },
+  ]
   inquirer.prompt(questions).then(function (answers) {
     choices[answers.choices]({ id: answers.id, userId })
   })

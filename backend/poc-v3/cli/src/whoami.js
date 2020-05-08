@@ -1,7 +1,7 @@
 const colors = require('colors')
-const { usersQuery } = require('./graphql')
+const { usersQuery } = require('./graphql/query')
 
-module.exports = async function ({ quiet }) {
+module.exports = async ({ quiet }) => {
   const username = process.env.user
   if (!username) {
     console.log("You haven't logged in.")

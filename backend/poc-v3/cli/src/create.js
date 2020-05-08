@@ -7,7 +7,7 @@ const {
   requestsReceived,
   requestCatalog,
   blockCatalog,
-} = require('./graphql')
+} = require('./graphql/query')
 
 const r20 = (s) => colors.red(pad('' + s, 20))
 const y20 = (s) => colors.yellow(pad('' + s, 20))
@@ -30,31 +30,57 @@ const printBlockLine = (block) => {
 
 const listRequestsMade = async ({ userId }) => {
   const { blocks } = await requestsMade({ userId })
-  if (blocks.length == 0) console.log('Empty')
+  if (blocks.length == 0)
+    console.log(
+      colors.gray(
+        'You have made 0 request so far. Try to create some requests!',
+      ),
+    )
   blocks.map((block) => printBlockLine(block))
 }
 
 const listRequestsReceived = async ({ userId }) => {
   const { blocks } = await requestsReceived({ userId })
-  if (blocks.length == 0) console.log('Empty')
+  if (blocks.length == 0)
+    console.log(colors.gray('You have received 0 request so far!'))
   blocks.map((block) => printBlockLine(block))
 }
 
 const listRequestCatalog = async () => {
   const { blocks } = await requestCatalog()
-  if (blocks.length == 0) console.log('Empty')
-  blocks.map((block) => printBlockLine(block))
+  if (blocks.length == 0)
+    console.log(
+      colors.gray(
+        'Request catalog is empty. Try to create some requests in the catalog!',
+      ),
+    )
+  blocks.map((block) =>
+    printBlockLine(
+      colors.gray(
+        'Request catalog is empty. Try to create some requests in the catalog!',
+      ),
+    ),
+  )
 }
 
 const listBlockCatalog = async () => {
   const { blocks } = await blockCatalog()
-  if (blocks.length == 0) console.log('Empty')
+  if (blocks.length == 0)
+    console.log(
+      colors.gray(
+        'Block catalog is empty. Try to create some blocks in the catalog!',
+      ),
+    )
   blocks.map((block) => printBlockLine(block))
 }
 
 const listUsers = async () => {
   const { users } = await usersQuery()
-  users.map((user) => console.log(user.name))
+  users.map((user) =>
+    console.log(
+      [`name: ${g20(user.name)}`, `email: ${g20(user.email)}`].join(' '),
+    ),
+  )
 }
 
 const choices = {
