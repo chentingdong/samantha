@@ -1,5 +1,6 @@
 import blockLibrary from "./data/blockLibrary.json"
 import { v4 as uuid } from "uuid";
+import { int } from "aws-sdk/clients/datapipeline";
 
 export enum State {
   PENDING = "pending",
@@ -100,9 +101,65 @@ export class Block {
 
 }
 
-export class UIBlock extends Block {
+
+export enum DependencyType {
+  SERIAL = "Serial",  //  this could be the only needed
+  PARALLEL = "Parallel",
+  OPTIONAL = "Optional"
+}
+
+export class DependencyBlock extends Block {
+  fromBlocks: Block[];
+  toBlocks: Block[];
+  dependencyType: String;
+
+  constructor(name: string, blockDef: Block) {
+    super(name, blockDef);
+    this.fromBlocks = [];
+    this.toBlocks = [];
+    this.dependencyType = DependencyType.SERIAL; // always default SERIAL
+  }
+
+  addFromBlock(block: Block) {
+    this.fromBlocks.push(block);
+  }
+
+  removeFromBlock(i: int) {
+    if ((i > -1) && (i <= this.fromBlocks.length - 1)) {
+      this.fromBlocks.splice(i, 1);
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  setDependencyType(newType: DependencyType) {
+    this.dependencyType = newType;
+  }
+
+  addToBlock(block: Block) {
+    this.toBlocks.push(block);
+  }
+  removeToBlock(i: int) {
+    if ((i > -1) && (i <= this.toBlocks.length - 1)) {
+      this.toBlocks.splice(i, 1);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getFromBlocks() {
+    return this.getFromBlocks;
+  }
+
+  getToBlocks() {
+    return this.toBlocks;
+  }
 
 }
+
+
 
 export class CompositeBlock extends Block {
 

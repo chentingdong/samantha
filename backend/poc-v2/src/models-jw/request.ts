@@ -1,7 +1,8 @@
-import { Block, State as BlockState } from "./block"
+import { Block, State as BlockState, DependencyBlock} from "./block"
 import { User } from "./user";
 import { v4 as uuid } from "uuid";
 import reqeustCatalog from "./data/requestCatalog.json";
+import { STATE } from "../models-td/request";
 
 export enum State {
   PENDING = "pending",
@@ -19,6 +20,7 @@ export class Request {
   requestor: User;
   responders: User[] = [];
   originalRequestDef: Request;
+  dependencies: DependencyBlock[] = [];
 
   constructor(name: string, description: string, requestDef: Request) {
     this.name = name;
@@ -29,7 +31,7 @@ export class Request {
     this.blockDefs = requestDef.blockDefs;
     this.originalRequestDef = requestDef;
     this.responders = [];
-  
+    this.dependencies = [];
   }
 
   setRequestor(requestor: User) {
@@ -60,9 +62,9 @@ export class Request {
     }
 
     // start blocks when no dependencies found
-    this.blocks.map((b: Block) => {
-      b.start()
-    });
+    // this.blocks.map((b: Block) => {
+    //   b.start()
+    // });
 
     this.state = State.ACTIVE;
   }
@@ -76,12 +78,35 @@ export class Request {
     this.blocks.push(block);
   }
 
+  addDependency(block: DependencyBlock) {
+    this.dependencies.push(block);
+  }
+
+
   listPendingBlocks(): Block[] {
     return this.blocks.filter((block) => block.state == BlockState.PENDING);
   }
 
   listActiveBlocks(): Block[] {
     return this.blocks.filter((block) => block.state == BlockState.ACTIVE);
+  }
+
+  start(): boolean {
+    // loop through blocks and start block 
+    this.blocks.map((block: Block) => {
+      block.start();
+    });
+    // set back to pending if has dependency
+    this.dependencies.map((d: DependencyBlock) => {
+      d.fromBlocks.map((b: Block) => {
+        if (b.state !== State.COMPLETE) {
+          d.toBlocks.map((tb: Block) => {
+            tb.state = State.PENDING;
+          })
+        }
+      })
+    })
+    return true;
   }
 
   complete(): boolean {

@@ -1,23 +1,32 @@
 {
-  "leafBlocks": [{
+  "leafBlocks": [
+    {
       "id": "LB001",
       "name": "intake-form",
       "description": "fill a form",
       "extendedFrom": "",
       "config": {
-        "formType": ["bellhop", "external", "integrated"]
+        "formType": [
+          "bellhop",
+          "external",
+          "integrated"
+        ],
+        "formLink": "https://"
       },
       "data": {
-        "fields": [{
-          "name": "input field 1",
-          "dataType": "string",
-          "value": "place-holding string"
-        }, {
-          "name": "input field 2",
-          "dataType": "number",
-          "value": 123.45
-        }],
-        "externalLink": "https://",
+        "fields": [
+          {
+            "name": "input field 1",
+            "dataType": "string",
+            "value": "place-holding string"
+          },
+          {
+            "name": "input field 2",
+            "dataType": "number",
+            "value": 123.45
+          }
+        ],
+        "externalLink": "config.formLink",
         "integratedSystemName": "sharepoint"
       },
       "requestUI": {
@@ -39,20 +48,24 @@
         "projectName": ""
       },
       "data": {
-        "fields": [{
-          "name": "reportWeek",
-          "dataType": "string",
-          "value": "config.reportWeek"
-        }, {
-          "name": "projectName",
-          "dataType": "string",
-          "value": "config.projectName"
-        }],
+        "fields": [
+          {
+            "name": "reportWeek",
+            "dataType": "string",
+            "value": "config.reportWeek"
+          },
+          {
+            "name": "projectName",
+            "dataType": "string",
+            "value": "config.projectName"
+          }
+        ],
         "externalLink": "config.formLink",
         "integratedSystemName": ""
       },
       "requestUI": {
-        "formEngine": "onlineForm", "formId":"form001"
+        "formEngine": "onlineForm",
+        "formId": "form001"
       },
       "responderUI": {
         "formEngine": "onlineForm"
@@ -61,9 +74,42 @@
     {
       "id": "LB002",
       "name": "get-approval",
-      "description": "get approval",
-      "config": {},
-      "data": {}
+      "description": "Get approval from someone",
+      "extendedFrom": "",
+      "config": {
+        "approver": "manager",
+        "formType": "external",
+        "formLink": "https://"
+      },
+      "data": {
+        "fields": [
+          {
+            "name": "ApprovalNotes",
+            "dataType": "string",
+            "value": "place-holding for notes"
+          },
+          {
+            "name": "ApprovalAction",
+            "dataType": "string",
+            "value": ""
+          }
+        ],
+        "approver": "config.approver",
+        "blockActionOptions": [
+          "Approve",
+          "Reject",
+          "Re-Work"
+        ],
+        "blockAction": "",
+        "externalLink": "config.formLink",
+        "integratedSystemName": ""
+      },
+      "requestUI": {
+        "formEngine": "bellhopForm"
+      },
+      "responderUI": {
+        "formEngine": "bellhopForm"
+      }
     },
     {
       "id": "LB003",
@@ -73,39 +119,69 @@
       "data": {}
     }
   ],
-  "compositeBlocks": [{
-    "id": "CB001",
-    "name": "serial steps",
-    "description": "multiple steps filling forms",
-    "config": {
-      "forms": [{
-        "form1": {
-          "name": "form 1",
-          "type": ["bellhop", "external", "integrated"],
-          "externalLink": "config.formLink",
-          "integratedSystemName": ""
-        }
-      }, {
-        "form2": {
-          "name": "form 2",
-          "type": ["bellhop", "external", "integrated"],
-          "externalLink": "config.formLink",
-          "integratedSystemName": ""
-        }
-      }],
-      "dependencies": [{
-        "type": ["serial", "parallel", "optional"],
-        "from": "form1",
-        "to": "form2"
-      }]
-    },
-    "data": {},
-    "requestUI": {
-      "formEngine": "onlineForm"
-    },
-    "responderUI": {
-      "formEngine": "onlineForm"
+  "compositeBlocks": [
+    {
+      "id": "CB001",
+      "name": "serial steps",
+      "description": "multiple steps filling forms",
+      "config": {
+        "forms": [
+          {
+            "form1": {
+              "name": "form 1",
+              "type": [
+                "bellhop",
+                "external",
+                "integrated"
+              ],
+              "externalLink": "config.formLink",
+              "integratedSystemName": ""
+            }
+          },
+          {
+            "form2": {
+              "name": "form 2",
+              "type": [
+                "bellhop",
+                "external",
+                "integrated"
+              ],
+              "externalLink": "config.formLink",
+              "integratedSystemName": ""
+            }
+          }
+        ],
+        "dependencies": [
+          {
+            "type": [
+              "serial",
+              "parallel",
+              "optional"
+            ],
+            "from": "form1",
+            "to": "form2"
+          }
+        ]
+      },
+      "data": {},
+      "requestUI": {
+        "formEngine": "onlineForm"
+      },
+      "responderUI": {
+        "formEngine": "onlineForm"
+      }
     }
-
-  }]
+  ],
+  "dependencyBlocks": [
+    {
+      "id": "DB001",
+      "name": "Serial Dependency",
+      "description": "Serial Dependency means 'fromBlocks' will need to be finished before 'toBlocks'",
+      "config": {
+        "fromBlocks": [],
+        "toBlocks": [],
+        "dependencyType": ""
+      }
+    }
+  ]
 }
