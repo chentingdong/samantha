@@ -36,6 +36,7 @@ module.exports.requestsMade = async ({ userId }) => {
           }
           state
           type
+          inCatalog
           requestors {
             name
           }
@@ -70,6 +71,7 @@ module.exports.requestsReceived = async ({ userId }) => {
           }
           state
           type
+          inCatalog
           requestors {
             name
           }

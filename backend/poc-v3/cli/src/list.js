@@ -9,20 +9,7 @@ const {
   requestCatalog,
   blockCatalog,
 } = require('./graphql/query')
-
-const printBlockLine = (block) => {
-  console.log(
-    [
-      `ID: ${g(block.id)}`,
-      `parent :${g(block.parent ? block.parent.id : 'null')}`,
-      `name: ${g(block.name)}`,
-      `state: ${sc(block.state)}`,
-      `type: ${g(block.type)}`,
-      `Requestors: ${y(block.requestors.map((user) => user.name).join(', '))}`,
-      `Responders: ${y(block.responders.map((user) => user.name).join(', '))}`,
-    ].join(' '),
-  )
-}
+const { printBlockLine } = require('./print')
 
 const listRequestsMade = async ({ userId }) => {
   const { blocks } = await requestsMade({ userId })
@@ -71,24 +58,23 @@ const listUsers = async () => {
   )
 }
 
-const choices = {
-  'Requests Made': listRequestsMade,
-  'Requests Received': listRequestsReceived,
-  'Request Catalog': listRequestCatalog,
-  'Block Catalog': listBlockCatalog,
-  Users: listUsers,
-}
-
-const questions = [
-  {
-    type: 'list',
-    name: 'choices',
-    message: 'What do you want to list?',
-    choices: Object.keys(choices),
-  },
-]
-
 module.exports = async ({ userId }) => {
+  const choices = {
+    'Requests Made': listRequestsMade,
+    'Requests Received': listRequestsReceived,
+    'Request Catalog': listRequestCatalog,
+    'Block Catalog': listBlockCatalog,
+    Users: listUsers,
+  }
+
+  const questions = [
+    {
+      type: 'list',
+      name: 'choices',
+      message: 'What do you want to list?',
+      choices: Object.keys(choices),
+    },
+  ]
   inquirer.prompt(questions).then(async (answers) => {
     choices[answers.choices]({ userId })
   })

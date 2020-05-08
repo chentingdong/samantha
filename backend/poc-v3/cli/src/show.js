@@ -117,7 +117,7 @@ module.exports = async ({ userId }) => {
     {
       type: 'number',
       name: 'id',
-      message: 'Please enter the ID',
+      message: 'Please enter the ID:',
     },
   ]
   inquirer.prompt(questions).then(async (answers) => {

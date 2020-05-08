@@ -71,3 +71,39 @@ module.exports.addOneResponderMutation = async ({ id, userId }) => {
   })
   return updateOneBlock
 }
+
+module.exports.createOneRootBlockMutation = async ({ data }) => {
+  const {
+    data: { createOneBlock },
+  } = await client.mutate({
+    mutation: gql`
+      mutation createRootBlock($data: BlockCreateInput!) {
+        createOneBlock(data: $data) {
+          id
+          name
+          parent {
+            id
+            name
+            state
+          }
+          state
+          control
+          type
+          inCatalog
+          requestors {
+            id
+            name
+            email
+          }
+          responders {
+            id
+            name
+            email
+          }
+        }
+      }
+    `,
+    variables: { data: data },
+  })
+  return createOneBlock
+}

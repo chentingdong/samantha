@@ -4,7 +4,7 @@ const program = require('commander')
 const whoami = require('../src/whoami')
 const list = require('../src/list')
 const show = require('../src/show')
-const create = require('../src/create')
+const createRootBlock = require('../src/createRootBlock')
 
 program
   .command('whoami')
@@ -36,7 +36,7 @@ program
   .description('Create a Request')
   .action(async function () {
     const userId = await whoami({ quiet: true })
-    await create({ userId })
+    await createRootBlock({ userId })
   })
 
 program.parse(process.argv)

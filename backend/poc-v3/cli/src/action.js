@@ -7,6 +7,7 @@ const {
   completeOneBlockMutation,
   addOneResponderMutation,
 } = require('./graphql/mutation')
+const createChildBlock = require('./createChildBlock')
 
 const addOneResponderFollowUp = async ({ id }) => {
   const { users } = await usersQuery()
@@ -30,26 +31,27 @@ const addOneResponderFollowUp = async ({ id }) => {
 }
 
 // prompt for actions
-const addOneResponder = async ({ id, userId }) => {
+const addOneResponder = async ({ id, userId, block }) => {
   console.log(colors.gray(`addOneResponder (${id}, ${userId})`))
   addOneResponderFollowUp({ id })
 }
 
-const startOneBlock = async ({ id, userId }) => {
+const startOneBlock = async ({ id, userId, block }) => {
   const { state } = await startOneBlockMutation({ id, userId })
   console.log(`Block ID: ${id}, state: ${sc(state)}`)
 }
 
-const completeOneBlock = async ({ id, userId }) => {
+const completeOneBlock = async ({ id, userId, block }) => {
   const { state } = await completeOneBlockMutation({ id, userId })
   console.log(`Block ID: ${id}, state: ${sc(state)}`)
 }
 
-const addOneChildBlock = async ({ id, userId }) => {
+const addOneChildBlock = async ({ id, userId, block }) => {
   console.log(colors.gray(`addOneChildBlock (${id}, ${userId})`))
+  await createChildBlock({ id, userId, parentBlock: block })
 }
 
-const fillOneForm = async ({ id, userId }) => {
+const fillOneForm = async ({ id, userId, block }) => {
   console.log(colors.gray(`fillOneForm (${id}, ${userId})`))
 }
 
@@ -86,6 +88,6 @@ module.exports = async ({ block, userId, asResponder = false }) => {
   ]
 
   inquirer.prompt(questions).then(async (answers) => {
-    choices[answers.choices]({ id: block.id, userId })
+    choices[answers.choices]({ id: block.id, userId, block })
   })
 }
