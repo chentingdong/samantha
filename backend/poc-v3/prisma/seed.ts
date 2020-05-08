@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client'
 
+import { BlockType } from '@prisma/client'
+
 const db = new PrismaClient()
 
-main()
-
-async function main() {
+const seedUsers = async () => {
   const results = await Promise.all(
     [
       {
@@ -26,6 +26,61 @@ async function main() {
   )
 
   console.log('Seeded: %j', results)
+}
 
+const seedCatalog = async () => {
+  const results = await Promise.all(
+    [
+      {
+        name: 'Default Container (Any Order)',
+        type: BlockType.COMPOSITE_PARALLEL,
+        inCatalog: true,
+      },
+      {
+        name: 'Sequential Container (Step By Step)',
+        type: BlockType.COMPOSITE_SEQUENTIAL,
+        inCatalog: true,
+      },
+      {
+        name: 'FORM 1',
+        type: BlockType.LEAF_FORM,
+        inCatalog: true,
+      },
+      {
+        name: 'FORM 2',
+        type: BlockType.LEAF_FORM,
+        inCatalog: true,
+      },
+      {
+        name: 'FORM 3',
+        type: BlockType.LEAF_FORM,
+        inCatalog: true,
+      },
+      {
+        name: 'API 1',
+        type: BlockType.LEAF_API,
+        inCatalog: true,
+      },
+      {
+        name: 'API 2',
+        type: BlockType.LEAF_API,
+        inCatalog: true,
+      },
+      {
+        name: 'API 3',
+        type: BlockType.LEAF_API,
+        inCatalog: true,
+      },
+    ].map((data) => db.block.create({ data })),
+  )
+
+  console.log('Seeded: %j', results)
+}
+
+const main = async () => {
+  await seedUsers()
+  await seedCatalog()
   db.disconnect()
 }
+
+main()
