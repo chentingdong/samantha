@@ -4,25 +4,22 @@ import { SegmentView } from './segment-view'
 
 export const BlockCard: React.FC<{
   block: BlockDef
-  cardClass?: string
   index: number
   updateOneBlock: (block: BlockDef) => void
-}> = ({ block, cardClass = 'col-3', index, updateOneBlock }) => {
+}> = ({ block, index, updateOneBlock }) => {
   const blockWidth = block?.type === 'leaf' ? 'col-3' : 'col-12'
   const color = block.type === 'leaf' ? 'light-green' : 'light-brown'
-
   return (
-    <div
-      className={`card p-0 mb-2 ${cardClass} border-${color} ${blockWidth}`}
-      key={block.id}
-    >
-      <strong className={`card-header bg-${color}`}>
-        {index}
-        <span className="p-2">-</span>
-        {block.name}
-      </strong>
-      <div className="card-body">{block.description}</div>
-      <SegmentView block={block} updateBlock={updateOneBlock} />
+    <div className={`p-0 m-2 ${blockWidth}`} key={block.id}>
+      <div className={`card border-${color} `}>
+        <strong className={`card-header bg-${color}`}>
+          {index}
+          <span className="p-2">-</span>
+          {block.name}
+        </strong>
+        <div className="card-body">{block.description}</div>
+        <SegmentView block={block} updateBlock={updateOneBlock} />
+      </div>
     </div>
   )
 }

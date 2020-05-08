@@ -125,10 +125,7 @@ export const EditRequest = () => {
               greedy={false}
               onDrop={(blockDef) => addBlockToRequest(blockDef)}
             >
-              <RequestBlocks
-                blocks={state.currentRequest.blocks}
-                cardClass="col-12"
-              />
+              <RequestBlocks blocks={state.currentRequest.blocks} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="col-12">

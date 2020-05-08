@@ -13,7 +13,7 @@ export const SegmentView: React.FC<{
     case 'sequenceStages':
     case 'parallelStages':
       return (
-        <SegmentStages
+        <SegmentCompositeStages
           type={block.type}
           subBlocks={block.blocks}
           updateBlock={updateBlock}
@@ -24,7 +24,7 @@ export const SegmentView: React.FC<{
   }
 }
 
-const SegmentStages: React.FC<{
+const SegmentCompositeStages: React.FC<{
   type: string
   subBlocks: BlockDef[]
   updateBlock: (block: BlockDef) => void
@@ -43,7 +43,6 @@ const SegmentStages: React.FC<{
     })
   }
 
-  const cardWidth = type === 'sequenceStages' ? 'col-3' : 'col-12'
   return (
     <div className="col-12">
       <DndTargetBox
@@ -51,7 +50,7 @@ const SegmentStages: React.FC<{
         greedy={false}
         onDrop={(item) => addSubBlock(item)}
       >
-        <RequestBlocks blocks={subBlocks} cardClass={`${cardWidth} m-0`} />
+        <RequestBlocks blocks={subBlocks} />
       </DndTargetBox>
     </div>
   )

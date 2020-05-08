@@ -6,8 +6,7 @@ import { BlockCard } from './block-card'
 // BlockDef cards that dropped in requestDef editing area
 export const RequestBlocks: React.FC<{
   blocks: BlockDef[]
-  cardClass?: string
-}> = ({ blocks, cardClass = 'col-4' }) => {
+}> = ({ blocks }) => {
   const { state, dispatch } = useContext(Context)
   const updateOneBlock = (block) => {
     dispatch({
@@ -19,13 +18,12 @@ export const RequestBlocks: React.FC<{
   }
   return (
     <div className="container">
-      <div className="row">
+      <div className="row pr-3">
         {blocks?.map((block, index) => {
           return (
             <BlockCard
               key={block.id}
               block={block}
-              cardClass={cardClass}
               index={index}
               updateOneBlock={updateOneBlock}
             />
