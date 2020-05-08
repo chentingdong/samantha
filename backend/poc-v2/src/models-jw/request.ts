@@ -1,4 +1,4 @@
-import { Block, State as BlockState, DependencyBlock} from "./block"
+import { Block, State as BlockState, DependencyBlock } from "./block"
 import { User } from "./user";
 import { v4 as uuid } from "uuid";
 import reqeustCatalog from "./data/requestCatalog.json";
@@ -24,7 +24,7 @@ export class Request {
 
   constructor(name: string, description: string, requestDef: Request) {
     this.name = name;
-    this.requestor = {"id":"", "name":"", "email":""};
+    this.requestor = { "id": "", "name": "", "email": "" };
     this.description = description;
     this.state = State.PENDING;
     this.blocks = [];
@@ -44,19 +44,53 @@ export class Request {
   }
 
   // this would be a main area for state / lifecycle discussion
-  private checkState(stateScope: String) {
+  checkState(stateScope: String) {
     // if a block state, if config done and responder defined, no dependency change to Active
     switch (stateScope) {
       case "responder":
-        // loop through blocks if no dependencies, set all blocks active and trigger notification
+        // loop through all blocks and send notifications to responders
         break;
       case "block":
-        // check blocks if CRUD, update state with dependencies and  trigger notification
+        // get all pending blocks, ready to start;
+        let readyToCompleteRequest = true;
+        let readyToStartBlocks = [];
+        this.blocks.map((b: Block) => {
+          if (b.state !== State.COMPLETE) {
+            readyToCompleteRequest = false; // still have not complete block, not ready to complete request
+          // console.log('checking b: readyToCompleteRequest: ' + readyToCompleteRequest);
+          //   console.log(b)
+            if (b.state === State.PENDING) {
+              readyToStartBlocks.push(b);
+            }
+          }
+        });
+
+        // if any dependency not complete, remove from ready to start list;
+        this.dependencies.map((d: DependencyBlock) => {
+          d.fromBlocks.map((b: Block) => {
+            if (b.state !== State.COMPLETE) {
+              d.toBlocks.map((tb: Block) => {
+                readyToStartBlocks = readyToStartBlocks.filter(obj => obj !== tb);
+              })
+            }
+          })
+        });
+        // start blocks
+        readyToStartBlocks.map((b: Block) => {
+          b.start();
+        });
+
+        // if readyToCompleteRequest, close request  // maybe a function to wrapup request for complete is better.
+        // console.log('end: readyToCompleteRequest: ' + readyToCompleteRequest);
+        if (readyToCompleteRequest) {
+          this.state = State.COMPLETE;
+        }
+
         break;
       case "dependency":
-        // loop through blocks with dependencies, set all blocks state accordingly and trigger notification
+        // this should be just the "block" state change
         break;
-    
+
       default:
         break;
     }
@@ -66,7 +100,25 @@ export class Request {
     //   b.start()
     // });
 
+
+  }
+
+  start(): boolean {
     this.state = State.ACTIVE;
+    this.checkState('block')
+    return true;
+  }
+
+  complete(): boolean {
+    if (this.state != State.ACTIVE) return false;
+    // complete all blocks that's not complate yet. maybe need a different method, like "close" / "revoke"?
+    this.blocks.map((b: Block) => {
+      if (b.state !== State.COMPLETE) {
+        b.complete();
+      }
+    });
+    this.state = State.COMPLETE;
+    return true;
   }
 
 
@@ -91,29 +143,6 @@ export class Request {
     return this.blocks.filter((block) => block.state == BlockState.ACTIVE);
   }
 
-  start(): boolean {
-    // loop through blocks and start block 
-    this.blocks.map((block: Block) => {
-      block.start();
-    });
-    // set back to pending if has dependency
-    this.dependencies.map((d: DependencyBlock) => {
-      d.fromBlocks.map((b: Block) => {
-        if (b.state !== State.COMPLETE) {
-          d.toBlocks.map((tb: Block) => {
-            tb.state = State.PENDING;
-          })
-        }
-      })
-    })
-    return true;
-  }
-
-  complete(): boolean {
-    if (this.state != State.ACTIVE) return false;
-    this.state = State.COMPLETE;
-    return true;
-  }
 
   getRequestorsView() { }
 
@@ -123,7 +152,7 @@ export class Request {
     return [{}, {}]
   }
 
-    static getRequestReceived = (requester: User) => { // need to have a db search of request
+  static getRequestReceived = (requester: User) => { // need to have a db search of request
     return [{}, {}]
   }
 
@@ -142,7 +171,7 @@ export class Request {
     return requestDefFound;
   }
 
-    static getRequestDefByName = (requestDefName?: string) => {
+  static getRequestDefByName = (requestDefName?: string) => {
     if (!requestDefName) return reqeustCatalog[0];
     // search by name
     let requestDefFound = {};

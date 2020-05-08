@@ -1,0 +1,42 @@
+#!/usr/bin/env node
+
+const program = require('commander')
+const whoami = require('../src/whoami')
+const list = require('../src/list')
+const show = require('../src/show')
+const createRootBlock = require('../src/createRootBlock')
+
+program
+  .command('whoami')
+  .description('Who am I login with?')
+  .action(async function () {
+    whoami({ quiet: false })
+  })
+
+program
+  .command('list')
+  .description(
+    'List < Requests Made | Requests Received | Request Catalog | Block Catalog | Users >',
+  )
+  .action(async function () {
+    const userId = await whoami({ quiet: true })
+    await list({ userId })
+  })
+
+program
+  .command('show')
+  .description('Show < Request Surface | Response Surface | Design Surface >')
+  .action(async function () {
+    const userId = await whoami({ quiet: true })
+    await show({ userId })
+  })
+
+program
+  .command('create')
+  .description('Create a Request')
+  .action(async function () {
+    const userId = await whoami({ quiet: true })
+    await createRootBlock({ userId })
+  })
+
+program.parse(process.argv)

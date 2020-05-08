@@ -1,4 +1,4 @@
-import { Request, STATE } from "../request";
+import { Request, State } from "../request";
 import { Block } from "../block";
 import reqeustCatalog from "../data/requestCatalog.json";
 import blockTestData from "../data/blockTestData.json";
@@ -40,7 +40,7 @@ describe("Request From Empty", () => {
   });
 
   it("should be in pending state by default", () => {
-    expect(newRequest.state).toBe("pending");
+    expect(newRequest.state).toBe(State.PENDING);
   });
 
   it("should be able to add block from blockLibrary and set config", () => {
@@ -62,6 +62,19 @@ describe("Request From Empty", () => {
     const userBaiji = new User(uuid(), "Baiji", "bhe@bellhop.io");
     newRequest.addResponder(userBaiji);
     expect(newRequest.responders[0]).toMatchObject(userBaiji);
+  });
+
+  it("should be able to start request and request and block will be both active ", () => {
+    newRequest.start();
+    expect(newRequest.blocks[0].state).toBe(State.ACTIVE);
+    expect(newRequest.state).toBe(State.ACTIVE);
+  });
+
+  it("should be able to complete block, and set request state to complete", () => {
+    newRequest.blocks[0].complete();
+    newRequest.checkState("block");
+    expect(newRequest.blocks[0].state).toBe(State.COMPLETE);
+    expect(newRequest.state).toBe(State.COMPLETE);
   });
 });
 

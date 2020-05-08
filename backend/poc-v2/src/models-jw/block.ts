@@ -39,9 +39,9 @@ export class Block {
   }
 
   static getBlockById = (blockType: string, blockId: string) => {
+    let blockFound = {};
     switch (blockType) {
       case "LEAF":
-        let blockFound = {};
         blockLibrary.leafBlocks.map((b: Block) => {
           if (b.id === blockId) blockFound = b;
         });
@@ -49,8 +49,12 @@ export class Block {
 
       case "COMPOSITE":
         blockLibrary.compositeBlocks.map((b: Block) => {
-          if (b.id === blockId) return b;
+          if (b.id === blockId) blockFound = b;
         });
+        return blockFound;
+
+      case "SUBREQUEST":
+        return blockLibrary.subRequestBlocks[0];
       default:
         return { "message": "Not Found" };
     }
@@ -92,8 +96,8 @@ export class Block {
   }
 
   complete(): boolean {
-    if (this.state != State.ACTIVE)
-      return false;
+    // if (this.state != State.ACTIVE)
+    //   return false;
     this.state = State.COMPLETE;
     return true;
   }

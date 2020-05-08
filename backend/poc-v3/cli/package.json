@@ -1,0 +1,13 @@
+{
+  "name": "bellhop-cli",
+  "version": "0.1",
+  "bin": {
+    "bellhop": "./bin/bellhop"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "commander": "^5.1.0",
+    "inquirer": "^7.1.0",
+    "pad": "^3.2.0"
+  }
+}

@@ -1,7 +1,8 @@
 import { Request, State } from "../request";
 import reqeustCatalog from "../data/requestCatalog.json";
 import { Block } from "../block";
-//import { DependencyBlock } from "../../models-bj/block";
+import { User } from "../user";
+import { v4 as uuid } from "uuid";
 
 describe("Request Use Case - Timesheet", () => {
   it("should return the list of request definitions from request Catalog", () => {
@@ -57,5 +58,24 @@ describe("Request Use Case - Timesheet", () => {
     expect(newTimesheetRequest.blocks[0].data.externalLink).toBe(
       "https://sheet.gdrive.com/timesheet"
     );
+  });
+
+  it("should be able to add responders to fill timesheet", () => {
+    const userBaiji = new User(uuid(), "Baiji", "bhe@bellhop.io"); // need to get user, not create new
+    newTimesheetRequest.addResponder(userBaiji);
+    expect(newTimesheetRequest.responders[0]).toMatchObject(userBaiji);
+  });
+
+  it("should be able to start request and request and block will be both active ", () => {
+    newTimesheetRequest.start();
+    expect(newTimesheetRequest.blocks[0].state).toBe(State.ACTIVE);
+    expect(newTimesheetRequest.state).toBe(State.ACTIVE);
+  });
+
+  it("should be able to complete block, and set request state to complete", () => {
+    newTimesheetRequest.blocks[0].complete();
+    newTimesheetRequest.checkState("block");
+    expect(newTimesheetRequest.blocks[0].state).toBe(State.COMPLETE);
+    expect(newTimesheetRequest.state).toBe(State.COMPLETE);
   });
 });

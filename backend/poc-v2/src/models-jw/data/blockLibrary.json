@@ -115,8 +115,43 @@
       "id": "LB003",
       "name": "form-review",
       "description": "get review notes",
+      "extendedFrom": "",
       "config": {},
-      "data": {}
+      "data": {
+        "blockActionOptions": [
+          "Send-To-Approve",
+          "Reject",
+          "Re-Work"
+        ],
+        "blockAction": "",
+        "externalLink": "config.formLink",
+        "integratedSystemName": ""
+      },
+      "requestUI": {
+        "formEngine": "bellhopForm"
+      },
+      "responderUI": {
+        "formEngine": "bellhopForm"
+      }
+    }
+  ],
+  "subRequestBlocks": [
+    {
+      "id": "SRB001",
+      "name": "subRequest",
+      "description": "Sub Request",
+      "extendedFrom": "",
+      "multipleInstances": false,
+      "config": {
+        "requestDef": {},
+        "request": {},
+        "Requestor": "",
+        "Responders": [],
+        "state": ""
+      },
+      "data": {},
+      "requestUI": {},
+      "responderUI": {}
     }
   ],
   "compositeBlocks": [
