@@ -1,9 +1,13 @@
 import React from 'react'
+import uuid from 'uuid'
 import { useDrag, DragSourceMonitor } from 'react-dnd'
 
 export const DndSourceBox = ({ blockDef, type, children }) => {
   const [{ isDragging }, drag] = useDrag({
-    item: { blockDef: blockDef, type: type },
+    item: Object.assign(
+      {},
+      { blockDef: { ...blockDef, id: uuid.v4() }, type: type }
+    ),
     canDrag: true,
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
