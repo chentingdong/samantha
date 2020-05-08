@@ -8,6 +8,7 @@ import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block/block-def-palette'
 import { DndTargetBox } from '../block/dnd-target-box'
 import { RequestBlocks } from '../block/request-blocks'
+import { OptionsUsers } from '../user/options-users'
 
 const EditRequestDef = (props) => {
   const { state, dispatch } = useContext(Context)
@@ -95,7 +96,9 @@ const EditRequestDef = (props) => {
           </div>
           <div className="form-group col-6">
             <label>Requester: </label>
-            <input className="form-control" ref={register} name="requester" />
+            <select className="form-control" ref={register} name="requester">
+              <OptionsUsers />
+            </select>
           </div>
           <div className="form-group col-12">
             <label>Description: </label>
