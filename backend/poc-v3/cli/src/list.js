@@ -18,8 +18,8 @@ const printBlockLine = (block) => {
       `name: ${g(block.name)}`,
       `state: ${sc(block.state)}`,
       `type: ${g(block.type)}`,
-      `Requestors: ${y(block.requestors.map((user) => user.name).join(','))}`,
-      `Responders: ${y(block.responders.map((user) => user.name).join(','))}`,
+      `Requestors: ${y(block.requestors.map((user) => user.name).join(', '))}`,
+      `Responders: ${y(block.responders.map((user) => user.name).join(', '))}`,
     ].join(' '),
   )
 }
@@ -95,7 +95,7 @@ const questions = [
 ]
 
 module.exports = async ({ userId }) => {
-  inquirer.prompt(questions).then(function (answers) {
+  inquirer.prompt(questions).then(async (answers) => {
     choices[answers.choices]({ userId })
   })
 }

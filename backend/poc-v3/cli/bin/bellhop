@@ -33,7 +33,7 @@ program
 
 program
   .command('create')
-  .description('Create a Request >')
+  .description('Create a Request')
   .action(async function () {
     const userId = await whoami({ quiet: true })
     await create({ userId })

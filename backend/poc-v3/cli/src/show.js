@@ -17,8 +17,8 @@ const printRequestSurface = (block) => {
       `parent :${g(block.parent ? block.parent.id : 'null')}`,
       `name: ${g(block.name)}`,
       `state: ${sc(block.state)}`,
-      `Requestors: ${y(block.requestors.map((user) => user.name).join(','))}`,
-      `Responders: ${y(block.responders.map((user) => user.name).join(','))}`,
+      `Requestors: ${y(block.requestors.map((user) => user.name).join(', '))}`,
+      `Responders: ${y(block.responders.map((user) => user.name).join(', '))}`,
     ].join(' '),
   )
   if (block.type.includes('COMPOSITE')) {
@@ -120,7 +120,7 @@ module.exports = async ({ userId }) => {
       message: 'Please enter the ID',
     },
   ]
-  inquirer.prompt(questions).then(function (answers) {
+  inquirer.prompt(questions).then(async (answers) => {
     choices[answers.choices]({ id: answers.id, userId })
   })
 }
