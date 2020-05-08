@@ -52,7 +52,6 @@ function VirtualAssistant() {
         </Tab.Container>
         <RequestViewRequester />
         <RequestViewResponder />
-        )}
       </main>
       <div
         className="col-10 offset-2 position-absolute bg-white"

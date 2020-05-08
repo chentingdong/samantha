@@ -8,6 +8,7 @@ import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block/block-def-palette'
 import { DndTargetBox } from '../block/dnd-target-box'
 import { RequestBlocks } from '../block/request-blocks'
+import { OptionsUsers } from '../user/options-users'
 
 export const EditRequest = () => {
   const { state, dispatch } = useContext(Context)
@@ -91,7 +92,9 @@ export const EditRequest = () => {
           </div>
           <div className="form-group col-6">
             <label>Request Owner: </label>
-            <input className="form-control" ref={register} name="requester" />
+            <select className="form-control" ref={register} name="requester">
+              <OptionsUsers />
+            </select>
           </div>
           <div className="form-group col-6">
             <label>Description: </label>
@@ -103,7 +106,14 @@ export const EditRequest = () => {
           </div>
           <div className="form-group col-6">
             <label>Responders: </label>
-            <input className="form-control" ref={register} name="responders" />
+            <select
+              className="form-control"
+              ref={register}
+              name="responders"
+              multiple
+            >
+              <OptionsUsers />
+            </select>
           </div>
           <div className="form-group col-12">
             <DndTargetBox

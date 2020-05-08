@@ -28,7 +28,13 @@ export interface UiState {
 
 export interface User {
   id?: string
-  attributes?: object
+  attributes?: {
+    email?: string
+    name?: string
+    given_name?: string
+    family_name?: string
+    picture?: string
+  }
 }
 
 export interface State {
