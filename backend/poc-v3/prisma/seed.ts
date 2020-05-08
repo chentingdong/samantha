@@ -32,12 +32,12 @@ const seedCatalog = async () => {
   const results = await Promise.all(
     [
       {
-        name: 'Default Container (Any Order)',
+        name: 'Parallel Container',
         type: BlockType.COMPOSITE_PARALLEL,
         inCatalog: true,
       },
       {
-        name: 'Sequential Container (Step By Step)',
+        name: 'Sequential Container',
         type: BlockType.COMPOSITE_SEQUENTIAL,
         inCatalog: true,
       },
