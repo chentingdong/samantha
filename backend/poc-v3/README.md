@@ -1,5 +1,11 @@
 # Bellhop POC with GraphQL
 
+## overview
+
+- Simplified backend development workflow
+- Less time spent on API and DB layers
+- More time on iterating the domain model and business logic
+
 ## Technical features
 
 - GraphQL
@@ -29,7 +35,17 @@
 
 - (optionally) Run `yarn -s prisma studio --experimental` and go to http://localhost:5555 to use Prisma studio (the code and tree views are useful).
 
-## caveat
+## CLI Client
+
+- `cd cli`
+
+- `npm i`
+
+- `export user='Baiji He'` (or 'Jin Wawng', 'Tingdong Chen')
+
+- `node bin/bellhop`
+
+## future improvements
 
 - JSON data type support is coming soon: https://github.com/prisma/prisma/issues/186
 
