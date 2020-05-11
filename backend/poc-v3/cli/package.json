@@ -1,6 +1,6 @@
 {
   "name": "bellhop-cli",
-  "version": "0.1",
+  "version": "0.1.0",
   "bin": {
     "bellhop": "./bin/bellhop"
   },

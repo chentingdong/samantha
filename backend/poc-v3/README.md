@@ -1,5 +1,11 @@
 # Bellhop POC with GraphQL
 
+## Overview
+
+- Simplified backend development workflow
+- Less time spent on API and DB layers
+- More time on iterating the domain model and business logic
+
 ## Technical features
 
 - GraphQL
@@ -7,7 +13,7 @@
 - Prisma 2.0.0-beta (https://www.prisma.io/docs/understand-prisma/why-prisma)
 - Nexus@0.20+, a delightful framework for building GraphQL APIs in Node
 
-## development workflow
+## Development workflow
 
 - Setup local Postgres in Docker:
 
@@ -29,7 +35,17 @@
 
 - (optionally) Run `yarn -s prisma studio --experimental` and go to http://localhost:5555 to use Prisma studio (the code and tree views are useful).
 
-## caveat
+## CLI Client
+
+- `cd cli`
+
+- `npm i`
+
+- `export user='Baiji He'` (or 'Jin Wawng', 'Tingdong Chen')
+
+- `node bin/bellhop`
+
+## Issues to Watch on External Modules
 
 - JSON data type support is coming soon: https://github.com/prisma/prisma/issues/186
 
