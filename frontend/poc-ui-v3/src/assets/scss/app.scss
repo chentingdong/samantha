@@ -1,0 +1,47 @@
+@import './variables.scss';
+@import './animate.min.css';
+
+.app {
+  font-family: helvetica, arial, sans-serif;
+  color: #000;
+
+  h2 {
+    padding: 20px 0;
+  }
+  .vh-75 {
+    height: 75vh !important;
+  }
+  .vh-50 {
+    height: 50vh !important;
+  }
+  .vh-25 {
+    height: 25vh !important;
+  }
+  .react-form-builder {
+    > div {
+      display: table;
+      width: 100%;
+    }
+    .react-form-builder-preview {
+      width: 70%;
+      float: left;
+      display: table-cell;
+      height: 75vh;
+      border: none;
+      box-shadow: none;
+    }
+    .react-form-builder-toolbar {
+      margin: 0;
+      width: 30%;
+      display: table-cell;
+      position: relative;
+      height: 100%;
+      float: left;
+      height: 75vh;
+      overflow: scroll;
+    }
+  }
+  .CodeMirror {
+    height: 100%;
+  }
+}

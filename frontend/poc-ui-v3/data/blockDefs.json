@@ -1,0 +1,52 @@
+[
+  {
+    "id": "composite-1",
+    "name": "sequencial stage container",
+    "description": "a composite block that support running blocks in sequence",
+    "type": "sequenceStages",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  {
+    "id": "composite-2",
+    "name": "parallel stage container",
+    "description": "a composite block that support running blocks in parallel ",
+    "type": "parallelStages",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  {
+    "id": "leaf-1",
+    "name": "intake a form",
+    "description": "ask responder(s) to intake a form",
+    "type": "leaf",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  {
+    "id": "leaf-2",
+    "name": "approval",
+    "description": "ask for approval",
+    "type": "leaf",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  {
+    "id": "leaf-3",
+    "name": "collect timesheet",
+    "description": "collect timesheets",
+    "type": "leaf",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  }
+]
