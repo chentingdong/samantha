@@ -17,7 +17,7 @@ export const RequestBlocks: React.FC<{
     })
   }
   return (
-    <div className="container">
+    <div className="container-fluid">
       <div className="row pr-3">
         {blocks?.map((block, index) => {
           return (

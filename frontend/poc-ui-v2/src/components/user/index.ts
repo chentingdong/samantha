@@ -1,5 +1,4 @@
 import { Auth } from 'aws-amplify'
-import apiWrapper from '../utils/api-wrapper'
 import users from '../../../data/users.json'
 import { User } from '../context/interface'
 
