@@ -1,8 +1,6 @@
-import * as React from 'react'
+import React, { useContext } from 'react'
 import { Context } from '../context/store'
-import { useContext } from 'react'
 import { RequestDef } from '../context/interface'
-import { EditRequest } from './edit-request'
 
 function Request({ request }) {
   const { state, dispatch } = useContext(Context)

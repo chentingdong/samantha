@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import uuid from 'uuid'
 import { EditRequestDef } from './edit-request-def'
 import { Context } from '../context/store'

@@ -1,7 +1,14 @@
 module.exports = {
-  stories: [
-    '../src/stories/**/*.stories.(js|tsx)',
-    '../src/components/**/*.stories.(js|tsx)',
-  ],
-  addons: ['@storybook/addon-docs'],
+  stories: ['../src/**/*.stories.(js|tsx)'],
+  webpackFinal: async (config) => {
+    config.module.rules.push({
+      test: /\.(ts|tsx)$/,
+      loader: require.resolve('babel-loader'),
+      options: {
+        presets: [['react-app', { flow: false, typescript: true }]],
+      },
+    })
+    config.resolve.extensions.push('.ts', '.tsx')
+    return config
+  },
 }

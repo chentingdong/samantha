@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Context } from '../context/store'
 import { useContext } from 'react'
-import { Modal } from 'react-bootstrap'
 import { Chat } from './chat'
 
 export const RequestViewRequester = () => {
