@@ -51,5 +51,8 @@
 | `yarn run lint --fix` | Run Typescript linter and fix issues                                          |
 | `yarn run start`      | (alias of `yarn run start-dev`)                                               |
 
-** Documentation **
-`yarn storybook`
+## Documentation
+
+run `yarn storybook`
+
+navigate to `https://localhost:2040`
