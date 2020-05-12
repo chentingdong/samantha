@@ -1,7 +1,7 @@
 {
   "name": "samantha",
-  "version": "0.2.0",
-  "description": "Bellhop 0.2.0 React, Webpack (with Hot Module Replacement), Typescript and Babel.",
+  "version": "0.3.0",
+  "description": "Bellhop 0.3.0 React, Webpack (with Hot Module Replacement), Typescript and Babel.",
   "keywords": [
     "react",
     "webpack",
@@ -25,8 +25,10 @@
     "start-prod": "yarn run build && node express.js --https --port 2021",
     "chromatic": "chromatic",
     "test": "jest",
-    "storybook": "start-storybook -p 2040 ",
+    "test:generate-output": "jest --json --outputFile=.jest-test-results.json",
+    "prebuild:storybook": "yarn run test:generate-output",
     "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 2040 ",
     "docz:dev": "docz dev",
     "docz:build": "docz build --prefix-paths=.",
     "docz:serve": "docz build && docz serve"
@@ -43,6 +45,7 @@
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-docs": "^5.3.18",
     "@storybook/addon-info": "^5.3.18",
+    "@storybook/addon-jest": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addon-notes": "^5.3.18",
     "@storybook/addons": "^5.3.18",

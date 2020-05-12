@@ -66,3 +66,7 @@
   `export PATH=./node_modules/.bin:${PATH}`
 
   `chromatic --project-token=<PROJECT TOKEN>`
+
+- storybook in chromatic:
+
+  https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27&branch=features%2Fpoc-ui-v3
