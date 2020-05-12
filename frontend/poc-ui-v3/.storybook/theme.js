@@ -4,8 +4,8 @@ import logo from '../src/assets/img/bellhop-1000x.png'
 export default create({
   base: 'light',
 
-  // colorPrimary: 'hotpink',
-  // colorSecondary: 'deepskyblue',
+  colorPrimary: 'hotpink',
+  colorSecondary: 'deepskyblue',
 
   // UI
   // appBg: 'grey',
@@ -24,7 +24,7 @@ export default create({
   // Toolbar default and active colors
   // barTextColor: 'white',
   // barSelectedColor: 'black',
-  // barBg: 'grey',
+  barBg: 'colorSecondary',
 
   // Form colors
   // inputBg: 'white',
