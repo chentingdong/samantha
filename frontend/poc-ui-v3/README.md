@@ -53,14 +53,16 @@
 
 ## Documentation
 
-- start storybook on port 2040
+- start storybook
 
   `yarn storybook`
 
-- to view the stories, navigate to https://localhost:2040
+- browser url to https://localhost:2040
 
-- to upload to chromatic.com
+- update with new build on chromatic.com
 
-  get the PROJECT TOKEN in bellhop chromatic.com project, then
+  get the `<PROJECT TOKEN>` in bellhop chromatic.com project, then
 
-  `./node_modules/.bin/chromatic --project-token=<PROJECT TOKEN>`
+  `export PATH=./node_modules/.bin:${PATH}`
+
+  `chromatic --project-token=<PROJECT TOKEN>`

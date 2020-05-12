@@ -13,13 +13,12 @@ import { OptionsUsers } from '../user/options-users'
 const EditRequestDef = (props) => {
   const { state, dispatch } = useContext(Context)
   const defaultRequestDef = initialState.currentRequestDef
-
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: state.currentRequestDef,
   })
 
   const onSumbit = (data) => {
-    console.log(JSON.stringify(data))
+    console.log(JSON.stringify(state))
   }
 
   const addBlockToRequestDef = async (blockDef: BlockDef) => {
