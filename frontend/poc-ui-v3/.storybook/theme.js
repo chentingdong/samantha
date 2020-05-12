@@ -2,35 +2,35 @@ import { create } from '@storybook/theming/create'
 import logo from '../src/assets/img/bellhop-1000x.png'
 
 export default create({
-  base: 'dark',
+  base: 'light',
 
-  colorPrimary: 'hotpink',
-  colorSecondary: 'deepskyblue',
+  // colorPrimary: 'hotpink',
+  // colorSecondary: 'deepskyblue',
 
   // UI
-  appBg: 'white',
-  appContentBg: 'silver',
-  appBorderColor: 'grey',
-  appBorderRadius: 4,
+  // appBg: 'grey',
+  // appContentBg: 'grey',
+  // appBorderColor: 'grey',
+  // appBorderRadius: 4,
 
   // Typography
-  fontBase: '"Open Sans", sans-serif',
-  fontCode: 'monospace',
+  fontBase: 'helvetica, arial, sans-serif',
+  // fontCode: 'monospace',
 
   // Text colors
-  textColor: 'black',
+  textColor: 'grey',
   textInverseColor: 'rgba(255,255,255,0.9)',
 
   // Toolbar default and active colors
-  barTextColor: 'silver',
-  barSelectedColor: 'black',
-  barBg: 'white',
+  // barTextColor: 'white',
+  // barSelectedColor: 'black',
+  // barBg: 'grey',
 
   // Form colors
-  inputBg: 'white',
-  inputBorder: 'silver',
-  inputTextColor: 'black',
-  inputBorderRadius: 4,
+  // inputBg: 'white',
+  // inputBorder: 'silver',
+  // inputTextColor: 'black',
+  // inputBorderRadius: 4,
   brandTitle: 'Bellhop storybook',
   brandUrl: 'https://localhost',
   brandImage: logo,

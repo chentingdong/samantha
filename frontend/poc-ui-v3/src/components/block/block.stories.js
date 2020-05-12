@@ -118,7 +118,7 @@ const blockComplex = {
   ],
 }
 
-export const blockCardLeaf = () => (
+export const blockCards = () => (
   <div>
     <h2>Blocks</h2>
     <p>Sample of blocks</p>
