@@ -28,14 +28,14 @@
 `yarn run start-dev`
 
 - Build app continuously (HMR enabled)
-- App served @ `https://localhost:2000`
+- App serves @ https://localhost:2000
 
 **Production**
 
 `yarn run start-prod`
 
 - Build app once (HMR disabled) to `/dist/`
-- App served @ `https://localhost:2000`
+- App serves @ https://localhost:2000
 
 ---
 
@@ -53,6 +53,14 @@
 
 ## Documentation
 
-run `yarn storybook`
+- start storybook on port 2040
 
-navigate to `https://localhost:2040`
+  `yarn storybook`
+
+- to view the stories, navigate to https://localhost:2040
+
+- to upload to chromatic.com
+
+  get the PROJECT TOKEN in bellhop chromatic.com project, then
+
+  `./node_modules/.bin/chromatic --project-token=<PROJECT TOKEN>`
