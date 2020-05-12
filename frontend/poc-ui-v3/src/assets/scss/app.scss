@@ -1,5 +1,5 @@
-@import './variables.scss';
-@import './animate.min.css';
+@import "./variables.scss";
+@import "./animate.min.css";
 
 .app {
   font-family: helvetica, arial, sans-serif;
@@ -44,4 +44,8 @@
   .CodeMirror {
     height: 100%;
   }
+}
+
+.sb-show-main {
+  padding: 15px;
 }

@@ -30,8 +30,20 @@ const block = {
   ],
 }
 
-export const blockCard = () => (
+const blockLeaf = block.blocks[0]
+
+export const blockCardLeaf = () => (
   <DndProvider backend={Backend}>
+    <h2>Leaf Block</h2>
+    <p>a simple leaf block</p>
+    <BlockCard block={blockLeaf} />
+  </DndProvider>
+)
+
+export const blockCardComposite = () => (
+  <DndProvider backend={Backend}>
+    <h2>Composite Block</h2>
+    <p>a composite block can contain sub blocks</p>
     <BlockCard block={block} />
   </DndProvider>
 )

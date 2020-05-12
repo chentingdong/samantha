@@ -86,7 +86,7 @@ export const EditRequest = () => {
   }
 
   return (
-    <div className="row h-100" style={{ top: '0', right: '0', zIndex: 5 }}>
+    <div className="h-100" style={{ top: '0', right: '0', zIndex: 5 }}>
       <main className="d-flex flex-column col-8 mr-2">
         <h2>Create/Modify Request</h2>
         <form onSubmit={handleSubmit(onSumbit)} className="row">
