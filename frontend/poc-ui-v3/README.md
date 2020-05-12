@@ -35,7 +35,7 @@
 `yarn run start-prod`
 
 - Build app once (HMR disabled) to `/dist/`
-- App served @ `https://localhost:2001`
+- App served @ `https://localhost:2000`
 
 ---
 
@@ -50,3 +50,6 @@
 | `yarn run lint`       | Run Typescript linter                                                         |
 | `yarn run lint --fix` | Run Typescript linter and fix issues                                          |
 | `yarn run start`      | (alias of `yarn run start-dev`)                                               |
+
+** Documentation **
+`yarn storybook`

@@ -1,10 +1,8 @@
 import React from 'react'
 import uuid from 'uuid'
-import { EditRequestDef } from './edit-request-def'
 import { Context } from '../context/store'
 import { RequestDef } from '../context/interface'
 import { initialState } from '../context/store'
-import { EditRequest } from './edit-request'
 
 function RequestDefsMenu() {
   const { state, dispatch } = React.useContext(Context)
