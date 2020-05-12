@@ -15,11 +15,23 @@
 
 ## Development workflow
 
+- Install dependencies
+
+  - `yarn`
+
+- Start Docker
+
 - Setup local Postgres in Docker:
 
   - `docker run -d --rm --name my_postgres -v my_dbdata:/var/lib/postgresql/data -p 5432:5432 -e POSTGRES_PASSWORD=password postgres`
 
+- Validate that Docker started
+
+  - `docker ps`
+
 - Fill in the connection uri in your `prisma/.env` file
+
+  - `DATABASE_URL="postgresql://postgres:password@localhost:5432/samantha"`
 
 - Edit prisma schema in prisma/schema.prisma
 
