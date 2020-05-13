@@ -3,6 +3,7 @@ import { SegmentView, segmentCompositeStages } from "./segment-view";
 import { withKnobs } from "@storybook/addon-knobs";
 import { DndProvider } from "react-dnd";
 import Backend from "react-dnd-html5-backend";
+import blockStories from "../../../data/storybook-blocks.json";
 
 export default {
   title: "Segment View",
@@ -10,70 +11,7 @@ export default {
   decorators: [withKnobs],
 };
 
-const blockLevel2 = {
-  id: "1",
-  name: "default request, parallel block container",
-  description: "empty request wrapper",
-  type: "parallelStages",
-  state: "pending",
-  requester: "",
-  responders: [],
-  blocks: [
-    {
-      id: "1",
-      name: "default request, parallel block container",
-      description: "empty request wrapper",
-      type: "parallelStages",
-      state: "pending",
-      requester: "",
-      responders: [],
-      blocks: [
-        {
-          id: "leaf-1",
-          name: "collect timesheet",
-          description: "collect timesheets",
-          type: "leaf",
-          state: "active",
-          requester: "",
-          responders: [],
-          blocks: [],
-        },
-        {
-          id: "leaf-2",
-          name: "rating",
-          description: "team rating",
-          type: "leaf",
-          state: "active",
-          requester: "",
-          responders: [],
-          blocks: [],
-        },
-        {
-          id: "1",
-          name: "default request, parallel block container",
-          description: "empty request wrapper",
-          type: "parallelStages",
-          state: "pending",
-          requester: "",
-          responders: [],
-          blocks: [
-            {
-              id: "leaf-1",
-              name: "collect timesheet",
-              description: "collect timesheets",
-              type: "leaf",
-              state: "active",
-              requester: "",
-              responders: [],
-              blocks: [],
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
-
+const blockLevel2 = blockStories[0];
 const blockLevel1 = blockLevel2.blocks[0];
 const blockLeaf = blockLevel1.blocks[0];
 const blockLevel0 = { ...blockLevel1, blocks: [] };
