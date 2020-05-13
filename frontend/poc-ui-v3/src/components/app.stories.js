@@ -6,4 +6,4 @@ export default {
   title: 'App',
 }
 
-export const installApp = () => <Markdown>{readmeMd}</Markdown>
+export const readme = () => <Markdown>{readmeMd}</Markdown>

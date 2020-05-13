@@ -1,3 +1,5 @@
+<!-- README.md -->
+
 # React Webpack Typescript Starter
 
 > Bellhop UI, POC for 2020 Q2.
@@ -15,6 +17,8 @@
 - Image loading/minification using [Image Webpack Loader](https://github.com/tcoopman/image-webpack-loader)
 - Typescript compiling using [Awesome Typescript Loader](https://github.com/s-panferov/awesome-typescript-loader) (5.x)
 - Code quality (linting) for Typescript.
+- Documentation Storybook with chromatic.com
+- Testing implemented with Jest, Storybook
 
 ## Installation
 
@@ -51,11 +55,13 @@
 | `yarn run lint --fix` | Run Typescript linter and fix issues                                          |
 | `yarn run start`      | (alias of `yarn run start-dev`)                                               |
 
-## Documentation
+|
 
-- start storybook
+## storybook
 
-  `yarn storybook`
+- start storybook with webpack hot reload while writing stories
+
+  `yarn storybook --debug-webpack`
 
 - browser url to https://localhost:2040
 
@@ -67,6 +73,12 @@
 
   `chromatic --project-token=<PROJECT TOKEN>`
 
-- storybook in chromatic:
+- shared (internal) storybooks:
 
-  https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27&branch=features%2Fpoc-ui-v3
+https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27
+
+## Testing
+
+### Unit testing
+
+### CI/CD

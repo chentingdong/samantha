@@ -2,14 +2,17 @@ import React, { useContext } from 'react'
 import { BlockCard } from './block-card'
 import { DndProvider } from 'react-dnd'
 import Backend from 'react-dnd-html5-backend'
-import blockStories from '../../../data/storybook.json'
+import blockStories from '../../../data/storybook-blocks.json'
 
 export default {
   title: 'Block',
   component: BlockCard,
+  parameters: {
+    notes: 'My notes',
+  },
 }
 
-export const blockCards = () => {
+export const BlockCards = () => {
   const blockLeaf = blockStories[0].blocks[0]
   const blockComposite = blockStories[0]
   const blockComplex = blockStories[1]
