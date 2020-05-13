@@ -1,7 +1,10 @@
 import React from 'react'
+import { DndProvider } from 'react-dnd'
 import VirtualAssistant from './virtual-assistant'
+import Backend from 'react-dnd-html5-backend'
 import NotFound from './not-found'
 import Login from './login'
+import { Store } from '../context/store'
 import '../../assets/scss/app.scss'
 
 export default {
@@ -13,7 +16,11 @@ export const virtualAssistant = () => (
   <article>
     <p>Full demo view of Bellhop app.</p>
     <div class="card shadow vh-100 overflow-auto">
-      <VirtualAssistant />
+      <Store>
+        <DndProvider backend={Backend}>
+          <VirtualAssistant />
+        </DndProvider>
+      </Store>
     </div>
   </article>
 )

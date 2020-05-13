@@ -1,6 +1,7 @@
 import React from 'react'
 import { BlockDef } from '../context/interface'
 import { SegmentView } from './segment-view'
+import { DndSourceBox } from './dnd-source-box'
 
 export const BlockCard: React.FC<{
   block: BlockDef
@@ -12,15 +13,17 @@ export const BlockCard: React.FC<{
   const color = block.type === 'leaf' ? 'light-green' : 'light-brown'
   return (
     <div className={`p-0 m-2 ${blockWidth}`} key={block.id}>
-      <div className={`card border-${color} `}>
-        <strong className={`card-header bg-${color}`}>
-          {index}
-          <span className="p-2">-</span>
-          {block.name}
-        </strong>
-        <div className="card-body">{block.description}</div>
-        <SegmentView block={block} updateBlock={updateOneBlock} />
-      </div>
+      <DndSourceBox type="block" blockDef={block}>
+        <div className={`card border-${color} `}>
+          <strong className={`card-header bg-${color}`}>
+            {index}
+            <span className="p-2">-</span>
+            {block.name}
+          </strong>
+          <div className="card-body">{block.description}</div>
+          <SegmentView block={block} updateBlock={updateOneBlock} />
+        </div>
+      </DndSourceBox>
     </div>
   )
 }

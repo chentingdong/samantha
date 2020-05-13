@@ -12,13 +12,15 @@ export const BlockDefPalette = () => {
       <small className="row">
         {state.blockDefs?.map((block: BlockDef) => {
           return (
-            <div className="card p-0 m-4 col-4" key={block.id}>
-              <DndSourceBox type="block" blockDef={block}>
-                <div className="card">
-                  <strong className="card-header">{block.name}</strong>
-                  <div className="card-body">{block.description}</div>
-                </div>
-              </DndSourceBox>
+            <div className="col-6 p-2">
+              <div className="card p-0" key={block.id}>
+                <DndSourceBox type="block" blockDef={block}>
+                  <div className="card">
+                    <strong className="card-header">{block.name}</strong>
+                    <div className="card-body">{block.description}</div>
+                  </div>
+                </DndSourceBox>
+              </div>
             </div>
           )
         })}

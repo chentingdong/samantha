@@ -79,7 +79,11 @@ const blockLeaf = blockLevel1.blocks[0]
 const blockLevel0 = { ...blockLevel1, blocks: [] }
 
 export const leafBlock = () => {
-  return <BlockCard block={blockLeaf} />
+  return (
+    <DndProvider backend={Backend}>
+      <BlockCard block={blockLeaf} />
+    </DndProvider>
+  )
 }
 
 export const CompositeBlockLevel0 = () => {

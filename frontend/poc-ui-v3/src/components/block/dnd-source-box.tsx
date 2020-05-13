@@ -14,5 +14,10 @@ export const DndSourceBox = ({ blockDef, type, children }) => {
     }),
   })
 
-  return <div ref={drag}>{children}</div>
+  const draggingStyle = isDragging ? { opacity: '0.3' } : { opacity: '1' }
+  return (
+    <div ref={drag} style={draggingStyle}>
+      {children}
+    </div>
+  )
 }
