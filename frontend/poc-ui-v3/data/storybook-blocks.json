@@ -1,36 +1,5 @@
 [
   {
-    "id": "1",
-    "name": "sequencial stage container",
-    "description": "a composite block that support running blocks in sequence",
-    "type": "sequenceStages",
-    "state": "active",
-    "requester": "",
-    "responders": [],
-    "blocks": [
-      {
-        "id": "leaf-3",
-        "name": "collect timesheet",
-        "description": "collect timesheets",
-        "type": "leaf",
-        "state": "active",
-        "requester": "",
-        "responders": [],
-        "blocks": []
-      },
-      {
-        "id": "leaf-2",
-        "name": "rating",
-        "description": "team rating",
-        "type": "leaf",
-        "state": "active",
-        "requester": "",
-        "responders": [],
-        "blocks": []
-      }
-    ]
-  },
-  {
     "id": "2",
     "name": "default request, parallel block container",
     "description": "empty request wrapper",
@@ -39,16 +8,6 @@
     "requester": "",
     "responders": [],
     "blocks": [
-      {
-        "id": "leaf-2",
-        "name": "rating",
-        "description": "team rating",
-        "type": "leaf",
-        "state": "active",
-        "requester": "",
-        "responders": [],
-        "blocks": []
-      },
       {
         "id": "some",
         "name": "sequencial stage container",
@@ -98,8 +57,49 @@
                 "blocks": []
               }
             ]
+          },
+          {
+            "id": "leaf-2",
+            "name": "rating",
+            "description": "team rating",
+            "type": "leaf",
+            "state": "active",
+            "requester": "",
+            "responders": [],
+            "blocks": []
           }
         ]
+      }
+    ]
+  },
+  {
+    "id": "1",
+    "name": "sequencial stage container",
+    "description": "a composite block that support running blocks in sequence",
+    "type": "sequenceStages",
+    "state": "active",
+    "requester": "",
+    "responders": [],
+    "blocks": [
+      {
+        "id": "leaf-3",
+        "name": "collect timesheet",
+        "description": "collect timesheets",
+        "type": "leaf",
+        "state": "active",
+        "requester": "",
+        "responders": [],
+        "blocks": []
+      },
+      {
+        "id": "leaf-2",
+        "name": "rating",
+        "description": "team rating",
+        "type": "leaf",
+        "state": "active",
+        "requester": "",
+        "responders": [],
+        "blocks": []
       }
     ]
   }
