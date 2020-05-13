@@ -5,9 +5,13 @@ import PrivateRoute from './private-routes'
 import VirtualAssistant from '../pages/virtual-assistant'
 import Login from '../pages/login'
 import NotFound from '../pages/not-found'
-
+import { RequestCatalogList } from "../blocks/RequestCatalogList";
 const routes = [
   {
+    path: '/test',
+    component: RequestCatalogList,
+    tag: PrivateRoute,
+  },  {
     path: '/',
     component: VirtualAssistant,
     tag: PrivateRoute,

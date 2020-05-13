@@ -1,94 +1,94 @@
-import uuid from 'uuid'
-import React, { useContext, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { Context } from '../context/store'
-import { ButtonGroup } from 'react-bootstrap'
-import { RequestDef, BlockDef } from '../context/interface'
-import { initialState } from '../context/store'
-import { BlockDefPalette } from '../block/block-def-palette'
-import { DndTargetBox } from '../block/dnd-target-box'
-import { RequestBlocks } from '../block/request-blocks'
-import { OptionsUsers } from '../user/options-users'
+import uuid from "uuid";
+import React, { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { Context } from "../context/store";
+import { ButtonGroup } from "react-bootstrap";
+import { RequestDef, BlockDef } from "../context/interface";
+import { initialState } from "../context/store";
+import { BlockDefPalette } from "../block-old/block-def-palette";
+import { DndTargetBox } from "../block-old/dnd-target-box";
+import { RequestBlocks } from "../block-old/request-blocks";
+import { OptionsUsers } from "../user/options-users";
 
 export const EditRequest = () => {
-  const { state, dispatch } = useContext(Context)
-  const defaultRequest = initialState.currentRequest
+  const { state, dispatch } = useContext(Context);
+  const defaultRequest = initialState.currentRequest;
 
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: state.currentRequest,
-  })
+  });
 
   const onSumbit = (data) => {
-    console.log(JSON.stringify(data))
-  }
+    console.log(JSON.stringify(data));
+  };
 
   const addBlockToRequest = async (block: BlockDef) => {
-    block.id = uuid.v4()
-    let updatedBlocks = [...state.currentRequest.blocks, block]
+    block.id = uuid.v4();
+    let updatedBlocks = [...state.currentRequest.blocks, block];
     let updatedRequest = {
       ...state.currentRequest,
       blocks: updatedBlocks,
-    }
+    };
     dispatch({
-      type: 'set',
+      type: "set",
       data: { currentRequest: updatedRequest },
-    })
-  }
+    });
+  };
 
   const saveRequest = async () => {
     // apply form changes
-    const formValues = getValues()
+    const formValues = getValues();
     let currentRequest: RequestDef = Object.assign(
       state.currentRequest,
       formValues
-    )
+    );
 
     // add/modify currentRequest in requests, if found update, otherwise create
-    let requests = state.requests
-    let found = false
+    let requests = state.requests;
+    let found = false;
     requests.forEach((rd, index) => {
       if (rd.id === currentRequest.id) {
-        requests[index] = currentRequest
-        found = true
-        return
+        requests[index] = currentRequest;
+        found = true;
+        return;
       }
-    })
+    });
     if (!found) {
-      requests.push(currentRequest)
+      requests.push(currentRequest);
     }
 
     await dispatch({
-      type: 'set',
+      type: "set",
       data: { requests: requests },
-    })
+    });
 
     // reset after finish
-    setValue('object', {})
+    setValue("object", {});
     await dispatch({
-      type: 'set',
+      type: "set",
       data: { currentRequest: defaultRequest },
-    })
+    });
 
-    close()
-  }
+    close();
+  };
 
   const close = () => {
     dispatch({
-      type: 'setUi',
+      type: "setUi",
       data: {
         showEditRequest: false,
       },
-    })
+    });
     dispatch({
-      type: 'set',
+      type: "set",
       data: { currentRequest: initialState.currentRequest },
-    })
-  }
+    });
+  };
 
   return (
     <div
       className="container-fluid row h-100"
-      style={{ top: '0', right: '0', zIndex: 5 }}
+      style={{ top: "0", right: "0", zIndex: 5 }}
     >
       <main className="d-flex flex-column col-8 mr-2">
         <h2>Create/Modify Request</h2>
@@ -145,5 +145,5 @@ export const EditRequest = () => {
         <BlockDefPalette />
       </aside>
     </div>
-  )
-}
+  );
+};

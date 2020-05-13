@@ -1,100 +1,100 @@
-import uuid from 'uuid'
-import React, { useState, useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { Context } from '../context/store'
-import { ButtonGroup } from 'react-bootstrap'
-import { RequestDef, BlockDef } from '../context/interface'
-import { initialState } from '../context/store'
-import { BlockDefPalette } from '../block/block-def-palette'
-import { DndTargetBox } from '../block/dnd-target-box'
-import { RequestBlocks } from '../block/request-blocks'
-import { OptionsUsers } from '../user/options-users'
+import uuid from "uuid";
+import React, { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { Context } from "../context/store";
+import { ButtonGroup } from "react-bootstrap";
+import { RequestDef, BlockDef } from "../context/interface";
+import { initialState } from "../context/store";
+import { BlockDefPalette } from "../block-old/block-def-palette";
+import { DndTargetBox } from "../block-old/dnd-target-box";
+import { RequestBlocks } from "../block-old/request-blocks";
+import { OptionsUsers } from "../user/options-users";
 
 const EditRequestDef = (props) => {
-  const { state, dispatch } = useContext(Context)
-  const defaultRequestDef = initialState.currentRequestDef
+  const { state, dispatch } = useContext(Context);
+  const defaultRequestDef = initialState.currentRequestDef;
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: state.currentRequestDef,
-  })
+  });
 
   const onSumbit = (data) => {
-    console.log(JSON.stringify(state))
-  }
+    console.log(JSON.stringify(state));
+  };
 
   const addBlockToRequestDef = async (blockDef: BlockDef) => {
     // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
-    let currentBlockDef = blockDef
+    let currentBlockDef = blockDef;
     dispatch({
-      type: 'set',
+      type: "set",
       data: {
         currentBlockDef: currentBlockDef,
       },
-    })
-    let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef]
+    });
+    let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef];
     let updatedRequestDef = {
       ...state.currentRequestDef,
       blocks: updatedBlocks,
-    }
-    let prevBlockDef = currentBlockDef
+    };
+    let prevBlockDef = currentBlockDef;
     dispatch({
-      type: 'set',
+      type: "set",
       data: {
         currentRequestDef: updatedRequestDef,
       },
-    })
+    });
     dispatch({
-      type: 'set',
+      type: "set",
       data: {
         BlockDefs: state.blockDefs.slice(
           state.blockDefs.indexOf(currentBlockDef),
           1
         ),
       },
-    })
-  }
+    });
+  };
 
   const saveRequestDef = async () => {
     // apply user's form changes
-    const formValues = getValues()
+    const formValues = getValues();
     let currentRequestDef: RequestDef = Object.assign(
       state.currentRequestDef,
       formValues
-    )
+    );
 
-    let requestDefs = state.requestDefs
+    let requestDefs = state.requestDefs;
 
     // if blockDef is found in blockDefs, then update, otherwise create
     // TODO: rewrite the following block with elegent codes
-    let found = false
+    let found = false;
     requestDefs.forEach((rd, index) => {
       if (rd.id === currentRequestDef.id) {
-        requestDefs[index] = currentRequestDef
-        found = true
-        return
+        requestDefs[index] = currentRequestDef;
+        found = true;
+        return;
       }
-    })
+    });
     if (!found) {
-      requestDefs.push(currentRequestDef)
+      requestDefs.push(currentRequestDef);
     }
 
     await dispatch({
-      type: 'set',
+      type: "set",
       data: { requestDefs: requestDefs },
-    })
+    });
 
-    close()
-  }
+    close();
+  };
 
   const close = () => {
     dispatch({
-      type: 'set',
+      type: "set",
       data: { currentRequestDef: defaultRequestDef },
-    })
+    });
     dispatch({
-      type: 'setUi',
+      type: "setUi",
       data: { showEditRequestDef: false },
-    })
-  }
+    });
+  };
 
   return (
     <div className="container-fluid row h-100">
@@ -142,7 +142,7 @@ const EditRequestDef = (props) => {
         <BlockDefPalette />
       </aside>
     </div>
-  )
-}
+  );
+};
 
-export { EditRequestDef }
+export { EditRequestDef };

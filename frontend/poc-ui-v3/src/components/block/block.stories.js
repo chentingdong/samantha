@@ -1,43 +1,28 @@
-import React, { useContext } from "react";
-import { BlockCard } from "./block-card";
-import { DndProvider } from "react-dnd";
-import Backend from "react-dnd-html5-backend";
+import React from "react";
+import { RequestorSurface } from "./RequestorSurface";
 import blockStories from "../../../data/storybook-blocks.json";
+import { getClient } from "../../index";
+import { ApolloProvider } from "@apollo/react-hooks";
+
 
 export default {
   title: "Block",
-  component: BlockCard,
-  parameters: {
-    notes: "My notes",
-  },
 };
 
-export const BlockCards = () => {
-  const blockLeaf = blockStories[1].blocks[0];
-  const blockComposite = blockStories[1];
-  const blockComplex = blockStories[0];
+const client = getClient();
 
+export const RequestorSurfaceSingleView = () => {
   return (
-    <div>
-      <h2>Blocks</h2>
-      <p>Sample of blocks</p>
-      <DndProvider backend={Backend}>
-        <section className="mb-4 p-2 border-grey border shadow">
-          <h3>Demo 1. Leaf Block</h3>
-          <p>a simple leaf block</p>
-          <BlockCard block={blockLeaf} />
-        </section>
-        <section className="mb-4 p-2 border-grey border shadow">
-          <h3>Demo 2. Composite Block</h3>
-          <p>a composite block can contain sub blocks</p>
-          <BlockCard block={blockComposite} />
-        </section>
-        <section className="mb-4 p-2 border-grey border shadow">
-          <h3>Demo 3. Complex Block containment</h3>
-          <p>a complex block can contain multiple levels</p>
-          <BlockCard block={blockComplex} />
-        </section>
-      </DndProvider>
-    </div>
-  );
-};
+    <ApolloProvider client={client}> 
+    <RequestorSurface blockId={2}/>
+    </ApolloProvider>
+  )
+}
+
+export const RequestorSurfaceError = () => {
+  return (
+    <ApolloProvider client={client}> 
+    <RequestorSurface blockId={-1}/>
+    </ApolloProvider>
+  )
+}

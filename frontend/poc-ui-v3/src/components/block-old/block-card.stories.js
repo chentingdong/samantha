@@ -5,7 +5,7 @@ import Backend from "react-dnd-html5-backend";
 import { withKnobs } from "@storybook/addon-knobs";
 
 export default {
-  title: "Block",
+  title: "BlockOld",
   component: BlockCard,
   decorators: [withKnobs],
 };
