@@ -1,0 +1,45 @@
+{
+  "isAuthenticated": false,
+  "user": {},
+  "users": [],
+  "currentRequestDef": {
+    "id": "",
+    "name": "",
+    "description": "",
+    "type": "parallelStages",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  "requestDefs": [],
+  "currentBlockDef": {
+    "id": "",
+    "name": "",
+    "description": "",
+    "type": "leaf",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  "blockDefs": [],
+  "currentRequest": {
+    "id": "",
+    "name": "",
+    "description": "",
+    "type": "parallelStages",
+    "state": "pending",
+    "requester": "",
+    "responders": [],
+    "blocks": []
+  },
+  "requests": [],
+  "messages": [],
+  "uiState": {
+    "showEditRequestDef": false,
+    "showEditRequest": false,
+    "showRequestViewRequester": false,
+    "showRequestViewResponder": false
+  }
+}
