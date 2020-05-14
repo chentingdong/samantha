@@ -1,9 +1,9 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-import { REQUEST_SURFACE } from "../../operations/queries/requestSurface";
+import { REQUESTOR_SURFACE } from "../../operations/queries/requestorSurface";
 
 export const RequestorSurface = ({ blockId }) => {
-  const { loading, error, data } = useQuery(REQUEST_SURFACE, {
+  const { loading, error, data } = useQuery(REQUESTOR_SURFACE, {
     variables: { id: blockId },
   });
 

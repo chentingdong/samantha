@@ -1,26 +1,26 @@
 import React from "react";
-import { ResponderSurface } from "./ResponderSurface";
+import { RequestorSurface } from "./RequestorSurface";
 import { getClient } from "../../index";
 import { ApolloProvider } from "@apollo/client";
 
 export default {
-  title: "Block / ResponderSurface",
+  title: "Block / RequestorSurface",
 };
 
 const client = getClient();
 
-export const ResponderSurfaceNormal = () => {
+export const RequestorSurfaceNormal = () => {
   return (
     <ApolloProvider client={client}>
-      <ResponderSurface blockId={2} />
+      <RequestorSurface blockId={2} />
     </ApolloProvider>
   );
 };
 
-export const ResponderSurfaceError = () => {
+export const RequestorSurfaceError = () => {
   return (
     <ApolloProvider client={client}>
-      <ResponderSurface blockId={-1} />
+      <RequestorSurface blockId={-1} />
     </ApolloProvider>
   );
 };

@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
-export const REQUEST_SURFACE = gql`
-  query requestSurface($id: Int) {
+export const REQUESTOR_SURFACE = gql`
+  query requestorSurface($id: Int) {
     block(where: { id: $id }) {
       id
       name
@@ -27,4 +27,4 @@ export const REQUEST_SURFACE = gql`
       }
     }
   }
-`;
+`
