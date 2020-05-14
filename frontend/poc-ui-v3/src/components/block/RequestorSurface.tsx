@@ -1,34 +1,6 @@
 import React from "react";
 import { gql, useQuery } from "@apollo/client";
-
-const REQUEST_SURFACE = gql`
-  query requestSurface($id: Int) {
-    block(where: { id: $id }) {
-      id
-      name
-      parent {
-        id
-      }
-      state
-      type
-      context
-      children {
-        id
-        name
-        state
-        type
-      }
-      requestors {
-        id
-        name
-      }
-      responders {
-        id
-        name
-      }
-    }
-  }
-`;
+import { REQUEST_SURFACE } from "../../operations/queries/requestSurface";
 
 export const RequestorSurface = ({ blockId }) => {
   const { loading, error, data } = useQuery(REQUEST_SURFACE, {
