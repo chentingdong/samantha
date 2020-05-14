@@ -14,7 +14,7 @@ export const RequestsMadeList = ({ blocks }) => {
   return (
     <>
       {data.blocks.map((block) => (
-        <RequestsMadeItem block={block} />
+        <RequestsMadeItem key={block.id} block={block} />
       ))}
     </>
   );

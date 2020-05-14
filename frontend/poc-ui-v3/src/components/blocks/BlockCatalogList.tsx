@@ -12,7 +12,7 @@ export const BlockCatalogList = ({ blocks }) => {
   return (
     <>
       {data.blocks.map((block) => (
-        <BlockCatalogItem block={block} />
+        <BlockCatalogItem key={block.id} block={block} />
       ))}
     </>
   );
