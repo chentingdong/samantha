@@ -1,8 +1,7 @@
 import React from "react";
 import { RequestCatalogList } from "./RequestCatalogList";
-import { ApolloProvider } from '@apollo/react-hooks';
+import { ApolloProvider } from "@apollo/client";
 import blockStories from "../../../data/storybook-blocks.json";
-import ApolloClient from 'apollo-boost';
 import { getClient } from "../../index";
 
 export default {
@@ -13,8 +12,8 @@ const client = getClient();
 
 export const RequestCatalog = () => {
   return (
-    <ApolloProvider client={client}> 
-      <RequestCatalogList/>
+    <ApolloProvider client={client}>
+      <RequestCatalogList />
     </ApolloProvider>
-  )
-}
+  );
+};

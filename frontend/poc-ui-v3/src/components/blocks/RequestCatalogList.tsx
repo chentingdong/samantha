@@ -1,7 +1,6 @@
 import React from "react";
 import { RequestCatalogSummary } from "../block/RequestCatalogSummary";
-import { gql } from "apollo-boost";
-import { useQuery } from '@apollo/react-hooks';
+import { gql, useQuery } from "@apollo/client";
 
 const REQUEST_CATALOG = gql`
   query REQUEST_CATALOG {
@@ -10,12 +9,7 @@ const REQUEST_CATALOG = gql`
       where: {
         AND: [
           { inCatalog: { equals: true } }
-          {
-            OR: [
-              { type: COMPOSITE_PARALLEL }
-              { type: COMPOSITE_SEQUENTIAL }
-            ]
-          }
+          { OR: [{ type: COMPOSITE_PARALLEL }, { type: COMPOSITE_SEQUENTIAL }] }
         ]
       }
     ) {
@@ -35,12 +29,12 @@ const REQUEST_CATALOG = gql`
       }
     }
   }
-`
+`;
 
 export const RequestCatalogList = ({ blocks }) => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG);
 
-  if (loading) return 'Loading...';
+  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
   return (

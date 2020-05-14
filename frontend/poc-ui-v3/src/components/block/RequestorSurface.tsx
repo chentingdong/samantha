@@ -1,6 +1,5 @@
 import React from "react";
-import { gql } from "apollo-boost";
-import { useQuery } from '@apollo/react-hooks';
+import { gql, useQuery } from "@apollo/client";
 
 const REQUEST_SURFACE = gql`
   query requestSurface($id: Int) {
@@ -29,13 +28,19 @@ const REQUEST_SURFACE = gql`
       }
     }
   }
-`
+`;
 
 export const RequestorSurface = ({ blockId }) => {
-  const { loading, error, data } = useQuery(REQUEST_SURFACE, {variables: { id: blockId }});
+  const { loading, error, data } = useQuery(REQUEST_SURFACE, {
+    variables: { id: blockId },
+  });
 
-  if (loading) return 'Loading...';
+  if (loading) return "Loading...";
   if (error) return `Error! ${error.message}`;
 
-  return <div>RequestorSurface for block ID={data.block.id}, name={data.block.name}</div>;
+  return (
+    <div>
+      RequestorSurface for block ID={data.block.id}, name={data.block.name}
+    </div>
+  );
 };
