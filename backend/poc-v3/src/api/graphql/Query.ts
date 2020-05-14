@@ -1,4 +1,5 @@
 import { schema } from 'nexus'
+import { customQueryResolver } from './Resolver'
 
 schema.queryType({
   definition(t) {
@@ -14,10 +15,7 @@ schema.queryType({
     })
     t.list.field('customQuery', {
       type: 'User',
-      resolve(parent, args, ctx) {
-        console.log('in customQuery resolver')
-        return ctx.db.user.findMany() // <== `ctx.db` is your Prisma Client instance
-      },
+      resolve: customQueryResolver,
     })
   },
 })
