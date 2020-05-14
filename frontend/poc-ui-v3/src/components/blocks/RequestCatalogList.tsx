@@ -1,5 +1,5 @@
 import React from "react";
-import { RequestCatalogSummary } from "../block/RequestCatalogSummary";
+import { RequestCatalogItem } from "../block/RequestCatalogItem";
 import { useQuery } from "@apollo/client";
 import { REQUEST_CATALOG } from "../../operations/queries/requestCatalog";
 
@@ -12,7 +12,7 @@ export const RequestCatalogList = ({ blocks }) => {
   return (
     <>
       {data.blocks.map((block) => (
-        <RequestCatalogSummary block={block} />
+        <RequestCatalogItem block={block} />
       ))}
     </>
   );
