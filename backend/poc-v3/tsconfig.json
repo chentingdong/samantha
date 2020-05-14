@@ -4,8 +4,8 @@
     "module": "commonjs",
     "lib": ["esnext"],
     "strict": true,
-    "rootDir": "api",
+    "rootDir": "src",
     "esModuleInterop": true
   },
-  "include": ["api", "api/__tests__/jest.environment.ts"]
+  "include": ["src"]
 }
