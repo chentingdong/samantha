@@ -1,16 +1,15 @@
 import React from "react";
 import { RequestorSurface } from "./RequestorSurface";
-import blockStories from "../../../data/storybook-blocks.json";
 import { getClient } from "../../index";
 import { ApolloProvider } from "@apollo/client";
 
 export default {
-  title: "Block",
+  title: "Block / RequestorSurface",
 };
 
 const client = getClient();
 
-export const RequestorSurfaceSingleView = () => {
+export const RequestorSurfaceNormal = () => {
   return (
     <ApolloProvider client={client}>
       <RequestorSurface blockId={2} />

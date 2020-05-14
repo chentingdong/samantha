@@ -1,13 +1,13 @@
 import { gql } from "@apollo/client";
 
-export const REQUEST_CATALOG = gql`
-  query requestCatalog {
+export const REQUESTS_MADE = gql`
+  query requestsMade($userId: String) {
     blocks(
-      orderBy: { id: asc }
+      orderBy: { id: desc }
       where: {
         AND: [
-          { inCatalog: { equals: true } }
-          { OR: [{ type: COMPOSITE_PARALLEL }, { type: COMPOSITE_SEQUENTIAL }] }
+          { inCatalog: { equals: false } }
+          { requestors: { some: { id: { equals: $userId } } } }
         ]
       }
     ) {
