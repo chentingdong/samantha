@@ -1,15 +1,18 @@
-import React from "react";
-import { RequestsReceivedItem } from "../block/RequestsReceivedItem";
-import { useQuery } from "@apollo/client";
-import { REQUESTS_RECEIVED } from "../../operations/queries/requestsReceived";
+import React, { useContext } from 'react'
+import { RequestsReceivedItem } from '../block/RequestsReceivedItem'
+import { useQuery } from '@apollo/client'
+import { Context } from '../context/store'
+import { REQUESTS_RECEIVED } from '../../operations/queries/requestsReceived'
 
-export const RequestsReceivedList = ({ blocks }) => {
+export const RequestsReceivedList = () => {
+  const { state, dispatch } = useContext(Context)
+
   const { loading, error, data } = useQuery(REQUESTS_RECEIVED, {
-    variables: { userId: "Google_111918078641246610063" },
-  });
+    variables: { userId: state.user.id },
+  })
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
 
   return (
     <>
@@ -17,5 +20,5 @@ export const RequestsReceivedList = ({ blocks }) => {
         <RequestsReceivedItem key={block.id} block={block} />
       ))}
     </>
-  );
-};
+  )
+}

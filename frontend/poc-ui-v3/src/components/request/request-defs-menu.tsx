@@ -38,7 +38,7 @@ function RequestDefsMenu() {
     })
     dispatch({
       type: 'setUi',
-      data: { showEditRequestDef: true },
+      data: { showfRequestDef: true },
     })
   }
 

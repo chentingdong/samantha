@@ -1,15 +1,18 @@
-import React from "react";
-import { RequestsMadeItem } from "../block/RequestsMadeItem";
-import { useQuery } from "@apollo/client";
-import { REQUESTS_MADE } from "../../operations/queries/requestsMade";
+import React, { useContext } from 'react'
+import { RequestsMadeItem } from '../block/RequestsMadeItem'
+import { useQuery } from '@apollo/client'
+import { REQUESTS_MADE } from '../../operations/queries/requestsMade'
+import { Context } from '../context/store'
 
 export const RequestsMadeList = ({ blocks }) => {
-  const { loading, error, data } = useQuery(REQUESTS_MADE, {
-    variables: { userId: "Google_111918078641246610063" },
-  });
+  const { state, dispatch } = useContext(Context)
 
-  if (loading) return "Loading...";
-  if (error) return `Error! ${error.message}`;
+  const { loading, error, data } = useQuery(REQUESTS_MADE, {
+    variables: { userId: state.user.id },
+  })
+
+  if (loading) return 'Loading...'
+  if (error) return `Error! ${error.message}`
 
   return (
     <>
@@ -17,5 +20,5 @@ export const RequestsMadeList = ({ blocks }) => {
         <RequestsMadeItem key={block.id} block={block} />
       ))}
     </>
-  );
-};
+  )
+}

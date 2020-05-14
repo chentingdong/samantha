@@ -8,12 +8,19 @@ import { EditRequestDef } from '../request/edit-request-def'
 export const RequestCatalogItem = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
   const [currentBlock, setCurrentBlock] = React.useState(block)
+  let blockInst = Object.assign({}, block, {
+    id: uuid.v4(),
+    name: '',
+    requester: state.user.id,
+  })
 
   const editRequestDef = () => {
     // dispatch({
     //   type: 'set',
     //   data: { currentRequestDef: currentRequestDef },
     // })
+    setCurrentBlock(blockInst)
+
     dispatch({
       type: 'setUi',
       data: { showEditRequestDef: true },
@@ -21,11 +28,6 @@ export const RequestCatalogItem = ({ block }) => {
   }
 
   const makeRequest = (block) => {
-    let blockInst = Object.assign({}, block, {
-      id: uuid.v4(),
-      name: '',
-      requester: state.user.id,
-    })
     setCurrentBlock(blockInst)
     // dispatch({
     //   type: 'set',
@@ -56,7 +58,10 @@ export const RequestCatalogItem = ({ block }) => {
           </p>
         </div>
         <div className="col-3">
-          <button className="btn btn-link" onClick={(e) => makeRequest(block)}>
+          <button
+            className="btn btn-link"
+            onClick={(e) => makeRequest(currentBlock)}
+          >
             Make a request
           </button>
           <br />
@@ -66,9 +71,11 @@ export const RequestCatalogItem = ({ block }) => {
         </div>
       </div>
       {state.uiState.showEditRequestDef && (
-        <div className="vh-100">
+        <div
+          className="position-fixed vh-100 bg-white"
+          style={{ top: '0', zIndex: 10 }}
+        >
           <Animated
-            key={`${currentBlock.name}-blockINst`}
             animationIn="slideInRight"
             animationInDuration={300}
             animationOut="bounceOutRight"

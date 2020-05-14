@@ -1,100 +1,90 @@
-import uuid from "uuid";
-import React, { useState, useContext } from "react";
-import { useForm } from "react-hook-form";
-import { Context } from "../context/store";
-import { ButtonGroup } from "react-bootstrap";
-import { RequestDef, BlockDef } from "../context/interface";
-import { initialState } from "../context/store";
-import { BlockDefPalette } from "../block-old/block-def-palette";
-import { DndTargetBox } from "../block-old/dnd-target-box";
-import { RequestBlocks } from "../block-old/request-blocks";
-import { OptionsUsers } from "../user/options-users";
+import uuid from 'uuid'
+import React, { useState, useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import { Context } from '../context/store'
+import { ButtonGroup } from 'react-bootstrap'
+import { RequestDef, BlockDef } from '../context/interface'
+import { initialState } from '../context/store'
+import { BlockDefPalette } from '../block-old/block-def-palette'
+import { DndTargetBox } from '../block-old/dnd-target-box'
+import { RequestBlocks } from '../block-old/request-blocks'
+import { OptionsUsers } from '../user/options-users'
 
-const EditRequestDef = (props) => {
-  const { state, dispatch } = useContext(Context);
-  const defaultRequestDef = initialState.currentRequestDef;
+const EditRequestDef = ({ block }) => {
+  const { state, dispatch } = useContext(Context)
+  console.log(block)
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: state.currentRequestDef,
-  });
+    defaultValues: block,
+  })
 
   const onSumbit = (data) => {
-    console.log(JSON.stringify(state));
-  };
+    console.log(JSON.stringify(state))
+  }
 
-  const addBlockToRequestDef = async (blockDef: BlockDef) => {
+  const addSubBlock = async (subBlock: BlockDef) => {
     // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
-    let currentBlockDef = blockDef;
-    dispatch({
-      type: "set",
-      data: {
-        currentBlockDef: currentBlockDef,
-      },
-    });
-    let updatedBlocks = [...state.currentRequestDef.blocks, currentBlockDef];
-    let updatedRequestDef = {
-      ...state.currentRequestDef,
-      blocks: updatedBlocks,
-    };
-    let prevBlockDef = currentBlockDef;
-    dispatch({
-      type: "set",
-      data: {
-        currentRequestDef: updatedRequestDef,
-      },
-    });
-    dispatch({
-      type: "set",
-      data: {
-        BlockDefs: state.blockDefs.slice(
-          state.blockDefs.indexOf(currentBlockDef),
-          1
-        ),
-      },
-    });
-  };
+    // dispatch({
+    //   type: "set",
+    //   data: {
+    //     currentBlockDef: block,
+    //   },
+    // });
+    let updatedSubBlocks = [...block.blocks, subBlock]
+    let updatedBlock = {
+      block,
+      blocks: updatedSubBlocks,
+    }
+    // mutation here
+    block = updatedBlock
+    // dispatch({
+    //   type: 'set',
+    //   data: {
+    //     currentRequestDef: updatedRequestDef,
+    //   },
+    // })
+    // dispatch({
+    //   type: 'set',
+    //   data: {
+    //     BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
+    //   },
+    // })
+  }
 
-  const saveRequestDef = async () => {
+  const saveBlock = async () => {
     // apply user's form changes
-    const formValues = getValues();
-    let currentRequestDef: RequestDef = Object.assign(
-      state.currentRequestDef,
-      formValues
-    );
+    const formValues = getValues()
+    let block = Object.assign(state.currentRequestDef, formValues)
 
-    let requestDefs = state.requestDefs;
+    let requestDefs = state.requestDefs
 
     // if blockDef is found in blockDefs, then update, otherwise create
     // TODO: rewrite the following block with elegent codes
-    let found = false;
+    let found = false
     requestDefs.forEach((rd, index) => {
-      if (rd.id === currentRequestDef.id) {
-        requestDefs[index] = currentRequestDef;
-        found = true;
-        return;
+      if (rd.id === block.id) {
+        requestDefs[index] = block
+        found = true
+        return
       }
-    });
+    })
     if (!found) {
-      requestDefs.push(currentRequestDef);
+      requestDefs.push(block)
     }
 
-    await dispatch({
-      type: "set",
-      data: { requestDefs: requestDefs },
-    });
+    // await dispatch({
+    //   type: 'set',
+    //   data: { requestDefs: requestDefs },
+    // })
 
-    close();
-  };
+    close()
+  }
 
   const close = () => {
     dispatch({
-      type: "set",
-      data: { currentRequestDef: defaultRequestDef },
-    });
-    dispatch({
-      type: "setUi",
+      type: 'setUi',
       data: { showEditRequestDef: false },
-    });
-  };
+    })
+  }
 
   return (
     <div className="container-fluid row h-100">
@@ -123,13 +113,13 @@ const EditRequestDef = (props) => {
             <DndTargetBox
               accept="block"
               greedy={false}
-              onDrop={(blockDef) => addBlockToRequestDef(blockDef)}
+              onDrop={(subBlock) => addSubBlock(subBlock)}
             >
-              <RequestBlocks blocks={state.currentRequestDef.blocks} />
+              <RequestBlocks blocks={block.blocks} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">
-            <button className="btn btn-gray col-2" onClick={saveRequestDef}>
+            <button className="btn btn-gray col-2" onClick={saveBlock}>
               save
             </button>
             <button className="btn btn-gray col-2" onClick={close}>
@@ -142,7 +132,7 @@ const EditRequestDef = (props) => {
         <BlockDefPalette />
       </aside>
     </div>
-  );
-};
+  )
+}
 
-export { EditRequestDef };
+export { EditRequestDef }
