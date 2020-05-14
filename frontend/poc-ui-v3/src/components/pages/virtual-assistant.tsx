@@ -12,6 +12,9 @@ import { ContextViewCodes } from '../context/context-view-codes'
 import { EditRequestDef } from '../request/edit-request-def'
 import { useContext } from 'react'
 import { Animated } from 'react-animated-css'
+import { RequestCatalogList } from '../blocks/RequestCatalogList'
+import { RequestsMadeList } from '../blocks/RequestsMadeList'
+import { RequestsReceivedList } from '../blocks/RequestsReceivedList'
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
@@ -43,13 +46,13 @@ function VirtualAssistant() {
             <div className="col-10 pt-2">
               <Tab.Content>
                 <Tab.Pane eventKey="requestMenu" className="vh-100">
-                  <RequestDefsMenu></RequestDefsMenu>
+                  <RequestCatalogList />
                 </Tab.Pane>
                 <Tab.Pane eventKey="requestMade" className="vh-100">
-                  <RequestsMade></RequestsMade>
+                  <RequestsMadeList />
                 </Tab.Pane>
                 <Tab.Pane eventKey="requestReceived" className="vh-100">
-                  <RequestsReceived></RequestsReceived>
+                  <RequestsReceivedList />
                 </Tab.Pane>
               </Tab.Content>
             </div>
@@ -62,7 +65,7 @@ function VirtualAssistant() {
         className="col-10 offset-2 position-absolute bg-white"
         style={{ top: '0', zIndex: 5 }}
       >
-        {state.uiState.showEditRequestDef && (
+        {/* {state.uiState.showEditRequestDef && (
           <div className="vh-100">
             <Animated
               animationIn="slideInRight"
@@ -73,8 +76,8 @@ function VirtualAssistant() {
               <EditRequestDef />
             </Animated>
           </div>
-        )}
-        {state.uiState.showEditRequest && (
+        )} */}
+        {/* {state.uiState.showEditRequest && (
           <div className="vh-100">
             <Animated
               animationIn="slideInDown"
@@ -85,7 +88,7 @@ function VirtualAssistant() {
               <EditRequest />
             </Animated>
           </div>
-        )}
+        )} */}
       </div>
       <footer className="border-top small">
         <ContextViewCodes />
