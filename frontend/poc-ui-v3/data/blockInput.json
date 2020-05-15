@@ -68,8 +68,8 @@
   "inCatalog": false,
   "name": "",
   "parent": null,
-  "requestors": [],
-  "responders": [],
+  "requestors": ["baiji"],
+  "responders": ["jin", "tingdong"],
   "id": 1,
   "state": "ACTIVE",
   "type": "COMPOSITE_PARALLEL"

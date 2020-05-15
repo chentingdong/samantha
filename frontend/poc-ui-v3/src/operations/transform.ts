@@ -13,10 +13,12 @@ const _transformBlockInput = (block, mutation_type='CONNECT') => {
   const childrenForCreate = []
   const childrenForConnect = []
   for (const child of block.children) {
-    const transformedChild = _transformBlockInput(child, mutation_type)
-    transformedChild.__mutation_type__==='CREATE' ? 
-      childrenForCreate.push(transformedChild) :
-      childrenForConnect.push(transformedChild)
+    if (child.__mutation_type__==='CREATE') {
+      const transformedChild = _transformBlockInput(child, mutation_type)
+      childrenForCreate.push(transformedChild)
+    } else {
+      childrenForConnect.push({ id: child.id })
+    }
   }
   block.children = {}
   if (childrenForCreate.length > 0) 
