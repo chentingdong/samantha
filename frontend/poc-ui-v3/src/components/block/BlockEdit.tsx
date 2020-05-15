@@ -8,6 +8,7 @@ import { DndTargetBox } from './DndTargetBox'
 import { BlockCatalogList } from '../blocks/BlockCatalogList'
 import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { OptionsUsers } from '../user/options-users'
+import { transformBlockInput } from '../../operations/transform' 
 
 const BlockEdit: React.FC<{
   block: Block
@@ -35,13 +36,11 @@ const BlockEdit: React.FC<{
   const saveBlock = async () => {
     // apply user's form changes
     const formValues = getValues()
-    let block = Object.assign({}, state.blockCreateInput, formValues)
+    const blockCreateInput = Object.assign({}, state.blockCreateInput, formValues)
+    const blockCreateInputTransformed = transformBlockInput(blockCreateInput)
 
-    if (block?.__mutation_type__ === 'CREATE') {
-      delete block.id
-    }
     // upsert
-    console.log(`blockCreateInput:\n${JSON.stringify(block)}`)
+    console.log(`blockCreateInput:\n${JSON.stringify(blockCreateInput)}`)
 
     close()
   }

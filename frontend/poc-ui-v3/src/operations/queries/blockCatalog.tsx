@@ -18,6 +18,7 @@ export const BLOCK_CATALOG = gql`
         type
       }
       children {
+        id
         name
         description
         type
@@ -25,6 +26,7 @@ export const BLOCK_CATALOG = gql`
         control
         context
         children {
+          id
           name
           description
           type
@@ -32,6 +34,7 @@ export const BLOCK_CATALOG = gql`
           control
           context
           children {
+            id
             name
             description
             type

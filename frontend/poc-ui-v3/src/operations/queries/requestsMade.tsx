@@ -26,6 +26,7 @@ export const REQUESTS_MADE = gql`
         type
       }
       children {
+        id
         name
         description
         type
@@ -33,6 +34,7 @@ export const REQUESTS_MADE = gql`
         control
         context
         children {
+          id
           name
           description
           type
@@ -40,6 +42,7 @@ export const REQUESTS_MADE = gql`
           control
           context
           children {
+            id
             name
             description
             type
