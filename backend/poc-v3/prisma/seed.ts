@@ -62,7 +62,7 @@ const seedCatalog = async () => {
         inCatalog: true,
       },
       {
-        name: 'Status Update Request',
+        name: 'Status Update Request Sequential',
         description:
           'Status Update which gathers information and gets approval',
         type: BlockType.COMPOSITE_SEQUENTIAL,
@@ -73,14 +73,125 @@ const seedCatalog = async () => {
               name: 'Gather Info Form',
               description: 'Gather Information from Responders',
               type: BlockType.LEAF_FORM,
-              inCatalog: true,
-              state: State.PENDING,
+              inCatalog: false,
+              state: State.ACTIVE,
             },
             {
               name: 'Approval Form',
               description: 'Ask for Approval',
               type: BlockType.LEAF_FORM,
-              inCatalog: true,
+              inCatalog: false,
+              state: State.PENDING,
+            },
+          ],
+        },
+      },
+      {
+        name: 'Status Update Request Parallel',
+        description:
+          'Status Update which gathers information and gets approval',
+        type: BlockType.COMPOSITE_PARALLEL,
+        inCatalog: true,
+        children: {
+          create: [
+            {
+              name: 'Gather Info Form',
+              description: 'Gather Information from Responders',
+              type: BlockType.LEAF_FORM,
+              inCatalog: false,
+              state: State.ACTIVE,
+            },
+            {
+              name: 'Approval Form',
+              description: 'Ask for Approval',
+              type: BlockType.LEAF_FORM,
+              inCatalog: false,
+              state: State.ACTIVE,
+            },
+          ],
+        },
+      },
+      {
+        name: 'Status Update Request Parallel -> Sequential',
+        description:
+          'Status Update which gathers information and gets approval',
+        type: BlockType.COMPOSITE_PARALLEL,
+        inCatalog: true,
+        children: {
+          create: [
+            {
+              name: 'Status Update Request',
+              description:
+                'Status Update which gathers information and gets approval',
+              type: BlockType.COMPOSITE_SEQUENTIAL,
+              inCatalog: false,
+              children: {
+                create: [
+                  {
+                    name: 'Gather Info Form',
+                    description: 'Gather Information from Responders',
+                    type: BlockType.LEAF_FORM,
+                    inCatalog: false,
+                    state: State.ACTIVE,
+                  },
+                  {
+                    name: 'Approval Form',
+                    description: 'Ask for Approval',
+                    type: BlockType.LEAF_FORM,
+                    inCatalog: false,
+                    state: State.PENDING,
+                  },
+                ],
+              },
+            },
+            {
+              name: 'Approval Form',
+              description: 'Ask for Approval',
+              type: BlockType.LEAF_FORM,
+              inCatalog: false,
+              state: State.ACTIVE,
+            },
+          ],
+        },
+      },
+      {
+        name: 'Status Update Request Sequential -> Parallel',
+        description:
+          'Status Update which gathers information and gets approval',
+        type: BlockType.COMPOSITE_SEQUENTIAL,
+        inCatalog: true,
+        children: {
+          create: [
+            {
+              name: 'Status Update Request',
+              description:
+                'Status Update which gathers information and gets approval',
+              type: BlockType.COMPOSITE_PARALLEL,
+              inCatalog: false,
+              children: {
+                create: [
+                  {
+                    name: 'Gather Info Form',
+                    description: 'Gather Information from Responders',
+                    type: BlockType.LEAF_FORM,
+                    inCatalog: false,
+                    state: State.ACTIVE,
+                  },
+                  {
+                    name: 'Approval Form',
+                    description: 'Ask for Approval',
+                    type: BlockType.LEAF_FORM,
+                    inCatalog: false,
+                    state: State.ACTIVE,
+                  },
+                ],
+              },
+            },
+            {
+              name: 'Approval Form',
+              description: 'Ask for Approval',
+              type: BlockType.LEAF_FORM,
+              inCatalog: false,
               state: State.PENDING,
             },
           ],
