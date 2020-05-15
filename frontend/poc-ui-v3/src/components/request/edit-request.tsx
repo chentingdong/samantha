@@ -27,7 +27,7 @@ export const EditRequest = () => {
     let updatedBlocks = [...state.currentRequest.children, block]
     let updatedRequest = {
       ...state.currentRequest,
-      blocks: updatedBlocks,
+      children: updatedBlocks,
     }
     dispatch({
       type: 'set',

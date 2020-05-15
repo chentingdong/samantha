@@ -1,24 +1,24 @@
-import uuid from 'uuid'
-import React, { useState, useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import { Context } from '../context/store'
-import { ButtonGroup } from 'react-bootstrap'
-import { Block } from '../context/interface'
-import { initialState } from '../context/store'
-import { BlockCatalogList } from '../blocks/BlockCatalogList'
-import { DndTargetBox } from '../block-old/dnd-target-box'
-import { RequestBlocks } from '../block-old/request-blocks'
-import { OptionsUsers } from '../user/options-users'
+import uuid from "uuid";
+import React, { useState, useContext } from "react";
+import { useForm } from "react-hook-form";
+import { Context } from "../context/store";
+import { ButtonGroup } from "react-bootstrap";
+import { Block } from "../context/interface";
+import { initialState } from "../context/store";
+import { BlockCatalogList } from "../blocks/BlockCatalogList";
+import { DndTargetBox } from "../block-old/dnd-target-box";
+import { RequestBlocks } from "../block-old/request-blocks";
+import { OptionsUsers } from "../user/options-users";
 
 const BlockEdit = ({ block, close }) => {
-  const { state, dispatch } = useContext(Context)
+  const { state, dispatch } = useContext(Context);
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
-  })
+  });
 
   const onSumbit = (data) => {
-    console.log(JSON.stringify(state))
-  }
+    console.log(JSON.stringify(state));
+  };
 
   const addSubBlock = async (subBlock: Block) => {
     // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
@@ -28,13 +28,13 @@ const BlockEdit = ({ block, close }) => {
     //     currentBlockDef: block,
     //   },
     // });
-    let updatedSubBlocks = [...block.children, subBlock]
+    let updatedSubBlocks = [...block.children, subBlock];
     let updatedBlock = {
-      block,
-      blocks: updatedSubBlocks,
-    }
+      ...block,
+      children: updatedSubBlocks,
+    };
     // mutation here
-    block = updatedBlock
+    block = updatedBlock;
     // dispatch({
     //   type: 'set',
     //   data: {
@@ -47,27 +47,27 @@ const BlockEdit = ({ block, close }) => {
     //     BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
     //   },
     // })
-  }
+  };
 
   const saveBlock = async () => {
     // apply user's form changes
-    const formValues = getValues()
-    let block = Object.assign(state.currentRequestDef, formValues)
+    const formValues = getValues();
+    let block = Object.assign(state.currentRequestDef, formValues);
 
-    let requestDefs = state.requestDefs
+    let requestDefs = state.requestDefs;
 
     // if blockDef is found in blockDefs, then update, otherwise create
     // TODO: rewrite the following block with elegent codes
-    let found = false
+    let found = false;
     requestDefs.forEach((rd, index) => {
       if (rd.id === block.id) {
-        requestDefs[index] = block
-        found = true
-        return
+        requestDefs[index] = block;
+        found = true;
+        return;
       }
-    })
+    });
     if (!found) {
-      requestDefs.push(block)
+      requestDefs.push(block);
     }
 
     // await dispatch({
@@ -75,8 +75,8 @@ const BlockEdit = ({ block, close }) => {
     //   data: { requestDefs: requestDefs },
     // })
 
-    close()
-  }
+    close();
+  };
 
   return (
     <div className="container-fluid row h-100">
@@ -124,7 +124,7 @@ const BlockEdit = ({ block, close }) => {
         <BlockCatalogList />
       </aside>
     </div>
-  )
-}
+  );
+};
 
-export { BlockEdit }
+export { BlockEdit };

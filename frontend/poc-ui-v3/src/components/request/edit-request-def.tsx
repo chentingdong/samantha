@@ -30,8 +30,8 @@ const EditRequestDef = ({ block, close }) => {
     // });
     let updatedSubBlocks = [...block.children, subBlock]
     let updatedBlock = {
-      block,
-      blocks: updatedSubBlocks,
+      ...block,
+      children: updatedSubBlocks,
     }
     // mutation here
     block = updatedBlock
