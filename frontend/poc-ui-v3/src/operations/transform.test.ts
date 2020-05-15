@@ -29,4 +29,8 @@ describe('Transform Block Input', () => {
     expect(result.responders.connect).toBeDefined()
   })
 
+  it('should have requestors as objects', () => {
+    expect(result.requestors.connect[0]).toBeDefined()
+  })
+
 })

@@ -9,6 +9,9 @@ import { BlockCatalogList } from '../blocks/BlockCatalogList'
 import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { OptionsUsers } from '../user/options-users'
 import { transformBlockInput } from '../../operations/transform' 
+import { CREATE_ONE_BLOCK } from '../../operations/mutations/createOneBlock' 
+import { UPDATE_ONE_BLOCK } from '../../operations/mutations/updateOneBlock' 
+import { useMutation } from '@apollo/client'
 
 const BlockEdit: React.FC<{
   block: Block
@@ -18,6 +21,8 @@ const BlockEdit: React.FC<{
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
   })
+  const [ createOneBlock ] = useMutation(CREATE_ONE_BLOCK)
+  const [ updateOneBlock ] = useMutation(UPDATE_ONE_BLOCK)
 
   const onSumbit = (data) => {}
 
@@ -37,10 +42,13 @@ const BlockEdit: React.FC<{
     // apply user's form changes
     const formValues = getValues()
     const blockCreateInput = Object.assign({}, state.blockCreateInput, formValues)
+    const mutation_type = blockCreateInput.__mutation_type__
     const blockCreateInputTransformed = transformBlockInput(blockCreateInput)
 
-    // upsert
-    console.log(`blockCreateInput:\n${JSON.stringify(blockCreateInput)}`)
+    console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
+    mutation_type==='CREATE' ?
+      createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
+      updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})
 
     close()
   }
