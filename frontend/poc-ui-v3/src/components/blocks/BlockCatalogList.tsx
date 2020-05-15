@@ -3,7 +3,7 @@ import { BlockCatalogItem } from "../block/BlockCatalogItem";
 import { useQuery } from "@apollo/client";
 import { BLOCK_CATALOG } from "../../operations/queries/blockCatalog";
 import { Block } from "../context/interface";
-import { DndSourceBox } from '../block-old/dnd-source-box'
+import { DndSourceBox } from "../block-old/dnd-source-box";
 
 export const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG);
@@ -17,8 +17,8 @@ export const BlockCatalogList = () => {
       <small className="row">
         {data.blocks?.map((block: Block) => {
           return (
-            <div className="col-6 p-2">
-              <div className="card p-0" key={block.id}>
+            <div className="col-6 p-2" key={block.id}>
+              <div className="card p-0">
                 <DndSourceBox type="block" blockDef={block}>
                   <div className="card">
                     <strong className="card-header">{block.name}</strong>
@@ -27,9 +27,9 @@ export const BlockCatalogList = () => {
                 </DndSourceBox>
               </div>
             </div>
-          )
+          );
         })}
       </small>
     </div>
-  )  
+  );
 };

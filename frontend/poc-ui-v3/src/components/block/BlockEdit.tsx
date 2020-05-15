@@ -34,19 +34,18 @@ const BlockEdit = ({ block, close }) => {
       children: updatedSubBlocks,
     };
     // mutation here
-    block = updatedBlock;
-    // dispatch({
-    //   type: 'set',
-    //   data: {
-    //     currentRequestDef: updatedRequestDef,
-    //   },
-    // })
-    // dispatch({
-    //   type: 'set',
-    //   data: {
-    //     BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
-    //   },
-    // })
+    dispatch({
+      type: "set",
+      data: {
+        currentRequestDef: updatedBlock,
+      },
+    });
+    dispatch({
+      type: "set",
+      data: {
+        BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
+      },
+    });
   };
 
   const saveBlock = async () => {
