@@ -7,8 +7,8 @@ const ResponderSurface = ({ blockId }) => {
     variables: { id: blockId },
   })
 
-  if (loading) return "Loading..."
-  if (error) return `Error! ${error.message}`
+  if (loading) return <>Loading...</>
+  if (error) return <>Error! ${error.message}</>
 
   return (
     <div>

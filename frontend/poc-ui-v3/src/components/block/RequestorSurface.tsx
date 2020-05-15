@@ -6,9 +6,8 @@ const RequestorSurface = ({ blockId }) => {
   const { loading, error, data } = useQuery(REQUESTOR_SURFACE, {
     variables: { id: blockId },
   })
-
-  if (loading) return "Loading..."
-  if (error) return `Error! ${error.message}`
+  if (loading) return <>Loading...</>
+  if (error) return <>Error! ${error.message}</>
 
   return (
     <div>
