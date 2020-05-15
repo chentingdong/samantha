@@ -22,36 +22,36 @@ function VirtualAssistant() {
   return (
     <div className="container-fluid">
       <main>
-        <Tab.Container defaultActiveKey="requestMenu">
+        <Tab.Container defaultActiveKey="requestCatalog">
           <div className="row">
             <div
               className="col-2 mt-4"
               onClick={(e) => dispatch({ type: 'resetUi' })}
             >
               <Nav className="flex-column">
-                <Nav.Link className="mt-2 btn btn-light" eventKey="requestMenu">
-                  requestMenu
+                <Nav.Link className="mt-2 btn btn-light" eventKey="requestCatalog">
+                  request Catalog
                 </Nav.Link>
-                <Nav.Link className="mt-2 btn btn-light" eventKey="requestMade">
-                  requestMade
+                <Nav.Link className="mt-2 btn btn-light" eventKey="requestsMade">
+                  requests Made
                 </Nav.Link>
                 <Nav.Link
                   className="mt-2 btn btn-light"
-                  eventKey="requestReceived"
+                  eventKey="requestsReceived"
                 >
-                  requestReceived
+                  requests Received
                 </Nav.Link>
               </Nav>
             </div>
             <div className="col-10 pt-2">
               <Tab.Content>
-                <Tab.Pane eventKey="requestMenu" className="vh-100">
+                <Tab.Pane eventKey="requestCatalog" className="vh-100">
                   <RequestCatalogList />
                 </Tab.Pane>
-                <Tab.Pane eventKey="requestMade" className="vh-100">
+                <Tab.Pane eventKey="requestsMade" className="vh-100">
                   <RequestsMadeList />
                 </Tab.Pane>
-                <Tab.Pane eventKey="requestReceived" className="vh-100">
+                <Tab.Pane eventKey="requestsReceived" className="vh-100">
                   <RequestsReceivedList />
                 </Tab.Pane>
               </Tab.Content>

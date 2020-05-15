@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client'
 import { REQUESTS_MADE } from '../../operations/queries/requestsMade'
 import { Context } from '../context/store'
 
-export const RequestsMadeList = ({ blocks }) => {
+export const RequestsMadeList = () => {
   const { state, dispatch } = useContext(Context)
 
   const { loading, error, data } = useQuery(REQUESTS_MADE, {
