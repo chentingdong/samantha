@@ -14,17 +14,50 @@ export const REQUEST_CATALOG = gql`
       id
       name
       description
-      parent {
-        id
-      }
-      state
       type
       inCatalog
-      requestors {
+      state
+      control
+      context
+      parent {
+        id
         name
+        state
+        type
+      }
+      children{
+        name
+        description
+        type
+        state
+        control
+        context
+        children {
+          name
+          description
+          type
+          state
+          control
+          context
+          children {
+            name
+            description
+            type
+            state
+            control
+            context
+          }
+        }
+      }
+      requestors {
+        id
+        name
+        email
       }
       responders {
+        id
         name
+        email
       }
     }
   }

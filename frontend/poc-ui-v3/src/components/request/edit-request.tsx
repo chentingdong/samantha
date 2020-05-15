@@ -3,10 +3,10 @@ import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
-import { RequestDef, BlockDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block-old/block-def-palette'
-import { DndTargetBox } from '../block-old/dnd-target-box'
+import { DndTargetBox } from '../block/dnd-target-box'
 import { RequestBlocks } from '../block-old/request-blocks'
 import { OptionsUsers } from '../user/options-users'
 
@@ -22,12 +22,12 @@ export const EditRequest = () => {
     console.log(JSON.stringify(data))
   }
 
-  const addBlockToRequest = async (block: BlockDef) => {
+  const addBlockToRequest = async (block: Block) => {
     block.id = uuid.v4()
-    let updatedBlocks = [...state.currentRequest.blocks, block]
+    let updatedBlocks = [...state.currentRequest.children, block]
     let updatedRequest = {
       ...state.currentRequest,
-      blocks: updatedBlocks,
+      children: updatedBlocks,
     }
     dispatch({
       type: 'set',
@@ -38,10 +38,7 @@ export const EditRequest = () => {
   const saveRequest = async () => {
     // apply form changes
     const formValues = getValues()
-    let currentRequest: RequestDef = Object.assign(
-      state.currentRequest,
-      formValues
-    )
+    let currentRequest: Block = Object.assign(state.currentRequest, formValues)
 
     // add/modify currentRequest in requests, if found update, otherwise create
     let requests = state.requests
@@ -128,7 +125,7 @@ export const EditRequest = () => {
               greedy={false}
               onDrop={(blockDef) => addBlockToRequest(blockDef)}
             >
-              <RequestBlocks blocks={state.currentRequest.blocks} />
+              <RequestBlocks children={state.currentRequest.children} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="col-12">

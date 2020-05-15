@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-
-import { BlockType } from '@prisma/client'
+import { BlockType, State } from '@prisma/client'
 
 const db = new PrismaClient()
 
@@ -33,45 +32,59 @@ const seedCatalog = async () => {
     [
       {
         name: 'Parallel Container',
-        description: 'parallel container by default.',
+        description: 'Default container which runs child blocks in parallel',
         type: BlockType.COMPOSITE_PARALLEL,
         inCatalog: true,
       },
       {
         name: 'Sequential Container',
-        description: 'sequencial container that child blocks run sequencially.',
+        description:
+          'Sequential container which runs child blocks sequentially',
         type: BlockType.COMPOSITE_SEQUENTIAL,
         inCatalog: true,
       },
       {
-        name: 'FORM 1',
+        name: 'Gather Info Form',
+        description: 'Gather Information from Responders',
         type: BlockType.LEAF_FORM,
         inCatalog: true,
       },
       {
-        name: 'FORM 2',
+        name: 'Approval Form',
+        description: 'Ask for Approval',
         type: BlockType.LEAF_FORM,
         inCatalog: true,
       },
       {
-        name: 'FORM 3',
-        type: BlockType.LEAF_FORM,
-        inCatalog: true,
-      },
-      {
-        name: 'API 1',
+        name: 'Dummy API',
+        description: 'Dummy API',
         type: BlockType.LEAF_API,
         inCatalog: true,
       },
       {
-        name: 'API 2',
-        type: BlockType.LEAF_API,
+        name: 'Status Update Request',
+        description:
+          'Status Update which gathers information and gets approval',
+        type: BlockType.COMPOSITE_SEQUENTIAL,
         inCatalog: true,
-      },
-      {
-        name: 'API 3',
-        type: BlockType.LEAF_API,
-        inCatalog: true,
+        children: {
+          create: [
+            {
+              name: 'Gather Info Form',
+              description: 'Gather Information from Responders',
+              type: BlockType.LEAF_FORM,
+              inCatalog: true,
+              state: State.PENDING,
+            },
+            {
+              name: 'Approval Form',
+              description: 'Ask for Approval',
+              type: BlockType.LEAF_FORM,
+              inCatalog: true,
+              state: State.PENDING,
+            },
+          ],
+        },
       },
     ].map((data) => db.block.create({ data })),
   )

@@ -3,10 +3,9 @@ import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
-import { RequestDef, BlockDef } from '../context/interface'
-import { initialState } from '../context/store'
-import { BlockDefPalette } from '../block-old/block-def-palette'
-import { DndTargetBox } from '../block-old/dnd-target-box'
+import { Block } from '../context/interface'
+import { BlockCatalogList } from '../blocks/BlockCatalogList'
+import { DndTargetBox } from './dnd-target-box'
 import { RequestBlocks } from '../block-old/request-blocks'
 import { OptionsUsers } from '../user/options-users'
 
@@ -20,7 +19,7 @@ const BlockEdit = ({ block, close }) => {
     console.log(JSON.stringify(state))
   }
 
-  const addSubBlock = (childBlock: BlockDef) => {
+  const addSubBlock = (childBlock: Block) => {
     console.log(block)
     let updatedChildren = block.children
       ? [...block.children, childBlock]
@@ -104,7 +103,7 @@ const BlockEdit = ({ block, close }) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <BlockDefPalette />
+        <BlockCatalogList />
       </aside>
     </div>
   )

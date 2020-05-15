@@ -10,18 +10,31 @@ export const RequestCatalogItem = ({ block }) => {
   const [showEdit, setShowEdit] = useState(false)
 
   let blockInst = Object.assign({}, block, {
-    id: uuid.v4(),
     name: '',
     requester: state.user.id,
   })
 
-  const editRequestDef = () => {
-    setCurrentBlock(blockInst)
+  const editRequestDef = (block) => {
+    setCurrentBlock(block)
     setShowEdit(true)
   }
 
   const makeRequest = (block) => {
-    // TODO: use default block.
+    const blockInst = Object.assign({}, block, {
+      // clear name/description or not?
+      // name: '',
+      // description: '',
+      inCatalog: false,
+      state: 'ACTIVE',
+      requestors: [
+        {
+          id: state.user.id,
+          name: state.user.attributes.name,
+          email: state.user.attributes.email,
+        },
+      ],
+    })
+    delete blockInst.id
     setCurrentBlock(blockInst)
     setShowEdit(true)
   }
@@ -32,27 +45,25 @@ export const RequestCatalogItem = ({ block }) => {
         <div className="col-7">
           <h4>{block.name}</h4>
           <p>{block.description}</p>
-          <p>Owner: {block.requester}</p>
           <p>
-            {block.children &&
-              block.children.map((block, index2) => {
-                return (
-                  <span className="border p-2 mr-2" key={`block-${index2}`}>
-                    {block.name}
-                  </span>
-                )
-              })}
+            {block.children?.map((block, index2) => {
+              return (
+                <span className="border p-2 mr-2" key={`block-${index2}`}>
+                  {block.name} ({block.state})
+                </span>
+              )
+            })}
           </p>
         </div>
         <div className="col-3">
-          <button
-            className="btn btn-link"
-            onClick={(e) => makeRequest(currentBlock)}
-          >
+          <button className="btn btn-link" onClick={(e) => makeRequest(block)}>
             Make a request
           </button>
           <br />
-          <button className="btn btn-link" onClick={editRequestDef}>
+          <button
+            className="btn btn-link"
+            onClick={(e) => editRequestDef(block)}
+          >
             View/Edit
           </button>
         </div>

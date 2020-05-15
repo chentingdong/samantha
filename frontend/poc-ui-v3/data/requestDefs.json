@@ -7,6 +7,7 @@
     "state": "pending",
     "requester": "",
     "responders": [],
+    "parent": "",
     "children": [
       {
         "id": "leaf-3",
@@ -16,6 +17,7 @@
         "state": "active",
         "requester": "",
         "responders": [],
+        "parent": "",
         "children": []
       }
     ]
@@ -28,6 +30,7 @@
     "state": "pending",
     "requester": "",
     "responders": [],
+    "parent": "",
     "children": [
       {
         "id": "composite-1",
@@ -37,6 +40,7 @@
         "state": "active",
         "requester": "",
         "responders": [],
+        "parent": "",
         "children": [
           {
             "id": "ff3f6d12-eadc-4b8e-a685-0a13c5482040",
@@ -46,6 +50,7 @@
             "state": "active",
             "requester": "",
             "responders": [],
+            "parent": "",
             "children": []
           },
           {
@@ -56,6 +61,7 @@
             "state": "pending",
             "requester": "",
             "responders": [],
+            "parent": "",
             "children": []
           }
         ]

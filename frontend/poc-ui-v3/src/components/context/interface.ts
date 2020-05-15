@@ -1,22 +1,16 @@
-export interface RequestDef {
-  id?: string
-  name?: string
-  description?: string
-  type?: string
-  state?: string
-  requester?: string
-  responders?: string[]
-  children?: BlockDef[]
-}
-export interface BlockDef {
-  id: string
+export interface Block {
+  id: number
   name: string
   description: string
   type: string
+  inCatalog?: boolean
   state: string
-  requester: string
-  responders: string[]
-  children?: BlockDef[]
+  control?: string
+  context?: string
+  requestor: User[]
+  responders: User[]
+  parent: string
+  children?: Block[]
 }
 
 export interface UiState {
@@ -27,6 +21,15 @@ export interface UiState {
 }
 
 export interface User {
+  id?: string
+  name?: string
+  email?: string
+  picture?: string
+  given_name?: string
+  family_name?: string
+}
+
+export interface CognitoUser {
   id?: string
   attributes?: {
     email?: string
@@ -39,14 +42,14 @@ export interface User {
 
 export interface State {
   isAuthenticated: boolean
-  user: User
-  users: User[]
-  currentRequestDef: RequestDef
-  requestDefs: RequestDef[]
-  currentBlockDef: BlockDef
-  blockDefs: BlockDef[]
-  currentRequest?: RequestDef
-  requests: RequestDef[]
+  user: CognitoUser
+  users: CognitoUser[]
+  currentRequestDef: Block
+  requestDefs: Block[]
+  currentBlockDef: Block
+  blockDefs: Block[]
+  currentRequest?: Block
+  requests: Block[]
   messages: object[]
   uiState: UiState
 }

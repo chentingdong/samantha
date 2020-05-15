@@ -13,17 +13,51 @@ export const REQUESTS_RECEIVED = gql`
     ) {
       id
       name
-      parent {
-        id
-      }
-      state
+      description
       type
       inCatalog
-      requestors {
+      state
+      control
+      context
+      parent {
+        id
         name
+        state
+        type
+      }
+      children{
+        name
+        description
+        type
+        state
+        control
+        context
+        children {
+          name
+          description
+          type
+          state
+          control
+          context
+          children {
+            name
+            description
+            type
+            state
+            control
+            context
+          }
+        }
+      }
+      requestors {
+        id
+        name
+        email
       }
       responders {
+        id
         name
+        email
       }
     }
   }

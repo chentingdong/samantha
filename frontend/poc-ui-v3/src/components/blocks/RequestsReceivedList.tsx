@@ -11,14 +11,15 @@ export const RequestsReceivedList = () => {
     variables: { userId: state.user.id },
   })
 
-  if (loading) return 'Loading...'
-  if (error) return `Error! ${error.message}`
+  if (loading) return <>Loading...</>
+  if (error) return <>{`Error! ${error.message}`}</>
 
   return (
-    <>
-      {data.blocks.map((block) => (
-        <RequestsReceivedItem key={block.id} block={block} />
-      ))}
-    </>
+    <div>
+      {data.children &&
+        data.children.map((block) => (
+          <RequestsReceivedItem key={block.id} block={block} />
+        ))}
+    </div>
   )
 }

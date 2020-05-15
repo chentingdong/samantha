@@ -9,7 +9,6 @@ import {
 } from '../request/request-view'
 import { Context } from '../context/store'
 import { ContextViewCodes } from '../context/context-view-codes'
-import { EditRequestDef } from '../request/edit-request-def'
 import { useContext } from 'react'
 import { Animated } from 'react-animated-css'
 import { RequestCatalogList } from '../blocks/RequestCatalogList'
@@ -22,36 +21,42 @@ function VirtualAssistant() {
   return (
     <div className="container-fluid">
       <main>
-        <Tab.Container defaultActiveKey="requestMenu">
+        <Tab.Container defaultActiveKey="requestCatalog">
           <div className="row">
             <div
               className="col-2 mt-4"
               onClick={(e) => dispatch({ type: 'resetUi' })}
             >
               <Nav className="flex-column">
-                <Nav.Link className="mt-2 btn btn-light" eventKey="requestMenu">
-                  requestMenu
-                </Nav.Link>
-                <Nav.Link className="mt-2 btn btn-light" eventKey="requestMade">
-                  requestMade
+                <Nav.Link
+                  className="mt-2 btn btn-light text-left"
+                  eventKey="requestCatalog"
+                >
+                  Request Catalog
                 </Nav.Link>
                 <Nav.Link
-                  className="mt-2 btn btn-light"
-                  eventKey="requestReceived"
+                  className="mt-2 btn btn-light text-left"
+                  eventKey="requestsMade"
                 >
-                  requestReceived
+                  Requests Made
+                </Nav.Link>
+                <Nav.Link
+                  className="mt-2 btn btn-light text-left"
+                  eventKey="requestsReceived"
+                >
+                  Requests Received
                 </Nav.Link>
               </Nav>
             </div>
             <div className="col-10 pt-2">
               <Tab.Content>
-                <Tab.Pane eventKey="requestMenu" className="vh-100">
+                <Tab.Pane eventKey="requestCatalog" className="vh-100">
                   <RequestCatalogList />
                 </Tab.Pane>
-                <Tab.Pane eventKey="requestMade" className="vh-100">
+                <Tab.Pane eventKey="requestsMade" className="vh-100">
                   <RequestsMadeList />
                 </Tab.Pane>
-                <Tab.Pane eventKey="requestReceived" className="vh-100">
+                <Tab.Pane eventKey="requestsReceived" className="vh-100">
                   <RequestsReceivedList />
                 </Tab.Pane>
               </Tab.Content>

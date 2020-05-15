@@ -1,7 +1,7 @@
 import uuid from 'uuid'
 import React, { useContext } from 'react'
 import { Block } from '../context/interface'
-import { DndTargetBox } from '../block/dnd-target-box'
+import { DndTargetBox } from './dnd-target-box'
 import { RequestBlocks } from './request-blocks'
 import { Context } from '../context/store'
 
@@ -38,8 +38,8 @@ const SegmentCompositeStages: React.FC<{
   }
   // TODO: temp solution by resetting all
   const resetPalette = () => {
-    state.blockDefs.forEach((blockDef) => {
-      blockDef.children = []
+    children.forEach((block) => {
+      block.children = []
     })
   }
 
@@ -50,7 +50,7 @@ const SegmentCompositeStages: React.FC<{
         greedy={false}
         onDrop={(item) => addSubBlock(item)}
       >
-        <RequestBlocks children={subBlocks} />
+        <RequestBlocks children={children} />
       </DndTargetBox>
     </div>
   )

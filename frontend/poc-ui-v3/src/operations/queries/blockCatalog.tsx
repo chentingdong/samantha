@@ -5,20 +5,51 @@ export const BLOCK_CATALOG = gql`
     blocks(orderBy: { id: asc }, where: { inCatalog: { equals: true } }) {
       id
       name
-      parent {
-        id
-      }
-      children {
-        id
-      }
-      state
+      description
       type
       inCatalog
-      requestors {
+      state
+      control
+      context
+      parent {
+        id
         name
+        state
+        type
+      }
+      children {
+        name
+        description
+        type
+        state
+        control
+        context
+        children {
+          name
+          description
+          type
+          state
+          control
+          context
+          children {
+            name
+            description
+            type
+            state
+            control
+            context
+          }
+        }
+      }
+      requestors {
+        id
+        name
+        email
       }
       responders {
+        id
         name
+        email
       }
     }
   }

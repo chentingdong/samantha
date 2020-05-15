@@ -11,7 +11,6 @@ import { RequestsMadeList } from "../blocks/RequestsMadeList";
 import { RequestsReceivedList } from "../blocks/RequestsReceivedList";
 import { RequestorSurface } from "../block/RequestorSurface"
 import { ResponderSurface } from "../block/ResponderSurface"
-import { RequestEdit } from "../block/RequestEdit"
 
 const routes = [
   {
