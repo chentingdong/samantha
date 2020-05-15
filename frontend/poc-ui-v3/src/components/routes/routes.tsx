@@ -6,12 +6,45 @@ import VirtualAssistant from '../pages/virtual-assistant'
 import Login from '../pages/login'
 import NotFound from '../pages/not-found'
 import { RequestCatalogList } from "../blocks/RequestCatalogList";
+import { BlockCatalogList } from "../blocks/BlockCatalogList";
+import { RequestsMadeList } from "../blocks/RequestsMadeList";
+import { RequestsReceivedList } from "../blocks/RequestsReceivedList";
+import { RequestorSurface } from "../block/RequestorSurface"
+import { ResponderSurface } from "../block/ResponderSurface"
+import { RequestEdit } from "../block/RequestEdit"
+
 const routes = [
   {
-    path: '/test',
+    path: '/request-catalog',
     component: RequestCatalogList,
     tag: PrivateRoute,
-  },  {
+  },
+  {
+    path: '/block-catalog',
+    component: BlockCatalogList,
+    tag: PrivateRoute,
+  },
+  {
+    path: '/requests-made',
+    component: RequestsMadeList,
+    tag: PrivateRoute,
+  },
+  {
+    path: '/request-received',
+    component: RequestsReceivedList,
+    tag: PrivateRoute,
+  },
+  {
+    path: '/requestor-surface/:id',
+    component: RequestorSurface,
+    tag: PrivateRoute,
+  },
+  {
+    path: '/responder-surface/:id',
+    component: ResponderSurface,
+    tag: PrivateRoute,
+  },
+  {
     path: '/',
     component: VirtualAssistant,
     tag: PrivateRoute,
