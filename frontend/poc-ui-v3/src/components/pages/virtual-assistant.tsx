@@ -29,17 +29,17 @@ function VirtualAssistant() {
               onClick={(e) => dispatch({ type: 'resetUi' })}
             >
               <Nav className="flex-column">
-                <Nav.Link className="mt-2 btn btn-light" eventKey="requestCatalog">
-                  request Catalog
+                <Nav.Link className="mt-2 btn btn-light text-left" eventKey="requestCatalog">
+                  Request Catalog
                 </Nav.Link>
-                <Nav.Link className="mt-2 btn btn-light" eventKey="requestsMade">
-                  requests Made
+                <Nav.Link className="mt-2 btn btn-light text-left" eventKey="requestsMade">
+                  Requests Made
                 </Nav.Link>
                 <Nav.Link
-                  className="mt-2 btn btn-light"
+                  className="mt-2 btn btn-light text-left"
                   eventKey="requestsReceived"
                 >
-                  requests Received
+                  Requests Received
                 </Nav.Link>
               </Nav>
             </div>
