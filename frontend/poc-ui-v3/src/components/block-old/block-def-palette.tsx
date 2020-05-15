@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Context } from '../context/store'
-import { BlockDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { DndSourceBox } from './dnd-source-box'
 
 export const BlockDefPalette = () => {
@@ -10,7 +10,7 @@ export const BlockDefPalette = () => {
     <div>
       <h2>Block Palette</h2>
       <small className="row">
-        {state.blockDefs?.map((block: BlockDef) => {
+        {state.blockDefs?.map((block: Block) => {
           return (
             <div className="col-6 p-2">
               <div className="card p-0" key={block.id}>

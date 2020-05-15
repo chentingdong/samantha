@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
-import { RequestDef, BlockDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block-old/block-def-palette'
 import { DndTargetBox } from '../block-old/dnd-target-box'
@@ -20,7 +20,7 @@ const EditRequestDef = ({ block, close }) => {
     console.log(JSON.stringify(state))
   }
 
-  const addSubBlock = async (subBlock: BlockDef) => {
+  const addSubBlock = async (subBlock: Block) => {
     // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
     // dispatch({
     //   type: "set",

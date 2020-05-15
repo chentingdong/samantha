@@ -3,9 +3,9 @@ import React, { useState, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
-import { RequestDef, BlockDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { initialState } from '../context/store'
-import { BlockDefPalette } from '../block-old/block-def-palette'
+import { BlockCatalogList } from '../blocks/BlockCatalogList'
 import { DndTargetBox } from '../block-old/dnd-target-box'
 import { RequestBlocks } from '../block-old/request-blocks'
 import { OptionsUsers } from '../user/options-users'
@@ -20,7 +20,7 @@ const BlockEdit = ({ block, close }) => {
     console.log(JSON.stringify(state))
   }
 
-  const addSubBlock = async (subBlock: BlockDef) => {
+  const addSubBlock = async (subBlock: Block) => {
     // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
     // dispatch({
     //   type: "set",
@@ -28,7 +28,7 @@ const BlockEdit = ({ block, close }) => {
     //     currentBlockDef: block,
     //   },
     // });
-    let updatedSubBlocks = [...block.blocks, subBlock]
+    let updatedSubBlocks = [...block.children, subBlock]
     let updatedBlock = {
       block,
       blocks: updatedSubBlocks,
@@ -107,7 +107,7 @@ const BlockEdit = ({ block, close }) => {
               greedy={false}
               onDrop={(subBlock) => addSubBlock(subBlock)}
             >
-              <RequestBlocks blocks={block.blocks} />
+              <RequestBlocks blocks={block.children} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">
@@ -121,7 +121,7 @@ const BlockEdit = ({ block, close }) => {
         </form>
       </main>
       <aside className="d-flex flex-column col-4 border-left border-gray row">
-        <BlockDefPalette />
+        <BlockCatalogList />
       </aside>
     </div>
   )

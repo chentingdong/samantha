@@ -1,11 +1,11 @@
 import React, { useContext } from 'react'
-import { BlockDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { Context } from '../context/store'
 import { BlockCard } from './block-card'
 
 // BlockDef cards that dropped in requestDef editing area
 export const RequestBlocks: React.FC<{
-  blocks: BlockDef[]
+  blocks: Block[]
 }> = ({ blocks }) => {
   const { state, dispatch } = useContext(Context)
   const updateOneBlock = (block) => {

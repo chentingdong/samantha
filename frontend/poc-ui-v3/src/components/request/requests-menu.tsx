@@ -1,12 +1,12 @@
 import React, { useContext } from 'react'
 import { Context } from '../context/store'
-import { RequestDef } from '../context/interface'
+import { Block } from '../context/interface'
 
 function Request({ request }) {
   const { state, dispatch } = useContext(Context)
 
   const editRequest = () => {
-    let currentRequest: RequestDef = request
+    let currentRequest: Block = request
     dispatch({
       type: 'set',
       data: { currentRequest: currentRequest },

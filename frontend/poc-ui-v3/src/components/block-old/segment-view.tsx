@@ -1,13 +1,13 @@
 import uuid from 'uuid'
 import React, { useContext } from 'react'
-import { BlockDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { DndTargetBox } from './dnd-target-box'
 import { RequestBlocks } from './request-blocks'
 import { Context } from '../context/store'
 
 export const SegmentView: React.FC<{
-  block: BlockDef
-  updateBlock: (block: BlockDef) => void
+  block: Block
+  updateBlock: (block: Block) => void
 }> = ({ block, updateBlock }) => {
   switch (block.type) {
     case 'sequenceStages':
@@ -26,12 +26,12 @@ export const SegmentView: React.FC<{
 
 const SegmentCompositeStages: React.FC<{
   type: string
-  subBlocks: BlockDef[]
-  updateBlock: (block: BlockDef) => void
+  subBlocks: Block[]
+  updateBlock: (block: Block) => void
 }> = ({ type, subBlocks, updateBlock }) => {
   const { state, dispatch } = useContext(Context)
 
-  const addSubBlock = (block: BlockDef) => {
+  const addSubBlock = (block: Block) => {
     subBlocks.push({ ...block, id: uuid.v4() })
     updateBlock(block)
     resetPalette()

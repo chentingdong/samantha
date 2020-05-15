@@ -1,7 +1,7 @@
 import React from 'react'
 import uuid from 'uuid'
 import { Context } from '../context/store'
-import { RequestDef } from '../context/interface'
+import { Block } from '../context/interface'
 import { initialState } from '../context/store'
 
 function RequestDefsMenu() {
@@ -30,7 +30,7 @@ function RequestDefsMenu() {
       },
     })
   }
-  const editRequestDef = (requestDef: RequestDef) => {
+  const editRequestDef = (requestDef: Block) => {
     let currentRequestDef = requestDef
     dispatch({
       type: 'set',
@@ -42,8 +42,8 @@ function RequestDefsMenu() {
     })
   }
 
-  const makeRequest = (requestDef: RequestDef) => {
-    let currentRequest: RequestDef = Object.assign({}, requestDef, {
+  const makeRequest = (requestDef: Block) => {
+    let currentRequest: Block = Object.assign({}, requestDef, {
       id: uuid.v4(),
       name: '',
       requester: state.user.id,
