@@ -7,7 +7,8 @@ import { DndSourceBox } from '../block/dnd-source-box'
 
 export const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)
-  const blockCatalog = data.blocks
+  const blockCatalog = data ? data.blocks : []
+
   if (loading) return <>Loading...</>
   if (error) return <>{`Error! ${error.message}`}</>
 
