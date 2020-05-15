@@ -32,7 +32,7 @@ function Request({ request }) {
         <div className="col-8 btn text-left" onClick={requestView}>
           <h4>{request.name}</h4>
           <p>{request.description}</p>
-          <p>Requester: {request.requester}</p>
+          <p>Requester: {request.requestors[0]?.name}</p>
           <p>
             Responders:
             {request.responders.map((responder, index) => {
@@ -44,7 +44,7 @@ function Request({ request }) {
             })}
           </p>
           <p>
-            {request.blocks?.map((block, index2) => {
+            {request.children?.map((block, index2) => {
               return (
                 <span className="border p-2 mr-2" key={`block-${index2}`}>
                   {block.name}
@@ -64,10 +64,11 @@ function Request({ request }) {
 }
 
 function isRequester(request, state) {
-  return request.requester === state.user.id
+  return request.requestors[0]?.id === state.user.id
 }
 
 function isResponder(request, state) {
+  // TODO: Fix
   return request.responders.indexOf(state.user.id) > -1
 }
 

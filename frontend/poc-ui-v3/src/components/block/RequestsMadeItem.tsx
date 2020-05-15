@@ -9,14 +9,8 @@ export const RequestsMadeItem = ({ block }) => {
   const [currentBlock, setCurrentBlock] = React.useState(block)
   const [showEdit, setShowEdit] = useState(false)
 
-  let blockInst = Object.assign({}, block, {
-    id: uuid.v4(),
-    name: '',
-    requester: state.user.id,
-  })
-
-  const editRequestDef = () => {
-    setCurrentBlock(blockInst)
+  const editRequestDef = (block) => {
+    setCurrentBlock(block)
     setShowEdit(true)
   }
 
@@ -38,7 +32,7 @@ export const RequestsMadeItem = ({ block }) => {
           </p>
         </div>
         <div className="col-3">
-          <button className="btn btn-link" onClick={editRequestDef}>
+          <button className="btn btn-link" onClick={(e)=>editRequestDef(currentBlock)}>
             View/Edit
           </button>
         </div>

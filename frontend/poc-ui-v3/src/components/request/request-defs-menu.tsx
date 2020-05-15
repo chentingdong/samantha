@@ -79,10 +79,10 @@ function RequestDefsMenu() {
                   <div className="col-7">
                     <h4>{requestDef.name}</h4>
                     <p>{requestDef.description}</p>
-                    <p>Owner: {requestDef.requester}</p>
+                    <p>Owner: {requestDef.requestors[0]?.name}</p>
                     <p>
-                      {requestDef.blocks &&
-                        requestDef.blocks?.map((block, index2) => {
+                      {requestDef.children &&
+                        requestDef.children?.map((block, index2) => {
                           return (
                             <span
                               className="border p-2 mr-2"

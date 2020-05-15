@@ -13,7 +13,7 @@ export default {
 };
 
 export const BlockCards = () => {
-  const blockLeaf = blockStories[1].blocks[0];
+  const blockLeaf = blockStories[1].children[0];
   const blockComposite = blockStories[1];
   const blockComplex = blockStories[0];
 

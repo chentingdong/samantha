@@ -10,18 +10,29 @@ export const RequestCatalogItem = ({ block }) => {
   const [showEdit, setShowEdit] = useState(false)
 
   let blockInst = Object.assign({}, block, {
-    id: uuid.v4(),
     name: '',
     requester: state.user.id,
   })
 
-  const editRequestDef = () => {
-    setCurrentBlock(blockInst)
+  const editRequestDef = (block) => {
+    setCurrentBlock(block)
     setShowEdit(true)
   }
 
   const makeRequest = (block) => {
-    // TODO: use default block.
+    const blockInst = Object.assign({}, block, {
+      // clear name/description or not?
+      // name: '',
+      // description: '',
+      inCatalog: false,
+      state: 'ACTIVE',
+      requestors: [{
+        id: state.user.id, 
+        name: state.user.attributes.name, 
+        email: state.user.attributes.email
+      }],
+    })
+    delete blockInst.id
     setCurrentBlock(blockInst)
     setShowEdit(true)
   }
@@ -45,12 +56,12 @@ export const RequestCatalogItem = ({ block }) => {
         <div className="col-3">
           <button
             className="btn btn-link"
-            onClick={(e) => makeRequest(currentBlock)}
+            onClick={(e) => makeRequest(block)}
           >
             Make a request
           </button>
           <br />
-          <button className="btn btn-link" onClick={editRequestDef}>
+          <button className="btn btn-link" onClick={(e) => editRequestDef(block)}>
             View/Edit
           </button>
         </div>

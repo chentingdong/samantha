@@ -28,7 +28,7 @@ const EditRequestDef = ({ block, close }) => {
     //     currentBlockDef: block,
     //   },
     // });
-    let updatedSubBlocks = [...block.blocks, subBlock]
+    let updatedSubBlocks = [...block.children, subBlock]
     let updatedBlock = {
       block,
       blocks: updatedSubBlocks,
@@ -107,7 +107,7 @@ const EditRequestDef = ({ block, close }) => {
               greedy={false}
               onDrop={(subBlock) => addSubBlock(subBlock)}
             >
-              <RequestBlocks blocks={block.blocks} />
+              <RequestBlocks blocks={block.children} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">

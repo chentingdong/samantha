@@ -13,9 +13,9 @@ export default {
 import blockStories from "../../../data/storybook-blocks.json";
 
 const blockLevel2 = blockStories[0];
-const blockLevel1 = blockLevel2.blocks[0];
-const blockLeaf = blockLevel1.blocks[0];
-const blockLevel0 = { ...blockLevel1, blocks: [] };
+const blockLevel1 = blockLevel2.children[0];
+const blockLeaf = blockLevel1.children[0];
+const blockLevel0 = { ...blockLevel1, children: [] };
 
 export const leafBlock = () => {
   return (

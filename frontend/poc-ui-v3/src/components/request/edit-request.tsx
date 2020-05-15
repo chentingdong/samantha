@@ -24,7 +24,7 @@ export const EditRequest = () => {
 
   const addBlockToRequest = async (block: Block) => {
     block.id = uuid.v4()
-    let updatedBlocks = [...state.currentRequest.blocks, block]
+    let updatedBlocks = [...state.currentRequest.children, block]
     let updatedRequest = {
       ...state.currentRequest,
       blocks: updatedBlocks,
@@ -128,7 +128,7 @@ export const EditRequest = () => {
               greedy={false}
               onDrop={(blockDef) => addBlockToRequest(blockDef)}
             >
-              <RequestBlocks blocks={state.currentRequest.blocks} />
+              <RequestBlocks blocks={state.currentRequest.children} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="col-12">
