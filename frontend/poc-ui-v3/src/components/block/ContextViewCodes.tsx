@@ -26,7 +26,7 @@ const ContextViewCodes = () => {
 
   return (
     <div>
-      <h5>Apollo Cache</h5>
+      <h5>Data (Apollo queried from server)</h5>
       <AceEditor
         mode="json"
         theme="github"
