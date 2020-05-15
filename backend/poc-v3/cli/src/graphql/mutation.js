@@ -81,10 +81,14 @@ module.exports.createOneRootBlockMutation = async ({ data }) => {
         createOneBlock(data: $data) {
           id
           name
+          description
           parent {
             id
             name
             state
+          }
+          children {
+            id
           }
           state
           control

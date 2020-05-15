@@ -10,7 +10,7 @@
     "state": "pending",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   "requestDefs": [],
   "currentBlockDef": {
@@ -21,7 +21,7 @@
     "state": "pending",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   "blockDefs": [],
   "currentRequest": {
@@ -32,7 +32,7 @@
     "state": "pending",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   "requests": [],
   "messages": [],

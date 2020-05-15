@@ -5,21 +5,21 @@ import { BlockCard } from './block-card'
 
 // BlockDef cards that dropped in requestDef editing area
 export const RequestBlocks: React.FC<{
-  blocks: BlockDef[]
-}> = ({ blocks }) => {
+  children: BlockDef[]
+}> = ({ children }) => {
   const { state, dispatch } = useContext(Context)
   const updateOneBlock = (block) => {
     dispatch({
       type: 'set',
       data: {
-        blocks: [...blocks, block],
+        children: [...children, block],
       },
     })
   }
   return (
     <div className="container-fluid">
       <div className="row pr-3">
-        {blocks?.map((block, index) => {
+        {children?.map((block, index) => {
           return (
             <BlockCard
               key={block.id}

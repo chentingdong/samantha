@@ -1,7 +1,5 @@
 const inquirer = require('inquirer')
-const pad = require('pad')
 const colors = require('colors')
-const { r, y, g, b, gr, sc, d40 } = require('./style')
 const {
   usersQuery,
   requestsMade,

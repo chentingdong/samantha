@@ -6,7 +6,7 @@ export interface RequestDef {
   state?: string
   requester?: string
   responders?: string[]
-  blocks?: BlockDef[]
+  children?: BlockDef[]
 }
 export interface BlockDef {
   id: string
@@ -16,7 +16,7 @@ export interface BlockDef {
   state: string
   requester: string
   responders: string[]
-  blocks?: BlockDef[]
+  children?: BlockDef[]
 }
 
 export interface UiState {

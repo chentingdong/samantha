@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
@@ -6,6 +6,9 @@ export const BLOCK_CATALOG = gql`
       id
       name
       parent {
+        id
+      }
+      children {
         id
       }
       state
@@ -19,4 +22,4 @@ export const BLOCK_CATALOG = gql`
       }
     }
   }
-`;
+`

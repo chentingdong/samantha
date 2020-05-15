@@ -15,7 +15,7 @@ export const SegmentView: React.FC<{
       return (
         <SegmentCompositeStages
           type={block.type}
-          subBlocks={block.blocks}
+          subBlocks={block.children}
           updateBlock={updateBlock}
         />
       )
@@ -39,7 +39,7 @@ const SegmentCompositeStages: React.FC<{
   // TODO: temp solution by resetting all
   const resetPalette = () => {
     state.blockDefs.forEach((blockDef) => {
-      blockDef.blocks = []
+      blockDef.children = []
     })
   }
 
@@ -50,7 +50,7 @@ const SegmentCompositeStages: React.FC<{
         greedy={false}
         onDrop={(item) => addSubBlock(item)}
       >
-        <RequestBlocks blocks={subBlocks} />
+        <RequestBlocks children={subBlocks} />
       </DndTargetBox>
     </div>
   )

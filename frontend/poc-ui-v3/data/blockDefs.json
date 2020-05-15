@@ -7,7 +7,7 @@
     "state": "active",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   {
     "id": "composite-2",
@@ -17,7 +17,7 @@
     "state": "active",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   {
     "id": "leaf-1",
@@ -27,7 +27,7 @@
     "state": "active",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   {
     "id": "leaf-2",
@@ -37,7 +37,7 @@
     "state": "pending",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   },
   {
     "id": "leaf-3",
@@ -47,6 +47,6 @@
     "state": "active",
     "requester": "",
     "responders": [],
-    "blocks": []
+    "children": []
   }
 ]

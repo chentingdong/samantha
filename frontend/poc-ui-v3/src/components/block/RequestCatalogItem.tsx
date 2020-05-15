@@ -34,8 +34,8 @@ export const RequestCatalogItem = ({ block }) => {
           <p>{block.description}</p>
           <p>Owner: {block.requester}</p>
           <p>
-            {block.blocks &&
-              block.blocks?.map((block, index2) => {
+            {block.children &&
+              block.children.map((block, index2) => {
                 return (
                   <span className="border p-2 mr-2" key={`block-${index2}`}>
                     {block.name}

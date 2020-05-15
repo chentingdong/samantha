@@ -20,33 +20,16 @@ const BlockEdit = ({ block, close }) => {
     console.log(JSON.stringify(state))
   }
 
-  const addSubBlock = async (subBlock: BlockDef) => {
-    // let currentBlockDef = state.blockDefs.find((bd) => bd.id === blockDef.id)
-    // dispatch({
-    //   type: "set",
-    //   data: {
-    //     currentBlockDef: block,
-    //   },
-    // });
-    let updatedSubBlocks = [...block.blocks, subBlock]
+  const addSubBlock = (childBlock: BlockDef) => {
+    console.log(block)
+    let updatedChildren = block.children
+      ? [...block.children, childBlock]
+      : [childBlock]
     let updatedBlock = {
       block,
-      blocks: updatedSubBlocks,
+      children: updatedChildren,
     }
-    // mutation here
     block = updatedBlock
-    // dispatch({
-    //   type: 'set',
-    //   data: {
-    //     currentRequestDef: updatedRequestDef,
-    //   },
-    // })
-    // dispatch({
-    //   type: 'set',
-    //   data: {
-    //     BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
-    //   },
-    // })
   }
 
   const saveBlock = async () => {
@@ -105,9 +88,9 @@ const BlockEdit = ({ block, close }) => {
             <DndTargetBox
               accept="block"
               greedy={false}
-              onDrop={(subBlock) => addSubBlock(subBlock)}
+              onDrop={(childBlock) => addSubBlock(childBlock)}
             >
-              <RequestBlocks blocks={block.blocks} />
+              <RequestBlocks children={block.children} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">

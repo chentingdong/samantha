@@ -7,7 +7,7 @@
     "state": "pending",
     "requester": "Google_115419186368884878540",
     "responders": [],
-    "blocks": [
+    "children": [
       {
         "id": "1",
         "name": "intake a form",
@@ -16,7 +16,7 @@
         "state": "active",
         "requester": "",
         "responders": [],
-        "blocks": []
+        "children": []
       }
     ]
   },
@@ -31,7 +31,7 @@
       "Google_115419186368884878540",
       "Google_103472621531484531270"
     ],
-    "blocks": [
+    "children": [
       {
         "id": "1",
         "name": "intake a form",
@@ -40,7 +40,7 @@
         "state": "active",
         "requester": "",
         "responders": [],
-        "blocks": []
+        "children": []
       }
     ]
   }
