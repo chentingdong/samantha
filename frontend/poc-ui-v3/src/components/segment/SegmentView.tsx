@@ -3,7 +3,7 @@ import { Block } from '../context/interface'
 
 import { SegmentCompositeStages } from './SegmentCompositeStages'
 
-export const SegmentView: React.FC<{
+const SegmentView: React.FC<{
   block: Block
   setCatalogItem: (block: Block) => void
 }> = ({ block, setCatalogItem }) => {
@@ -21,3 +21,5 @@ export const SegmentView: React.FC<{
       return <span />
   }
 }
+
+export { SegmentView }

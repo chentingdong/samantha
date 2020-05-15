@@ -3,7 +3,7 @@ import { Block } from '../context/interface'
 import { SegmentView } from './segment-view'
 import { DndSourceBox } from '../block/DndSourceBox'
 
-export const BlockCard: React.FC<{
+const BlockCard: React.FC<{
   block: Block
   index?: number
   updateOneBlock?: (block: Block) => void
@@ -27,3 +27,5 @@ export const BlockCard: React.FC<{
     </div>
   )
 }
+
+export { BlockCard }

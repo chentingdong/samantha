@@ -6,4 +6,6 @@ export default {
   title: 'App',
 }
 
-export const readme = () => <Markdown>{readmeMd}</Markdown>
+const readme = () => <Markdown>{readmeMd}</Markdown>
+
+export { readme }

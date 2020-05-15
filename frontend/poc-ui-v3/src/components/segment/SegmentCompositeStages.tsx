@@ -5,7 +5,7 @@ import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { Context } from '../context/store'
 import { Block } from '../context/interface'
 
-export const SegmentCompositeStages: React.FC<{
+const SegmentCompositeStages: React.FC<{
   type: string
   children: Block[]
   setCatalogItem: (block: Block) => void
@@ -38,3 +38,5 @@ export const SegmentCompositeStages: React.FC<{
     </div>
   )
 }
+
+export { SegmentCompositeStages }

@@ -17,18 +17,20 @@ export default {
   title: "Block / RequestItem",
 }
 
-export const RequestCatalog = () => {
+const RequestCatalog = () => {
   return <RequestCatalogItem block={blockLevel2} />
 }
 
-export const BlockCatalog = () => {
+const BlockCatalog = () => {
   return <BlockCatalogItem block={blockLevel2} />
 }
 
-export const RequestsMade = () => {
+const RequestsMade = () => {
   return <RequestsMadeItem block={blockLevel2} />
 }
 
-export const RequestsReceived = () => {
+const RequestsReceived = () => {
   return <RequestsReceivedItem block={blockLevel2} />
 }
+
+export { RequestCatalog, BlockCatalog, RequestsMade, RequestsReceived }

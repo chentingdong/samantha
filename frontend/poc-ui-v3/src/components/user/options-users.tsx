@@ -1,7 +1,7 @@
 import React from 'react'
 import { Context } from '../context/store'
 
-export const OptionsUsers = () => {
+const OptionsUsers = () => {
   const { state, dispatch } = React.useContext(Context)
   return (
     <>
@@ -15,3 +15,5 @@ export const OptionsUsers = () => {
     </>
   )
 }
+
+export { OptionsUsers }

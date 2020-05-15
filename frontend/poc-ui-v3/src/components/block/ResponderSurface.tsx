@@ -2,7 +2,7 @@ import React from "react"
 import { gql, useQuery } from "@apollo/client"
 import { RESPONDER_SURFACE } from "../../operations/queries/responderSurface"
 
-export const ResponderSurface = ({ blockId }) => {
+const ResponderSurface = ({ blockId }) => {
   const { loading, error, data } = useQuery(RESPONDER_SURFACE, {
     variables: { id: blockId },
   })
@@ -16,3 +16,5 @@ export const ResponderSurface = ({ blockId }) => {
     </div>
   )
 }
+
+export { ResponderSurface }

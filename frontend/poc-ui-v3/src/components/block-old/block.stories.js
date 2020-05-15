@@ -1,18 +1,18 @@
-import React, { useContext } from 'react'
-import { BlockCard } from './block-card'
-import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
-import blockStories from '../../../data/storybook-blocks.json'
+import React, { useContext } from "react"
+import { BlockCard } from "./block-card"
+import { DndProvider } from "react-dnd"
+import Backend from "react-dnd-html5-backend"
+import blockStories from "../../../data/storybook-blocks.json"
 
 export default {
-  title: 'BlockOld',
+  title: "BlockOld",
   component: BlockCard,
   parameters: {
-    notes: 'My notes',
+    notes: "My notes",
   },
 }
 
-export const BlockCards = () => {
+const BlockCards = () => {
   const blockLeaf = blockStories[1].children[0]
   const blockComposite = blockStories[1]
   const blockComplex = blockStories[0]
@@ -41,3 +41,5 @@ export const BlockCards = () => {
     </div>
   )
 }
+
+export { BlockCards }

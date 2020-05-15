@@ -12,7 +12,7 @@ export default {
   component: VirtualAssistant,
 }
 
-export const virtualAssistant = () => (
+const virtualAssistant = () => (
   <article>
     <p>Full demo view of Bellhop app.</p>
     <div class="card shadow vh-100 overflow-auto">
@@ -24,7 +24,7 @@ export const virtualAssistant = () => (
     </div>
   </article>
 )
-export const pageNotFound = () => (
+const pageNotFound = () => (
   <article>
     <p>
       This is what user will see when hit a 404 not found page under same
@@ -35,7 +35,7 @@ export const pageNotFound = () => (
     </div>
   </article>
 )
-export const userLogin = () => (
+const userLogin = () => (
   <article>
     <p>
       This is the current user login page. When click the button, it will bring
@@ -46,3 +46,5 @@ export const userLogin = () => (
     </div>
   </article>
 )
+
+export { virtualAssistant, pageNotFound, userLogin }

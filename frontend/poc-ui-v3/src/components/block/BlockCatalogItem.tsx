@@ -3,7 +3,7 @@ import { Block } from '../context/interface'
 import { SegmentView } from '../segment/SegmentView'
 import { DndSourceBox } from './DndSourceBox'
 
-export const BlockCatalogItem: React.FC<{
+const BlockCatalogItem: React.FC<{
   block: Block
   index?: number
   setCatalogItem?: (block: Block) => void
@@ -28,3 +28,5 @@ export const BlockCatalogItem: React.FC<{
     </div>
   )
 }
+
+export { BlockCatalogItem }

@@ -7,7 +7,7 @@ type DndTargetBoxProps = {
   greedy?: boolean
   onDrop: (item: Block) => void
 }
-export const DndTargetBox: React.FC<DndTargetBoxProps> = ({
+const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   accept,
   onDrop,
   greedy = false,
@@ -41,3 +41,5 @@ export const DndTargetBox: React.FC<DndTargetBoxProps> = ({
     </div>
   )
 }
+
+export { DndTargetBox }

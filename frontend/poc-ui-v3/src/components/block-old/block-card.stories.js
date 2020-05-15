@@ -1,23 +1,23 @@
-import React from 'react'
-import { BlockCard } from './block-card'
-import { DndProvider } from 'react-dnd'
-import Backend from 'react-dnd-html5-backend'
-import { withKnobs } from '@storybook/addon-knobs'
+import React from "react"
+import { BlockCard } from "./block-card"
+import { DndProvider } from "react-dnd"
+import Backend from "react-dnd-html5-backend"
+import { withKnobs } from "@storybook/addon-knobs"
 
 export default {
-  title: 'BlockOld',
+  title: "BlockOld",
   component: BlockCard,
   decorators: [withKnobs],
 }
 
-import blockStories from '../../../data/storybook-blocks.json'
+import blockStories from "../../../data/storybook-blocks.json"
 
 const blockLevel2 = blockStories[0]
 const blockLevel1 = blockLevel2.children[0]
 const blockLeaf = blockLevel1.children[0]
 const blockLevel0 = { ...blockLevel1, children: [] }
 
-export const leafBlock = () => {
+const leafBlock = () => {
   return (
     <DndProvider backend={Backend}>
       <BlockCard block={blockLeaf} />
@@ -25,7 +25,7 @@ export const leafBlock = () => {
   )
 }
 
-export const CompositeBlockLevel0 = () => {
+const CompositeBlockLevel0 = () => {
   return (
     <DndProvider backend={Backend}>
       <BlockCard block={blockLevel0} />
@@ -33,7 +33,7 @@ export const CompositeBlockLevel0 = () => {
   )
 }
 
-export const CompositeBlockLevel1 = () => {
+const CompositeBlockLevel1 = () => {
   return (
     <DndProvider backend={Backend}>
       <BlockCard block={blockLevel1} />
@@ -41,10 +41,17 @@ export const CompositeBlockLevel1 = () => {
   )
 }
 
-export const CompositeBlockLevel2 = () => {
+const CompositeBlockLevel2 = () => {
   return (
     <DndProvider backend={Backend}>
       <BlockCard block={blockLevel2} />
     </DndProvider>
   )
+}
+
+export {
+  leafBlock,
+  CompositeBlockLevel0,
+  CompositeBlockLevel1,
+  CompositeBlockLevel2,
 }

@@ -9,7 +9,7 @@ import config from '../../configs/config'
 import { getUser, getUsers } from './user'
 import { Container, Row } from 'react-bootstrap'
 
-export const App = () => {
+const App = () => {
   const { state, dispatch } = useContext(Context)
 
   Amplify.configure(config)
@@ -69,4 +69,5 @@ export const App = () => {
   )
 }
 
+export { App }
 export default hot(App)

@@ -5,7 +5,7 @@ import { DndTargetBox } from '../block/DndTargetBox'
 import { RequestBlocks } from './request-blocks'
 import { Context } from '../context/store'
 
-export const SegmentView: React.FC<{
+const SegmentView: React.FC<{
   block: Block
   updateBlock: (block: Block) => void
 }> = ({ block, updateBlock }) => {
@@ -55,3 +55,5 @@ const SegmentCompositeStages: React.FC<{
     </div>
   )
 }
+
+export { SegmentView, SegmentCompositeStages }

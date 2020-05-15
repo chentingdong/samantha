@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
-import uuid from 'uuid'
-import { Context } from '../context/store'
-import { Animated } from 'react-animated-css'
-import { BlockEdit } from './BlockEdit'
+import React, { useState } from "react"
+import uuid from "uuid"
+import { Context } from "../context/store"
+import { Animated } from "react-animated-css"
+import { BlockEdit } from "./BlockEdit"
 
-export const RequestsReceivedItem = ({ block }) => {
+const RequestsReceivedItem = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
   const [currentBlock, setCurrentBlock] = React.useState(block)
   const [showEdit, setShowEdit] = useState(false)
@@ -43,7 +43,7 @@ export const RequestsReceivedItem = ({ block }) => {
       {showEdit && (
         <div
           className="position-fixed vh-100 bg-white"
-          style={{ top: '0', zIndex: 10 }}
+          style={{ top: "0", zIndex: 10 }}
         >
           <Animated
             animationIn="slideInRight"
@@ -62,3 +62,5 @@ export const RequestsReceivedItem = ({ block }) => {
     </div>
   )
 }
+
+export { RequestsReceivedItem }

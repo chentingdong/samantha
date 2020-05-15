@@ -1,16 +1,16 @@
-import React, { useContext } from 'react'
-import { Block } from '../context/interface'
-import { Context } from '../context/store'
-import { BlockCard } from './block-card'
+import React, { useContext } from "react"
+import { Block } from "../context/interface"
+import { Context } from "../context/store"
+import { BlockCard } from "./block-card"
 
 // BlockDef cards that dropped in requestDef editing area
-export const RequestBlocks: React.FC<{
-  children: Block[]
+const RequestBlocks: React.FC<{
+  children: Block[],
 }> = ({ children }) => {
   const { state, dispatch } = useContext(Context)
   const updateOneBlock = (block) => {
     dispatch({
-      type: 'set',
+      type: "set",
       data: {
         children: [...children, block],
       },
@@ -34,3 +34,5 @@ export const RequestBlocks: React.FC<{
     </div>
   )
 }
+
+export { RequestBlocks }

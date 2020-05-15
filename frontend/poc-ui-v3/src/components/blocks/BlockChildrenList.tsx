@@ -4,7 +4,7 @@ import { DndSourceBox } from '../block/DndSourceBox'
 import { BlockCatalogItem } from '../block/BlockCatalogItem'
 import { DndTargetBox } from '../block/DndTargetBox'
 
-export const BlockChildrenList: React.FC<{
+const BlockChildrenList: React.FC<{
   blocks: Block[]
   setCatalogItem?: (block: Block) => void
 }> = ({ blocks, setCatalogItem }) => {
@@ -29,3 +29,5 @@ export const BlockChildrenList: React.FC<{
     </div>
   )
 }
+
+export { BlockChildrenList }

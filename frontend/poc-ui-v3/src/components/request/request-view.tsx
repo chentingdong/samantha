@@ -3,7 +3,7 @@ import { Context } from '../context/store'
 import { useContext } from 'react'
 import { Chat } from './chat'
 
-export const RequestViewRequester = () => {
+const RequestViewRequester = () => {
   const { state, dispatch } = useContext(Context)
 
   const close = () => {
@@ -40,7 +40,7 @@ export const RequestViewRequester = () => {
   )
 }
 
-export const RequestViewResponder = () => {
+const RequestViewResponder = () => {
   const { state, dispatch } = useContext(Context)
   const close = () => {
     dispatch({ type: 'setUi', data: { showRequestViewResponder: false } })
@@ -73,3 +73,5 @@ export const RequestViewResponder = () => {
     )
   )
 }
+
+export { RequestViewRequester, RequestViewResponder }

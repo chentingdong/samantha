@@ -10,7 +10,7 @@ export default {
   component: RequestDefsMenu,
 }
 
-export const requestDefsMenu = () => (
+const requestDefsMenu = () => (
   <Store>
     <div class="card shadow">
       <RequestDefsMenu />
@@ -18,7 +18,7 @@ export const requestDefsMenu = () => (
   </Store>
 )
 
-export const editRequestDef = () => (
+const editRequestDef = () => (
   <Store>
     <DndProvider backend={Backend}>
       <div class="card shadow p-2">
@@ -27,3 +27,5 @@ export const editRequestDef = () => (
     </DndProvider>
   </Store>
 )
+
+export { requestDefsMenu, editRequestDef }

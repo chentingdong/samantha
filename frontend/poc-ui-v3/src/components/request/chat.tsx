@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Chat = () => {
+const Chat = () => {
   return (
     <div className="d-flex vh-100 row">
       <main className="align-self-start col-12 m-2">
@@ -16,3 +16,5 @@ export const Chat = () => {
     </div>
   )
 }
+
+export { Chat }

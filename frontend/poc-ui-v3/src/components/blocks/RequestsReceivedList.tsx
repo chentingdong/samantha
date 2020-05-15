@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
-import { RequestsReceivedItem } from '../block/RequestsReceivedItem'
-import { useQuery } from '@apollo/client'
-import { Context } from '../context/store'
-import { REQUESTS_RECEIVED } from '../../operations/queries/requestsReceived'
+import React, { useContext } from "react"
+import { RequestsReceivedItem } from "../block/RequestsReceivedItem"
+import { useQuery } from "@apollo/client"
+import { Context } from "../context/store"
+import { REQUESTS_RECEIVED } from "../../operations/queries/requestsReceived"
 
-export const RequestsReceivedList = () => {
+const RequestsReceivedList = () => {
   const { state, dispatch } = useContext(Context)
 
   const { loading, error, data } = useQuery(REQUESTS_RECEIVED, {
@@ -24,3 +24,5 @@ export const RequestsReceivedList = () => {
     </div>
   )
 }
+
+export { RequestsReceivedList }

@@ -13,7 +13,7 @@ export default {
 
 const client = getClient()
 
-export const RequestCatalog = () => {
+const RequestCatalog = () => {
   return (
     <ApolloProvider client={client}>
       <RequestCatalogList />
@@ -21,7 +21,7 @@ export const RequestCatalog = () => {
   )
 }
 
-export const BlockCatalog = () => {
+const BlockCatalog = () => {
   return (
     <ApolloProvider client={client}>
       <BlockCatalogList />
@@ -29,7 +29,7 @@ export const BlockCatalog = () => {
   )
 }
 
-export const RequestsMade = () => {
+const RequestsMade = () => {
   return (
     <ApolloProvider client={client}>
       <RequestsMadeList />
@@ -37,10 +37,12 @@ export const RequestsMade = () => {
   )
 }
 
-export const RequestsReceived = () => {
+const RequestsReceived = () => {
   return (
     <ApolloProvider client={client}>
       <RequestsReceivedList />
     </ApolloProvider>
   )
 }
+
+export { RequestCatalog, BlockCatalog, RequestsMade, RequestsReceived }

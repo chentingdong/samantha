@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
-import { Context } from '../context/store'
-import { Block } from '../context/interface'
-import { DndSourceBox } from '../block/DndSourceBox'
+import React, { useContext } from "react"
+import { Context } from "../context/store"
+import { Block } from "../context/interface"
+import { DndSourceBox } from "../block/DndSourceBox"
 
-export const BlockDefPalette = () => {
+const BlockDefPalette = () => {
   const { state, dispatch } = useContext(Context)
 
   return (
@@ -28,3 +28,5 @@ export const BlockDefPalette = () => {
     </div>
   )
 }
+
+export { BlockDefPalette }

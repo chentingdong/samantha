@@ -1,9 +1,9 @@
-import React from 'react'
-import { RequestCatalogItem } from '../block/RequestCatalogItem'
-import { useQuery } from '@apollo/client'
-import { REQUEST_CATALOG } from '../../operations/queries/requestCatalog'
+import React from "react"
+import { RequestCatalogItem } from "../block/RequestCatalogItem"
+import { useQuery } from "@apollo/client"
+import { REQUEST_CATALOG } from "../../operations/queries/requestCatalog"
 
-export const RequestCatalogList = () => {
+const RequestCatalogList = () => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG)
   const requestCatalog = data ? data.blocks : []
 
@@ -19,3 +19,5 @@ export const RequestCatalogList = () => {
     </div>
   )
 }
+
+export { RequestCatalogList }

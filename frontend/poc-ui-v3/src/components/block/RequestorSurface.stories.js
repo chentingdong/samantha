@@ -9,7 +9,7 @@ export default {
 
 const client = getClient()
 
-export const ResponderSurfaceNormal = () => {
+const ResponderSurfaceNormal = () => {
   return (
     <ApolloProvider client={client}>
       <ResponderSurface blockId={2} />
@@ -17,10 +17,12 @@ export const ResponderSurfaceNormal = () => {
   )
 }
 
-export const ResponderSurfaceError = () => {
+const ResponderSurfaceError = () => {
   return (
     <ApolloProvider client={client}>
       <ResponderSurface blockId={-1} />
     </ApolloProvider>
   )
 }
+
+export { ResponderSurfaceNormal, ResponderSurfaceError }

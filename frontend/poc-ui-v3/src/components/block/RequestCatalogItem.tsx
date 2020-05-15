@@ -1,21 +1,21 @@
-import React, { useState } from 'react'
-import uuid from 'uuid'
-import { Context } from '../context/store'
-import { Animated } from 'react-animated-css'
-import { BlockEdit } from './BlockEdit'
-import { Block } from '../context/interface'
+import React, { useState } from "react"
+import uuid from "uuid"
+import { Context } from "../context/store"
+import { Animated } from "react-animated-css"
+import { BlockEdit } from "./BlockEdit"
+import { Block } from "../context/interface"
 
-export const RequestCatalogItem: React.FC<{
-  block: Block
+const RequestCatalogItem: React.FC<{
+  block: Block,
 }> = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
   const [currentBlock, setCurrentBlock] = React.useState(block)
   const [showEdit, setShowEdit] = useState(false)
 
   let blockInst = Object.assign({}, block, {
-    name: '',
+    name: "",
     inCatalog: false,
-    state: 'ACTIVE',
+    state: "ACTIVE",
     requester: state.user.id,
     // requestors: [
     //   {
@@ -41,7 +41,7 @@ export const RequestCatalogItem: React.FC<{
       {showEdit && (
         <div
           className="position-absolute vh-100 bg-white"
-          style={{ top: '0', zIndex: 10 }}
+          style={{ top: "0", zIndex: 10 }}
         >
           <Animated
             animationIn="slideInRight"
@@ -87,3 +87,5 @@ export const RequestCatalogItem: React.FC<{
     </div>
   )
 }
+
+export { RequestCatalogItem }

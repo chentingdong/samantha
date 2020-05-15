@@ -10,7 +10,7 @@ import { DndTargetBox } from '../block/DndTargetBox'
 import { RequestBlocks } from '../block-old/request-blocks'
 import { OptionsUsers } from '../user/options-users'
 
-export const EditRequest = () => {
+const EditRequest = () => {
   const { state, dispatch } = useContext(Context)
   const defaultRequest = initialState.currentRequest
 
@@ -144,3 +144,5 @@ export const EditRequest = () => {
     </div>
   )
 }
+
+export { EditRequest }
