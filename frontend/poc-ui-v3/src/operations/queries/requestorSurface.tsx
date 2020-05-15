@@ -5,25 +5,51 @@ export const REQUESTOR_SURFACE = gql`
     block(where: { id: $id }) {
       id
       name
-      parent {
-        id
-      }
-      state
+      description
       type
+      inCatalog
+      state
+      control
       context
-      children {
+      parent {
         id
         name
         state
         type
       }
+      children{
+        name
+        description
+        type
+        state
+        control
+        context
+        children {
+          name
+          description
+          type
+          state
+          control
+          context
+          children {
+            name
+            description
+            type
+            state
+            control
+            context
+          }
+        }
+      }
       requestors {
         id
         name
+        email
       }
       responders {
         id
         name
+        email
       }
     }
   }
