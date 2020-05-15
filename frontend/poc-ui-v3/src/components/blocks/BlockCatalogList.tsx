@@ -3,7 +3,7 @@ import { BlockCatalogItem } from "../block/BlockCatalogItem";
 import { useQuery } from "@apollo/client";
 import { BLOCK_CATALOG } from "../../operations/queries/blockCatalog";
 
-export const BlockCatalogList = ({ blocks }) => {
+export const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG);
 
   if (loading) return "Loading...";

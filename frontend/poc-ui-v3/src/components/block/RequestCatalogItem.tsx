@@ -32,13 +32,11 @@ export const RequestCatalogItem = ({ block }) => {
         <div className="col-7">
           <h4>{block.name}</h4>
           <p>{block.description}</p>
-          <p>Owner: {block.requester}</p>
           <p>
-            {block.blocks &&
-              block.blocks?.map((block, index2) => {
+            {block.children?.map((block, index2) => {
                 return (
                   <span className="border p-2 mr-2" key={`block-${index2}`}>
-                    {block.name}
+                    {block.name} ({block.state})
                   </span>
                 )
               })}

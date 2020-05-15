@@ -16,6 +16,13 @@ export const REQUESTS_RECEIVED = gql`
       parent {
         id
       }
+      children {
+        id
+        name
+        description
+        type
+        state
+      }      
       state
       type
       inCatalog

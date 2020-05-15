@@ -16,6 +16,13 @@ export const REQUESTS_MADE = gql`
       parent {
         id
       }
+      children {
+        id
+        name
+        description
+        type
+        state
+      }      
       state
       type
       inCatalog
