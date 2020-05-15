@@ -11,9 +11,8 @@ import { OptionsUsers } from '../user/options-users'
 
 const BlockEdit: React.FC<{
   block: Block
-  setCatalogItem: (block: Block) => void
   close: () => void
-}> = ({ block, setCatalogItem, close }) => {
+}> = ({ block, close }) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
@@ -33,7 +32,7 @@ const BlockEdit: React.FC<{
       children: updatedChildren,
     }
     block = updatedBlock
-    setCatalogItem(block)
+    dispatch({ type: 'set', data: { currentBlock: block} })
   }
 
   const saveBlock = async () => {
@@ -96,7 +95,6 @@ const BlockEdit: React.FC<{
             >
               <BlockChildrenList
                 blocks={block.children}
-                setCatalogItem={setCatalogItem}
               />
             </DndTargetBox>
           </div>

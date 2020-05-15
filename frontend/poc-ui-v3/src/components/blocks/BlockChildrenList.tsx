@@ -6,8 +6,7 @@ import { DndTargetBox } from '../block/DndTargetBox'
 
 const BlockChildrenList: React.FC<{
   blocks: Block[]
-  setCatalogItem?: (block: Block) => void
-}> = ({ blocks, setCatalogItem }) => {
+}> = ({ blocks }) => {
   return (
     <div className="container-fluid row">
       {blocks &&
@@ -19,7 +18,6 @@ const BlockChildrenList: React.FC<{
                   <BlockCatalogItem
                     block={block}
                     index={index}
-                    setCatalogItem={setCatalogItem}
                   />
                 </DndSourceBox>
               </div>

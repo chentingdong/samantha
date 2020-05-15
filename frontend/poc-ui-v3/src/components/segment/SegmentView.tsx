@@ -5,8 +5,7 @@ import { SegmentCompositeStages } from './SegmentCompositeStages'
 
 const SegmentView: React.FC<{
   block: Block
-  setCatalogItem: (block: Block) => void
-}> = ({ block, setCatalogItem }) => {
+}> = ({ block }) => {
   switch (block.type) {
     case 'COMPOSITE_PARALLEL':
     case 'COMPOSITE_SEQUENTIAL':
@@ -14,7 +13,6 @@ const SegmentView: React.FC<{
         <SegmentCompositeStages
           type={block.type}
           children={block.children}
-          setCatalogItem={setCatalogItem}
         />
       )
     default:

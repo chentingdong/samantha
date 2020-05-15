@@ -8,15 +8,13 @@ import { Block } from '../context/interface'
 const SegmentCompositeStages: React.FC<{
   type: string
   children: Block[]
-  setCatalogItem: (block: Block) => void
-}> = ({ type, children, setCatalogItem }) => {
+}> = ({ type, children }) => {
   const { state, dispatch } = useContext(Context)
   const [blocks, setBlocks] = useState(children)
 
   const addSubBlock = (block: Block) => {
     const updatedBlocks = [...blocks, block]
-    // setBlocks(updatedBlocks)
-    setCatalogItem(block)
+    setBlocks(updatedBlocks)
     resetPalette()
   }
   // TODO: temp solution by resetting all
