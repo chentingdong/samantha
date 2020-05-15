@@ -12,7 +12,7 @@ export const BlockDefPalette = () => {
       <small className="row">
         {state.blockDefs?.map((block: Block) => {
           return (
-            <div className="col-6 p-2">
+            <div className="col-6 p-2" key={block.id}>
               <div className="card p-0" key={block.id}>
                 <DndSourceBox type="block" block={block}>
                   <div className="card">

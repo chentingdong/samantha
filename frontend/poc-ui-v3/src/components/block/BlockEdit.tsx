@@ -25,10 +25,22 @@ const BlockEdit = ({ block, close }) => {
       ? [...block.children, childBlock]
       : [childBlock]
     let updatedBlock = {
-      block,
+      ...block,
       children: updatedChildren,
     }
-    block = updatedBlock
+    // mutation here
+    dispatch({
+      type: 'set',
+      data: {
+        currentRequestDef: updatedBlock,
+      },
+    })
+    dispatch({
+      type: 'set',
+      data: {
+        BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
+      },
+    })
   }
 
   const saveBlock = async () => {
