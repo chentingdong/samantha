@@ -8,9 +8,9 @@ import { DndTargetBox } from './DndTargetBox'
 import { BlockCatalogList } from '../blocks/BlockCatalogList'
 import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { OptionsUsers } from '../user/options-users'
-import { transformBlockInput } from '../../operations/transform' 
-import { CREATE_ONE_BLOCK } from '../../operations/mutations/createOneBlock' 
-import { UPDATE_ONE_BLOCK } from '../../operations/mutations/updateOneBlock' 
+import { transformBlockInput } from '../../operations/transform'
+import { CREATE_ONE_BLOCK } from '../../operations/mutations/createOneBlock'
+import { UPDATE_ONE_BLOCK } from '../../operations/mutations/updateOneBlock'
 import { useMutation } from '@apollo/client'
 
 const BlockEdit: React.FC<{
@@ -64,7 +64,7 @@ const BlockEdit: React.FC<{
           </div>
           <div className="form-group col-3">
             <label>Requestors: </label>
-            <select className="form-control" ref={register} name="requestors" multiple>
+            <select className="form-control" ref={ register } name="requestors" multiple value={[state.user.id]} onChange={e => console.debug(state.user)}>
               <OptionsUsers />
             </select>
           </div>

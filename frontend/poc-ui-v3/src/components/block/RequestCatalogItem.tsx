@@ -12,7 +12,7 @@ const RequestCatalogItem: React.FC<{
   const [showEdit, setShowEdit] = useState(false)
 
   const editRequestDef = (block) => {
-    dispatch({ type: 'set', data: { blockCreateInput: block} })
+    dispatch({ type: "set", data: { blockCreateInput: block } })
     setShowEdit(true)
   }
 
@@ -30,31 +30,13 @@ const RequestCatalogItem: React.FC<{
           email: state.user.attributes.email,
         },
       ],
-    })    
-    dispatch({ type: 'set', data: { blockCreateInput: blockCreateInput} })
+    })
+    dispatch({ type: "set", data: { blockCreateInput: blockCreateInput } })
     setShowEdit(true)
   }
 
   return (
     <div className="card mt-2 pt-2">
-      {showEdit && (
-        <div
-          className="position-absolute vh-100 bg-white"
-          style={{ top: "0", zIndex: 10 }}
-        >
-          <Animated
-            animationIn="slideInRight"
-            animationInDuration={300}
-            animationOut="bounceOutRight"
-            isVisible={true}
-          >
-            <BlockEdit
-              block={state.blockCreateInput}
-              close={(e) => setShowEdit(false)}
-            />
-          </Animated>
-        </div>
-      )}
       <div className="d-flex justify-content-between">
         <div className="col-7">
           <h4>{block.name}</h4>
@@ -82,6 +64,21 @@ const RequestCatalogItem: React.FC<{
           </button>
         </div>
       </div>
+      {showEdit && (
+        <div className="bg-light" style={{ top: "0", zIndex: 10 }}>
+          <Animated
+            animationIn="slideInRight"
+            animationInDuration={300}
+            animationOut="bounceOutRight"
+            isVisible={true}
+          >
+            <BlockEdit
+              block={state.blockCreateInput}
+              close={(e) => setShowEdit(false)}
+            />
+          </Animated>
+        </div>
+      )}
     </div>
   )
 }
