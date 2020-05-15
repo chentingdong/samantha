@@ -6,7 +6,7 @@ import { ButtonGroup } from 'react-bootstrap'
 import { Block } from '../context/interface'
 import { initialState } from '../context/store'
 import { BlockDefPalette } from '../block-old/block-def-palette'
-import { DndTargetBox } from '../block/dnd-target-box'
+import { DndTargetBox } from '../block/DndTargetBox'
 import { RequestBlocks } from '../block-old/request-blocks'
 import { OptionsUsers } from '../user/options-users'
 

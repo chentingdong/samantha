@@ -3,8 +3,11 @@ import uuid from 'uuid'
 import { Context } from '../context/store'
 import { Animated } from 'react-animated-css'
 import { BlockEdit } from './BlockEdit'
+import { Block } from '../context/interface'
 
-export const RequestCatalogItem = ({ block }) => {
+export const RequestCatalogItem: React.FC<{
+  block: Block
+}> = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
   const [currentBlock, setCurrentBlock] = React.useState(block)
   const [showEdit, setShowEdit] = useState(false)
@@ -28,19 +31,32 @@ export const RequestCatalogItem = ({ block }) => {
     setShowEdit(true)
   }
 
-  const makeRequest = (block) => {
-    // const blockInst = Object.assign({}, block, {
-    //   // clear name/description or not?
-    //   // name: '',
-    //   // description: '',
-    // })
-    // delete blockInst.id
+  const makeRequest = () => {
     setCurrentBlock(blockInst)
     setShowEdit(true)
   }
 
   return (
     <div className="card mt-2 pt-2">
+      {showEdit && (
+        <div
+          className="position-absolute vh-100 bg-white"
+          style={{ top: '0', zIndex: 10 }}
+        >
+          <Animated
+            animationIn="slideInRight"
+            animationInDuration={300}
+            animationOut="bounceOutRight"
+            isVisible={true}
+          >
+            <BlockEdit
+              block={currentBlock}
+              setCatalogItem={setCurrentBlock}
+              close={(e) => setShowEdit(false)}
+            />
+          </Animated>
+        </div>
+      )}
       <div className="d-flex justify-content-between">
         <div className="col-7">
           <h4>{block.name}</h4>
@@ -56,7 +72,7 @@ export const RequestCatalogItem = ({ block }) => {
           </p>
         </div>
         <div className="col-3">
-          <button className="btn btn-link" onClick={(e) => makeRequest(block)}>
+          <button className="btn btn-link" onClick={(e) => makeRequest()}>
             Make a request
           </button>
           <br />
@@ -68,25 +84,6 @@ export const RequestCatalogItem = ({ block }) => {
           </button>
         </div>
       </div>
-      {showEdit && (
-        <div
-          className="position-fixed vh-100 bg-white"
-          style={{ top: '0', zIndex: 10 }}
-        >
-          <Animated
-            animationIn="slideInRight"
-            animationInDuration={300}
-            animationOut="bounceOutRight"
-            isVisible={true}
-          >
-            <BlockEdit
-              block={currentBlock}
-              setCurrentBlock={setCurrentBlock}
-              close={(e) => setShowEdit(false)}
-            />
-          </Animated>
-        </div>
-      )}
     </div>
   )
 }

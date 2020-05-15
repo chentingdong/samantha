@@ -3,7 +3,7 @@ import { BlockCatalogItem } from '../block/BlockCatalogItem'
 import { useQuery } from '@apollo/client'
 import { BLOCK_CATALOG } from '../../operations/queries/blockCatalog'
 import { Block } from '../context/interface'
-import { DndSourceBox } from '../block/dnd-source-box'
+import { DndSourceBox } from '../block/DndSourceBox'
 
 export const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)

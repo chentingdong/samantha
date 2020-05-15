@@ -1,7 +1,7 @@
 import React from 'react'
 import { Block } from '../context/interface'
 import { SegmentView } from './segment-view'
-import { DndSourceBox } from '../block/dnd-source-box'
+import { DndSourceBox } from '../block/DndSourceBox'
 
 export const BlockCard: React.FC<{
   block: Block

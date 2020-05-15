@@ -51,7 +51,11 @@ export const RequestsReceivedItem = ({ block }) => {
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <BlockEdit block={currentBlock} close={(e) => setShowEdit(false)} />
+            <BlockEdit
+              block={currentBlock}
+              close={(e) => setShowEdit(false)}
+              setCatalogItem={setCurrentBlock}
+            />
           </Animated>
         </div>
       )}

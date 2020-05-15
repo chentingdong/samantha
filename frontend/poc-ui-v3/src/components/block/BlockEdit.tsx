@@ -4,12 +4,16 @@ import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { Block } from '../context/interface'
-import { DndTargetBox } from './dnd-target-box'
+import { DndTargetBox } from './DndTargetBox'
 import { BlockCatalogList } from '../blocks/BlockCatalogList'
 import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { OptionsUsers } from '../user/options-users'
 
-const BlockEdit = ({ block, setCurrentBlock, close }) => {
+const BlockEdit: React.FC<{
+  block: Block
+  setCatalogItem: (block: Block) => void
+  close: () => void
+}> = ({ block, setCatalogItem, close }) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
@@ -29,20 +33,7 @@ const BlockEdit = ({ block, setCurrentBlock, close }) => {
       children: updatedChildren,
     }
     block = updatedBlock
-    setCurrentBlock(block)
-    // mutation here
-    // dispatch({
-    //   type: 'set',
-    //   data: {
-    //     currentRequestDef: updatedBlock,
-    //   },
-    // })
-    // dispatch({
-    //   type: 'set',
-    //   data: {
-    //     BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
-    //   },
-    // })
+    setCatalogItem(block)
   }
 
   const saveBlock = async () => {
@@ -103,7 +94,10 @@ const BlockEdit = ({ block, setCurrentBlock, close }) => {
               greedy={false}
               onDrop={(childBlock) => addSubBlock(childBlock)}
             >
-              <BlockChildrenList blocks={block.children} />
+              <BlockChildrenList
+                blocks={block.children}
+                setCatalogItem={setCatalogItem}
+              />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">
