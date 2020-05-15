@@ -5,7 +5,7 @@
     "description": "empty request wrapper",
     "type": "parallelStages",
     "state": "pending",
-    "requester": "",
+    "requestors": [],
     "responders": [],
     "parent": "",
     "children": [
@@ -15,7 +15,7 @@
         "description": "collect timesheets",
         "type": "leaf",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
         "parent": "",
         "children": []
@@ -28,7 +28,7 @@
     "description": "request container with sequencial request",
     "type": "sequenceStages",
     "state": "pending",
-    "requester": "",
+    "requestors": [],
     "responders": [],
     "parent": "",
     "children": [
@@ -38,7 +38,7 @@
         "description": "a composite block that support running blocks in sequence",
         "type": "sequenceStages",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
         "parent": "",
         "children": [
@@ -48,7 +48,7 @@
             "description": "ask responder(s) to intake a form",
             "type": "leaf",
             "state": "active",
-            "requester": "",
+            "requestors": [],
             "responders": [],
             "parent": "",
             "children": []
@@ -59,7 +59,7 @@
             "description": "ask for approval",
             "type": "leaf",
             "state": "pending",
-            "requester": "",
+            "requestors": [],
             "responders": [],
             "parent": "",
             "children": []

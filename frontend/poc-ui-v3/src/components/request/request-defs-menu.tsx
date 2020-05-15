@@ -72,9 +72,9 @@ function RequestDefsMenu() {
       </div>
       <div className="container-fluid">
         {state.requestDefs &&
-          state.requestDefs.map((requestDef, index) => {
+          state.requestDefs.map((requestDef) => {
             return (
-              <div key={`request-${index}`} className="card mt-2 pt-2">
+              <div key={requestDef.id} className="card mt-2 pt-2">
                 <div className="d-flex justify-content-between">
                   <div className="col-7">
                     <h4>{requestDef.name}</h4>
@@ -82,12 +82,9 @@ function RequestDefsMenu() {
                     <p>Owner: {requestDef.requestors[0]?.name}</p>
                     <p>
                       {requestDef.children &&
-                        requestDef.children?.map((block, index2) => {
+                        requestDef.children?.map((block) => {
                           return (
-                            <span
-                              className="border p-2 mr-2"
-                              key={`block-${index2}`}
-                            >
+                            <span className="border p-2 mr-2" key={block.id}>
                               {block.name}
                             </span>
                           )

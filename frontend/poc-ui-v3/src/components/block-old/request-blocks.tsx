@@ -19,16 +19,17 @@ export const RequestBlocks: React.FC<{
   return (
     <div className="container-fluid">
       <div className="row pr-3">
-        {children?.map((block, index) => {
-          return (
-            <BlockCard
-              key={block.id}
-              block={block}
-              index={index}
-              updateOneBlock={updateOneBlock}
-            />
-          )
-        })}
+        {children &&
+          children.map((block, index) => {
+            return (
+              <BlockCard
+                key={block.id}
+                block={block}
+                index={index}
+                updateOneBlock={updateOneBlock}
+              />
+            )
+          })}
       </div>
     </div>
   )

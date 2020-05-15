@@ -4,12 +4,12 @@ import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
 import { Block } from '../context/interface'
-import { BlockCatalogList } from '../blocks/BlockCatalogList'
 import { DndTargetBox } from './dnd-target-box'
-import { RequestBlocks } from '../block-old/request-blocks'
+import { BlockCatalogList } from '../blocks/BlockCatalogList'
+import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { OptionsUsers } from '../user/options-users'
 
-const BlockEdit = ({ block, close }) => {
+const BlockEdit = ({ block, setCurrentBlock, close }) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
@@ -28,19 +28,21 @@ const BlockEdit = ({ block, close }) => {
       ...block,
       children: updatedChildren,
     }
+    block = updatedBlock
+    setCurrentBlock(block)
     // mutation here
-    dispatch({
-      type: 'set',
-      data: {
-        currentRequestDef: updatedBlock,
-      },
-    })
-    dispatch({
-      type: 'set',
-      data: {
-        BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
-      },
-    })
+    // dispatch({
+    //   type: 'set',
+    //   data: {
+    //     currentRequestDef: updatedBlock,
+    //   },
+    // })
+    // dispatch({
+    //   type: 'set',
+    //   data: {
+    //     BlockDefs: state.blockDefs.slice(state.blockDefs.indexOf(block), 1),
+    //   },
+    // })
   }
 
   const saveBlock = async () => {
@@ -101,7 +103,7 @@ const BlockEdit = ({ block, close }) => {
               greedy={false}
               onDrop={(childBlock) => addSubBlock(childBlock)}
             >
-              <RequestBlocks children={block.children} />
+              <BlockChildrenList blocks={block.children} />
             </DndTargetBox>
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">

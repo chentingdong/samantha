@@ -11,7 +11,16 @@ export const RequestCatalogItem = ({ block }) => {
 
   let blockInst = Object.assign({}, block, {
     name: '',
+    inCatalog: false,
+    state: 'ACTIVE',
     requester: state.user.id,
+    // requestors: [
+    //   {
+    //     id: state.user.id,
+    //     name: state.user.attributes.name,
+    //     email: state.user.attributes.email,
+    //   },
+    // ],
   })
 
   const editRequestDef = (block) => {
@@ -20,21 +29,12 @@ export const RequestCatalogItem = ({ block }) => {
   }
 
   const makeRequest = (block) => {
-    const blockInst = Object.assign({}, block, {
-      // clear name/description or not?
-      // name: '',
-      // description: '',
-      inCatalog: false,
-      state: 'ACTIVE',
-      requestors: [
-        {
-          id: state.user.id,
-          name: state.user.attributes.name,
-          email: state.user.attributes.email,
-        },
-      ],
-    })
-    delete blockInst.id
+    // const blockInst = Object.assign({}, block, {
+    //   // clear name/description or not?
+    //   // name: '',
+    //   // description: '',
+    // })
+    // delete blockInst.id
     setCurrentBlock(blockInst)
     setShowEdit(true)
   }
@@ -46,9 +46,9 @@ export const RequestCatalogItem = ({ block }) => {
           <h4>{block.name}</h4>
           <p>{block.description}</p>
           <p>
-            {block.children?.map((block, index2) => {
+            {block.children?.map((block) => {
               return (
-                <span className="border p-2 mr-2" key={`block-${index2}`}>
+                <span className="border p-2 mr-2" key={block.id}>
                   {block.name} ({block.state})
                 </span>
               )
@@ -79,7 +79,11 @@ export const RequestCatalogItem = ({ block }) => {
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <BlockEdit block={currentBlock} close={(e) => setShowEdit(false)} />
+            <BlockEdit
+              block={currentBlock}
+              setCurrentBlock={setCurrentBlock}
+              close={(e) => setShowEdit(false)}
+            />
           </Animated>
         </div>
       )}

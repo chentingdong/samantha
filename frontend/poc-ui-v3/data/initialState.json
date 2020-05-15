@@ -8,7 +8,7 @@
     "description": "",
     "type": "parallelStages",
     "state": "pending",
-    "requester": "",
+    "requestors": [],
     "responders": [],
     "parent": "",
     "children": []
@@ -20,7 +20,7 @@
     "description": "",
     "type": "leaf",
     "state": "pending",
-    "requester": "",
+    "requestors": [],
     "responders": [],
     "parent": "",
     "children": []
@@ -32,7 +32,7 @@
     "description": "",
     "type": "parallelStages",
     "state": "pending",
-    "requester": "",
+    "requestors": [],
     "responders": [],
     "parent": "",
     "children": []

@@ -35,18 +35,18 @@ function Request({ request }) {
           <p>Requester: {request.requestors[0]?.name}</p>
           <p>
             Responders:
-            {request.responders.map((responder, index) => {
+            {request.responders.map((responder) => {
               return (
-                <span key={`responder-${index}`} className="p-2">
+                <span key={responder.name} className="p-2">
                   {responder}
                 </span>
               )
             })}
           </p>
           <p>
-            {request.children?.map((block, index2) => {
+            {request.children?.map((block) => {
               return (
-                <span className="border p-2 mr-2" key={`block-${index2}`}>
+                <span className="border p-2 mr-2" key={block.id}>
                   {block.name}
                 </span>
               )

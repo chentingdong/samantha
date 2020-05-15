@@ -10,7 +10,6 @@ import {
 import { Context } from '../context/store'
 import { ContextViewCodes } from '../context/context-view-codes'
 import { useContext } from 'react'
-import { Animated } from 'react-animated-css'
 import { RequestCatalogList } from '../blocks/RequestCatalogList'
 import { RequestsMadeList } from '../blocks/RequestsMadeList'
 import { RequestsReceivedList } from '../blocks/RequestsReceivedList'

@@ -2,7 +2,7 @@ import uuid from 'uuid'
 import React, { useContext } from 'react'
 import { Block } from '../context/interface'
 import { DndTargetBox } from './dnd-target-box'
-import { RequestBlocks } from './request-blocks'
+import { BlockChildrenList } from '../blocks/BlockChildrenList'
 import { Context } from '../context/store'
 
 export const SegmentView: React.FC<{
@@ -50,7 +50,7 @@ const SegmentCompositeStages: React.FC<{
         greedy={false}
         onDrop={(item) => addSubBlock(item)}
       >
-        <RequestBlocks children={children} />
+        <BlockChildrenList blocks={children} />
       </DndTargetBox>
     </div>
   )

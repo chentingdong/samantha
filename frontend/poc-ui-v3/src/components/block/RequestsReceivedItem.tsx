@@ -22,17 +22,20 @@ export const RequestsReceivedItem = ({ block }) => {
           <p>{block.description}</p>
           <p>Owner: {block.requestors[0]?.name}</p>
           <p>
-            {block.children?.map((block, index2) => {
-                return (
-                  <span className="border p-2 mr-2" key={`block-${index2}`}>
-                    {block.name} ({block.state})
-                  </span>
-                )
-              })}
+            {block.children?.map((block) => {
+              return (
+                <span className="border p-2 mr-2" key={block.id}>
+                  {block.name} ({block.state})
+                </span>
+              )
+            })}
           </p>
         </div>
         <div className="col-3">
-          <button className="btn btn-link" onClick={(e)=>editRequestDef(currentBlock)}>
+          <button
+            className="btn btn-link"
+            onClick={(e) => editRequestDef(currentBlock)}
+          >
             View/Edit
           </button>
         </div>

@@ -15,7 +15,7 @@
         "description": "ask responder(s) to intake a form",
         "type": "leaf",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
         "parent": "",
         "children": []
@@ -41,7 +41,7 @@
         "description": "ask responder(s) to intake a form",
         "type": "leaf",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
         "parent": "",
         "children": []
