@@ -10,9 +10,8 @@ import { DndTargetBox } from '../block-old/dnd-target-box'
 import { RequestBlocks } from '../block-old/request-blocks'
 import { OptionsUsers } from '../user/options-users'
 
-const EditRequestDef = ({ block }) => {
+const EditRequestDef = ({ block, close }) => {
   const { state, dispatch } = useContext(Context)
-  console.log(block)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
   })
@@ -77,13 +76,6 @@ const EditRequestDef = ({ block }) => {
     // })
 
     close()
-  }
-
-  const close = () => {
-    dispatch({
-      type: 'setUi',
-      data: { showEditRequestDef: false },
-    })
   }
 
   return (

@@ -33,11 +33,13 @@ const seedCatalog = async () => {
     [
       {
         name: 'Parallel Container',
+        description: 'parallel container by default.',
         type: BlockType.COMPOSITE_PARALLEL,
         inCatalog: true,
       },
       {
         name: 'Sequential Container',
+        description: 'sequencial container that child blocks run sequencially.',
         type: BlockType.COMPOSITE_SEQUENTIAL,
         inCatalog: true,
       },

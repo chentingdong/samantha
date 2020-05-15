@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import uuid from 'uuid'
 import { Context } from '../context/store'
 import { BlockDef } from '../context/interface'
@@ -8,6 +8,8 @@ import { EditRequestDef } from '../request/edit-request-def'
 export const RequestCatalogItem = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
   const [currentBlock, setCurrentBlock] = React.useState(block)
+  const [showEdit, setShowEdit] = useState(false)
+
   let blockInst = Object.assign({}, block, {
     id: uuid.v4(),
     name: '',
@@ -15,28 +17,14 @@ export const RequestCatalogItem = ({ block }) => {
   })
 
   const editRequestDef = () => {
-    // dispatch({
-    //   type: 'set',
-    //   data: { currentRequestDef: currentRequestDef },
-    // })
     setCurrentBlock(blockInst)
-
-    dispatch({
-      type: 'setUi',
-      data: { showEditRequestDef: true },
-    })
+    setShowEdit(true)
   }
 
   const makeRequest = (block) => {
+    // TODO: use default block.
     setCurrentBlock(blockInst)
-    // dispatch({
-    //   type: 'set',
-    //   data: { currentRequest: currentRequest },
-    // })
-    dispatch({
-      type: 'setUi',
-      data: { showEditRequest: true },
-    })
+    setShowEdit(true)
   }
 
   return (
@@ -70,7 +58,7 @@ export const RequestCatalogItem = ({ block }) => {
           </button>
         </div>
       </div>
-      {state.uiState.showEditRequestDef && (
+      {showEdit && (
         <div
           className="position-fixed vh-100 bg-white"
           style={{ top: '0', zIndex: 10 }}
@@ -81,7 +69,10 @@ export const RequestCatalogItem = ({ block }) => {
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <EditRequestDef block={currentBlock} />
+            <EditRequestDef
+              block={currentBlock}
+              close={(e) => setShowEdit(false)}
+            />
           </Animated>
         </div>
       )}

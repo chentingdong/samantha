@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const REQUEST_CATALOG = gql`
   query requestCatalog {
@@ -13,6 +13,7 @@ export const REQUEST_CATALOG = gql`
     ) {
       id
       name
+      description
       parent {
         id
       }
@@ -27,4 +28,4 @@ export const REQUEST_CATALOG = gql`
       }
     }
   }
-`;
+`

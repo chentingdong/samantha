@@ -5,6 +5,7 @@ schema.objectType({
   definition(t) {
     t.model.id()
     t.model.name()
+    t.model.description()
     t.model.parent()
     t.model.children()
     t.model.state()
