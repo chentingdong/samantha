@@ -204,7 +204,7 @@ const seedCatalog = async () => {
 }
 
 const main = async () => {
-  // await seedUsers()
+  await seedUsers()
   await seedCatalog()
   db.disconnect()
 }
