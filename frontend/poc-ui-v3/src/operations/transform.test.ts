@@ -20,7 +20,13 @@ describe('Transform Block Input', () => {
     expect(result.id).toBeDefined()
     expect(result.children?.connect[0].id).toBeDefined()
   })
-  
+
+  it('should only have ids for connects', () => {
+    expect(result.id).toBeDefined()
+    expect(result.children?.connect[0].name).not.toBeDefined()
+    expect(result.children?.connect[0].children).not.toBeDefined()
+  })  
+
   it('should connect requestors', () => {
     expect(result.requestors.connect).toBeDefined()
   })
