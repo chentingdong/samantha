@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
 
 export const REQUESTS_MADE = gql`
   query requestsMade($userId: String) {
@@ -25,7 +25,7 @@ export const REQUESTS_MADE = gql`
         state
         type
       }
-      children{
+      children {
         name
         description
         type
@@ -61,4 +61,4 @@ export const REQUESTS_MADE = gql`
       }
     }
   }
-`;
+`

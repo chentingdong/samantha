@@ -1,55 +1,55 @@
-import * as React from 'react'
-import { BrowserRouter, Switch } from 'react-router-dom'
-import PublicRoute from './public-routes'
-import PrivateRoute from './private-routes'
-import VirtualAssistant from '../pages/virtual-assistant'
-import Login from '../pages/login'
-import NotFound from '../pages/not-found'
-import { RequestCatalogList } from "../blocks/RequestCatalogList";
-import { BlockCatalogList } from "../blocks/BlockCatalogList";
-import { RequestsMadeList } from "../blocks/RequestsMadeList";
-import { RequestsReceivedList } from "../blocks/RequestsReceivedList";
+import * as React from "react"
+import { BrowserRouter, Switch } from "react-router-dom"
+import PublicRoute from "./public-routes"
+import PrivateRoute from "./private-routes"
+import VirtualAssistant from "../pages/virtual-assistant"
+import Login from "../pages/login"
+import NotFound from "../pages/not-found"
+import { RequestCatalogList } from "../blocks/RequestCatalogList"
+import { BlockCatalogList } from "../blocks/BlockCatalogList"
+import { RequestsMadeList } from "../blocks/RequestsMadeList"
+import { RequestsReceivedList } from "../blocks/RequestsReceivedList"
 import { RequestorSurface } from "../block/RequestorSurface"
 import { ResponderSurface } from "../block/ResponderSurface"
 
 const routes = [
   {
-    path: '/request-catalog',
+    path: "/request-catalog",
     component: RequestCatalogList,
     tag: PrivateRoute,
   },
   {
-    path: '/block-catalog',
+    path: "/block-catalog",
     component: BlockCatalogList,
     tag: PrivateRoute,
   },
   {
-    path: '/requests-made',
+    path: "/requests-made",
     component: RequestsMadeList,
     tag: PrivateRoute,
   },
   {
-    path: '/request-received',
+    path: "/request-received",
     component: RequestsReceivedList,
     tag: PrivateRoute,
   },
   {
-    path: '/requestor-surface/:id',
+    path: "/requestor-surface/:id",
     component: RequestorSurface,
     tag: PrivateRoute,
   },
   {
-    path: '/responder-surface/:id',
+    path: "/responder-surface/:id",
     component: ResponderSurface,
     tag: PrivateRoute,
   },
   {
-    path: '/',
+    path: "/",
     component: VirtualAssistant,
     tag: PrivateRoute,
   },
   {
-    path: '/login',
+    path: "/login",
     component: Login,
     tag: PublicRoute,
   },

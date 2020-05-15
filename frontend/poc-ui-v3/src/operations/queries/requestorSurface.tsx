@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from "@apollo/client"
 
 export const REQUESTOR_SURFACE = gql`
   query requestorSurface($id: Int) {
@@ -17,7 +17,7 @@ export const REQUESTOR_SURFACE = gql`
         state
         type
       }
-      children{
+      children {
         name
         description
         type
