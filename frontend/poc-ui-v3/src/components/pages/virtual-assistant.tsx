@@ -66,35 +66,7 @@ function VirtualAssistant() {
         <RequestViewRequester />
         <RequestViewResponder />
       </main>
-      <div
-        className="col-10 offset-2 position-absolute bg-white"
-        style={{ top: '0', zIndex: 5 }}
-      >
-        {/* {state.uiState.showEditRequestDef && (
-          <div className="vh-100">
-            <Animated
-              animationIn="slideInRight"
-              animationInDuration={300}
-              animationOut="bounceOutRight"
-              isVisible={true}
-            >
-              <EditRequestDef />
-            </Animated>
-          </div>
-        )} */}
-        {/* {state.uiState.showEditRequest && (
-          <div className="vh-100">
-            <Animated
-              animationIn="slideInDown"
-              animationInDuration={300}
-              animationOut="bounceOutRight"
-              isVisible={true}
-            >
-              <EditRequest />
-            </Animated>
-          </div>
-        )} */}
-      </div>
+
       <footer className="border-top small">
         <ContextViewCodes />
       </footer>

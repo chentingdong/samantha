@@ -7,16 +7,16 @@ import { DndSourceBox } from '../block/dnd-source-box'
 
 export const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)
-
+  const blockCatalog = data.blocks
   if (loading) return <>Loading...</>
   if (error) return <>{`Error! ${error.message}`}</>
 
   return (
     <div>
-      <h2>Block Palette</h2>
+      <h2>Block Palette:</h2>
       <small className="row">
-        {data.children &&
-          data.children.map((block: Block) => {
+        {blockCatalog &&
+          blockCatalog.map((block: Block) => {
             return (
               <div className="col-6 p-2">
                 <div className="card p-0" key={block.id}>

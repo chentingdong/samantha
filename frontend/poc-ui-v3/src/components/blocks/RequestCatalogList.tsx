@@ -5,14 +5,15 @@ import { REQUEST_CATALOG } from '../../operations/queries/requestCatalog'
 
 export const RequestCatalogList = () => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG)
+  const requestCatalog = data ? data.blocks : []
 
   if (loading) return <>Loading...</>
   if (error) return <>{`Error! ${error.message}`}</>
 
   return (
     <div>
-      {data.children &&
-        data.children.map((block) => (
+      {requestCatalog &&
+        requestCatalog.map((block) => (
           <RequestCatalogItem key={block.id} block={block} />
         ))}
     </div>
