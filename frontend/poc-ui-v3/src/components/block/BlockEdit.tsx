@@ -18,12 +18,9 @@ const BlockEdit: React.FC<{
     defaultValues: block,
   })
 
-  const onSumbit = (data) => {
-    console.log(JSON.stringify(state))
-  }
+  const onSumbit = (data) => {}
 
   const addSubBlock = (childBlock: Block) => {
-    console.log(block)
     let updatedChildren = block.children
       ? [...block.children, childBlock]
       : [childBlock]
@@ -32,34 +29,16 @@ const BlockEdit: React.FC<{
       children: updatedChildren,
     }
     block = updatedBlock
-    dispatch({ type: 'set', data: { currentBlock: block} })
+    dispatch({ type: 'set', data: { blockCreateInput: block} })
   }
 
   const saveBlock = async () => {
     // apply user's form changes
     const formValues = getValues()
-    let block = Object.assign(state.currentRequestDef, formValues)
+    let block = Object.assign({}, state.blockCreateInput, formValues)
 
-    let requestDefs = state.requestDefs
-
-    // if blockDef is found in blockDefs, then update, otherwise create
-    // TODO: rewrite the following block with elegent codes
-    let found = false
-    requestDefs.forEach((rd, index) => {
-      if (rd.id === block.id) {
-        requestDefs[index] = block
-        found = true
-        return
-      }
-    })
-    if (!found) {
-      requestDefs.push(block)
-    }
-
-    // await dispatch({
-    //   type: 'set',
-    //   data: { requestDefs: requestDefs },
-    // })
+    // upsert
+    console.log(`blockCreateInput:\n${JSON.stringify(block)}`)
 
     close()
   }
@@ -73,9 +52,15 @@ const BlockEdit: React.FC<{
             <label>Name: </label>
             <input className="form-control" ref={register} name="name" />
           </div>
-          <div className="form-group col-6">
-            <label>Requester: </label>
-            <select className="form-control" ref={register} name="requester">
+          <div className="form-group col-3">
+            <label>Requestors: </label>
+            <select className="form-control" ref={register} name="requestors" multiple>
+              <OptionsUsers />
+            </select>
+          </div>
+          <div className="form-group col-3">
+            <label>Responders: </label>
+            <select className="form-control" ref={register} name="responders" multiple>
               <OptionsUsers />
             </select>
           </div>

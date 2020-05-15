@@ -9,7 +9,7 @@ const RequestsMadeItem = ({ block }) => {
   const [showEdit, setShowEdit] = useState(false)
 
   const editRequestDef = (block) => {
-    dispatch({ type: 'set', data: { currentBlock: block} })
+    dispatch({ type: 'set', data: { blockCreateInput: block} })
     setShowEdit(true)
   }
 

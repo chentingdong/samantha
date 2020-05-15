@@ -11,27 +11,27 @@ const RequestCatalogItem: React.FC<{
   const { state, dispatch } = React.useContext(Context)
   const [showEdit, setShowEdit] = useState(false)
 
-  let blockInst = Object.assign({}, block, {
-    name: "",
-    inCatalog: false,
-    state: "ACTIVE",
-    requester: state.user.id,
-    // requestors: [
-    //   {
-    //     id: state.user.id,
-    //     name: state.user.attributes.name,
-    //     email: state.user.attributes.email,
-    //   },
-    // ],
-  })
-
   const editRequestDef = (block) => {
-    dispatch({ type: 'set', data: { currentBlock: block} })
+    dispatch({ type: 'set', data: { blockCreateInput: block} })
     setShowEdit(true)
   }
 
   const makeRequest = () => {
-    dispatch({ type: 'set', data: { currentBlock: blockInst} })
+    const blockCreateInput = Object.assign({}, block, {
+      _type: "create",
+      id: uuid.v4(),
+      name: "",
+      inCatalog: false,
+      state: "ACTIVE",
+      requestors: [
+        {
+          id: state.user.id,
+          name: state.user.attributes.name,
+          email: state.user.attributes.email,
+        },
+      ],
+    })    
+    dispatch({ type: 'set', data: { blockCreateInput: blockCreateInput} })
     setShowEdit(true)
   }
 
@@ -49,7 +49,7 @@ const RequestCatalogItem: React.FC<{
             isVisible={true}
           >
             <BlockEdit
-              block={state.currentBlock}
+              block={state.blockCreateInput}
               close={(e) => setShowEdit(false)}
             />
           </Animated>

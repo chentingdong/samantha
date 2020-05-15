@@ -44,7 +44,7 @@ export interface State {
   isAuthenticated: boolean;
   user: CognitoUser;
   users: CognitoUser[];
-  currentBlock: Block;
+  blockCreateInput: Block;
   messages: object[];
   uiState: UiState;
 }

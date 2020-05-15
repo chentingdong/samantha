@@ -44,9 +44,14 @@ function RequestDefsMenu() {
 
   const makeRequest = (requestDef: Block) => {
     let currentRequest: Block = Object.assign({}, requestDef, {
-      id: uuid.v4(),
       name: '',
-      requester: state.user.id,
+      requestors: [
+        {
+          id: state.user.id,
+          name: state.user.attributes.name,
+          email: state.user.attributes.email,
+        },
+      ],
     })
     dispatch({
       type: 'set',
