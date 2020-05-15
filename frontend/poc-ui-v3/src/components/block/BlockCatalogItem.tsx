@@ -6,8 +6,7 @@ import { DndSourceBox } from './DndSourceBox'
 const BlockCatalogItem: React.FC<{
   block: Block
   index?: number
-  setCatalogItem?: (block: Block) => void
-}> = ({ block, index = 0, setCatalogItem }) => {
+}> = ({ block, index = 0 }) => {
   if (!block) return <></>
   // TODO: sync with backend of types
   const blockWidth = block.type.includes('LEAF_') ? 'col-3' : 'col-12'
@@ -22,7 +21,7 @@ const BlockCatalogItem: React.FC<{
             {block.name}
           </strong>
           <div className="card-body">{block.description}</div>
-          <SegmentView block={block} setCatalogItem={setCatalogItem} />
+          <SegmentView block={block} />
         </div>
       </DndSourceBox>
     </div>

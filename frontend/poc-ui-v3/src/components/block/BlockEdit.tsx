@@ -37,6 +37,9 @@ const BlockEdit: React.FC<{
     const formValues = getValues()
     let block = Object.assign({}, state.blockCreateInput, formValues)
 
+    if (block?.__mutation_type__ === 'CREATE') {
+      delete block.id
+    }
     // upsert
     console.log(`blockCreateInput:\n${JSON.stringify(block)}`)
 

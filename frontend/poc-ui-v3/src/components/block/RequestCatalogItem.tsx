@@ -18,7 +18,7 @@ const RequestCatalogItem: React.FC<{
 
   const makeRequest = () => {
     const blockCreateInput = Object.assign({}, block, {
-      _type: "create",
+      __mutation_type__: "CREATE",
       id: uuid.v4(),
       name: "",
       inCatalog: false,
