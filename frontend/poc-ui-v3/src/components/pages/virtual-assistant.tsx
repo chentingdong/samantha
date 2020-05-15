@@ -47,7 +47,7 @@ function VirtualAssistant() {
                 </Nav.Link>
               </Nav>
             </div>
-            <div className="col-10 pt-2">
+            <div className="col-10 pt-2 vh-100 overflow-auto">
               <Tab.Content>
                 <Tab.Pane eventKey="requestCatalog" className="vh-100">
                   <RequestCatalogList />
