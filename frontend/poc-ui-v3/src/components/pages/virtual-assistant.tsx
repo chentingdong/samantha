@@ -1,18 +1,18 @@
-import * as React from 'react'
-import { Tab, Nav } from 'react-bootstrap'
-import { RequestsMade, RequestsReceived } from '../request/requests-menu'
-import { RequestDefsMenu } from '../request/request-defs-menu'
-import { EditRequest } from '../request/edit-request'
+import * as React from "react"
+import { Tab, Nav } from "react-bootstrap"
+import { RequestsMade, RequestsReceived } from "../request/requests-menu"
+import { RequestDefsMenu } from "../request/request-defs-menu"
+import { EditRequest } from "../request/edit-request"
 import {
   RequestViewResponder,
   RequestViewRequester,
-} from '../request/request-view'
-import { Context } from '../context/store'
-import { ContextViewCodes } from '../context/context-view-codes'
-import { useContext } from 'react'
-import { RequestCatalogList } from '../blocks/RequestCatalogList'
-import { RequestsMadeList } from '../blocks/RequestsMadeList'
-import { RequestsReceivedList } from '../blocks/RequestsReceivedList'
+} from "../request/request-view"
+import { Context } from "../context/store"
+import { ContextViewCodes } from "../block/ContextViewCodes"
+import { useContext } from "react"
+import { RequestCatalogList } from "../blocks/RequestCatalogList"
+import { RequestsMadeList } from "../blocks/RequestsMadeList"
+import { RequestsReceivedList } from "../blocks/RequestsReceivedList"
 
 function VirtualAssistant() {
   const { state, dispatch } = useContext(Context)
@@ -24,7 +24,7 @@ function VirtualAssistant() {
           <div className="row">
             <div
               className="col-2 mt-4"
-              onClick={(e) => dispatch({ type: 'resetUi' })}
+              onClick={(e) => dispatch({ type: "resetUi" })}
             >
               <Nav className="flex-column">
                 <Nav.Link

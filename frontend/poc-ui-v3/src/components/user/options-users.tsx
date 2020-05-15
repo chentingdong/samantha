@@ -1,5 +1,5 @@
-import React from 'react'
-import { Context } from '../context/store'
+import React from "react"
+import { Context } from "../context/store"
 
 const OptionsUsers = () => {
   const { state, dispatch } = React.useContext(Context)

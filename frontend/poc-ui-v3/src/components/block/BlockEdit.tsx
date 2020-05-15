@@ -64,7 +64,7 @@ const BlockEdit: React.FC<{
           </div>
           <div className="form-group col-3">
             <label>Requestors: </label>
-            <select className="form-control" ref={ register } name="requestors" multiple value={[state.user.id]} onChange={e => console.debug(state.user)}>
+            <select className="form-control" ref={ register } name="requestors" multiple>
               <OptionsUsers />
             </select>
           </div>
