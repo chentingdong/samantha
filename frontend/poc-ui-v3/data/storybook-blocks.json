@@ -5,27 +5,27 @@
     "description": "empty request wrapper",
     "type": "parallelStages",
     "state": "pending",
-    "requester": "",
+    "requestors": [],
     "responders": [],
-    "blocks": [
+    "children": [
       {
         "id": "some",
         "name": "sequencial stage container",
         "description": "a composite block that support running blocks in sequence",
         "type": "sequenceStages",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
-        "blocks": [
+        "children": [
           {
             "id": "leaf-1",
             "name": "collect timesheet",
             "description": "collect timesheets",
             "type": "leaf",
             "state": "active",
-            "requester": "",
+            "requestors": [],
             "responders": [],
-            "blocks": []
+            "children": []
           },
           {
             "id": "leaf-2",
@@ -33,9 +33,9 @@
             "description": "team rating",
             "type": "leaf",
             "state": "active",
-            "requester": "",
+            "requestors": [],
             "responders": [],
-            "blocks": []
+            "children": []
           },
           {
             "id": "1",
@@ -43,16 +43,16 @@
             "description": "empty request wrapper",
             "type": "parallelStages",
             "state": "pending",
-            "requester": "",
+            "requestors": [],
             "responders": [],
-            "blocks": [
+            "children": [
               {
                 "id": "leaf-1",
                 "name": "collect timesheet",
                 "description": "collect timesheets",
                 "type": "leaf",
                 "state": "active",
-                "requester": "",
+                "requestors": [],
                 "responders": [],
                 "blocks": []
               }
@@ -64,9 +64,9 @@
             "description": "team rating",
             "type": "leaf",
             "state": "active",
-            "requester": "",
+            "requestors": [],
             "responders": [],
-            "blocks": []
+            "children": []
           }
         ]
       }
@@ -78,18 +78,18 @@
     "description": "a composite block that support running blocks in sequence",
     "type": "sequenceStages",
     "state": "active",
-    "requester": "",
+    "requestors": [],
     "responders": [],
-    "blocks": [
+    "children": [
       {
         "id": "leaf-3",
         "name": "collect timesheet",
         "description": "collect timesheets",
         "type": "leaf",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
-        "blocks": []
+        "children": []
       },
       {
         "id": "leaf-2",
@@ -97,9 +97,9 @@
         "description": "team rating",
         "type": "leaf",
         "state": "active",
-        "requester": "",
+        "requestors": [],
         "responders": [],
-        "blocks": []
+        "children": []
       }
     ]
   }
