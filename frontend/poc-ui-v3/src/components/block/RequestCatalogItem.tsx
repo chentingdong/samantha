@@ -67,7 +67,7 @@ const RequestCatalogItem: React.FC<{
       {showEdit && (
         <div className="bg-light" style={{ top: "0", zIndex: 10 }}>
           <Animated
-            animationIn="slideInRight"
+            animationIn="fadeInRight"
             animationInDuration={300}
             animationOut="bounceOutRight"
             isVisible={true}
