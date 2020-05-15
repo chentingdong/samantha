@@ -9,7 +9,6 @@ const RequestCatalogItem: React.FC<{
   block: Block,
 }> = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
-  // const [currentBlock, setCurrentBlock] = React.useState(block)
   const [showEdit, setShowEdit] = useState(false)
 
   let blockInst = Object.assign({}, block, {
@@ -27,13 +26,11 @@ const RequestCatalogItem: React.FC<{
   })
 
   const editRequestDef = (block) => {
-    // setCurrentBlock(block)
     dispatch({ type: 'set', data: { currentBlock: block} })
     setShowEdit(true)
   }
 
   const makeRequest = () => {
-    // setCurrentBlock(blockInst)
     dispatch({ type: 'set', data: { currentBlock: blockInst} })
     setShowEdit(true)
   }

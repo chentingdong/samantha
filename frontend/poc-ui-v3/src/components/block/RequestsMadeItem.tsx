@@ -6,11 +6,10 @@ import { BlockEdit } from "./BlockEdit"
 
 const RequestsMadeItem = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
-  const [currentBlock, setCurrentBlock] = React.useState(block)
   const [showEdit, setShowEdit] = useState(false)
 
   const editRequestDef = (block) => {
-    setCurrentBlock(block)
+    dispatch({ type: 'set', data: { currentBlock: block} })
     setShowEdit(true)
   }
 
@@ -34,7 +33,7 @@ const RequestsMadeItem = ({ block }) => {
         <div className="col-3">
           <button
             className="btn btn-link"
-            onClick={(e) => editRequestDef(currentBlock)}
+            onClick={(e) => editRequestDef(block)}
           >
             View/Edit
           </button>
@@ -52,9 +51,8 @@ const RequestsMadeItem = ({ block }) => {
             isVisible={true}
           >
             <BlockEdit
-              block={currentBlock}
+              block={block}
               close={(e) => setShowEdit(false)}
-              setCatalogItem={setCurrentBlock}
             />
           </Animated>
         </div>
