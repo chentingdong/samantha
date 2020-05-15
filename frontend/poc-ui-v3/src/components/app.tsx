@@ -7,6 +7,7 @@ import '../assets/scss/app.scss'
 import { Context, initialState } from './context/store'
 import config from '../../configs/config'
 import { getUser, getUsers } from './user'
+import { Container, Row } from 'react-bootstrap'
 
 export const App = () => {
   const { state, dispatch } = useContext(Context)
@@ -58,11 +59,11 @@ export const App = () => {
 
   return (
     <div className="app wrapper vh-100">
-      {state.isAuthenticated && (
-        <button className="btn btn-link fixed-top m-2" onClick={logout}>
-          Log out
+      {state.isAuthenticated && 
+        <button className="btn btn-link" onClick={logout}>
+          {state?.user?.attributes?.email} Logout
         </button>
-      )}
+      }
       <Routes />
     </div>
   )
