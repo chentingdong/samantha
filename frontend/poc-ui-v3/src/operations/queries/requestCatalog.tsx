@@ -8,6 +8,7 @@ export const REQUEST_CATALOG = gql`
         AND: [
           { inCatalog: { equals: true } }
           { OR: [{ type: COMPOSITE_PARALLEL }, { type: COMPOSITE_SEQUENTIAL }] }
+          { parent:	null}
         ]
       }
     ) {
