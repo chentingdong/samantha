@@ -6,6 +6,8 @@ const bgColor = (block) => {
       return "bg-success"
     case "COMPLETE":
       return "bg-primary"
+    case "DRAFT":
+      return "bg-light"
     default:
       return "bg-secondary"
   }

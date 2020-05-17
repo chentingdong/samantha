@@ -5,6 +5,7 @@
       "tag": "CreateEnum",
       "enum": "State",
       "values": [
+        "DRAFT",
         "PENDING",
         "ACTIVE",
         "COMPLETE"
@@ -227,6 +228,38 @@
     {
       "tag": "CreateField",
       "model": "Block",
+      "field": "description",
+      "type": "String",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "description"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "description"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
       "field": "type",
       "type": "BlockType",
       "arity": "Required"
@@ -318,7 +351,7 @@
         "directive": "default"
       },
       "argument": "",
-      "value": "ACTIVE"
+      "value": "DRAFT"
     },
     {
       "tag": "CreateField",
