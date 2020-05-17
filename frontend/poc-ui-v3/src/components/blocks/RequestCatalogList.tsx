@@ -2,6 +2,7 @@ import React from "react"
 import { RequestItem } from "../block/RequestItem"
 import { useQuery } from "@apollo/client"
 import { REQUEST_CATALOG } from "../../operations/queries/requestCatalog"
+import { ItemOrigin } from "../context/enum"
 
 const RequestCatalogList = () => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG)
@@ -15,7 +16,11 @@ const RequestCatalogList = () => {
       {requestCatalog &&
         requestCatalog.map((block) => (
           <div className="m-3">
-            <RequestItem key={block.id} block={block}></RequestItem>
+            <RequestItem
+              key={block.id}
+              block={block}
+              itemOrigin={ItemOrigin.Catalog}
+            />
           </div>
         ))}
     </div>

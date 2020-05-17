@@ -12,11 +12,14 @@ import { transformBlockInput } from '../../operations/transform'
 import { CREATE_ONE_BLOCK } from '../../operations/mutations/createOneBlock'
 import { UPDATE_ONE_BLOCK } from '../../operations/mutations/updateOneBlock'
 import { useMutation } from '@apollo/client'
+import { EditMode, ItemOrigin } from "../context/enum"
 
 const BlockEdit: React.FC<{
   block: Block
   close: () => void
-}> = ({ block, close }) => {
+  editMode: EditMode
+  itemOrigin: ItemOrigin
+}> = ({ block, close, editMode, itemOrigin }) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: block,
@@ -78,18 +81,24 @@ const BlockEdit: React.FC<{
             <label>Name: </label>
             <input className="form-control" ref={register} name="name" />
           </div>
-          <div className="form-group col-3">
-            <label>Requestors: </label>
-            <select className="form-control" ref={ register } name="requestors" multiple>
-              <OptionsUsers />
-            </select>
-          </div>
-          <div className="form-group col-3">
-            <label>Responders: </label>
-            <select className="form-control" ref={register} name="responders" multiple>
-              <OptionsUsers />
-            </select>
-          </div>
+          {(editMode === EditMode.Edit && itemOrigin === ItemOrigin.Catalog) ?
+            <></> : (
+              <>
+                <div className="form-group col-3">
+                  <label>Requestors: </label>
+                  <select className="form-control" ref={register} name="requestors" multiple>
+                    <OptionsUsers />
+                  </select>
+                </div>
+                <div className="form-group col-3">
+                  <label>Responders: </label>
+                  <select className="form-control" ref={register} name="responders" multiple>
+                    <OptionsUsers />
+                  </select>
+                </div>
+              </>
+            )
+          }
           <div className="form-group col-12">
             <label>Description: </label>
             <textarea

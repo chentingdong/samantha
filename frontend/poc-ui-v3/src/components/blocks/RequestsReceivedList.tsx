@@ -3,6 +3,7 @@ import { useQuery } from "@apollo/client"
 import { Context } from "../context/store"
 import { REQUESTS_RECEIVED } from "../../operations/queries/requestsReceived"
 import { RequestItem } from "../block/RequestItem"
+import { ItemOrigin } from "../context/enum"
 
 const RequestsReceivedList = () => {
   const { state, dispatch } = useContext(Context)
@@ -20,12 +21,11 @@ const RequestsReceivedList = () => {
       {requestReceived &&
         requestReceived.map((block) => (
           <div className="m-3">
-            <RequestItem key={block.id} block={block}>
-              <p className="text-secondary text-right">
-                {"Requested by: "}
-                {block.requestors?.map((user) => user.name).join(", ")}
-              </p>
-            </RequestItem>
+            <RequestItem
+              key={block.id}
+              block={block}
+              itemOrigin={ItemOrigin.Received}
+            />
           </div>
         ))}
     </div>

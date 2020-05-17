@@ -1,20 +1,27 @@
-import React, { useState } from "react"
+import React, { useState, useContext, createContext } from "react"
 import uuid from "uuid"
 import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
 import { Block } from "../context/interface"
 import { bgColor } from "../utils/styles"
+import { EditMode, ItemOrigin } from "../context/enum"
 
 const RequestItem: React.FC<{
   block: Block,
-  children?: React.ReactNode,
-}> = ({ block, children }) => {
-  const { state, dispatch } = React.useContext(Context)
+  itemOrigin?: ItemOrigin,
+}> = ({ block, itemOrigin = ItemOrigin.Catalog }) => {
+  // global context
+  const { state, dispatch } = useContext(Context)
+
+  // TODO: move into context at this level
   const [showEdit, setShowEdit] = useState(false)
+  const [origin, setOrigin] = useState(itemOrigin)
+  const [editMode, setEditMode] = useState(EditMode.Edit)
 
   const editRequestDef = (blockCreateInput) => {
     dispatch({ type: "set", data: { blockCreateInput } })
+    setEditMode(EditMode.Edit)
     setShowEdit(true)
   }
 
@@ -34,6 +41,7 @@ const RequestItem: React.FC<{
       ],
     })
     dispatch({ type: "set", data: { blockCreateInput } })
+    setEditMode(EditMode.Create)
     setShowEdit(true)
   }
 
@@ -57,16 +65,31 @@ const RequestItem: React.FC<{
               )
             })}
           </p>
-          {children}
+          {origin === ItemOrigin.Made && (
+            <p className="text-secondary text-right">
+              {"Assigned to: "}
+              {block.responders?.map((user) => user.name).join(", ")}
+            </p>
+          )}
+          {origin === ItemOrigin.Received && (
+            <p className="text-secondary text-right">
+              {"Requested by: "}
+              {block.requestors?.map((user) => user.name).join(", ")}
+            </p>
+          )}
         </div>
         <div className="col-3">
-          <button
-            className="btn-primary border rounded m-1"
-            onClick={(e) => makeRequest()}
-          >
-            Make a request
-          </button>
-          <br />
+          {origin === ItemOrigin.Catalog && (
+            <>
+              <button
+                className="btn-primary border rounded m-1"
+                onClick={(e) => makeRequest()}
+              >
+                Make a request
+              </button>
+              <br />
+            </>
+          )}
           <button
             className="btn-primary border rounded m-1"
             onClick={(e) => editRequestDef(block)}
@@ -86,6 +109,8 @@ const RequestItem: React.FC<{
             <BlockEdit
               block={state.blockCreateInput}
               close={() => setShowEdit(false)}
+              itemOrigin={origin}
+              editMode={editMode}
             />
           </Animated>
         </div>
@@ -94,4 +119,4 @@ const RequestItem: React.FC<{
   )
 }
 
-export { RequestItem }
+export { RequestItem, ItemOrigin }
