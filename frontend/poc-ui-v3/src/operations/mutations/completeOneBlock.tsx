@@ -1,8 +1,11 @@
 import { gql } from "@apollo/client"
 
-export const CREATE_ONE_BLOCK = gql`
-  mutation createOneBlock($data: BlockCreateInput!) {
-    createOneBlock(data: $data) {
+export const COMPLETE_ONE_BLOCK = gql`
+  mutation completeOneBlock(
+    $data: BlockUpdateInput!
+    $where: BlockWhereUniqueInput!
+  ) {
+    updateOneBlock(data: $data, where: $where) {
       id
       name
       description

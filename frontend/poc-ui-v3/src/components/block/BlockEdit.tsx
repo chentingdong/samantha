@@ -65,6 +65,7 @@ const BlockEdit: React.FC<{
     const blockCreateInputTransformed = transformBlockInput(blockCreateInput)
 
     // console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
+    // TODO: fix logic
     mutationType==='CREATE' ?
       createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
       updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})

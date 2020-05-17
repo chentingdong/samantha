@@ -6,6 +6,8 @@ import { BlockEdit } from "./BlockEdit"
 import { Block } from "../context/interface"
 import { blockBgColor, blockTextColor } from "../utils/styles"
 import { EditMode, ItemOrigin } from "../context/enum"
+import { COMPLETE_ONE_BLOCK } from "../../operations/mutations/completeOneBlock"
+import { useMutation } from "@apollo/client"
 
 const RequestItem: React.FC<{
   block: Block,
@@ -18,6 +20,18 @@ const RequestItem: React.FC<{
   const [showEdit, setShowEdit] = useState(false)
   const [origin, setOrigin] = useState(itemOrigin)
   const [editMode, setEditMode] = useState(EditMode.Edit)
+
+  const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
+
+  const markComplete = (blockToComplete) => {
+    blockToComplete.children.map((child) => markComplete(child))
+    completeOneBlock({
+      variables: {
+        data: { state: "COMPLETE" },
+        where: { id: blockToComplete.id },
+      },
+    })
+  }
 
   const editRequestDef = (blockCreateInput) => {
     dispatch({ type: "set", data: { blockCreateInput } })
@@ -89,7 +103,7 @@ const RequestItem: React.FC<{
         <div className="col-3 container">
           <div className="row">
             <button
-              className="btn border rounded m-1"
+              className="btn btn-link border rounded m-1"
               onClick={() => editRequestDef(block)}
             >
               View/Edit
@@ -98,7 +112,7 @@ const RequestItem: React.FC<{
           {origin === ItemOrigin.Catalog && (
             <div className="row">
               <button
-                className="btn border rounded m-1"
+                className="btn btn-link border rounded m-1"
                 onClick={() => makeRequest()}
               >
                 Make a request
@@ -108,10 +122,8 @@ const RequestItem: React.FC<{
           {origin === ItemOrigin.Received && block.state === "ACTIVE" && (
             <div className="row">
               <button
-                className="btn border rounded m-1"
-                onClick={() => {
-                  alert("Do you really want to mark this request as complete?")
-                }}
+                className="btn btn-link border rounded m-1"
+                onClick={() => markComplete(block)}
               >
                 Mark as Complete
               </button>

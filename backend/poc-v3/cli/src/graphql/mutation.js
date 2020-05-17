@@ -29,7 +29,7 @@ module.exports.completeOneBlockMutation = async ({ id, userId }) => {
     data: { updateOneBlock },
   } = await client.mutate({
     mutation: gql`
-      mutation startOneBlockMutation(
+      mutation completeOneBlockMutation(
         $data: BlockUpdateInput!
         $where: BlockWhereUniqueInput!
       ) {

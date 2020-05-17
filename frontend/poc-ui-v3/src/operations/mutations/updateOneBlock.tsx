@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client"
 
 export const UPDATE_ONE_BLOCK = gql`
   mutation updateOneBlock(
@@ -57,6 +57,6 @@ export const UPDATE_ONE_BLOCK = gql`
         name
         email
       }
-    }  
+    }
   }
 `
