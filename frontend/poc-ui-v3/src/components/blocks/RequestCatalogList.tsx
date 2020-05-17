@@ -1,5 +1,5 @@
 import React from "react"
-import { RequestCatalogItem } from "../block/RequestCatalogItem"
+import { RequestItem } from "../block/RequestItem"
 import { useQuery } from "@apollo/client"
 import { REQUEST_CATALOG } from "../../operations/queries/requestCatalog"
 
@@ -15,7 +15,7 @@ const RequestCatalogList = () => {
       {requestCatalog &&
         requestCatalog.map((block) => (
           <div className="m-3">
-            <RequestCatalogItem key={block.id} block={block} />
+            <RequestItem key={block.id} block={block}></RequestItem>
           </div>
         ))}
     </div>

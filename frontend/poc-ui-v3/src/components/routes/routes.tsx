@@ -7,7 +7,7 @@ import NotFound from "../pages/not-found"
 import { RequestCatalogList } from "../blocks/RequestCatalogList"
 import { RequestsMadeList } from "../blocks/RequestsMadeList"
 import { RequestsReceivedList } from "../blocks/RequestsReceivedList"
-import { ContextViewCodes } from "../block/ContextViewCodes"
+import { ContextViewCodes } from "../pages/ContextViewCodes"
 import { HeaderWithRouter } from "../pages/header"
 
 const routes = [

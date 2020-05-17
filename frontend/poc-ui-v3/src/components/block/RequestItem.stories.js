@@ -1,11 +1,6 @@
 import React from "react"
-import { RequestorSurface } from "./RequestorSurface"
-import { getClient } from "../../index"
-import { ApolloProvider } from "@apollo/client"
-import { RequestCatalogItem } from "./RequestCatalogItem"
+import { RequestItem } from "./RequestItem"
 import { BlockCatalogItem } from "./BlockCatalogItem"
-import { RequestsMadeItem } from "./RequestsMadeItem"
-import { RequestsReceivedItem } from "./RequestsReceivedItem"
 
 import blockStories from "../../../data/storybook-blocks.json"
 const blockLevel2 = blockStories[0]
@@ -18,7 +13,7 @@ export default {
 }
 
 const RequestCatalog = () => {
-  return <RequestCatalogItem block={blockLevel2} />
+  return <RequestItem block={blockLevel2} />
 }
 
 const BlockCatalog = () => {
@@ -26,11 +21,11 @@ const BlockCatalog = () => {
 }
 
 const RequestsMade = () => {
-  return <RequestsMadeItem block={blockLevel2} />
+  return <RequestItem block={blockLevel2} />
 }
 
 const RequestsReceived = () => {
-  return <RequestsReceivedItem block={blockLevel2} />
+  return <RequestItem block={blockLevel2} />
 }
 
 export { RequestCatalog, BlockCatalog, RequestsMade, RequestsReceived }
