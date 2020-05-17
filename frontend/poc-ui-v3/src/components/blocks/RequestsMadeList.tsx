@@ -19,7 +19,9 @@ const RequestsMadeList = () => {
     <div>
       {requestsMade &&
         requestsMade.map((block) => (
-          <RequestsMadeItem key={block.id} block={block} />
+          <div className="m-3">
+            <RequestsMadeItem key={block.id} block={block} />
+          </div>
         ))}
     </div>
   )

@@ -1,26 +1,19 @@
-import * as React from "react"
+import React from "react"
 import { BrowserRouter, Switch } from "react-router-dom"
 import PublicRoute from "./public-routes"
 import PrivateRoute from "./private-routes"
-import VirtualAssistant from "../pages/virtual-assistant"
 import Login from "../pages/login"
 import NotFound from "../pages/not-found"
 import { RequestCatalogList } from "../blocks/RequestCatalogList"
-import { BlockCatalogList } from "../blocks/BlockCatalogList"
 import { RequestsMadeList } from "../blocks/RequestsMadeList"
 import { RequestsReceivedList } from "../blocks/RequestsReceivedList"
-import { RequestorSurface } from "../block/RequestorSurface"
-import { ResponderSurface } from "../block/ResponderSurface"
+import { ContextViewCodes } from "../block/ContextViewCodes"
+import { HeaderWithRouter } from "../pages/header"
 
 const routes = [
   {
-    path: "/request-catalog",
+    path: "/",
     component: RequestCatalogList,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/block-catalog",
-    component: BlockCatalogList,
     tag: PrivateRoute,
   },
   {
@@ -29,23 +22,13 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/request-received",
+    path: "/requests-received",
     component: RequestsReceivedList,
     tag: PrivateRoute,
   },
   {
-    path: "/requestor-surface/:id",
-    component: RequestorSurface,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/responder-surface/:id",
-    component: ResponderSurface,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/",
-    component: VirtualAssistant,
+    path: "/context-viewer",
+    component: ContextViewCodes,
     tag: PrivateRoute,
   },
   {
@@ -62,6 +45,7 @@ const routes = [
 function Routes() {
   return (
     <BrowserRouter>
+      <HeaderWithRouter />
       <Switch>
         {routes.map((route, index) => {
           const TagName = route.tag

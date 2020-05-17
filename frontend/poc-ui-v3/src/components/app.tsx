@@ -7,7 +7,9 @@ import "../assets/scss/app.scss"
 import { Context, initialState } from "./context/store"
 import config from "../../configs/config"
 import { getUser, getUsers } from "./user"
-import { Container, Row, Navbar } from "react-bootstrap"
+import { Nav, Navbar } from "react-bootstrap"
+import logo from "../assets/img/bell-round-32x32.png"
+import { withRouter } from "react-router-dom"
 
 const App = () => {
   const { state, dispatch } = useContext(Context)
@@ -28,10 +30,6 @@ const App = () => {
     }
     checkLogin()
   }, [])
-
-  const logout = async () => {
-    await Auth.signOut()
-  }
 
   useEffect(() => {
     Hub.listen("auth", async ({ payload: { event } }) => {
@@ -59,18 +57,6 @@ const App = () => {
 
   return (
     <div className="app wrapper vh-100">
-      {state.isAuthenticated && (
-        <Navbar className="nav justify-content-center">
-          <Navbar.Collapse className="justify-content-end">
-            <Navbar.Text>{state?.user?.attributes?.email}</Navbar.Text>
-            <Navbar.Text>
-              <button className="btn btn-link" onClick={logout}>
-                Logout
-              </button>
-            </Navbar.Text>
-          </Navbar.Collapse>
-        </Navbar>
-      )}
       <Routes />
     </div>
   )

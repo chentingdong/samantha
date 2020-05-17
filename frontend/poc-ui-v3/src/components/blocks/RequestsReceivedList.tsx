@@ -19,7 +19,9 @@ const RequestsReceivedList = () => {
     <div>
       {requestReceived &&
         requestReceived.map((block) => (
-          <RequestsReceivedItem key={block.id} block={block} />
+          <div>
+            <RequestsReceivedItem key={block.id} block={block} />
+          </div>
         ))}
     </div>
   )

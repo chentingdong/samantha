@@ -14,7 +14,9 @@ const RequestCatalogList = () => {
     <div>
       {requestCatalog &&
         requestCatalog.map((block) => (
-          <RequestCatalogItem key={block.id} block={block} />
+          <div className="m-3">
+            <RequestCatalogItem key={block.id} block={block} />
+          </div>
         ))}
     </div>
   )
