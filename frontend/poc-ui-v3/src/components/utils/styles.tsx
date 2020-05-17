@@ -1,4 +1,4 @@
-const bgColor = (block) => {
+const btnBgColor = (block) => {
   switch (block.state) {
     case "PENDING":
       return "bg-warning"
@@ -13,4 +13,4 @@ const bgColor = (block) => {
   }
 }
 
-export { bgColor }
+export { btnBgColor }

@@ -4,7 +4,7 @@ import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
 import { Block } from "../context/interface"
-import { bgColor } from "../utils/styles"
+import { btnBgColor } from "../utils/styles"
 import { EditMode, ItemOrigin } from "../context/enum"
 
 const RequestItem: React.FC<{
@@ -56,7 +56,8 @@ const RequestItem: React.FC<{
               return (
                 <span
                   className={
-                    "border rounded p-2 mr-2 d-inline-block " + bgColor(child)
+                    "border rounded p-2 mr-2 d-inline-block " +
+                    btnBgColor(child)
                   }
                   key={child.id}
                 >
@@ -78,24 +79,38 @@ const RequestItem: React.FC<{
             </p>
           )}
         </div>
-        <div className="col-3">
-          {origin === ItemOrigin.Catalog && (
-            <>
+        <div className="col-3 container">
+          <div className="row">
+            <button
+              className="btn-primary border rounded m-1 "
+              onClick={(e) => editRequestDef(block)}
+            >
+              View/Edit
+            </button>
+          </div>
+          {origin === ItemOrigin.Catalog ? (
+            <div className="row">
               <button
                 className="btn-primary border rounded m-1"
                 onClick={(e) => makeRequest()}
               >
                 Make a request
               </button>
-              <br />
-            </>
+            </div>
+          ) : (
+            <div className="row">
+              <button
+                className={
+                  "btn-primary border rounded m-1 " + btnBgColor(block)
+                }
+                onClick={(e) => {
+                  // change state
+                }}
+              >
+                {block.state}
+              </button>
+            </div>
           )}
-          <button
-            className="btn-primary border rounded m-1"
-            onClick={(e) => editRequestDef(block)}
-          >
-            View/Edit
-          </button>
         </div>
       </div>
       {showEdit && (
