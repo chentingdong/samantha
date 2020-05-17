@@ -1,5 +1,5 @@
 import uuid from 'uuid'
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
@@ -23,6 +23,20 @@ const BlockEdit: React.FC<{
   })
   const [ createOneBlock ] = useMutation(CREATE_ONE_BLOCK)
   const [ updateOneBlock ] = useMutation(UPDATE_ONE_BLOCK)
+
+  const escFunction = useCallback((event) => {
+    if(event.keyCode === 27) {
+      // Do whatever when esc is pressed
+      close()
+    }
+  }, [])
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    }
+  }, [])
 
   const onSumbit = () => {
     // what action to take on submit?
