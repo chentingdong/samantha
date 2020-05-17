@@ -11,8 +11,8 @@ const RequestCatalogItem: React.FC<{
   const { state, dispatch } = React.useContext(Context)
   const [showEdit, setShowEdit] = useState(false)
 
-  const editRequestDef = (block) => {
-    dispatch({ type: "set", data: { blockCreateInput: block } })
+  const editRequestDef = (blockCreateInput) => {
+    dispatch({ type: "set", data: { blockCreateInput } })
     setShowEdit(true)
   }
 
@@ -31,7 +31,7 @@ const RequestCatalogItem: React.FC<{
         },
       ],
     })
-    dispatch({ type: "set", data: { blockCreateInput: blockCreateInput } })
+    dispatch({ type: "set", data: { blockCreateInput } })
     setShowEdit(true)
   }
 
@@ -42,10 +42,10 @@ const RequestCatalogItem: React.FC<{
           <h4>{block.name}</h4>
           <p>{block.description}</p>
           <p>
-            {block.children?.map((block) => {
+            {block.children?.map((child) => {
               return (
-                <span className="border p-2 mr-2" key={block.id}>
-                  {block.name} ({block.state})
+                <span className="border p-2 mr-2" key={child.id}>
+                  {child.name} ({child.state})
                 </span>
               )
             })}
@@ -74,7 +74,7 @@ const RequestCatalogItem: React.FC<{
           >
             <BlockEdit
               block={state.blockCreateInput}
-              close={(e) => setShowEdit(false)}
+              close={() => setShowEdit(false)}
             />
           </Animated>
         </div>

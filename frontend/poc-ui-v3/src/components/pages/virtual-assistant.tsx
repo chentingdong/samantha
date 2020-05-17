@@ -1,12 +1,6 @@
 import * as React from "react"
 import { Tab, Nav } from "react-bootstrap"
-import { RequestsMade, RequestsReceived } from "../request/requests-menu"
-import { RequestDefsMenu } from "../request/request-defs-menu"
-import { EditRequest } from "../request/edit-request"
-import {
-  RequestViewResponder,
-  RequestViewRequester,
-} from "../request/request-view"
+import { RequestViewResponder, RequestViewRequester } from "./request-view"
 import { Context } from "../context/store"
 import { ContextViewCodes } from "../block/ContextViewCodes"
 import { useContext } from "react"

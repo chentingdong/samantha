@@ -7,10 +7,10 @@ import { Block } from '../context/interface'
 
 const SegmentCompositeStages: React.FC<{
   type: string
-  children: Block[]
-}> = ({ type, children }) => {
+  childrenBlocks: Block[]
+}> = ({ type, childrenBlocks }) => {
   const { state, dispatch } = useContext(Context)
-  const [blocks, setBlocks] = useState(children)
+  const [blocks, setBlocks] = useState(childrenBlocks)
 
   const addSubBlock = (block: Block) => {
     const updatedBlocks = [...blocks, block]

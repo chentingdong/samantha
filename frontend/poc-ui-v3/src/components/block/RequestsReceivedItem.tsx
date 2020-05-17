@@ -8,8 +8,8 @@ const RequestsReceivedItem = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
   const [showEdit, setShowEdit] = useState(false)
 
-  const editRequestDef = (block) => {
-    dispatch({ type: 'set', data: { blockCreateInput: block} })
+  const editRequestDef = (blockCreateInput) => {
+    dispatch({ type: "set", data: { blockCreateInput } })
     setShowEdit(true)
   }
 
@@ -21,10 +21,10 @@ const RequestsReceivedItem = ({ block }) => {
           <p>{block.description}</p>
           <p>Owner: {block.requestors[0]?.name}</p>
           <p>
-            {block.children?.map((block) => {
+            {block.children?.map((child) => {
               return (
-                <span className="border p-2 mr-2" key={block.id}>
-                  {block.name} ({block.state})
+                <span className="border p-2 mr-2" key={child.id}>
+                  {child.name} ({child.state})
                 </span>
               )
             })}
@@ -50,10 +50,7 @@ const RequestsReceivedItem = ({ block }) => {
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <BlockEdit
-              block={block}
-              close={(e) => setShowEdit(false)}
-            />
+            <BlockEdit block={block} close={() => setShowEdit(false)} />
           </Animated>
         </div>
       )}

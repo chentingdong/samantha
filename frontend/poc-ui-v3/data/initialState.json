@@ -2,42 +2,16 @@
   "isAuthenticated": false,
   "user": {},
   "users": [],
-  "currentRequestDef": {
-    "id": "",
+  "blockCreateInput": {
+    "id": 0,
     "name": "",
     "description": "",
-    "type": "parallelStages",
-    "state": "pending",
+    "type": "",
+    "state": "DRAFT",
     "requestors": [],
     "responders": [],
-    "parent": "",
-    "children": []
+    "parent": null
   },
-  "requestDefs": [],
-  "currentBlockDef": {
-    "id": "",
-    "name": "",
-    "description": "",
-    "type": "leaf",
-    "state": "pending",
-    "requestors": [],
-    "responders": [],
-    "parent": "",
-    "children": []
-  },
-  "blockDefs": [],
-  "currentRequest": {
-    "id": "",
-    "name": "",
-    "description": "",
-    "type": "parallelStages",
-    "state": "pending",
-    "requestors": [],
-    "responders": [],
-    "parent": "",
-    "children": []
-  },
-  "requests": [],
   "messages": [],
   "uiState": {
     "showEditRequestDef": false,

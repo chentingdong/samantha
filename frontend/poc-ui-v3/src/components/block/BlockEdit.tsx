@@ -24,13 +24,15 @@ const BlockEdit: React.FC<{
   const [ createOneBlock ] = useMutation(CREATE_ONE_BLOCK)
   const [ updateOneBlock ] = useMutation(UPDATE_ONE_BLOCK)
 
-  const onSumbit = (data) => {}
+  const onSumbit = () => {
+    // what action to take on submit?
+  }
 
   const addSubBlock = (childBlock: Block) => {
-    let updatedChildren = block.children
+    const updatedChildren = block.children
       ? [...block.children, childBlock]
       : [childBlock]
-    let updatedBlock = {
+    const updatedBlock = {
       ...block,
       children: updatedChildren,
     }
@@ -42,11 +44,11 @@ const BlockEdit: React.FC<{
     // apply user's form changes
     const formValues = getValues()
     const blockCreateInput = Object.assign({}, state.blockCreateInput, formValues)
-    const mutation_type = blockCreateInput.__mutation_type__
+    const mutationType = blockCreateInput.__mutation_type__
     const blockCreateInputTransformed = transformBlockInput(blockCreateInput)
 
-    console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
-    mutation_type==='CREATE' ?
+    // console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
+    mutationType==='CREATE' ?
       createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
       updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})
 

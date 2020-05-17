@@ -1,6 +1,6 @@
-import { Auth } from 'aws-amplify'
-import users from '../../../data/users.json'
-import { User } from '../context/interface'
+import { Auth } from "aws-amplify"
+import users from "../../../data/users.json"
+import { User } from "../context/interface"
 
 const getUser = async (): Promise<User> => {
   try {
@@ -11,7 +11,7 @@ const getUser = async (): Promise<User> => {
     }
     return currentUser
   } catch (err) {
-    console.error(err)
+    // do nothing yet
   }
 }
 
@@ -27,7 +27,7 @@ const getUsers = async (): Promise<User[]> => {
     // return users
     return await users
   } catch (err) {
-    console.error(err)
+    // do nothing yet
     return []
   }
 }
