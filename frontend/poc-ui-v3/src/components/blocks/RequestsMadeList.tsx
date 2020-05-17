@@ -1,8 +1,8 @@
 import React, { useContext } from "react"
-import { RequestsMadeItem } from "../block/RequestsMadeItem"
 import { useQuery } from "@apollo/client"
 import { REQUESTS_MADE } from "../../operations/queries/requestsMade"
 import { Context } from "../context/store"
+import { RequestCatalogItem } from "../block/RequestCatalogItem"
 
 const RequestsMadeList = () => {
   const { state, dispatch } = useContext(Context)
@@ -20,7 +20,7 @@ const RequestsMadeList = () => {
       {requestsMade &&
         requestsMade.map((block) => (
           <div className="m-3">
-            <RequestsMadeItem key={block.id} block={block} />
+            <RequestCatalogItem key={block.id} block={block} />
           </div>
         ))}
     </div>

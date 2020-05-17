@@ -4,7 +4,10 @@ import { useDrag, DragSourceMonitor } from "react-dnd"
 
 const DndSourceBox = ({ block, type, children }) => {
   const [{ isDragging }, drag] = useDrag({
-    item: Object.assign({}, { block: { ...block, id: uuid.v4(), __mutation_type__: "CREATE" }, type: type }),
+    item: Object.assign(
+      {},
+      { block: { ...block, id: uuid.v4(), __mutation_type__: "CREATE" }, type }
+    ),
     canDrag: true,
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),

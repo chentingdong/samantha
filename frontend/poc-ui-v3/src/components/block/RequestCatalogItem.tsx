@@ -42,14 +42,16 @@ const RequestCatalogItem: React.FC<{
         <div className="col-7">
           <h4>{block.name}</h4>
           <p>{block.description}</p>
-          <p>
+          <p className="">
             {block.children?.map((child) => {
               return (
                 <span
-                  className={"border p-2 mr-2 d-inline-block " + bgColor(child)}
+                  className={
+                    "border rounded p-2 mr-2 d-inline-block " + bgColor(child)
+                  }
                   key={child.id}
                 >
-                  {child.name} ({child.state})
+                  {child.name}
                 </span>
               )
             })}

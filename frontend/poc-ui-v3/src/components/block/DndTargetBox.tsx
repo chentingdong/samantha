@@ -14,7 +14,7 @@ const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   children,
 }) => {
   const [{ isOver, isOverCurrent }, drop] = useDrop({
-    accept: accept,
+    accept,
     hover: (item, monitor) => {
       monitor.isOver()
     },
