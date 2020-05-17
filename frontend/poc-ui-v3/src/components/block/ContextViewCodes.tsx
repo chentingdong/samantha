@@ -11,22 +11,22 @@ import { REQUESTS_RECEIVED } from "../../operations/queries/requestsReceived"
 
 const ContextViewCodes = () => {
   const { state, dispatch } = useContext(Context)
-  let { data: blockCatalog } = useQuery(BLOCK_CATALOG)
-  let { data: requestCatalog } = useQuery(REQUEST_CATALOG)
-  let { data: requestsMade } = useQuery(REQUESTS_MADE)
-  let { data: requestsReceived } = useQuery(REQUESTS_RECEIVED)
-  let data = {
+  const { data: blockCatalog } = useQuery(BLOCK_CATALOG)
+  const { data: requestCatalog } = useQuery(REQUEST_CATALOG)
+  const { data: requestsMade } = useQuery(REQUESTS_MADE)
+  const { data: requestsReceived } = useQuery(REQUESTS_RECEIVED)
+  const data = {
     user: state.user,
     users: state.users,
-    blockCatalog: blockCatalog,
-    requestCatalog: requestCatalog,
-    requestsMade: requestsMade,
-    requestsReceived: requestsReceived,
+    blockCatalog,
+    requestCatalog,
+    requestsMade,
+    requestsReceived,
   }
 
   return (
     <div>
-      <h5>Data (Apollo queried from server)</h5>
+      <h5>Remote States from Apollo Queries</h5>
       <AceEditor
         mode="json"
         theme="github"

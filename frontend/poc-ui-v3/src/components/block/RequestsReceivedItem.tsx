@@ -40,10 +40,7 @@ const RequestsReceivedItem = ({ block }) => {
         </div>
       </div>
       {showEdit && (
-        <div
-          className="position-fixed vh-100 bg-white"
-          style={{ top: "0", zIndex: 10 }}
-        >
+        <div className="bg-light" style={{ top: "0", zIndex: 10 }}>
           <Animated
             animationIn="slideInRight"
             animationInDuration={300}
