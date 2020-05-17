@@ -9,10 +9,9 @@ const BlockCatalogItem: React.FC<{
 }> = ({ block, index = 0 }) => {
   if (!block) return <></>
   // TODO: sync with backend of types
-  const blockWidth = block.type.includes('LEAF_') ? 'col-3' : 'col-12'
   const color = block.type.includes('LEAF_') ? 'light-green' : 'light-brown'
   return (
-    <div className={`p-0 m-2 ${blockWidth}`} key={block.id}>
+    <div className="" key={block.id}>
       <DndSourceBox type="block" block={block}>
         <div className={`card border-${color} `}>
           <strong className={`card-header bg-${color}`}>

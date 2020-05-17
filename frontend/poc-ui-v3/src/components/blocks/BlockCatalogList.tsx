@@ -19,8 +19,8 @@ const BlockCatalogList = () => {
         {blockCatalog &&
           blockCatalog.map((block: Block) => {
             return (
-              <div className="col-6 p-2" key={block.id}>
-                <div className="card p-0">
+              <div className="p-2 w-50" key={block.id}>
+                <div className="card">
                   <DndSourceBox type="block" block={block}>
                     <div className="card">
                       <strong className="card-header">{block.name}</strong>

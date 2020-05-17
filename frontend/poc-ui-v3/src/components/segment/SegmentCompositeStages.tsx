@@ -25,7 +25,7 @@ const SegmentCompositeStages: React.FC<{
   }
 
   return (
-    <div className="col-12">
+    <div className="">
       <DndTargetBox
         accept="block"
         greedy={false}
