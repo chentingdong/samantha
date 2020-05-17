@@ -3,6 +3,7 @@ import uuid from "uuid"
 import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
+import { bgColor } from "../utils/styles"
 
 const RequestsMadeItem = ({ block }) => {
   const { state, dispatch } = React.useContext(Context)
@@ -23,7 +24,10 @@ const RequestsMadeItem = ({ block }) => {
           <p>
             {block.children?.map((child) => {
               return (
-                <span className="border p-2 mr-2" key={child.id}>
+                <span
+                  className={"border p-2 mr-2 d-inline-block " + bgColor(child)}
+                  key={child.id}
+                >
                   {child.name} ({child.state})
                 </span>
               )

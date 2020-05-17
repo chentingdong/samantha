@@ -4,6 +4,7 @@ import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
 import { Block } from "../context/interface"
+import { bgColor } from "../utils/styles"
 
 const RequestCatalogItem: React.FC<{
   block: Block,
@@ -44,7 +45,10 @@ const RequestCatalogItem: React.FC<{
           <p>
             {block.children?.map((child) => {
               return (
-                <span className="border p-2 mr-2" key={child.id}>
+                <span
+                  className={"border p-2 mr-2 d-inline-block " + bgColor(child)}
+                  key={child.id}
+                >
                   {child.name} ({child.state})
                 </span>
               )
