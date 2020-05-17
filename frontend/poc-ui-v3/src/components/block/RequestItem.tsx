@@ -4,7 +4,7 @@ import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
 import { Block } from "../context/interface"
-import { btnBgColor } from "../utils/styles"
+import { blockBgColor, blockTextColor } from "../utils/styles"
 import { EditMode, ItemOrigin } from "../context/enum"
 
 const RequestItem: React.FC<{
@@ -49,7 +49,14 @@ const RequestItem: React.FC<{
     <div className="card mt-2 pt-2">
       <div className="d-flex justify-content-between">
         <div className="col-8">
-          <h4>{block.name}</h4>
+          <h4>
+            <span>{block.name}</span>
+            {itemOrigin !== ItemOrigin.Catalog && (
+              <span className={"m-2 " + blockTextColor(block)}>
+                ({block.state})
+              </span>
+            )}
+          </h4>
           <p>{block.description}</p>
           <p className="">
             {block.children?.map((child) => {
@@ -57,7 +64,7 @@ const RequestItem: React.FC<{
                 <span
                   className={
                     "border rounded p-2 mr-2 d-inline-block " +
-                    btnBgColor(child)
+                    blockBgColor(child)
                   }
                   key={child.id}
                 >
@@ -82,32 +89,31 @@ const RequestItem: React.FC<{
         <div className="col-3 container">
           <div className="row">
             <button
-              className="btn-primary border rounded m-1 "
-              onClick={(e) => editRequestDef(block)}
+              className="btn border rounded m-1"
+              onClick={() => editRequestDef(block)}
             >
               View/Edit
             </button>
           </div>
-          {origin === ItemOrigin.Catalog ? (
+          {origin === ItemOrigin.Catalog && (
             <div className="row">
               <button
-                className="btn-primary border rounded m-1"
-                onClick={(e) => makeRequest()}
+                className="btn border rounded m-1"
+                onClick={() => makeRequest()}
               >
                 Make a request
               </button>
             </div>
-          ) : (
+          )}
+          {origin === ItemOrigin.Received && block.state === "ACTIVE" && (
             <div className="row">
               <button
-                className={
-                  "btn-primary border rounded m-1 " + btnBgColor(block)
-                }
-                onClick={(e) => {
-                  // change state
+                className="btn border rounded m-1"
+                onClick={() => {
+                  alert("Do you really want to mark this request as complete?")
                 }}
               >
-                {block.state}
+                Mark as Complete
               </button>
             </div>
           )}

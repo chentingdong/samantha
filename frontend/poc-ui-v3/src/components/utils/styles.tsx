@@ -1,16 +1,24 @@
-const btnBgColor = (block) => {
+const blockColor = (block) => {
   switch (block.state) {
     case "PENDING":
-      return "bg-warning"
+      return "warning"
     case "ACTIVE":
-      return "bg-success"
+      return "success"
     case "COMPLETE":
-      return "bg-primary"
+      return "primary"
     case "DRAFT":
-      return "bg-light"
+      return "light"
     default:
-      return "bg-secondary"
+      return "secondary"
   }
 }
 
-export { btnBgColor }
+const blockBgColor = (block) => {
+  return "bg-" + blockColor(block)
+}
+
+const blockTextColor = (block) => {
+  return "text-" + blockColor(block)
+}
+
+export { blockBgColor, blockTextColor }
