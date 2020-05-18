@@ -12,7 +12,6 @@ const BlockCatalogItem: React.FC<{
   const color = block.type.includes('LEAF_') ? 'light-green' : 'light-brown'
   return (
     <div className="" key={block.id}>
-      <DndSourceBox type="block" block={block}>
         <div className={`card border-${color} `}>
           <strong className={`card-header bg-${color}`}>
             {index}
@@ -22,7 +21,6 @@ const BlockCatalogItem: React.FC<{
           <div className="card-body">{block.description}</div>
           <SegmentView block={block} />
         </div>
-      </DndSourceBox>
     </div>
   )
 }
