@@ -87,13 +87,13 @@ const BlockEdit: React.FC<{
               <>
                 <div className="form-group col-3">
                   <label>Requestors: </label>
-                  <select className="form-control" ref={register} name="requestors" multiple>
+                  <select className="form-control" ref={register} name="requestors" defaultValue={block.requestors.map((user)=>user.id)} multiple >
                     <OptionsUsers />
                   </select>
                 </div>
                 <div className="form-group col-3">
                   <label>Responders: </label>
-                  <select className="form-control" ref={register} name="responders" multiple>
+                  <select className="form-control" ref={register} name="responders" defaultValue={block.responders.map((user)=>user.id)} multiple>
                     <OptionsUsers />
                   </select>
                 </div>
