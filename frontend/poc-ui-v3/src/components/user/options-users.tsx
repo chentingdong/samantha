@@ -8,7 +8,7 @@ const OptionsUsers = () => {
       {state.users.map((user) => {
         return (
           <option value={user.id} key={user.id}>
-            {user.attributes.name}
+            {user.name}
           </option>
         )
       })}

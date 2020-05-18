@@ -6,26 +6,41 @@ import Routes from "./routes/routes"
 import "../assets/scss/app.scss"
 import { Context, initialState } from "./context/store"
 import config from "../../configs/config"
-import { getUser, getUsers } from "./user"
-import { Nav, Navbar } from "react-bootstrap"
-import logo from "../assets/img/bell-round-32x32.png"
-import { withRouter } from "react-router-dom"
+import { getUser } from "./user"
+import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
+import { useMutation, useLazyQuery } from "@apollo/client"
+import { GET_USERS } from "../operations/queries/getUsers"
 
 const App = () => {
   const { state, dispatch } = useContext(Context)
+  const [upsertOneUser] = useMutation(UPSERT_ONE_USER)
+  const [getUsers, { data }] = useLazyQuery(GET_USERS)
+
+  useEffect(() => {
+    if (data && data.users) {
+      dispatch({
+        type: "set",
+        data: { users: data?.users },
+      })
+    }
+  }, [data])
 
   Amplify.configure(config)
 
   useEffect(() => {
     async function checkLogin() {
-      const userInfo = await Auth.currentUserPoolUser()
-      if (userInfo) {
+      const poolUser = await Auth.currentUserPoolUser()
+      if (poolUser) {
         dispatch({ type: "authenticate", isAuthenticated: true })
-        const user = await getUser()
-        await dispatch({
+        const user = {
+          id: poolUser.username,
+          attributes: poolUser.attributes,
+        }
+        dispatch({
           type: "set",
           data: { user },
         })
+        getUsers()
       }
     }
     checkLogin()
@@ -36,10 +51,22 @@ const App = () => {
       switch (event) {
         case "signIn":
           dispatch({ type: "authenticate", isAuthenticated: true })
-          const user = await getUser()
-          dispatch({ type: "set", data: { user } })
-          const users = await getUsers()
-          dispatch({ type: "set", data: { users } })
+          // get user from cognito
+          const cognitoUser = await getUser()
+          dispatch({ type: "set", data: { user: cognitoUser } })
+
+          // upsert cognito user to backend
+          const user = {
+            id: cognitoUser.id,
+            name: cognitoUser.attributes?.name || cognitoUser.id,
+            email: cognitoUser.attributes?.email,
+          }
+          upsertOneUser({
+            variables: { where: { id: user.id }, create: user, update: user },
+          })
+          // update users
+          getUsers()
+
           break
         case "signOut":
           dispatch({ type: "authenticate", isAuthenticated: false })

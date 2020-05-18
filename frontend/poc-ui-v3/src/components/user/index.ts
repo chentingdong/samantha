@@ -1,8 +1,9 @@
 import { Auth } from "aws-amplify"
 import users from "../../../data/users.json"
-import { User } from "../context/interface"
+import { User, CognitoUser } from "../context/interface"
+import { GET_USERS } from "../../operations/queries/getUsers"
 
-const getUser = async (): Promise<User> => {
+const getUser = async (): Promise<CognitoUser> => {
   try {
     const poolUser = await Auth.currentUserPoolUser()
     const currentUser = {

@@ -1,14 +1,14 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client"
 
 export const REQUEST_CATALOG = gql`
   query requestCatalog {
     blocks(
-      orderBy: { id: asc }
+      orderBy: { id: desc }
       where: {
         AND: [
           { inCatalog: { equals: true } }
           { OR: [{ type: COMPOSITE_PARALLEL }, { type: COMPOSITE_SEQUENTIAL }] }
-          { parent:	null}
+          { parent: null }
         ]
       }
     ) {
@@ -26,7 +26,7 @@ export const REQUEST_CATALOG = gql`
         state
         type
       }
-      children{
+      children {
         id
         name
         description

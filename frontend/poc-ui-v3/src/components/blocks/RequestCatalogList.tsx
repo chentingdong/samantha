@@ -15,12 +15,8 @@ const RequestCatalogList = () => {
     <div>
       {requestCatalog &&
         requestCatalog.map((block) => (
-          <div className="m-3">
-            <RequestItem
-              key={block.id}
-              block={block}
-              itemOrigin={ItemOrigin.Catalog}
-            />
+          <div className="m-3" key={block.id}>
+            <RequestItem block={block} itemOrigin={ItemOrigin.Catalog} />
           </div>
         ))}
     </div>

@@ -12,6 +12,7 @@ const logout = async () => {
 const Header = (props) => {
   const { location } = props
   const { state, dispatch } = useContext(Context)
+
   return (
     <>
       {state.isAuthenticated && (

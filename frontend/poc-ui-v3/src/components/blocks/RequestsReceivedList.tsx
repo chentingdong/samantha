@@ -20,12 +20,8 @@ const RequestsReceivedList = () => {
     <div>
       {requestReceived &&
         requestReceived.map((block) => (
-          <div className="m-3">
-            <RequestItem
-              key={block.id}
-              block={block}
-              itemOrigin={ItemOrigin.Received}
-            />
+          <div className="m-3" key={block.id}>
+            <RequestItem block={block} itemOrigin={ItemOrigin.Received} />
           </div>
         ))}
     </div>

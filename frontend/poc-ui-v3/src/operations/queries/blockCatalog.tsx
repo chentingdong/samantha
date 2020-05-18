@@ -1,8 +1,8 @@
-import { gql } from '@apollo/client'
+import { gql } from "@apollo/client"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
-    blocks(orderBy: { id: asc }, where: { inCatalog: { equals: true } }) {
+    blocks(orderBy: { id: desc }, where: { inCatalog: { equals: true } }) {
       id
       name
       description

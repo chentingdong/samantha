@@ -20,12 +20,8 @@ const RequestsMadeList = () => {
     <div>
       {requestsMade &&
         requestsMade.map((block) => (
-          <div className="m-3">
-            <RequestItem
-              key={block.id}
-              block={block}
-              itemOrigin={ItemOrigin.Made}
-            />
+          <div className="m-3" key={block.id}>
+            <RequestItem block={block} itemOrigin={ItemOrigin.Made} />
           </div>
         ))}
     </div>

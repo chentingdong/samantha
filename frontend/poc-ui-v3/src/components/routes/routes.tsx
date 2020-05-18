@@ -32,7 +32,7 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/login",
+    path: ["/login", "/logout"],
     component: Login,
     tag: PublicRoute,
   },
