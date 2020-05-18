@@ -62,7 +62,7 @@ const RequestItem: React.FC<{
   return (
     <div className="card mt-2 pt-2">
       <div className="d-flex justify-content-between">
-        <div className="col-8">
+        <div className="col-sm">
           <h4>
             <span>{block.name}</span>
             {itemOrigin !== ItemOrigin.Catalog && (
@@ -88,22 +88,22 @@ const RequestItem: React.FC<{
             })}
           </p>
           {origin === ItemOrigin.Made && (
-            <p className="text-secondary text-right">
+            <p className="text-secondary">
               {"Assigned to: "}
               {block.responders?.map((user) => user.name).join(", ")}
             </p>
           )}
           {origin === ItemOrigin.Received && (
-            <p className="text-secondary text-right">
+            <p className="text-secondary">
               {"Requested by: "}
               {block.requestors?.map((user) => user.name).join(", ")}
             </p>
           )}
         </div>
-        <div className="col-3 container">
+        <div className="col-sm-2">
           <div className="row">
             <button
-              className="btn btn-link border rounded m-1"
+              className="btn btn-link border rounded m-1 col"
               onClick={() => editRequestDef(block)}
             >
               View/Edit
@@ -112,7 +112,7 @@ const RequestItem: React.FC<{
           {origin === ItemOrigin.Catalog && (
             <div className="row">
               <button
-                className="btn btn-link border rounded m-1"
+                className="btn btn-link border rounded m-1 col"
                 onClick={() => makeRequest()}
               >
                 Make a request
@@ -122,7 +122,7 @@ const RequestItem: React.FC<{
           {origin === ItemOrigin.Received && block.state === "ACTIVE" && (
             <div className="row">
               <button
-                className="btn btn-link border rounded m-1"
+                className="btn btn-link border rounded m-1 col"
                 onClick={() => markComplete(block)}
               >
                 Mark as Complete
@@ -132,7 +132,7 @@ const RequestItem: React.FC<{
         </div>
       </div>
       {showEdit && (
-        <div className="bg-light" style={{ top: "0", zIndex: 10 }}>
+        <div className="bg-light border" style={{ top: "0", zIndex: 10 }}>
           <Animated
             animationIn="fadeInRight"
             animationInDuration={300}

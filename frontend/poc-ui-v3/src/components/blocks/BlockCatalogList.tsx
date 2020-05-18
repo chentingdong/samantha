@@ -19,7 +19,7 @@ const BlockCatalogList = () => {
         {blockCatalog &&
           blockCatalog.map((block: Block) => {
             return (
-              <div className="p-2 w-50" key={block.id}>
+              <div className="p-2 col-6" key={block.id}>
                 <div className="card">
                   <DndSourceBox type="block" block={block}>
                     <div className="card">

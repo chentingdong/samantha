@@ -75,10 +75,10 @@ const BlockEdit: React.FC<{
 
   return (
     <div className="container-fluid row">
-      <main className="d-flex flex-column col-8 mr-2">
+      <main className="d-flex flex-column col mr-2">
         <h2>Create/Modify Request Def</h2>
         <form onSubmit={handleSubmit(onSumbit)} className="row">
-          <div className="form-group col-6">
+          <div className="form-group col">
             <label>Name: </label>
             <input className="form-control" ref={register} name="name" />
           </div>

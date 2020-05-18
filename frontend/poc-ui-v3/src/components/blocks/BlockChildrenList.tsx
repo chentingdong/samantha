@@ -11,7 +11,7 @@ const BlockChildrenList: React.FC<{
     <div className="">
       {blocks &&
         blocks.map((block: Block, index: number) => {
-          const blockWidth = block.type.includes("LEAF_") ? "w-25" : "w-100"
+          const blockWidth = block.type.includes("LEAF_") ? "col-4" : "col"
           const blockDisplay = block.type.includes("LEAF_")
             ? "d-inline-block"
             : "d-block"
