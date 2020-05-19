@@ -83,9 +83,6 @@ const BlockEdit: React.FC<{
       createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
       updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})
 
-    console.log(`mutationType: ${mutationType}`)
-    console.log(`blockCreateInputTransformed: ${JSON.stringify(blockCreateInputTransformed)}`)
-
     close()
   }
 

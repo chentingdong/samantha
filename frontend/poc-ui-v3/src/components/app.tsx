@@ -6,7 +6,6 @@ import Routes from "./routes/routes"
 import "../assets/scss/app.scss"
 import { Context, initialState } from "./context/store"
 import config from "../../configs/config"
-import { getUser } from "./user"
 import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
 import { useMutation, useLazyQuery } from "@apollo/client"
 import { GET_USERS } from "../operations/queries/getUsers"
@@ -52,7 +51,7 @@ const App = () => {
         case "signIn":
           dispatch({ type: "authenticate", isAuthenticated: true })
           // get user from cognito
-          const cognitoUser = await getUser()
+          const cognitoUser = await Auth.currentUserPoolUser()
           dispatch({ type: "set", data: { user: cognitoUser } })
 
           // upsert cognito user to backend
