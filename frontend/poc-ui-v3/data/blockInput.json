@@ -58,7 +58,9 @@
           "requestors": [],
           "responders": [],
           "state": "ACTIVE",
-          "type": "COMPOSITE_SEQUENTIAL"
+          "type": "COMPOSITE_SEQUENTIAL",
+          "__mutation_type__": "Create"
+
       }
   ],
   "context": "{}",
