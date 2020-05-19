@@ -2,7 +2,7 @@ import React from "react"
 import { RequestItem } from "../components/RequestItem"
 import { useQuery } from "@apollo/client"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
-import { ItemOrigin } from "../context/enum"
+import { ItemOrigin } from "../models/enum"
 
 const RequestCatalogList = () => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG)

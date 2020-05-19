@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDrop } from 'react-dnd'
-import { Block } from '../context/interface'
+import { Block } from '../models/interface'
 
 type DndTargetBoxProps = {
   accept: string

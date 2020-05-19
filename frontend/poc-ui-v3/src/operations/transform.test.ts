@@ -1,13 +1,11 @@
 import { transformBlockInput } from "./transform"
-import blockInput from "../../data/blockInput.json"
-import { MutationType } from "../context/enum"
+import blockInput from "./__mock__/blockInput.js"
+import { MutationType } from "../models/enum"
 
 describe("Transform Block Input", () => {
   let result
   beforeAll(() => {
-    const block = Object.assign({}, blockInput)
-    block.children[2].__mutation_type__ = MutationType.Create
-    result = transformBlockInput(block)
+    result = transformBlockInput(blockInput)
   })
 
   it("should create or connect children", () => {

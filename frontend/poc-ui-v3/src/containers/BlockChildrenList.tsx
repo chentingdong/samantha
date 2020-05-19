@@ -1,9 +1,9 @@
 import React from "react"
-import { Block } from "../context/interface"
+import { Block } from "../models/interface"
 import { DndSourceBox } from "../components/DndSourceBox"
 import { BlockCatalogItem } from "../components/BlockCatalogItem"
 import { DndTargetBox } from "../components/DndTargetBox"
-import { MutationType } from "../context/enum"
+import { MutationType } from "../models/enum"
 
 const BlockChildrenList: React.FC<{
   blocks: Block[],

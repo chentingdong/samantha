@@ -3,7 +3,7 @@ import uuid from 'uuid'
 import { DndTargetBox } from './DndTargetBox'
 import { BlockChildrenList } from '../containers/BlockChildrenList'
 import { Context } from '../context/store'
-import { Block } from '../context/interface'
+import { Block } from '../models/interface'
 
 const SegmentCompositeStages: React.FC<{
   type: string

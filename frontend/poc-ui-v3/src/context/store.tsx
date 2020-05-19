@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import 'regenerator-runtime/runtime.js'
 import { reducer, Action } from './reducer'
-import { State } from './interface'
+import { State } from '../models/interface'
 import initialState from '../../data/initialState.json'
 
 const Store = ({ children }) => {

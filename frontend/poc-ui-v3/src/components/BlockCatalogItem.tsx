@@ -1,5 +1,5 @@
 import React from 'react'
-import { Block } from '../context/interface'
+import { Block } from '../models/interface'
 import { SegmentView } from './SegmentView'
 import { DndSourceBox } from './DndSourceBox'
 

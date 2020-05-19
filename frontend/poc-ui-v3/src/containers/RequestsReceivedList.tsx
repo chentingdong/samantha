@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client"
 import { Context } from "../context/store"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import { RequestItem } from "../components/RequestItem"
-import { ItemOrigin } from "../context/enum"
+import { ItemOrigin } from "../models/enum"
 
 const RequestsReceivedList = () => {
   const { state, dispatch } = useContext(Context)

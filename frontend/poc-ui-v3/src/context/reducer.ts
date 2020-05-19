@@ -1,5 +1,5 @@
 import React from "react"
-import { State } from "./interface"
+import { State } from "../models/interface"
 import { initialState } from "./store"
 
 type Action =

@@ -2,7 +2,7 @@ import React from "react"
 import { BlockCatalogItem } from "../components/BlockCatalogItem"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
-import { Block } from "../context/interface"
+import { Block } from "../models/interface"
 import { DndSourceBox } from "../components/DndSourceBox"
 
 const BlockCatalogList = () => {

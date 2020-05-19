@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useCallback } from 'react'
 import { useForm } from 'react-hook-form'
 import { Context } from '../context/store'
 import { ButtonGroup } from 'react-bootstrap'
-import { Block } from '../context/interface'
+import { Block } from '../models/interface'
 import { DndTargetBox } from './DndTargetBox'
 import { BlockCatalogList } from '../containers/BlockCatalogList'
 import { BlockChildrenList } from '../containers/BlockChildrenList'
@@ -12,7 +12,7 @@ import { transformBlockInput } from '../operations/transform'
 import { CREATE_ONE_BLOCK } from '../operations/mutations/createOneBlock'
 import { UPDATE_ONE_BLOCK } from '../operations/mutations/updateOneBlock'
 import { useMutation } from '@apollo/client'
-import { EditMode, ItemOrigin, MutationType } from "../context/enum"
+import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const BlockEdit: React.FC<{
   blockCreateInput: Block

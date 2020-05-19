@@ -1,4 +1,6 @@
-{
+import { MutationType } from "../../models/enum";
+
+export default {
   "__typename": "Block",
   "children": [
       {
@@ -59,7 +61,7 @@
           "responders": [],
           "state": "ACTIVE",
           "type": "COMPOSITE_SEQUENTIAL",
-          "__mutation_type__": "Create"
+          "__mutation_type__": MutationType.Create
 
       }
   ],
