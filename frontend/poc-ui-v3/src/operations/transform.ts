@@ -1,4 +1,4 @@
-import { MutationType } from "../components/context/enum"
+import { MutationType } from "../context/enum"
 
 const _transformBlockInput = (block, mutationType = MutationType.Connect) => {
   if (!Object.isExtensible(block)) block = { ...block }

@@ -25,7 +25,6 @@
           "id": 1
       },
       {
-          "__mutation_type__": "CREATE",
           "__typename": "Block",
           "children": [
               {
