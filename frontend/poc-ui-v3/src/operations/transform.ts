@@ -1,17 +1,19 @@
-const _transformBlockInput = (block, mutationType = "CONNECT") => {
+import { MutationType } from "../components/context/enum"
+
+const _transformBlockInput = (block, mutationType = MutationType.Connect) => {
   if (!Object.isExtensible(block)) block = { ...block }
 
   block.__mutation_type__
     ? (mutationType = block.__mutation_type__)
     : (block.__mutation_type__ = mutationType)
-  if (mutationType === "CREATE") delete block.id
+  if (mutationType === MutationType.Create) delete block.id
 
   delete block.parent
 
   const childrenForCreate = []
   const childrenForConnect = []
   for (const child of block.children) {
-    if (child.__mutation_type__ === "CREATE") {
+    if (child.__mutation_type__ === MutationType.Create) {
       const transformedChild = _transformBlockInput(child, mutationType)
       childrenForCreate.push(transformedChild)
     } else {

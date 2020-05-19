@@ -9,4 +9,10 @@ const enum EditMode{
   Edit
 }
 
-export { ItemOrigin, EditMode }
+const enum MutationType {
+  Create,
+  Connect,
+  Delete
+}
+
+export { ItemOrigin, EditMode, MutationType }

@@ -140,7 +140,7 @@ const RequestItem: React.FC<{
             isVisible={true}
           >
             <BlockEdit
-              block={state.blockCreateInput}
+              blockCreateInput={state.blockCreateInput}
               close={() => setShowEdit(false)}
               itemOrigin={origin}
               editMode={editMode}

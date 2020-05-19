@@ -1,3 +1,5 @@
+import { MutationType } from "./enum"
+
 export interface Block {
   id: number;
   name: string;
@@ -11,6 +13,7 @@ export interface Block {
   responders: User[];
   parent: Block;
   children?: Block[];
+  __mutation_type__?: MutationType;
 }
 
 export interface UiState {

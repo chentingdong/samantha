@@ -12,17 +12,17 @@ import { transformBlockInput } from '../../operations/transform'
 import { CREATE_ONE_BLOCK } from '../../operations/mutations/createOneBlock'
 import { UPDATE_ONE_BLOCK } from '../../operations/mutations/updateOneBlock'
 import { useMutation } from '@apollo/client'
-import { EditMode, ItemOrigin } from "../context/enum"
+import { EditMode, ItemOrigin, MutationType } from "../context/enum"
 
 const BlockEdit: React.FC<{
-  block: Block
+  blockCreateInput: Block
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
-}> = ({ block, close, editMode, itemOrigin }) => {
+}> = ({ blockCreateInput: blockCreateInput, close, editMode, itemOrigin }) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: block,
+    defaultValues: blockCreateInput,
   })
   const [ createOneBlock ] = useMutation(CREATE_ONE_BLOCK)
   const [ updateOneBlock ] = useMutation(UPDATE_ONE_BLOCK)
@@ -46,27 +46,40 @@ const BlockEdit: React.FC<{
   }
 
   const addSubBlock = (childBlock: Block) => {
-    const updatedChildren = block.children
-      ? [...block.children, childBlock]
+    const updatedChildren = blockCreateInput.children
+      ? [...blockCreateInput.children, childBlock]
       : [childBlock]
     const updatedBlock = {
-      ...block,
+      ...blockCreateInput,
       children: updatedChildren,
     }
-    block = updatedBlock
-    dispatch({ type: 'set', data: { blockCreateInput: block} })
+    blockCreateInput = updatedBlock
+    dispatch({ type: 'set', data: { blockCreateInput} })
+  }
+
+  const deleteSubBlock = (childBlock: Block) => {
+    const index = blockCreateInput.children.findIndex((child) => child.id === childBlock.id)
+    if (index < 0) return
+    const updatedChildren = [...blockCreateInput.children]
+    updatedChildren[index] = Object.assign({}, updatedChildren[index], { __mutation_type__: "DELETE" })
+    const updatedBlock = {
+      ...blockCreateInput,
+      children: updatedChildren,
+    }
+    blockCreateInput = updatedBlock
+    dispatch({ type: 'set', data: { blockCreateInput} })
   }
 
   const saveBlock = async () => {
     // apply user's form changes
     const formValues = getValues()
-    const blockCreateInput = Object.assign({}, state.blockCreateInput, formValues)
-    const mutationType = blockCreateInput.__mutation_type__
-    const blockCreateInputTransformed = transformBlockInput(blockCreateInput)
+    const blockCreateInputWithFormValues = Object.assign({}, state.blockCreateInput, formValues)
+    const mutationType = blockCreateInputWithFormValues.__mutation_type__
+    const blockCreateInputTransformed = transformBlockInput(blockCreateInputWithFormValues)
 
     // console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
     // TODO: fix logic
-    mutationType==='CREATE' ?
+    mutationType===MutationType.Create ?
       createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
       updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})
 
@@ -87,13 +100,13 @@ const BlockEdit: React.FC<{
               <>
                 <div className="form-group col-3">
                   <label>Requestors: </label>
-                  <select className="form-control" ref={register} name="requestors" defaultValue={block.requestors.map((user)=>user.id)} multiple >
+                  <select className="form-control" ref={register} name="requestors" defaultValue={blockCreateInput.requestors.map((user)=>user.id)} multiple >
                     <OptionsUsers />
                   </select>
                 </div>
                 <div className="form-group col-3">
                   <label>Responders: </label>
-                  <select className="form-control" ref={register} name="responders" defaultValue={block.responders.map((user)=>user.id)} multiple>
+                  <select className="form-control" ref={register} name="responders" defaultValue={blockCreateInput.responders.map((user)=>user.id)} multiple>
                     <OptionsUsers />
                   </select>
                 </div>
@@ -115,7 +128,8 @@ const BlockEdit: React.FC<{
               onDrop={(childBlock) => addSubBlock(childBlock)}
             >
               <BlockChildrenList
-                blocks={block.children}
+                blocks={blockCreateInput.children}
+                onDelete={(childBlock)=>deleteSubBlock(childBlock)}
               />
             </DndTargetBox>
           </div>
