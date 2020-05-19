@@ -61,7 +61,7 @@ const BlockEdit: React.FC<{
     const index = blockCreateInput.children.findIndex((child) => child.id === childBlock.id)
     if (index < 0) return
     const updatedChildren = [...blockCreateInput.children]
-    updatedChildren[index] = Object.assign({}, updatedChildren[index], { __mutation_type__: "DELETE" })
+    updatedChildren[index] = Object.assign({}, updatedChildren[index], { __mutation_type__: MutationType.Delete })
     const updatedBlock = {
       ...blockCreateInput,
       children: updatedChildren,
@@ -82,6 +82,9 @@ const BlockEdit: React.FC<{
     mutationType===MutationType.Create ?
       createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
       updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})
+
+    console.log(`mutationType: ${mutationType}`)
+    console.log(`blockCreateInputTransformed: ${JSON.stringify(blockCreateInputTransformed)}`)
 
     close()
   }

@@ -1,12 +1,20 @@
 import React from "react"
 import uuid from "uuid"
 import { useDrag, DragSourceMonitor } from "react-dnd"
+import { MutationType } from "../context/enum"
 
 const DndSourceBox = ({ block, type, children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: Object.assign(
       {},
-      { block: { ...block, id: uuid.v4(), __mutation_type__: "CREATE" }, type }
+      {
+        block: {
+          ...block,
+          id: uuid.v4(),
+          __mutation_type__: MutationType.Create,
+        },
+        type,
+      }
     ),
     canDrag: true,
     collect: (monitor: DragSourceMonitor) => ({

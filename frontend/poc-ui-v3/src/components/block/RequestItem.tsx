@@ -5,7 +5,7 @@ import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
 import { Block } from "../context/interface"
 import { blockBgColor, blockTextColor } from "../utils/styles"
-import { EditMode, ItemOrigin } from "../context/enum"
+import { EditMode, ItemOrigin, MutationType } from "../context/enum"
 import { COMPLETE_ONE_BLOCK } from "../../operations/mutations/completeOneBlock"
 import { useMutation } from "@apollo/client"
 
@@ -41,7 +41,7 @@ const RequestItem: React.FC<{
 
   const makeRequest = () => {
     const blockCreateInput = Object.assign({}, block, {
-      __mutation_type__: "CREATE",
+      __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
       inCatalog: false,

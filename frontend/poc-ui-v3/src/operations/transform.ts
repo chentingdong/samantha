@@ -3,10 +3,14 @@ import { MutationType } from "../components/context/enum"
 const _transformBlockInput = (block, mutationType = MutationType.Connect) => {
   if (!Object.isExtensible(block)) block = { ...block }
 
-  block.__mutation_type__
+  console.log(
+    `in transform: block ${block.id}, block.__mutation_type__: ${block.__mutation_type__}`
+  )
+  typeof block.__mutation_type__ !== "undefined"
     ? (mutationType = block.__mutation_type__)
     : (block.__mutation_type__ = mutationType)
   if (mutationType === MutationType.Create) delete block.id
+  console.log(`in transform: block ${block.id}, mutationType: ${mutationType}`)
 
   delete block.parent
 
