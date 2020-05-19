@@ -9,7 +9,7 @@ const blockColor = (block) => {
     case "DRAFT":
       return "light"
     default:
-      return "secondary"
+      return "white"
   }
 }
 
