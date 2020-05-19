@@ -6,13 +6,12 @@ import { BlockEdit } from "./BlockEdit"
 import { Block } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
-import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
-import { useMutation } from "@apollo/client"
 
 const RequestItem: React.FC<{
   block: Block,
   itemOrigin?: ItemOrigin,
-}> = ({ block, itemOrigin = ItemOrigin.Catalog }) => {
+  actions: any
+}> = ({ block, itemOrigin = ItemOrigin.Catalog, actions }) => {
   // global context
   const { state, dispatch } = useContext(Context)
 
@@ -21,7 +20,7 @@ const RequestItem: React.FC<{
   const [origin, setOrigin] = useState(itemOrigin)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
-  const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
+  const { createOneBlock, updateOneBlock, completeOneBlock } = actions
 
   const markComplete = (blockToComplete) => {
     blockToComplete.children.map((child) => markComplete(child))
@@ -144,6 +143,7 @@ const RequestItem: React.FC<{
               close={() => setShowEdit(false)}
               itemOrigin={origin}
               editMode={editMode}
+              actions={{createOneBlock, updateOneBlock}}
             />
           </Animated>
         </div>

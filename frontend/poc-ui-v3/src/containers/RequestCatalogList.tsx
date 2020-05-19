@@ -3,9 +3,16 @@ import { RequestItem } from "../components/RequestItem"
 import { useQuery } from "@apollo/client"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { ItemOrigin } from "../models/enum"
+import { useMutation } from "@apollo/client";
+import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
+import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
+import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 
 const RequestCatalogList = () => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG)
+  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
+  const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
   const requestCatalog = data ? data.blocks : []
 
   if (loading) return <>Loading...</>
@@ -16,7 +23,8 @@ const RequestCatalogList = () => {
       {requestCatalog &&
         requestCatalog.map((block) => (
           <div className="m-3" key={block.id}>
-            <RequestItem block={block} itemOrigin={ItemOrigin.Catalog} />
+            <RequestItem block={block} itemOrigin={ItemOrigin.Catalog} 
+            actions={{ createOneBlock, updateOneBlock, completeOneBlock }} />
           </div>
         ))}
     </div>

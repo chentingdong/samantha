@@ -6,6 +6,9 @@ import { RequestsReceivedList } from "./RequestsReceivedList"
 import { ApolloProvider } from "@apollo/client"
 import blockStories from "../../data/storybook-blocks.json"
 import { getClient } from "../index"
+import { DndProvider } from "react-dnd"
+import Backend from "react-dnd-html5-backend"
+
 
 export default {
   title: "Blocks",
@@ -24,7 +27,9 @@ const RequestCatalog = () => {
 const BlockCatalog = () => {
   return (
     <ApolloProvider client={client}>
-      <BlockCatalogList />
+      <DndProvider backend={Backend}>
+        <BlockCatalogList />
+      </DndProvider>
     </ApolloProvider>
   )
 }

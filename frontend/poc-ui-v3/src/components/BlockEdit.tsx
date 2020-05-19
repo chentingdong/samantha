@@ -9,9 +9,6 @@ import { BlockCatalogList } from '../containers/BlockCatalogList'
 import { BlockChildrenList } from '../containers/BlockChildrenList'
 import { OptionsUsers } from './OptionsUsers'
 import { transformBlockInput } from '../operations/transform'
-import { CREATE_ONE_BLOCK } from '../operations/mutations/createOneBlock'
-import { UPDATE_ONE_BLOCK } from '../operations/mutations/updateOneBlock'
-import { useMutation } from '@apollo/client'
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const BlockEdit: React.FC<{
@@ -19,13 +16,13 @@ const BlockEdit: React.FC<{
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
-}> = ({ blockCreateInput: blockCreateInput, close, editMode, itemOrigin }) => {
+  actions: any
+}> = ({ blockCreateInput: blockCreateInput, close, editMode, itemOrigin, actions }) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: blockCreateInput,
   })
-  const [ createOneBlock ] = useMutation(CREATE_ONE_BLOCK)
-  const [ updateOneBlock ] = useMutation(UPDATE_ONE_BLOCK)
+  const { createOneBlock, updateOneBlock } = actions
 
   const escFunction = useCallback((event) => {
     if(event.keyCode === 27) {
