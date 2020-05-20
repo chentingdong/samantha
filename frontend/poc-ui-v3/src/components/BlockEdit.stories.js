@@ -6,7 +6,7 @@ import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import { getClient } from "../index"
 import { ApolloProvider } from "@apollo/client"
-import { Context } from "../context/store";
+import { Context } from "../context/store"
 import blockStories from "../../data/storybook-blocks.json"
 import users from "../../data/users.json"
 
