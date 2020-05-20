@@ -10,7 +10,7 @@ const blockLeaf = blockLevel1.children[0]
 const blockLevel0 = { ...blockLevel1, children: [] }
 
 export default {
-  title: "Block / BlockCatalogItem",
+  title: "Components / BlockCatalogItem",
   decorators: [
     (storyFn) => <DndProvider backend={Backend}>{storyFn()}</DndProvider>,
   ],  

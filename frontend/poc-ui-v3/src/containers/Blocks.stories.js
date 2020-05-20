@@ -12,7 +12,7 @@ import Backend from "react-dnd-html5-backend"
 const client = getClient()
 
 export default {
-  title: "Blocks",
+  title: "Containers",
   decorators: [
     (storyFn) => (
       <ApolloProvider client={client}>

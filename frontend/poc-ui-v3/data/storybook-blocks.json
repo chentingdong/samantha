@@ -5,18 +5,18 @@
     "description": "empty request wrapper",
     "type": "COMPOSITE_PARALLEL",
     "state": "PENDING",
-    "requestors": [],
-    "responders": [],
+    "requestors": ["Google_111918078641246610063"],
+    "responders": ["Google_111918078641246610063"],
     "parent": "",
     "children": [
       {
         "id": "2",
-        "name": "sequencial stage container",
+        "name": "sequential stage container",
         "description": "a composite block that support running blocks in sequence",
         "type": "COMPOSITE_SEQUENTIAL",
         "state": "ACTIVE",
-        "requestors": [],
-        "responders": [],
+        "requestors": ["Google_111918078641246610063"],
+        "responders": ["Google_111918078641246610063"],
         "parent": "",
         "children": [
           {
@@ -80,7 +80,7 @@
   },
   {
     "id": "8",
-    "name": "sequencial stage container",
+    "name": "sequential stage container",
     "description": "a composite block that support running blocks in sequence",
     "type": "COMPOSITE_SEQUENTIAL",
     "state": "ACTIVE",

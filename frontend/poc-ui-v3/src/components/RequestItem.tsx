@@ -10,14 +10,14 @@ import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 const RequestItem: React.FC<{
   block: Block,
   itemOrigin?: ItemOrigin,
+  initShowEdit?: Boolean,
   actions: any
-}> = ({ block, itemOrigin = ItemOrigin.Catalog, actions }) => {
+}> = ({ block, itemOrigin = ItemOrigin.Catalog, initShowEdit = false, actions }) => {
   // global context
   const { state, dispatch } = useContext(Context)
 
   // TODO: move into context at this level
-  const [showEdit, setShowEdit] = useState(false)
-  const [origin, setOrigin] = useState(itemOrigin)
+  const [showEdit, setShowEdit] = useState(initShowEdit)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
   const { createOneBlock, updateOneBlock, completeOneBlock } = actions
@@ -86,13 +86,13 @@ const RequestItem: React.FC<{
               )
             })}
           </p>
-          {origin === ItemOrigin.Made && (
+          {itemOrigin === ItemOrigin.Made && (
             <p className="text-secondary">
               {"Assigned to: "}
               {block.responders?.map((user) => user.name).join(", ")}
             </p>
           )}
-          {origin === ItemOrigin.Received && (
+          {itemOrigin === ItemOrigin.Received && (
             <p className="text-secondary">
               {"Requested by: "}
               {block.requestors?.map((user) => user.name).join(", ")}
@@ -108,7 +108,7 @@ const RequestItem: React.FC<{
               View/Edit
             </button>
           </div>
-          {origin === ItemOrigin.Catalog && (
+          {itemOrigin === ItemOrigin.Catalog && (
             <div className="row">
               <button
                 className="btn btn-link border rounded m-1 col"
@@ -118,7 +118,7 @@ const RequestItem: React.FC<{
               </button>
             </div>
           )}
-          {origin === ItemOrigin.Received && block.state === "ACTIVE" && (
+          {itemOrigin === ItemOrigin.Received && block.state === "ACTIVE" && (
             <div className="row">
               <button
                 className="btn btn-link border rounded m-1 col"
@@ -141,7 +141,7 @@ const RequestItem: React.FC<{
             <BlockEdit
               blockCreateInput={state.blockCreateInput}
               close={() => setShowEdit(false)}
-              itemOrigin={origin}
+              itemOrigin={itemOrigin}
               editMode={editMode}
               actions={{createOneBlock, updateOneBlock}}
             />
