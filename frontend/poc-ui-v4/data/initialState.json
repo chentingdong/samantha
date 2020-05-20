@@ -1,0 +1,22 @@
+{
+  "isAuthenticated": false,
+  "user": {},
+  "users": [],
+  "blockCreateInput": {
+    "id": 0,
+    "name": "",
+    "description": "",
+    "type": "",
+    "state": "DRAFT",
+    "requestors": [],
+    "responders": [],
+    "parent": null
+  },
+  "messages": [],
+  "uiState": {
+    "showEditRequestDef": false,
+    "showEditRequest": false,
+    "showRequestViewRequester": false,
+    "showRequestViewResponder": false
+  }
+}
