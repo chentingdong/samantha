@@ -1,12 +1,14 @@
 import React from "react"
 import { Store } from "../context/store"
 import { BlockEdit } from "./BlockEdit"
-import { ItemOrigin, EditMode } from "../models/enum";
+import { ItemOrigin, EditMode } from "../models/enum"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import { getClient } from "../index"
-import { ApolloProvider } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client"
 import blockStories from "../../data/storybook-blocks.json"
+import users from "../../data/users.json"
+import { Context } from "../context/store";
 
 const blockLevel2 = blockStories[0]
 const blockLevel1 = blockLevel2.children[0]
@@ -22,9 +24,11 @@ export default {
   decorators: [
     (storyFn) => {
       return (
-        <ApolloProvider client={client}>
-          <DndProvider backend={Backend}>{storyFn()}</DndProvider>
-        </ApolloProvider>
+        <Context.Provider value={{state: {users}}}>
+          <ApolloProvider client={client}>
+            <DndProvider backend={Backend}>{storyFn()}</DndProvider>
+          </ApolloProvider>
+        </Context.Provider>
       )
     }
   ],
