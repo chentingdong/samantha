@@ -10,39 +10,13 @@ const blockLeaf = blockLevel1.children[0]
 const blockLevel0 = { ...blockLevel1, children: [] }
 
 export default {
-  title: "Block / BlockCatalogItem",
+  title: "Components / BlockCatalogItem",
+  decorators: [
+    (storyFn) => <DndProvider backend={Backend}>{storyFn()}</DndProvider>,
+  ],  
 }
 
-const BlockCatalogItemLeaf = () => {
-  return (
-    <DndProvider backend={Backend}>
-      <BlockCatalogItem block={blockLeaf} />
-    </DndProvider>
-  )
-}
-
-const BlockCatalogItemLv0 = () => {
-  return (
-    <DndProvider backend={Backend}>
-      <BlockCatalogItem block={blockLevel0} />
-    </DndProvider>
-  )
-}
-
-const BlockCatalogItemLv1 = () => {
-  return (
-    <DndProvider backend={Backend}>
-      <BlockCatalogItem block={blockLevel1} />
-    </DndProvider>
-  )
-}
-
-const BlockCatalogItemLv2 = () => {
-  return (
-    <DndProvider backend={Backend}>
-      <BlockCatalogItem block={blockLevel2} />
-    </DndProvider>
-  )
-}
-
-export { BlockCatalogItemLeaf, BlockCatalogItemLv0, BlockCatalogItemLv1, BlockCatalogItemLv2 }
+export const Leaf = () => <BlockCatalogItem block={blockLeaf} />
+export const Level0 = () => <BlockCatalogItem block={blockLevel0} />
+export const Level1 = () => <BlockCatalogItem block={blockLevel1} />
+export const Level2 = () => <BlockCatalogItem block={blockLevel2} />

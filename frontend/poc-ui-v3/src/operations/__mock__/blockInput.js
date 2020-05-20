@@ -1,4 +1,4 @@
-import { MutationType } from "../../models/enum";
+import { MutationType } from "../../models/enum"
 
 export default {
   "__typename": "Block",

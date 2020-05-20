@@ -16,7 +16,6 @@
   "trailingComma": "es5",
   "useTabs": false,
   "vueIndentScriptAndStyle": false,
-  "parser": "babel",
   "editor.trimAutoWhitespace": true,
   "files.trimTrailingWhitespace": true,
   "editor.insertSpaces": true,

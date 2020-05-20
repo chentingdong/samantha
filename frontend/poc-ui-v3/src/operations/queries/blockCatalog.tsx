@@ -2,7 +2,10 @@ import { gql } from "@apollo/client"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
-    blocks(orderBy: { id: desc }, where: { inCatalog: { equals: true } }) {
+    blocks(
+      orderBy: { id: desc }
+      where: { AND: [{ inCatalog: { equals: true } }, { parent: null }] }
+    ) {
       id
       name
       description

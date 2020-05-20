@@ -4,10 +4,11 @@ import { Context } from "../context/store"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import { RequestItem } from "../components/RequestItem"
 import { ItemOrigin } from "../models/enum"
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
+import { Loading, Error } from '../components/Misc'
 
 const RequestsReceivedList = () => {
   const { state, dispatch } = useContext(Context)
@@ -20,8 +21,8 @@ const RequestsReceivedList = () => {
   })
   const requestReceived = data ? data.blocks : []
 
-  if (loading) return <>Loading...</>
-  if (error) return <>Error! ${error.message}</>
+  if (loading) return <Loading/>
+  if (error) return <Error message={error.message}/>
 
   return (
     <div>
