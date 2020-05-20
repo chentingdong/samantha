@@ -34,7 +34,6 @@ model Block {
   name        String
   description String    @default("")
   type        BlockType @default(COMPOSITE_PARALLEL)
-  inCatalog   Boolean   @default(false)
   state       State     @default(DRAFT)
   control     String    @default("{}")
   context     String    @default("{}")
@@ -43,4 +42,16 @@ model Block {
   children    Block[]   @relation("parentChildren")
   requestors  User[]    @relation("requestors", references: [id])
   responders  User[]    @relation("responders", references: [id])
+}
+
+model BlockDef {
+  id          Int        @default(autoincrement()) @id
+  name        String
+  description String     @default("")
+  type        BlockType  @default(COMPOSITE_PARALLEL)
+  control     String     @default("{}")
+  context     String     @default("{}")
+  parentId    Int?       @map("parent")
+  parent      BlockDef?  @relation("blockDefParentChildren", fields: [parentId], references: [id])
+  children    BlockDef[] @relation("blockDefParentChildren")
 }

@@ -34,39 +34,33 @@ const seedCatalog = async () => {
         name: 'Parallel Container',
         description: 'Default container which runs child blocks in parallel',
         type: BlockType.COMPOSITE_PARALLEL,
-        inCatalog: true,
       },
       {
         name: 'Sequential Container',
         description:
           'Sequential container which runs child blocks sequentially',
         type: BlockType.COMPOSITE_SEQUENTIAL,
-        inCatalog: true,
       },
       {
         name: 'Gather Info Form',
         description: 'Gather Information from Responders',
         type: BlockType.LEAF_FORM,
-        inCatalog: true,
       },
       {
         name: 'Approval Form',
         description: 'Ask for Approval',
         type: BlockType.LEAF_FORM,
-        inCatalog: true,
       },
       {
         name: 'Dummy API',
         description: 'Dummy API',
         type: BlockType.LEAF_API,
-        inCatalog: true,
       },
       {
         name: 'Status Update Request Sequential',
         description:
           'Status Update which gathers information and gets approval',
         type: BlockType.COMPOSITE_SEQUENTIAL,
-        inCatalog: true,
         children: {
           create: [
             {
@@ -87,7 +81,6 @@ const seedCatalog = async () => {
         description:
           'Status Update which gathers information and gets approval',
         type: BlockType.COMPOSITE_PARALLEL,
-        inCatalog: true,
         children: {
           create: [
             {
@@ -108,7 +101,6 @@ const seedCatalog = async () => {
         description:
           'Status Update which gathers information and gets approval',
         type: BlockType.COMPOSITE_PARALLEL,
-        inCatalog: true,
         children: {
           create: [
             {
@@ -144,7 +136,6 @@ const seedCatalog = async () => {
         description:
           'Status Update which gathers information and gets approval',
         type: BlockType.COMPOSITE_SEQUENTIAL,
-        inCatalog: true,
         children: {
           create: [
             {
@@ -175,14 +166,13 @@ const seedCatalog = async () => {
           ],
         },
       },
-    ].map((data) => db.block.create({ data })),
+    ].map((data) => db.blockDef.create({ data })),
   )
-
   console.log('Seeded: %j', results)
 }
 
 const main = async () => {
-  await seedUsers()
+  // await seedUsers()
   await seedCatalog()
   db.disconnect()
 }

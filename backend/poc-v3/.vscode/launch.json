@@ -12,6 +12,19 @@
       "args": ["api/app.ts"],
       "sourceMaps": true,
       "console": "integratedTerminal"
+    },
+    {
+      "name": "Prisma Seed",
+      "type": "node",
+      "request": "launch",
+      "args": ["${workspaceRoot}/prisma/seed.ts"],
+      "runtimeArgs": ["-r", "ts-node/register"],
+      "cwd": "${workspaceRoot}",
+      "protocol": "inspector",
+      "internalConsoleOptions": "openOnSessionStart",
+      "env": {
+        "TS_NODE_IGNORE": "false"
+      }
     }
   ]
 }
