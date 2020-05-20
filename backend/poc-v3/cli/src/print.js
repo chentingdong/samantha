@@ -5,22 +5,22 @@ module.exports.getBlockLine = (block) => {
     `ID: ${g(block.id)}`,
     `parent :${g(block.parent ? block.parent.id : 'null')}`,
     `name: ${g(block.name)}`,
-    `state: ${sc(block.state)}`,
     `type: ${g(block.type)}`,
-    `Requestors: ${y(block.requestors.map((user) => user.name).join(', '))}`,
-    `Responders: ${y(block.responders.map((user) => user.name).join(', '))}`,
   ]
 
-  if (!block.inCatalog) {
-    lines.push(`parent :${g(block.parent ? block.parent.id : 'null')}`)
-    lines.push(`state: ${sc(block.state)}`)
+  if (block.state) lines.push(`state: ${sc(block.state)}`)
+
+  if (block.requestors)
     lines.push(
       `Requestors: ${y(block.requestors.map((user) => user.name).join(', '))}`,
     )
+
+  if (block.responders)
     lines.push(
       `Responders: ${y(block.responders.map((user) => user.name).join(', '))}`,
     )
-  }
+
+  lines.push(`parent :${g(block.parent ? block.parent.id : 'null')}`)
 
   return lines.join(' ')
 }

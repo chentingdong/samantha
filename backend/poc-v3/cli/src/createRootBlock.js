@@ -10,11 +10,11 @@ const {
 const { createOneRootBlockMutation } = require('./graphql/mutation')
 const { getBlockLine } = require('./print')
 
-const cloneOneBlock = async ({ block, userId, newBlockName }) => {
+const cloneOneBlock = async ({ blockDef, userId, newBlockName }) => {
   const data = {
     name: newBlockName,
     state: 'ACTIVE',
-    type: block.type,
+    type: blockDef.type,
     // todo: deep clone children
     requestors: { connect: [{ id: userId }] },
   }
@@ -23,9 +23,9 @@ const cloneOneBlock = async ({ block, userId, newBlockName }) => {
 }
 
 module.exports = async ({ userId }) => {
-  const { blocks } = await requestCatalog()
+  const { blockDefs } = await requestCatalog()
 
-  if (blocks.length == 0)
+  if (blockDefs.length == 0)
     console.log(
       colors.gray(
         'Request catalog is empty. Try to create some requests in the catalog!',
@@ -34,7 +34,7 @@ module.exports = async ({ userId }) => {
 
   const choices = {}
 
-  blocks.map((block) => (choices[getBlockLine(block)] = block))
+  blockDefs.map((blockDef) => (choices[getBlockLine(blockDef)] = blockDef))
 
   const questions = [
     {
@@ -51,10 +51,10 @@ module.exports = async ({ userId }) => {
   ]
   inquirer.prompt(questions).then(async (answers) => {
     // choices[answers.choices]({ userId })
-    const block = choices[answers.choices]
+    const blockDef = choices[answers.choices]
     const newBlockName = answers.name
     const newBlock = await cloneOneBlock({
-      block,
+      blockDef,
       userId,
       newBlockName,
     })
