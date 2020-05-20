@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client";
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
+import { Loading, Error } from '../components/Misc'
 
 const RequestsMadeList = () => {
   const { state, dispatch } = useContext(Context)
@@ -20,8 +21,8 @@ const RequestsMadeList = () => {
   })
   const requestsMade = data ? data.blocks : []
 
-  if (loading) return <>Loading...</>
-  if (error) return <>Error! ${error.message}</>
+  if (loading) return <Loading/>
+  if (error) return <Error message={error.message}/>
 
   return (
     <div>

@@ -4,13 +4,14 @@ import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { Block } from "../models/interface"
 import { DndSourceBox } from "../components/DndSourceBox"
+import { Loading, Error } from '../components/Misc'
 
 const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)
   const blockCatalog = data ? data.blocks : []
 
-  if (loading) return <>Loading...</>
-  if (error) return <>{`Error! ${error.message}`}</>
+  if (loading) return <Loading/>
+  if (error) return <Error message={error.message}/>
 
   return (
     <div>
