@@ -1,0 +1,115 @@
+[
+  {
+    "id": "2",
+    "name": "default request, parallel block container",
+    "description": "empty request wrapper",
+    "type": "COMPOSITE_PARALLEL",
+    "state": "PENDING",
+    "requestors": [],
+    "responders": [],
+    "parent": "",
+    "children": [
+      {
+        "id": "some",
+        "name": "sequencial stage container",
+        "description": "a composite block that support running blocks in sequence",
+        "type": "COMPOSITE_SEQUENTIAL",
+        "state": "ACTIVE",
+        "requestors": [],
+        "responders": [],
+        "parent": "",
+        "children": [
+          {
+            "id": "leaf-1",
+            "name": "collect timesheet",
+            "description": "collect timesheets",
+            "type": "LEAF_FORM",
+            "state": "ACTIVE",
+            "requestors": [],
+            "responders": [],
+            "children": []
+          },
+          {
+            "id": "leaf-2",
+            "name": "rating",
+            "description": "team rating",
+            "type": "LEAF_FORM",
+            "state": "ACTIVE",
+            "requestors": [],
+            "responders": [],
+            "parent": "",
+            "children": []
+          },
+          {
+            "id": "1",
+            "name": "default request, parallel block container",
+            "description": "empty request wrapper",
+            "type": "COMPOSITE_PARALLEL",
+            "state": "PENDING",
+            "requestors": [],
+            "responders": [],
+            "parent": "",
+            "children": [
+              {
+                "id": "leaf-1",
+                "name": "collect timesheet",
+                "description": "collect timesheets",
+                "type": "LEAF_FORM",
+                "state": "ACTIVE",
+                "requestors": [],
+                "responders": [],
+                "parent": "",
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "leaf-2",
+            "name": "rating",
+            "description": "team rating",
+            "type": "LEAF_FORM",
+            "state": "ACTIVE",
+            "requestors": [],
+            "responders": [],
+            "parent": "",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "1",
+    "name": "sequencial stage container",
+    "description": "a composite block that support running blocks in sequence",
+    "type": "COMPOSITE_SEQUENTIAL",
+    "state": "ACTIVE",
+    "requestors": [],
+    "responders": [],
+    "parent": "",
+    "children": [
+      {
+        "id": "leaf-3",
+        "name": "collect timesheet",
+        "description": "collect timesheets",
+        "type": "LEAF_FORM",
+        "state": "ACTIVE",
+        "requestors": [],
+        "responders": [],
+        "parent": "",
+        "children": []
+      },
+      {
+        "id": "leaf-2",
+        "name": "rating",
+        "description": "team rating",
+        "type": "LEAF_FORM",
+        "state": "ACTIVE",
+        "requestors": [],
+        "responders": [],
+        "parent": "",
+        "children": []
+      }
+    ]
+  }
+]
