@@ -9,45 +9,20 @@ import { getClient } from "../index"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 
+const client = getClient()
 
 export default {
   title: "Blocks",
+  decorators: [
+    (storyFn) => (
+      <ApolloProvider client={client}>
+        <DndProvider backend={Backend}>{storyFn()}</DndProvider>
+      </ApolloProvider>
+    ),
+  ],
 }
 
-const client = getClient()
-
-const RequestCatalog = () => {
-  return (
-    <ApolloProvider client={client}>
-      <RequestCatalogList />
-    </ApolloProvider>
-  )
-}
-
-const BlockCatalog = () => {
-  return (
-    <ApolloProvider client={client}>
-      <DndProvider backend={Backend}>
-        <BlockCatalogList />
-      </DndProvider>
-    </ApolloProvider>
-  )
-}
-
-const RequestsMade = () => {
-  return (
-    <ApolloProvider client={client}>
-      <RequestsMadeList />
-    </ApolloProvider>
-  )
-}
-
-const RequestsReceived = () => {
-  return (
-    <ApolloProvider client={client}>
-      <RequestsReceivedList />
-    </ApolloProvider>
-  )
-}
-
-export { RequestCatalog, BlockCatalog, RequestsMade, RequestsReceived }
+export const AsRequestCatalog = () => <RequestCatalogList />
+export const AsBlockCatalog = () => <BlockCatalogList />
+export const AsRequestsMade = () => <RequestsMadeList />
+export const AsRequestsReceived = () => <RequestsReceivedList />

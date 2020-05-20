@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs'],
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.json'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
     },
@@ -60,6 +60,11 @@ module.exports = {
           },
         ],
       },
+      {
+        test: /\.(js|jsx)$/,
+        use: 'react-hot-loader/webpack',
+        include: /node_modules/
+      },      
     ],
   },
   plugins: [
