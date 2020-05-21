@@ -1,10 +1,8 @@
 import uuid from "uuid"
-import React, { useState, useContext, useEffect, useCallback } from "react"
+import React, { useEffect, useCallback } from "react"
 import { useForm } from "react-hook-form"
-import { Context } from "../context/store"
 import { ButtonGroup } from "react-bootstrap"
-import { Block, BlockDef, BlockOrDef } from "../models/interface"
-import { DndTargetBox } from "./DndTargetBox"
+import { BlockOrDef } from "../models/interface"
 import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockChildrenList } from "./BlockChildrenList"
 import { OptionsUsers } from "./OptionsUsers"
@@ -13,18 +11,19 @@ import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const BlockEditor: React.FC<{
   blockCreateInput: BlockOrDef
+  setBlockCreateInput: (BlockOrDef) => void
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
   actions: any
 }> = ({
-  blockCreateInput: blockCreateInput,
+  blockCreateInput,
+  setBlockCreateInput,
   close,
   editMode,
   itemOrigin,
   actions,
 }) => {
-  const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: blockCreateInput,
   })
@@ -57,7 +56,7 @@ const BlockEditor: React.FC<{
       children: updatedChildren,
     }
     blockCreateInput = updatedBlock
-    dispatch({ type: "set", data: { blockCreateInput } })
+    setBlockCreateInput(blockCreateInput)
   }
 
   const deleteSubBlock = (childBlock: BlockOrDef) => {
@@ -74,7 +73,7 @@ const BlockEditor: React.FC<{
       children: updatedChildren,
     }
     blockCreateInput = updatedBlock
-    dispatch({ type: "set", data: { blockCreateInput } })
+    setBlockCreateInput(blockCreateInput)
   }
 
   const saveBlock = async () => {
@@ -82,7 +81,7 @@ const BlockEditor: React.FC<{
     const formValues = getValues()
     const blockCreateInputWithFormValues = Object.assign(
       {},
-      state.blockCreateInput,
+      blockCreateInput,
       formValues
     )
     const mutationType = blockCreateInputWithFormValues.__mutation_type__
@@ -90,7 +89,11 @@ const BlockEditor: React.FC<{
       blockCreateInputWithFormValues
     )
 
-    // console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
+    // console.log(
+    //   `blockCreateInputTransformed:\n${JSON.stringify(
+    //     blockCreateInputTransformed
+    //   )}`
+    // )
     // TODO: fix logic
     mutationType === MutationType.Create
       ? createOneBlock({ variables: { data: blockCreateInputTransformed } })

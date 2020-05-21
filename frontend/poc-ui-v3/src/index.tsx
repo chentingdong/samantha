@@ -1,7 +1,6 @@
 import React from "react"
 import { render } from "react-dom"
 import App from "./components/App"
-import { Store } from "./context/store"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import config from "../configs/config"
@@ -18,12 +17,10 @@ export const apolloClient = new ApolloClient({
 const rootEl = document.getElementById("root")
 
 render(
-  <Store>
-    <ApolloProvider client={apolloClient}>
-      <DndProvider backend={Backend}>
-        <App />
-      </DndProvider>
-    </ApolloProvider>
-  </Store>,
+  <ApolloProvider client={apolloClient}>
+    <DndProvider backend={Backend}>
+      <App />
+    </DndProvider>
+  </ApolloProvider>,
   rootEl
 )

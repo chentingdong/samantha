@@ -1,13 +1,13 @@
-import React, { useState, useContext, createContext } from "react"
+import React, { useState, useReducer } from "react"
 import uuid from "uuid"
-import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEditor } from "./BlockEditor"
-import { Block, BlockDef, BlockOrDef } from "../models/interface"
+import { BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 import { AUTHENTICATED_USER } from "../operations/queries/authenticatedUser"
 import { useQuery } from "@apollo/client"
+import { reducer } from "../context/reducer"
 
 const RequestItem: React.FC<{
   block: BlockOrDef
@@ -20,8 +20,11 @@ const RequestItem: React.FC<{
   initShowEdit = false,
   actions,
 }) => {
-  // global context
-  const { state, dispatch } = useContext(Context)
+  // state on each RequestItem object
+  const [state, dispatch] = useReducer(reducer, {})
+  const setBlockCreateInput = (blockCreateInput) => {
+    dispatch({ type: "set", data: { blockCreateInput } })
+  }
 
   // TODO: move into context at this level
   const [showEdit, setShowEdit] = useState(initShowEdit)
@@ -40,8 +43,8 @@ const RequestItem: React.FC<{
     })
   }
 
-  const editRequestDef = (blockCreateInput) => {
-    dispatch({ type: "set", data: { blockCreateInput } })
+  const editRequestDef = (fromBlock) => {
+    setBlockCreateInput(fromBlock)
     setEditMode(EditMode.Edit)
     setShowEdit(true)
   }
@@ -60,7 +63,7 @@ const RequestItem: React.FC<{
         },
       ],
     })
-    dispatch({ type: "set", data: { blockCreateInput } })
+    setBlockCreateInput(blockCreateInput)
     setEditMode(EditMode.Create)
     setShowEdit(true)
   }
@@ -147,6 +150,7 @@ const RequestItem: React.FC<{
           >
             <BlockEditor
               blockCreateInput={state.blockCreateInput}
+              setBlockCreateInput={setBlockCreateInput}
               close={() => setShowEdit(false)}
               itemOrigin={itemOrigin}
               editMode={editMode}

@@ -5,7 +5,6 @@ import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import { apolloClient } from "../index"
 import { ApolloProvider } from "@apollo/client"
-import { Context } from "../context/store"
 import blockStories from "../../data/storybook-blocks.json"
 import users from "../../data/users.json"
 
@@ -22,13 +21,9 @@ export default {
   decorators: [
     (storyFn) => {
       return (
-        <Context.Provider
-          value={{ state: { users, blockCreateInput: blockLevel2 } }}
-        >
-          <ApolloProvider client={apolloClient}>
-            <DndProvider backend={Backend}>{storyFn()}</DndProvider>
-          </ApolloProvider>
-        </Context.Provider>
+        <ApolloProvider client={apolloClient}>
+          <DndProvider backend={Backend}>{storyFn()}</DndProvider>
+        </ApolloProvider>
       )
     },
   ],

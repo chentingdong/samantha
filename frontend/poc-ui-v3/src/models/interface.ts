@@ -59,10 +59,5 @@ export interface CognitoUser {
 }
 
 export interface State {
-  isAuthenticated: boolean
-  user: CognitoUser
-  users: User[]
-  blockCreateInput: Block
-  messages: object[]
-  uiState: UiState
+  blockCreateInput?: BlockOrDef
 }

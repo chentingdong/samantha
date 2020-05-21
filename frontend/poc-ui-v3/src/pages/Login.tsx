@@ -2,7 +2,6 @@ import React from "react"
 import Amplify, { Auth } from "aws-amplify"
 import config from "../../configs/config.js"
 import logo from "../assets/img/bellhop.png"
-import { Context } from "../context/store"
 
 function Login() {
   Amplify.configure(config)
