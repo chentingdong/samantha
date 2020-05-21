@@ -1,6 +1,4 @@
 import React, { useContext, useState } from "react"
-import uuid from "uuid"
-import { DndTargetBox } from "./DndTargetBox"
 import { BlockChildrenList } from "./BlockChildrenList"
 import { Context } from "../context/store"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
@@ -24,17 +22,7 @@ const SegmentCompositeStages: React.FC<{
     })
   }
 
-  return (
-    <div className="">
-      <DndTargetBox
-        accept="block"
-        greedy={false}
-        onDrop={(item) => addSubBlock(item)}
-      >
-        <BlockChildrenList blocks={blocks} />
-      </DndTargetBox>
-    </div>
-  )
+  return <BlockChildrenList blocks={blocks} addSubBlock={addSubBlock} />
 }
 
 export { SegmentCompositeStages }

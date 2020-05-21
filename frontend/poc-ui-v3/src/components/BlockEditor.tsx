@@ -156,16 +156,11 @@ const BlockEditor: React.FC<{
             />
           </div>
           <div className="form-group col-12 ">
-            <DndTargetBox
-              accept="block"
-              greedy={false}
-              onDrop={(childBlock) => addSubBlock(childBlock)}
-            >
-              <BlockChildrenList
-                blocks={blockCreateInput.children}
-                onDelete={(childBlock) => deleteSubBlock(childBlock)}
-              />
-            </DndTargetBox>
+            <BlockChildrenList
+              blocks={blockCreateInput.children}
+              addSubBlock={addSubBlock}
+              onDelete={(childBlock) => deleteSubBlock(childBlock)}
+            />
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">
             <button className="btn btn-gray col-2" onClick={saveBlock}>

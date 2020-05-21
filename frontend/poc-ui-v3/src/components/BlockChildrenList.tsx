@@ -1,16 +1,20 @@
 import React from "react"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
-import { DndSourceBox } from "./DndSourceBox"
 import { BlockChildrenItem } from "./BlockChildrenItem"
 import { DndTargetBox } from "./DndTargetBox"
 import { MutationType } from "../models/enum"
 
 const BlockChildrenList: React.FC<{
   blocks: BlockOrDef[]
+  addSubBlock: (child: BlockOrDef) => void
   onDelete?: (child: BlockOrDef) => void
-}> = ({ blocks, onDelete }) => {
+}> = ({ blocks, addSubBlock, onDelete }) => {
   return (
-    <>
+    <DndTargetBox
+      accept="block"
+      greedy={false}
+      onDrop={(childBlock) => addSubBlock(childBlock)}
+    >
       {blocks
         .filter((block) => block.__mutation_type__ !== MutationType.Delete)
         .map((block: BlockOrDef, index: number) => {
@@ -23,7 +27,7 @@ const BlockChildrenList: React.FC<{
             />
           )
         })}
-    </>
+    </DndTargetBox>
   )
 }
 
