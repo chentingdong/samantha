@@ -5,10 +5,10 @@ import PrivateRoute from "./PrivateRoute"
 import Login from "../pages/Login"
 import NotFound from "../pages/NotFound"
 import { HeaderWithRouter } from "../pages/Header"
-import { RequestCatalogList } from "../containers/RequestCatalogList"
-import { RequestsMadeList } from "../containers/RequestsMadeList"
-import { RequestsReceivedList } from "../containers/RequestsReceivedList"
-import { ContextViewCodes } from "../containers/ContextViewCodes"
+import { RequestCatalogList } from "../components/RequestCatalogList"
+import { RequestsMadeList } from "../components/RequestsMadeList"
+import { RequestsReceivedList } from "../components/RequestsReceivedList"
+import { ContextViewCodes } from "../components/ContextViewCodes"
 
 const routes = [
   {

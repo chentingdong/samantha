@@ -1,10 +1,10 @@
 import React from "react"
-import { BlockCatalogItem } from "../components/BlockCatalogItem"
+import { BlockCatalogItem } from "./BlockCatalogItem"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
-import { DndSourceBox } from "../components/DndSourceBox"
-import { Loading, Error } from "../components/Misc"
+import { DndSourceBox } from "./DndSourceBox"
+import { Loading, Error } from "./Misc"
 
 const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)
