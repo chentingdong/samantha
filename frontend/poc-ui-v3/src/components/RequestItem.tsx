@@ -2,7 +2,7 @@ import React, { useState, useContext, createContext } from "react"
 import uuid from "uuid"
 import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
-import { BlockEdit } from "./BlockEdit"
+import { BlockEditor } from "./BlockEditor"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
@@ -63,7 +63,7 @@ const RequestItem: React.FC<{
   }
 
   return (
-    <div className="card mt-2 pt-2">
+    <div className="card m-3 p-1">
       <div className="d-flex justify-content-between">
         <div className="col">
           <h4>
@@ -142,7 +142,7 @@ const RequestItem: React.FC<{
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <BlockEdit
+            <BlockEditor
               blockCreateInput={state.blockCreateInput}
               close={() => setShowEdit(false)}
               itemOrigin={itemOrigin}

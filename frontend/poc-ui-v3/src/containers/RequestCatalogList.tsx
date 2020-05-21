@@ -11,28 +11,25 @@ import { BlockDef } from "../models/interface"
 import { Loading, Error } from "../components/Misc"
 
 const RequestCatalogList = () => {
-  const { loading, error, data } = useQuery(REQUEST_CATALOG)
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
   const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
   const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
-  const requestCatalog = data ? data.blockDefs : []
+  const { loading, error, data } = useQuery(REQUEST_CATALOG)
 
   if (loading) return <Loading />
   if (error) return <Error message={error.message} />
 
   return (
-    <div>
-      {requestCatalog &&
-        requestCatalog.map((blockDef: BlockDef) => (
-          <div className="m-3" key={blockDef.id}>
-            <RequestItem
-              block={blockDef}
-              itemOrigin={ItemOrigin.Catalog}
-              actions={{ createOneBlock, updateOneBlock, completeOneBlock }}
-            />
-          </div>
-        ))}
-    </div>
+    <>
+      {data.blockDefs?.map((blockDef: BlockDef) => (
+        <RequestItem
+          block={blockDef}
+          key={blockDef.id}
+          itemOrigin={ItemOrigin.Catalog}
+          actions={{ createOneBlock, updateOneBlock, completeOneBlock }}
+        />
+      ))}
+    </>
   )
 }
 

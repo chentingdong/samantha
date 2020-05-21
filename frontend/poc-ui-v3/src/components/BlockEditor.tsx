@@ -11,7 +11,7 @@ import { OptionsUsers } from "./OptionsUsers"
 import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
-const BlockEdit: React.FC<{
+const BlockEditor: React.FC<{
   blockCreateInput: BlockOrDef
   close: () => void
   editMode: EditMode
@@ -184,4 +184,4 @@ const BlockEdit: React.FC<{
   )
 }
 
-export { BlockEdit }
+export { BlockEditor }

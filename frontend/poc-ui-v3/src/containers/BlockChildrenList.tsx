@@ -1,7 +1,7 @@
 import React from "react"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { DndSourceBox } from "../components/DndSourceBox"
-import { BlockCatalogItem } from "../components/BlockCatalogItem"
+import { BlockChildrenItem } from "../components/BlockChildrenItem"
 import { DndTargetBox } from "../components/DndTargetBox"
 import { MutationType } from "../models/enum"
 
@@ -10,33 +10,20 @@ const BlockChildrenList: React.FC<{
   onDelete?: (child: BlockOrDef) => void
 }> = ({ blocks, onDelete }) => {
   return (
-    <div className="">
-      {blocks &&
-        blocks
-          .filter((block) => block.__mutation_type__ !== MutationType.Delete)
-          .map((block: BlockOrDef, index: number) => {
-            const blockWidth = block.type.includes("LEAF_") ? "col-4" : "col"
-            const blockDisplay = block.type.includes("LEAF_")
-              ? "d-inline-block"
-              : "d-block"
-            return (
-              <div
-                className={`p-2 ${blockWidth} ${blockDisplay}`}
-                key={block.id}
-              >
-                <div className="card">
-                  <DndSourceBox type="block" block={block}>
-                    <BlockCatalogItem
-                      block={block}
-                      index={index}
-                      onDelete={(child) => onDelete(child)}
-                    />
-                  </DndSourceBox>
-                </div>
-              </div>
-            )
-          })}
-    </div>
+    <>
+      {blocks
+        .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+        .map((block: BlockOrDef, index: number) => {
+          return (
+            <BlockChildrenItem
+              block={block}
+              index={index}
+              key={block.id}
+              onDelete={(child) => onDelete(child)}
+            />
+          )
+        })}
+    </>
   )
 }
 

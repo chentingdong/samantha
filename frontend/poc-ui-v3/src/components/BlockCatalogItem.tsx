@@ -1,32 +1,19 @@
 import React from "react"
-import { Block, BlockDef, BlockOrDef } from "../models/interface"
-import { SegmentView } from "./SegmentView"
+import { BlockDef } from "../models/interface"
 import { DndSourceBox } from "./DndSourceBox"
 
 const BlockCatalogItem: React.FC<{
-  block: BlockOrDef
-  index?: number
-  onDelete?: (child: BlockOrDef) => void
-}> = ({ block, index = 0, onDelete }) => {
-  // TODO: sync with backend of types
-  const color = block.type.includes("LEAF_") ? "light-green" : "light-brown"
+  blockDef: BlockDef
+}> = ({ blockDef }) => {
   return (
-    <div className="" key={block.id}>
-      <div className={`card border-${color}`}>
-        <strong className={`card-header bg-${color}`}>
-          <button
-            className="close"
-            aria-label="Close"
-            onClick={() => onDelete(block)}
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-          {index + 1}
-          <span className="p-2">-</span>
-          {block.name}
-        </strong>
-        <div className="card-body">{block.description}</div>
-        <SegmentView block={block} />
+    <div className="p-2 col-6">
+      <div className="card">
+        <DndSourceBox type="block" block={blockDef}>
+          <div className="card">
+            <strong className="card-header">{blockDef.name}</strong>
+            <div className="card-body">{blockDef.description}</div>
+          </div>
+        </DndSourceBox>
       </div>
     </div>
   )

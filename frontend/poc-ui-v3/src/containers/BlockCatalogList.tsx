@@ -8,7 +8,6 @@ import { Loading, Error } from "../components/Misc"
 
 const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)
-  const blockCatalog = data ? data.blockDefs : []
 
   if (loading) return <Loading />
   if (error) return <Error message={error.message} />
@@ -17,21 +16,9 @@ const BlockCatalogList = () => {
     <div>
       <h2>Block Palette:</h2>
       <small className="row">
-        {blockCatalog &&
-          blockCatalog.map((blockDef: BlockDef) => {
-            return (
-              <div className="p-2 col-6" key={blockDef.id}>
-                <div className="card">
-                  <DndSourceBox type="block" block={blockDef}>
-                    <div className="card">
-                      <strong className="card-header">{blockDef.name}</strong>
-                      <div className="card-body">{blockDef.description}</div>
-                    </div>
-                  </DndSourceBox>
-                </div>
-              </div>
-            )
-          })}
+        {data.blockDefs?.map((blockDef: BlockDef) => {
+          return <BlockCatalogItem blockDef={blockDef} key={blockDef.id} />
+        })}
       </small>
     </div>
   )
