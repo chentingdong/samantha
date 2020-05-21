@@ -20,7 +20,7 @@ const App = () => {
     try {
       poolUser = await Auth.currentUserPoolUser()
     } catch (error) {
-      console.warn("Please login.")
+      // do nothing
     }
     let authenticatedUser
     if (poolUser) {
