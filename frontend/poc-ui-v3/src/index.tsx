@@ -4,6 +4,7 @@ import App from "./components/App"
 import { Store } from "./context/store"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
+import config from "../configs/config"
 import {
   ApolloClient,
   ApolloProvider,
@@ -13,13 +14,7 @@ import {
 
 export function getClient() {
   const cache = new InMemoryCache()
-  const link = new HttpLink({
-    uri: "http://localhost:4000/graphql",
-    headers: {
-      Authorization:
-        "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJiYWlqaSJ9.TG1mdxB0dbE6_aeD0WyQWUf1Pnwq4PeZ01Pp5eSv8p4",
-    },
-  })
+  const link = new HttpLink(config.graphQL.HttpLink)
 
   return new ApolloClient({
     cache,
