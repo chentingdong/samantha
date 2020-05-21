@@ -1,11 +1,11 @@
-import React from 'react'
-import { useDrop } from 'react-dnd'
-import { Block } from '../models/interface'
+import React from "react"
+import { useDrop } from "react-dnd"
+import { Block, BlockDef } from "../models/interface"
 
 type DndTargetBoxProps = {
   accept: string
   greedy?: boolean
-  onDrop: (item: Block) => void
+  onDrop: (item: Block | BlockDef) => void
 }
 const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   accept,
@@ -18,7 +18,7 @@ const DndTargetBox: React.FC<DndTargetBoxProps> = ({
     hover: (item, monitor) => {
       monitor.isOver()
     },
-    drop: (item: { type: 'string', block: Block }, monitor) => {
+    drop: (item: { type: "string"; block: Block | BlockDef }, monitor) => {
       if (monitor.didDrop()) {
         return
       }
@@ -30,12 +30,12 @@ const DndTargetBox: React.FC<DndTargetBoxProps> = ({
     }),
   })
 
-  const hoverClass = isOverCurrent || (isOver && greedy) ? 'bg-highlight' : ''
+  const hoverClass = isOverCurrent || (isOver && greedy) ? "bg-highlight" : ""
   return (
     <div
       ref={drop}
       className={`border-gray pb-2 ${hoverClass}`}
-      style={{ minHeight: '200px', borderStyle: 'dotted' }}
+      style={{ minHeight: "200px", borderStyle: "dotted" }}
     >
       {children}
     </div>

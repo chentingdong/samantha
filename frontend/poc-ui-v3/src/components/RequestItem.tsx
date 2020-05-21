@@ -3,12 +3,12 @@ import uuid from "uuid"
 import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
-import { Block } from "../models/interface"
+import { Block, BlockDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const RequestItem: React.FC<{
-  block: Block
+  block: Block | BlockDef
   itemOrigin?: ItemOrigin
   initShowEdit?: boolean
   actions: any
@@ -48,7 +48,6 @@ const RequestItem: React.FC<{
       __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
-      inCatalog: false,
       state: "ACTIVE",
       requestors: [
         {

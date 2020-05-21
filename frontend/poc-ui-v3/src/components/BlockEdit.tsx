@@ -1,23 +1,29 @@
-import uuid from 'uuid'
-import React, { useState, useContext, useEffect, useCallback } from 'react'
-import { useForm } from 'react-hook-form'
-import { Context } from '../context/store'
-import { ButtonGroup } from 'react-bootstrap'
-import { Block } from '../models/interface'
-import { DndTargetBox } from './DndTargetBox'
-import { BlockCatalogList } from '../containers/BlockCatalogList'
-import { BlockChildrenList } from '../containers/BlockChildrenList'
-import { OptionsUsers } from './OptionsUsers'
-import { transformBlockInput } from '../operations/transform'
+import uuid from "uuid"
+import React, { useState, useContext, useEffect, useCallback } from "react"
+import { useForm } from "react-hook-form"
+import { Context } from "../context/store"
+import { ButtonGroup } from "react-bootstrap"
+import { Block, BlockDef } from "../models/interface"
+import { DndTargetBox } from "./DndTargetBox"
+import { BlockCatalogList } from "../containers/BlockCatalogList"
+import { BlockChildrenList } from "../containers/BlockChildrenList"
+import { OptionsUsers } from "./OptionsUsers"
+import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const BlockEdit: React.FC<{
-  blockCreateInput: Block
+  blockCreateInput: Block | BlockDef
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
   actions: any
-}> = ({ blockCreateInput: blockCreateInput, close, editMode, itemOrigin, actions }) => {
+}> = ({
+  blockCreateInput: blockCreateInput,
+  close,
+  editMode,
+  itemOrigin,
+  actions,
+}) => {
   const { state, dispatch } = useContext(Context)
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: blockCreateInput,
@@ -25,7 +31,7 @@ const BlockEdit: React.FC<{
   const { createOneBlock, updateOneBlock } = actions
 
   const escFunction = useCallback((event) => {
-    if(event.keyCode === 27) {
+    if (event.keyCode === 27) {
       // Do whatever when esc is pressed
       close()
     }
@@ -42,7 +48,7 @@ const BlockEdit: React.FC<{
     // what action to take on submit?
   }
 
-  const addSubBlock = (childBlock: Block) => {
+  const addSubBlock = (childBlock: Block | BlockDef) => {
     const updatedChildren = blockCreateInput.children
       ? [...blockCreateInput.children, childBlock]
       : [childBlock]
@@ -51,34 +57,49 @@ const BlockEdit: React.FC<{
       children: updatedChildren,
     }
     blockCreateInput = updatedBlock
-    dispatch({ type: 'set', data: { blockCreateInput} })
+    dispatch({ type: "set", data: { blockCreateInput } })
   }
 
-  const deleteSubBlock = (childBlock: Block) => {
-    const index = blockCreateInput.children.findIndex((child) => child.id === childBlock.id)
+  const deleteSubBlock = (childBlock: Block | BlockDef) => {
+    const index = blockCreateInput.children.findIndex(
+      (child) => child.id === childBlock.id
+    )
     if (index < 0) return
     const updatedChildren = [...blockCreateInput.children]
-    updatedChildren[index] = Object.assign({}, updatedChildren[index], { __mutation_type__: MutationType.Delete })
+    updatedChildren[index] = Object.assign({}, updatedChildren[index], {
+      __mutation_type__: MutationType.Delete,
+    })
     const updatedBlock = {
       ...blockCreateInput,
       children: updatedChildren,
     }
     blockCreateInput = updatedBlock
-    dispatch({ type: 'set', data: { blockCreateInput} })
+    dispatch({ type: "set", data: { blockCreateInput } })
   }
 
   const saveBlock = async () => {
     // apply user's form changes
     const formValues = getValues()
-    const blockCreateInputWithFormValues = Object.assign({}, state.blockCreateInput, formValues)
+    const blockCreateInputWithFormValues = Object.assign(
+      {},
+      state.blockCreateInput,
+      formValues
+    )
     const mutationType = blockCreateInputWithFormValues.__mutation_type__
-    const blockCreateInputTransformed = transformBlockInput(blockCreateInputWithFormValues)
+    const blockCreateInputTransformed = transformBlockInput(
+      blockCreateInputWithFormValues
+    )
 
     // console.log(`blockCreateInputTransformed:\n${JSON.stringify(blockCreateInputTransformed)}`)
     // TODO: fix logic
-    mutationType===MutationType.Create ?
-      createOneBlock({ variables: { data: blockCreateInputTransformed } }) :
-      updateOneBlock({ variables: { data: blockCreateInputTransformed, where: { id: blockCreateInputTransformed.id }}})
+    mutationType === MutationType.Create
+      ? createOneBlock({ variables: { data: blockCreateInputTransformed } })
+      : updateOneBlock({
+          variables: {
+            data: blockCreateInputTransformed,
+            where: { id: blockCreateInputTransformed.id },
+          },
+        })
 
     close()
   }
@@ -92,24 +113,40 @@ const BlockEdit: React.FC<{
             <label>Name: </label>
             <input className="form-control" ref={register} name="name" />
           </div>
-          {(editMode === EditMode.Edit && itemOrigin === ItemOrigin.Catalog) ?
-            <></> : (
-              <>
-                <div className="form-group col-3">
-                  <label>Requestors: </label>
-                  <select className="form-control" ref={register} name="requestors" defaultValue={blockCreateInput.requestors.map((user)=>user.id)} multiple >
-                    <OptionsUsers />
-                  </select>
-                </div>
-                <div className="form-group col-3">
-                  <label>Responders: </label>
-                  <select className="form-control" ref={register} name="responders" defaultValue={blockCreateInput.responders.map((user)=>user.id)} multiple>
-                    <OptionsUsers />
-                  </select>
-                </div>
-              </>
-            )
-          }
+          {editMode === EditMode.Edit && itemOrigin === ItemOrigin.Catalog ? (
+            <></>
+          ) : (
+            <>
+              <div className="form-group col-3">
+                <label>Requestors: </label>
+                <select
+                  className="form-control"
+                  ref={register}
+                  name="requestors"
+                  defaultValue={blockCreateInput.requestors?.map(
+                    (user) => user.id
+                  )}
+                  multiple
+                >
+                  <OptionsUsers />
+                </select>
+              </div>
+              <div className="form-group col-3">
+                <label>Responders: </label>
+                <select
+                  className="form-control"
+                  ref={register}
+                  name="responders"
+                  defaultValue={blockCreateInput.responders?.map(
+                    (user) => user.id
+                  )}
+                  multiple
+                >
+                  <OptionsUsers />
+                </select>
+              </div>
+            </>
+          )}
           <div className="form-group col-12">
             <label>Description: </label>
             <textarea
@@ -126,7 +163,7 @@ const BlockEdit: React.FC<{
             >
               <BlockChildrenList
                 blocks={blockCreateInput.children}
-                onDelete={(childBlock)=>deleteSubBlock(childBlock)}
+                onDelete={(childBlock) => deleteSubBlock(childBlock)}
               />
             </DndTargetBox>
           </div>

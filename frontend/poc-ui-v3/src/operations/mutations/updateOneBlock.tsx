@@ -10,7 +10,6 @@ export const UPDATE_ONE_BLOCK = gql`
       name
       description
       type
-      inCatalog
       state
       control
       context

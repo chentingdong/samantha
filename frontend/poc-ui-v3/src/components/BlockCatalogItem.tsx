@@ -1,20 +1,24 @@
-import React from 'react'
-import { Block } from '../models/interface'
-import { SegmentView } from './SegmentView'
-import { DndSourceBox } from './DndSourceBox'
+import React from "react"
+import { Block, BlockDef } from "../models/interface"
+import { SegmentView } from "./SegmentView"
+import { DndSourceBox } from "./DndSourceBox"
 
 const BlockCatalogItem: React.FC<{
   block: Block
   index?: number
-  onDelete?: (child: Block)=>void
+  onDelete?: (child: Block) => void
 }> = ({ block, index = 0, onDelete }) => {
   // TODO: sync with backend of types
-  const color = block.type.includes('LEAF_') ? 'light-green' : 'light-brown'
+  const color = block.type.includes("LEAF_") ? "light-green" : "light-brown"
   return (
     <div className="" key={block.id}>
       <div className={`card border-${color}`}>
         <strong className={`card-header bg-${color}`}>
-          <button className="close" aria-label="Close" onClick={()=>onDelete(block)}>
+          <button
+            className="close"
+            aria-label="Close"
+            onClick={() => onDelete(block)}
+          >
             <span aria-hidden="true">&times;</span>
           </button>
           {index + 1}
