@@ -22,7 +22,7 @@ export default {
   ],
 }
 
-export const AsRequestCatalog = () => <RequestCatalogList />
-export const AsBlockCatalog = () => <BlockCatalogList />
-export const AsRequestsMade = () => <RequestsMadeList />
-export const AsRequestsReceived = () => <RequestsReceivedList />
+export const requestCatalog = () => <RequestCatalogList />
+export const blockCatalog = () => <BlockCatalogList />
+export const requestsMade = () => <RequestsMadeList />
+export const requestsReceived = () => <RequestsReceivedList />

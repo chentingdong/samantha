@@ -13,4 +13,4 @@ export default {
   ],
 }
 
-export const Level2 = () => <BlockCatalogItem blockDef={blockLevel2} />
+export const level2 = () => <BlockCatalogItem blockDef={blockLevel2} />

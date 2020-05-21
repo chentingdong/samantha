@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react"
 import uuid from "uuid"
 import { DndTargetBox } from "./DndTargetBox"
-import { BlockChildrenList } from "../containers/BlockChildrenList"
+import { BlockChildrenList } from "./BlockChildrenList"
 import { Context } from "../context/store"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
 

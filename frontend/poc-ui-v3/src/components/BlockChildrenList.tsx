@@ -1,8 +1,8 @@
 import React from "react"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
-import { DndSourceBox } from "../components/DndSourceBox"
-import { BlockChildrenItem } from "../components/BlockChildrenItem"
-import { DndTargetBox } from "../components/DndTargetBox"
+import { DndSourceBox } from "./DndSourceBox"
+import { BlockChildrenItem } from "./BlockChildrenItem"
+import { DndTargetBox } from "./DndTargetBox"
 import { MutationType } from "../models/enum"
 
 const BlockChildrenList: React.FC<{

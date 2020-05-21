@@ -36,7 +36,7 @@ export default {
 
 const actions = { createOneBlock, updateOneBlock }
 
-export const EditCatalogItem = () => (
+export const catalogItemEditor = () => (
   <BlockEditor
     blockCreateInput={blockLevel2}
     close={close}
@@ -46,7 +46,7 @@ export const EditCatalogItem = () => (
   />
 )
 
-export const EditRequestItem = () => (
+export const requestItemEditor = () => (
   <BlockEditor
     blockCreateInput={blockLevel2}
     close={close}
