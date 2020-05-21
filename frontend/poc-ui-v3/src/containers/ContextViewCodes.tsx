@@ -1,10 +1,9 @@
-import React, { useContext } from "react"
+import React from "react"
 import "ace-builds/src-noconflict/ace"
 import "ace-builds/webpack-resolver"
 import "ace-builds/src-noconflict/mode-json"
 import "ace-builds/src-noconflict/theme-github"
 import AceEditor from "react-ace"
-import { Context } from "../context/store"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
@@ -13,17 +12,13 @@ import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import { GET_USERS } from "../operations/queries/getUsers"
 
 const ContextViewCodes = () => {
-  const { state, dispatch } = useContext(Context)
-  const {
-    data: { users },
-  } = useQuery(GET_USERS)
+  const { data: users } = useQuery(GET_USERS)
   const { data: blockCatalog } = useQuery(BLOCK_CATALOG)
   const { data: requestCatalog } = useQuery(REQUEST_CATALOG)
   const { data: requestsMade } = useQuery(REQUESTS_MADE)
   const { data: requestsReceived } = useQuery(REQUESTS_RECEIVED)
   const data = {
-    user: state.user,
-    users,
+    users: users?.users,
     blockCatalog,
     requestCatalog,
     requestsMade,

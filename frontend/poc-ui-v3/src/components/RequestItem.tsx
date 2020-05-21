@@ -6,6 +6,8 @@ import { BlockEditor } from "./BlockEditor"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
+import { AUTHENTICATED_USER } from "../operations/queries/authenticatedUser"
+import { useQuery } from "@apollo/client"
 
 const RequestItem: React.FC<{
   block: BlockOrDef
@@ -25,6 +27,7 @@ const RequestItem: React.FC<{
   const [showEdit, setShowEdit] = useState(initShowEdit)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
+  const { data: authenticatedUser } = useQuery(AUTHENTICATED_USER)
   const { createOneBlock, updateOneBlock, completeOneBlock } = actions
 
   const markComplete = (blockToComplete) => {
@@ -51,9 +54,9 @@ const RequestItem: React.FC<{
       state: "ACTIVE",
       requestors: [
         {
-          id: state.user.id,
-          name: state.user.attributes.name,
-          email: state.user.attributes.email,
+          id: authenticatedUser?.authenticatedUser.id,
+          name: authenticatedUser?.authenticatedUser.attributes.name,
+          email: authenticatedUser?.authenticatedUser.attributes.email,
         },
       ],
     })

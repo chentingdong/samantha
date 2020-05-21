@@ -4,7 +4,7 @@ import { BlockEditor } from "./BlockEditor"
 import { ItemOrigin, EditMode } from "../models/enum"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
-import { getClient } from "../index"
+import { apolloClient } from "../index"
 import { ApolloProvider } from "@apollo/client"
 import { Context } from "../context/store"
 import blockStories from "../../data/storybook-blocks.json"
@@ -17,7 +17,6 @@ const blockLevel0 = { ...blockLevel1, children: [] }
 const createOneBlock = () => {}
 const updateOneBlock = () => {}
 const close = () => {}
-const client = getClient()
 
 export default {
   title: "Components / BlockEditor",
@@ -25,7 +24,7 @@ export default {
     (storyFn) => {
       return (
         <Context.Provider value={{ state: { users } }}>
-          <ApolloProvider client={client}>
+          <ApolloProvider client={apolloClient}>
             <DndProvider backend={Backend}>{storyFn()}</DndProvider>
           </ApolloProvider>
         </Context.Provider>

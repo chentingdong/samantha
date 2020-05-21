@@ -1,7 +1,7 @@
 import * as React from "react"
-import { useContext } from "react"
 import { Route, Redirect } from "react-router-dom"
-import { Context } from "../context/store"
+import { IS_AUTHENTICATED } from "../operations/queries/isAuthenticated"
+import { useQuery } from "@apollo/client"
 
 function querystring(name: string, url: string = window.location.href) {
   name = name.replace(/[[]]/g, "\\$&")
@@ -21,12 +21,12 @@ function querystring(name: string, url: string = window.location.href) {
 
 export default function PublicRoute({ component: Component, ...rest }) {
   const redirect = querystring("redirect")
-  const { state, dispatch } = useContext(Context)
+  const { data } = useQuery(IS_AUTHENTICATED)
   return (
     <Route
       {...rest}
       render={(props) =>
-        !state.isAuthenticated ? (
+        !data?.isAuthenticated ? (
           <Component {...props} />
         ) : (
           <Redirect

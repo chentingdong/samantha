@@ -1,9 +1,11 @@
 import { Nav, Navbar } from "react-bootstrap"
 import logo from "../assets/img/bell-round-32x32.png"
 import { withRouter, Link } from "react-router-dom"
-import { Context } from "../context/store"
 import { Auth } from "aws-amplify"
-import React, { useContext } from "react"
+import React from "react"
+import { IS_AUTHENTICATED } from "../operations/queries/isAuthenticated"
+import { useQuery } from "@apollo/client"
+import { AUTHENTICATED_USER } from "../operations/queries/authenticatedUser"
 
 const logout = async () => {
   await Auth.signOut()
@@ -11,11 +13,11 @@ const logout = async () => {
 
 const Header = (props) => {
   const { location } = props
-  const { state, dispatch } = useContext(Context)
-
+  const { data } = useQuery(IS_AUTHENTICATED)
+  const { data: authenticatedUser } = useQuery(AUTHENTICATED_USER)
   return (
     <>
-      {state.isAuthenticated && (
+      {data?.isAuthenticated && (
         <Navbar className="nav container-fluid " bg="light">
           <div className="row justify-content-between">
             <Navbar.Brand className="col-1">
@@ -39,7 +41,9 @@ const Header = (props) => {
             </Nav>
             <Navbar.Collapse className="col-4">
               <Nav.Item>
-                <Navbar.Text>{state?.user?.attributes?.email}</Navbar.Text>
+                <Navbar.Text>
+                  {authenticatedUser?.authenticatedUser.attributes.email}
+                </Navbar.Text>
               </Nav.Item>
               <Nav.Item>
                 <Navbar.Text>
