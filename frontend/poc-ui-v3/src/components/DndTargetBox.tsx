@@ -1,11 +1,11 @@
 import React from "react"
 import { useDrop } from "react-dnd"
-import { Block, BlockDef } from "../models/interface"
+import { Block, BlockDef, BlockOrDef } from "../models/interface"
 
 type DndTargetBoxProps = {
   accept: string
   greedy?: boolean
-  onDrop: (item: Block | BlockDef) => void
+  onDrop: (item: BlockOrDef) => void
 }
 const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   accept,
@@ -18,7 +18,7 @@ const DndTargetBox: React.FC<DndTargetBoxProps> = ({
     hover: (item, monitor) => {
       monitor.isOver()
     },
-    drop: (item: { type: "string"; block: Block | BlockDef }, monitor) => {
+    drop: (item: { type: "string"; block: BlockOrDef }, monitor) => {
       if (monitor.didDrop()) {
         return
       }

@@ -10,8 +10,8 @@ export interface Block {
   context?: string
   requestors: User[]
   responders: User[]
-  parent: Block
-  children?: Block[]
+  parent: BlockOrDef
+  children?: BlockOrDef[]
   __mutation_type__?: MutationType
 }
 
@@ -20,12 +20,16 @@ export interface BlockDef {
   name: string
   description: string
   type: string
+  state?: string
   control?: string
   context?: string
-  parent: BlockDef
-  children?: BlockDef[]
+  requestors: User[]
+  responders: User[]
+  parent: BlockOrDef
+  children?: BlockOrDef[]
   __mutation_type__?: MutationType
 }
+export type BlockOrDef = Block | BlockDef
 
 export interface UiState {
   showEditRequestDef?: boolean

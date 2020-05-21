@@ -3,16 +3,16 @@ import uuid from "uuid"
 import { DndTargetBox } from "./DndTargetBox"
 import { BlockChildrenList } from "../containers/BlockChildrenList"
 import { Context } from "../context/store"
-import { Block, BlockDef } from "../models/interface"
+import { Block, BlockDef, BlockOrDef } from "../models/interface"
 
 const SegmentCompositeStages: React.FC<{
   type: string
-  childrenBlocks: Block[] | BlockDef[]
+  childrenBlocks: BlockOrDef[]
 }> = ({ type, childrenBlocks }) => {
   const { state, dispatch } = useContext(Context)
   const [blocks, setBlocks] = useState(childrenBlocks)
 
-  const addSubBlock = (block: Block | BlockDef) => {
+  const addSubBlock = (block: BlockOrDef) => {
     const updatedBlocks = [...blocks, block]
     setBlocks(updatedBlocks)
     resetPalette()

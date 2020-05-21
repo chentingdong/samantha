@@ -1,10 +1,10 @@
 import React, { useContext, useState } from "react"
-import { Block, BlockDef } from "../models/interface"
+import { Block, BlockDef, BlockOrDef } from "../models/interface"
 
 import { SegmentCompositeStages } from "./SegmentCompositeStages"
 
 const SegmentView: React.FC<{
-  block: Block | BlockDef
+  block: BlockOrDef
 }> = ({ block }) => {
   switch (block.type) {
     case "COMPOSITE_PARALLEL":

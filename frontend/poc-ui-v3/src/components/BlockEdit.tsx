@@ -3,7 +3,7 @@ import React, { useState, useContext, useEffect, useCallback } from "react"
 import { useForm } from "react-hook-form"
 import { Context } from "../context/store"
 import { ButtonGroup } from "react-bootstrap"
-import { Block, BlockDef } from "../models/interface"
+import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { DndTargetBox } from "./DndTargetBox"
 import { BlockCatalogList } from "../containers/BlockCatalogList"
 import { BlockChildrenList } from "../containers/BlockChildrenList"
@@ -12,7 +12,7 @@ import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const BlockEdit: React.FC<{
-  blockCreateInput: Block | BlockDef
+  blockCreateInput: BlockOrDef
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
@@ -48,7 +48,7 @@ const BlockEdit: React.FC<{
     // what action to take on submit?
   }
 
-  const addSubBlock = (childBlock: Block | BlockDef) => {
+  const addSubBlock = (childBlock: BlockOrDef) => {
     const updatedChildren = blockCreateInput.children
       ? [...blockCreateInput.children, childBlock]
       : [childBlock]
@@ -60,7 +60,7 @@ const BlockEdit: React.FC<{
     dispatch({ type: "set", data: { blockCreateInput } })
   }
 
-  const deleteSubBlock = (childBlock: Block | BlockDef) => {
+  const deleteSubBlock = (childBlock: BlockOrDef) => {
     const index = blockCreateInput.children.findIndex(
       (child) => child.id === childBlock.id
     )

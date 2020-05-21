@@ -3,12 +3,12 @@ import uuid from "uuid"
 import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
 import { BlockEdit } from "./BlockEdit"
-import { Block, BlockDef } from "../models/interface"
+import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const RequestItem: React.FC<{
-  block: Block | BlockDef
+  block: BlockOrDef
   itemOrigin?: ItemOrigin
   initShowEdit?: boolean
   actions: any

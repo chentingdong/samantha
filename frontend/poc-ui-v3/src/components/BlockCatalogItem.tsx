@@ -1,12 +1,12 @@
 import React from "react"
-import { Block, BlockDef } from "../models/interface"
+import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { SegmentView } from "./SegmentView"
 import { DndSourceBox } from "./DndSourceBox"
 
 const BlockCatalogItem: React.FC<{
-  block: Block
+  block: BlockOrDef
   index?: number
-  onDelete?: (child: Block) => void
+  onDelete?: (child: BlockOrDef) => void
 }> = ({ block, index = 0, onDelete }) => {
   // TODO: sync with backend of types
   const color = block.type.includes("LEAF_") ? "light-green" : "light-brown"
