@@ -17,6 +17,7 @@ const RequestsMadeList = () => {
   const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
   const { loading, error, data } = useQuery(REQUESTS_MADE, {
     variables: { userId: authenticatedUser?.authenticatedUser.id },
+    fetchPolicy: "network-only",
   })
 
   if (loading) return <Loading />

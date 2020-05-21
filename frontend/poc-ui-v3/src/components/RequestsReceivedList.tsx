@@ -18,6 +18,7 @@ const RequestsReceivedList = () => {
 
   const { loading, error, data } = useQuery(REQUESTS_RECEIVED, {
     variables: { userId: authenticatedUser?.authenticatedUser.id },
+    fetchPolicy: "network-only",
   })
 
   if (loading) return <Loading />
