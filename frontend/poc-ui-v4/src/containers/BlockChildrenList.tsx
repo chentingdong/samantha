@@ -6,8 +6,8 @@ import { DndTargetBox } from "../components/DndTargetBox"
 import { MutationType } from "../models/enum"
 
 const BlockChildrenList: React.FC<{
-  blocks: Block[],
-  onDelete?: (child: Block) => void,
+  blocks: Block[]
+  onDelete?: (child: Block) => void
 }> = ({ blocks, onDelete }) => {
   return (
     <div className="">
@@ -22,7 +22,7 @@ const BlockChildrenList: React.FC<{
             return (
               <div
                 className={`p-2 ${blockWidth} ${blockDisplay}`}
-                key={block.id}
+                key={`${block.id}-bcl`}
               >
                 <div className="card">
                   <DndSourceBox type="block" block={block}>

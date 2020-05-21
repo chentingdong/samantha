@@ -10,7 +10,6 @@ import {
   InMemoryCache,
   HttpLink,
 } from "@apollo/client"
-import theme from "./assets/themes/default"
 
 export function getClient() {
   const cache = new InMemoryCache()

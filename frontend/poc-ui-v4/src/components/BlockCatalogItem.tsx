@@ -1,45 +1,71 @@
 import React from "react"
 import { Block } from "../models/interface"
 import { SegmentView } from "./SegmentView"
-import CardHeader from "@material-ui/core/CardHeader"
-import CardContent from "@material-ui/core/CardContent"
-import { IconButton, Box, withStyles } from "@material-ui/core"
+import { IconButton, Box } from "@material-ui/core"
 import { Close } from "@material-ui/icons"
-import { green, brown } from "@material-ui/core/colors"
+import styled from "styled-components"
 
-const _BlockCatalogItem: React.FC<{
+type BlockCatalogItemType = {
   block: Block
   index?: number
+  className?: string
   onDelete?: (child: Block) => void
-}> = ({ block, index = 0, onDelete }) => {
-  // TODO: sync with backend of types
-  const color = block.type.includes("LEAF_") ? green[200] : brown[200]
+}
+
+const BlockCatalogItemV3: React.FC<BlockCatalogItemType> = ({
+  block,
+  index = 0,
+  onDelete,
+  className = "",
+}) => {
+  const isLeaf = block.type.includes("LEAF_")
+  const headerClass = isLeaf ? "leaf" : ""
   return (
-    <div className="" key={block.id}>
-      <Box>
-        <Box style={{ backgroundColor: color }}>
-          <span>{`${index + 1} * ${block.name}`}</span>
-          <IconButton
-            aria-label="close"
-            component="span"
-            onClick={() => onDelete(block)}
-          >
-            <Close />
-          </IconButton>
-        </Box>
-        <Box>
-          <p> {block.description} </p>
-          <SegmentView block={block} />
-        </Box>
+    <div className={className} key={block.id}>
+      <Box className={`header ${headerClass}`}>
+        <span>{index + 1}</span> - <span>{block.name}</span>
+        <IconButton
+          className="close"
+          aria-label="close"
+          component="span"
+          onClick={() => onDelete(block)}
+        >
+          <Close />
+        </IconButton>
       </Box>
+      <div className="body">
+        <p> {block.description} </p>
+        <SegmentView block={block} />
+      </div>
     </div>
   )
 }
 
-const BlockCatalogItem = withStyles({
-  root: {
-    backgroundColor: green[200],
-  },
-})(_BlockCatalogItem)
-
+const BlockCatalogItem: React.FC<BlockCatalogItemType> = styled(
+  BlockCatalogItemV3
+)`
+  border-radius: 6px;
+  box-shadow: none;
+  .header {
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    line-height: 0.5em;
+    color: ${(props) => props.theme.palette?.secondary.contrastText};
+    background: ${(props) => props.theme.palette?.secondary.main};
+    &.leaf {
+      color: ${(props) => props.theme.palette?.primary.contrastText};
+      background: ${(props) => props.theme.palette?.primary.main};
+    }
+    .close {
+      position: absolute;
+      padding: 0;
+      right: 0;
+      top: 0;
+    }
+  }
+  .header,
+  .body {
+    padding: 0.5em;
+  }
+`
 export { BlockCatalogItem }

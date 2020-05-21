@@ -4,15 +4,15 @@ import grey from "@material-ui/core/colors/grey"
 let theme = createMuiTheme({
   palette: {
     primary: {
-      main: grey[500],
+      main: "#019CAE",
       contrastText: grey[50],
     },
     secondary: {
-      main: grey[700],
-      contrastText: grey[200],
+      main: "#E6433F",
+      contrastText: grey[100],
     },
     contrastThreshold: 3,
-    tonalOffset: 0.5,
+    tonalOffset: 0.2,
   },
   spacing: 4,
 })
