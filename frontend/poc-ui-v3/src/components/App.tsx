@@ -56,7 +56,7 @@ const App = () => {
 
           // upsert cognito user to backend
           const user = {
-            id: cognitoUser.id,
+            id: cognitoUser.username,
             name: cognitoUser.attributes?.name || cognitoUser.id,
             email: cognitoUser.attributes?.email,
           }
