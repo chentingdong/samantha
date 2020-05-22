@@ -179,33 +179,8 @@
       "tag": "CreateField",
       "model": "Block",
       "field": "id",
-      "type": "Int",
+      "type": "String",
       "arity": "Required"
-    },
-    {
-      "tag": "CreateDirective",
-      "location": {
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "id"
-        },
-        "directive": "default"
-      }
-    },
-    {
-      "tag": "CreateArgument",
-      "location": {
-        "tag": "Directive",
-        "path": {
-          "tag": "Field",
-          "model": "Block",
-          "field": "id"
-        },
-        "directive": "default"
-      },
-      "argument": "",
-      "value": "autoincrement()"
     },
     {
       "tag": "CreateDirective",
@@ -224,6 +199,31 @@
       "field": "name",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "name"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "name"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
     },
     {
       "tag": "CreateField",
@@ -389,7 +389,7 @@
       "tag": "CreateField",
       "model": "Block",
       "field": "parentId",
-      "type": "Int",
+      "type": "String",
       "arity": "Optional"
     },
     {
@@ -602,14 +602,10 @@
       "value": "[id]"
     },
     {
-      "tag": "CreateModel",
-      "model": "BlockDef"
-    },
-    {
       "tag": "CreateField",
-      "model": "BlockDef",
-      "field": "id",
-      "type": "Int",
+      "model": "Block",
+      "field": "created_at",
+      "type": "DateTime",
       "arity": "Required"
     },
     {
@@ -617,8 +613,8 @@
       "location": {
         "path": {
           "tag": "Field",
-          "model": "BlockDef",
-          "field": "id"
+          "model": "Block",
+          "field": "created_at"
         },
         "directive": "default"
       }
@@ -629,13 +625,63 @@
         "tag": "Directive",
         "path": {
           "tag": "Field",
-          "model": "BlockDef",
-          "field": "id"
+          "model": "Block",
+          "field": "created_at"
         },
         "directive": "default"
       },
       "argument": "",
-      "value": "autoincrement()"
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "last_updated",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "last_updated"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "Block",
+          "field": "last_updated"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "Block",
+      "field": "due_date",
+      "type": "DateTime",
+      "arity": "Optional"
+    },
+    {
+      "tag": "CreateModel",
+      "model": "BlockDef"
+    },
+    {
+      "tag": "CreateField",
+      "model": "BlockDef",
+      "field": "id",
+      "type": "String",
+      "arity": "Required"
     },
     {
       "tag": "CreateDirective",
@@ -654,6 +700,31 @@
       "field": "name",
       "type": "String",
       "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "BlockDef",
+          "field": "name"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "BlockDef",
+          "field": "name"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "\"\""
     },
     {
       "tag": "CreateField",
@@ -787,7 +858,7 @@
       "tag": "CreateField",
       "model": "BlockDef",
       "field": "parentId",
-      "type": "Int",
+      "type": "String",
       "arity": "Optional"
     },
     {
@@ -906,6 +977,70 @@
       },
       "argument": "",
       "value": "\"blockDefParentChildren\""
+    },
+    {
+      "tag": "CreateField",
+      "model": "BlockDef",
+      "field": "created_at",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "BlockDef",
+          "field": "created_at"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "BlockDef",
+          "field": "created_at"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
+    },
+    {
+      "tag": "CreateField",
+      "model": "BlockDef",
+      "field": "last_updated",
+      "type": "DateTime",
+      "arity": "Required"
+    },
+    {
+      "tag": "CreateDirective",
+      "location": {
+        "path": {
+          "tag": "Field",
+          "model": "BlockDef",
+          "field": "last_updated"
+        },
+        "directive": "default"
+      }
+    },
+    {
+      "tag": "CreateArgument",
+      "location": {
+        "tag": "Directive",
+        "path": {
+          "tag": "Field",
+          "model": "BlockDef",
+          "field": "last_updated"
+        },
+        "directive": "default"
+      },
+      "argument": "",
+      "value": "now()"
     }
   ]
 }

@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { BlockType, State } from '@prisma/client'
+import uuid from 'uuid'
 
 const db = new PrismaClient()
 
@@ -31,32 +32,38 @@ const seedCatalog = async () => {
   const results = await Promise.all(
     [
       {
+        id: uuid.v4(),
         name: 'Parallel Container',
         description: 'Default container which runs child blocks in parallel',
         type: BlockType.COMPOSITE_PARALLEL,
       },
       {
+        id: uuid.v4(),
         name: 'Sequential Container',
         description:
           'Sequential container which runs child blocks sequentially',
         type: BlockType.COMPOSITE_SEQUENTIAL,
       },
       {
+        id: uuid.v4(),
         name: 'Gather Info Form',
         description: 'Gather Information from Responders',
         type: BlockType.LEAF_FORM,
       },
       {
+        id: uuid.v4(),
         name: 'Approval Form',
         description: 'Ask for Approval',
         type: BlockType.LEAF_FORM,
       },
       {
+        id: uuid.v4(),
         name: 'Dummy API',
         description: 'Dummy API',
         type: BlockType.LEAF_API,
       },
       {
+        id: uuid.v4(),
         name: 'Status Update Request Sequential',
         description:
           'Status Update which gathers information and gets approval',
@@ -64,11 +71,13 @@ const seedCatalog = async () => {
         children: {
           create: [
             {
+              id: uuid.v4(),
               name: 'Gather Info Form',
               description: 'Gather Information from Responders',
               type: BlockType.LEAF_FORM,
             },
             {
+              id: uuid.v4(),
               name: 'Approval Form',
               description: 'Ask for Approval',
               type: BlockType.LEAF_FORM,
@@ -77,6 +86,7 @@ const seedCatalog = async () => {
         },
       },
       {
+        id: uuid.v4(),
         name: 'Status Update Request Parallel',
         description:
           'Status Update which gathers information and gets approval',
@@ -84,11 +94,13 @@ const seedCatalog = async () => {
         children: {
           create: [
             {
+              id: uuid.v4(),
               name: 'Gather Info Form',
               description: 'Gather Information from Responders',
               type: BlockType.LEAF_FORM,
             },
             {
+              id: uuid.v4(),
               name: 'Approval Form',
               description: 'Ask for Approval',
               type: BlockType.LEAF_FORM,
@@ -97,6 +109,7 @@ const seedCatalog = async () => {
         },
       },
       {
+        id: uuid.v4(),
         name: 'Status Update Request Parallel -> Sequential',
         description:
           'Status Update which gathers information and gets approval',
@@ -104,6 +117,7 @@ const seedCatalog = async () => {
         children: {
           create: [
             {
+              id: uuid.v4(),
               name: 'Status Update Request',
               description:
                 'Status Update which gathers information and gets approval',
@@ -111,11 +125,13 @@ const seedCatalog = async () => {
               children: {
                 create: [
                   {
+                    id: uuid.v4(),
                     name: 'Gather Info Form',
                     description: 'Gather Information from Responders',
                     type: BlockType.LEAF_FORM,
                   },
                   {
+                    id: uuid.v4(),
                     name: 'Approval Form',
                     description: 'Ask for Approval',
                     type: BlockType.LEAF_FORM,
@@ -124,6 +140,7 @@ const seedCatalog = async () => {
               },
             },
             {
+              id: uuid.v4(),
               name: 'Approval Form',
               description: 'Ask for Approval',
               type: BlockType.LEAF_FORM,
@@ -132,6 +149,7 @@ const seedCatalog = async () => {
         },
       },
       {
+        id: uuid.v4(),
         name: 'Status Update Request Sequential -> Parallel',
         description:
           'Status Update which gathers information and gets approval',
@@ -139,6 +157,7 @@ const seedCatalog = async () => {
         children: {
           create: [
             {
+              id: uuid.v4(),
               name: 'Status Update Request',
               description:
                 'Status Update which gathers information and gets approval',
@@ -146,11 +165,13 @@ const seedCatalog = async () => {
               children: {
                 create: [
                   {
+                    id: uuid.v4(),
                     name: 'Gather Info Form',
                     description: 'Gather Information from Responders',
                     type: BlockType.LEAF_FORM,
                   },
                   {
+                    id: uuid.v4(),
                     name: 'Approval Form',
                     description: 'Ask for Approval',
                     type: BlockType.LEAF_FORM,
@@ -159,6 +180,7 @@ const seedCatalog = async () => {
               },
             },
             {
+              id: uuid.v4(),
               name: 'Approval Form',
               description: 'Ask for Approval',
               type: BlockType.LEAF_FORM,
@@ -172,7 +194,8 @@ const seedCatalog = async () => {
 }
 
 const main = async () => {
-  // await seedUsers()
+  console.log(uuid.v4())
+  await seedUsers()
   await seedCatalog()
   db.disconnect()
 }
