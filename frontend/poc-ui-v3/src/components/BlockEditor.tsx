@@ -91,7 +91,7 @@ const BlockEditor: React.FC<{
   return (
     <div className="container-fluid row">
       <main className="d-flex flex-column col mr-2">
-        <h2>Create/Modify Request Def</h2>
+        <h2>Request Editor</h2>
         <form onSubmit={handleSubmit(onSumbit)} className="row">
           <div className="form-group col">
             <label>Name: </label>

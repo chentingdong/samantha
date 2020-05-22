@@ -6,7 +6,6 @@ const _transformBlockInput = (block, mutationType = MutationType.Connect) => {
   typeof block.__mutation_type__ !== "undefined"
     ? (mutationType = block.__mutation_type__)
     : (block.__mutation_type__ = mutationType)
-  if (mutationType === MutationType.Create) delete block.id
 
   delete block.parent
 

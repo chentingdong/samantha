@@ -1,7 +1,7 @@
 import { MutationType } from "./enum"
 
 export interface Block {
-  id: number
+  id: string
   name: string
   description: string
   type: string
@@ -12,11 +12,14 @@ export interface Block {
   responders: User[]
   parent: BlockOrDef
   children: BlockOrDef[]
+  created_at: Date
+  last_updated: Date
+  due_date?: Date
   __mutation_type__?: MutationType
 }
 
 export interface BlockDef {
-  id: number
+  id: string
   name: string
   description: string
   type: string
@@ -27,6 +30,9 @@ export interface BlockDef {
   responders: User[]
   parent: BlockOrDef
   children: BlockOrDef[]
+  created_at: Date
+  last_updated: Date
+  due_date?: Date
   __mutation_type__?: MutationType
 }
 export type BlockOrDef = Block | BlockDef
