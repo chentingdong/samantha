@@ -41,15 +41,11 @@ const BlockEditor: React.FC<{
   }
 
   const addSubBlock = (childBlock: BlockOrDef) => {
-    const updatedChildren = draftBlock.children
-      ? [...draftBlock.children, childBlock]
-      : [childBlock]
-    const updatedBlock = {
+    // had to create a copy of children because it is not extensible
+    setDraftBlock({
       ...draftBlock,
-      children: updatedChildren,
-    }
-    draftBlock = updatedBlock
-    setDraftBlock(draftBlock)
+      children: [...draftBlock.children, childBlock],
+    })
   }
 
   const deleteSubBlock = (childBlock: BlockOrDef) => {
@@ -57,16 +53,15 @@ const BlockEditor: React.FC<{
       (child) => child.id === childBlock.id
     )
     if (index < 0) return
-    const updatedChildren = [...draftBlock.children]
-    updatedChildren[index] = Object.assign({}, updatedChildren[index], {
+    const updatedChild = Object.assign({}, draftBlock.children[index], {
       __mutation_type__: MutationType.Delete,
     })
-    const updatedBlock = {
+    const updatedChildren = [...draftBlock.children]
+    updatedChildren[index] = updatedChild
+    setDraftBlock({
       ...draftBlock,
       children: updatedChildren,
-    }
-    draftBlock = updatedBlock
-    setDraftBlock(draftBlock)
+    })
   }
 
   const saveBlock = async (e) => {
@@ -78,9 +73,7 @@ const BlockEditor: React.FC<{
     const draftBlockTransformed = transformBlockInput(draftBlockWithFormValues)
 
     // console.log(
-    //   `draftBlockTransformed:\n${JSON.stringify(
-    //     draftBlockTransformed
-    //   )}`
+    //   `draftBlockTransformed:\n${JSON.stringify(draftBlockTransformed)}`
     // )
     // TODO: fix logic
     mutationType === MutationType.Create

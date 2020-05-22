@@ -11,7 +11,7 @@ export interface Block {
   requestors: User[]
   responders: User[]
   parent: BlockOrDef
-  children?: BlockOrDef[]
+  children: BlockOrDef[]
   __mutation_type__?: MutationType
 }
 
@@ -26,7 +26,7 @@ export interface BlockDef {
   requestors: User[]
   responders: User[]
   parent: BlockOrDef
-  children?: BlockOrDef[]
+  children: BlockOrDef[]
   __mutation_type__?: MutationType
 }
 export type BlockOrDef = Block | BlockDef

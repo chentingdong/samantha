@@ -21,7 +21,9 @@ const RequestItem: React.FC<{
   actions,
 }) => {
   // state on each RequestItem object
-  const [state, dispatch] = useReducer(reducer, {})
+  // by default (edit mode) draft is a copy of the current block object
+  // when making a request from definitoin, createDraftBlock() needs to be called first
+  const [state, dispatch] = useReducer(reducer, { draftBlock: block })
   const setDraftBlock = (draftBlock) => {
     dispatch({ type: "set", data: { draftBlock } })
   }
@@ -42,13 +44,18 @@ const RequestItem: React.FC<{
   }
 
   const editRequestDef = () => {
-    setDraftBlock(block)
     setEditMode(EditMode.Edit)
     setShowEdit(true)
   }
 
   const makeRequest = () => {
-    const draftBlock = Object.assign({}, block, {
+    setDraftBlock(createDraftBlock(block))
+    setEditMode(EditMode.Create)
+    setShowEdit(true)
+  }
+
+  const createDraftBlock = (blockDef) => {
+    const draftBlock = Object.assign({}, blockDef, {
       __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
@@ -61,9 +68,7 @@ const RequestItem: React.FC<{
         },
       ],
     })
-    setDraftBlock(draftBlock)
-    setEditMode(EditMode.Create)
-    setShowEdit(true)
+    return draftBlock
   }
 
   return (
