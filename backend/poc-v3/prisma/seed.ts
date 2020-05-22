@@ -13,9 +13,9 @@ const seedUsers = async () => {
         email: 'bhe@bellhop.io',
       },
       {
-        id: 'Google_103472621531484531270',
-        name: 'Jin Wang',
-        email: 'jwang@bellhop.io',
+        id: 'Google_109551792009621810100',
+        name: 'Adam Hiatt',
+        email: 'ahiatt@bellhop.io',
       },
       {
         id: 'Google_115419186368884878540',
