@@ -18,7 +18,13 @@ const DndTargetBox: React.FC<DndTargetBoxProps> = ({
     hover: (item, monitor) => {
       monitor.isOver()
     },
-    drop: (item: { type: "string"; block: BlockOrDef }, monitor) => {
+    drop: (
+      item: {
+        type: "string"
+        block: BlockOrDef
+      },
+      monitor
+    ) => {
       if (monitor.didDrop()) {
         return
       }

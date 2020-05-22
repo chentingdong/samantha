@@ -8,15 +8,15 @@ import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { Loading, Error } from "./Misc"
-import { AUTHENTICATED_USER } from "../operations/queries/authenticatedUser"
+import { AUTH_USER } from "../operations/queries/authUser"
 
 const RequestsMadeList = () => {
-  const { data: authenticatedUser } = useQuery(AUTHENTICATED_USER)
+  const { data: authUserResult } = useQuery(AUTH_USER)
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
   const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
   const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
   const { loading, error, data } = useQuery(REQUESTS_MADE, {
-    variables: { userId: authenticatedUser?.authenticatedUser.id },
+    variables: { userId: authUserResult?.authUser?.id },
     fetchPolicy: "network-only",
   })
 

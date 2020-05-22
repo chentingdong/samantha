@@ -10,7 +10,8 @@
     "state": "DRAFT",
     "requestors": [],
     "responders": [],
-    "parent": null
+    "parent": null,
+    "children": []
   },
   "messages": [],
   "uiState": {

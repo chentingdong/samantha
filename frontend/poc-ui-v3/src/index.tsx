@@ -12,6 +12,7 @@ const link = new HttpLink(config.graphQL.HttpLink)
 export const apolloClient = new ApolloClient({
   cache,
   link,
+  connectToDevTools: true,
 })
 
 const rootEl = document.getElementById("root")

@@ -42,6 +42,7 @@ export interface User {
   id?: string
   name?: string
   email?: string
+  isAuthenticated: boolean
   picture?: string
   given_name?: string
   family_name?: string

@@ -5,14 +5,12 @@ export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     Query: {
       fields: {
-        authenticatedUser: {
-          read() {
-            return authenticatedUserVar()
+        authUser: {
+          merge(existing, incoming) {
+            return authUserVar(incoming)
           },
-        },
-        isAuthenicated: {
           read() {
-            return isAuthenticatedVar()
+            return authUserVar()
           },
         },
       },
@@ -20,7 +18,6 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 })
 
-export const authenticatedUserVar: ReactiveVar<User> = cache.makeVar<User>({})
-export const isAuthenticatedVar: ReactiveVar<boolean> = cache.makeVar<boolean>(
-  false
-)
+export const authUserVar: ReactiveVar<User> = cache.makeVar<User>({
+  isAuthenticated: false,
+})

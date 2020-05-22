@@ -10,14 +10,17 @@ import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { REQUESTS_MADE } from "../operations/queries/requestsMade"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import { GET_USERS } from "../operations/queries/getUsers"
+import { AUTH_USER } from "../operations/queries/authUser"
 
 const ContextViewCodes = () => {
+  const { data: authUser } = useQuery(AUTH_USER)
   const { data: users } = useQuery(GET_USERS)
   const { data: blockCatalog } = useQuery(BLOCK_CATALOG)
   const { data: requestCatalog } = useQuery(REQUEST_CATALOG)
   const { data: requestsMade } = useQuery(REQUESTS_MADE)
   const { data: requestsReceived } = useQuery(REQUESTS_RECEIVED)
   const data = {
+    authUser: authUser?.authUser,
     users: users?.users,
     blockCatalog,
     requestCatalog,

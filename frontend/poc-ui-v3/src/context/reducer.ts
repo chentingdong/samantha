@@ -1,6 +1,9 @@
 import { State } from "../models/interface"
 
-type Action = { type: "set"; data: object }
+type Action = {
+  type: "set"
+  data: any
+}
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {

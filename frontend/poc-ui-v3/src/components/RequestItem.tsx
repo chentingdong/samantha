@@ -5,7 +5,7 @@ import { BlockEditor } from "./BlockEditor"
 import { BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
-import { AUTHENTICATED_USER } from "../operations/queries/authenticatedUser"
+import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"
 import { reducer } from "../context/reducer"
 
@@ -30,7 +30,7 @@ const RequestItem: React.FC<{
   const [showEdit, setShowEdit] = useState(initShowEdit)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
-  const { data: authenticatedUser } = useQuery(AUTHENTICATED_USER)
+  const { data } = useQuery(AUTH_USER)
   const { createOneBlock, updateOneBlock, completeOneBlock } = actions
 
   const markComplete = (blockToComplete) => {
@@ -62,9 +62,9 @@ const RequestItem: React.FC<{
       state: "ACTIVE",
       requestors: [
         {
-          id: authenticatedUser?.authenticatedUser.id,
-          name: authenticatedUser?.authenticatedUser.attributes.name,
-          email: authenticatedUser?.authenticatedUser.attributes.email,
+          id: data?.authUser?.id,
+          name: data?.authUser?.name,
+          email: data?.authUser?.email,
         },
       ],
     })

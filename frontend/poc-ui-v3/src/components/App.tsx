@@ -6,9 +6,8 @@ import Routes from "../routes/Routes"
 import "../assets/scss/app.scss"
 import config from "../../configs/config"
 import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
-import { useMutation, useApolloClient, gql } from "@apollo/client"
-import { AUTHENTICATED_USER } from "../operations/queries/authenticatedUser"
-import { IS_AUTHENTICATED } from "../operations/queries/isAuthenticated"
+import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
+import { AUTH_USER } from "../operations/queries/authUser"
 
 const App = () => {
   const [upsertOneUser] = useMutation(UPSERT_ONE_USER)
@@ -22,22 +21,22 @@ const App = () => {
     } catch (error) {
       // do nothing
     }
-    let authenticatedUser
+    let authUser
     if (poolUser) {
-      client.writeQuery({
-        query: IS_AUTHENTICATED,
-        data: { isAuthenticated: true },
-      })
-      authenticatedUser = {
+      authUser = {
         id: poolUser?.username,
-        attributes: poolUser?.attributes,
+        name: poolUser?.attributes.name || poolUser?.username,
+        email: poolUser?.attributes.email,
+        isAuthenticated: true,
       }
       client.writeQuery({
-        query: AUTHENTICATED_USER,
-        data: { authenticatedUser },
+        query: AUTH_USER,
+        data: {
+          authUser,
+        },
       })
     }
-    return authenticatedUser
+    return authUser
   }
 
   useEffect(() => {
@@ -48,13 +47,13 @@ const App = () => {
     Hub.listen("auth", async ({ payload: { event } }) => {
       switch (event) {
         case "signIn":
-          const authenticatedUser = await checkLogin()
-          if (authenticatedUser) {
+          const authUser = await checkLogin()
+          if (authUser) {
             // upsert cognito user to backend
             const user = {
-              id: authenticatedUser.id,
-              name: authenticatedUser.attributes?.name || authenticatedUser.id,
-              email: authenticatedUser.attributes?.email,
+              id: authUser.id,
+              name: authUser.name,
+              email: authUser.email,
             }
             upsertOneUser({
               variables: { where: { id: user.id }, create: user, update: user },
@@ -64,12 +63,8 @@ const App = () => {
           break
         case "signOut":
           client.writeQuery({
-            query: IS_AUTHENTICATED,
-            data: { isAuthenticated: false },
-          })
-          client.writeQuery({
-            query: AUTHENTICATED_USER,
-            data: { authenticatedUser: {} },
+            query: AUTH_USER,
+            data: { authUser: { isAuthenticated: false } },
           })
 
           break
