@@ -59,5 +59,5 @@ export interface CognitoUser {
 }
 
 export interface State {
-  blockCreateInput?: BlockOrDef
+  draftBlock?: BlockOrDef
 }

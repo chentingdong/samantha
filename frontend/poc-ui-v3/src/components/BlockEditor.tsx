@@ -10,22 +10,15 @@ import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const BlockEditor: React.FC<{
-  blockCreateInput: BlockOrDef
-  setBlockCreateInput: (BlockOrDef) => void
+  draftBlock: BlockOrDef
+  setDraftBlock: (BlockOrDef) => void
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
   actions: any
-}> = ({
-  blockCreateInput,
-  setBlockCreateInput,
-  close,
-  editMode,
-  itemOrigin,
-  actions,
-}) => {
+}> = ({ draftBlock, setDraftBlock, close, editMode, itemOrigin, actions }) => {
   const { register, getValues, setValue, handleSubmit } = useForm({
-    defaultValues: blockCreateInput,
+    defaultValues: draftBlock,
   })
   const { createOneBlock, updateOneBlock } = actions
 
@@ -48,59 +41,54 @@ const BlockEditor: React.FC<{
   }
 
   const addSubBlock = (childBlock: BlockOrDef) => {
-    const updatedChildren = blockCreateInput.children
-      ? [...blockCreateInput.children, childBlock]
+    const updatedChildren = draftBlock.children
+      ? [...draftBlock.children, childBlock]
       : [childBlock]
     const updatedBlock = {
-      ...blockCreateInput,
+      ...draftBlock,
       children: updatedChildren,
     }
-    blockCreateInput = updatedBlock
-    setBlockCreateInput(blockCreateInput)
+    draftBlock = updatedBlock
+    setDraftBlock(draftBlock)
   }
 
   const deleteSubBlock = (childBlock: BlockOrDef) => {
-    const index = blockCreateInput.children.findIndex(
+    const index = draftBlock.children.findIndex(
       (child) => child.id === childBlock.id
     )
     if (index < 0) return
-    const updatedChildren = [...blockCreateInput.children]
+    const updatedChildren = [...draftBlock.children]
     updatedChildren[index] = Object.assign({}, updatedChildren[index], {
       __mutation_type__: MutationType.Delete,
     })
     const updatedBlock = {
-      ...blockCreateInput,
+      ...draftBlock,
       children: updatedChildren,
     }
-    blockCreateInput = updatedBlock
-    setBlockCreateInput(blockCreateInput)
+    draftBlock = updatedBlock
+    setDraftBlock(draftBlock)
   }
 
-  const saveBlock = async () => {
+  const saveBlock = async (e) => {
+    e.preventDefault()
     // apply user's form changes
     const formValues = getValues()
-    const blockCreateInputWithFormValues = Object.assign(
-      {},
-      blockCreateInput,
-      formValues
-    )
-    const mutationType = blockCreateInputWithFormValues.__mutation_type__
-    const blockCreateInputTransformed = transformBlockInput(
-      blockCreateInputWithFormValues
-    )
+    const draftBlockWithFormValues = Object.assign({}, draftBlock, formValues)
+    const mutationType = draftBlockWithFormValues.__mutation_type__
+    const draftBlockTransformed = transformBlockInput(draftBlockWithFormValues)
 
     // console.log(
-    //   `blockCreateInputTransformed:\n${JSON.stringify(
-    //     blockCreateInputTransformed
+    //   `draftBlockTransformed:\n${JSON.stringify(
+    //     draftBlockTransformed
     //   )}`
     // )
     // TODO: fix logic
     mutationType === MutationType.Create
-      ? createOneBlock({ variables: { data: blockCreateInputTransformed } })
+      ? createOneBlock({ variables: { data: draftBlockTransformed } })
       : updateOneBlock({
           variables: {
-            data: blockCreateInputTransformed,
-            where: { id: blockCreateInputTransformed.id },
+            data: draftBlockTransformed,
+            where: { id: draftBlockTransformed.id },
           },
         })
 
@@ -126,9 +114,7 @@ const BlockEditor: React.FC<{
                   className="form-control"
                   ref={register}
                   name="requestors"
-                  defaultValue={blockCreateInput.requestors?.map(
-                    (user) => user.id
-                  )}
+                  defaultValue={draftBlock.requestors?.map((user) => user.id)}
                   multiple
                 >
                   <OptionsUsers />
@@ -140,9 +126,7 @@ const BlockEditor: React.FC<{
                   className="form-control"
                   ref={register}
                   name="responders"
-                  defaultValue={blockCreateInput.responders?.map(
-                    (user) => user.id
-                  )}
+                  defaultValue={draftBlock.responders?.map((user) => user.id)}
                   multiple
                 >
                   <OptionsUsers />
@@ -160,13 +144,16 @@ const BlockEditor: React.FC<{
           </div>
           <div className="form-group col-12 ">
             <BlockChildrenList
-              blocks={blockCreateInput.children}
+              blocks={draftBlock.children}
               addSubBlock={addSubBlock}
               onDelete={(childBlock) => deleteSubBlock(childBlock)}
             />
           </div>
           <ButtonGroup className="d-flex justify-content-around col-12">
-            <button className="btn btn-gray col-2" onClick={saveBlock}>
+            <button
+              className="btn btn-gray col-2"
+              onClick={(e) => saveBlock(e)}
+            >
               save
             </button>
             <button className="btn btn-gray col-2" onClick={close}>

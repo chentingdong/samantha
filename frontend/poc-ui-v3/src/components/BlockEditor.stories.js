@@ -33,7 +33,7 @@ const actions = { createOneBlock, updateOneBlock }
 
 export const catalogItemEditor = () => (
   <BlockEditor
-    blockCreateInput={blockLevel2}
+    draftBlock={blockLevel2}
     close={close}
     actions={actions}
     editMode={EditMode.Edit}
@@ -43,7 +43,7 @@ export const catalogItemEditor = () => (
 
 export const requestItemEditor = () => (
   <BlockEditor
-    blockCreateInput={blockLevel2}
+    draftBlock={blockLevel2}
     close={close}
     actions={actions}
     editMode={EditMode.Edit}

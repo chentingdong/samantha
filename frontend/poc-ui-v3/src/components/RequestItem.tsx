@@ -22,11 +22,9 @@ const RequestItem: React.FC<{
 }) => {
   // state on each RequestItem object
   const [state, dispatch] = useReducer(reducer, {})
-  const setBlockCreateInput = (blockCreateInput) => {
-    dispatch({ type: "set", data: { blockCreateInput } })
+  const setDraftBlock = (draftBlock) => {
+    dispatch({ type: "set", data: { draftBlock } })
   }
-
-  // TODO: move into context at this level
   const [showEdit, setShowEdit] = useState(initShowEdit)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
@@ -43,14 +41,14 @@ const RequestItem: React.FC<{
     })
   }
 
-  const editRequestDef = (fromBlock) => {
-    setBlockCreateInput(fromBlock)
+  const editRequestDef = () => {
+    setDraftBlock(block)
     setEditMode(EditMode.Edit)
     setShowEdit(true)
   }
 
   const makeRequest = () => {
-    const blockCreateInput = Object.assign({}, block, {
+    const draftBlock = Object.assign({}, block, {
       __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
@@ -63,7 +61,7 @@ const RequestItem: React.FC<{
         },
       ],
     })
-    setBlockCreateInput(blockCreateInput)
+    setDraftBlock(draftBlock)
     setEditMode(EditMode.Create)
     setShowEdit(true)
   }
@@ -113,7 +111,7 @@ const RequestItem: React.FC<{
           <div className="row">
             <button
               className="btn btn-link border rounded m-1 col"
-              onClick={() => editRequestDef(block)}
+              onClick={() => editRequestDef()}
             >
               View/Edit
             </button>
@@ -149,8 +147,8 @@ const RequestItem: React.FC<{
             isVisible={true}
           >
             <BlockEditor
-              blockCreateInput={state.blockCreateInput}
-              setBlockCreateInput={setBlockCreateInput}
+              draftBlock={state.draftBlock}
+              setDraftBlock={setDraftBlock}
               close={() => setShowEdit(false)}
               itemOrigin={itemOrigin}
               editMode={editMode}
