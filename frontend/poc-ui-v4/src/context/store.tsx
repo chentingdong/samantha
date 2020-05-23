@@ -21,4 +21,6 @@ const Context = React.createContext<{
   },
 })
 
-export { Context, Store, initialState }
+const ThemeContext = React.createContext({})
+
+export { Context, Store, initialState, ThemeContext }

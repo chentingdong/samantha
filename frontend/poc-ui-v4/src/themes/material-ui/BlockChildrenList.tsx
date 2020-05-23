@@ -1,9 +1,9 @@
 import React from "react"
-import { Block } from "../models/interface"
-import { DndSourceBox } from "../components/DndSourceBox"
-import { BlockCatalogItem } from "../components/BlockCatalogItem"
-import { DndTargetBox } from "../components/DndTargetBox"
-import { MutationType } from "../models/enum"
+import { Block } from "models/interface"
+import { MutationType } from "models/enum"
+import { DndSourceBox } from "components/DndSourceBox"
+import { BlockCatalogItem } from "./BlockCatalogItem"
+import { DndTargetBox } from "components/DndTargetBox"
 import { Box } from "@material-ui/core"
 
 const BlockChildrenList: React.FC<{
