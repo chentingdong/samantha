@@ -2,7 +2,7 @@ import React, { useReducer } from "react"
 import "regenerator-runtime/runtime.js"
 import { reducer, Action } from "./reducer"
 import { State } from "../models/interface"
-import initialState from "../../data/initialState.json"
+import initialState from "../../data/initialState"
 
 const Store = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)

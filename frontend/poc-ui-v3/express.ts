@@ -1,11 +1,18 @@
 const express = require('express')
-const app = express()
-const portNumber = process.env.PORT || 2000
-const sourceDir = 'dist'
+const fs = require('fs');
+const http = require('http');
+const https = require('https');
 
+const sourceDir = 'dist'
+const app = express()
 app.use(express.static(sourceDir))
 
-app.listen(portNumber, () => {
-  console.log(`Express web server started: https://localhost:${portNumber}`)
-  console.log(`Serving content from /${sourceDir}/`)
+const port = process.env.PORT || 2000
+const privateKey  = fs.readFileSync('certs/key.pem', 'utf8');
+const certificate = fs.readFileSync('certs/cert.pem', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(port, () => {
+  console.log(`Express https web server started on ${port}`)
+  console.log(`Serving content from ./${sourceDir}/`)
 })

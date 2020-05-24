@@ -4,6 +4,7 @@ const apiBaseUrl =
   window.location.protocol + "//" + window.location.hostname + portWeb
 const portWs = uiBaseUrl.includes("local") ? ":3001" : ""
 const wsUrl = "wss://" + window.location.hostname + portWs
+const serverHost = process.env.SERVER_HOST || "localhost"
 
 const config = {
   Auth: {
@@ -37,7 +38,7 @@ const config = {
   apiBaseUrl: apiBaseUrl,
   graphQL: {
     HttpLink: {
-      uri: "http://localhost:4000/graphql",
+      uri: `http://${serverHost}:4000/graphql`,
       headers: {
         Authorization:
           "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJiYWlqaSJ9.TG1mdxB0dbE6_aeD0WyQWUf1Pnwq4PeZ01Pp5eSv8p4",

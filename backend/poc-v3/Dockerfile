@@ -6,7 +6,7 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY package.json yarn.lock /app/
-RUN yarn -s install
+RUN yarn -s install --prod && yarn -s cache clean
 
 COPY tsconfig.json jest.config.js babel.config.js /app/
 COPY ./src /app/src

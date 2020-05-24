@@ -5,12 +5,12 @@ services:
     container_name: samantha-web
     depends_on:
       - postgres
-      - server
+      # - server
     ports:
       - 2000:2000
     environment:
       - SERVER_HOST=server
-    command: yarn -s start-prod
+    command: yarn -s start
 
   server:
     image: samantha-server:latest
