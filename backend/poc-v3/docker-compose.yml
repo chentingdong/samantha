@@ -1,0 +1,21 @@
+version: "3"
+services:
+  server:
+    image: samantha-server:latest
+    container_name: samantha-server
+    depends_on:
+      - postgres
+    ports:
+      - 4000:4000
+    command: yarn -s dev
+
+  postgres:
+    image: postgres:latest
+    container_name: samantha-postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - my_dbdata:/var/lib/postgresql/data
+
+volumes:
+  my_dbdata:
