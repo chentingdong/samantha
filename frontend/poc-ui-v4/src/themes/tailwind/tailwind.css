@@ -1,0 +1,10 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.bg-header-composite {
+  background-image: linear-gradient(to right, #666, #999);
+}
+.bg-header-leaf {
+  background-image: linear-gradient(to bottom, #666, #ccc);
+}

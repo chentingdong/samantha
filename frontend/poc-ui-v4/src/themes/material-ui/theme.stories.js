@@ -5,9 +5,7 @@ import { BlockCatalogItem } from "./BlockCatalogItem"
 import { ThemeProvider, StylesProvider } from "@material-ui/core"
 
 import blockStories from "../../../data/storybook-blocks.json"
-const blockLevel2 = blockStories[0]
-const blockLevel1 = blockLevel2.children[0]
-const blockLeaf = blockLevel2.children[0].children[2]
+const blockLevel1 = blockStories[0].children[0]
 import { theme as themeAlteredCarbon } from "./altered-carbon"
 import { theme as themeDefault } from "./default"
 

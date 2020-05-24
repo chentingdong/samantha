@@ -1,8 +1,8 @@
 import React from "react"
 import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
-import { IconButton, Box } from "@material-ui/core"
 import styled from "styled-components"
+import { Box, Heading, Text, Button } from "rebass/styled-components"
 
 type BlockCatalogItemType = {
   block: Block
@@ -18,22 +18,25 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
   className = "",
 }) => {
   const isLeaf = block.type.includes("LEAF_")
-  const headerClass = isLeaf ? "leaf" : "composite"
   return (
-    <div className={`${className}`} key={block.id}>
-      <div className={`header ${headerClass}`}>
+    <Box
+      className={`${className}`}
+      key={block.id}
+      sx={{ display: "grid", gridGap: 3 }}
+    >
+      <Heading className={`header ${isLeaf ? "leaf" : "composite"}`}>
         <div className="title">
           {index + 1} - {block.name}
         </div>
-        <div className="close btn btn-light" onClick={onDelete}>
+        <div className="close" onClick={onDelete}>
           x
         </div>
-      </div>
-      <div className="body">
+      </Heading>
+      <Text className="body">
         <p> {block.description} </p>
         <SegmentView block={block} />
-      </div>
-    </div>
+      </Text>
+    </Box>
   )
 }
 
@@ -43,8 +46,9 @@ const BlockCatalogItem = styled(({ ...props }) => (
   display: block;
   margin: 1em 0;
   border-radius: ${(props) => props.theme.borderRadius};
-  box-shadow: ${(props) => props.theme.boxShadow};
-  border: 1px solid ${(props) => props.theme.shadow};
+  box-shadow: ${(props) => props.theme.shadows.small};
+  border: 1px solid ${(props) => props.theme.colors.blue};
+  margin: 2px;
   .header {
     padding: 0 1em;
     padding: 0 0.5em;
@@ -52,12 +56,12 @@ const BlockCatalogItem = styled(({ ...props }) => (
     position: relative;
     font-size: 0.9em;
     &.composite {
-      color: ${(props) => props.theme.bg};
-      background: ${(props) => props.theme.bgComposite};
+      color: ${(props) => props.theme.colors.blue};
+      background: ${(props) => props.theme.colors.lightgray};
     }
     &.leaf {
-      color: ${(props) => props.theme.fg};
-      background: ${(props) => props.theme.bgLeaf};
+      color: ${(props) => props.theme.colors.lightgray};
+      background: ${(props) => props.theme.colors.blue};
       .title {
         max-width: calc(100% - 2em);
         white-space: nowrap;

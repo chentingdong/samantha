@@ -4,7 +4,6 @@ import { MutationType } from "models/enum"
 import { DndSourceBox } from "components/DndSourceBox"
 import { BlockCatalogItem } from "./BlockCatalogItem"
 import styled from "styled-components"
-import { Box, Flex, Image, Heading, Text } from "rebass"
 
 type BlockChildrenListType = {
   blocks: Block[]
@@ -16,18 +15,18 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   onDelete,
 }) => {
   return (
-    <Flex mx={-2}>
+    <div className="">
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: Block, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
+            const className = isLeaf
+              ? "grid grid-cols-3 gap-4"
+              : "grid grid-cols-1 gap-4"
+
             return (
-              <Box
-                width={isLeaf ? 1 / 3 : 1}
-                px={2}
-                key={`${block.id}-${index}`}
-              >
+              <div className={className} key={`${block.id}-bcl`}>
                 <DndSourceBox type="block" block={block}>
                   <BlockCatalogItem
                     block={block}
@@ -35,15 +34,26 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
                     onDelete={(child) => onDelete(child)}
                   />
                 </DndSourceBox>
-              </Box>
+              </div>
             )
           })}
-    </Flex>
+    </div>
   )
 }
 
 const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
   ({ ...props }) => <BlockChildrenListRaw {...props} />
-)``
+)`
+  border: 1px solid red;
+
+  .leaf: {
+    display: inline-block;
+    border: 1px solid red;
+  }
+  .composite {
+    display: block;
+    border: 1px solid ${(props) => props.theme.shadow};
+  }
+`
 
 export { BlockChildrenList }

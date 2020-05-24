@@ -65,6 +65,8 @@ module.exports = {
   plugins: [
     new CheckerPlugin(),
     new HtmlWebpackPlugin({ template: "index.html.ejs" }),
+    require("tailwindcss"),
+    require("autoprefixer"),
   ],
   externals: {
     react: "React",
