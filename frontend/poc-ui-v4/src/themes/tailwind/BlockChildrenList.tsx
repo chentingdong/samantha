@@ -15,16 +15,14 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   onDelete,
 }) => {
   return (
-    <div className="">
+    <div className="grid grid-cols-3 gap-4 m-1">
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: Block, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
-            const className = isLeaf
-              ? "grid grid-cols-3 gap-4"
-              : "grid grid-cols-1 gap-4"
-
+            let className = isLeaf ? "col-span-1" : "col-span-3"
+            className = `${className} border .shadow-lg`
             return (
               <div className={className} key={`${block.id}-bcl`}>
                 <DndSourceBox type="block" block={block}>
@@ -41,19 +39,24 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   )
 }
 
-const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
-  ({ ...props }) => <BlockChildrenListRaw {...props} />
-)`
-  border: 1px solid red;
-
-  .leaf: {
-    display: inline-block;
-    border: 1px solid red;
-  }
-  .composite {
-    display: block;
-    border: 1px solid ${(props) => props.theme.shadow};
+const Styles = styled.div.attrs({
+  className: "bg-gray-100",
+})`
+  & {
+    .header {
+      font-size: 1em;
+    }
+    .body {
+      font-size: 0.9em;
+    }
   }
 `
 
+const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
+  return (
+    <Styles>
+      <BlockChildrenListRaw {...props} />
+    </Styles>
+  )
+}
 export { BlockChildrenList }

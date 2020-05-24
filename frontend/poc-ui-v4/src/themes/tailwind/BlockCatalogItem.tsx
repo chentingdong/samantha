@@ -1,6 +1,8 @@
 import React from "react"
 import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 
 type BlockCatalogItemType = {
   block: Block
@@ -9,7 +11,7 @@ type BlockCatalogItemType = {
   onDelete?: (child: Block) => void
 }
 
-const BlockCatalogItem: React.FC<BlockCatalogItemType> = ({
+const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
   block,
   index = 0,
   onDelete,
@@ -19,7 +21,7 @@ const BlockCatalogItem: React.FC<BlockCatalogItemType> = ({
   const isLeaf = block.type.includes("LEAF_")
   const bgHeader = isLeaf ? "bg-header-leaf" : "bg-header-composite"
   return (
-    <div className={className} key={block.id}>
+    <div key={block.id}>
       <div className={`header relative px-2 py-1 rounded-t-md ${bgHeader}`}>
         <div className="title overflow-hidden">
           {index + 1} - {block.name}
@@ -39,4 +41,24 @@ const BlockCatalogItem: React.FC<BlockCatalogItemType> = ({
   )
 }
 
+const Styles = styled.div.attrs({
+  className: "bg-gray-100",
+})`
+  & {
+    .header {
+      font-size: 1em;
+    }
+    .body {
+      font-size: 0.9em;
+    }
+  }
+`
+
+const BlockCatalogItem: React.FC<BlockCatalogItemType> = ({ ...props }) => {
+  return (
+    <Styles>
+      <BlockCatalogItemRaw {...props} />
+    </Styles>
+  )
+}
 export { BlockCatalogItem }
