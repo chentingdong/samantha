@@ -1,47 +1,45 @@
 import * as React from "react"
 import Amplify, { Auth, Hub } from "aws-amplify"
-import { useEffect, useContext } from "react"
+import { useEffect } from "react"
 import { hot } from "react-hot-loader/root"
 import Routes from "../routes/Routes"
 import "../assets/scss/app.scss"
-import { Context, initialState } from "../context/store"
 import config from "../../configs/config"
 import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
-import { useMutation, useLazyQuery } from "@apollo/client"
-import { GET_USERS } from "../operations/queries/getUsers"
+import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
+import { AUTH_USER } from "../operations/queries/authUser"
 
 const App = () => {
-  const { state, dispatch } = useContext(Context)
   const [upsertOneUser] = useMutation(UPSERT_ONE_USER)
-  const [getUsers, { data }] = useLazyQuery(GET_USERS)
-
-  useEffect(() => {
-    if (data && data.users) {
-      dispatch({
-        type: "set",
-        data: { users: data?.users },
-      })
-    }
-  }, [data])
-
+  const client = useApolloClient()
   Amplify.configure(config)
 
-  useEffect(() => {
-    async function checkLogin() {
-      const poolUser = await Auth.currentUserPoolUser()
-      if (poolUser) {
-        dispatch({ type: "authenticate", isAuthenticated: true })
-        const user = {
-          id: poolUser.username,
-          attributes: poolUser.attributes,
-        }
-        dispatch({
-          type: "set",
-          data: { user },
-        })
-        getUsers()
-      }
+  async function checkLogin() {
+    let poolUser
+    try {
+      poolUser = await Auth.currentUserPoolUser()
+    } catch (error) {
+      // do nothing
     }
+    let authUser
+    if (poolUser) {
+      authUser = {
+        id: poolUser?.username,
+        name: poolUser?.attributes.name || poolUser?.username,
+        email: poolUser?.attributes.email,
+        isAuthenticated: true,
+      }
+      client.writeQuery({
+        query: AUTH_USER,
+        data: {
+          authUser,
+        },
+      })
+    }
+    return authUser
+  }
+
+  useEffect(() => {
     checkLogin()
   }, [])
 
@@ -49,28 +47,26 @@ const App = () => {
     Hub.listen("auth", async ({ payload: { event } }) => {
       switch (event) {
         case "signIn":
-          dispatch({ type: "authenticate", isAuthenticated: true })
-          // get user from cognito
-          const cognitoUser = await Auth.currentUserPoolUser()
-          dispatch({ type: "set", data: { user: cognitoUser } })
-
-          // upsert cognito user to backend
-          const user = {
-            id: cognitoUser.id,
-            name: cognitoUser.attributes?.name || cognitoUser.id,
-            email: cognitoUser.attributes?.email,
+          const authUser = await checkLogin()
+          if (authUser) {
+            // upsert cognito user to backend
+            const user = {
+              id: authUser.id,
+              name: authUser.name,
+              email: authUser.email,
+            }
+            upsertOneUser({
+              variables: { where: { id: user.id }, create: user, update: user },
+            })
           }
-          upsertOneUser({
-            variables: { where: { id: user.id }, create: user, update: user },
-          })
-          // update users
-          getUsers()
 
           break
         case "signOut":
-          dispatch({ type: "authenticate", isAuthenticated: false })
-          dispatch({ type: "set", data: { user: initialState.user } })
-          dispatch({ type: "set", data: { users: initialState.users } })
+          client.writeQuery({
+            query: AUTH_USER,
+            data: { authUser: { isAuthenticated: false } },
+          })
+
           break
         case "signIn_failure":
           // console.error("user sign in failed")

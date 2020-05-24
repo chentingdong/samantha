@@ -22,12 +22,7 @@ module.exports.requestsMade = async ({ userId }) => {
       query requestsMade($userId: String) {
         blocks(
           orderBy: { id: desc }
-          where: {
-            AND: [
-              { inCatalog: { equals: false } }
-              { requestors: { some: { id: { equals: $userId } } } }
-            ]
-          }
+          where: { requestors: { some: { id: { equals: $userId } } } }
         ) {
           id
           name
@@ -36,7 +31,6 @@ module.exports.requestsMade = async ({ userId }) => {
           }
           state
           type
-          inCatalog
           requestors {
             name
           }
@@ -57,12 +51,7 @@ module.exports.requestsReceived = async ({ userId }) => {
       query requestsReceived($userId: String) {
         blocks(
           orderBy: { id: desc }
-          where: {
-            AND: [
-              { inCatalog: { equals: false } }
-              { responders: { some: { id: { equals: $userId } } } }
-            ]
-          }
+          where: { responders: { some: { id: { equals: $userId } } } }
         ) {
           id
           name
@@ -71,7 +60,6 @@ module.exports.requestsReceived = async ({ userId }) => {
           }
           state
           type
-          inCatalog
           requestors {
             name
           }
@@ -90,11 +78,11 @@ module.exports.requestCatalog = async () => {
   const { data } = await client.query({
     query: gql`
       query requestCatalog {
-        blocks(
+        blockDefs(
           orderBy: { id: asc }
           where: {
             AND: [
-              { inCatalog: { equals: true } }
+              { parent: null }
               {
                 OR: [
                   { type: COMPOSITE_PARALLEL }
@@ -109,15 +97,7 @@ module.exports.requestCatalog = async () => {
           parent {
             id
           }
-          state
           type
-          inCatalog
-          requestors {
-            name
-          }
-          responders {
-            name
-          }
         }
       }
     `,
@@ -129,21 +109,13 @@ module.exports.blockCatalog = async () => {
   const { data } = await client.query({
     query: gql`
       query blockCatalog {
-        blocks(orderBy: { id: asc }, where: { inCatalog: { equals: true } }) {
+        blockDefs(orderBy: { id: asc }, where: { parent: null }) {
           id
           name
           parent {
             id
           }
-          state
           type
-          inCatalog
-          requestors {
-            name
-          }
-          responders {
-            name
-          }
         }
       }
     `,
@@ -225,7 +197,7 @@ module.exports.designSurface = async ({ id }) => {
   const { data } = await client.query({
     query: gql`
       query designSurface($id: Int) {
-        block(where: { id: $id }) {
+        blockDef(where: { id: $id }) {
           id
           name
           type

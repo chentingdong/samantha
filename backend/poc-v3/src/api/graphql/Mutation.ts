@@ -11,6 +11,10 @@ schema.mutationType({
     t.crud.updateOneBlock()
     t.crud.upsertOneBlock()
     t.crud.deleteOneBlock()
+    t.crud.createOneBlockDef()
+    t.crud.updateOneBlockDef()
+    t.crud.upsertOneBlockDef()
+    t.crud.deleteOneBlockDef()
     t.list.field('customMutation', {
       type: 'User',
       resolve: customMutationResolver,

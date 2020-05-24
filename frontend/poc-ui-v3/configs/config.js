@@ -35,6 +35,15 @@ const config = {
   suggestUrl:
     "https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest",
   apiBaseUrl: apiBaseUrl,
+  graphQL: {
+    HttpLink: {
+      uri: "http://localhost:4000/graphql",
+      headers: {
+        Authorization:
+          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJiYWlqaSJ9.TG1mdxB0dbE6_aeD0WyQWUf1Pnwq4PeZ01Pp5eSv8p4",
+      },
+    },
+  },
 }
 
 export default config

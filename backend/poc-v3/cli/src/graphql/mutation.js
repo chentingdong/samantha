@@ -93,7 +93,6 @@ module.exports.createOneRootBlockMutation = async ({ data }) => {
           state
           control
           type
-          inCatalog
           requestors {
             id
             name

@@ -2,7 +2,7 @@
   "isAuthenticated": false,
   "user": {},
   "users": [],
-  "blockCreateInput": {
+  "draftBlock": {
     "id": 0,
     "name": "",
     "description": "",
@@ -10,7 +10,8 @@
     "state": "DRAFT",
     "requestors": [],
     "responders": [],
-    "parent": null
+    "parent": null,
+    "children": []
   },
   "messages": [],
   "uiState": {

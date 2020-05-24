@@ -96,8 +96,8 @@ const showResponseSurface = async ({ id, userId }) => {
 }
 
 const showDesignSurface = async ({ id, userId }) => {
-  const { block } = await designSurface({ id })
-  printDesignSurface(block)
+  const { blockDef } = await designSurface({ id })
+  printDesignSurface(blockDef)
 }
 
 module.exports = async ({ userId }) => {

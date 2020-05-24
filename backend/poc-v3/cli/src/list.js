@@ -30,25 +30,25 @@ const listRequestsReceived = async ({ userId }) => {
 }
 
 const listRequestCatalog = async () => {
-  const { blocks } = await requestCatalog()
-  if (blocks.length == 0)
+  const { blockDefs } = await requestCatalog()
+  if (blockDefs.length == 0)
     console.log(
       colors.gray(
         'Request catalog is empty. Try to create some requests in the catalog!',
       ),
     )
-  blocks.map((block) => printBlockLine(block))
+  blockDefs.map((blockDef) => printBlockLine(blockDef))
 }
 
 const listBlockCatalog = async () => {
-  const { blocks } = await blockCatalog()
-  if (blocks.length == 0)
+  const { blockDefs } = await blockCatalog()
+  if (blockDefs.length == 0)
     console.log(
       colors.gray(
         'Block catalog is empty. Try to create some blocks in the catalog!',
       ),
     )
-  blocks.map((block) => printBlockLine(block))
+  blockDefs.map((blockDef) => printBlockLine(blockDef))
 }
 
 const listUsers = async () => {

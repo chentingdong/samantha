@@ -13,9 +13,9 @@ describe("Transform Block Input", () => {
     expect(result.children?.connect).toBeDefined()
   })
 
-  it("should remove id for creates", () => {
-    expect(result.children?.create[0].id).not.toBeDefined()
-  })
+  // it("should remove id for creates", () => {
+  //   expect(result.children?.create[0].id).not.toBeDefined()
+  // })
 
   it("should keep id for connects", () => {
     expect(result.id).toBeDefined()

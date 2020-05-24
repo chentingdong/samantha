@@ -1,18 +1,14 @@
-import React, { useContext, useState } from 'react'
-import uuid from 'uuid'
-import { DndTargetBox } from './DndTargetBox'
-import { BlockChildrenList } from '../containers/BlockChildrenList'
-import { Context } from '../context/store'
-import { Block } from '../models/interface'
+import React, { useState } from "react"
+import { BlockChildrenList } from "./BlockChildrenList"
+import { BlockOrDef } from "../models/interface"
 
 const SegmentCompositeStages: React.FC<{
   type: string
-  childrenBlocks: Block[]
+  childrenBlocks: BlockOrDef[]
 }> = ({ type, childrenBlocks }) => {
-  const { state, dispatch } = useContext(Context)
   const [blocks, setBlocks] = useState(childrenBlocks)
 
-  const addSubBlock = (block: Block) => {
+  const addSubBlock = (block: BlockOrDef) => {
     const updatedBlocks = [...blocks, block]
     setBlocks(updatedBlocks)
     resetPalette()
@@ -24,17 +20,7 @@ const SegmentCompositeStages: React.FC<{
     })
   }
 
-  return (
-    <div className="">
-      <DndTargetBox
-        accept="block"
-        greedy={false}
-        onDrop={(item) => addSubBlock(item)}
-      >
-        <BlockChildrenList blocks={blocks} />
-      </DndTargetBox>
-    </div>
-  )
+  return <BlockChildrenList blocks={blocks} addSubBlock={addSubBlock} />
 }
 
 export { SegmentCompositeStages }

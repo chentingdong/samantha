@@ -2,22 +2,16 @@ import { gql } from "@apollo/client"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
-    blocks(
-      orderBy: { id: desc }
-      where: { AND: [{ inCatalog: { equals: true } }, { parent: null }] }
-    ) {
+    blockDefs(orderBy: { id: desc }, where: { parent: null }) {
       id
       name
       description
       type
-      inCatalog
-      state
       control
       context
       parent {
         id
         name
-        state
         type
       }
       children {
@@ -25,7 +19,6 @@ export const BLOCK_CATALOG = gql`
         name
         description
         type
-        state
         control
         context
         children {
@@ -33,7 +26,6 @@ export const BLOCK_CATALOG = gql`
           name
           description
           type
-          state
           control
           context
           children {
@@ -41,21 +33,10 @@ export const BLOCK_CATALOG = gql`
             name
             description
             type
-            state
             control
             context
           }
         }
-      }
-      requestors {
-        id
-        name
-        email
-      }
-      responders {
-        id
-        name
-        email
       }
     }
   }

@@ -1,12 +1,9 @@
-import * as React from "react"
-import { useEffect, useContext } from "react"
+import React from "react"
 import Amplify, { Auth } from "aws-amplify"
 import config from "../../configs/config.js"
 import logo from "../assets/img/bellhop.png"
-import { Context } from "../context/store"
 
 function Login() {
-  const { state, dispatch } = useContext(Context)
   Amplify.configure(config)
 
   function handleFederatedLogin() {

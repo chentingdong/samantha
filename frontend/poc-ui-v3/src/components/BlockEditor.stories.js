@@ -1,5 +1,5 @@
 import React from "react"
-import { RequestItem } from "./RequestItem"
+import { BlockEditor } from "./BlockEditor"
 import { ItemOrigin, EditMode } from "../models/enum"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
@@ -14,10 +14,10 @@ const blockLeaf = blockLevel1.children[0]
 const blockLevel0 = { ...blockLevel1, children: [] }
 const createOneBlock = () => {}
 const updateOneBlock = () => {}
-const completeOneBlock = () => {}
+const close = () => {}
 
 export default {
-  title: "Components / RequestItem",
+  title: "Components / BlockEditor",
   decorators: [
     (storyFn) => {
       return (
@@ -29,18 +29,24 @@ export default {
   ],
 }
 
-const actions = { createOneBlock, updateOneBlock, completeOneBlock }
+const actions = { createOneBlock, updateOneBlock }
 
-export const Leaf = () => <RequestItem block={blockLeaf} actions={actions} />
-export const Level0 = () => (
-  <RequestItem block={blockLevel0} actions={actions} />
+export const catalogItemEditor = () => (
+  <BlockEditor
+    draftBlock={blockLevel2}
+    close={close}
+    actions={actions}
+    editMode={EditMode.Edit}
+    itemOrigin={ItemOrigin.Catalog}
+  />
 )
-export const Level1 = () => (
-  <RequestItem block={blockLevel1} actions={actions} />
-)
-export const Level2 = () => (
-  <RequestItem block={blockLevel2} actions={actions} />
-)
-export const Level2EditMode = () => (
-  <RequestItem block={blockLevel0} actions={actions} initShowEdit={true} />
+
+export const requestItemEditor = () => (
+  <BlockEditor
+    draftBlock={blockLevel2}
+    close={close}
+    actions={actions}
+    editMode={EditMode.Edit}
+    itemOrigin={ItemOrigin.Made}
+  />
 )

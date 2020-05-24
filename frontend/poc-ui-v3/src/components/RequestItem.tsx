@@ -1,14 +1,16 @@
-import React, { useState, useContext, createContext } from "react"
+import React, { useState, useReducer } from "react"
 import uuid from "uuid"
-import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
-import { BlockEdit } from "./BlockEdit"
-import { Block } from "../models/interface"
+import { BlockEditor } from "./BlockEditor"
+import { BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
+import { AUTH_USER } from "../operations/queries/authUser"
+import { useQuery } from "@apollo/client"
+import { reducer } from "../context/reducer"
 
 const RequestItem: React.FC<{
-  block: Block
+  block: BlockOrDef
   itemOrigin?: ItemOrigin
   initShowEdit?: boolean
   actions: any
@@ -18,13 +20,17 @@ const RequestItem: React.FC<{
   initShowEdit = false,
   actions,
 }) => {
-  // global context
-  const { state, dispatch } = useContext(Context)
-
-  // TODO: move into context at this level
+  // state on each RequestItem object
+  // by default (edit mode) draft is a copy of the current block object
+  // when making a request from definitoin, createDraftBlock() needs to be called first
+  const [state, dispatch] = useReducer(reducer, { draftBlock: block })
+  const setDraftBlock = (draftBlock) => {
+    dispatch({ type: "set", data: { draftBlock } })
+  }
   const [showEdit, setShowEdit] = useState(initShowEdit)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
+  const { data } = useQuery(AUTH_USER)
   const { createOneBlock, updateOneBlock, completeOneBlock } = actions
 
   const markComplete = (blockToComplete) => {
@@ -37,34 +43,36 @@ const RequestItem: React.FC<{
     })
   }
 
-  const editRequestDef = (blockCreateInput) => {
-    dispatch({ type: "set", data: { blockCreateInput } })
+  const editRequestDef = () => {
     setEditMode(EditMode.Edit)
     setShowEdit(true)
   }
 
   const makeRequest = () => {
-    const blockCreateInput = Object.assign({}, block, {
-      __mutation_type__: MutationType.Create,
-      id: uuid.v4(),
-      name: "",
-      inCatalog: false,
-      state: "ACTIVE",
-      requestors: [
-        {
-          id: state.user.id,
-          name: state.user.attributes.name,
-          email: state.user.attributes.email,
-        },
-      ],
-    })
-    dispatch({ type: "set", data: { blockCreateInput } })
+    setDraftBlock(createDraftBlock(block))
     setEditMode(EditMode.Create)
     setShowEdit(true)
   }
 
+  const createDraftBlock = (blockDef) => {
+    const draftBlock = Object.assign({}, blockDef, {
+      __mutation_type__: MutationType.Create,
+      id: uuid.v4(),
+      name: "",
+      state: "ACTIVE",
+      requestors: [
+        {
+          id: data?.authUser?.id,
+          name: data?.authUser?.name,
+          email: data?.authUser?.email,
+        },
+      ],
+    })
+    return draftBlock
+  }
+
   return (
-    <div className="card mt-2 pt-2">
+    <div className="card m-3 p-1">
       <div className="d-flex justify-content-between">
         <div className="col">
           <h4>
@@ -108,7 +116,7 @@ const RequestItem: React.FC<{
           <div className="row">
             <button
               className="btn btn-link border rounded m-1 col"
-              onClick={() => editRequestDef(block)}
+              onClick={() => editRequestDef()}
             >
               View/Edit
             </button>
@@ -143,8 +151,9 @@ const RequestItem: React.FC<{
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <BlockEdit
-              blockCreateInput={state.blockCreateInput}
+            <BlockEditor
+              draftBlock={state.draftBlock}
+              setDraftBlock={setDraftBlock}
               close={() => setShowEdit(false)}
               itemOrigin={itemOrigin}
               editMode={editMode}

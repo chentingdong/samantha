@@ -13,6 +13,11 @@ schema.queryType({
       ordering: true,
       filtering: true,
     })
+    t.crud.blockDef()
+    t.crud.blockDefs({
+      ordering: true,
+      filtering: true,
+    })
     t.list.field('customQuery', {
       type: 'User',
       resolve: customQueryResolver,
