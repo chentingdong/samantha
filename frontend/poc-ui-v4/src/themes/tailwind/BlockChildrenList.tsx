@@ -22,7 +22,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
           .map((block: Block, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             let className = isLeaf ? "col-span-1" : "col-span-3"
-            className = `${className} border .shadow-lg`
+            className = `${className} border .shadow-lg `
             return (
               <div className={className} key={`${block.id}-bcl`}>
                 <DndSourceBox type="block" block={block}>
@@ -40,17 +40,8 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 }
 
 const Styles = styled.div.attrs({
-  className: "bg-gray-100",
-})`
-  & {
-    .header {
-      font-size: 1em;
-    }
-    .body {
-      font-size: 0.9em;
-    }
-  }
-`
+  className: "bg-gray-200",
+})``
 
 const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
   return (

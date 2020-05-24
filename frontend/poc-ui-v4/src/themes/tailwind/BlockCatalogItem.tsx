@@ -3,6 +3,7 @@ import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import Particles from "react-particles-js"
 
 type BlockCatalogItemType = {
   block: Block
@@ -27,29 +28,39 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
           {index + 1} - {block.name}
         </div>
         <div
-          className="close absolute top-0 right-0 mx-2 my-0 cursor-pointer"
+          className="close absolute top-0 right-0 mx-2 my-1 cursor-pointer"
           onClick={onDelete}
         >
           x
         </div>
       </div>
-      <div className="body m-1">
+      <div className="body m-1 relative">
         <p> {block.description} </p>
-        <SegmentView block={block} />
+        <div className="bg-gray-400">{isLeaf && <Particles />}</div>
+        <div className="bg-transparent">
+          <SegmentView block={block} />
+        </div>
       </div>
     </div>
   )
 }
 
 const Styles = styled.div.attrs({
-  className: "bg-gray-100",
+  className: "bg-transparent",
 })`
   & {
     .header {
       font-size: 1em;
+      font-family: Georgia;
+      text-transform: capitalize;
     }
     .body {
       font-size: 0.9em;
+      font-family: Ariel;
+    }
+    .close {
+      font-family: Ariel;
+      font-size: 1rem;
     }
   }
 `
