@@ -12,7 +12,7 @@ import { theme as themeAlteredCarbon } from "./altered-carbon"
 import { theme as themeDefault } from "./default"
 
 export default {
-  title: "Theme /Material UI + styled/ BlockCatalogItem",
+  title: "Theme /Material UI + Styled Component",
 }
 
 const MuiThemeDefault = () => {
