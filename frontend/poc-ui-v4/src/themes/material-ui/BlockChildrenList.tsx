@@ -16,11 +16,9 @@ const BlockChildrenList: React.FC<{
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: Block, index: number) => {
-            const className = block.type.includes("LEAF_")
-              ? "bh-leaf"
-              : "bh-composit"
+            const isLeaf = block.type.includes("LEAF_")
             return (
-              <Grid item className={className} key={`${block.id}-bcl`}>
+              <Grid item xs={isLeaf ? 4 : 12} key={`${block.id}-bcl`}>
                 <Paper>
                   <DndSourceBox type="block" block={block}>
                     <BlockCatalogItem

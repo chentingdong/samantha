@@ -14,13 +14,6 @@ const SegmentCompositeStages: React.FC<{
   const addSubBlock = (block: Block) => {
     const updatedBlocks = [...blocks, block]
     setBlocks(updatedBlocks)
-    resetPalette()
-  }
-  // TODO: temp solution by resetting all
-  const resetPalette = () => {
-    blocks.forEach((block) => {
-      block.children = []
-    })
   }
 
   return (

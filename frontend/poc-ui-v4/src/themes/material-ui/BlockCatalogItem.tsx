@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "#/models/interface"
+import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
 import { IconButton, Box } from "@material-ui/core"
 import { Close } from "@material-ui/icons"
@@ -19,7 +19,7 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
   className = "",
 }) => {
   const isLeaf = block.type.includes("LEAF_")
-  const headerClass = isLeaf ? "bh-leaf" : "bh-composit"
+  const headerClass = isLeaf ? "leaf" : "composite"
   return (
     <Box className={className} key={block.id}>
       <div className={`header ${headerClass}`}>
@@ -52,14 +52,14 @@ const BlockCatalogItem = styled(({ theme, ...props }) => (
     border-radius: 4px 4px 0 0;
     position: relative;
     line-height: 0.7em;
-    &.bh-composit {
+    &.composite {
       color: ${(props) => props.theme.palette?.secondary.contrastText};
       background: linear-gradient(
         ${(props) => props.theme.colors?.secondary},
         #000
       );
     }
-    &.bh-leaf {
+    &.leaf {
       color: ${(props) => props.theme.palette?.primary.contrastText};
       background: linear-gradient(
         ${(props) => props.theme.palette?.primary.main},

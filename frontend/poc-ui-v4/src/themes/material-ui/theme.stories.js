@@ -15,7 +15,7 @@ export default {
   title: "Theme /Material UI + Styled Component",
 }
 
-const MuiThemeDefault = () => {
+const BlockMuiThemeDefault = () => {
   return (
     <StylesProvider injectFirst>
       <ThemeProvider theme={themeDefault}>
@@ -27,7 +27,7 @@ const MuiThemeDefault = () => {
   )
 }
 
-const MuiThemeAlteredCarbon = () => {
+const BlockMuiThemeAlteredCarbon = () => {
   return (
     <StylesProvider injectFirst>
       <ThemeProvider theme={themeAlteredCarbon}>
@@ -39,4 +39,4 @@ const MuiThemeAlteredCarbon = () => {
   )
 }
 
-export { MuiThemeDefault, MuiThemeAlteredCarbon }
+export { BlockMuiThemeDefault, BlockMuiThemeAlteredCarbon }
