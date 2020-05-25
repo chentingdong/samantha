@@ -2,6 +2,7 @@
   "name": "my-nexus-project",
   "license": "UNLICENSED",
   "dependencies": {
+    "@types/uuid": "^8.0.0",
     "cors": "^2.8.5",
     "jsonwebtoken": "^8.5.1",
     "nexus": "^0.21.1-next.2",
@@ -14,7 +15,12 @@
     "dev": "nexus dev",
     "build": "nexus build",
     "start": "node node_modules/.build",
-    "test": "jest"
+    "test": "jest --passWithNoTests",
+    "db-save": "yarn prisma migrate save --experimental",
+    "db-up": "yarn prisma migrate up --experimental --create-db --auto-approve",
+    "prisma-generate": "yarn prisma generate",
+    "db-seed": "yarn ts-node prisma/seed.ts",
+    "prod": "yarn run db-up && yarn run dev"
   },
   "prettier": {
     "semi": false,
@@ -28,7 +34,6 @@
     "@types/cors": "^2.8.6",
     "@types/jest": "^25.2.1",
     "@types/jsonwebtoken": "^8.5.0",
-    "@types/uuid": "^8.0.0",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
     "apollo-link-http": "^1.5.17",

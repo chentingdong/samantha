@@ -8,11 +8,12 @@ const app = express()
 app.use(express.static(sourceDir))
 
 const port = process.env.PORT || 2000
-const privateKey  = fs.readFileSync('certs/key.pem', 'utf8');
-const certificate = fs.readFileSync('certs/cert.pem', 'utf8');
-const credentials = {key: privateKey, cert: certificate};
-const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(port, () => {
-  console.log(`Express https web server started on ${port}`)
+// const privateKey  = fs.readFileSync('certs/key.pem', 'utf8');
+// const certificate = fs.readFileSync('certs/cert.pem', 'utf8');
+// const credentials = {key: privateKey, cert: certificate};
+const httpServer = http.createServer(app);
+httpServer.listen(port, () => {
+  console.log(`Express http web server started on ${port}`)
   console.log(`Serving content from ./${sourceDir}/`)
+  console.log(`process.env.NODE_ENV: ${JSON.stringify(process.env.NODE_ENV)}`)
 })

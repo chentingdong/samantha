@@ -6,6 +6,12 @@
 - Less time spent on API and DB layers
 - More time on iterating the domain model and business logic
 
+## Services
+
+- React web app
+- GraphQL API server
+- Postgres DB (local) or RDS Aurora Postgres (prod)
+
 ## Technical features
 
 - GraphQL
@@ -65,3 +71,17 @@
 
 - ~~`drop index "Block_parent";`~~
 - ~~`create index "Block_parent" on "Block"("parent")`~~
+
+## Docker Compose for standing up the full stack in local env
+
+- `cd $REPO_ROOT/backend/poc-v3`
+- `docker build -t samantha-server:latest .`
+- `cd $REPO_ROOT/frontend/poc-ui-v3`
+- `docker build -t samantha-web:latest .`
+- `cd $REPO_ROOT`
+- `docker-compose up`
+
+## Terraform for deploying the full stack to AWS Fargate
+
+- CI/CD managed by Github Actions
+- DATABASE_URL will be injected into api service from .env

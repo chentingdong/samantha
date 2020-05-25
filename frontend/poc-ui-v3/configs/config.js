@@ -1,10 +1,14 @@
 const uiBaseUrl = window.location.origin
-const portWeb = uiBaseUrl.includes("local") ? ":3000" : ""
-const apiBaseUrl =
-  window.location.protocol + "//" + window.location.hostname + portWeb
-const portWs = uiBaseUrl.includes("local") ? ":3001" : ""
-const wsUrl = "wss://" + window.location.hostname + portWs
-const serverHost = process.env.SERVER_HOST || "localhost"
+const apiPort = "4000"
+const apiBaseUrl = `${window.location.protocol}//${window.location.hostname}:${apiPort}`
+const wsPort = uiBaseUrl.includes("local") ? "3001" : ""
+const wsUrl = `wss://${window.location.hostname}:${wsPort}`
+const graphQLUri =
+  process.env.NODE_ENV === "production"
+    ? `${apiBaseUrl}/graphql`
+    : `http://localhost:4000/graphql`
+
+console.log(`config.graphQL.HttpLink.uri: ${graphQLUri}`)
 
 const config = {
   Auth: {
@@ -38,7 +42,7 @@ const config = {
   apiBaseUrl: apiBaseUrl,
   graphQL: {
     HttpLink: {
-      uri: `http://${serverHost}:4000/graphql`,
+      uri: graphQLUri,
       headers: {
         Authorization:
           "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJiYWlqaSJ9.TG1mdxB0dbE6_aeD0WyQWUf1Pnwq4PeZ01Pp5eSv8p4",

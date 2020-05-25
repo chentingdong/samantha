@@ -120,3 +120,5 @@ build
 
 # webpack output
 .webpack
+
+.terraform
