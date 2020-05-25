@@ -19042,14 +19042,6 @@ video {
   transition-delay: 1000ms;
 }
 
-.bg-header-composite {
-  background-image: linear-gradient(to right, #666, #999);
-}
-
-.bg-header-leaf {
-  background-image: linear-gradient(to bottom, #666, #ccc);
-}
-
 @media (min-width: 640px) {
   .sm\:space-y-0 > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
