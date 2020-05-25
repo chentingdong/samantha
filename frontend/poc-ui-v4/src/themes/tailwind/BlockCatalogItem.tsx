@@ -33,48 +33,34 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
       </div>
       <div className="body m-1 relative">
         <p> {block.description} </p>
-        <div className="particles">{isLeaf && <Particles />}</div>
         <div className="bg-transparent">
           <SegmentView block={block} />
         </div>
+        <div className="bg-secondary">{isLeaf && <Particles />}</div>
       </div>
     </div>
   )
 }
 
 const Styles = styled.div.attrs({
-  className: "rounded-t-md m-1",
+  className: "rounded-t-md m-1 shadow",
 })`
   & {
-    border: 1px solid ${(props) => props.theme.highlight};
-    background: ${(props) => props.theme.bg};
     .header {
       font-size: 1em;
-      font-family: Georgia;
       text-transform: capitalize;
-      color: ${(props) => props.theme.fg};
+      color: var(--color-fg-default);
       &.leaf {
-        background-image: linear-gradient(
-          to bottom,
-          ${(props) => props.theme.highlight},
-          ${(props) => props.theme.shadow}
-        );
+        background: var(--color-bg-primary);
       }
       &.composite {
-        background-image: linear-gradient(
-          to right,
-          ${(props) => props.theme.highlight},
-          ${(props) => props.theme.shadow}
-        );
+        background: var(--color-bg-secondary);
       }
     }
     .body {
       font-size: 0.9em;
       font-family: Ariel;
-      color: ${(props) => props.theme.fg};
-      .particles {
-        background: transparent;
-      }
+      color: var(--color-fg-default);
     }
     .close {
       font-family: Symbol;

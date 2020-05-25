@@ -2,34 +2,37 @@ import React from "react"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import { BlockCatalogItem } from "./BlockCatalogItem"
-import { ThemeProvider } from "styled-components"
 import { light, dark } from "./theme"
+import "./tailwind.generated.css"
+import "./tailwind.css"
+import { ThemeProvider } from "styled-components"
 
 import blockStories from "../../../data/storybook-blocks.json"
-const blockLevel1 = blockStories[0].children[0]
-import "./tailwind.generated.css"
+const blockLevel1 = blockStories[0].children[0].children[2]
 
 export default {
   title: "Theme /Tailwind/ BlockCatalogItem",
 }
 
-const StyledSystemThemelight = () => {
+const ThemeMix = () => {
   return (
-    <ThemeProvider theme={light}>
-      <DndProvider backend={Backend}>
-        <BlockCatalogItem block={blockLevel1} />
-      </DndProvider>
-    </ThemeProvider>
+    <>
+      <div className="theme-startup">
+        <DndProvider backend={Backend}>
+          <BlockCatalogItem block={blockLevel1} />
+        </DndProvider>
+      </div>
+      <div className="theme-boring">
+        <DndProvider backend={Backend}>
+          <BlockCatalogItem block={blockLevel1} />
+        </DndProvider>
+      </div>
+      <div className="theme-elegant">
+        <DndProvider backend={Backend}>
+          <BlockCatalogItem block={blockLevel1} />
+        </DndProvider>
+      </div>
+    </>
   )
 }
-
-const StyledSystemThemeDark = () => {
-  return (
-    <ThemeProvider theme={dark}>
-      <DndProvider backend={Backend}>
-        <BlockCatalogItem block={blockLevel1} />
-      </DndProvider>
-    </ThemeProvider>
-  )
-}
-export { StyledSystemThemelight, StyledSystemThemeDark }
+export { ThemeMix }

@@ -60,6 +60,17 @@
                 "responders": [],
                 "parent": "",
                 "children": []
+              },
+              {
+                "id": "leaf-2",
+                "name": "rating",
+                "description": "team rating",
+                "type": "LEAF_FORM",
+                "state": "ACTIVE",
+                "requestors": [],
+                "responders": [],
+                "parent": "",
+                "children": []
               }
             ]
           },

@@ -40,7 +40,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 }
 
 const Styles = styled.div.attrs({})`
-  background: ${(props) => props.theme.bg};
+  background: var(--color-bg-default);
 `
 
 const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
