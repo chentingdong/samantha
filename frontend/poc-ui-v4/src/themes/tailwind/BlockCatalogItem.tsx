@@ -8,7 +8,6 @@ import Particles from "react-particles-js"
 type BlockCatalogItemType = {
   block: Block
   index?: number
-  className?: string
   onDelete?: (child: Block) => void
 }
 
@@ -16,9 +15,7 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
   block,
   index = 0,
   onDelete,
-  className = "",
 }) => {
-  className = `${className} border rounded-t-md m-1`
   const isLeaf = block.type.includes("LEAF_")
   const bgHeader = isLeaf ? "bg-header-leaf" : "bg-header-composite"
   return (
@@ -46,7 +43,7 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
 }
 
 const Styles = styled.div.attrs({
-  className: "bg-transparent",
+  className: "bg-transparent border rounded-t-md m-1",
 })`
   & {
     .header {

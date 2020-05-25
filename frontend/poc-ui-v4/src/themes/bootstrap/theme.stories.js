@@ -9,10 +9,10 @@ import { light, dark } from "./theme"
 import { ThemeProvider } from "styled-components"
 
 export default {
-  title: "Theme /Example",
+  title: "Theme /Bootstrap",
 }
 
-const ExampleThemeLight = () => {
+const ThemeLight = () => {
   return (
     <ThemeProvider theme={light}>
       <DndProvider backend={Backend}>
@@ -22,7 +22,7 @@ const ExampleThemeLight = () => {
   )
 }
 
-const ExampleThemeDark = () => {
+const ThemeDark = () => {
   return (
     <ThemeProvider theme={dark}>
       <DndProvider backend={Backend}>
@@ -32,4 +32,4 @@ const ExampleThemeDark = () => {
   )
 }
 
-export { ExampleThemeLight, ExampleThemeDark }
+export { ThemeLight, ThemeDark }

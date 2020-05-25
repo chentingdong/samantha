@@ -16,15 +16,13 @@ const SegmentCompositeStages: React.FC<{
   }
 
   return (
-    <div className="">
-      <DndTargetBox
-        accept="block"
-        greedy={false}
-        onDrop={(item) => addSubBlock(item)}
-      >
-        <BlockChildrenList blocks={blocks} />
-      </DndTargetBox>
-    </div>
+    <DndTargetBox
+      accept="block"
+      greedy={false}
+      onDrop={(item) => addSubBlock(item)}
+    >
+      <BlockChildrenList blocks={blocks} />
+    </DndTargetBox>
   )
 }
 

@@ -15,14 +15,14 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   onDelete,
 }) => {
   return (
-    <div className="grid grid-cols-3 gap-4 m-1">
+    <div className="grid grid-cols-3">
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: Block, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             let className = isLeaf ? "col-span-1" : "col-span-3"
-            className = `${className} border .shadow-lg `
+            className = `${className} .shadow-lg`
             return (
               <div className={className} key={`${block.id}-bcl`}>
                 <DndSourceBox type="block" block={block}>

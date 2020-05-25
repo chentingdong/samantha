@@ -3,6 +3,7 @@
 const light = {
   fg: "#414141",
   bg: "#efefef",
+  highlight: "#fff",
   shadow: "#ddd",
   boxShadow: "1px 1px 9px -6px rgba(0,0,0,0.8)",
   bgComposite: "linear-gradient(#ddd, #999)",
@@ -14,8 +15,9 @@ const light = {
 const dark = {
   fg: "#efefef",
   bg: "#414141",
-  shadow: "#414141",
-  boxShadow: "1px 1px 9px -5px rgba(255,255,255,0.8)",
+  highlight: "#717171",
+  shadow: "#999999",
+  boxShadow: "1px 1px 9px -4px rgba(255,255,255,0.8)",
   bgComposite: "linear-gradient(#999, #666)",
   bgLeaf: "linear-gradient(#ddd, #666)",
   spacing: "1em",

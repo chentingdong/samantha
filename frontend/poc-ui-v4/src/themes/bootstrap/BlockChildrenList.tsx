@@ -39,19 +39,22 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   )
 }
 
-const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
-  ({ ...props }) => <BlockChildrenListRaw {...props} />
-)`
-  border: 1px solid red;
-
+const Styles = styled.div.attrs({})`
+  background: transparent;
   .leaf: {
     display: inline-block;
-    border: 1px solid red;
   }
   .composite {
     display: block;
-    border: 1px solid ${(props) => props.theme.shadow};
   }
 `
+
+const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
+  return (
+    <Styles>
+      <BlockChildrenListRaw {...props} />
+    </Styles>
+  )
+}
 
 export { BlockChildrenList }

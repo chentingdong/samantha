@@ -1,7 +1,6 @@
 import React from "react"
 import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
-import { IconButton, Box } from "@material-ui/core"
 import styled from "styled-components"
 
 type BlockCatalogItemType = {
@@ -37,9 +36,7 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
   )
 }
 
-const BlockCatalogItem = styled(({ ...props }) => (
-  <BlockCatalogItemContainerView {...props} />
-))`
+const Styles = styled.div.attrs({})`
   display: block;
   margin: 1em 0;
   border-radius: ${(props) => props.theme.borderRadius};
@@ -83,4 +80,12 @@ const BlockCatalogItem = styled(({ ...props }) => (
     padding: 2px 5px;
   }
 `
+
+const BlockCatalogItem: React.FC<BlockCatalogItemType> = ({ ...props }) => {
+  return (
+    <Styles>
+      <BlockCatalogItemContainerView {...props} />
+    </Styles>
+  )
+}
 export { BlockCatalogItem }
