@@ -14,7 +14,7 @@ const light = {
 
 const dark = {
   fg: "#efefef",
-  bg: "#414141",
+  bg: "#212121",
   highlight: "#717171",
   shadow: "#999999",
   boxShadow: "1px 1px 9px -4px rgba(255,255,255,0.8)",

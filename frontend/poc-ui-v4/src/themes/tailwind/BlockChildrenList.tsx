@@ -15,7 +15,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   onDelete,
 }) => {
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-6">
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)

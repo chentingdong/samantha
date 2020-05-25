@@ -8,7 +8,7 @@ import "./tailwind.css"
 import { ThemeProvider } from "styled-components"
 
 import blockStories from "../../../data/storybook-blocks.json"
-const blockLevel1 = blockStories[0].children[0].children[2]
+const blockLevel1 = blockStories[0].children[0]
 
 export default {
   title: "Theme /Tailwind/ BlockCatalogItem",
@@ -17,17 +17,17 @@ export default {
 const ThemeMix = () => {
   return (
     <>
-      <div className="theme-startup">
+      <div className="theme-startup my-4">
         <DndProvider backend={Backend}>
           <BlockCatalogItem block={blockLevel1} />
         </DndProvider>
       </div>
-      <div className="theme-boring">
+      <div className="theme-boring my-4">
         <DndProvider backend={Backend}>
           <BlockCatalogItem block={blockLevel1} />
         </DndProvider>
       </div>
-      <div className="theme-elegant">
+      <div className="theme-elegant my-4">
         <DndProvider backend={Backend}>
           <BlockCatalogItem block={blockLevel1} />
         </DndProvider>

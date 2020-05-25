@@ -1,7 +1,6 @@
 import React from "react"
 import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
-import Particles from "react-particles-js"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
@@ -36,7 +35,6 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
         <div className="bg-transparent">
           <SegmentView block={block} />
         </div>
-        <div className="bg-secondary">{isLeaf && <Particles />}</div>
       </div>
     </div>
   )
