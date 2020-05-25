@@ -10,6 +10,7 @@ import { Tree } from "./Tree"
 import { Tag } from "./Tag"
 import Progress from "react-progressbar"
 import { StepperDemo } from "./StepperDemo"
+import { IconsDemo } from "./IconsDemo"
 
 const blockLevel1 = blockStories[0].children[0]
 export default {
@@ -46,15 +47,19 @@ const ThemeComponents = () => {
         components{" "}
       </h1>
       <div className="my-4 ">
+        <h2>Rating</h2>
+        <Rating />
+      </div>
+      <div className="my-4 ">
+        <h2>Icons</h2>
+        <IconsDemo />
+      </div>
+      <div className="my-4">
         <h1>Multiple select</h1>
-        <select multiple className="w-full border">
+        <select multiple className="w-25 border">
           <option>1</option>
           <option>2</option>
         </select>
-      </div>
-      <div className="my-4 ">
-        <h2>Rating</h2>
-        <Rating />
       </div>
       <div className="my-4 ">
         <h2>Tag View</h2>
