@@ -37,7 +37,7 @@
 
 - Run `yarn -s prisma migrate save --experimental` to create migration file
 
-- Run `yarn -s prisma migrate up --experimental` to migrate (upgrade) your database
+- Run `yarn -s prisma migrate up --experimental --create-db --auto-approve` to migrate (upgrade) your database
 
 - Run `yarn -s prisma generate` to generate the Prisma Client
 
