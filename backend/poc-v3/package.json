@@ -20,7 +20,7 @@
     "db-up": "yarn prisma migrate up --experimental --create-db --auto-approve",
     "prisma-generate": "yarn prisma generate",
     "db-seed": "yarn ts-node prisma/seed.ts",
-    "prod": "yarn run db-up && yarn run dev"
+    "prod": "yarn run db-up && yarn run db-seed && yarn run dev"
   },
   "prettier": {
     "semi": false,
