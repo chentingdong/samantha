@@ -53,5 +53,7 @@
       }
     }
   ],
-  "family": "samantha"
+  "family": "samantha",
+  "requires_compatibilities": ["FARGATE"],
+  "network_mode": "awsvpc"
 }
