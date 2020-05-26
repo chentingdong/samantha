@@ -1,5 +1,5 @@
 {
-  "container_definitions": [
+  "containerDefinitions": [
     {
       "command": ["yarn", "-s", "prod"],
       "essential": true,
