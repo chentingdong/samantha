@@ -2,10 +2,11 @@ import React, { useState } from "react"
 import SortableTree from "react-sortable-tree"
 import "react-sortable-tree/style.css"
 
-const Tree = () => {
+const Tree = ({ theme = {} }) => {
   const [treeData, setTreeData] = useState([
     {
       title: "Request 1",
+      description: "description of request 1",
       children: [
         {
           title: "Block 1",
@@ -31,6 +32,7 @@ const Tree = () => {
       <SortableTree
         treeData={treeData}
         onChange={(treeData) => setTreeData(treeData)}
+        theme={theme}
       />
     </div>
   )

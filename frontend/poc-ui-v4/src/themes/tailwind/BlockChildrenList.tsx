@@ -4,6 +4,7 @@ import { MutationType } from "models/enum"
 import { DndSourceBox } from "components/DndSourceBox"
 import { BlockCatalogItem } from "./BlockCatalogItem"
 import styled from "styled-components"
+import { Row, Col } from "rsuite"
 
 type BlockChildrenListType = {
   blocks: Block[]
@@ -15,7 +16,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   onDelete,
 }) => {
   return (
-    <div className="grid grid-cols-6">
+    <Row className="">
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
@@ -24,7 +25,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
             let className = isLeaf ? "col-span-1" : "col-span-3"
             className = `${className} .shadow-lg`
             return (
-              <div className={className} key={`${block.id}-bcl`}>
+              <Col xs={isLeaf ? 3 : 12} key={`${block.id}-bcl`}>
                 <DndSourceBox type="block" block={block}>
                   <BlockCatalogItem
                     block={block}
@@ -32,10 +33,10 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
                     onDelete={(child) => onDelete(child)}
                   />
                 </DndSourceBox>
-              </div>
+              </Col>
             )
           })}
-    </div>
+    </Row>
   )
 }
 
