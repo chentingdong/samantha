@@ -56,5 +56,7 @@
   "family": "samantha",
   "requiresCompatibilities": ["FARGATE"],
   "networkMode": "awsvpc",
-  "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole"
+  "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole",
+  "cpu": 512,
+  "memory": 1024
 }
