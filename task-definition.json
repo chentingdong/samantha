@@ -1,0 +1,62 @@
+{
+  "containerDefinitions": [
+    {
+      "command": ["yarn", "-s", "prod"],
+      "essential": true,
+      "image": "${server_image}",
+      "name": "server",
+      "cpu": 256,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 4000,
+          "hostPort": 4000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DATABASE_URL",
+          "value": "postgresql://postgres:KfTzvxBX5MVuL3yp@db.dev.bellhop.io:5432/samantha"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-server",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    },
+    {
+      "command": ["yarn", "-s", "start-prod"],
+      "essential": true,
+      "image": "${web_image}",
+      "name": "web",
+      "cpu": 256,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 2000,
+          "hostPort": 2000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-web",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "family": "samantha",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole",
+  "cpu": "512",
+  "memory": "1024"
+}
