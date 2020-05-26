@@ -86,7 +86,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: samantha-server
+          container-name: server
           image: ${{ steps.build-server-image.outputs.server_image }}
 
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
@@ -94,7 +94,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ steps.task-def-server.outputs.task-definition }}
-          container-name: samantha-web
+          container-name: web
           image: ${{ steps.build-web-image.outputs.web_image }}
 
       - name: Deploy Amazon ECS task definition
