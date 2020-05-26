@@ -55,5 +55,6 @@
   ],
   "family": "samantha",
   "requiresCompatibilities": ["FARGATE"],
-  "networkMode": "awsvpc"
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole"
 }
