@@ -1,4 +1,6 @@
-project name samantha as placeholder
+## Project Status
+
+![Deploy to Amazon ECS](https://github.com/bellhop-io/samantha/workflows/Deploy%20to%20Amazon%20ECS/badge.svg)
 
 ## Services
 
