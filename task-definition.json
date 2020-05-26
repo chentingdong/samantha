@@ -5,6 +5,8 @@
       "essential": true,
       "image": "${server_image}",
       "name": "server",
+      "cpu": 256,
+      "memory": 512,
       "portMappings": [
         {
           "containerPort": 4000,
@@ -32,6 +34,8 @@
       "essential": true,
       "image": "${web_image}",
       "name": "web",
+      "cpu": 256,
+      "memory": 512,
       "portMappings": [
         {
           "containerPort": 2000,
