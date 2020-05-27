@@ -1,16 +1,16 @@
 import React, { useContext, useState } from "react"
-import { Block } from "../../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { DndTargetBox } from "../../components/DndTargetBox"
 import { Context } from "../../context/store"
 import { BlockChildrenList } from "./BlockChildrenList"
 
 const SegmentCompositeStages: React.FC<{
   type: string
-  childrenBlocks: Block[]
+  childrenBlocks: BlockOrDef[]
 }> = ({ type, childrenBlocks }) => {
   const [blocks, setBlocks] = useState(childrenBlocks)
 
-  const addSubBlock = (block: Block) => {
+  const addSubBlock = (block: BlockOrDef) => {
     const updatedBlocks = [...blocks, block]
     setBlocks(updatedBlocks)
   }

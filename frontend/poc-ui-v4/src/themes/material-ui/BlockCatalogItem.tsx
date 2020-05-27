@@ -1,15 +1,15 @@
 import React from "react"
-import { Block } from "../../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import { IconButton, Box } from "@material-ui/core"
 import { Close } from "@material-ui/icons"
 import styled from "styled-components"
 
 type BlockCatalogItemType = {
-  block: Block
+  block: BlockOrDef
   index?: number
   className?: string
-  onDelete?: (child: Block) => void
+  onDelete?: (child: BlockOrDef) => void
 }
 
 const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({

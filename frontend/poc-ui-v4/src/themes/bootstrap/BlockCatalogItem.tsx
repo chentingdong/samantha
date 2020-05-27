@@ -1,14 +1,14 @@
 import React from "react"
-import { Block } from "../../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
 import Particles, { MoveDirection, OutMode } from "react-particles-js"
 
 type BlockCatalogItemType = {
-  block: Block
+  block: BlockOrDef
   index?: number
   className?: string
-  onDelete?: (child: Block) => void
+  onDelete?: (child: BlockOrDef) => void
 }
 
 const particlesParms = {
