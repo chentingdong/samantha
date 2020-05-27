@@ -2,7 +2,7 @@ import React from "react"
 import { Block } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
-import Particles from "react-particles-js"
+import Particles, { MoveDirection, OutMode } from "react-particles-js"
 
 type BlockCatalogItemType = {
   block: Block
@@ -24,8 +24,8 @@ const particlesParms = {
       random: true,
     },
     move: {
-      direction: "random",
-      out_mode: "out",
+      direction: MoveDirection.none,
+      out_mode: OutMode.out,
     },
     line_linked: {
       enable: false,
@@ -55,7 +55,7 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
         <div className="title">
           {index + 1} - {block.name}
         </div>
-        <div className="close btn btn-light" onClick={onDelete}>
+        <div className="close btn btn-light" onClick={() => onDelete(block)}>
           x
         </div>
       </div>

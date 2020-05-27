@@ -31,7 +31,7 @@ const Tree = ({ theme = {} }) => {
     <div style={{ height: "400px" }}>
       <SortableTree
         treeData={treeData}
-        onChange={(treeData) => setTreeData(treeData)}
+        onChange={(data) => setTreeData(data)}
         theme={theme}
       />
     </div>

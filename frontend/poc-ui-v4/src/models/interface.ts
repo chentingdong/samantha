@@ -5,7 +5,6 @@ export interface Block {
   name: string
   description: string
   type: string
-  inCatalog?: boolean
   state: string
   control?: string
   context?: string

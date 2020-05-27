@@ -2,12 +2,11 @@ import { gql } from "@apollo/client"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
-    blocks(orderBy: { id: desc }, where: { inCatalog: { equals: true } }) {
+    blocks(orderBy: { id: desc }, where: {}) {
       id
       name
       description
       type
-      inCatalog
       state
       control
       context

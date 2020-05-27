@@ -24,7 +24,10 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
         <div className="title">
           {index + 1} - {block.name}
         </div>
-        <CloseCircleOutlined className="close" onClick={onDelete} />
+        <CloseCircleOutlined
+          className="close"
+          onClick={() => onDelete(block)}
+        />
       </div>
       <div className="body">
         <p> {block.description} </p>
@@ -36,7 +39,7 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
   )
 }
 
-//TODO: theme('color.blue.200') doesn't work?
+// TODO: theme('color.blue.200') doesn't work?
 const Styles = styled.div.attrs({
   className: "rounded-t-md",
 })`

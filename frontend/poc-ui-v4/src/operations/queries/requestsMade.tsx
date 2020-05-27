@@ -4,18 +4,12 @@ export const REQUESTS_MADE = gql`
   query requestsMade($userId: String) {
     blocks(
       orderBy: { id: desc }
-      where: {
-        AND: [
-          { inCatalog: { equals: false } }
-          { requestors: { some: { id: { equals: $userId } } } }
-        ]
-      }
+      where: { requestors: { some: { id: { equals: $userId } } } }
     ) {
       id
       name
       description
       type
-      inCatalog
       state
       control
       context

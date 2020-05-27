@@ -8,8 +8,8 @@ import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 
 const RequestItem: React.FC<{
-  block: Block,
-  itemOrigin?: ItemOrigin,
+  block: Block
+  itemOrigin?: ItemOrigin
   actions: any
 }> = ({ block, itemOrigin = ItemOrigin.Catalog, actions }) => {
   // global context
@@ -43,7 +43,6 @@ const RequestItem: React.FC<{
       __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
-      inCatalog: false,
       state: "ACTIVE",
       requestors: [
         {
@@ -143,7 +142,7 @@ const RequestItem: React.FC<{
               close={() => setShowEdit(false)}
               itemOrigin={origin}
               editMode={editMode}
-              actions={{createOneBlock, updateOneBlock}}
+              actions={{ createOneBlock, updateOneBlock }}
             />
           </Animated>
         </div>

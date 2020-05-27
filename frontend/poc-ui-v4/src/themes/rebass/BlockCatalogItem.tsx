@@ -28,7 +28,7 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
         <div className="title">
           {index + 1} - {block.name}
         </div>
-        <div className="close" onClick={onDelete}>
+        <div className="close" onClick={() => onDelete(block)}>
           x
         </div>
       </Heading>
