@@ -2,9 +2,28 @@ import { PrismaClient } from '@prisma/client'
 import { BlockType, State } from '@prisma/client'
 import uuid from 'uuid'
 
-const db = new PrismaClient()
+const deleteUsers = async (db: PrismaClient) => {
+  const { count } = await db.user.deleteMany({ where: {} })
+  console.log(`Deleted ${count} users.`)
+}
 
-const seedUsers = async () => {
+const deleteBlocks = async (db: PrismaClient) => {
+  const { count } = await db.block.deleteMany({ where: {} })
+  console.log(`Deleted ${count} blocks.`)
+}
+
+const deleteBlockDefs = async (db: PrismaClient) => {
+  const { count } = await db.blockDef.deleteMany({ where: {} })
+  console.log(`Deleted ${count} blockDefs.`)
+}
+
+const cleanUp = async (db: PrismaClient) => {
+  deleteUsers(db)
+  deleteBlocks(db)
+  deleteBlockDefs(db)
+}
+
+const seedUsers = async (db: PrismaClient) => {
   const results = await Promise.all(
     [
       {
@@ -25,10 +44,10 @@ const seedUsers = async () => {
     ].map((data) => db.user.create({ data })),
   )
 
-  console.log('Seeded: %j', results)
+  console.log(`Seeded ${results.length} users: \n${JSON.stringify(results)}`)
 }
 
-const seedCatalog = async () => {
+const seedCatalog = async (db: PrismaClient) => {
   const results = await Promise.all(
     [
       {
@@ -190,14 +209,21 @@ const seedCatalog = async () => {
       },
     ].map((data) => db.blockDef.create({ data })),
   )
-  console.log('Seeded: %j', results)
+  console.log(
+    `Seeded ${results.length} blockDefs: \n${JSON.stringify(results)}`,
+  )
 }
 
 const main = async () => {
-  console.log(uuid.v4())
-  await seedUsers()
-  await seedCatalog()
+  const db = new PrismaClient()
+  await cleanUp(db)
+  await seedUsers(db)
+  await seedCatalog(db)
   db.disconnect()
 }
 
-main()
+if (require.main === module) {
+  main()
+}
+
+export { cleanUp, seedUsers, seedCatalog }
