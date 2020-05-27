@@ -23,5 +23,5 @@ variable "web_port" {
 variable "whitelist_cidrs" {
   description = "Home IPs to whitelist in the security groups"
   type = list
-  default = ["67.180.84.92/32"]
+  default = ["67.180.84.92/32", "71.198.133.9/32"]
 }
