@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react"
-import { Block } from "models/interface"
+import { Block } from "../../models/interface"
 import { SegmentCompositeStages } from "./SegmentCompositeStages"
 
 const SegmentView: React.FC<{

@@ -6,7 +6,6 @@ export const REQUEST_CATALOG = gql`
       orderBy: { id: desc }
       where: {
         AND: [
-          { inCatalog: { equals: true } }
           { OR: [{ type: COMPOSITE_PARALLEL }, { type: COMPOSITE_SEQUENTIAL }] }
           { parent: null }
         ]
@@ -16,7 +15,6 @@ export const REQUEST_CATALOG = gql`
       name
       description
       type
-      inCatalog
       state
       control
       context

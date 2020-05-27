@@ -1,7 +1,7 @@
 import React from "react"
-import { Block } from "models/interface"
-import { MutationType } from "models/enum"
-import { DndSourceBox } from "components/DndSourceBox"
+import { Block } from "../../models/interface"
+import { MutationType } from "../../models/enum"
+import { DndSourceBox } from "../../components/DndSourceBox"
 import { BlockCatalogItem } from "./BlockCatalogItem"
 import styled from "styled-components"
 import { Box, Flex, Image, Heading, Text } from "rebass"
@@ -42,8 +42,8 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   )
 }
 
-const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
-  ({ ...props }) => <BlockChildrenListRaw {...props} />
-)``
+const BlockChildrenList: any = styled(({ ...props }) => (
+  <BlockChildrenListRaw {...props} />
+))``
 
 export { BlockChildrenList }

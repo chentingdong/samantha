@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "models/interface"
+import { Block } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
 import { Box, Heading, Text, Button } from "rebass/styled-components"
@@ -28,7 +28,7 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
         <div className="title">
           {index + 1} - {block.name}
         </div>
-        <div className="close" onClick={onDelete}>
+        <div className="close" onClick={() => onDelete(block)}>
           x
         </div>
       </Heading>

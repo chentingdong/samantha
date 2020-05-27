@@ -4,18 +4,12 @@ export const REQUESTS_RECEIVED = gql`
   query requestsReceived($userId: String) {
     blocks(
       orderBy: { id: desc }
-      where: {
-        AND: [
-          { inCatalog: { equals: false } }
-          { responders: { some: { id: { equals: $userId } } } }
-        ]
-      }
+      where: { responders: { some: { id: { equals: $userId } } } }
     ) {
       id
       name
       description
       type
-      inCatalog
       state
       control
       context

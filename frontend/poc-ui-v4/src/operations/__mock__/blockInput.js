@@ -1,80 +1,75 @@
-import { MutationType } from "../../models/enum";
+import { MutationType } from "../../models/enum"
 
 export default {
-  "__typename": "Block",
-  "children": [
-      {
-          "__typename": "Block",
-          "children": [],
-          "context": "{}",
-          "control": "{}",
-          "description": "Gather Information from Responders",
-          "name": "Gather Info Form",
-          "state": "ACTIVE",
-          "type": "LEAF_FORM",
-          "id": 1
-
-      },
-      {
-          "__typename": "Block",
-          "children": [],
-          "context": "{}",
-          "control": "{}",
-          "description": "Ask for Approval",
-          "name": "Approval Form",
-          "state": "ACTIVE",
-          "type": "LEAF_FORM",
-          "id": 1
-      },
-      {
-          "__typename": "Block",
-          "children": [
-              {
-                  "__typename": "Block",
-                  "children": [],
-                  "context": "{}",
-                  "control": "{}",
-                  "description": "Gather Information from Responders",
-                  "name": "Gather Info Form",
-                  "state": "ACTIVE",
-                  "type": "LEAF_FORM"
-              },
-              {
-                  "__typename": "Block",
-                  "children": [],
-                  "context": "{}",
-                  "control": "{}",
-                  "description": "Ask for Approval",
-                  "name": "Approval Form",
-                  "state": "PENDING",
-                  "type": "LEAF_FORM"
-              }
-          ],
-          "context": "{}",
-          "control": "{}",
-          "description": "Status Update which gathers information and gets approval",
-          "id": "7f24b1d7-2b31-4aaa-8d2c-3fda6af2f8a4",
-          "inCatalog": true,
-          "name": "Status Update Request Sequential",
-          "parent": null,
-          "requestors": [],
-          "responders": [],
-          "state": "ACTIVE",
-          "type": "COMPOSITE_SEQUENTIAL",
-          "__mutation_type__": MutationType.Create
-
-      }
+  __typename: "Block",
+  children: [
+    {
+      __typename: "Block",
+      children: [],
+      context: "{}",
+      control: "{}",
+      description: "Gather Information from Responders",
+      name: "Gather Info Form",
+      state: "ACTIVE",
+      type: "LEAF_FORM",
+      id: 1,
+    },
+    {
+      __typename: "Block",
+      children: [],
+      context: "{}",
+      control: "{}",
+      description: "Ask for Approval",
+      name: "Approval Form",
+      state: "ACTIVE",
+      type: "LEAF_FORM",
+      id: 1,
+    },
+    {
+      __typename: "Block",
+      children: [
+        {
+          __typename: "Block",
+          children: [],
+          context: "{}",
+          control: "{}",
+          description: "Gather Information from Responders",
+          name: "Gather Info Form",
+          state: "ACTIVE",
+          type: "LEAF_FORM",
+        },
+        {
+          __typename: "Block",
+          children: [],
+          context: "{}",
+          control: "{}",
+          description: "Ask for Approval",
+          name: "Approval Form",
+          state: "PENDING",
+          type: "LEAF_FORM",
+        },
+      ],
+      context: "{}",
+      control: "{}",
+      description: "Status Update which gathers information and gets approval",
+      id: "7f24b1d7-2b31-4aaa-8d2c-3fda6af2f8a4",
+      name: "Status Update Request Sequential",
+      parent: null,
+      requestors: [],
+      responders: [],
+      state: "ACTIVE",
+      type: "COMPOSITE_SEQUENTIAL",
+      __mutation_type__: MutationType.Create,
+    },
   ],
-  "context": "{}",
-  "control": "{}",
-  "description": "Status Update which gathers information and gets approval",
-  "inCatalog": false,
-  "name": "",
-  "parent": null,
-  "requestors": ["baiji"],
-  "responders": ["jin", "tingdong"],
-  "id": 1,
-  "state": "ACTIVE",
-  "type": "COMPOSITE_PARALLEL"
+  context: "{}",
+  control: "{}",
+  description: "Status Update which gathers information and gets approval",
+  name: "",
+  parent: null,
+  requestors: ["baiji"],
+  responders: ["jin", "tingdong"],
+  id: 1,
+  state: "ACTIVE",
+  type: "COMPOSITE_PARALLEL",
 }
-
