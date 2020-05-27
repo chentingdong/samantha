@@ -1,7 +1,7 @@
 import React from "react"
-import { Block } from "models/interface"
-import { MutationType } from "models/enum"
-import { DndSourceBox } from "components/DndSourceBox"
+import { Block } from "../../models/interface"
+import { MutationType } from "../../models/enum"
+import { DndSourceBox } from "../../components/DndSourceBox"
 import { BlockCatalogItem } from "./BlockCatalogItem"
 import styled from "styled-components"
 

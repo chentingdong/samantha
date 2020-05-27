@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react"
-import { Block } from "models/interface"
-import { DndTargetBox } from "components/DndTargetBox"
-import { Context } from "context/store"
+import { Block } from "../../models/interface"
+import { DndTargetBox } from "../../components/DndTargetBox"
+import { Context } from "../../context/store"
 import { BlockChildrenList } from "./BlockChildrenList"
 
 const SegmentCompositeStages: React.FC<{

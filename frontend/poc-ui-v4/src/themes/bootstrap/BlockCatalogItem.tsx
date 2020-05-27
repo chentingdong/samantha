@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "models/interface"
+import { Block } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
 import Particles from "react-particles-js"

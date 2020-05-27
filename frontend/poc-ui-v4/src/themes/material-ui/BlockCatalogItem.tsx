@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "models/interface"
+import { Block } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import { IconButton, Box } from "@material-ui/core"
 import { Close } from "@material-ui/icons"
