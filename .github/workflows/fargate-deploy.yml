@@ -76,7 +76,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           echo $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/frontend/poc-ui-v3
+          cd $GITHUB_WORKSPACE/frontend/poc-ui-v4
           docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
