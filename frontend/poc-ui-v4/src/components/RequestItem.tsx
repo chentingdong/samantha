@@ -1,25 +1,36 @@
-import React, { useState, useContext, createContext } from "react"
+import React, { useState, useReducer } from "react"
 import uuid from "uuid"
-import { Context } from "../context/store"
 import { Animated } from "react-animated-css"
-import { BlockEdit } from "./BlockEdit"
-import { Block } from "../models/interface"
+import { BlockEditor } from "./BlockEditor"
+import { BlockOrDef } from "../models/interface"
 import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
+import { AUTH_USER } from "../operations/queries/authUser"
+import { useQuery } from "@apollo/client"
+import { reducer } from "../context/reducer"
 
 const RequestItem: React.FC<{
-  block: Block
+  block: BlockOrDef
   itemOrigin?: ItemOrigin
+  initShowEdit?: boolean
   actions: any
-}> = ({ block, itemOrigin = ItemOrigin.Catalog, actions }) => {
-  // global context
-  const { state, dispatch } = useContext(Context)
-
-  // TODO: move into context at this level
-  const [showEdit, setShowEdit] = useState(false)
-  const [origin, setOrigin] = useState(itemOrigin)
+}> = ({
+  block,
+  itemOrigin = ItemOrigin.Catalog,
+  initShowEdit = false,
+  actions,
+}) => {
+  // state on each RequestItem object
+  // by default (edit mode) draft is a copy of the current block object
+  // when making a request from definitoin, createDraftBlock() needs to be called first
+  const [state, dispatch] = useReducer(reducer, { draftBlock: block })
+  const setDraftBlock = (draftBlock) => {
+    dispatch({ type: "set", data: { draftBlock } })
+  }
+  const [showEdit, setShowEdit] = useState(initShowEdit)
   const [editMode, setEditMode] = useState(EditMode.Edit)
 
+  const { data } = useQuery(AUTH_USER)
   const { createOneBlock, updateOneBlock, completeOneBlock } = actions
 
   const markComplete = (blockToComplete) => {
@@ -32,33 +43,36 @@ const RequestItem: React.FC<{
     })
   }
 
-  const editRequestDef = (blockCreateInput) => {
-    dispatch({ type: "set", data: { blockCreateInput } })
+  const editRequestDef = () => {
     setEditMode(EditMode.Edit)
     setShowEdit(true)
   }
 
   const makeRequest = () => {
-    const blockCreateInput = Object.assign({}, block, {
+    setDraftBlock(createDraftBlock(block))
+    setEditMode(EditMode.Create)
+    setShowEdit(true)
+  }
+
+  const createDraftBlock = (blockDef) => {
+    const draftBlock = Object.assign({}, blockDef, {
       __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
       state: "ACTIVE",
       requestors: [
         {
-          id: state.user.id,
-          name: state.user.attributes.name,
-          email: state.user.attributes.email,
+          id: data?.authUser?.id,
+          name: data?.authUser?.name,
+          email: data?.authUser?.email,
         },
       ],
     })
-    dispatch({ type: "set", data: { blockCreateInput } })
-    setEditMode(EditMode.Create)
-    setShowEdit(true)
+    return draftBlock
   }
 
   return (
-    <div className="card mt-2 pt-2">
+    <div className="card m-3 p-1">
       <div className="d-flex justify-content-between">
         <div className="col">
           <h4>
@@ -85,13 +99,13 @@ const RequestItem: React.FC<{
               )
             })}
           </p>
-          {origin === ItemOrigin.Made && (
+          {itemOrigin === ItemOrigin.Made && (
             <p className="text-secondary">
               {"Assigned to: "}
               {block.responders?.map((user) => user.name).join(", ")}
             </p>
           )}
-          {origin === ItemOrigin.Received && (
+          {itemOrigin === ItemOrigin.Received && (
             <p className="text-secondary">
               {"Requested by: "}
               {block.requestors?.map((user) => user.name).join(", ")}
@@ -102,12 +116,12 @@ const RequestItem: React.FC<{
           <div className="row">
             <button
               className="btn btn-link border rounded m-1 col"
-              onClick={() => editRequestDef(block)}
+              onClick={() => editRequestDef()}
             >
               View/Edit
             </button>
           </div>
-          {origin === ItemOrigin.Catalog && (
+          {itemOrigin === ItemOrigin.Catalog && (
             <div className="row">
               <button
                 className="btn btn-link border rounded m-1 col"
@@ -117,7 +131,7 @@ const RequestItem: React.FC<{
               </button>
             </div>
           )}
-          {origin === ItemOrigin.Received && block.state === "ACTIVE" && (
+          {itemOrigin === ItemOrigin.Received && block.state === "ACTIVE" && (
             <div className="row">
               <button
                 className="btn btn-link border rounded m-1 col"
@@ -137,10 +151,11 @@ const RequestItem: React.FC<{
             animationOut="bounceOutRight"
             isVisible={true}
           >
-            <BlockEdit
-              blockCreateInput={state.blockCreateInput}
+            <BlockEditor
+              draftBlock={state.draftBlock}
+              setDraftBlock={setDraftBlock}
               close={() => setShowEdit(false)}
-              itemOrigin={origin}
+              itemOrigin={itemOrigin}
               editMode={editMode}
               actions={{ createOneBlock, updateOneBlock }}
             />

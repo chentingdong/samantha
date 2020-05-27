@@ -22,7 +22,7 @@ const DndSourceBox = ({ block, type, children }) => {
     }),
   })
 
-  const draggingStyle = isDragging ? { opacity: "0.5" } : { opacity: "1" }
+  const draggingStyle = isDragging ? { opacity: "0.3" } : { opacity: "1" }
   return (
     <div ref={drag} style={draggingStyle}>
       {children}

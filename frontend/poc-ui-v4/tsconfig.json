@@ -12,11 +12,7 @@
     "jsx": "react",
     "esModuleInterop": true,
     "lib": ["es6", "dom"],
-    "resolveJsonModule": true,
-    "baseUrl": "./src",
-    "paths": {
-      "*": ["src/*"]
-    }
+    "resolveJsonModule": true
   },
   "exclude": ["./node_modules/**/*"],
   "include": ["./src/**/*"],
