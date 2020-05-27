@@ -1,14 +1,14 @@
 import React from "react"
-import { Block } from "../../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { CloseCircleOutlined } from "@ant-design/icons"
 
 type BlockCatalogItemType = {
-  block: Block
+  block: BlockOrDef
   index?: number
-  onDelete?: (child: Block) => void
+  onDelete?: (child: BlockOrDef) => void
 }
 
 const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({

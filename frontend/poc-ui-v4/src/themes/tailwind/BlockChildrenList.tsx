@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "../../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { MutationType } from "../../models/enum"
 import { DndSourceBox } from "../../components/DndSourceBox"
 import { BlockCatalogItem } from "./BlockCatalogItem"
@@ -7,8 +7,8 @@ import { Row, Col } from "antd"
 import styled from "styled-components"
 
 type BlockChildrenListType = {
-  blocks: Block[]
-  onDelete?: (child: Block) => void
+  blocks: BlockOrDef[]
+  onDelete?: (child: BlockOrDef) => void
 }
 
 const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
@@ -20,7 +20,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
-          .map((block: Block, index: number) => {
+          .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             return (
               <Col flex={isLeaf ? 4 : 8} key={`${block.id}-bcl`}>

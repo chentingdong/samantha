@@ -1,11 +1,12 @@
 import React from "react"
-import { Context } from "../context/store"
+import { useQuery } from "@apollo/client"
+import { GET_USERS } from "../operations/queries/getUsers"
 
 const OptionsUsers = () => {
-  const { state, dispatch } = React.useContext(Context)
+  const { data } = useQuery(GET_USERS)
   return (
     <>
-      {state.users.map((user) => {
+      {data?.users.map((user) => {
         return (
           <option value={user.id} key={user.id}>
             {user.name}

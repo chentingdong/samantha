@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "../../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { MutationType } from "../../models/enum"
 import { DndSourceBox } from "../../components/DndSourceBox"
 import { BlockCatalogItem } from "./BlockCatalogItem"
@@ -7,15 +7,15 @@ import { DndTargetBox } from "../../components/DndTargetBox"
 import { Box, Grid, Paper } from "@material-ui/core"
 
 const BlockChildrenList: React.FC<{
-  blocks: Block[]
-  onDelete?: (child: Block) => void
+  blocks: BlockOrDef[]
+  onDelete?: (child: BlockOrDef) => void
 }> = ({ blocks, onDelete }) => {
   return (
     <Grid container spacing={3}>
       {blocks &&
         blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
-          .map((block: Block, index: number) => {
+          .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             return (
               <Grid item xs={isLeaf ? 4 : 12} key={`${block.id}-bcl`}>
