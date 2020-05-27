@@ -72,3 +72,28 @@
 
   --rounded-btn: 0;
 }
+
+.theme-dark {
+  --color-bg-primary: #333;
+  --color-bg-secondary: #555;
+  --color-bg-default: #444;
+  --color-bg-inverse: #222;
+
+  --color-text-primary: #fff;
+  --color-text-secondary: #927e7e;
+  --color-text-default: #dfefdf;
+  --color-text-default-soft: #6a6a6a;
+  --color-text-inverse: #fff;
+  --color-text-inverse-soft: #bbb;
+
+  --font-display: Georgia, Times, "Times New Roman", serif;
+  --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
+    "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,
+    "Verdana Ref", sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0;
+}

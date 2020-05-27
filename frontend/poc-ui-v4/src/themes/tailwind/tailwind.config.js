@@ -19,6 +19,11 @@ module.exports = {
       lg: "16px",
       xl: "24px",
     },
+    colors: {
+      indigo: "#5c6ac4",
+      blue: "#007ace",
+      red: "#de3618",
+    },
     textColor: {
       primary: "var(--color-text-primary)",
       secondary: "var(--color-text-secondary)",

@@ -3,6 +3,7 @@ import { Block } from "models/interface"
 import { SegmentView } from "./SegmentView"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { CloseCircleOutlined } from "@ant-design/icons"
 
 type BlockCatalogItemType = {
   block: Block
@@ -23,9 +24,7 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
         <div className="title">
           {index + 1} - {block.name}
         </div>
-        <div className="close" onClick={onDelete}>
-          x
-        </div>
+        <CloseCircleOutlined className="close" onClick={onDelete} />
       </div>
       <div className="body">
         <p> {block.description} </p>
@@ -37,15 +36,17 @@ const BlockCatalogItemRaw: React.FC<BlockCatalogItemType> = ({
   )
 }
 
+//TODO: theme('color.blue.200') doesn't work?
 const Styles = styled.div.attrs({
-  className: "rounded-t-md m-1 shadow",
+  className: "rounded-t-md",
 })`
   & {
+    background: var(--color-bg-default);
     .header {
+      ${tw`relative px-2 py-1 rounded-t-md `}
       font-size: 1em;
       text-transform: capitalize;
-      color: var(--color-text-default);
-      ${tw`relative px-2 py-1 rounded-t-md `}
+      color: var(--color-text-primary);
       &.leaf {
         background: var(--color-bg-primary);
       }
@@ -59,14 +60,14 @@ const Styles = styled.div.attrs({
       .close {
         font-family: Symbol;
         font-size: 1rem;
-        ${tw`absolute top-0 right-0 m-2 cursor-pointer`}
+        ${tw`absolute top-0 right-0 m-1 cursor-pointer`}
       }
     }
     .body {
       ${tw`m-1 relative`}
       font-size: 0.9em;
       font-family: Ariel;
-      color: var(--color-fg-default);
+      color: var(--color-text-default);
     }
   }
 `

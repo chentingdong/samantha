@@ -14,6 +14,7 @@ import FileExplorerTheme from "react-sortable-tree-theme-file-explorer"
 import { Rate, Icon } from "rsuite"
 import "rsuite/dist/styles/rsuite-default.css"
 import "./tailwind.generated.css"
+import "antd/dist/antd.css"
 
 const blockLevel1 = blockStories[0].children[0]
 export default {
@@ -23,7 +24,7 @@ export default {
 const DndBlocks = () => {
   return (
     <>
-      <div className="theme-startup my-4">
+      <div className="theme-elegant my-4">
         <DndProvider backend={Backend}>
           <BlockCatalogItem block={blockLevel1} />
         </DndProvider>
@@ -33,7 +34,7 @@ const DndBlocks = () => {
           <BlockCatalogItem block={blockLevel1} />
         </DndProvider>
       </div>
-      <div className="theme-elegant my-4">
+      <div className="theme-dark my-4">
         <DndProvider backend={Backend}>
           <BlockCatalogItem block={blockLevel1} />
         </DndProvider>
