@@ -26,12 +26,10 @@ function cloneOneBlock(blockDef: any) {
 }
 
 export const customQueryResolver = async (parent, args, ctx) => {
-  log.debug('in customQuery resolver')
   return ctx.db.user.findMany() // <== `ctx.db` is your Prisma Client instance
 }
 
 export const customMutationResolver = async (parent, args, ctx) => {
-  log.debug('in customMutation resolver')
   return ctx.db.user.findMany()
 }
 
@@ -46,13 +44,7 @@ export const cloneOneBlockResolver = async (p, args, ctx) => {
 
   const cloneData = cloneOneBlock(blockDef)
 
-  log.debug(
-    `cloneOneBlockResolver cloneOneBlockResolver cloneData: ${JSON.stringify(
-      cloneData,
-      null,
-      2,
-    )}`,
-  )
+  // log.debug(`cloneData: ${JSON.stringify(cloneData, null, 2)}`)
 
   if (cloneData) return await ctx.db.block.create({ data: cloneData })
 
