@@ -22,7 +22,7 @@
     "lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
     "prestart": "(cat certs/cert.pem certs/key.pem > ./node_modules/webpack-dev-server/ssl/server.pem) || :",
     "start": "yarn run start-dev",
-    "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --sorcemap --https --port 2000",
+    "start-dev": "webpack-dev-server --config=configs/webpack/dev.js --sourcemap --https --port 2000",
     "prod": "yarn run build && yarn run start-prod",
     "start-prod": "node express.ts",
     "chromatic": "chromatic",
