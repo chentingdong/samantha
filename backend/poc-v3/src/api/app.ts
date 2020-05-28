@@ -1,12 +1,12 @@
-import { use } from 'nexus'
+import { use, settings, server, log, schema } from 'nexus'
 import { prisma } from 'nexus-plugin-prisma'
 import { auth } from '../plugins/jwt-auth'
 import { shield } from 'nexus-plugin-shield'
 import { APP_SECRET } from './utils'
 import { rules } from './permissions'
-import { settings } from 'nexus'
 import cors from 'cors'
-import { server } from 'nexus'
+
+settings.change({ logger: { level: 'debug', pretty: true } })
 
 server.express.use(cors())
 
@@ -17,10 +17,4 @@ use(prisma())
 use(auth({ appSecret: APP_SECRET }))
 
 // Enables the Shield plugin
-use(shield({ rules }))
-
-settings.change({
-  logger: {
-    level: 'debug',
-  },
-})
+use(shield({ rules, options: { allowExternalErrors: true } }))
