@@ -22,7 +22,6 @@ function DemoRaw({ className }) {
   const toggleTheme = () => {
     const newTheme = theme === "theme-dark" ? "theme-elegant" : "theme-dark"
     setTheme(newTheme)
-    console.log(newTheme)
   }
   return (
     <div className={`${className} ${theme}`}>
@@ -43,8 +42,8 @@ function DemoRaw({ className }) {
                   Request Received
                 </Nav.Item>
                 <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
-                <Dropdown title="User">
-                  <Dropdown.Item eventKey="auth-user">
+                <Dropdown noCaret title="User">
+                  <Dropdown.Item disabled eventKey="auth-user">
                     Signed in as {data?.authUser?.name}
                   </Dropdown.Item>
                   <Dropdown.Item eventKey="logout" onClick={logout}>

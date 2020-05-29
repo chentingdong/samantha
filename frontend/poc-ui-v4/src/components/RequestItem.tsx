@@ -79,8 +79,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     return draftBlock
   }
 
-  const stateStyle = (block) => {
-    return block.state ? block.state : "default"
+  const stateStyle = (blockWithState) => {
+    return blockWithState.state || "default"
   }
 
   return (
