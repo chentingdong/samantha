@@ -20,7 +20,11 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: ["babel-loader", "awesome-typescript-loader"],
+        // use: ["babel-loader", "awesome-typescript-loader"],
+        loader: require.resolve("babel-loader"),
+        options: {
+          presets: [["react-app", { flow: false, typescript: true }]],
+        },
       },
       {
         test: /\.mjs$/,

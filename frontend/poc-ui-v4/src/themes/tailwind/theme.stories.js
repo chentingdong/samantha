@@ -13,8 +13,8 @@ import { TimelineDemo } from "./TimelineDemo"
 import FileExplorerTheme from "react-sortable-tree-theme-file-explorer"
 import { Rate, Icon } from "rsuite"
 import "rsuite/dist/styles/rsuite-default.css"
-import "./tailwind.generated.css"
 import "antd/dist/antd.css"
+import "../../assets/tailwind/tailwind.generated.css"
 
 const blockLevel1 = blockStories[0].children[0]
 export default {

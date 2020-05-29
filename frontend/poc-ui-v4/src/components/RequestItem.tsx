@@ -3,22 +3,29 @@ import uuid from "uuid"
 import { Animated } from "react-animated-css"
 import { BlockEditor } from "./BlockEditor"
 import { BlockOrDef } from "../models/interface"
-import { blockBgColor, blockTextColor } from "../utils/Styles"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"
 import { reducer } from "../context/reducer"
+import { Grid, Row, Col } from "rsuite"
+import { Card } from "./Card"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 
-const RequestItem: React.FC<{
+type RequestItemType = {
   block: BlockOrDef
   itemOrigin?: ItemOrigin
   initShowEdit?: boolean
   actions: any
-}> = ({
+  className?: string
+}
+
+const RequestItemRaw: React.FC<RequestItemType> = ({
   block,
   itemOrigin = ItemOrigin.Catalog,
   initShowEdit = false,
   actions,
+  className = "",
 }) => {
   // state on each RequestItem object
   // by default (edit mode) draft is a copy of the current block object
@@ -71,34 +78,37 @@ const RequestItem: React.FC<{
     return draftBlock
   }
 
+  const stateStyle = (block) => {
+    return block.state ? block.state : "default"
+  }
+
   return (
-    <div className="card m-3 p-1">
-      <div className="d-flex justify-content-between">
-        <div className="col">
+    <Card className={className}>
+      <Grid fluid>
+        <Col xs={18}>
           <h4>
             <span>{block.name}</span>
             {itemOrigin !== ItemOrigin.Catalog && (
-              <span className={"m-2 " + blockTextColor(block)}>
+              <span className={`block-state-${stateStyle(block)}`}>
                 ({block.state})
               </span>
             )}
           </h4>
           <p>{block.description}</p>
-          <p className="">
+          <div className="">
             {block.children?.map((child) => {
               return (
                 <span
-                  className={
-                    "border rounded p-2 mr-2 d-inline-block " +
-                    blockBgColor(child)
-                  }
+                  className={`border rounded p-2 m-2 inline-block block-state-${stateStyle(
+                    child
+                  )}`}
                   key={child.id}
                 >
                   {child.name}
                 </span>
               )
             })}
-          </p>
+          </div>
           {itemOrigin === ItemOrigin.Made && (
             <p className="text-secondary">
               {"Assigned to: "}
@@ -111,8 +121,8 @@ const RequestItem: React.FC<{
               {block.requestors?.map((user) => user.name).join(", ")}
             </p>
           )}
-        </div>
-        <div className="col-2">
+        </Col>
+        <Col xs={6}>
           <div className="row">
             <button
               className="btn btn-link border rounded m-1 col"
@@ -141,10 +151,10 @@ const RequestItem: React.FC<{
               </button>
             </div>
           )}
-        </div>
-      </div>
+        </Col>
+      </Grid>
       {showEdit && (
-        <div className="bg-light border" style={{ top: "0", zIndex: 10 }}>
+        <div className="" style={{ top: "0", zIndex: 10 }}>
           <Animated
             animationIn="fadeInRight"
             animationInDuration={300}
@@ -162,8 +172,14 @@ const RequestItem: React.FC<{
           </Animated>
         </div>
       )}
-    </div>
+    </Card>
   )
 }
 
-export { RequestItem, ItemOrigin }
+const RequestItem = styled(RequestItemRaw)`
+  ${tw`p-2 pb-4 my-2 rounded border`}
+  border-color: var(--color-text-secondary);
+`
+
+export { RequestItem }
+// export { RequestItem, ItemOrigin }

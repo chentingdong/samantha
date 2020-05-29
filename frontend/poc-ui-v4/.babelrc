@@ -1,6 +1,7 @@
 {
   "presets": ["@babel/preset-env", "@babel/preset-react"],
-  "plugins": ["react-hot-loader/babel"],
+  "plugins": ["tailwind-components", "react-hot-loader/babel"],
+  "sourceType": "unambiguous",
   "sourceMaps": true,
   "retainLines": true,
   "env": {

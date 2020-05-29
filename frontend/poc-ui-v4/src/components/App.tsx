@@ -78,7 +78,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className="app wrapper vh-100">
+    <div className="theme-dark h-full font-serif">
       <Routes />
     </div>
   )

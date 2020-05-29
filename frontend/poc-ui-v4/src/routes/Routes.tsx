@@ -9,11 +9,17 @@ import { RequestCatalogList } from "../components/RequestCatalogList"
 import { RequestsMadeList } from "../components/RequestsMadeList"
 import { RequestsReceivedList } from "../components/RequestsReceivedList"
 import { ContextViewCodes } from "../components/ContextViewCodes"
+import { Demo } from "../components/Demo"
 
 const routes = [
   {
     path: "/",
-    component: RequestCatalogList,
+    component: Demo,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/demo",
+    component: Demo,
     tag: PrivateRoute,
   },
   {
@@ -45,7 +51,6 @@ const routes = [
 function Routes() {
   return (
     <BrowserRouter>
-      <HeaderWithRouter />
       <Switch>
         {routes.map((route, index) => {
           const TagName = route.tag

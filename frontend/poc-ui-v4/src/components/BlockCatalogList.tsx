@@ -15,11 +15,11 @@ const BlockCatalogList = () => {
   return (
     <div>
       <h2>Block Palette:</h2>
-      <small className="row">
+      <div className="grid grid-cols-2 gap-1">
         {data.blockDefs?.map((blockDef: BlockDef) => {
           return <BlockCatalogItem blockDef={blockDef} key={blockDef.id} />
         })}
-      </small>
+      </div>
     </div>
   )
 }
