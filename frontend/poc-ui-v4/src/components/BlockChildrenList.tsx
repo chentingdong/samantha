@@ -50,13 +50,19 @@ const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
   BlockChildrenListRaw
 )`
   ${tw`flex`}
-  .leaf {
-    ${tw`flex-auto m-1`}
-    display: inline-block;
-  }
   .composite {
-    ${tw`flex-auto`}
+    ${tw`flex-auto m-1 ml-2`}
     display: block;
+    .card-header {
+      background: var(--color-bg-default);
+    }
+    .leaf {
+      ${tw`flex-auto m-1 ml-8`}
+      display: inline-block;
+      .card-header {
+        background: var(--color-bg-inverse);
+      }
+    }
   }
 `
 

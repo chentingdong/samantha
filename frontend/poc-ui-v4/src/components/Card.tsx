@@ -3,7 +3,7 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 
 const Card = styled.div`
-  ${tw`rounded-md shadow border`}
+  ${tw`rounded-md shadow border text-sm`}
   color: var(--color-text-primary);
   border-color: var(--color-text-secondary);
   background: var(--color-bg-primary);

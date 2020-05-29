@@ -163,7 +163,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
             </FormGroup>
           </Form>
         </Col>
-        <Col xs={24} md={6} className="theme-dark">
+        <Col xs={24} md={6} className="theme-light">
           <BlockCatalogList />
         </Col>
       </Row>

@@ -9,7 +9,7 @@ import { AUTH_USER } from "../operations/queries/authUser"
 import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-
+import logo from "../assets/img/bell.png"
 function DemoRaw({ className }) {
   const [active, setActive] = useState("request-catelog")
   const { data } = useQuery(AUTH_USER)
@@ -17,13 +17,15 @@ function DemoRaw({ className }) {
     await Auth.signOut()
   }
 
+  const changeTheme = () => {}
   return (
     <div className={className}>
       {data?.authUser?.isAuthenticated && (
         <Grid fluid>
           <Row>
             <Col xs={4}>
-              <h2>Bellhop</h2>
+              <img src={logo} alt="" className="logo" onClick={changeTheme} />
+              <h2 className="inline-block">Bellhop</h2>
               <Nav
                 vertical
                 activeKey={active}
@@ -58,12 +60,18 @@ function DemoRaw({ className }) {
   )
 }
 const Demo = styled(DemoRaw)`
+  ${tw`p-4`}
   color: var(--color-text-primary);
+  color: var(--color-text-default);
   background-color: var(--color-bg-default);
   overflow: auto;
   height: 100vh;
   border-radius: 0;
-  ${tw`p-4`}
+  .logo {
+    ${tw`m-2`}
+    height: 2em;
+    display: inline-block;
+  }
 `
 
 export { Demo }
