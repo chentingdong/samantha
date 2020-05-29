@@ -25,15 +25,19 @@ function cloneOneBlock(blockDef: any) {
   return block
 }
 
-export const customQueryResolver = async (parent, args, ctx) => {
+export const customQueryResolver = async (parent: any, args: any, ctx: any) => {
   return ctx.db.user.findMany() // <== `ctx.db` is your Prisma Client instance
 }
 
-export const customMutationResolver = async (parent, args, ctx) => {
+export const customMutationResolver = async (
+  parent: any,
+  args: any,
+  ctx: any,
+) => {
   return ctx.db.user.findMany()
 }
 
-export const cloneOneBlockResolver = async (p, args, ctx) => {
+export const cloneOneBlockResolver = async (p: any, args: any, ctx: any) => {
   const blockDef = await ctx.db.blockDef.findOne({
     ...args,
     include: {
