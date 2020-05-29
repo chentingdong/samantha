@@ -7,12 +7,8 @@ const _transformBlockInput = (block) => {
 
   const childrenForCreate = []
   for (const child of block.children) {
-    switch (child.__mutation_type__) {
-      case MutationType.Create:
-        const transformedChild = _transformBlockInput(child)
-        childrenForCreate.push(transformedChild)
-        break
-    }
+    const transformedChild = _transformBlockInput(child)
+    childrenForCreate.push(transformedChild)
   }
   block.children = {}
   if (childrenForCreate.length > 0) block.children.create = childrenForCreate
