@@ -3,32 +3,61 @@ import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { BlockChildrenItem } from "./BlockChildrenItem"
 import { DndTargetBox } from "./DndTargetBox"
 import { MutationType } from "../models/enum"
+import tw from "tailwind.macro"
+import styled from "styled-components"
 
-const BlockChildrenList: React.FC<{
+type BlockChildrenListType = {
   blocks: BlockOrDef[]
   addSubBlock: (child: BlockOrDef) => void
   onDelete?: (child: BlockOrDef) => void
-}> = ({ blocks, addSubBlock, onDelete }) => {
+  className?: string
+}
+
+const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
+  blocks,
+  addSubBlock,
+  onDelete,
+  className,
+}) => {
   return (
-    <DndTargetBox
-      accept="block"
-      greedy={false}
-      onDrop={(childBlock) => addSubBlock(childBlock)}
-    >
-      {blocks
-        .filter((block) => block.__mutation_type__ !== MutationType.Delete)
-        .map((block: BlockOrDef, index: number) => {
-          return (
-            <BlockChildrenItem
-              block={block}
-              index={index}
-              key={block.id}
-              onDelete={(child) => onDelete(child)}
-            />
-          )
-        })}
-    </DndTargetBox>
+    <div className={className}>
+      <DndTargetBox
+        accept="block"
+        greedy={false}
+        onDrop={(childBlock) => addSubBlock(childBlock)}
+      >
+        {blocks
+          .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+          .map((block: BlockOrDef, index: number) => {
+            const isLeaf = block.type.includes("LEAF_")
+            return (
+              <div className={isLeaf ? "leaf" : "composite"} key={block.id}>
+                <BlockChildrenItem
+                  block={block}
+                  index={index}
+                  key={block.id}
+                  onDelete={(child) => onDelete(child)}
+                />
+              </div>
+            )
+          })}
+      </DndTargetBox>
+    </div>
   )
 }
+
+const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
+  BlockChildrenListRaw
+)`
+  ${tw`flex`}
+  .leaf {
+    ${tw`flex-auto m-1`}
+    display: inline-block;
+  }
+  .composite {
+    ${tw`flex-auto`}
+    display: block;
+  }
+`
 
 export { BlockChildrenList }

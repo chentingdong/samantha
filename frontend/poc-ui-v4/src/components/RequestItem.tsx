@@ -11,6 +11,7 @@ import { Grid, Row, Col } from "rsuite"
 import { Card } from "./Card"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { Button } from "./Button"
 
 type RequestItemType = {
   block: BlockOrDef
@@ -95,13 +96,11 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             )}
           </h4>
           <p>{block.description}</p>
-          <div className="">
+          <div className="flex flex-row">
             {block.children?.map((child) => {
               return (
                 <span
-                  className={`border rounded p-2 m-2 inline-block block-state-${stateStyle(
-                    child
-                  )}`}
+                  className={`child block-state-${stateStyle(child)}`}
                   key={child.id}
                 >
                   {child.name}
@@ -111,7 +110,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           </div>
           {itemOrigin === ItemOrigin.Made && (
             <p className="text-secondary">
-              {"Assigned to: "}
+              "Assigned to: "
               {block.responders?.map((user) => user.name).join(", ")}
             </p>
           )}
@@ -122,54 +121,28 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             </p>
           )}
         </Col>
-        <Col xs={6}>
-          <div className="row">
-            <button
-              className="btn btn-link border rounded m-1 col"
-              onClick={() => editRequestDef()}
-            >
-              View/Edit
-            </button>
-          </div>
+        <Col xs={6} className="grid grid-cols-1 gap-1">
+          <Button onClick={() => editRequestDef()}>View/Edit</Button>
           {itemOrigin === ItemOrigin.Catalog && (
-            <div className="row">
-              <button
-                className="btn btn-link border rounded m-1 col"
-                onClick={() => makeRequest()}
-              >
-                Make a request
-              </button>
-            </div>
+            <Button onClick={() => makeRequest()}>Make a request</Button>
           )}
           {itemOrigin === ItemOrigin.Received && block.state === "ACTIVE" && (
-            <div className="row">
-              <button
-                className="btn btn-link border rounded m-1 col"
-                onClick={() => markComplete(block)}
-              >
-                Mark as Complete
-              </button>
-            </div>
+            <Button onClick={() => markComplete(block)}>
+              Mark as Complete
+            </Button>
           )}
         </Col>
       </Grid>
       {showEdit && (
-        <div className="" style={{ top: "0", zIndex: 10 }}>
-          <Animated
-            animationIn="fadeInRight"
-            animationInDuration={300}
-            animationOut="bounceOutRight"
-            isVisible={true}
-          >
-            <BlockEditor
-              draftBlock={state.draftBlock}
-              setDraftBlock={setDraftBlock}
-              close={() => setShowEdit(false)}
-              itemOrigin={itemOrigin}
-              editMode={editMode}
-              actions={{ createOneBlock, updateOneBlock }}
-            />
-          </Animated>
+        <div className="editor">
+          <BlockEditor
+            draftBlock={state.draftBlock}
+            setDraftBlock={setDraftBlock}
+            close={() => setShowEdit(false)}
+            itemOrigin={itemOrigin}
+            editMode={editMode}
+            actions={{ createOneBlock, updateOneBlock }}
+          />
         </div>
       )}
     </Card>
@@ -177,8 +150,15 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 }
 
 const RequestItem = styled(RequestItemRaw)`
-  ${tw`p-2 pb-4 my-2 rounded border`}
+  ${tw`p-2 pb-4 my-2 rounded border shadow`}
+  border-style: dotted;
   border-color: var(--color-text-secondary);
+  .editor {
+    transition: left 2s;
+  }
+  .child {
+    ${tw`border mr-1 my-2 p-1 text-sm rounded`}
+  }
 `
 
 export { RequestItem }

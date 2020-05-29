@@ -8,15 +8,29 @@ import { OptionsUsers } from "./OptionsUsers"
 import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 import { Grid, Row, Col, Nav } from "rsuite"
+import { Form, FormGroup, FormControl, ControlLabel } from "rsuite"
+import { Button } from "./Button"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 
-const BlockEditor: React.FC<{
+type BlockEditorType = {
   draftBlock: BlockOrDef
   setDraftBlock: (BlockOrDef) => void
   close: () => void
   editMode: EditMode
   itemOrigin: ItemOrigin
   actions: any
-}> = ({ draftBlock, setDraftBlock, close, editMode, itemOrigin, actions }) => {
+  className?: string
+}
+const BlockEditorRaw: React.FC<BlockEditorType> = ({
+  draftBlock,
+  setDraftBlock,
+  close,
+  editMode,
+  itemOrigin,
+  actions,
+  className = "",
+}) => {
   const { register, getValues, setValue, handleSubmit } = useForm({
     defaultValues: draftBlock,
   })
@@ -89,23 +103,20 @@ const BlockEditor: React.FC<{
   }
 
   return (
-    <Grid fluid className="bg-gray-700 p-2 m-2">
+    <Grid fluid className={className}>
       <Row>
-        <Col xs={24} md={18}>
+        <Col xs={24} md={18} className="main">
           <h2>Request Editor</h2>
-          <form onSubmit={handleSubmit(onSumbit)} className="row">
-            <div className="form-group">
-              <label>Name: </label>
-              <input className="form-control" ref={register} name="name" />
-            </div>
-            {editMode === EditMode.Edit && itemOrigin === ItemOrigin.Catalog ? (
-              <></>
-            ) : (
+          <Form className="grid grid-cols-7 gap-4">
+            <FormGroup className="col-span-3">
+              <ControlLabel>Name: </ControlLabel>
+              <FormControl type="input" ref={register} name="name" />
+            </FormGroup>
+            {editMode === EditMode.Edit && itemOrigin === ItemOrigin.Catalog && (
               <>
-                <div className="form-group col-3">
-                  <label>Requestors: </label>
+                <FormGroup className="col-span-2">
+                  <ControlLabel>Requestors: </ControlLabel>
                   <select
-                    className="form-control"
                     ref={register}
                     name="requestors"
                     defaultValue={draftBlock.requestors?.map((user) => user.id)}
@@ -113,11 +124,10 @@ const BlockEditor: React.FC<{
                   >
                     <OptionsUsers />
                   </select>
-                </div>
-                <div className="form-group col-3">
-                  <label>Responders: </label>
+                </FormGroup>
+                <FormGroup className="col-span-2">
+                  <ControlLabel>Responders: </ControlLabel>
                   <select
-                    className="form-control"
                     ref={register}
                     name="responders"
                     defaultValue={draftBlock.responders?.map((user) => user.id)}
@@ -125,43 +135,58 @@ const BlockEditor: React.FC<{
                   >
                     <OptionsUsers />
                   </select>
-                </div>
+                </FormGroup>
               </>
             )}
-            <div className="form-group col-12">
-              <label>Description: </label>
-              <textarea
-                className="form-control"
+            <FormGroup className="col-span-7">
+              <ControlLabel>Description: </ControlLabel>
+              <FormControl
+                componentClass="textarea"
                 ref={register}
                 name="description"
               />
-            </div>
-            <div className="form-group col-12 ">
+            </FormGroup>
+            <FormGroup className="col-span-7">
               <BlockChildrenList
                 blocks={draftBlock.children}
                 addSubBlock={addSubBlock}
                 onDelete={(childBlock) => deleteSubBlock(childBlock)}
               />
-            </div>
-            <div className="d-flex justify-content-around col-12">
-              <button
-                className="btn btn-gray col-2"
-                onClick={(e) => saveBlock(e)}
-              >
+            </FormGroup>
+            <FormGroup className="col-span-6 grid grid-cols-12 gap-4">
+              <Button className="col-span-2" onClick={(e) => saveBlock(e)}>
                 save
-              </button>
-              <button className="btn btn-gray col-2" onClick={close}>
+              </Button>
+              <Button className="col-span-2" onClick={close}>
                 cancel
-              </button>
-            </div>
-          </form>
+              </Button>
+            </FormGroup>
+          </Form>
         </Col>
-        <Col xs={24} md={6} className="border-left border-gray">
+        <Col xs={24} md={6} className="theme-elegant">
           <BlockCatalogList />
         </Col>
       </Row>
     </Grid>
   )
 }
+
+const BlockEditor = styled(BlockEditorRaw)`
+  background: var(--color-bg-secondary);
+  ${tw``}
+  .main {
+    background var(--color-bg-inverse);
+    ${tw`p-2`}
+  }
+  .rs-form-control-wrapper {
+    width: 100%;
+  }
+  .rs-input,
+  select {
+    ${tw`rounded-md w-full p-1`}
+    border: 1px solid var(--color-text-default);
+    background: transparent;
+  }
+`
 
 export { BlockEditor }

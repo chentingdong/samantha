@@ -3,24 +3,23 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 
 const Card = styled.div`
-  .card {
-    ${tw`rounded-md shadow`}
-    border: 1px solid;
-    border-color: var(--color-text-secondary);
-    .card-header {
-      ${tw`rounded-t-md p-1`}
-      display: block;
-      white-space: nowrap;
-      width: 100%;
-      background: var(--color-bg-primary);
-      overflow: Hidden;
-    }
-    .card-body {
-      ${tw`rounded-md p-1`}
-      background: var(--color-bg-default);
-      height: 5em;
-      overflow: hidden;
-    }
+  ${tw`rounded-md shadow border`}
+  color: var(--color-text-default);
+  border-color: var(--color-text-secondary);
+  background: var(--color-bg-primary);
+  .card-header {
+    ${tw`rounded-t-md p-1`}
+    background: var(--color-bg-default);
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .card-body {
+    ${tw`rounded-b-md p-1 text-xs`}
+    max-height: 4.7em;
   }
 `
+
 export { Card }

@@ -19043,9 +19043,9 @@ video {
 }
 
 .theme-dark {
-  --color-bg-primary: #333;
+  --color-bg-primary: #444;
   --color-bg-secondary: #555;
-  --color-bg-default: #444;
+  --color-bg-default: #333;
   --color-bg-inverse: #222;
   --color-text-primary: #fff;
   --color-text-secondary: #927e7e;
@@ -19053,6 +19053,27 @@ video {
   --color-text-default-soft: #6a6a6a;
   --color-text-inverse: #fff;
   --color-text-inverse-soft: #bbb;
+  --font-display: Georgia, Times, "Times New Roman", serif;
+  --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
+    "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,
+    "Verdana Ref", sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+  --rounded-btn: 0;
+}
+
+.theme-light {
+  --color-text-primary: #333;
+  --color-text-secondary: #555;
+  --color-text-default: #444;
+  --color-text-inverse: #222;
+  --color-bg-primary: #fff;
+  --color-bg-secondary: #927e7e;
+  --color-bg-default: #dfefdf;
+  --color-bg-default-soft: #6a6a6a;
+  --color-bg-inverse: #fff;
+  --color-bg-inverse-soft: #bbb;
   --font-display: Georgia, Times, "Times New Roman", serif;
   --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
     "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,

@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 .theme-dark {
-  --color-bg-primary: #333;
+  --color-bg-primary: #444;
   --color-bg-secondary: #555;
-  --color-bg-default: #444;
+  --color-bg-default: #333;
   --color-bg-inverse: #222;
 
   --color-text-primary: #fff;

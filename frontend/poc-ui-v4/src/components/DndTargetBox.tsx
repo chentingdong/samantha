@@ -1,13 +1,14 @@
 import React from "react"
 import { useDrop } from "react-dnd"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
+import styled from "styled-components"
 
 type DndTargetBoxProps = {
   accept: string
   greedy?: boolean
   onDrop: (item: BlockOrDef) => void
 }
-const DndTargetBox: React.FC<DndTargetBoxProps> = ({
+const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
   accept,
   onDrop,
   greedy = false,
@@ -40,12 +41,20 @@ const DndTargetBox: React.FC<DndTargetBoxProps> = ({
   return (
     <div
       ref={drop}
-      className={`border-gray pb-2 ${hoverClass}`}
+      className={`${hoverClass}`}
       style={{ minHeight: "200px", borderStyle: "dotted" }}
     >
       {children}
     </div>
   )
 }
+
+const DndTargetBox = styled(DndTargetBoxRaw)`
+  border: red;
+  min-height: 100px;
+  .bg-highlight {
+    background: var(--color-bg-primary);
+  }
+`
 
 export { DndTargetBox }

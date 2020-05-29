@@ -38,13 +38,6 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   )
 }
 
-const Styles = styled.div.attrs({})``
+const BlockChildrenList = styled(BlockChildrenListRaw)``
 
-const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
-  return (
-    <Styles>
-      <BlockChildrenListRaw {...props} />
-    </Styles>
-  )
-}
 export { BlockChildrenList }
