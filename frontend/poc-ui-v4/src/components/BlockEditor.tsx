@@ -84,18 +84,19 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     const formValues = getValues()
     const draftBlockWithFormValues = Object.assign({}, draftBlock, formValues)
     const mutationType = draftBlockWithFormValues.__mutation_type__
-    const draftBlockTransformed = transformBlockInput(draftBlockWithFormValues)
 
     // console.log(
     //   `draftBlockTransformed:\n${JSON.stringify(draftBlockTransformed)}`
     // )
     // TODO: fix logic
     mutationType === MutationType.Create
-      ? createOneBlock({ variables: { data: draftBlockTransformed } })
+      ? createOneBlock({
+          variables: { data: transformBlockInput(draftBlockWithFormValues) },
+        })
       : updateOneBlock({
           variables: {
-            data: draftBlockTransformed,
-            where: { id: draftBlockTransformed.id },
+            data: draftBlockWithFormValues,
+            where: { id: draftBlockWithFormValues.id },
           },
         })
 
@@ -112,7 +113,8 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <ControlLabel>Name: </ControlLabel>
               <FormControl type="input" ref={register} name="name" />
             </FormGroup>
-            {editMode === EditMode.Edit && itemOrigin === ItemOrigin.Catalog && (
+            {(editMode === EditMode.Edit &&
+              itemOrigin === ItemOrigin.Catalog) || (
               <>
                 <FormGroup className="col-span-2">
                   <ControlLabel>Requestors: </ControlLabel>
