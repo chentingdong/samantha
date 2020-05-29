@@ -78,7 +78,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className="theme-dark h-full font-serif">
+    <div className="h-full font-serif">
       <Routes />
     </div>
   )

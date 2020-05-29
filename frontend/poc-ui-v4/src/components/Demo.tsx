@@ -17,14 +17,20 @@ function DemoRaw({ className }) {
     await Auth.signOut()
   }
 
-  const changeTheme = () => {}
+  const [theme, setTheme] = useState("theme-dark")
+
+  const toggleTheme = () => {
+    const newTheme = theme === "theme-dark" ? "theme-elegant" : "theme-dark"
+    setTheme(newTheme)
+    console.log(newTheme)
+  }
   return (
-    <div className={className}>
+    <div className={`${className} ${theme}`}>
       {data?.authUser?.isAuthenticated && (
         <Grid fluid>
           <Row>
             <Col xs={4}>
-              <img src={logo} alt="" className="logo" onClick={changeTheme} />
+              <img src={logo} alt="" className="logo" onClick={toggleTheme} />
               <h2 className="inline-block">Bellhop</h2>
               <Nav
                 vertical
@@ -68,7 +74,7 @@ const Demo = styled(DemoRaw)`
   height: 100vh;
   border-radius: 0;
   .logo {
-    ${tw`m-2`}
+    ${tw`my-0 mx-4`}
     height: 2em;
     display: inline-block;
   }

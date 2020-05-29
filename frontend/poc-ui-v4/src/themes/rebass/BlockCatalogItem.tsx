@@ -20,9 +20,10 @@ const BlockCatalogItemContainerView: React.FC<BlockCatalogItemType> = ({
   const isLeaf = block.type.includes("LEAF_")
   return (
     <Box
-      className={`${className}`}
+      className={className}
       key={block.id}
       sx={{ display: "grid", gridGap: 3 }}
+      fontSize="1em"
     >
       <Heading className={`header ${isLeaf ? "leaf" : "composite"}`}>
         <div className="title">
