@@ -3,7 +3,7 @@ import { RequestCatalogList } from "./RequestCatalogList"
 import { RequestsMadeList } from "./RequestsMadeList"
 import { RequestsReceivedList } from "./RequestsReceivedList"
 import { ContextViewCodes } from "./ContextViewCodes"
-import { Grid, Row, Col, Nav } from "rsuite"
+import { Grid, Row, Col, Nav, Dropdown } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { Auth } from "aws-amplify"
@@ -35,11 +35,14 @@ function DemoRaw({ className }) {
                   Request Received
                 </Nav.Item>
                 <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
-                <Nav.Item>
-                  <button className="btn btn-link" onClick={logout}>
+                <Dropdown title="User">
+                  <Dropdown.Item eventKey="auth-user">
+                    Signed in as {data?.authUser?.name}
+                  </Dropdown.Item>
+                  <Dropdown.Item eventKey="logout" onClick={logout}>
                     Logout
-                  </button>
-                </Nav.Item>
+                  </Dropdown.Item>
+                </Dropdown>
               </Nav>
             </Col>
             <Col xs={20}>
