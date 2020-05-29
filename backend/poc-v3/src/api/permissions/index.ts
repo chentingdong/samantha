@@ -8,6 +8,7 @@ const isAuthenticated = rule({ cache: 'contextual' })(
   },
 )
 
+// TODO: figure out how to do it reflectively
 const rules = {
   Query: {
     user: isAuthenticated,

@@ -13,6 +13,8 @@ const _transformBlockInput = (block, mutationType = MutationType.Connect) => {
   const childrenForConnect = []
   const childrenForDelete = []
   for (const child of block.children) {
+    // should get child.__mutation_type__ before transform
+
     switch (child.__mutation_type__) {
       case MutationType.Create:
         const transformedChild = _transformBlockInput(child, mutationType)
