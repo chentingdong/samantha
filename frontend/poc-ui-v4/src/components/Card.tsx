@@ -4,7 +4,7 @@ import tw from "tailwind.macro"
 
 const Card = styled.div`
   ${tw`rounded-md shadow border`}
-  color: var(--color-text-default);
+  color: var(--color-text-primary);
   border-color: var(--color-text-secondary);
   background: var(--color-bg-primary);
   .card-header {

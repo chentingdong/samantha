@@ -58,7 +58,7 @@ function DemoRaw({ className }) {
   )
 }
 const Demo = styled(DemoRaw)`
-  color: var(--color-text-default);
+  color: var(--color-text-primary);
   background-color: var(--color-bg-default);
   overflow: auto;
   height: 100vh;
