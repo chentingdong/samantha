@@ -4,11 +4,6 @@ import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"
 import Login from "../pages/Login"
 import NotFound from "../pages/NotFound"
-import { HeaderWithRouter } from "../components/Header"
-import { RequestCatalogList } from "../components/RequestCatalogList"
-import { RequestsMadeList } from "../components/RequestsMadeList"
-import { RequestsReceivedList } from "../components/RequestsReceivedList"
-import { ContextViewCodes } from "../components/ContextViewCodes"
 import { Demo } from "../components/Demo"
 
 const routes = [
@@ -20,21 +15,6 @@ const routes = [
   {
     path: "/demo",
     component: Demo,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/requests-made",
-    component: RequestsMadeList,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/requests-received",
-    component: RequestsReceivedList,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/context-viewer",
-    component: ContextViewCodes,
     tag: PrivateRoute,
   },
   {
