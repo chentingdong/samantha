@@ -13,8 +13,14 @@ const _transformBlockInput = (block) => {
   block.children = {}
   if (childrenForCreate.length > 0) block.children.create = childrenForCreate
 
-  block.requestors = { connect: block.requestors?.map((id) => ({ id })) }
-  block.responders = { connect: block.responders?.map((id) => ({ id })) }
+  if (block.requestors?.length > 0)
+    block.requestors = {
+      connect: block.requestors?.map((user) => ({ id: user.value })),
+    }
+  if (block.responders?.length > 0)
+    block.responders = {
+      connect: block.responders?.map((user) => ({ id: user.value })),
+    }
 
   return block
 }
