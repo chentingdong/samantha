@@ -7,11 +7,13 @@ import { BlockChildrenList } from "./BlockChildrenList"
 import { OptionsUsers } from "./OptionsUsers"
 import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
-import { Grid, Row, Col, Nav } from "rsuite"
+import { Grid, Row, Col, Nav, TagPicker } from "rsuite"
 import { Form, FormGroup, FormControl, ControlLabel } from "rsuite"
 import { Button } from "./Button"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { useQuery } from "@apollo/client"
+import { GET_USERS } from "../operations/queries/getUsers"
 
 type BlockEditorType = {
   draftBlock: BlockOrDef
@@ -35,7 +37,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     defaultValues: draftBlock,
   })
   const { createOneBlock, updateOneBlock } = actions
-
+  const { data } = useQuery(GET_USERS)
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
       // Do whatever when esc is pressed
@@ -118,25 +120,25 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <>
                 <FormGroup className="col-span-2">
                   <ControlLabel>Requestors: </ControlLabel>
-                  <select
+                  <TagPicker
                     ref={register}
-                    name="requestors"
+                    data={data?.users?.map((user) => ({
+                      label: user.name,
+                      value: user.id,
+                    }))}
                     defaultValue={draftBlock.requestors?.map((user) => user.id)}
-                    multiple
-                  >
-                    <OptionsUsers />
-                  </select>
+                  />
                 </FormGroup>
                 <FormGroup className="col-span-2">
                   <ControlLabel>Responders: </ControlLabel>
-                  <select
+                  <TagPicker
                     ref={register}
-                    name="responders"
+                    data={data?.users?.map((user) => ({
+                      label: user.name,
+                      value: user.id,
+                    }))}
                     defaultValue={draftBlock.responders?.map((user) => user.id)}
-                    multiple
-                  >
-                    <OptionsUsers />
-                  </select>
+                  />
                 </FormGroup>
               </>
             )}
@@ -184,11 +186,6 @@ const BlockEditor = styled(BlockEditorRaw)`
     width: 100%;
   }
   .rs-input,
-  select {
-    ${tw`rounded-md w-full p-1`}
-    border: 1px solid var(--color-text-default);
-    background: transparent;
-  }
   .tree {
     background var(--color-bg-secondary);
   }
