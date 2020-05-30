@@ -63,7 +63,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   }
 
   const createDraftBlock = (blockDef) => {
-    const draftBlock = Object.assign({}, blockDef, {
+    const draftBlock = {
+      ...blockDef,
       __mutation_type__: MutationType.Create,
       id: uuid.v4(),
       name: "",
@@ -75,7 +76,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           email: data?.authUser?.email,
         },
       ],
-    })
+    }
     return draftBlock
   }
 
