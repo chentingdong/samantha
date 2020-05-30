@@ -1,10 +1,8 @@
 import uuid from "uuid"
-import React, { useState, useEffect, useCallback } from "react"
-import { useForm } from "react-hook-form"
+import React, { useReducer, useEffect, useCallback } from "react"
 import { BlockOrDef } from "../models/interface"
 import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockChildrenList } from "./BlockChildrenList"
-import { OptionsUsers } from "./OptionsUsers"
 import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
 import { Grid, Row, Col, Nav, TagPicker } from "rsuite"
@@ -33,17 +31,23 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
   actions,
   className = "",
 }) => {
-  const { register, getValues, setValue } = useForm({
-    defaultValues: draftBlock,
-  })
-  const [name, setName] = useState(draftBlock.name)
-  const [description, setDescription] = useState(draftBlock.description)
-  const [requestors, setRequestors] = useState(
-    draftBlock.requestors?.map((user) => user.id)
-  )
-  const [responders, setResponders] = useState(
-    draftBlock.responders?.map((user) => user.id)
-  )
+  const reducer = (state, action) => {
+    const newState = { ...state }
+    newState[action.field] = action.value
+    return newState
+  }
+
+  const blockInit = (block) => {
+    const newBlock = {
+      ...block,
+      requestors: block.requestors?.map((user) => user.id),
+      responders: block.responders?.map((user) => user.id),
+    }
+    return newBlock
+  }
+
+  const [state, dispatch] = useReducer(reducer, blockInit(draftBlock))
+
   const { createOneBlock, updateOneBlock } = actions
   const { data } = useQuery(GET_USERS)
   const escFunction = useCallback((event) => {
@@ -59,13 +63,6 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
       document.removeEventListener("keydown", escFunction, false)
     }
   }, [])
-
-  React.useEffect(() => {
-    register({ name: "name" })
-    register({ name: "description" })
-    register({ name: "requestors" })
-    register({ name: "responders" })
-  }, [register])
 
   const onSumbit = () => {
     // what action to take on submit?
@@ -84,9 +81,10 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
       (child) => child.id === childBlock.id
     )
     if (index < 0) return
-    const updatedChild = Object.assign({}, draftBlock.children[index], {
+    const updatedChild = {
+      ...draftBlock.children[index],
       __mutation_type__: MutationType.Delete,
-    })
+    }
     const updatedChildren = [...draftBlock.children]
     updatedChildren[index] = updatedChild
     setDraftBlock({
@@ -97,15 +95,9 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
 
   const saveBlock = async (e) => {
     e.preventDefault()
-    // apply user's form changes
-    const formValues = getValues()
-    const draftBlockWithFormValues = Object.assign({}, draftBlock, formValues)
+    const draftBlockWithFormValues = { ...draftBlock, ...state }
     const mutationType = draftBlockWithFormValues.__mutation_type__
 
-    console.log(`formValues: ${JSON.stringify(formValues, null, 2)}`)
-    // console.log(
-    //   `draftBlockTransformed:\n${JSON.stringify(draftBlockTransformed)}`
-    // )
     // TODO: fix logic
     mutationType === MutationType.Create
       ? createOneBlock({
@@ -132,12 +124,8 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <FormControl
                 type="input"
                 name="name"
-                value={name}
-                onChange={(value) => {
-                  console.log(JSON.stringify(value, null, 2))
-                  setValue("name", value)
-                  setName(value)
-                }}
+                value={state.name}
+                onChange={(value) => dispatch({ field: "name", value })}
               />
             </FormGroup>
             {(editMode === EditMode.Edit &&
@@ -152,12 +140,10 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                       label: user.name,
                       value: user.id,
                     }))}
-                    value={requestors}
-                    onChange={(value) => {
-                      console.log(JSON.stringify(value, null, 2))
-                      setValue("requestors", value)
-                      setRequestors(value)
-                    }}
+                    value={state.requestors}
+                    onChange={(value) =>
+                      dispatch({ field: "requestors", value })
+                    }
                   />
                 </FormGroup>
                 <FormGroup className="col-span-2">
@@ -169,12 +155,10 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                       label: user.name,
                       value: user.id,
                     }))}
-                    value={responders}
-                    onChange={(value) => {
-                      console.log(JSON.stringify(value, null, 2))
-                      setValue("responders", value)
-                      setResponders(value)
-                    }}
+                    value={state.responders}
+                    onChange={(value) =>
+                      dispatch({ field: "responders", value })
+                    }
                   />
                 </FormGroup>
               </>
@@ -184,12 +168,8 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <FormControl
                 componentClass="textarea"
                 name="description"
-                value={description}
-                onChange={(value) => {
-                  console.log(JSON.stringify(value, null, 2))
-                  setValue("description", value)
-                  setDescription(value)
-                }}
+                value={state.description}
+                onChange={(value) => dispatch({ field: "description", value })}
               />
             </FormGroup>
             <FormGroup className="col-span-7 tree">
