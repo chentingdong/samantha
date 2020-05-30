@@ -1,4 +1,3 @@
-import uuid from "uuid"
 import React, { useReducer, useEffect, useCallback } from "react"
 import { BlockOrDef } from "../models/interface"
 import { BlockCatalogList } from "./BlockCatalogList"
@@ -46,7 +45,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     return newBlock
   }
 
-  const [state, dispatch] = useReducer(reducer, blockInit(draftBlock))
+  const [formData, dispatch] = useReducer(reducer, blockInit(draftBlock))
 
   const { createOneBlock, updateOneBlock } = actions
   const { data } = useQuery(GET_USERS)
@@ -95,7 +94,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
 
   const saveBlock = async (e) => {
     e.preventDefault()
-    const draftBlockWithFormValues = { ...draftBlock, ...state }
+    const draftBlockWithFormValues = { ...draftBlock, ...formData }
     const mutationType = draftBlockWithFormValues.__mutation_type__
 
     // TODO: fix logic
@@ -124,7 +123,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <FormControl
                 type="input"
                 name="name"
-                value={state.name}
+                value={formData.name}
                 onChange={(value) => dispatch({ field: "name", value })}
               />
             </FormGroup>
@@ -140,7 +139,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                       label: user.name,
                       value: user.id,
                     }))}
-                    value={state.requestors}
+                    value={formData.requestors}
                     onChange={(value) =>
                       dispatch({ field: "requestors", value })
                     }
@@ -155,7 +154,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                       label: user.name,
                       value: user.id,
                     }))}
-                    value={state.responders}
+                    value={formData.responders}
                     onChange={(value) =>
                       dispatch({ field: "responders", value })
                     }
@@ -168,7 +167,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <FormControl
                 componentClass="textarea"
                 name="description"
-                value={state.description}
+                value={formData.description}
                 onChange={(value) => dispatch({ field: "description", value })}
               />
             </FormGroup>
