@@ -141,6 +141,7 @@
     "react-rating": "^2.0.5",
     "react-responsive-carousel": "^3.2.7",
     "react-router-dom": "^5.1.2",
+    "react-select": "^3.1.0",
     "react-sortable-tree": "^2.7.1",
     "react-sortable-tree-theme-file-explorer": "^2.0.0",
     "react-stepper-horizontal": "^1.0.11",

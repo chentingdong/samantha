@@ -4,8 +4,17 @@ import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockChildrenList } from "./BlockChildrenList"
 import { transformBlockInput } from "../operations/transform"
 import { EditMode, ItemOrigin, MutationType } from "../models/enum"
-import { Grid, Row, Col, Nav, TagPicker } from "rsuite"
-import { Form, FormGroup, FormControl, ControlLabel } from "rsuite"
+import {
+  Grid,
+  Row,
+  Col,
+  Form,
+  FormGroup,
+  FormControl,
+  ControlLabel,
+  TagPicker,
+} from "rsuite"
+import Select from "react-select"
 import { Button } from "./Button"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -36,11 +45,16 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     return newState
   }
 
+  const userOption = (user) => ({
+    label: user.name,
+    value: user.id,
+  })
+
   const blockInit = (block) => {
     const newBlock = {
       ...block,
-      requestors: block.requestors?.map((user) => user.id),
-      responders: block.responders?.map((user) => user.id),
+      requestors: block.requestors?.map(userOption),
+      responders: block.responders?.map(userOption),
     }
     return newBlock
   }
@@ -97,6 +111,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     const draftBlockWithFormValues = { ...draftBlock, ...formData }
     const mutationType = draftBlockWithFormValues.__mutation_type__
 
+    console.log(JSON.stringify(formData, null, 2))
     // TODO: fix logic
     mutationType === MutationType.Create
       ? createOneBlock({
@@ -122,7 +137,6 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <ControlLabel>Name: </ControlLabel>
               <FormControl
                 type="input"
-                name="name"
                 value={formData.name}
                 onChange={(value) => dispatch({ field: "name", value })}
               />
@@ -133,9 +147,10 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                 <FormGroup className="col-span-2">
                   <ControlLabel>Requestors: </ControlLabel>
                   <FormControl
-                    accepter={TagPicker}
-                    name="requestors"
-                    data={data?.users?.map((user) => ({
+                    accepter={Select}
+                    isMulti
+                    classNamePrefix="react-select"
+                    options={data?.users?.map((user) => ({
                       label: user.name,
                       value: user.id,
                     }))}
@@ -148,9 +163,10 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                 <FormGroup className="col-span-2">
                   <ControlLabel>Responders: </ControlLabel>
                   <FormControl
-                    accepter={TagPicker}
-                    name="responders"
-                    data={data?.users?.map((user) => ({
+                    accepter={Select}
+                    isMulti
+                    classNamePrefix="react-select"
+                    options={data?.users?.map((user) => ({
                       label: user.name,
                       value: user.id,
                     }))}
@@ -166,7 +182,6 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <ControlLabel>Description: </ControlLabel>
               <FormControl
                 componentClass="textarea"
-                name="description"
                 value={formData.description}
                 onChange={(value) => dispatch({ field: "description", value })}
               />
@@ -206,9 +221,26 @@ const BlockEditor = styled(BlockEditorRaw)`
   .rs-form-control-wrapper {
     width: 100%;
   }
-  .rs-input,
+  .rs-input {
+    background var(--color-bg-secondary);
+    width: 100%;
+  }
   .tree {
     background var(--color-bg-secondary);
+  }
+  .react-select__control,
+  .react-select__menu {
+    background var(--color-bg-secondary);
+  }
+  .react-select__multi-value {
+    background var(--color-bg-default);
+  }
+  .react-select__input,
+  .react-select__multi-value__label {
+    color var(--color-text-primary);
+  }
+  .react-select__option--is-focused {
+    background var(--color-bg-default);
   }
 `
 
