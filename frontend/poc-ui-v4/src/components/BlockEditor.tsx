@@ -148,7 +148,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                 name="description"
               />
             </FormGroup>
-            <FormGroup className="col-span-7">
+            <FormGroup className="col-span-7 tree">
               <BlockChildrenList
                 blocks={draftBlock.children}
                 addSubBlock={addSubBlock}
@@ -165,7 +165,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
             </FormGroup>
           </Form>
         </Col>
-        <Col xs={24} md={6} className="theme-light">
+        <Col xs={24} md={6}>
           <BlockCatalogList />
         </Col>
       </Row>
@@ -188,6 +188,9 @@ const BlockEditor = styled(BlockEditorRaw)`
     ${tw`rounded-md w-full p-1`}
     border: 1px solid var(--color-text-default);
     background: transparent;
+  }
+  .tree {
+    background var(--color-bg-secondary);
   }
 `
 
