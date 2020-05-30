@@ -1,5 +1,5 @@
 import uuid from "uuid"
-import React, { useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import { useForm } from "react-hook-form"
 import { BlockOrDef } from "../models/interface"
 import { BlockCatalogList } from "./BlockCatalogList"
@@ -33,9 +33,17 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
   actions,
   className = "",
 }) => {
-  const { register, getValues, setValue, handleSubmit } = useForm({
+  const { register, getValues, setValue } = useForm({
     defaultValues: draftBlock,
   })
+  const [name, setName] = useState(draftBlock.name)
+  const [description, setDescription] = useState(draftBlock.description)
+  const [requestors, setRequestors] = useState(
+    draftBlock.requestors?.map((user) => user.id)
+  )
+  const [responders, setResponders] = useState(
+    draftBlock.responders?.map((user) => user.id)
+  )
   const { createOneBlock, updateOneBlock } = actions
   const { data } = useQuery(GET_USERS)
   const escFunction = useCallback((event) => {
@@ -51,6 +59,13 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
       document.removeEventListener("keydown", escFunction, false)
     }
   }, [])
+
+  React.useEffect(() => {
+    register({ name: "name" })
+    register({ name: "description" })
+    register({ name: "requestors" })
+    register({ name: "responders" })
+  }, [register])
 
   const onSumbit = () => {
     // what action to take on submit?
@@ -87,6 +102,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     const draftBlockWithFormValues = Object.assign({}, draftBlock, formValues)
     const mutationType = draftBlockWithFormValues.__mutation_type__
 
+    console.log(`formValues: ${JSON.stringify(formValues, null, 2)}`)
     // console.log(
     //   `draftBlockTransformed:\n${JSON.stringify(draftBlockTransformed)}`
     // )
@@ -113,31 +129,52 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
           <Form className="grid grid-cols-7 gap-4">
             <FormGroup className="col-span-3">
               <ControlLabel>Name: </ControlLabel>
-              <FormControl type="input" ref={register} name="name" />
+              <FormControl
+                type="input"
+                name="name"
+                value={name}
+                onChange={(value) => {
+                  console.log(JSON.stringify(value, null, 2))
+                  setValue("name", value)
+                  setName(value)
+                }}
+              />
             </FormGroup>
             {(editMode === EditMode.Edit &&
               itemOrigin === ItemOrigin.Catalog) || (
               <>
                 <FormGroup className="col-span-2">
                   <ControlLabel>Requestors: </ControlLabel>
-                  <TagPicker
-                    ref={register}
+                  <FormControl
+                    accepter={TagPicker}
+                    name="requestors"
                     data={data?.users?.map((user) => ({
                       label: user.name,
                       value: user.id,
                     }))}
-                    defaultValue={draftBlock.requestors?.map((user) => user.id)}
+                    value={requestors}
+                    onChange={(value) => {
+                      console.log(JSON.stringify(value, null, 2))
+                      setValue("requestors", value)
+                      setRequestors(value)
+                    }}
                   />
                 </FormGroup>
                 <FormGroup className="col-span-2">
                   <ControlLabel>Responders: </ControlLabel>
-                  <TagPicker
-                    ref={register}
+                  <FormControl
+                    accepter={TagPicker}
+                    name="responders"
                     data={data?.users?.map((user) => ({
                       label: user.name,
                       value: user.id,
                     }))}
-                    defaultValue={draftBlock.responders?.map((user) => user.id)}
+                    value={responders}
+                    onChange={(value) => {
+                      console.log(JSON.stringify(value, null, 2))
+                      setValue("responders", value)
+                      setResponders(value)
+                    }}
                   />
                 </FormGroup>
               </>
@@ -146,8 +183,13 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <ControlLabel>Description: </ControlLabel>
               <FormControl
                 componentClass="textarea"
-                ref={register}
                 name="description"
+                value={description}
+                onChange={(value) => {
+                  console.log(JSON.stringify(value, null, 2))
+                  setValue("description", value)
+                  setDescription(value)
+                }}
               />
             </FormGroup>
             <FormGroup className="col-span-7 tree">
