@@ -21,5 +21,8 @@ const Select = styled(ReactSelect)`
     background var(--color-bg-primary);
     color var(--color-text-primary);
   }
+  .react-select__control {
+    border: var(--color-text-default);
+  }
 `
 export { Select }
