@@ -12,7 +12,6 @@ import {
   FormGroup,
   FormControl,
   ControlLabel,
-  TagPicker,
 } from "rsuite"
 import { Select } from "./Select"
 import { Button } from "./Button"
@@ -20,6 +19,7 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { useQuery } from "@apollo/client"
 import { GET_USERS } from "../operations/queries/getUsers"
+import { UserPicker } from "./UserPicker"
 
 type BlockEditorType = {
   draftBlock: BlockOrDef
@@ -147,7 +147,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                 <FormGroup className="col-span-2">
                   <ControlLabel>Requestors: </ControlLabel>
                   <FormControl
-                    accepter={Select}
+                    accepter={UserPicker}
                     isMulti
                     classNamePrefix="react-select"
                     options={data?.users?.map((user) => ({
@@ -197,7 +197,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <Button className="col-span-2" onClick={(e) => saveBlock(e)}>
                 save
               </Button>
-              <Button className="col-span-2" onClick={close}>
+              <Button className="btn btn-gray col-2" onClick={close}>
                 cancel
               </Button>
             </FormGroup>

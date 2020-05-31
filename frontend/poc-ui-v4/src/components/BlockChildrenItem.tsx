@@ -3,7 +3,7 @@ import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { SegmentView } from "./SegmentView"
 import { DndSourceBox } from "./DndSourceBox"
 import { Card } from "./Card"
-import { Icon } from "rsuite"
+import { Close } from "./Close"
 import styled from "styled-components"
 
 const BlockChildrenItemRaw: React.FC<{
@@ -18,12 +18,7 @@ const BlockChildrenItemRaw: React.FC<{
           {index + 1}
           <span className="p-2">-</span>
           {block.name}
-          <Icon
-            icon="close"
-            inverse={true}
-            className="close float-right block m-1 cursor-pointer"
-            onClick={() => onDelete(block)}
-          />
+          <Close className="float-right" onClick={() => onDelete(block)} />
         </div>
         <div className="card-body">{block.description}</div>
         <SegmentView block={block} />

@@ -6,7 +6,7 @@ import Rating from "react-rating"
 import blockStories from "../../../data/storybook-blocks.json"
 import Progress from "react-progressbar"
 import { Tree } from "./Tree"
-import { TagPicker } from "./TagPicker"
+import { UserPicker } from "../../components/UserPicker"
 import { StepperDemo } from "./StepperDemo"
 import { IconsDemo } from "./IconsDemo"
 import { TimelineDemo } from "./TimelineDemo"
@@ -44,6 +44,12 @@ const DndBlocks = () => {
 }
 
 const Components = () => {
+  const tags = [{ label: "a", value: "aa" }]
+  const options = [
+    { label: "a", value: "aa" },
+    { label: "b", value: "bb" },
+  ]
+
   return (
     <div>
       <h1>
@@ -67,7 +73,7 @@ const Components = () => {
       </div>
       <div className="my-4 ">
         <h2>Tag View</h2>
-        <TagPicker />
+        <UserPicker value={tags} options={options} />
       </div>
       <div className="my-4 ">
         <h2>Progress Bar </h2>
