@@ -3,7 +3,7 @@ import { Icon } from "rsuite"
 import styled from "styled-components"
 import { Close } from "./Close"
 
-const UserPickerRaw = (props) => {
+const TagPickerRaw = (props) => {
   const { value, options } = props
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
@@ -27,7 +27,7 @@ const UserPickerRaw = (props) => {
   return (
     <div>
       <div
-        className="h-auto p-2 border rounded-md mr-4"
+        className="h-auto p-2 border rounded-md"
         onClick={(e) => {
           setShowSelect(false)
         }}
@@ -97,12 +97,12 @@ const Styles = styled.div.attrs({})`
   }
 `
 
-const UserPicker = (props) => {
+const TagPicker = (props) => {
   return (
     <Styles>
-      <UserPickerRaw {...props} />
+      <TagPickerRaw {...props} />
     </Styles>
   )
 }
 
-export { UserPicker }
+export { TagPicker }

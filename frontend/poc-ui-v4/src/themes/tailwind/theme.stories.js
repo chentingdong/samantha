@@ -6,7 +6,7 @@ import Rating from "react-rating"
 import blockStories from "../../../data/storybook-blocks.json"
 import Progress from "react-progressbar"
 import { Tree } from "./Tree"
-import { UserPicker } from "../../components/UserPicker"
+import { TagPicker } from "../../components/TagPicker"
 import { StepperDemo } from "./StepperDemo"
 import { IconsDemo } from "./IconsDemo"
 import { TimelineDemo } from "./TimelineDemo"
@@ -73,7 +73,7 @@ const Components = () => {
       </div>
       <div className="my-4 ">
         <h2>Tag View</h2>
-        <UserPicker value={tags} options={options} />
+        <TagPicker value={tags} options={options} />
       </div>
       <div className="my-4 ">
         <h2>Progress Bar </h2>

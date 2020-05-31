@@ -19,7 +19,7 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { useQuery } from "@apollo/client"
 import { GET_USERS } from "../operations/queries/getUsers"
-import { UserPicker } from "./UserPicker"
+import { TagPicker } from "./TagPicker"
 
 type BlockEditorType = {
   draftBlock: BlockOrDef
@@ -147,7 +147,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                 <FormGroup className="col-span-2">
                   <ControlLabel>Requestors: </ControlLabel>
                   <FormControl
-                    accepter={UserPicker}
+                    accepter={TagPicker}
                     isMulti
                     classNamePrefix="react-select"
                     options={data?.users?.map((user) => ({
