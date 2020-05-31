@@ -9,7 +9,7 @@ enum EditMode {
   Edit = "Edit",
 }
 
-enum ItemType {
+enum Typename {
   Block = "Block",
   BlockDef = "BlockDef",
 }
@@ -20,4 +20,4 @@ enum MutationType {
   Delete = "Delete",
 }
 
-export { ItemOrigin, EditMode, ItemType, MutationType }
+export { ItemOrigin, EditMode, Typename, MutationType }

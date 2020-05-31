@@ -1,4 +1,4 @@
-import { MutationType, EditMode, ItemType } from "./enum"
+import { MutationType, EditMode, Typename } from "./enum"
 
 export interface Block {
   id: string
@@ -42,7 +42,8 @@ export type BlockOrDef = Block | BlockDef
 export interface UiState {
   showEditor?: boolean
   editorMode?: EditMode
-  editingItemType?: ItemType
+  editingTypename?: Typename
+  draftBlock?: BlockOrDef
 }
 
 export interface User {

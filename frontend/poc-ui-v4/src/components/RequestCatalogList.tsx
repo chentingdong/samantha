@@ -8,8 +8,9 @@ import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { BlockDef } from "../models/interface"
 import { Loading, Error } from "./Misc"
-import { Button } from "rsuite"
+import { Button, Divider } from "rsuite"
 import { setUiState } from "../operations/mutations/setUiState"
+import { CatalogDropdown } from "./CatalogDropdown"
 
 const RequestCatalogList = () => {
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
@@ -22,13 +23,13 @@ const RequestCatalogList = () => {
 
   return (
     <>
-      <Button
-        onClick={(e) => {
-          setUiState({ showEditor: true })
-        }}
-      >
-        + Add a New Block Definition
-      </Button>
+      <CatalogDropdown
+        title="+ Add a Request Definition from"
+        trigger={["click", "hover"]}
+        noCaret
+        placement="rightStart"
+      />
+      <Divider />
       {data.blockDefs?.map((blockDef: BlockDef) => (
         <RequestItem
           block={blockDef}

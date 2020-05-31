@@ -5,7 +5,12 @@ export const UI_STATE = gql`
     uiState @client {
       showEditor
       editorMode
-      editingItemType
+      editingTypename
+      draftBlock {
+        id
+        name
+        description
+      }
     }
   }
 `
