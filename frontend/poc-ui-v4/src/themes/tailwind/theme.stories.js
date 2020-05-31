@@ -6,7 +6,7 @@ import Rating from "react-rating"
 import blockStories from "../../../data/storybook-blocks.json"
 import Progress from "react-progressbar"
 import { Tree } from "./Tree"
-import { Tag } from "./Tag"
+import { TagPicker } from "./TagPicker"
 import { StepperDemo } from "./StepperDemo"
 import { IconsDemo } from "./IconsDemo"
 import { TimelineDemo } from "./TimelineDemo"
@@ -67,7 +67,7 @@ const Components = () => {
       </div>
       <div className="my-4 ">
         <h2>Tag View</h2>
-        <Tag />
+        <TagPicker />
       </div>
       <div className="my-4 ">
         <h2>Progress Bar </h2>

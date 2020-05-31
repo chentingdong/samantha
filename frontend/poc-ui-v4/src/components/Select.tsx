@@ -24,5 +24,8 @@ const Select = styled(ReactSelect)`
   .react-select__control {
     border: var(--color-text-default);
   }
+  .react-select__multi-value__remove {
+    content: "asdf";
+  }
 `
 export { Select }
