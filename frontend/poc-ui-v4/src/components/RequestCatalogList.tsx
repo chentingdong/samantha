@@ -1,14 +1,15 @@
 import React from "react"
 import { RequestItem } from "./RequestItem"
-import { useQuery } from "@apollo/client"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { ItemOrigin } from "../models/enum"
-import { useMutation } from "@apollo/client"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { BlockDef } from "../models/interface"
 import { Loading, Error } from "./Misc"
+import { Button } from "rsuite"
+import { setUiState } from "../operations/mutations/setUiState"
 
 const RequestCatalogList = () => {
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
@@ -21,6 +22,13 @@ const RequestCatalogList = () => {
 
   return (
     <>
+      <Button
+        onClick={(e) => {
+          setUiState({ showEditor: true })
+        }}
+      >
+        + Add a New Block Definition
+      </Button>
       {data.blockDefs?.map((blockDef: BlockDef) => (
         <RequestItem
           block={blockDef}

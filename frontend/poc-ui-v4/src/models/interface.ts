@@ -1,4 +1,4 @@
-import { MutationType } from "./enum"
+import { MutationType, EditMode, ItemType } from "./enum"
 
 export interface Block {
   id: string
@@ -16,6 +16,7 @@ export interface Block {
   last_updated: Date
   due_date?: Date
   __mutation_type__?: MutationType
+  __typename?: string
 }
 
 export interface BlockDef {
@@ -34,14 +35,14 @@ export interface BlockDef {
   last_updated: Date
   due_date?: Date
   __mutation_type__?: MutationType
+  __typename?: string
 }
 export type BlockOrDef = Block | BlockDef
 
 export interface UiState {
-  showEditRequestDef?: boolean
-  showEditRequest?: boolean
-  showRequestViewRequester?: boolean
-  showRequestViewResponder?: boolean
+  showEditor?: boolean
+  editorMode?: EditMode
+  editingItemType?: ItemType
 }
 
 export interface User {
@@ -49,9 +50,6 @@ export interface User {
   name?: string
   email?: string
   isAuthenticated: boolean
-  picture?: string
-  given_name?: string
-  family_name?: string
 }
 
 export interface CognitoUser {
