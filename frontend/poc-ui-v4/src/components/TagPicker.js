@@ -24,7 +24,7 @@ const TagPickerRaw = (props) => {
   }
 
   return (
-    <div className="rounded p-1">
+    <div className="rounded p-1 text-sm">
       <div
         onClick={(e) => {
           setShowSelect(!showSelect)
@@ -32,17 +32,18 @@ const TagPickerRaw = (props) => {
       >
         {tags?.map((tag, index) => {
           return (
-            <span
-              key={index}
-              className="tag p-1 m-1 inline-block w-auto text-xs"
-            >
+            <span key={index} className="tag inline-block w-auto text-xs">
               <span className="m-1">{tag.label}</span>
-              <Icon icon="close" onClick={(e) => deleteTag(e, tag)} />
+              <Icon
+                className="text-xs"
+                icon="close"
+                onClick={(e) => deleteTag(e, tag)}
+              />
             </span>
           )
         })}
         <div
-          className="toggle p-2 m-1"
+          className="toggle p-1 pl-2 m-1"
           onClick={(e) => {
             e.stopPropagation()
             setShowSelect(!showSelect)
@@ -81,6 +82,8 @@ const Styles = styled.div.attrs({})`
   border-radius: 5px;
   background: var(--color-bg-secondary);
   .tag {
+    padding: 0.25em;
+    margin: 0.25em;
     background-color: var(--color-bg-default);
     .close {
       border-color: var(--color-text-default);
