@@ -7,29 +7,12 @@ export const cache: InMemoryCache = new InMemoryCache({
     Query: {
       fields: {
         authUser: {
-          merge(existing, incoming) {
-            return authUserVar(incoming)
-          },
           read() {
             return authUserVar()
           },
         },
         uiState: {
-          // merge(existing, incoming) {
-          //   const result = { ...uiStateVar(), ...incoming }
-          //   console.log(
-          //     `uiState merge: uiStateVar(): ${JSON.stringify(
-          //       uiStateVar()
-          //     )}, existing: ${JSON.stringify(
-          //       existing
-          //     )}, incoming: ${JSON.stringify(
-          //       incoming
-          //     )}, result: ${JSON.stringify(result)}`
-          //   )
-          //   return uiStateVar(result)
-          // },
           read() {
-            // console.log(`uiState read: ${JSON.stringify(uiStateVar())}`)
             return uiStateVar()
           },
         },

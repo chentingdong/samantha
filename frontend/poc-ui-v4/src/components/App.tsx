@@ -8,6 +8,7 @@ import config from "../../configs/config"
 import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
 import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
 import { AUTH_USER } from "../operations/queries/authUser"
+import { setAuthUser } from "../operations/mutations/setAuthUser"
 
 const App = () => {
   const [upsertOneUser] = useMutation(UPSERT_ONE_USER)
@@ -29,12 +30,7 @@ const App = () => {
         email: poolUser?.attributes.email,
         isAuthenticated: true,
       }
-      client.writeQuery({
-        query: AUTH_USER,
-        data: {
-          authUser,
-        },
-      })
+      setAuthUser({ ...authUser })
     }
     return authUser
   }
@@ -62,10 +58,7 @@ const App = () => {
 
           break
         case "signOut":
-          client.writeQuery({
-            query: AUTH_USER,
-            data: { authUser: { isAuthenticated: false } },
-          })
+          setAuthUser({ isAuthenticated: false })
 
           break
         case "signIn_failure":
