@@ -3,8 +3,10 @@ import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import { SegmentView } from "./SegmentView"
 import { DndSourceBox } from "./DndSourceBox"
 import { Card } from "./Card"
+import { Icon } from "rsuite"
+import styled from "styled-components"
 
-const BlockChildrenItem: React.FC<{
+const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
   index?: number
   onDelete?: (child: BlockOrDef) => void
@@ -12,18 +14,17 @@ const BlockChildrenItem: React.FC<{
   return (
     <DndSourceBox type="block" block={block}>
       <Card className="border-none">
-        <strong className="card-header">
-          <button
-            className="close"
-            aria-label="Close"
-            onClick={() => onDelete(block)}
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div className="card-header">
           {index + 1}
           <span className="p-2">-</span>
           {block.name}
-        </strong>
+          <Icon
+            icon="close"
+            inverse={true}
+            className="close float-right block m-1 cursor-pointer"
+            onClick={() => onDelete(block)}
+          />
+        </div>
         <div className="card-body">{block.description}</div>
         <SegmentView block={block} />
       </Card>
@@ -31,4 +32,5 @@ const BlockChildrenItem: React.FC<{
   )
 }
 
+const BlockChildrenItem = styled(BlockChildrenItemRaw)``
 export { BlockChildrenItem }
