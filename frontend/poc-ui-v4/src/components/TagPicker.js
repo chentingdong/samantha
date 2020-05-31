@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { Icon } from "rsuite"
 import styled from "styled-components"
-import { Close } from "./Close"
 
 const TagPickerRaw = (props) => {
   const { value, options } = props
@@ -25,21 +24,20 @@ const TagPickerRaw = (props) => {
   }
 
   return (
-    <div>
+    <div className="rounded p-1">
       <div
-        className="h-auto p-2 border rounded-md"
         onClick={(e) => {
-          setShowSelect(false)
+          setShowSelect(!showSelect)
         }}
       >
         {tags?.map((tag, index) => {
           return (
             <span
-              key={`${tag.label}-${index}`}
-              className="tag p-1 ml-1 rounded-md inline-block w-auto"
+              key={index}
+              className="tag p-1 m-1 inline-block w-auto text-xs"
             >
-              <span className="mx-2">{tag.label}</span>
-              <Close className="text-xs" onClick={(e) => deleteTag(e, tag)} />
+              <span className="m-1">{tag.label}</span>
+              <Icon icon="close" onClick={(e) => deleteTag(e, tag)} />
             </span>
           )
         })}
@@ -50,37 +48,47 @@ const TagPickerRaw = (props) => {
             setShowSelect(!showSelect)
           }}
         >
-          <Icon icon="arrow-down" className=" mx-2 p-1" />
+          <Icon icon="arrow-down" className="" />
         </div>
       </div>
-      {options?.map((option) => {
-        return (
-          showSelect && (
-            <div key={option.value}>
-              <input
-                type="checkbox"
-                className="inline-block"
-                id={options.value}
-                value={option.value}
-                checked={objInArr(option, tags)}
-                onChange={(e) => pickTags(e, option)}
-              />
-              <label htmlFor={options.value} className="inline-block m-1">
-                {option.label}
-              </label>
-            </div>
+      <div className="">
+        {options?.map((option) => {
+          return (
+            showSelect && (
+              <div key={option.value}>
+                <input
+                  type="checkbox"
+                  className="inline-block"
+                  id={options.value}
+                  value={option.value}
+                  checked={objInArr(option, tags)}
+                  onChange={(e) => pickTags(e, option)}
+                />
+                <label htmlFor={options.value} className="inline-block m-1">
+                  {option.label}
+                </label>
+              </div>
+            )
           )
-        )
-      })}
+        })}
+      </div>
     </div>
   )
 }
 
 const Styles = styled.div.attrs({})`
   position: relative;
+  border-radius: 5px;
+  background: var(--color-bg-secondary);
+  .tag {
+    background-color: var(--color-bg-default);
+    .close {
+      border-color: var(--color-text-default);
+    }
+  }
   .toggle {
-    color: var(--color-text-default);
-    border-left: 1px solid var(--color-text-primary);
+    color: var(--color-text-primary);
+    border-left: 1px solid;
     cursor: pointer;
     position: absolute;
     right: 0;
@@ -89,15 +97,10 @@ const Styles = styled.div.attrs({})`
       var(--color-text-primary);
     }
   }
-  .tag {
-    background-color: var(--color-bg-default);
-    .close {
-      border-color: var(--color-text-primary);
-    }
-  }
 `
 
 const TagPicker = (props) => {
+  // use react HOC to pass on props to Raw component
   return (
     <Styles>
       <TagPickerRaw {...props} />
