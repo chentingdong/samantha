@@ -24,7 +24,7 @@ const TagPickerRaw = (props) => {
   }
 
   return (
-    <div className="rounded p-1 text-sm">
+    <div className="rounded border p-1 text-sm">
       <div
         onClick={(e) => {
           setShowSelect(!showSelect)
@@ -35,7 +35,7 @@ const TagPickerRaw = (props) => {
             <span key={index} className="tag inline-block w-auto text-xs">
               <span className="m-1">{tag.label}</span>
               <Icon
-                className="text-xs"
+                className="text-xs cursor-pointer"
                 icon="close"
                 onClick={(e) => deleteTag(e, tag)}
               />
@@ -59,7 +59,7 @@ const TagPickerRaw = (props) => {
               <div key={option.value}>
                 <input
                   type="checkbox"
-                  className="inline-block"
+                  className="inline-block cursor-pointer"
                   id={options.value}
                   value={option.value}
                   checked={objInArr(option, tags)}
@@ -83,7 +83,7 @@ const Styles = styled.div.attrs({})`
   background: var(--color-bg-secondary);
   .tag {
     padding: 0.25em;
-    margin: 0.25em;
+    margin: 0.12em;
     background-color: var(--color-bg-default);
     .close {
       border-color: var(--color-text-default);
