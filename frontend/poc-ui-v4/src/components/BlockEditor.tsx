@@ -121,7 +121,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     <Grid fluid className={className}>
       <Row>
         <Col xs={24} md={18} className="main">
-          <h2>Request Editor</h2>
+          <h2>Bell Editor</h2>
           <Form className="grid grid-cols-7 gap-4">
             <FormGroup className="col-span-3">
               <ControlLabel>Name: </ControlLabel>

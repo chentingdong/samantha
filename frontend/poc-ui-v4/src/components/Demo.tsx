@@ -48,12 +48,10 @@ function DemoRaw({ className }) {
                   activeKey={active}
                   onSelect={(activeKey) => setActive(activeKey)}
                 >
-                  <Nav.Item eventKey="request-catelog">
-                    Request Catalog
-                  </Nav.Item>
-                  <Nav.Item eventKey="requests-made">Requests Made</Nav.Item>
+                  <Nav.Item eventKey="request-catelog">Bell Catalog</Nav.Item>
+                  <Nav.Item eventKey="requests-made">Bells Made</Nav.Item>
                   <Nav.Item eventKey="requests-received">
-                    Request Received
+                    Bells Received
                   </Nav.Item>
                   <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
                   <Dropdown noCaret title="User">

@@ -77,7 +77,7 @@ const Editor = () => {
           onHide={close}
         >
           <Drawer.Header>
-            <Drawer.Title>Request Editor</Drawer.Title>
+            <Drawer.Title>Bell Editor</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
             <Form fluid>

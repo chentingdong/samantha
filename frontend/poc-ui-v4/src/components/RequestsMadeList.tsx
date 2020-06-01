@@ -28,7 +28,7 @@ const RequestsMadeList = () => {
   return (
     <>
       <CatalogDropdown
-        title="Add a Request from"
+        title="Add a Bell from..."
         trigger={["click", "hover"]}
         noCaret
         placement="rightStart"

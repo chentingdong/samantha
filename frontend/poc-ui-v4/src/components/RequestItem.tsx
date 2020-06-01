@@ -124,15 +124,31 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
-          <Button onClick={() => editRequestDef()}>View/Edit</Button>
           {itemOrigin === ItemOrigin.Catalog && (
-            <Button onClick={() => makeRequest()}>Make a request</Button>
+            <IconButton
+              appearance="default"
+              icon={<Icon icon="bell-o" />}
+              onClick={() => makeRequest()}
+            >
+              Make a Bell
+            </IconButton>
           )}
+          <IconButton
+            appearance="default"
+            icon={<Icon icon="edit" />}
+            onClick={() => editRequestDef()}
+          >
+            View/Edit
+          </IconButton>
           {itemOrigin === ItemOrigin.Received &&
             (block as Block).state === "ACTIVE" && (
-              <Button onClick={() => markComplete(block)}>
+              <IconButton
+                appearance="default"
+                icon={<Icon icon="check" />}
+                onClick={() => markComplete(block)}
+              >
                 Mark as Complete
-              </Button>
+              </IconButton>
             )}
           <IconButton
             appearance="default"
@@ -153,7 +169,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               )
             }}
           >
-            New Editor
+            New Editor!
           </IconButton>
         </Col>
       </Grid>

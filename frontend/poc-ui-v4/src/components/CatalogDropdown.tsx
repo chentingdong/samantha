@@ -16,7 +16,7 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
       {...rest}
       renderTitle={(children) => {
         return (
-          <IconButton appearance="default" icon={<Icon icon="plus" />}>
+          <IconButton appearance="default" icon={<Icon icon="bell-o" />}>
             {children}
           </IconButton>
         )
