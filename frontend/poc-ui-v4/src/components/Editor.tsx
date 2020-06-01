@@ -6,8 +6,9 @@ import {
   FormGroup,
   ControlLabel,
   FormControl,
-  HelpBlock,
   ButtonToolbar,
+  Placeholder,
+  Divider,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
@@ -23,6 +24,7 @@ const Editor = () => {
     <>
       {data && data.uiState && (
         <Drawer
+          full={true}
           size="lg"
           placement="right"
           show={data.uiState?.showEditor}
@@ -32,14 +34,13 @@ const Editor = () => {
             <Drawer.Title>Request Editor</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
-            <Form>
+            <Form fluid>
               <FormGroup>
                 <ControlLabel>Name</ControlLabel>
                 <FormControl
                   name="name"
                   value={data.uiState?.draftBlock?.name}
                 />
-                <HelpBlock tooltip>Required</HelpBlock>
               </FormGroup>
               <FormGroup>
                 <ControlLabel>Description</ControlLabel>
@@ -49,8 +50,25 @@ const Editor = () => {
                   componentClass="textarea"
                   value={data.uiState?.draftBlock?.description}
                 />
-                <HelpBlock tooltip>Required</HelpBlock>
               </FormGroup>
+              <FormGroup>
+                <ControlLabel>Type</ControlLabel>
+                <FormControl
+                  name="type"
+                  value={data.uiState?.draftBlock?.type}
+                />
+              </FormGroup>
+              <Divider>Action View</Divider>
+              <FormGroup>
+                <ControlLabel>Action View</ControlLabel>
+                <Placeholder.Paragraph rows={10} />
+              </FormGroup>
+              <Divider>View View</Divider>
+              <FormGroup>
+                <ControlLabel>Tree View</ControlLabel>
+                <Placeholder.Paragraph rows={10} />
+              </FormGroup>
+              <Divider />
               <FormGroup>
                 <ButtonToolbar>
                   <Button onClick={close} appearance="primary">

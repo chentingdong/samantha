@@ -17,7 +17,8 @@ const CatalogDropdown = ({ ...props }) => {
           onSelect={(eventKey, event) => {
             setUiState({
               showEditor: true,
-              editingTypename: Typename.BlockDef,
+              editingTypename: props.editingTypename,
+              editorMode: props.editorMode,
               draftBlock: blockDef,
             })
           }}

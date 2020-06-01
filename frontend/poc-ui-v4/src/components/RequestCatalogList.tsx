@@ -1,7 +1,7 @@
 import React from "react"
 import { RequestItem } from "./RequestItem"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
-import { ItemOrigin } from "../models/enum"
+import { ItemOrigin, EditMode, Typename } from "../models/enum"
 import { useQuery, useMutation, useApolloClient } from "@apollo/client"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
@@ -28,6 +28,8 @@ const RequestCatalogList = () => {
         trigger={["click", "hover"]}
         noCaret
         placement="rightStart"
+        editingTypename={Typename.BlockDef}
+        editorMode={EditMode.Create}
       />
       <Divider />
       {data.blockDefs?.map((blockDef: BlockDef) => (

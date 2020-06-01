@@ -10,6 +10,7 @@ export const UI_STATE = gql`
         id
         name
         description
+        type
       }
     }
   }
