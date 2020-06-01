@@ -1,14 +1,16 @@
 import React from "react"
 import { RequestItem } from "./RequestItem"
-import { useQuery } from "@apollo/client"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
-import { ItemOrigin } from "../models/enum"
-import { useMutation } from "@apollo/client"
+import { ItemOrigin, EditMode, Typename } from "../models/enum"
+import { useQuery, useMutation, useApolloClient } from "@apollo/client"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { BlockDef } from "../models/interface"
 import { Loading, Error } from "./Misc"
+import { Button, Divider } from "rsuite"
+import { setUiState } from "../operations/mutations/setUiState"
+import { CatalogDropdown } from "./CatalogDropdown"
 
 const RequestCatalogList = () => {
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
@@ -21,6 +23,15 @@ const RequestCatalogList = () => {
 
   return (
     <>
+      <CatalogDropdown
+        title="+ Add a Request Definition from"
+        trigger={["click", "hover"]}
+        noCaret
+        placement="rightStart"
+        editingTypename={Typename.BlockDef}
+        editorMode={EditMode.Create}
+      />
+      <Divider />
       {data.blockDefs?.map((blockDef: BlockDef) => (
         <RequestItem
           block={blockDef}
