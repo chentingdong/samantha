@@ -32,14 +32,14 @@
 `yarn run start-dev`
 
 - Build app continuously (HMR enabled)
-- App serves @ https://localhost:2000
+- App serves @ https://localhost:2003
 
 **Production**
 
 `yarn run start-prod`
 
 - Build app once (HMR disabled) to `/dist/`
-- App serves @ https://localhost:2000
+- App serves @ https://localhost:2003
 
 ---
 
@@ -47,8 +47,8 @@
 
 | Command               | Description                                                                   |
 | --------------------- | ----------------------------------------------------------------------------- |
-| `yarn run start-dev`  | Build app continuously (HMR enabled) and serve @ `http://localhost:2000`      |
-| `yarn run start-prod` | Build app once (HMR disabled) to `/dist/` and serve @ `http://localhost:2000` |
+| `yarn run start-dev`  | Build app continuously (HMR enabled) and serve @ `http://localhost:2003`      |
+| `yarn run start-prod` | Build app once (HMR disabled) to `/dist/` and serve @ `http://localhost:2003` |
 | `yarn run build`      | Build app to `/dist/`                                                         |
 | `yarn run test`       | Run tests                                                                     |
 | `yarn run lint`       | Run Typescript linter                                                         |

@@ -13,4 +13,4 @@ COPY . /app/
 RUN yarn build
 ENV PATH /app/node_modules/.bin:$PATH
 
-EXPOSE 2000
+EXPOSE 2003
