@@ -44,5 +44,8 @@ h6 {
   font-size: 0.67em;
 }
 
+div {
+  transition: background-color 1s ease;
+}
 @import "/node_modules/rsuite/dist/styles/rsuite-default.css";
 @import "../tailwind/tailwind.generated.css";
