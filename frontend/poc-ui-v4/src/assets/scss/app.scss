@@ -9,9 +9,11 @@
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
+
 .font-serif {
   font-family: Georgia, Cambria, "Times New Roman", Times, serif;
 }
+
 .font-mono {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
@@ -22,23 +24,28 @@ h1 {
   font-weight: 800;
   @extend .font-mono;
 }
+
 h2 {
   font-size: 1.5em;
   font-weight: 700;
   @extend .font-mono;
 }
+
 h3 {
   font-size: 1.17em;
   font-weight: 700;
 }
+
 h4 {
   font-size: 1.2em;
   font-weight: 500;
 }
+
 h5 {
   font-size: 0.83em;
   font-weight: 500;
 }
+
 h6 {
   font-weight: 500;
   font-size: 0.67em;
@@ -47,5 +54,5 @@ h6 {
 div {
   transition: background-color 1s ease;
 }
-@import "/node_modules/rsuite/dist/styles/rsuite-default.css";
+@import "/node_modules/rsuite/dist/styles/rsuite-dark.css";
 @import "../tailwind/tailwind.generated.css";

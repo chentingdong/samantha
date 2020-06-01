@@ -11,16 +11,21 @@ import { REQUESTS_MADE } from "../operations/queries/requestsMade"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import { GET_USERS } from "../operations/queries/getUsers"
 import { AUTH_USER } from "../operations/queries/authUser"
-
+import { UI_STATE } from "../operations/queries/uiState"
+import { Button } from "rsuite"
+import { setUiState } from "../operations/mutations/setUiState"
+import { setAuthUser } from "../operations/mutations/setAuthUser"
 const ContextViewCodes = () => {
   const { data: authUser } = useQuery(AUTH_USER)
   const { data: users } = useQuery(GET_USERS)
+  const { data: uiState } = useQuery(UI_STATE)
   const { data: blockCatalog } = useQuery(BLOCK_CATALOG)
   const { data: requestCatalog } = useQuery(REQUEST_CATALOG)
   const { data: requestsMade } = useQuery(REQUESTS_MADE)
   const { data: requestsReceived } = useQuery(REQUESTS_RECEIVED)
   const data = {
     authUser: authUser?.authUser,
+    uiState: uiState?.uiState,
     users: users?.users,
     blockCatalog,
     requestCatalog,
@@ -30,6 +35,33 @@ const ContextViewCodes = () => {
 
   return (
     <div>
+      <Button
+        onClick={(e) => {
+          setAuthUser({
+            id: "Google_111918078641246610063",
+            name: "Baiji He",
+          })
+        }}
+      >
+        change auth user
+      </Button>
+      <Button
+        onClick={(e) => {
+          setUiState({
+            draftBlock: {
+              requestors: [
+                {
+                  id: "Google_111918078641246610063",
+                  name: "Baiji He",
+                  email: "he.baiji@gmail.com",
+                },
+              ],
+            },
+          })
+        }}
+      >
+        change requestors
+      </Button>
       <h5>Remote States from Apollo Queries</h5>
       <AceEditor
         mode="json"
