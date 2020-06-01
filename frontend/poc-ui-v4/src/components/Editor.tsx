@@ -26,7 +26,7 @@ import { GET_USERS } from "../operations/queries/getUsers"
 import "ace-builds/src-noconflict/ace"
 import "ace-builds/webpack-resolver"
 import "ace-builds/src-noconflict/mode-json"
-import "ace-builds/src-noconflict/theme-github"
+import "ace-builds/src-noconflict/theme-dracula"
 import AceEditor from "react-ace"
 import { BlockChildrenList } from "./BlockChildrenList"
 import { BlockCatalogList } from "./BlockCatalogList"
@@ -193,7 +193,7 @@ const Editor = () => {
                   <AceEditor
                     readOnly={true}
                     mode="json"
-                    theme="terminal"
+                    theme="dracula"
                     name="debug"
                     width="100%"
                     showGutter={true}

@@ -2,7 +2,7 @@ import React from "react"
 import "ace-builds/src-noconflict/ace"
 import "ace-builds/webpack-resolver"
 import "ace-builds/src-noconflict/mode-json"
-import "ace-builds/src-noconflict/theme-github"
+import "ace-builds/src-noconflict/theme-dracula"
 import AceEditor from "react-ace"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
@@ -35,10 +35,12 @@ const ContextViewCodes = () => {
     <div>
       <h3>Remote States from Apollo Queries</h3>
       <AceEditor
+        readOnly={true}
         mode="json"
-        theme="github"
-        name="context"
+        theme="dracula"
+        name="debug"
         width="100%"
+        showGutter={true}
         maxLines={Infinity}
         editorProps={{ $blockScrolling: true }}
         value={JSON.stringify(data, null, 2)}
