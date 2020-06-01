@@ -24,7 +24,7 @@ const TagPickerRaw = (props) => {
   }
 
   return (
-    <div className="rounded border p-1 text-sm">
+    <div className="rounded p-1 text-sm">
       <div
         onClick={(e) => {
           setShowSelect(!showSelect)
@@ -79,8 +79,10 @@ const TagPickerRaw = (props) => {
 
 const Styles = styled.div.attrs({})`
   position: relative;
+  border: 1px solid;
   border-radius: 5px;
   background: var(--color-bg-secondary);
+  min-height: 2.5em;
   .tag {
     padding: 0.25em;
     margin: 0.12em;
@@ -92,10 +94,10 @@ const Styles = styled.div.attrs({})`
   .toggle {
     color: var(--color-text-primary);
     border-left: 1px solid;
-    cursor: pointer;
     position: absolute;
     right: 0;
     top: 0;
+    cursor: pointer;
     &:hover {
       var(--color-text-primary);
     }
