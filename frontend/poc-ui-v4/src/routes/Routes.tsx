@@ -5,17 +5,11 @@ import PrivateRoute from "./PrivateRoute"
 import Login from "../pages/Login"
 import NotFound from "../pages/NotFound"
 import { Demo } from "../components/Demo"
-import { Demo2 } from "../components/demo2/Demo2"
 
 const routes = [
   {
     path: "/",
     component: Demo,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/demo",
-    component: Demo2,
     tag: PrivateRoute,
   },
   {
