@@ -40,10 +40,7 @@ function DemoRaw({ className }) {
                   />
                   <div className="inline-block">
                     <h1>Bellhop</h1>
-                    <h6>
-                      The Platform <br />
-                      for Connected Work
-                    </h6>
+                    <h6>work engagement platform</h6>
                   </div>
                 </div>
                 <Nav

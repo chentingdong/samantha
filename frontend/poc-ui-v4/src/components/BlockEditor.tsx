@@ -221,11 +221,12 @@ const BlockEditor = styled(BlockEditorRaw)`
     width: 100%;
   }
   .rs-input {
-    background var(--color-bg-secondary);
+    color: var(--color-text-primary);
+    background: var(--color-bg-secondary);
     width: 100%;
   }
   .tree {
-    background var(--color-bg-secondary);
+    background: var(--color-bg-secondary);
   }
 `
 
