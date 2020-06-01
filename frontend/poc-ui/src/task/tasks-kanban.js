@@ -114,7 +114,7 @@ function CardTitle({ task, users }) {
             );
           })}
       </div>
-    </div>rfcr
+    </div>
   );
 }
 export default TasksKanban;

@@ -30,7 +30,7 @@
         "HostedUIDomain": "samantha673e9c6e-673e9c6e-dev",
         "IdentityPoolId": "us-east-1:361f4b96-5ced-4b13-9bc6-53dbeb7ec36a",
         "IdentityPoolName": "samantha673e9c6e_identitypool_673e9c6e__dev",
-        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:2000/\"],\"LogoutURLs\":[\"https://localhost:2000/user/logout/\"]}",
+        "OAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:2001/\"],\"LogoutURLs\":[\"https://localhost:2001/user/logout/\"]}",
         "UserPoolName": "samantha673e9c6e_userpool_673e9c6e"
       },
       "lastPushDirHash": "tQvDAE0YwF5Lr+G+O50yK78uvqA="

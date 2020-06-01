@@ -65,7 +65,7 @@
   },
   "scripts": {
     "prestart": "(cat certs/cert.pem certs/key.pem > ./node_modules/webpack-dev-server/ssl/server.pem) || :",
-    "start": "PORT=2000 HTTPS=true BROWSER=none react-scripts start",
+    "start": "PORT=2001 HTTPS=true BROWSER=none react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

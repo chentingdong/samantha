@@ -114,7 +114,7 @@
 					"hostedUIDomainName": "samantha673e9c6e-673e9c6e",
 					"authProvidersUserPool": "",
 					"hostedUIProviderMeta": "[]",
-					"oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:2000/\"],\"LogoutURLs\":[\"https://localhost:2000/user/logout/\"]}",
+					"oAuthMetadata": "{\"AllowedOAuthFlows\":[\"code\"],\"AllowedOAuthScopes\":[\"phone\",\"email\",\"openid\",\"profile\",\"aws.cognito.signin.user.admin\"],\"CallbackURLs\":[\"https://localhost:2001/\"],\"LogoutURLs\":[\"https://localhost:2001/user/logout/\"]}",
 					"userPoolGroupList": "",
 					"parentStack": {
 						"Ref": "AWS::StackId"

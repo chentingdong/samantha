@@ -12,7 +12,7 @@ import apiWrapper from "./libs/api-wrapper";
 
 function App(props) {
   const { currentUser, users } = props.store.user;
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
   buildFonts();
   Amplify.configure(config);
 
@@ -112,13 +112,15 @@ function App(props) {
                   to="/user/settings"
                 >
                   <h3>
-                    <img
-                      className="thumbnail-sm rounded-circle"
-                      data-toggle="tooltip"
-                      title={currentUser.username}
-                      src={currentUser.attributes.picture}
-                      alt={<FontAwesomeIcon icon="cog" />}
-                    />
+                    {currentUser.attributes && (
+                      <img
+                        className="thumbnail-sm rounded-circle"
+                        data-toggle="tooltip"
+                        title={currentUser.username}
+                        src={currentUser.attributes.picture}
+                        alt={<FontAwesomeIcon icon="cog" />}
+                      />
+                    )}
                   </h3>
                 </Nav.Link>
                 <div className="nav-link text-success" onClick={handleLogout}>
