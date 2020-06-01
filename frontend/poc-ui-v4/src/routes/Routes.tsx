@@ -13,11 +13,6 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/demo",
-    component: Demo,
-    tag: PrivateRoute,
-  },
-  {
     path: ["/login", "/logout"],
     component: Login,
     tag: PublicRoute,

@@ -6,6 +6,7 @@ import { ContextViewCodes } from "./ContextViewCodes"
 import { Grid, Row, Col, Nav, Dropdown } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { AUTH_USER } from "../operations/queries/authUser"
+import { Editor } from "./Editor"
 import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -26,48 +27,58 @@ function DemoRaw({ className }) {
   return (
     <div className={`${className} ${theme}`}>
       {data?.authUser?.isAuthenticated && (
-        <Grid fluid>
-          <Row>
-            <Col xs={24} lg={4}>
-              <div className="brand my-4 flex flex-row">
-                <img src={logo} alt="" className="logo" onClick={toggleTheme} />
-                <div className="inline-block">
-                  <h1>Bellhop</h1>
-                  <h6>
-                    The Platform <br />
-                    for Connected Work
-                  </h6>
+        <>
+          <Grid fluid>
+            <Row>
+              <Col xs={24} lg={4}>
+                <div className="brand my-4 flex flex-row">
+                  <img
+                    src={logo}
+                    alt=""
+                    className="logo"
+                    onClick={toggleTheme}
+                  />
+                  <div className="inline-block">
+                    <h1>Bellhop</h1>
+                    <h6>
+                      The Platform <br />
+                      for Connected Work
+                    </h6>
+                  </div>
                 </div>
-              </div>
-              <Nav
-                vertical
-                activeKey={active}
-                onSelect={(activeKey) => setActive(activeKey)}
-              >
-                <Nav.Item eventKey="request-catelog">Request Catalog</Nav.Item>
-                <Nav.Item eventKey="requests-made">Requests Made</Nav.Item>
-                <Nav.Item eventKey="requests-received">
-                  Request Received
-                </Nav.Item>
-                <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
-                <Dropdown noCaret title="User">
-                  <Dropdown.Item disabled eventKey="auth-user">
-                    Signed in as {data?.authUser?.name}
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="logout" onClick={logout}>
-                    Logout
-                  </Dropdown.Item>
-                </Dropdown>
-              </Nav>
-            </Col>
-            <Col xs={24} lg={20}>
-              {active === "request-catelog" && <RequestCatalogList />}
-              {active === "requests-made" && <RequestsMadeList />}
-              {active === "requests-received" && <RequestsReceivedList />}
-              {active === "context-viewer" && <ContextViewCodes />}
-            </Col>
-          </Row>
-        </Grid>
+                <Nav
+                  vertical
+                  activeKey={active}
+                  onSelect={(activeKey) => setActive(activeKey)}
+                >
+                  <Nav.Item eventKey="request-catelog">
+                    Request Catalog
+                  </Nav.Item>
+                  <Nav.Item eventKey="requests-made">Requests Made</Nav.Item>
+                  <Nav.Item eventKey="requests-received">
+                    Request Received
+                  </Nav.Item>
+                  <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
+                  <Dropdown noCaret title="User">
+                    <Dropdown.Item disabled eventKey="auth-user">
+                      Signed in as {data?.authUser?.name}
+                    </Dropdown.Item>
+                    <Dropdown.Item eventKey="logout" onClick={logout}>
+                      Logout
+                    </Dropdown.Item>
+                  </Dropdown>
+                </Nav>
+              </Col>
+              <Col xs={24} lg={20}>
+                {active === "request-catelog" && <RequestCatalogList />}
+                {active === "requests-made" && <RequestsMadeList />}
+                {active === "requests-received" && <RequestsReceivedList />}
+                {active === "context-viewer" && <ContextViewCodes />}
+              </Col>
+            </Row>
+          </Grid>
+          <Editor />
+        </>
       )}
     </div>
   )

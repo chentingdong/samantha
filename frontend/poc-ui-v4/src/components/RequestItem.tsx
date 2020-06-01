@@ -12,6 +12,7 @@ import { Card } from "./Card"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { Button } from "./Button"
+import { setUiState } from "../operations/mutations/setUiState"
 
 type RequestItemType = {
   block: BlockOrDef
@@ -132,6 +133,18 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               Mark as Complete
             </Button>
           )}
+          <Button
+            onClick={(e) => {
+              setUiState({
+                showEditor: true,
+                editingTypename: block.__typename,
+                editorMode: EditMode.Edit,
+                draftBlock: block,
+              })
+            }}
+          >
+            New Editor
+          </Button>
         </Col>
       </Grid>
       {showEdit && (

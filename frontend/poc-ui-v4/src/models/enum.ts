@@ -1,18 +1,23 @@
-enum ItemOrigin{
+enum ItemOrigin {
   Catalog,
   Made,
-  Received
+  Received,
 }
 
-enum EditMode{
-  Create,
-  Edit
+enum EditMode {
+  Create = "Create",
+  Edit = "Edit",
+}
+
+enum Typename {
+  Block = "Block",
+  BlockDef = "BlockDef",
 }
 
 enum MutationType {
   Create = "Create",
   Connect = "Connect",
-  Delete = "Delete"
+  Delete = "Delete",
 }
 
-export { ItemOrigin, EditMode, MutationType }
+export { ItemOrigin, EditMode, Typename, MutationType }

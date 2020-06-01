@@ -213,7 +213,6 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
 
 const BlockEditor = styled(BlockEditorRaw)`
   background: var(--color-bg-secondary);
-  ${tw``}
   .main {
     background var(--color-bg-inverse);
     ${tw`p-2`}
