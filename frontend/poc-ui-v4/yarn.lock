@@ -18627,6 +18627,11 @@ react-fast-compare@^3.0.1:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.1.1.tgz#0becf31e3812fa70dc231e259f40d892d4767900"
   integrity sha512-SCsAORWK59BvauR2L1BTdjQbJcSGJJz03U0awektk2hshLKrITDDFTlgGCqIZpTDlPC/NFlZee6xTMzXPVLiHw==
 
+react-favicon@^0.0.18:
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/react-favicon/-/react-favicon-0.0.18.tgz#a5fbb57ae89a90d3790518125cbb8c8dcefd3d98"
+  integrity sha512-FB3WAuzqGjMxFSi+QzPTnXlCeOmuBZpl/Ilxkd9sf73cW6Q31ThBjS1j3tfN9Uxo88ECOsR7NIAUedbiddc7VQ==
+
 react-feather@^2.0.3:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/react-feather/-/react-feather-2.0.8.tgz#455baf1470f756a57e2ad6c72545444ce5925781"

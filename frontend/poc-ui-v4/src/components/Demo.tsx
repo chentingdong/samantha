@@ -28,9 +28,17 @@ function DemoRaw({ className }) {
       {data?.authUser?.isAuthenticated && (
         <Grid fluid>
           <Row>
-            <Col xs={4}>
-              <img src={logo} alt="" className="logo" onClick={toggleTheme} />
-              <h2 className="inline-block">Bellhop</h2>
+            <Col xs={24} lg={4}>
+              <div className="brand my-4 flex flex-row">
+                <img src={logo} alt="" className="logo" onClick={toggleTheme} />
+                <div className="inline-block">
+                  <h1>Bellhop</h1>
+                  <h6>
+                    The Platform <br />
+                    for Connected Work
+                  </h6>
+                </div>
+              </div>
               <Nav
                 vertical
                 activeKey={active}
@@ -52,7 +60,7 @@ function DemoRaw({ className }) {
                 </Dropdown>
               </Nav>
             </Col>
-            <Col xs={20}>
+            <Col xs={24} lg={20}>
               {active === "request-catelog" && <RequestCatalogList />}
               {active === "requests-made" && <RequestsMadeList />}
               {active === "requests-received" && <RequestsReceivedList />}
@@ -72,10 +80,22 @@ const Demo = styled(DemoRaw)`
   overflow: auto;
   height: 100vh;
   border-radius: 0;
-  .logo {
-    ${tw`my-0 mx-4`}
-    height: 2em;
-    display: inline-block;
+  .brand {
+    .logo {
+      ${tw`my-0 mx-4`}
+      max-height: 3em;
+      height: 100%;
+      display: inline-block;
+      vertical-align: top;
+    }
+    h1 {
+      line-height: 1.2em;
+    }
+    h6 {
+      line-height: 1em;
+      font-style: italic;
+      text-transform: uppercase;
+    }
   }
 `
 

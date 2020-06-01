@@ -197,7 +197,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <Button className="col-span-2" onClick={(e) => saveBlock(e)}>
                 save
               </Button>
-              <Button className="btn btn-gray col-2" onClick={close}>
+              <Button className="col-span-2" onClick={close}>
                 cancel
               </Button>
             </FormGroup>
