@@ -5,8 +5,10 @@ import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename } from "../models/enum"
+import { AUTH_USER } from "../operations/queries/authUser"
 
 const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
+  const { data: authUser } = useQuery(AUTH_USER)
   const { data } = useQuery(BLOCK_CATALOG)
 
   return (
@@ -15,12 +17,22 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
         <Dropdown.Item
           key={blockDef.id}
           onSelect={(eventKey, event) => {
-            setUiState({
-              showEditor: true,
-              editingTypename,
-              editorMode,
-              draftBlock: blockDef,
-            })
+            setUiState(
+              {
+                showEditor: true,
+                editingTypename,
+                editorMode,
+                draftBlock: {
+                  ...blockDef,
+                  requestors:
+                    editingTypename === Typename.Block
+                      ? [authUser?.authUser]
+                      : [],
+                  __typename: editingTypename,
+                },
+              },
+              true
+            )
           }}
         >
           {blockDef.name}

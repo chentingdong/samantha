@@ -1,20 +1,8 @@
 import { InMemoryCache, ReactiveVar } from "@apollo/client"
 import { User, UiState, BlockOrDef } from "./models/interface"
 import { EditMode, Typename } from "./models/enum"
-import uuid from "uuid"
-
-const initBlock = {
-  id: uuid.v4(),
-  name: "",
-  description: "",
-  type: "COMPOSITE_PARALLEL",
-  requestors: [],
-  responders: [],
-  parent: null,
-  children: [],
-  created_at: new Date(),
-  last_updated: new Date(),
-}
+import { initialBlock } from "../data/initialBlock"
+import { initialUser } from "../data/initialUser"
 
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
@@ -35,13 +23,11 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 })
 
-export const authUserVar: ReactiveVar<User> = cache.makeVar<User>({
-  isAuthenticated: false,
-})
+export const authUserVar: ReactiveVar<User> = cache.makeVar<User>(initialUser)
 
 export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   showEditor: false,
   editorMode: EditMode.Create,
   editingTypename: Typename.Block,
-  draftBlock: initBlock,
+  draftBlock: initialBlock,
 })

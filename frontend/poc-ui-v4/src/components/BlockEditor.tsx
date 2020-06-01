@@ -141,7 +141,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                     isMulti
                     classNamePrefix="react-select"
                     options={data?.users?.map(userOption)}
-                    value={formData.requestors.map(userOption)}
+                    value={formData.requestors?.map(userOption)}
                     onChange={(value) =>
                       dispatch({ field: "requestors", value })
                     }
@@ -154,7 +154,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                     isMulti
                     classNamePrefix="react-select"
                     options={data?.users?.map(userOption)}
-                    value={formData.responders.map(userOption)}
+                    value={formData.responders?.map(userOption)}
                     onChange={(value) =>
                       dispatch({ field: "responders", value })
                     }

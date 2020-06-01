@@ -8,8 +8,7 @@ import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { BlockDef } from "../models/interface"
 import { Loading, Error } from "./Misc"
-import { Button, Divider } from "rsuite"
-import { setUiState } from "../operations/mutations/setUiState"
+import { Divider } from "rsuite"
 import { CatalogDropdown } from "./CatalogDropdown"
 
 const RequestCatalogList = () => {

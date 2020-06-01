@@ -2,7 +2,7 @@ import React, { useState, useReducer } from "react"
 import uuid from "uuid"
 import { Animated } from "react-animated-css"
 import { BlockEditor } from "./BlockEditor"
-import { BlockOrDef } from "../models/interface"
+import { BlockOrDef, Block } from "../models/interface"
 import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"
@@ -93,7 +93,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             <span>{block.name}</span>
             {itemOrigin !== ItemOrigin.Catalog && (
               <span className={`block-state-${stateStyle(block)}`}>
-                ({block.state})
+                ({(block as Block).state})
               </span>
             )}
           </h4>
@@ -113,13 +113,13 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin === ItemOrigin.Made && (
             <p className="text-secondary">
               "Assigned to: "
-              {block.responders?.map((user) => user.name).join(", ")}
+              {(block as Block).responders?.map((user) => user.name).join(", ")}
             </p>
           )}
           {itemOrigin === ItemOrigin.Received && (
             <p className="text-secondary">
               {"Requested by: "}
-              {block.requestors?.map((user) => user.name).join(", ")}
+              {(block as Block).requestors?.map((user) => user.name).join(", ")}
             </p>
           )}
         </Col>
@@ -128,22 +128,27 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin === ItemOrigin.Catalog && (
             <Button onClick={() => makeRequest()}>Make a request</Button>
           )}
-          {itemOrigin === ItemOrigin.Received && block.state === "ACTIVE" && (
-            <Button onClick={() => markComplete(block)}>
-              Mark as Complete
-            </Button>
-          )}
+          {itemOrigin === ItemOrigin.Received &&
+            (block as Block).state === "ACTIVE" && (
+              <Button onClick={() => markComplete(block)}>
+                Mark as Complete
+              </Button>
+            )}
           <Button
             onClick={(e) => {
-              setUiState({
-                showEditor: true,
-                editingTypename:
-                  block.__typename === "Block"
-                    ? Typename.Block
-                    : Typename.BlockDef,
-                editorMode: EditMode.Edit,
-                draftBlock: block,
-              })
+              const editingTypename =
+                block.__typename === "Block"
+                  ? Typename.Block
+                  : Typename.BlockDef
+              setUiState(
+                {
+                  showEditor: true,
+                  editingTypename,
+                  editorMode: EditMode.Edit,
+                  draftBlock: { ...block, __typename: editingTypename },
+                },
+                true
+              )
             }}
           >
             New Editor

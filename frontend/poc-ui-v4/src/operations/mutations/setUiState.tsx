@@ -1,12 +1,16 @@
 import { uiStateVar } from "../../cache"
 import { UiState } from "../../models/interface"
+import { initialBlock } from "../../../data/initialBlock"
 
-const setUiState = (incoming: UiState) => {
+const setUiState = (incoming: any, reset = false) => {
   const oldUiState = uiStateVar()
   const newUiState = {
     ...oldUiState,
     ...incoming,
-    draftBlock: { ...oldUiState.draftBlock, ...incoming.draftBlock },
+    draftBlock: {
+      ...(reset ? initialBlock : oldUiState.draftBlock),
+      ...incoming.draftBlock,
+    },
   }
   uiStateVar(newUiState)
 }

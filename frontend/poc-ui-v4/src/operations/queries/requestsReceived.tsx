@@ -49,13 +49,13 @@ export const REQUESTS_RECEIVED = gql`
       requestors {
         id
         name
-        email
       }
       responders {
         id
         name
-        email
       }
+      created_at
+      last_updated
     }
   }
 `

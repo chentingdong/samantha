@@ -54,6 +54,8 @@ export const REQUESTS_MADE = gql`
         id
         name
       }
+      created_at
+      last_updated
     }
   }
 `

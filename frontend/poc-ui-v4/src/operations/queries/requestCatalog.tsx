@@ -46,6 +46,8 @@ export const REQUEST_CATALOG = gql`
           }
         }
       }
+      created_at
+      last_updated
     }
   }
 `
