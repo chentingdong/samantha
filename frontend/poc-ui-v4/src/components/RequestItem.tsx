@@ -148,7 +148,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
         </Col>
       </Grid>
       {showEdit && (
-        <div className="editor">
+        <div className="editor mt-4">
           <BlockEditor
             draftBlock={state.draftBlock}
             setDraftBlock={setDraftBlock}
