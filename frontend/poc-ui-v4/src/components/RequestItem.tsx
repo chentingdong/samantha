@@ -3,7 +3,7 @@ import uuid from "uuid"
 import { Animated } from "react-animated-css"
 import { BlockEditor } from "./BlockEditor"
 import { BlockOrDef } from "../models/interface"
-import { EditMode, ItemOrigin, MutationType } from "../models/enum"
+import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"
 import { reducer } from "../context/reducer"
@@ -137,7 +137,10 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             onClick={(e) => {
               setUiState({
                 showEditor: true,
-                editingTypename: block.__typename,
+                editingTypename:
+                  block.__typename === "Block"
+                    ? Typename.Block
+                    : Typename.BlockDef,
                 editorMode: EditMode.Edit,
                 draftBlock: block,
               })

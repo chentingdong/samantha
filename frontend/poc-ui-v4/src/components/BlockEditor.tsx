@@ -45,21 +45,12 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     return newState
   }
 
+  const [formData, dispatch] = useReducer(reducer, draftBlock)
+
   const userOption = (user) => ({
     label: user.name,
     value: user.id,
   })
-
-  const blockInit = (block) => {
-    const newBlock = {
-      ...block,
-      requestors: block.requestors?.map(userOption),
-      responders: block.responders?.map(userOption),
-    }
-    return newBlock
-  }
-
-  const [formData, dispatch] = useReducer(reducer, blockInit(draftBlock))
 
   const { createOneBlock, updateOneBlock } = actions
   const { data } = useQuery(GET_USERS)
@@ -111,7 +102,6 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
     const draftBlockWithFormValues = { ...draftBlock, ...formData }
     const mutationType = draftBlockWithFormValues.__mutation_type__
 
-    console.log(JSON.stringify(formData, null, 2))
     // TODO: fix logic
     mutationType === MutationType.Create
       ? createOneBlock({
@@ -150,11 +140,8 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                     accepter={TagPicker}
                     isMulti
                     classNamePrefix="react-select"
-                    options={data?.users?.map((user) => ({
-                      label: user.name,
-                      value: user.id,
-                    }))}
-                    value={formData.requestors}
+                    options={data?.users?.map(userOption)}
+                    value={formData.requestors.map(userOption)}
                     onChange={(value) =>
                       dispatch({ field: "requestors", value })
                     }
@@ -166,11 +153,8 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
                     accepter={Select}
                     isMulti
                     classNamePrefix="react-select"
-                    options={data?.users?.map((user) => ({
-                      label: user.name,
-                      value: user.id,
-                    }))}
-                    value={formData.responders}
+                    options={data?.users?.map(userOption)}
+                    value={formData.responders.map(userOption)}
                     onChange={(value) =>
                       dispatch({ field: "responders", value })
                     }

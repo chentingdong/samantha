@@ -1,38 +1,38 @@
 import { MutationType, EditMode, Typename } from "./enum"
 
 export interface Block {
-  id: string
-  name: string
-  description: string
-  type: string
-  state: string
+  id?: string
+  name?: string
+  description?: string
+  type?: string
+  state?: string
   control?: string
   context?: string
-  requestors: User[]
-  responders: User[]
-  parent: BlockOrDef
-  children: BlockOrDef[]
-  created_at: Date
-  last_updated: Date
+  requestors?: User[]
+  responders?: User[]
+  parent?: BlockOrDef
+  children?: BlockOrDef[]
+  created_at?: Date
+  last_updated?: Date
   due_date?: Date
   __mutation_type__?: MutationType
   __typename?: string
 }
 
 export interface BlockDef {
-  id: string
-  name: string
-  description: string
-  type: string
+  id?: string
+  name?: string
+  description?: string
+  type?: string
   state?: string
   control?: string
   context?: string
-  requestors: User[]
-  responders: User[]
-  parent: BlockOrDef
-  children: BlockOrDef[]
-  created_at: Date
-  last_updated: Date
+  requestors?: User[]
+  responders?: User[]
+  parent?: BlockOrDef
+  children?: BlockOrDef[]
+  created_at?: Date
+  last_updated?: Date
   due_date?: Date
   __mutation_type__?: MutationType
   __typename?: string
@@ -50,7 +50,7 @@ export interface User {
   id?: string
   name?: string
   email?: string
-  isAuthenticated: boolean
+  isAuthenticated?: boolean
 }
 
 export interface CognitoUser {

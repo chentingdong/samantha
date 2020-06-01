@@ -27,10 +27,6 @@ export const cache: InMemoryCache = new InMemoryCache({
         },
         uiState: {
           read() {
-            console.log(
-              `cache uiState: ${JSON.stringify(uiStateVar(), null, 2)}`
-            )
-
             return uiStateVar()
           },
         },

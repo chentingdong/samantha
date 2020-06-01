@@ -49,12 +49,10 @@ export const REQUESTS_MADE = gql`
       requestors {
         id
         name
-        email
       }
       responders {
         id
         name
-        email
       }
     }
   }

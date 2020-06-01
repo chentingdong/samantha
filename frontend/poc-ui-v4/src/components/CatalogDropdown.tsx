@@ -6,19 +6,19 @@ import { BlockDef } from "../models/interface"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename } from "../models/enum"
 
-const CatalogDropdown = ({ ...props }) => {
+const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
   const { data } = useQuery(BLOCK_CATALOG)
 
   return (
-    <Dropdown {...props}>
+    <Dropdown {...rest}>
       {data?.blockDefs?.map((blockDef: BlockDef) => (
         <Dropdown.Item
           key={blockDef.id}
           onSelect={(eventKey, event) => {
             setUiState({
               showEditor: true,
-              editingTypename: props.editingTypename,
-              editorMode: props.editorMode,
+              editingTypename,
+              editorMode,
               draftBlock: blockDef,
             })
           }}
