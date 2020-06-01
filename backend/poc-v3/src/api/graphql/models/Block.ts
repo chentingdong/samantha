@@ -14,5 +14,7 @@ schema.objectType({
     t.model.type()
     t.model.requestors()
     t.model.responders()
+    t.model.created_at()
+    t.model.last_updated()
   },
 })

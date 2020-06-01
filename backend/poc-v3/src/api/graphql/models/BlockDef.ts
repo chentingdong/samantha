@@ -11,5 +11,7 @@ schema.objectType({
     t.model.control()
     t.model.context()
     t.model.type()
+    t.model.created_at()
+    t.model.last_updated()
   },
 })

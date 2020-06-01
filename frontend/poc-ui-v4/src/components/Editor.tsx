@@ -11,15 +11,21 @@ import {
   PanelGroup,
   Panel,
   TagPicker,
+  Alert,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
+import "ace-builds/src-noconflict/ace"
+import "ace-builds/webpack-resolver"
+import "ace-builds/src-noconflict/mode-json"
+import "ace-builds/src-noconflict/theme-github"
+import AceEditor from "react-ace"
 
 const Editor = () => {
-  const { data } = useQuery(UI_STATE)
+  const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const close = () => {
     setUiState({ showEditor: false })
@@ -123,6 +129,18 @@ const Editor = () => {
                 </Panel>
                 <Panel header="Tree View" eventKey={2}>
                   <Placeholder.Paragraph rows={10} />
+                </Panel>
+                <Panel header="Debug View" eventKey={3}>
+                  <AceEditor
+                    readOnly={true}
+                    mode="json"
+                    theme="github"
+                    name="context"
+                    width="100%"
+                    maxLines={Infinity}
+                    editorProps={{ $blockScrolling: true }}
+                    value={JSON.stringify(data?.uiState?.draftBlock, null, 2)}
+                  />
                 </Panel>
               </PanelGroup>
               <FormGroup>
