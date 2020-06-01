@@ -12,23 +12,57 @@ import {
   Panel,
   TagPicker,
   Alert,
+  Grid,
+  Row,
+  Col,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
-import { Typename } from "../models/enum"
+import { Typename, MutationType } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
 import "ace-builds/src-noconflict/ace"
 import "ace-builds/webpack-resolver"
 import "ace-builds/src-noconflict/mode-json"
 import "ace-builds/src-noconflict/theme-github"
 import AceEditor from "react-ace"
+import { BlockChildrenList } from "./BlockChildrenList"
+import { BlockCatalogList } from "./BlockCatalogList"
+import { BlockOrDef } from "../models/interface"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const close = () => {
     setUiState({ showEditor: false })
+  }
+  const addSubBlock = (childBlock: BlockOrDef) => {
+    // had to create a copy of children because it is not extensible
+    setUiState({
+      draftBlock: {
+        ...data?.uiState?.draftBlock,
+        children: [...data?.uiState?.draftBlock?.children, childBlock],
+      },
+    })
+  }
+
+  const deleteSubBlock = (childBlock: BlockOrDef) => {
+    const index = data?.uiState?.draftBlock?.children.findIndex(
+      (child) => child.id === childBlock.id
+    )
+    if (index < 0) return
+    const updatedChild = {
+      ...data?.uiState?.draftBlock?.children[index],
+      __mutation_type__: MutationType.Delete,
+    }
+    const updatedChildren = [...data?.uiState?.draftBlock?.children]
+    updatedChildren[index] = updatedChild
+    setUiState({
+      draftBlock: {
+        ...data?.uiState?.draftBlock,
+        children: updatedChildren,
+      },
+    })
   }
 
   return (
@@ -57,8 +91,24 @@ const Editor = () => {
                   }
                 />
               </FormGroup>
+              <FormGroup>
+                <ControlLabel>Type</ControlLabel>
+                <FormControl
+                  name="type"
+                  value={data?.uiState?.draftBlock?.type}
+                  disabled
+                />
+              </FormGroup>
               {data?.uiState?.editingTypename === Typename.Block && (
                 <>
+                  <FormGroup>
+                    <ControlLabel>State</ControlLabel>
+                    <FormControl
+                      name="state"
+                      value={data?.uiState?.draftBlock?.state}
+                      disabled
+                    />
+                  </FormGroup>
                   <FormGroup className="col-span-2">
                     <ControlLabel>Requestors: </ControlLabel>
                     <TagPicker
@@ -115,28 +165,33 @@ const Editor = () => {
                   }
                 />
               </FormGroup>
-              <FormGroup>
-                <ControlLabel>Type</ControlLabel>
-                <FormControl
-                  name="type"
-                  value={data?.uiState?.draftBlock?.type}
-                  disabled
-                />
-              </FormGroup>
+
               <PanelGroup accordion defaultActiveKey={1} bordered>
                 <Panel header="Action View" eventKey={1}>
                   <Placeholder.Paragraph rows={10} />
                 </Panel>
                 <Panel header="Tree View" eventKey={2}>
-                  <Placeholder.Paragraph rows={10} />
+                  <Row>
+                    <Col xs={16}>
+                      <BlockChildrenList
+                        blocks={data?.uiState?.draftBlock?.children}
+                        addSubBlock={addSubBlock}
+                        onDelete={(childBlock) => deleteSubBlock(childBlock)}
+                      />
+                    </Col>
+                    <Col xs={8}>
+                      <BlockCatalogList />
+                    </Col>
+                  </Row>
                 </Panel>
                 <Panel header="Debug View" eventKey={3}>
                   <AceEditor
                     readOnly={true}
                     mode="json"
-                    theme="github"
-                    name="context"
+                    theme="terminal"
+                    name="debug"
                     width="100%"
+                    showGutter={true}
                     maxLines={Infinity}
                     editorProps={{ $blockScrolling: true }}
                     value={JSON.stringify(data?.uiState?.draftBlock, null, 2)}
