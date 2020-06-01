@@ -23,7 +23,7 @@ const RequestCatalogList = () => {
   return (
     <>
       <CatalogDropdown
-        title="+ Add a Request Definition from"
+        title="Add a Request Definition from"
         trigger={["click", "hover"]}
         noCaret
         placement="rightStart"

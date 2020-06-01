@@ -7,7 +7,7 @@ import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"
 import { reducer } from "../context/reducer"
-import { Grid, Row, Col } from "rsuite"
+import { Grid, Row, Col, IconButton, Icon } from "rsuite"
 import { Card } from "./Card"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -134,7 +134,9 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                 Mark as Complete
               </Button>
             )}
-          <Button
+          <IconButton
+            appearance="default"
+            icon={<Icon icon="edit" />}
             onClick={(e) => {
               const editingTypename =
                 block.__typename === "Block"
@@ -152,7 +154,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             }}
           >
             New Editor
-          </Button>
+          </IconButton>
         </Col>
       </Grid>
       {showEdit && (

@@ -15,6 +15,8 @@ import {
   Grid,
   Row,
   Col,
+  Icon,
+  IconButton,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
@@ -166,11 +168,11 @@ const Editor = () => {
                 />
               </FormGroup>
 
-              <PanelGroup accordion defaultActiveKey={1} bordered>
-                <Panel header="Action View" eventKey={1}>
+              <PanelGroup accordion bordered>
+                <Panel header="Action View">
                   <Placeholder.Paragraph rows={10} />
                 </Panel>
-                <Panel header="Tree View" eventKey={2}>
+                <Panel header="Nested Set View" defaultExpanded>
                   <Row>
                     <Col xs={16}>
                       <BlockChildrenList
@@ -184,7 +186,10 @@ const Editor = () => {
                     </Col>
                   </Row>
                 </Panel>
-                <Panel header="Debug View" eventKey={3}>
+                <Panel header="Tree View">
+                  <Placeholder.Paragraph rows={10} />
+                </Panel>
+                <Panel header="Debug View">
                   <AceEditor
                     readOnly={true}
                     mode="json"
@@ -200,12 +205,20 @@ const Editor = () => {
               </PanelGroup>
               <FormGroup>
                 <ButtonToolbar>
-                  <Button onClick={close} appearance="primary">
+                  <IconButton
+                    onClick={close}
+                    icon={<Icon icon="check" />}
+                    appearance="primary"
+                  >
                     Save
-                  </Button>
-                  <Button onClick={close} appearance="subtle">
+                  </IconButton>
+                  <IconButton
+                    onClick={close}
+                    icon={<Icon icon="ban" />}
+                    appearance="subtle"
+                  >
                     Cancel
-                  </Button>
+                  </IconButton>
                 </ButtonToolbar>
               </FormGroup>
             </Form>

@@ -1,5 +1,5 @@
 import React from "react"
-import { Dropdown } from "rsuite"
+import { Dropdown, IconButton, Icon, Button } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
@@ -12,7 +12,16 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
   const { data } = useQuery(BLOCK_CATALOG)
 
   return (
-    <Dropdown {...rest}>
+    <Dropdown
+      {...rest}
+      renderTitle={(children) => {
+        return (
+          <IconButton appearance="default" icon={<Icon icon="plus" />}>
+            {children}
+          </IconButton>
+        )
+      }}
+    >
       {data?.blockDefs?.map((blockDef: BlockDef) => (
         <Dropdown.Item
           key={blockDef.id}
