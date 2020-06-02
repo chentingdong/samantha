@@ -19,6 +19,7 @@ import {
   IconButton,
   Tree,
   Notification,
+  Divider,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
@@ -104,14 +105,6 @@ const Editor = () => {
                       draftBlock: { name: value },
                     })
                   }
-                />
-              </FormGroup>
-              <FormGroup>
-                <ControlLabel>Type</ControlLabel>
-                <FormControl
-                  name="type"
-                  value={data?.uiState?.draftBlock?.type}
-                  disabled
                 />
               </FormGroup>
               {data?.uiState?.editingTypename === Typename.Block && (
@@ -229,6 +222,7 @@ const Editor = () => {
                   />
                 </Panel>
               </PanelGroup>
+              <Divider />
               <FormGroup>
                 <ButtonToolbar>
                   <IconButton

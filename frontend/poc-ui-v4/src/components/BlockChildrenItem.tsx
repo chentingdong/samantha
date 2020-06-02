@@ -5,6 +5,7 @@ import { DndSourceBox } from "./DndSourceBox"
 import { Card } from "./Card"
 import styled from "styled-components"
 import { Icon } from "rsuite"
+import { getIconByType } from "../utils/Styles"
 
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
@@ -16,8 +17,7 @@ const BlockChildrenItemRaw: React.FC<{
     <DndSourceBox type="block" block={block}>
       <Card className={`${isLeaf ? "leaf" : "composite"} theme-dark`}>
         <div className="card-header">
-          {index + 1}
-          <span className="p-2">-</span>
+          <Icon icon={getIconByType(block.type)} />
           {block.name}
           <Icon
             icon="close"

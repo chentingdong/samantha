@@ -2,6 +2,8 @@ import React from "react"
 import { BlockDef } from "../models/interface"
 import { DndSourceBox } from "./DndSourceBox"
 import { Card } from "./Card"
+import { getIconByType } from "../utils/Styles"
+import { Icon } from "rsuite"
 
 const BlockCatalogItem: React.FC<{
   blockDef: BlockDef
@@ -10,7 +12,10 @@ const BlockCatalogItem: React.FC<{
     <Card className="">
       <DndSourceBox type="block" block={blockDef}>
         <div className="text-sm">
-          <strong className="card-header">{blockDef.name}</strong>
+          <strong className="card-header">
+            <Icon icon={getIconByType(blockDef.type)} />
+            {blockDef.name}
+          </strong>
           <div className="card-body">{blockDef.description}</div>
         </div>
       </DndSourceBox>
