@@ -35,6 +35,7 @@ import { BlockChildrenList } from "./BlockChildrenList"
 import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockOrDef } from "../models/interface"
 import { getIconClassByType } from "../utils/Styles"
+import { StateBar } from "./StateBar"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -109,14 +110,7 @@ const Editor = () => {
               </FormGroup>
               {data?.uiState?.editingTypename === Typename.Block && (
                 <>
-                  <FormGroup>
-                    <ControlLabel>State</ControlLabel>
-                    <FormControl
-                      name="state"
-                      value={data?.uiState?.draftBlock?.state}
-                      disabled
-                    />
-                  </FormGroup>
+                  <StateBar state={data?.uiState?.draftBlock?.state} />
                   <FormGroup className="col-span-2">
                     <ControlLabel>Requestors: </ControlLabel>
                     <TagPicker
