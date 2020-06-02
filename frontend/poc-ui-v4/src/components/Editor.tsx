@@ -17,6 +17,8 @@ import {
   Col,
   Icon,
   IconButton,
+  Tree,
+  Notification,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
@@ -67,11 +69,20 @@ const Editor = () => {
     })
   }
 
+  const getTreeData = (draftBlock: BlockOrDef) => {
+    return {
+      id: draftBlock.id,
+      name: draftBlock.name,
+      children: draftBlock.children.map((child) => getTreeData(child)),
+    }
+  }
+
   return (
     <>
       {data && data.uiState && (
         <Drawer
           full={true}
+          size="lg"
           placement="right"
           show={data?.uiState?.showEditor}
           onHide={close}
@@ -167,7 +178,6 @@ const Editor = () => {
                   }
                 />
               </FormGroup>
-
               <PanelGroup accordion bordered>
                 <Panel header="Action View">
                   <Placeholder.Paragraph rows={10} />
@@ -186,8 +196,26 @@ const Editor = () => {
                     </Col>
                   </Row>
                 </Panel>
-                <Panel header="Tree View">
-                  <Placeholder.Paragraph rows={10} />
+                <Panel header="Tree View" defaultExpanded>
+                  <Tree
+                    data={[getTreeData(data?.uiState?.draftBlock)]}
+                    labelKey="name"
+                    valueKey="id"
+                    draggable
+                    defaultExpandAll
+                    onDrop={({ dragNode, dropNode, dropNodePosition }, event) =>
+                      Notification.info({
+                        title: "Tree View onDrop event",
+                        description: (
+                          <div>
+                            `dragNode: ${JSON.stringify(dragNode)}, dropNode: $
+                            {JSON.stringify(dropNode)}, dropNodePosition: $
+                            {JSON.stringify(dropNodePosition)}`,
+                          </div>
+                        ),
+                      })
+                    }
+                  />
                 </Panel>
                 <Panel header="Debug View">
                   <AceEditor

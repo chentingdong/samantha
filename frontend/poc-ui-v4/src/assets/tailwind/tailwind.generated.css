@@ -19043,16 +19043,16 @@ video {
 }
 
 .theme-dark {
-  --color-bg-primary: #444;
-  --color-bg-secondary: #555;
-  --color-bg-default: #333;
-  --color-bg-inverse: #222;
-  --color-text-primary: #fff;
-  --color-text-secondary: #927e7e;
-  --color-text-default: #dfefdf;
-  --color-text-default-soft: #6a6a6a;
-  --color-text-inverse: #fff;
-  --color-text-inverse-soft: #bbb;
+  --color-bg-primary: #0f131a;
+  --color-bg-secondary: #3f334a;
+  --color-bg-default: #292d33;
+  --color-bg-inverse: #2f333a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #eeeeee;
+  --color-text-default: #e9ebf0;
+  --color-text-default-soft: #d9dbe0;
+  --color-text-inverse: #dddddd;
+  --color-text-inverse-soft: #cccccc;
   --font-display: Georgia, Times, "Times New Roman", serif;
   --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
     "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,

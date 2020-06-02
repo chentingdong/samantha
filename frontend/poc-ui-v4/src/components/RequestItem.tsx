@@ -124,6 +124,16 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
+          {itemOrigin === ItemOrigin.Received &&
+            (block as Block).state === "ACTIVE" && (
+              <IconButton
+                appearance="default"
+                icon={<Icon icon="check" />}
+                onClick={() => markComplete(block)}
+              >
+                Mark as Complete
+              </IconButton>
+            )}
           {itemOrigin === ItemOrigin.Catalog && (
             <IconButton
               appearance="default"
@@ -140,16 +150,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           >
             View/Edit
           </IconButton>
-          {itemOrigin === ItemOrigin.Received &&
-            (block as Block).state === "ACTIVE" && (
-              <IconButton
-                appearance="default"
-                icon={<Icon icon="check" />}
-                onClick={() => markComplete(block)}
-              >
-                Mark as Complete
-              </IconButton>
-            )}
+
           <IconButton
             appearance="default"
             icon={<Icon icon="edit" />}
