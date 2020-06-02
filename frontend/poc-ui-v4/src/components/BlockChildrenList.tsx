@@ -5,22 +5,33 @@ import { DndTargetBox } from "./DndTargetBox"
 import { MutationType } from "../models/enum"
 import tw from "tailwind.macro"
 import styled from "styled-components"
+import { Panel } from "rsuite"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]
   addSubBlock: (child: BlockOrDef) => void
   onDelete?: (child: BlockOrDef) => void
-  className?: string
+  type: string
 }
 
 const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   blocks,
   addSubBlock,
   onDelete,
-  className,
+  type,
 }) => {
   return (
-    <div className={className}>
+    <Panel
+      shaded
+      collapsible
+      defaultExpanded
+      bodyFill
+      header={
+        type === "COMPOSITE_SEQUENTIAL"
+          ? "sequential container"
+          : "parallel container"
+      }
+    >
       <DndTargetBox
         accept="block"
         greedy={false}
@@ -31,18 +42,16 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
           .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             return (
-              <div className={isLeaf ? "leaf" : "composite"} key={block.id}>
-                <BlockChildrenItem
-                  block={block}
-                  index={index}
-                  key={block.id}
-                  onDelete={(child) => onDelete(child)}
-                />
-              </div>
+              <BlockChildrenItem
+                block={block}
+                index={index}
+                key={block.id}
+                onDelete={(child) => onDelete(child)}
+              />
             )
           })}
       </DndTargetBox>
-    </div>
+    </Panel>
   )
 }
 
@@ -50,13 +59,6 @@ const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
   BlockChildrenListRaw
 )`
   ${tw`flex-auto m-1`}
-  .composite {
-    display: block;
-  }
-  .leaf {
-    ${tw`ml-2 mr-2`}
-    display: inline-block;
-  }
 `
 
 export { BlockChildrenList }

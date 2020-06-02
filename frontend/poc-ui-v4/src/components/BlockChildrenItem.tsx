@@ -11,9 +11,12 @@ const BlockChildrenItemRaw: React.FC<{
   index?: number
   onDelete?: (child: BlockOrDef) => void
 }> = ({ block, index = 0, onDelete }) => {
+  const isLeaf = block.type.includes("LEAF_")
   return (
     <DndSourceBox type="block" block={block}>
-      <Card className="border-none">
+      <Card
+        className={`border-none ${isLeaf ? "leaf" : "composite"} theme-dark`}
+      >
         <div className="card-header">
           {index + 1}
           <span className="p-2">-</span>

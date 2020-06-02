@@ -6,6 +6,7 @@ import { BlockDef } from "../models/interface"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
+import { getIconByType } from "../utils/Styles"
 
 const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
   const { data: authUser } = useQuery(AUTH_USER)
@@ -24,6 +25,7 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
     >
       {data?.blockDefs?.map((blockDef: BlockDef) => (
         <Dropdown.Item
+          icon={<Icon icon={getIconByType(blockDef.type)} />}
           key={blockDef.id}
           onSelect={(eventKey, event) => {
             setUiState(

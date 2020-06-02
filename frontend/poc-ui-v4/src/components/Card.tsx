@@ -20,6 +20,14 @@ const Card = styled.div`
     ${tw`rounded-b-md p-1 text-xs`}
     max-height: 4.7em;
   }
+  .composite {
+    display: block;
+  }
+  .leaf {
+    ${tw`ml-2 mr-2`}
+    display: inline-block;
+    width: 25%;
+  }
 `
 
 export { Card }

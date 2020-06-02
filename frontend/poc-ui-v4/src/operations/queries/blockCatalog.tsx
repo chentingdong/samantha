@@ -2,7 +2,7 @@ import { gql } from "@apollo/client"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
-    blockDefs(orderBy: { id: desc }, where: { parent: null }) {
+    blockDefs(orderBy: { type: asc }, where: { parent: null }) {
       id
       name
       description

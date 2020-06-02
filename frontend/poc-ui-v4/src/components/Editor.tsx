@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Drawer,
   Button,
@@ -33,6 +33,7 @@ import AceEditor from "react-ace"
 import { BlockChildrenList } from "./BlockChildrenList"
 import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockOrDef } from "../models/interface"
+import { getIconClassByType } from "../utils/Styles"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -73,6 +74,7 @@ const Editor = () => {
     return {
       id: draftBlock.id,
       name: draftBlock.name,
+      icon: getIconClassByType(draftBlock.type),
       children: draftBlock.children.map((child) => getTreeData(child)),
     }
   }
@@ -189,6 +191,7 @@ const Editor = () => {
                         blocks={data?.uiState?.draftBlock?.children}
                         addSubBlock={addSubBlock}
                         onDelete={(childBlock) => deleteSubBlock(childBlock)}
+                        type={data?.uiState?.draftBlock?.type}
                       />
                     </Col>
                     <Col xs={8}>
@@ -201,20 +204,15 @@ const Editor = () => {
                     data={[getTreeData(data?.uiState?.draftBlock)]}
                     labelKey="name"
                     valueKey="id"
-                    draggable
                     defaultExpandAll
-                    onDrop={({ dragNode, dropNode, dropNodePosition }, event) =>
-                      Notification.info({
-                        title: "Tree View onDrop event",
-                        description: (
-                          <div>
-                            `dragNode: ${JSON.stringify(dragNode)}, dropNode: $
-                            {JSON.stringify(dropNode)}, dropNodePosition: $
-                            {JSON.stringify(dropNodePosition)}`,
-                          </div>
-                        ),
-                      })
-                    }
+                    size="lg"
+                    renderTreeNode={(nodeData) => {
+                      return (
+                        <span>
+                          <i className={nodeData.icon} /> {nodeData.name}
+                        </span>
+                      )
+                    }}
                   />
                 </Panel>
                 <Panel header="Debug View">

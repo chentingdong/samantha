@@ -12,6 +12,9 @@ import {
   FormGroup,
   FormControl,
   ControlLabel,
+  Panel,
+  Drawer,
+  Modal,
 } from "rsuite"
 import { Select } from "./Select"
 import { Button } from "./Button"
@@ -173,6 +176,7 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
             <FormGroup className="col-span-7 tree">
               <BlockChildrenList
                 blocks={draftBlock.children}
+                type={data?.uiState?.draftBlock?.type}
                 addSubBlock={addSubBlock}
                 onDelete={(childBlock) => deleteSubBlock(childBlock)}
               />

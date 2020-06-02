@@ -13,7 +13,9 @@ const SegmentCompositeStages: React.FC<{
     setBlocks(updatedBlocks)
   }
 
-  return <BlockChildrenList blocks={blocks} addSubBlock={addSubBlock} />
+  return (
+    <BlockChildrenList blocks={blocks} addSubBlock={addSubBlock} type={type} />
+  )
 }
 
 export { SegmentCompositeStages }

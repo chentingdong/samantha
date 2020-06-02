@@ -21,4 +21,23 @@ const blockTextColor = (block) => {
   return "text-" + blockColor(block)
 }
 
-export { blockBgColor, blockTextColor }
+const getIconByType = (type) => {
+  switch (type) {
+    case "COMPOSITE_PARALLEL":
+      return "list"
+    case "COMPOSITE_SEQUENTIAL":
+      return "list-ol"
+    case "LEAF_FORM":
+      return "order-form"
+    case "LEAF_API":
+      return "gears2"
+    default:
+      return "peoples"
+  }
+}
+
+const getIconClassByType = (type) => {
+  return "rs-icon rs-icon-" + getIconByType(type)
+}
+
+export { getIconByType, getIconClassByType, blockBgColor, blockTextColor }
