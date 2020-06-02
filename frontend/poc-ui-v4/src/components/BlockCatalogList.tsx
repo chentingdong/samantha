@@ -5,11 +5,12 @@ import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
 import { DndSourceBox } from "./DndSourceBox"
 import { Loading, Error } from "./Misc"
+import { Loader } from "rsuite"
 
 const BlockCatalogList = () => {
   const { loading, error, data } = useQuery(BLOCK_CATALOG)
 
-  if (loading) return <Loading />
+  if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />
 
   return (

@@ -8,7 +8,7 @@ import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { BlockDef } from "../models/interface"
 import { Loading, Error } from "./Misc"
-import { Divider } from "rsuite"
+import { Divider, Loader } from "rsuite"
 import { CatalogDropdown } from "./CatalogDropdown"
 
 const RequestCatalogList = () => {
@@ -17,7 +17,7 @@ const RequestCatalogList = () => {
   const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
   const { loading, error, data } = useQuery(REQUEST_CATALOG)
 
-  if (loading) return <Loading />
+  if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />
 
   return (

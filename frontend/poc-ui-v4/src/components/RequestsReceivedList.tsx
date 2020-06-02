@@ -9,6 +9,7 @@ import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { COMPLETE_ONE_BLOCK } from "../operations/mutations/completeOneBlock"
 import { Loading, Error } from "./Misc"
 import { AUTH_USER } from "../operations/queries/authUser"
+import { Loader } from "rsuite"
 
 const RequestsReceivedList = () => {
   const { data: authUserResult } = useQuery(AUTH_USER)
@@ -21,7 +22,7 @@ const RequestsReceivedList = () => {
     fetchPolicy: "network-only",
   })
 
-  if (loading) return <Loading />
+  if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />
 
   return (
