@@ -14,8 +14,8 @@ const BlockChildrenItemRaw: React.FC<{
 }> = ({ block, index = 0, onDelete }) => {
   const isLeaf = block.type.includes("LEAF_")
   return (
-    <DndSourceBox type="block" block={block}>
-      <Card className={`${isLeaf ? "leaf" : "composite"} theme-dark`}>
+    <Card className={`${isLeaf ? "leaf" : "composite"} theme-dark`}>
+      <DndSourceBox type="block" block={block}>
         <div className="card-header">
           <Icon icon={getIconByType(block.type)} />
           {block.name}
@@ -27,8 +27,8 @@ const BlockChildrenItemRaw: React.FC<{
         </div>
         <div className="card-body">{block.description}</div>
         <SegmentView block={block} />
-      </Card>
-    </DndSourceBox>
+      </DndSourceBox>
+    </Card>
   )
 }
 
