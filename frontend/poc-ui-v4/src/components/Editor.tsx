@@ -19,6 +19,7 @@ import {
   IconButton,
   Tree,
   Notification,
+  Divider,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
@@ -34,40 +35,13 @@ import { BlockChildrenList } from "./BlockChildrenList"
 import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockOrDef } from "../models/interface"
 import { getIconClassByType } from "../utils/Styles"
+import { StateBar } from "./StateBar"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const close = () => {
     setUiState({ showEditor: false })
-  }
-  const addSubBlock = (childBlock: BlockOrDef) => {
-    // had to create a copy of children because it is not extensible
-    setUiState({
-      draftBlock: {
-        ...data?.uiState?.draftBlock,
-        children: [...data?.uiState?.draftBlock?.children, childBlock],
-      },
-    })
-  }
-
-  const deleteSubBlock = (childBlock: BlockOrDef) => {
-    const index = data?.uiState?.draftBlock?.children.findIndex(
-      (child) => child.id === childBlock.id
-    )
-    if (index < 0) return
-    const updatedChild = {
-      ...data?.uiState?.draftBlock?.children[index],
-      __mutation_type__: MutationType.Delete,
-    }
-    const updatedChildren = [...data?.uiState?.draftBlock?.children]
-    updatedChildren[index] = updatedChild
-    setUiState({
-      draftBlock: {
-        ...data?.uiState?.draftBlock,
-        children: updatedChildren,
-      },
-    })
   }
 
   const getTreeData = (draftBlock: BlockOrDef) => {
@@ -106,24 +80,9 @@ const Editor = () => {
                   }
                 />
               </FormGroup>
-              <FormGroup>
-                <ControlLabel>Type</ControlLabel>
-                <FormControl
-                  name="type"
-                  value={data?.uiState?.draftBlock?.type}
-                  disabled
-                />
-              </FormGroup>
               {data?.uiState?.editingTypename === Typename.Block && (
                 <>
-                  <FormGroup>
-                    <ControlLabel>State</ControlLabel>
-                    <FormControl
-                      name="state"
-                      value={data?.uiState?.draftBlock?.state}
-                      disabled
-                    />
-                  </FormGroup>
+                  <StateBar state={data?.uiState?.draftBlock?.state} />
                   <FormGroup className="col-span-2">
                     <ControlLabel>Requestors: </ControlLabel>
                     <TagPicker
@@ -189,8 +148,7 @@ const Editor = () => {
                     <Col xs={16}>
                       <BlockChildrenList
                         blocks={data?.uiState?.draftBlock?.children}
-                        addSubBlock={addSubBlock}
-                        onDelete={(childBlock) => deleteSubBlock(childBlock)}
+                        parent={data?.uiState?.draftBlock}
                         type={data?.uiState?.draftBlock?.type}
                       />
                     </Col>
@@ -229,6 +187,7 @@ const Editor = () => {
                   />
                 </Panel>
               </PanelGroup>
+              <Divider />
               <FormGroup>
                 <ButtonToolbar>
                   <IconButton

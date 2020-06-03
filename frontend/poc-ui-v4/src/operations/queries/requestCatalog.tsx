@@ -29,6 +29,11 @@ export const REQUEST_CATALOG = gql`
         type
         control
         context
+        parent {
+          id
+          name
+          type
+        }
         children {
           id
           name
@@ -36,6 +41,11 @@ export const REQUEST_CATALOG = gql`
           type
           control
           context
+          parent {
+            id
+            name
+            type
+          }
           children {
             id
             name
@@ -43,6 +53,14 @@ export const REQUEST_CATALOG = gql`
             type
             control
             context
+            parent {
+              id
+              name
+              type
+            }
+            children {
+              id
+            }
           }
         }
       }

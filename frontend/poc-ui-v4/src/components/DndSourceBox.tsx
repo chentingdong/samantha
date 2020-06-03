@@ -6,14 +6,10 @@ import { MutationType } from "../models/enum"
 const DndSourceBox = ({ block, type, children }) => {
   const [{ isDragging }, drag] = useDrag({
     item: {
-      block: {
-        ...block,
-        id: uuid.v4(),
-        __mutation_type__: MutationType.Create,
-      },
+      block,
       type,
     },
-    canDrag: true,
+    canDrag: () => block.__typename === "BlockDef",
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),
