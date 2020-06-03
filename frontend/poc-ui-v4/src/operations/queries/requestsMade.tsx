@@ -3,7 +3,7 @@ import { gql } from "@apollo/client"
 export const REQUESTS_MADE = gql`
   query requestsMade($userId: String) {
     blocks(
-      orderBy: { id: desc }
+      orderBy: { last_updated: desc }
       where: { requestors: { some: { id: { equals: $userId } } } }
     ) {
       id

@@ -22,7 +22,7 @@ import {
   Divider,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename, MutationType } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
@@ -36,10 +36,13 @@ import { BlockCatalogList } from "./BlockCatalogList"
 import { BlockOrDef } from "../models/interface"
 import { getIconClassByType } from "../utils/Styles"
 import { StateBar } from "./StateBar"
+import { transformBlockInput } from "../operations/transform"
+import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
+  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
   const close = () => {
     setUiState({ showEditor: false })
   }
@@ -195,7 +198,25 @@ const Editor = () => {
               <FormGroup>
                 <ButtonToolbar>
                   <IconButton
-                    onClick={close}
+                    onClick={() => {
+                      console.log(
+                        `createOneBlock data?.uiState?.draftBlock: ${JSON.stringify(
+                          data?.uiState?.draftBlock,
+                          null,
+                          2
+                        )} transformBlockInput(data?.uiState?.draftBlock): ${JSON.stringify(
+                          transformBlockInput(data?.uiState?.draftBlock),
+                          null,
+                          2
+                        )}`
+                      )
+                      createOneBlock({
+                        variables: {
+                          data: transformBlockInput(data?.uiState?.draftBlock),
+                        },
+                      })
+                      close()
+                    }}
                     icon={<Icon icon="check" />}
                     appearance="primary"
                   >

@@ -1,4 +1,5 @@
 import { MutationType } from "../models/enum"
+import cloneDeep from "lodash/cloneDeep"
 
 const _transformBlockInput = (block) => {
   if (!Object.isExtensible(block)) block = { ...block }
@@ -9,17 +10,23 @@ const _transformBlockInput = (block) => {
   for (const child of block.children) {
     const transformedChild = _transformBlockInput(child)
     childrenForCreate.push(transformedChild)
+    console.log(
+      `transformedChild: ${JSON.stringify(transformedChild, null, 2)}`
+    )
   }
   block.children = {}
+  console.log(
+    `childrenForCreate: ${JSON.stringify(childrenForCreate, null, 2)}`
+  )
   if (childrenForCreate.length > 0) block.children.create = childrenForCreate
 
   if (block.requestors?.length > 0)
     block.requestors = {
-      connect: block.requestors?.map((user) => ({ id: user.value })),
+      connect: block.requestors?.map((user) => ({ id: user.id })),
     }
   if (block.responders?.length > 0)
     block.responders = {
-      connect: block.responders?.map((user) => ({ id: user.value })),
+      connect: block.responders?.map((user) => ({ id: user.id })),
     }
 
   return block
