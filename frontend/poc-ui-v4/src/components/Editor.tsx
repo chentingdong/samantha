@@ -64,7 +64,11 @@ const Editor = () => {
           onHide={close}
         >
           <Drawer.Header>
-            <Drawer.Title>Bell Editor</Drawer.Title>
+            <Drawer.Title>{`${data?.uiState?.editorMode} a ${
+              data?.uiState?.editingTypename === "Block"
+                ? "Bell"
+                : "Bell Definition"
+            }`}</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
             <Form fluid>
