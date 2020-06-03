@@ -6,7 +6,7 @@ import { setUiState } from "../operations/mutations/setUiState"
 import uuid from "uuid"
 
 /**
- * Recusvielyl generate new id for the nodes of block tree
+ * Recursively generate new id for the nodes of block tree
  * If targetType is Block, it will also set the requestor recursively
  *
  * @param {*} root the root node of draft block tree
