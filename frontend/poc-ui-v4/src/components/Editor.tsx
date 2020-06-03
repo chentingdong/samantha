@@ -57,7 +57,7 @@ const Editor = () => {
     <>
       {data && data.uiState && (
         <Drawer
-          full={true}
+          full={false}
           size="lg"
           placement="right"
           show={data?.uiState?.showEditor}
