@@ -1,15 +1,14 @@
 import React from "react"
-import { Block, BlockDef, BlockOrDef } from "../models/interface"
+import { BlockOrDef } from "../models/interface"
 import { DndSourceBox } from "./DndSourceBox"
 import { Card } from "./Card"
 import styled from "styled-components"
-import { Icon, Notification } from "rsuite"
+import { Icon } from "rsuite"
 import { getIconByType } from "../utils/Styles"
 import { BlockChildrenList } from "./BlockChildrenList"
-import cloneDeep from "lodash/cloneDeep"
-import { setUiState } from "../operations/mutations/setUiState"
 import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
+import { deleteOneBlock } from "../operations/blockOperations"
 
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
@@ -18,32 +17,6 @@ const BlockChildrenItemRaw: React.FC<{
 }> = ({ block, parent, index = 0 }) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const isLeaf = block.type.includes("LEAF_")
-
-  const findBlock = (root, target) => {
-    if (root.id === target.id) return root
-    let found
-    for (const child of root.children) {
-      found = findBlock(child, target)
-      if (found) return found
-    }
-    return null
-  }
-
-  const deleteOneBlock = (childBlock) => {
-    const { id, name } = block
-    const { id: pid, name: pname } = parent
-    Notification.info({
-      title: "deleting a block",
-      description: `"${block.name}" from parent "${parent.name}"`,
-    })
-    const newDraftBlock = cloneDeep(data?.uiState?.draftBlock)
-    const newParent = findBlock(newDraftBlock, parent)
-    newParent.children.splice(
-      newParent.children.findIndex((child) => child.id === childBlock.id),
-      1
-    )
-    setUiState({ draftBlock: newDraftBlock })
-  }
 
   return (
     <Card className={`${isLeaf ? "leaf" : "composite"} theme-dark`}>
@@ -54,7 +27,9 @@ const BlockChildrenItemRaw: React.FC<{
           <Icon
             icon="close"
             className="float-right m-1"
-            onClick={(e) => deleteOneBlock(block)}
+            onClick={(e) =>
+              deleteOneBlock(data?.uiState?.draftBlock, block, parent)
+            }
           />
         </div>
         <div className="card-body">{block.description}</div>

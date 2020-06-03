@@ -8,6 +8,8 @@ import { Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { getIconByType } from "../utils/Styles"
 import uuid from "uuid"
+import { createBlock } from "../operations/blockOperations"
+import cloneDeep from "lodash/cloneDeep"
 
 const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
   const { data: authUser } = useQuery(AUTH_USER)
@@ -34,16 +36,11 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
                 showEditor: true,
                 editingTypename,
                 editorMode,
-                draftBlock: {
-                  // TODO: deep clone
-                  ...blockDef,
-                  id: uuid.v4(),
-                  requestors:
-                    editingTypename === Typename.Block
-                      ? [authUser?.authUser]
-                      : [],
-                  __typename: editingTypename,
-                },
+                draftBlock: createBlock(
+                  cloneDeep(blockDef),
+                  editingTypename,
+                  authUser?.authUser
+                ),
               },
               true
             )
