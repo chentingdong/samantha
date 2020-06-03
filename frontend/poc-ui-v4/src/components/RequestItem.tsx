@@ -13,6 +13,8 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { Button } from "./Button"
 import { setUiState } from "../operations/mutations/setUiState"
+import { createBlock } from "../operations/blockOperations"
+import cloneDeep from "lodash/cloneDeep"
 
 type RequestItemType = {
   block: BlockOrDef
@@ -138,7 +140,21 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             <IconButton
               appearance="default"
               icon={<Icon icon="bell-o" />}
-              onClick={() => makeRequest()}
+              onClick={() => {
+                setUiState(
+                  {
+                    showEditor: true,
+                    editingTypename: Typename.Block,
+                    editorMode: EditMode.Create,
+                    draftBlock: createBlock(
+                      cloneDeep(block),
+                      Typename.Block,
+                      data?.authUser
+                    ),
+                  },
+                  true
+                )
+              }}
             >
               Make a Bell
             </IconButton>
