@@ -27,6 +27,12 @@ export const REQUESTS_MADE = gql`
         state
         control
         context
+        parent {
+          id
+          name
+          state
+          type
+        }
         children {
           id
           name
@@ -35,6 +41,13 @@ export const REQUESTS_MADE = gql`
           state
           control
           context
+          parent {
+            id
+            name
+            state
+            type
+          }
+
           children {
             id
             name
@@ -43,6 +56,15 @@ export const REQUESTS_MADE = gql`
             state
             control
             context
+            parent {
+              id
+              name
+              state
+              type
+            }
+            children {
+              id
+            }
           }
         }
       }

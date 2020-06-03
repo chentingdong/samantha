@@ -1,17 +1,16 @@
 import React from "react"
 import { Block, BlockDef, BlockOrDef } from "../models/interface"
-import { SegmentView } from "./SegmentView"
 import { DndSourceBox } from "./DndSourceBox"
 import { Card } from "./Card"
 import styled from "styled-components"
-import { Icon } from "rsuite"
+import { Icon, Notification } from "rsuite"
 import { getIconByType } from "../utils/Styles"
+import { BlockChildrenList } from "./BlockChildrenList"
 
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
   index?: number
-  onDelete?: (child: BlockOrDef) => void
-}> = ({ block, index = 0, onDelete }) => {
+}> = ({ block, index = 0 }) => {
   const isLeaf = block.type.includes("LEAF_")
   return (
     <Card className={`${isLeaf ? "leaf" : "composite"} theme-dark`}>
@@ -22,11 +21,31 @@ const BlockChildrenItemRaw: React.FC<{
           <Icon
             icon="close"
             className="float-right m-1"
-            onClick={() => onDelete(block)}
+            onClick={() => {
+              const {
+                id,
+                name,
+                parent: { id: pid, name: pname },
+              } = block
+              Notification.info({
+                title: "deleting a block",
+                description: JSON.stringify(
+                  { name, parent: { pname } },
+                  null,
+                  2
+                ),
+              })
+            }}
           />
         </div>
         <div className="card-body">{block.description}</div>
-        <SegmentView block={block} />
+        {block.children.length > 0 && (
+          <BlockChildrenList
+            blocks={block.children}
+            parent={block}
+            type={block.type}
+          />
+        )}
       </DndSourceBox>
     </Card>
   )

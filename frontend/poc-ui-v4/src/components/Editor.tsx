@@ -43,34 +43,6 @@ const Editor = () => {
   const close = () => {
     setUiState({ showEditor: false })
   }
-  const addSubBlock = (childBlock: BlockOrDef) => {
-    // had to create a copy of children because it is not extensible
-    setUiState({
-      draftBlock: {
-        ...data?.uiState?.draftBlock,
-        children: [...data?.uiState?.draftBlock?.children, childBlock],
-      },
-    })
-  }
-
-  const deleteSubBlock = (childBlock: BlockOrDef) => {
-    const index = data?.uiState?.draftBlock?.children.findIndex(
-      (child) => child.id === childBlock.id
-    )
-    if (index < 0) return
-    const updatedChild = {
-      ...data?.uiState?.draftBlock?.children[index],
-      __mutation_type__: MutationType.Delete,
-    }
-    const updatedChildren = [...data?.uiState?.draftBlock?.children]
-    updatedChildren[index] = updatedChild
-    setUiState({
-      draftBlock: {
-        ...data?.uiState?.draftBlock,
-        children: updatedChildren,
-      },
-    })
-  }
 
   const getTreeData = (draftBlock: BlockOrDef) => {
     return {
@@ -176,8 +148,7 @@ const Editor = () => {
                     <Col xs={16}>
                       <BlockChildrenList
                         blocks={data?.uiState?.draftBlock?.children}
-                        addSubBlock={addSubBlock}
-                        onDelete={(childBlock) => deleteSubBlock(childBlock)}
+                        parent={data?.uiState?.draftBlock}
                         type={data?.uiState?.draftBlock?.type}
                       />
                     </Col>

@@ -5,49 +5,42 @@ import { DndTargetBox } from "./DndTargetBox"
 import { MutationType } from "../models/enum"
 import tw from "tailwind.macro"
 import styled from "styled-components"
-import { Panel } from "rsuite"
+import { Panel, Notification } from "rsuite"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]
-  addSubBlock: (child: BlockOrDef) => void
-  onDelete?: (child: BlockOrDef) => void
+  parent?: BlockOrDef
   type: string
 }
 
 const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   blocks,
-  addSubBlock,
-  onDelete,
+  parent,
   type,
 }) => {
   return (
-    <Panel
-      shaded
-      collapsible
-      defaultExpanded
-      bodyFill
-      header={
-        type === "COMPOSITE_SEQUENTIAL"
-          ? "sequential container"
-          : "parallel container"
-      }
-    >
+    <Panel shaded collapsible defaultExpanded bodyFill>
       <DndTargetBox
         accept="block"
         greedy={false}
-        onDrop={(childBlock) => addSubBlock(childBlock)}
+        onDrop={(childBlock) => {
+          const { id, name } = childBlock
+          const { id: pid, name: pname } = parent
+          Notification.info({
+            title: "adding a block",
+            description: `from ${JSON.stringify(
+              { name },
+              null,
+              2
+            )} to ${JSON.stringify({ pname }, null, 2)}`,
+          })
+        }}
       >
         {blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
-            const isLeaf = block.type.includes("LEAF_")
             return (
-              <BlockChildrenItem
-                block={block}
-                index={index}
-                key={block.id}
-                onDelete={(child) => onDelete(child)}
-              />
+              <BlockChildrenItem block={block} index={index} key={block.id} />
             )
           })}
       </DndTargetBox>
