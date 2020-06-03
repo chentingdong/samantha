@@ -37,6 +37,8 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   }
 
   const addOneBlock = (childBlock) => {
+    // TODO: deep clone childBlock to either Block or BlockDef
+
     const { id, name } = childBlock
     const { id: pid, name: pname } = parent
     Notification.info({
@@ -46,7 +48,9 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
     const newDraftBlock = cloneDeep(data?.uiState?.draftBlock)
     const newParent = findBlock(newDraftBlock, parent)
     newParent.children = [...newParent.children, childBlock]
-    setUiState({ draftBlock: newDraftBlock })
+    setUiState({
+      draftBlock: newDraftBlock,
+    })
   }
 
   return (
@@ -60,7 +64,12 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
             return (
-              <BlockChildrenItem block={block} index={index} key={block.id} />
+              <BlockChildrenItem
+                block={block}
+                parent={parent}
+                index={index}
+                key={block.id}
+              />
             )
           })}
       </DndTargetBox>

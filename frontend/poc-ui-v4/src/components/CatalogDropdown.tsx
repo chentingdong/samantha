@@ -7,6 +7,7 @@ import { setUiState } from "../operations/mutations/setUiState"
 import { Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { getIconByType } from "../utils/Styles"
+import uuid from "uuid"
 
 const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
   const { data: authUser } = useQuery(AUTH_USER)
@@ -34,7 +35,9 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
                 editingTypename,
                 editorMode,
                 draftBlock: {
+                  // TODO: deep clone
                   ...blockDef,
+                  id: uuid.v4(),
                   requestors:
                     editingTypename === Typename.Block
                       ? [authUser?.authUser]

@@ -13,8 +13,9 @@ import { UI_STATE } from "../operations/queries/uiState"
 
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
+  parent: BlockOrDef
   index?: number
-}> = ({ block, index = 0 }) => {
+}> = ({ block, parent, index = 0 }) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const isLeaf = block.type.includes("LEAF_")
 
@@ -29,17 +30,14 @@ const BlockChildrenItemRaw: React.FC<{
   }
 
   const deleteOneBlock = (childBlock) => {
-    const {
-      id,
-      name,
-      parent: { id: pid, name: pname },
-    } = block
+    const { id, name } = block
+    const { id: pid, name: pname } = parent
     Notification.info({
       title: "deleting a block",
-      description: `"${block.name}" from parent "${block.parent.name}"`,
+      description: `"${block.name}" from parent "${parent.name}"`,
     })
     const newDraftBlock = cloneDeep(data?.uiState?.draftBlock)
-    const newParent = findBlock(newDraftBlock, childBlock.parent)
+    const newParent = findBlock(newDraftBlock, parent)
     newParent.children.splice(
       newParent.children.findIndex((child) => child.id === childBlock.id),
       1
