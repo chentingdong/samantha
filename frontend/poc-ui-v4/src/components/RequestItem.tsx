@@ -162,14 +162,6 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           <IconButton
             appearance="default"
             icon={<Icon icon="edit" />}
-            onClick={() => editRequestDef()}
-          >
-            View/Edit
-          </IconButton>
-
-          <IconButton
-            appearance="default"
-            icon={<Icon icon="edit" />}
             onClick={(e) => {
               const editingTypename =
                 block.__typename === "Block"
@@ -186,7 +178,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               )
             }}
           >
-            New Editor!
+            View/Edit <i>New!</i>
           </IconButton>
         </Col>
       </Grid>

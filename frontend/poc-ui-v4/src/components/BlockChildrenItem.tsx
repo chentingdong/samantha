@@ -33,7 +33,7 @@ const BlockChildrenItemRaw: React.FC<{
           />
         </div>
         <div className="card-body">{block.description}</div>
-        {block.children.length > 0 && (
+        {block.type.includes("COMPOSITE") && (
           <BlockChildrenList
             blocks={block.children}
             parent={block}
