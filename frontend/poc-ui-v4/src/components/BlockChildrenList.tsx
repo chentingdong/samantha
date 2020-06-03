@@ -5,7 +5,7 @@ import { DndTargetBox } from "./DndTargetBox"
 import { MutationType } from "../models/enum"
 import tw from "tailwind.macro"
 import styled from "styled-components"
-import { Panel } from "rsuite"
+import { Panel, Notification } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { AUTH_USER } from "../operations/queries/authUser"
@@ -28,16 +28,18 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   return (
     <Panel shaded collapsible defaultExpanded bodyFill>
       <DndTargetBox
-        accept="block"
+        accept={["block", "catalogItem"]}
         greedy={false}
-        onDrop={(childBlock) =>
-          addOneBlock(
-            data?.uiState?.draftBlock,
-            childBlock,
-            parent,
-            authUser?.authUser
-          )
-        }
+        onDrop={(childBlock, dragType) => {
+          if (dragType === "catalogItem")
+            addOneBlock(
+              data?.uiState?.draftBlock,
+              childBlock,
+              parent,
+              authUser?.authUser
+            )
+          else Notification.info({ title: `moving a subtree` })
+        }}
       >
         {blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
