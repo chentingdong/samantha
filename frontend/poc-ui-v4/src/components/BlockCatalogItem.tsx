@@ -10,7 +10,7 @@ const BlockCatalogItem: React.FC<{
 }> = ({ blockDef }) => {
   return (
     <Card className="">
-      <DndSourceBox type="block" block={blockDef}>
+      <DndSourceBox type="catalogItem" block={blockDef}>
         <div className="text-sm">
           <strong className="card-header">
             <Icon icon={getIconByType(blockDef.type)} />

@@ -3,7 +3,6 @@ import { BlockCatalogItem } from "./BlockCatalogItem"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
-import { DndSourceBox } from "./DndSourceBox"
 import { Loading, Error } from "./Misc"
 import { Loader } from "rsuite"
 

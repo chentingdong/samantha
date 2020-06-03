@@ -4,9 +4,9 @@ import { Block, BlockDef, BlockOrDef } from "../models/interface"
 import styled from "styled-components"
 
 type DndTargetBoxProps = {
-  accept: string
+  accept: string | string[]
   greedy?: boolean
-  onDrop: (item: BlockOrDef) => void
+  onDrop: (item: BlockOrDef, type: string) => void
 }
 const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
   accept,
@@ -29,7 +29,7 @@ const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
       if (monitor.didDrop()) {
         return
       }
-      onDrop(item.block)
+      onDrop(item.block, item.type)
     },
     collect: (monitor) => ({
       isOver: monitor.isOver({ shallow: false }),
