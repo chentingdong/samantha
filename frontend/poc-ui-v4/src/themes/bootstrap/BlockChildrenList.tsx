@@ -21,10 +21,12 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
-            const className = isLeaf ? "leaf col-3" : "composite col-12"
 
             return (
-              <div className={className} key={`${block.id}-bcl`}>
+              <div
+                className={isLeaf ? "leaf" : "composite"}
+                key={`${block.id}-bcl`}
+              >
                 <DndSourceBox type="block" block={block}>
                   <BlockCatalogItem
                     block={block}

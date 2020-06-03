@@ -19,13 +19,12 @@ const Card = styled.div`
     ${tw`rounded-b-md p-1 text-xs`}
     max-height: 4.7em;
   }
-  .composite {
+  &.composite {
     display: block;
   }
-  .leaf {
-    ${tw`ml-2 mr-2`}
+  &.leaf {
+    ${tw`m-1 `}
     display: inline-block;
-    width: 25%;
   }
 `
 

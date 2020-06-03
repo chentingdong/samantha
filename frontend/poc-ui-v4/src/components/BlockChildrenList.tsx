@@ -40,7 +40,6 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
         {blocks
           .filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
-            const isLeaf = block.type.includes("LEAF_")
             return (
               <BlockChildrenItem
                 block={block}
@@ -58,7 +57,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
   BlockChildrenListRaw
 )`
-  ${tw`flex-auto m-1`}
+  ${tw`flex-auto`}
 `
 
 export { BlockChildrenList }
