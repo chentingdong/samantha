@@ -14,14 +14,21 @@ import uuid from "uuid"
  * @param {*} requestor the requestor of the nodes on the output block tree
  * @returns the newly created output block tree
  */
-const createBlock = (root, targetType, requestor) => {
+const createBlock = (root, targetType, requestor, parent = null) => {
+  const id = uuid.v4()
   return {
     ...root,
-    id: uuid.v4(),
+    id,
+    parent,
     requestors: targetType === Typename.Block ? [requestor] : [],
     __typename: targetType,
     children: root.children.map((child) =>
-      createBlock(child, targetType, requestor)
+      createBlock(child, targetType, requestor, {
+        __typename: root.__typename,
+        id,
+        name: root.name,
+        type: root.type,
+      })
     ),
   }
 }
@@ -51,7 +58,12 @@ const addOneBlock = (root, childBlock, parentBlock, requestor) => {
   })
   const newDraftBlock = cloneDeep(root)
   const newParent = findBlock(newDraftBlock, parentBlock)
-  newParent.children = [...newParent.children, childBlock]
+  newParent.children = [
+    ...newParent.children,
+    {
+      ...childBlock,
+    },
+  ]
   setUiState({
     draftBlock: createBlock(newDraftBlock, parentBlock.__typename, requestor),
   })
@@ -67,7 +79,7 @@ const addOneBlock = (root, childBlock, parentBlock, requestor) => {
 const deleteOneBlock = (root, childBlock, parentBlock) => {
   Notification.info({
     title: "deleting a block",
-    description: `"${childBlock.name}" from parent "${parentBlock.name}"`,
+    description: `${childBlock.__typename} "${childBlock.name}" from parent "${parentBlock.name}"`,
   })
   const newDraftBlock = cloneDeep(root)
   const newParent = findBlock(newDraftBlock, parentBlock)
@@ -78,4 +90,39 @@ const deleteOneBlock = (root, childBlock, parentBlock) => {
   setUiState({ draftBlock: newDraftBlock })
 }
 
-export { addOneBlock, deleteOneBlock, createBlock }
+/**
+ * move the subtree on childBlock from the old parent to a new parent on the root tree
+ *
+ * @param {*} root the root node of draft block tree
+ * @param {*} childBlock the child node to be moved
+ * @param {*} parent the new parent node where the child will be moved to
+ */
+const moveOneBlock = (root, childBlock, parent) => {
+  const newDraftBlock = cloneDeep(root)
+  const oldParent = findBlock(newDraftBlock, childBlock.parent)
+  const newParent = findBlock(newDraftBlock, parent)
+
+  oldParent.children.splice(
+    oldParent.children.findIndex((child) => child.id === childBlock.id),
+    1
+  )
+  newParent.children = [
+    ...newParent.children,
+    {
+      ...childBlock,
+      parent: {
+        __typename: newParent.__typename,
+        id: newParent.id,
+        name: newParent.name,
+        type: newParent.type,
+      },
+    },
+  ]
+  setUiState({ draftBlock: newDraftBlock })
+  Notification.info({
+    title: `moving a subtree`,
+    description: `${childBlock.__typename} "${childBlock.name}" from old parent "${childBlock.parent.name}" to new parent "${parent.name}"`,
+  })
+}
+
+export { addOneBlock, deleteOneBlock, createBlock, moveOneBlock }

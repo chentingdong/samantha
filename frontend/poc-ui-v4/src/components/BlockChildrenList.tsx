@@ -9,7 +9,7 @@ import { Panel, Notification } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { AUTH_USER } from "../operations/queries/authUser"
-import { addOneBlock } from "../operations/blockOperations"
+import { addOneBlock, moveOneBlock } from "../operations/blockOperations"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]
@@ -38,7 +38,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
               parent,
               authUser?.authUser
             )
-          else Notification.info({ title: `moving a subtree` })
+          else moveOneBlock(data?.uiState?.draftBlock, childBlock, parent)
         }}
       >
         {blocks
