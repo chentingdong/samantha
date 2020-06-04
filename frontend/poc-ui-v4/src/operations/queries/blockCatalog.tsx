@@ -1,43 +1,11 @@
 import { gql } from "@apollo/client"
+import { BlockDefFullFragment } from "../fragments/blockDef"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
     blockDefs(orderBy: { type: asc }, where: { parent: null }) {
-      id
-      name
-      description
-      type
-      control
-      context
-      parent {
-        id
-        name
-        type
-      }
-      children {
-        id
-        name
-        description
-        type
-        control
-        context
-        children {
-          id
-          name
-          description
-          type
-          control
-          context
-          children {
-            id
-            name
-            description
-            type
-            control
-            context
-          }
-        }
-      }
+      ...BlockDefFullFragment
     }
   }
+  ${BlockDefFullFragment}
 `
