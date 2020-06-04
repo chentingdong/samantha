@@ -4,7 +4,7 @@ import cloneDeep from "lodash/cloneDeep"
 const _transformBlockInput = (block) => {
   if (!Object.isExtensible(block)) block = { ...block }
 
-  if (block.parent) block.parent = { connect: { id: block.parent.id } }
+  delete block.parent
 
   const childrenForCreate = []
   for (const child of block.children) {
@@ -22,7 +22,6 @@ const _transformBlockInput = (block) => {
     block.responders = {
       connect: block.responders?.map((user) => ({ id: user.id })),
     }
-
   return block
 }
 

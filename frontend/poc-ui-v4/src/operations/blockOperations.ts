@@ -101,7 +101,10 @@ const addOneBlock = (
     // save the newDraftBlock, connect parent to newParent
     createFn({
       variables: {
-        data: transformBlockInput(newChildBlock),
+        data: {
+          ...transformBlockInput(newChildBlock),
+          parent: { connect: { id: newParent.id } },
+        },
       },
     })
   }
@@ -115,7 +118,13 @@ const addOneBlock = (
  * @param {*} parentBlock the node where the child will be deleted
  * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
-const deleteOneBlock = (root, childBlock, parentBlock, syncRemote) => {
+const deleteOneBlock = (
+  root,
+  childBlock,
+  parentBlock,
+  syncRemote,
+  deleteFn = ({}) => null
+) => {
   Notification.info({
     title: "deleting a block",
     description: `${childBlock.__typename} "${childBlock.name}" from parent "${parentBlock.name}"`,
@@ -127,6 +136,17 @@ const deleteOneBlock = (root, childBlock, parentBlock, syncRemote) => {
     1
   )
   setUiState({ draftBlock: newDraftBlock })
+  if (syncRemote) {
+    const deleteFnRecursive = (block) => {
+      block.children?.map((child) => deleteFnRecursive(child))
+      deleteFn({
+        variables: {
+          where: { id: block.id },
+        },
+      })
+    }
+    deleteFnRecursive(childBlock)
+  }
 }
 
 /**
