@@ -1,22 +1,28 @@
 import { gql } from "@apollo/client"
 
-export const COMPLETE_ONE_BLOCK = gql`
-  mutation completeOneBlock(
-    $data: BlockUpdateInput!
-    $where: BlockWhereUniqueInput!
-  ) {
-    updateOneBlock(data: $data, where: $where) {
+const BlockDefFullFragment = gql`
+  fragment BlockDefFullFragment on BlockDef {
+    id
+    name
+    description
+    type
+    control
+    context
+    parent {
+      id
+      name
+      type
+    }
+    children {
       id
       name
       description
       type
-      state
       control
       context
       parent {
         id
         name
-        state
         type
       }
       children {
@@ -24,38 +30,34 @@ export const COMPLETE_ONE_BLOCK = gql`
         name
         description
         type
-        state
         control
         context
+        parent {
+          id
+          name
+          type
+        }
         children {
           id
           name
           description
           type
-          state
           control
           context
-          children {
+          parent {
             id
             name
-            description
             type
-            state
-            control
-            context
+          }
+          children {
+            id
           }
         }
       }
-      requestors {
-        id
-        name
-        email
-      }
-      responders {
-        id
-        name
-        email
-      }
     }
+    created_at
+    last_updated
   }
 `
+
+export { BlockDefFullFragment }

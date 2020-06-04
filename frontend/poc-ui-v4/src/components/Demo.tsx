@@ -13,7 +13,7 @@ import tw from "tailwind.macro"
 import logo from "../assets/img/bell.png"
 
 function DemoRaw({ className }) {
-  const [active, setActive] = useState("request-catalog")
+  const [active, setActive] = useState("requests-made")
   const { data } = useQuery(AUTH_USER)
   const logout = async () => {
     await Auth.signOut()
@@ -49,12 +49,12 @@ function DemoRaw({ className }) {
                   activeKey={active}
                   onSelect={(activeKey) => setActive(activeKey)}
                 >
-                  <Nav.Item eventKey="request-catalog">
-                    Request Catalog
-                  </Nav.Item>
                   <Nav.Item eventKey="requests-made">Requests Made</Nav.Item>
                   <Nav.Item eventKey="requests-received">
                     Request Received
+                  </Nav.Item>
+                  <Nav.Item eventKey="request-catalog">
+                    Request Catalog
                   </Nav.Item>
                   <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
                   <Dropdown noCaret title="User">

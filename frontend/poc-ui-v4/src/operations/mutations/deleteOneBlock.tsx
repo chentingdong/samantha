@@ -1,8 +1,8 @@
 import { gql } from "@apollo/client"
 import { BlockFullFragment } from "../fragments/block"
-export const CREATE_ONE_BLOCK = gql`
-  mutation createOneBlock($data: BlockCreateInput!) {
-    createOneBlock(data: $data) {
+export const DELETE_ONE_BLOCK = gql`
+  mutation deleteOneBlock($where: BlockWhereUniqueInput!) {
+    deleteOneBlock(where: $where) {
       ...BlockFullFragment
     }
   }

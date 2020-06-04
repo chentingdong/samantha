@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client"
 import { BlockDefFullFragment } from "../fragments/blockDef"
 
-export const BLOCK_CATALOG = gql`
-  query blockCatalog {
-    blockDefs(orderBy: { type: asc }, where: { parent: null }) {
+export const CREATE_ONE_BLOCK_DEF = gql`
+  mutation createOneBlockDef($data: BlockDefCreateInput!) {
+    createOneBlockDef(data: $data) {
       ...BlockDefFullFragment
     }
   }

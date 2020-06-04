@@ -1,11 +1,9 @@
 import React, { useState, useReducer } from "react"
 import uuid from "uuid"
-import { Animated } from "react-animated-css"
-import { BlockEditor } from "./BlockEditor"
 import { BlockOrDef, Block } from "../models/interface"
 import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { reducer } from "../context/reducer"
 import { Grid, Row, Col, IconButton, Icon } from "rsuite"
 import { Card } from "./Card"
@@ -15,72 +13,30 @@ import { Button } from "./Button"
 import { setUiState } from "../operations/mutations/setUiState"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
+import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 
 type RequestItemType = {
   block: BlockOrDef
   itemOrigin?: ItemOrigin
-  initShowEdit?: boolean
-  actions: any
   className?: string
 }
 
 const RequestItemRaw: React.FC<RequestItemType> = ({
   block,
   itemOrigin = ItemOrigin.Catalog,
-  initShowEdit = false,
-  actions,
   className = "",
 }) => {
-  // state on each RequestItem object
-  // by default (edit mode) draft is a copy of the current block object
-  // when making a request from definitoin, createDraftBlock() needs to be called first
-  const [state, dispatch] = useReducer(reducer, { draftBlock: block })
-  const setDraftBlock = (draftBlock) => {
-    dispatch({ type: "set", data: { draftBlock } })
-  }
-  const [showEdit, setShowEdit] = useState(initShowEdit)
-  const [editMode, setEditMode] = useState(EditMode.Edit)
-
   const { data } = useQuery(AUTH_USER)
-  const { createOneBlock, updateOneBlock, completeOneBlock } = actions
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
 
   const markComplete = (blockToComplete) => {
     blockToComplete.children.map((child) => markComplete(child))
-    completeOneBlock({
+    updateOneBlock({
       variables: {
-        data: { state: "COMPLETE" },
+        data: { state: "COMPLETE", last_updated: new Date() },
         where: { id: blockToComplete.id },
       },
     })
-  }
-
-  const editRequestDef = () => {
-    setEditMode(EditMode.Edit)
-    setShowEdit(true)
-  }
-
-  const makeRequest = () => {
-    setDraftBlock(createDraftBlock(block))
-    setEditMode(EditMode.Create)
-    setShowEdit(true)
-  }
-
-  const createDraftBlock = (blockDef) => {
-    const draftBlock = {
-      ...blockDef,
-      __mutation_type__: MutationType.Create,
-      id: uuid.v4(),
-      name: "",
-      state: "ACTIVE",
-      requestors: [
-        {
-          id: data?.authUser?.id,
-          name: data?.authUser?.name,
-          email: data?.authUser?.email,
-        },
-      ],
-    }
-    return draftBlock
   }
 
   const stateStyle = (blockWithState) => {
@@ -92,7 +48,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
       <Grid fluid>
         <Col xs={18}>
           <h4>
-            <span>{block.name}</span>
+            <span>{block.name} </span>
             {itemOrigin !== ItemOrigin.Catalog && (
               <span className={`block-state-${stateStyle(block)}`}>
                 ({(block as Block).state})
@@ -126,8 +82,29 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
-          {itemOrigin === ItemOrigin.Received &&
-            (block as Block).state === "ACTIVE" && (
+          <IconButton
+            appearance="default"
+            icon={<Icon icon="edit" />}
+            onClick={(e) => {
+              const editingTypename =
+                block.__typename === "Block"
+                  ? Typename.Block
+                  : Typename.BlockDef
+              setUiState(
+                {
+                  showEditor: true,
+                  editingTypename,
+                  editorMode: EditMode.Edit,
+                  draftBlock: { ...block, __typename: editingTypename },
+                },
+                true
+              )
+            }}
+          >
+            View/Edit <i>New!</i>
+          </IconButton>
+          {itemOrigin !== ItemOrigin.Catalog &&
+            (block as Block).state !== "COMPLETE" && (
               <IconButton
                 appearance="default"
                 icon={<Icon icon="check" />}
@@ -159,41 +136,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               Make a Bell
             </IconButton>
           )}
-          <IconButton
-            appearance="default"
-            icon={<Icon icon="edit" />}
-            onClick={(e) => {
-              const editingTypename =
-                block.__typename === "Block"
-                  ? Typename.Block
-                  : Typename.BlockDef
-              setUiState(
-                {
-                  showEditor: true,
-                  editingTypename,
-                  editorMode: EditMode.Edit,
-                  draftBlock: { ...block, __typename: editingTypename },
-                },
-                true
-              )
-            }}
-          >
-            View/Edit <i>New!</i>
-          </IconButton>
         </Col>
       </Grid>
-      {showEdit && (
-        <div className="editor mt-4">
-          <BlockEditor
-            draftBlock={state.draftBlock}
-            setDraftBlock={setDraftBlock}
-            close={() => setShowEdit(false)}
-            itemOrigin={itemOrigin}
-            editMode={editMode}
-            actions={{ createOneBlock, updateOneBlock }}
-          />
-        </div>
-      )}
     </Card>
   )
 }
@@ -207,6 +151,18 @@ const RequestItem = styled(RequestItemRaw)`
   }
   .child {
     ${tw`border mr-1 my-2 p-1 text-sm rounded`}
+  }
+  .block-state-DRAFT {
+    color: gray;
+  }
+  .block-state-PENDING {
+    color: var(--color-text-secondary);
+  }
+  .block-state-ACTIVE {
+    color: var(--color-text-primary);
+  }
+  .block-state-COMPLETE {
+    color: var(--color-text-inverse);
   }
 `
 
