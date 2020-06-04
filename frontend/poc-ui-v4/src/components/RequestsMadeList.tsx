@@ -27,7 +27,6 @@ const RequestsMadeList = () => {
         noCaret
         placement="rightStart"
         editingTypename={Typename.Block}
-        editorMode={EditMode.Create}
       />
       <Divider />
       {data.blocks?.map((block) => (

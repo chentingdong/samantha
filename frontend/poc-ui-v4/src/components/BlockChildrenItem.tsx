@@ -9,6 +9,7 @@ import { BlockChildrenList } from "./BlockChildrenList"
 import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { deleteOneBlock } from "../operations/blockOperations"
+import { EditMode } from "../models/enum"
 
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
@@ -27,9 +28,10 @@ const BlockChildrenItemRaw: React.FC<{
           <Icon
             icon="close"
             className="float-right m-1"
-            onClick={(e) =>
-              deleteOneBlock(data?.uiState?.draftBlock, block, parent)
-            }
+            onClick={(e) => {
+              const syncRemote = data?.uiState?.editorMode === EditMode.Edit
+              deleteOneBlock(data?.uiState?.draftBlock, block, parent, remote)
+            }}
           />
         </div>
         <div className="card-body">{block.description}</div>

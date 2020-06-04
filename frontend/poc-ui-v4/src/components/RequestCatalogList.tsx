@@ -25,7 +25,6 @@ const RequestCatalogList = () => {
         noCaret
         placement="rightStart"
         editingTypename={Typename.BlockDef}
-        editorMode={EditMode.Create}
       />
       <Divider />
       {data.blockDefs?.map((blockDef: BlockDef) => (
