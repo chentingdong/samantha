@@ -39,12 +39,19 @@ import { StateBar } from "./StateBar"
 import { transformBlockInput } from "../operations/transform"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
+import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
+import { REQUESTS_MADE } from "../operations/queries/requestsMade"
+import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
-  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
-  const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF)
+  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {
+    refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
+  })
+  const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF, {
+    refetchQueries: [{ query: REQUEST_CATALOG }],
+  })
   const close = () => {
     setUiState({ showEditor: false })
   }

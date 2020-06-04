@@ -33,7 +33,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     blockToComplete.children.map((child) => markComplete(child))
     updateOneBlock({
       variables: {
-        data: { state: "COMPLETE" },
+        data: { state: "COMPLETE", last_updated: new Date() },
         where: { id: blockToComplete.id },
       },
     })
@@ -156,13 +156,13 @@ const RequestItem = styled(RequestItemRaw)`
     color: gray;
   }
   .block-state-PENDING {
-    color: var(--color-text-inverse);
+    color: var(--color-text-secondary);
   }
   .block-state-ACTIVE {
     color: var(--color-text-primary);
   }
   .block-state-COMPLETE {
-    color: var(--color-text-secondary);
+    color: var(--color-text-inverse);
   }
 `
 

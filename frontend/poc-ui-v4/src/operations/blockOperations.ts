@@ -22,6 +22,8 @@ const createBlock = (root, targetType, requestor, parent = null) => {
     parent,
     state: targetType === Typename.Block ? "ACTIVE" : "DRAFT",
     requestors: targetType === Typename.Block ? [requestor] : [],
+    created_at: new Date(),
+    last_updated: new Date(),
     __typename: targetType,
     children: root.children.map((child) =>
       createBlock(child, targetType, requestor, {
@@ -117,6 +119,7 @@ const moveOneBlock = (root, childBlock, parent) => {
         name: newParent.name,
         type: newParent.type,
       },
+      last_updated: new Date(),
     },
   ]
   setUiState({ draftBlock: newDraftBlock })
