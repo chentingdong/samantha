@@ -11,8 +11,9 @@ import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import logo from "../assets/img/bell.png"
+
 function DemoRaw({ className }) {
-  const [active, setActive] = useState("request-catelog")
+  const [active, setActive] = useState("request-catalog")
   const { data } = useQuery(AUTH_USER)
   const logout = async () => {
     await Auth.signOut()
