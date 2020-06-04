@@ -17,7 +17,7 @@
   "scripts": {
     "build:tailwind": "tailwindcss build src/assets/tailwind/tailwind.css -o src/assets/tailwind/tailwind.generated.css",
     "prebuild": "rebuild-node-sass",
-    "build": "yarn run clean-dist && BABEL_ENV=production webpack -p --config=configs/webpack/prod.js",
+    "build": "yarn run clean-dist && BABEL_ENV=development webpack -p --config=configs/webpack/prod.js",
     "clean-dist": "rimraf dist/*",
     "lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
     "prestart": "(cat certs/cert.pem certs/key.pem > ./node_modules/webpack-dev-server/ssl/server.pem) && yarn run prebuild && yarn run build:tailwind",
