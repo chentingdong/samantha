@@ -19070,11 +19070,11 @@ video {
   --color-text-secondary: #555;
   --color-text-default: #444;
   --color-text-inverse: #222;
-  --color-bg-primary: #fff;
-  --color-bg-secondary: #927e7e;
-  --color-bg-default: #dfefdf;
+  --color-bg-primary: #aaa;
+  --color-bg-secondary: #7e9292;
+  --color-bg-default: #bbb;
   --color-bg-default-soft: #6a6a6a;
-  --color-bg-inverse: #fff;
+  --color-bg-inverse: #ccc;
   --color-bg-inverse-soft: #bbb;
   --font-display: Georgia, Times, "Times New Roman", serif;
   --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
