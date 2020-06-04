@@ -14,6 +14,7 @@ import {
   Tree,
   Divider,
   Input,
+  Notification,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation } from "@apollo/client"
@@ -33,6 +34,8 @@ import { StateBar } from "./StateBar"
 import { transformBlockInput } from "../operations/transform"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
 import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
+import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
+import { UPDATE_ONE_BLOCK_DEF } from "../operations/mutations/updateOneBlockDef"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { REQUESTS_MADE } from "../operations/queries/requestsMade"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
@@ -48,8 +51,52 @@ const EditorRaw = () => {
   const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF, {
     refetchQueries: [{ query: REQUEST_CATALOG }],
   })
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
+  const [updateOneBlockDef] = useMutation(UPDATE_ONE_BLOCK_DEF)
+
+  const saveExistingBlock = () => {
+    if (data?.uiState?.editorMode === EditMode.Edit) {
+      const updateFn =
+        data?.uiState?.editingTypename === "Block"
+          ? updateOneBlock
+          : updateOneBlockDef
+      const draftBlock = data?.uiState?.draftBlock
+      const dataInput = {
+        name: draftBlock.name,
+        description: draftBlock.description,
+        last_updated: new Date(),
+      }
+      if (data?.uiState?.editingTypename === "Block") {
+        dataInput.requestors = {connect: draftBlock.requestors.map((user)=>({id: user.id}))}
+        dataInput.responders = {connect: draftBlock.responders.map((user)=>({id: user.id}))}
+      }
+      updateFn({
+        variables: {
+          data: dataInput,
+          where: {
+            id: draftBlock.id
+          }
+        },
+      })
+    }
+  }
+
   const close = () => {
     setUiState({ showEditor: false })
+  }
+
+  const saveNewBlock = () => {
+    const createFn =
+      data?.uiState?.editingTypename === "Block"
+        ? createOneBlock
+        : createOneBlockDef
+    createFn({
+      variables: {
+        data: transformBlockInput(
+          data?.uiState?.draftBlock
+        ),
+      },
+    })
   }
 
   const getTreeData = (draftBlock: BlockOrDef) => {
@@ -90,6 +137,7 @@ const EditorRaw = () => {
                       draftBlock: { name: value },
                     })
                   }
+                  onBlur={saveExistingBlock}
                 />
               </Row>
               <Row>
@@ -104,6 +152,7 @@ const EditorRaw = () => {
                       draftBlock: { description: value },
                     })
                   }
+                  onBlur={saveExistingBlock}
                 />
               </Row>
               {data?.uiState?.editingTypename === Typename.Block && (
@@ -132,6 +181,7 @@ const EditorRaw = () => {
                             },
                           })
                         }}
+                        onBlur={saveExistingBlock}
                       />
                     </Col>
                     <Col lg={6} lgOffset={6}>
@@ -154,6 +204,7 @@ const EditorRaw = () => {
                             },
                           })
                         }}
+                        onBlur={saveExistingBlock}
                       />
                     </Col>
                   </Row>
@@ -210,24 +261,12 @@ const EditorRaw = () => {
                   </Panel>
                 </PanelGroup>
               </Row>
-              <Divider />
+              {data?.uiState?.editorMode === EditMode.Create && (
               <Row>
                 <ButtonToolbar>
                   <IconButton
-                    onClick={() => {
-                      if (data?.uiState?.editorMode === EditMode.Create) {
-                        const createFn =
-                          data?.uiState?.editingTypename === "Block"
-                            ? createOneBlock
-                            : createOneBlockDef
-                        createFn({
-                          variables: {
-                            data: transformBlockInput(
-                              data?.uiState?.draftBlock
-                            ),
-                          },
-                        })
-                      }
+                    onClick={()=>{
+                      saveNewBlock()
                       close()
                     }}
                     icon={<Icon icon="check" />}
@@ -244,6 +283,7 @@ const EditorRaw = () => {
                   </IconButton>
                 </ButtonToolbar>
               </Row>
+              )}
             </Grid>
           </Drawer.Body>
         </Drawer>
