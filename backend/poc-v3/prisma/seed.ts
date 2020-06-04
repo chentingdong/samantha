@@ -214,11 +214,61 @@ const seedCatalog = async (db: PrismaClient) => {
   )
 }
 
+const seedBlocks = async (db: PrismaClient) => {
+  const results = await Promise.all(
+    [
+      {
+        id: uuid.v4(),
+        name: 'Status Update Request Parallel -> Sequential',
+        description:
+          'Status Update which gathers information and gets approval',
+        type: BlockType.COMPOSITE_PARALLEL,
+        state: State.ACTIVE,
+        control: '',
+        context: '',
+        parent: {},
+        children: {
+          create: [
+            {
+              id: uuid.v4(),
+              name: 'Gather Info Form',
+              description: 'Gather Information from Responders',
+              type: BlockType.LEAF_FORM,
+            },
+            {
+              id: uuid.v4(),
+              name: 'Approval Form',
+              description: 'Ask for Approval',
+              type: BlockType.LEAF_FORM,
+            },
+          ],
+        },
+        requestors: {
+          connect: [
+            {
+              id: 'Google_115419186368884878540',
+            },
+          ],
+        },
+        responders: {
+          connect: [
+            {
+              id: 'Google_115419186368884878540',
+            },
+          ],
+        },
+      },
+    ].map((data) => db.block.create({ data })),
+  )
+
+  console.log(`Seeded ${results.length} blocks: \n${JSON.stringify(results)}`)
+}
 const main = async () => {
   const db = new PrismaClient()
   await cleanUp(db)
   await seedUsers(db)
   await seedCatalog(db)
+  await seedBlocks(db)
   db.disconnect()
 }
 
@@ -226,4 +276,4 @@ if (require.main === module) {
   main()
 }
 
-export { cleanUp, seedUsers, seedCatalog }
+export { cleanUp, seedUsers, seedCatalog, deleteBlocks }
