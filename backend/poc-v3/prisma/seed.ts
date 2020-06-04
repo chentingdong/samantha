@@ -18,9 +18,9 @@ const deleteBlockDefs = async (db: PrismaClient) => {
 }
 
 const cleanUp = async (db: PrismaClient) => {
-  deleteUsers(db)
-  deleteBlocks(db)
-  deleteBlockDefs(db)
+  await deleteUsers(db)
+  await deleteBlocks(db)
+  await deleteBlockDefs(db)
 }
 
 const seedUsers = async (db: PrismaClient) => {
