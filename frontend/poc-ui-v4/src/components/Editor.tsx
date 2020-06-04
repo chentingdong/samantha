@@ -61,21 +61,25 @@ const EditorRaw = () => {
           ? updateOneBlock
           : updateOneBlockDef
       const draftBlock = data?.uiState?.draftBlock
-      const dataInput = {
+      const dataInput: any = {
         name: draftBlock.name,
         description: draftBlock.description,
         last_updated: new Date(),
       }
       if (data?.uiState?.editingTypename === "Block") {
-        dataInput.requestors = {connect: draftBlock.requestors.map((user)=>({id: user.id}))}
-        dataInput.responders = {connect: draftBlock.responders.map((user)=>({id: user.id}))}
+        dataInput.requestors = {
+          connect: draftBlock.requestors.map((user) => ({ id: user.id })),
+        }
+        dataInput.responders = {
+          connect: draftBlock.responders.map((user) => ({ id: user.id })),
+        }
       }
       updateFn({
         variables: {
           data: dataInput,
           where: {
-            id: draftBlock.id
-          }
+            id: draftBlock.id,
+          },
         },
       })
     }
@@ -92,9 +96,7 @@ const EditorRaw = () => {
         : createOneBlockDef
     createFn({
       variables: {
-        data: transformBlockInput(
-          data?.uiState?.draftBlock
-        ),
+        data: transformBlockInput(data?.uiState?.draftBlock),
       },
     })
   }
@@ -262,27 +264,27 @@ const EditorRaw = () => {
                 </PanelGroup>
               </Row>
               {data?.uiState?.editorMode === EditMode.Create && (
-              <Row>
-                <ButtonToolbar>
-                  <IconButton
-                    onClick={()=>{
-                      saveNewBlock()
-                      close()
-                    }}
-                    icon={<Icon icon="check" />}
-                    appearance="primary"
-                  >
-                    Save
-                  </IconButton>
-                  <IconButton
-                    onClick={close}
-                    icon={<Icon icon="ban" />}
-                    appearance="subtle"
-                  >
-                    Cancel
-                  </IconButton>
-                </ButtonToolbar>
-              </Row>
+                <Row>
+                  <ButtonToolbar>
+                    <IconButton
+                      onClick={() => {
+                        saveNewBlock()
+                        close()
+                      }}
+                      icon={<Icon icon="check" />}
+                      appearance="primary"
+                    >
+                      Save
+                    </IconButton>
+                    <IconButton
+                      onClick={close}
+                      icon={<Icon icon="ban" />}
+                      appearance="subtle"
+                    >
+                      Cancel
+                    </IconButton>
+                  </ButtonToolbar>
+                </Row>
               )}
             </Grid>
           </Drawer.Body>

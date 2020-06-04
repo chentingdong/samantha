@@ -14,7 +14,7 @@ import { setUiState } from "../operations/mutations/setUiState"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
-import moment from "moment";
+import moment from "moment"
 
 type RequestItemType = {
   block: BlockOrDef
@@ -51,14 +51,12 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin !== ItemOrigin.Catalog && (
             <Row>
               <span className="requestors">
-              {(block as Block).requestors
-                ?.map((user) => user.name)
-                .join(", ")}
-              {":  "}
+                {(block as Block).requestors
+                  ?.map((user) => user.name)
+                  .join(", ")}
+                {":  "}
               </span>
-              <span className="time">
-                {moment(block.created_at).fromNow()}
-              </span>
+              <span className="time">{moment(block.created_at).fromNow()}</span>
             </Row>
           )}
           <Row>
@@ -169,18 +167,18 @@ const RequestItem = styled(RequestItemRaw)`
     color: var(--color-text-inverse);
   }
   .requestors {
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
   .responders {
     color: var(--color-text-default);
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
   .block-name {
     color: var(--color-text-primary);
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .time {
-    font-size: 0.9rem;
+    font-size: 0.75rem;
     color: var(--color-text-primary-soft);
   }
 `
