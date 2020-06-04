@@ -13,6 +13,7 @@ const RequestsReceivedList = () => {
   const { loading, error, data } = useQuery(REQUESTS_RECEIVED, {
     variables: { userId: authUserResult?.authUser?.id },
     fetchPolicy: "network-only",
+    pollInterval: 1000,
   })
 
   if (loading) return <Loader speed="fast" content="Loading..." />

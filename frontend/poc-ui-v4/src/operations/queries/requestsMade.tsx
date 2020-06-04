@@ -5,7 +5,12 @@ export const REQUESTS_MADE = gql`
   query requestsMade($userId: String) {
     blocks(
       orderBy: { last_updated: desc }
-      where: { requestors: { some: { id: { equals: $userId } } } }
+      where: {
+        AND: [
+          { requestors: { some: { id: { equals: $userId } } } }
+          {NOT: {state: COMPLETE}}
+        ]
+      }
     ) {
       ...BlockFullFragment
     }

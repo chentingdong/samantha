@@ -4,14 +4,14 @@ import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
 import { setUiState } from "../operations/mutations/setUiState"
-import { Typename } from "../models/enum"
+import { Typename, EditMode } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { getIconByType } from "../utils/Styles"
 import uuid from "uuid"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 
-const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
+const CatalogDropdown = ({ editingTypename, ...rest }) => {
   const { data: authUser } = useQuery(AUTH_USER)
   const { data } = useQuery(BLOCK_CATALOG)
 
@@ -35,7 +35,7 @@ const CatalogDropdown = ({ editingTypename, editorMode, ...rest }) => {
               {
                 showEditor: true,
                 editingTypename,
-                editorMode,
+                editorMode: EditMode.Create,
                 draftBlock: createBlock(
                   cloneDeep(blockDef),
                   editingTypename,

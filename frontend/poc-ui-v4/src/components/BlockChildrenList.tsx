@@ -2,14 +2,19 @@ import React from "react"
 import { BlockOrDef } from "../models/interface"
 import { BlockChildrenItem } from "./BlockChildrenItem"
 import { DndTargetBox } from "./DndTargetBox"
-import { MutationType } from "../models/enum"
+import { MutationType, EditMode } from "../models/enum"
 import tw from "tailwind.macro"
 import styled from "styled-components"
 import { Panel, Notification } from "rsuite"
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { addOneBlock, moveOneBlock } from "../operations/blockOperations"
+import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
+import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
+import { REQUESTS_MADE } from "../operations/queries/requestsMade"
+import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
+import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]
@@ -24,6 +29,16 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 }) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: authUser } = useQuery(AUTH_USER)
+  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {
+    refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
+  })
+  const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF, {
+    refetchQueries: [{ query: REQUEST_CATALOG }],
+  })
+  const createFn =
+    data?.uiState?.editingTypename === "Block"
+      ? createOneBlock
+      : createOneBlockDef
 
   return (
     <Panel shaded collapsible defaultExpanded bodyFill>
@@ -31,14 +46,23 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
         accept={["block", "catalogItem"]}
         greedy={false}
         onDrop={(childBlock, dragType) => {
+          const syncRemote = data?.uiState?.editorMode === EditMode.Edit
           if (dragType === "catalogItem")
             addOneBlock(
               data?.uiState?.draftBlock,
               childBlock,
               parent,
-              authUser?.authUser
+              authUser?.authUser,
+              syncRemote,
+              createFn
             )
-          else moveOneBlock(data?.uiState?.draftBlock, childBlock, parent)
+          else
+            moveOneBlock(
+              data?.uiState?.draftBlock,
+              childBlock,
+              parent,
+              syncRemote
+            )
         }}
       >
         {blocks

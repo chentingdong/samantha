@@ -4,6 +4,7 @@ import { Notification } from "rsuite"
 import cloneDeep from "lodash/cloneDeep"
 import { setUiState } from "../operations/mutations/setUiState"
 import uuid from "uuid"
+import { transformBlockInput } from "./transform"
 
 /**
  * Recursively generate new id for the nodes of block tree
@@ -53,23 +54,60 @@ const findBlock = (root, target) => {
  * @param {*} childBlock the blockDef to be cloned and added as a child
  * @param {*} parentBlock the node where the child will be added
  * @param {*} requestor the requestor of the nodes on the child block tree
+ * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
-const addOneBlock = (root, childBlock, parentBlock, requestor) => {
+const addOneBlock = (
+  root,
+  childBlock,
+  parentBlock,
+  requestor,
+  syncRemote = false,
+  createFn = ({}) => null
+) => {
+  if (childBlock.__typename !== Typename.BlockDef) {
+    Notification.warning({
+      title: "error adding a block",
+      description: `from ${childBlock.__typename} "${childBlock.name}" to ${parentBlock.__typename} "${parentBlock.name}"`,
+    })
+    return
+  }
   Notification.info({
     title: "adding a block",
     description: `from ${childBlock.__typename} "${childBlock.name}" to ${parentBlock.__typename} "${parentBlock.name}"`,
   })
   const newDraftBlock = cloneDeep(root)
   const newParent = findBlock(newDraftBlock, parentBlock)
+  const newChildBlock = createBlock(
+    childBlock,
+    parentBlock.__typename,
+    requestor,
+    {
+      __typename: newParent.__typename,
+      id: newParent.id,
+      name: newParent.name,
+      type: newParent.type,
+    }
+  )
   newParent.children = [
     ...newParent.children,
     {
-      ...childBlock,
+      ...newChildBlock,
     },
   ]
   setUiState({
-    draftBlock: createBlock(newDraftBlock, parentBlock.__typename, requestor),
+    draftBlock: newDraftBlock,
   })
+  if (syncRemote) {
+    // save the newDraftBlock, connect parent to newParent
+    createFn({
+      variables: {
+        data: {
+          ...transformBlockInput(newChildBlock),
+          parent: { connect: { id: newParent.id } },
+        },
+      },
+    })
+  }
 }
 
 /**
@@ -78,8 +116,15 @@ const addOneBlock = (root, childBlock, parentBlock, requestor) => {
  * @param {*} root the root node of draft block tree
  * @param {*} childBlock the child node to be deleted
  * @param {*} parentBlock the node where the child will be deleted
+ * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
-const deleteOneBlock = (root, childBlock, parentBlock) => {
+const deleteOneBlock = (
+  root,
+  childBlock,
+  parentBlock,
+  syncRemote,
+  deleteFn = ({}) => null
+) => {
   Notification.info({
     title: "deleting a block",
     description: `${childBlock.__typename} "${childBlock.name}" from parent "${parentBlock.name}"`,
@@ -91,6 +136,17 @@ const deleteOneBlock = (root, childBlock, parentBlock) => {
     1
   )
   setUiState({ draftBlock: newDraftBlock })
+  if (syncRemote) {
+    const deleteFnRecursive = (block) => {
+      block.children?.map((child) => deleteFnRecursive(child))
+      deleteFn({
+        variables: {
+          where: { id: block.id },
+        },
+      })
+    }
+    deleteFnRecursive(childBlock)
+  }
 }
 
 /**
@@ -99,8 +155,9 @@ const deleteOneBlock = (root, childBlock, parentBlock) => {
  * @param {*} root the root node of draft block tree
  * @param {*} childBlock the child node to be moved
  * @param {*} parent the new parent node where the child will be moved to
+ * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
-const moveOneBlock = (root, childBlock, parent) => {
+const moveOneBlock = (root, childBlock, parent, syncRemote) => {
   const newDraftBlock = cloneDeep(root)
   const oldParent = findBlock(newDraftBlock, childBlock.parent)
   const newParent = findBlock(newDraftBlock, parent)

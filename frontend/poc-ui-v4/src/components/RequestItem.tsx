@@ -14,6 +14,7 @@ import { setUiState } from "../operations/mutations/setUiState"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
+import moment from "moment"
 
 type RequestItemType = {
   block: BlockOrDef
@@ -47,39 +48,40 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     <Card className={className}>
       <Grid fluid>
         <Col xs={18}>
-          <h4>
-            <span>{block.name} </span>
-            {itemOrigin !== ItemOrigin.Catalog && (
-              <span className={`block-state-${stateStyle(block)}`}>
-                ({(block as Block).state})
+          {itemOrigin !== ItemOrigin.Catalog && (
+            <Row>
+              <span className="requestors">
+                {(block as Block).requestors
+                  ?.map((user) => user.name)
+                  .join(", ")}
+                {":  "}
               </span>
-            )}
-          </h4>
-          <p>{block.description}</p>
-          <div className="flex flex-row">
-            {block.children?.map((child) => {
-              return (
-                <span
-                  className={`child block-state-${stateStyle(child)}`}
-                  key={child.id}
-                >
-                  {child.name}
-                </span>
-              )
-            })}
-          </div>
-          {itemOrigin === ItemOrigin.Made && (
-            <p className="text-secondary">
-              "Assigned to: "
-              {(block as Block).responders?.map((user) => user.name).join(", ")}
-            </p>
+              <span className="time">{moment(block.created_at).fromNow()}</span>
+            </Row>
           )}
-          {itemOrigin === ItemOrigin.Received && (
-            <p className="text-secondary">
-              {"Requested by: "}
-              {(block as Block).requestors?.map((user) => user.name).join(", ")}
-            </p>
-          )}
+          <Row>
+            <span className="block-name"> {block.name} </span>
+            <span className="responders">
+              {"  "}
+              {(block as Block).responders
+                ?.map((user) => "@" + user.name)
+                .join(", ")}
+            </span>
+          </Row>
+          <Row>
+            <div className="flex flex-row">
+              {block.children?.map((child) => {
+                return (
+                  <span
+                    className={`child block-state-${stateStyle(child)}`}
+                    key={child.id}
+                  >
+                    {child.name}
+                  </span>
+                )
+              })}
+            </div>
+          </Row>
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
           <IconButton
@@ -144,8 +146,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 
 const RequestItem = styled(RequestItemRaw)`
   ${tw`p-2 pb-4 my-2 rounded border shadow`}
-  border-style: dotted;
-  border-color: var(--color-text-secondary);
+  border-color: var(--color-text-default);
+  color: var(--color-text-primary);
   .editor {
     transition: left 2s;
   }
@@ -163,6 +165,23 @@ const RequestItem = styled(RequestItemRaw)`
   }
   .block-state-COMPLETE {
     color: var(--color-text-inverse);
+  }
+  .requestors {
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+  }
+  .responders {
+    color: var(--color-text-default);
+    font-size: 0.75rem;
+  }
+  .block-name {
+    color: var(--color-text-primary);
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+  }
+  .time {
+    font-size: 0.75rem;
+    color: var(--color-text-primary-soft);
   }
 `
 

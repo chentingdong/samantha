@@ -13,6 +13,7 @@ const RequestsMadeList = () => {
   const { loading, error, data } = useQuery(REQUESTS_MADE, {
     variables: { userId: authUserResult?.authUser?.id },
     fetchPolicy: "network-only",
+    pollInterval: 1000,
   })
 
   if (loading) return <Loader speed="fast" content="Loading..." />
@@ -26,7 +27,6 @@ const RequestsMadeList = () => {
         noCaret
         placement="rightStart"
         editingTypename={Typename.Block}
-        editorMode={EditMode.Create}
       />
       <Divider />
       {data.blocks?.map((block) => (
