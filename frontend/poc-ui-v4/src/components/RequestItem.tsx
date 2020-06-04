@@ -168,14 +168,16 @@ const RequestItem = styled(RequestItemRaw)`
   }
   .requestors {
     font-size: 0.9rem;
+    font-family: var(--font-body);
   }
   .responders {
     color: var(--color-text-default);
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
   .block-name {
     color: var(--color-text-primary);
-    font-size: 1rem;
+    font-size: 1.1rem;
+    font-family: var(--font-body);
   }
   .time {
     font-size: 0.75rem;
