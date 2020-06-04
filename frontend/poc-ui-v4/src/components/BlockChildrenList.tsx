@@ -65,18 +65,19 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
             )
         }}
       >
-        {blocks
-          .filter((block) => block.__mutation_type__ !== MutationType.Delete)
-          .map((block: BlockOrDef, index: number) => {
-            return (
-              <BlockChildrenItem
-                block={block}
-                parent={parent}
-                index={index}
-                key={block.id}
-              />
-            )
-          })}
+        {Array.isArray(blocks) &&
+          blocks
+            .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+            .map((block: BlockOrDef, index: number) => {
+              return (
+                <BlockChildrenItem
+                  block={block}
+                  parent={parent}
+                  index={index}
+                  key={block.id}
+                />
+              )
+            })}
       </DndTargetBox>
     </Panel>
   )
