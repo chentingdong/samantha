@@ -15,7 +15,9 @@ const RequestCatalogList = () => {
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
   const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
   const [completeOneBlock] = useMutation(COMPLETE_ONE_BLOCK)
-  const { loading, error, data } = useQuery(REQUEST_CATALOG)
+  const { loading, error, data } = useQuery(REQUEST_CATALOG, {
+    fetchPolicy: "network-only",
+  })
 
   if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />

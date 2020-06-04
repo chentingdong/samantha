@@ -20,6 +20,7 @@ const createBlock = (root, targetType, requestor, parent = null) => {
     ...root,
     id,
     parent,
+    state: targetType === Typename.Block ? "ACTIVE" : "DRAFT",
     requestors: targetType === Typename.Block ? [requestor] : [],
     __typename: targetType,
     children: root.children.map((child) =>

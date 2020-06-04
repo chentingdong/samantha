@@ -177,8 +177,6 @@ const BlockEditorRaw: React.FC<BlockEditorType> = ({
               <BlockChildrenList
                 blocks={draftBlock.children}
                 type={data?.uiState?.draftBlock?.type}
-                addSubBlock={addSubBlock}
-                onDelete={(childBlock) => deleteSubBlock(childBlock)}
               />
             </FormGroup>
             <FormGroup className="col-span-6 grid grid-cols-12 gap-4">

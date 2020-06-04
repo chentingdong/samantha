@@ -10,11 +10,13 @@ export const REQUESTS_RECEIVED = gql`
       name
       description
       type
+      state
       control
       context
       parent {
         id
         name
+        state
         type
       }
       children {
@@ -22,11 +24,13 @@ export const REQUESTS_RECEIVED = gql`
         name
         description
         type
+        state
         control
         context
         parent {
           id
           name
+          state
           type
         }
         children {
@@ -34,23 +38,28 @@ export const REQUESTS_RECEIVED = gql`
           name
           description
           type
+          state
           control
           context
           parent {
             id
             name
+            state
             type
           }
+
           children {
             id
             name
             description
             type
+            state
             control
             context
             parent {
               id
               name
+              state
               type
             }
             children {
@@ -58,6 +67,14 @@ export const REQUESTS_RECEIVED = gql`
             }
           }
         }
+      }
+      requestors {
+        id
+        name
+      }
+      responders {
+        id
+        name
       }
       created_at
       last_updated

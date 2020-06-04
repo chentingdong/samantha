@@ -1,4 +1,4 @@
-import { MutationType } from "../models/enum"
+import { MutationType, Typename } from "../models/enum"
 import cloneDeep from "lodash/cloneDeep"
 
 const _transformBlockInput = (block) => {
@@ -10,14 +10,8 @@ const _transformBlockInput = (block) => {
   for (const child of block.children) {
     const transformedChild = _transformBlockInput(child)
     childrenForCreate.push(transformedChild)
-    console.log(
-      `transformedChild: ${JSON.stringify(transformedChild, null, 2)}`
-    )
   }
   block.children = {}
-  console.log(
-    `childrenForCreate: ${JSON.stringify(childrenForCreate, null, 2)}`
-  )
   if (childrenForCreate.length > 0) block.children.create = childrenForCreate
 
   if (block.requestors?.length > 0)
@@ -33,6 +27,11 @@ const _transformBlockInput = (block) => {
 }
 
 const _clearnBlockInput = (block) => {
+  if (block.__typename === Typename.BlockDef) {
+    delete block.state
+    delete block.requestors
+    delete block.responders
+  }
   delete block.__mutation_type__
   delete block.__typename
   block.children?.create?.map((child) => _clearnBlockInput(child))

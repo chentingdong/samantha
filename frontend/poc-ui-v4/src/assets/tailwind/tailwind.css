@@ -8,12 +8,14 @@
   --color-bg-default: #1a1d24;
   --color-bg-inverse: #2f333a;
 
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #eeeeee;
-  --color-text-default: #e9ebf0;
+  --color-text-primary: #c4d8e6;
+  --color-text-primary-soft: #96a2ac;
+  --color-text-secondary: #eed1d1;
+  --color-text-secondary-soft: #aa9595;
+  --color-text-default: #99a5af;
   --color-text-default-soft: #d9dbe0;
-  --color-text-inverse: #dddddd;
-  --color-text-inverse-soft: #cccccc;
+  --color-text-inverse: #dad9ac;
+  --color-text-inverse-soft: #b8b5a7;
 
   --font-display: Georgia, Times, "Times New Roman", serif;
   --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",

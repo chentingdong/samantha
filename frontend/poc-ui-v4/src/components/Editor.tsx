@@ -38,11 +38,13 @@ import { getIconClassByType } from "../utils/Styles"
 import { StateBar } from "./StateBar"
 import { transformBlockInput } from "../operations/transform"
 import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
+import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
 
 const Editor = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK)
+  const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF)
   const close = () => {
     setUiState({ showEditor: false })
   }
@@ -199,18 +201,11 @@ const Editor = () => {
                 <ButtonToolbar>
                   <IconButton
                     onClick={() => {
-                      console.log(
-                        `createOneBlock data?.uiState?.draftBlock: ${JSON.stringify(
-                          data?.uiState?.draftBlock,
-                          null,
-                          2
-                        )} transformBlockInput(data?.uiState?.draftBlock): ${JSON.stringify(
-                          transformBlockInput(data?.uiState?.draftBlock),
-                          null,
-                          2
-                        )}`
-                      )
-                      createOneBlock({
+                      const createFn =
+                        data?.uiState?.editingTypename === "Block"
+                          ? createOneBlock
+                          : createOneBlockDef
+                      createFn({
                         variables: {
                           data: transformBlockInput(data?.uiState?.draftBlock),
                         },

@@ -92,7 +92,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
       <Grid fluid>
         <Col xs={18}>
           <h4>
-            <span>{block.name}</span>
+            <span>{block.name} </span>
             {itemOrigin !== ItemOrigin.Catalog && (
               <span className={`block-state-${stateStyle(block)}`}>
                 ({(block as Block).state})
@@ -126,8 +126,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
-          {itemOrigin === ItemOrigin.Received &&
-            (block as Block).state === "ACTIVE" && (
+          {itemOrigin !== ItemOrigin.Catalog &&
+            (block as Block).state !== "COMPLETE" && (
               <IconButton
                 appearance="default"
                 icon={<Icon icon="check" />}
@@ -207,6 +207,18 @@ const RequestItem = styled(RequestItemRaw)`
   }
   .child {
     ${tw`border mr-1 my-2 p-1 text-sm rounded`}
+  }
+  .block-state-DRAFT {
+    color: gray;
+  }
+  .block-state-PENDING {
+    color: var(--color-text-inverse);
+  }
+  .block-state-ACTIVE {
+    color: var(--color-text-primary);
+  }
+  .block-state-COMPLETE {
+    color: var(--color-text-secondary);
   }
 `
 
