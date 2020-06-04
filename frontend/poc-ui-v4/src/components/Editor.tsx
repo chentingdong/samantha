@@ -1,30 +1,24 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   Drawer,
-  Button,
-  Form,
-  FormGroup,
-  ControlLabel,
-  FormControl,
   ButtonToolbar,
   Placeholder,
   PanelGroup,
   Panel,
   TagPicker,
-  Alert,
   Grid,
-  Row,
+  Row as RowRaw,
   Col,
   Icon,
   IconButton,
   Tree,
-  Notification,
   Divider,
+  Input,
 } from "rsuite"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
-import { Typename, MutationType } from "../models/enum"
+import { Typename, MutationType, EditMode } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
 import "ace-builds/src-noconflict/ace"
 import "ace-builds/webpack-resolver"
@@ -42,8 +36,10 @@ import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
 import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { REQUESTS_MADE } from "../operations/queries/requestsMade"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 
-const Editor = () => {
+const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {
@@ -83,10 +79,10 @@ const Editor = () => {
             }`}</Drawer.Title>
           </Drawer.Header>
           <Drawer.Body>
-            <Form fluid>
-              <FormGroup>
-                <ControlLabel>Name</ControlLabel>
-                <FormControl
+            <Grid fluid>
+              <Row>
+                <div>Name</div>
+                <Input
                   name="name"
                   value={data?.uiState?.draftBlock?.name}
                   onChange={(value) =>
@@ -95,55 +91,10 @@ const Editor = () => {
                     })
                   }
                 />
-              </FormGroup>
-              {data?.uiState?.editingTypename === Typename.Block && (
-                <>
-                  <StateBar state={data?.uiState?.draftBlock?.state} />
-                  <FormGroup className="col-span-2">
-                    <ControlLabel>Requestors: </ControlLabel>
-                    <TagPicker
-                      data={usersResult?.users}
-                      valueKey="id"
-                      labelKey="name"
-                      value={data?.uiState?.draftBlock?.requestors?.map(
-                        (user) => user.id
-                      )}
-                      onChange={(value) => {
-                        setUiState({
-                          draftBlock: {
-                            requestors: value.map((id) =>
-                              usersResult?.users.find((user) => user.id === id)
-                            ),
-                          },
-                        })
-                      }}
-                    />
-                  </FormGroup>
-                  <FormGroup className="col-span-2">
-                    <ControlLabel>Responders: </ControlLabel>
-                    <TagPicker
-                      data={usersResult?.users}
-                      valueKey="id"
-                      labelKey="name"
-                      value={data?.uiState?.draftBlock?.responders?.map(
-                        (user) => user.id
-                      )}
-                      onChange={(value) => {
-                        setUiState({
-                          draftBlock: {
-                            responders: value.map((id) =>
-                              usersResult?.users.find((user) => user.id === id)
-                            ),
-                          },
-                        })
-                      }}
-                    />
-                  </FormGroup>
-                </>
-              )}
-              <FormGroup>
-                <ControlLabel>Description</ControlLabel>
-                <FormControl
+              </Row>
+              <Row>
+                <div>Description</div>
+                <Input
                   rows={5}
                   name="description"
                   componentClass="textarea"
@@ -154,69 +105,129 @@ const Editor = () => {
                     })
                   }
                 />
-              </FormGroup>
-              <PanelGroup accordion bordered>
-                <Panel header="Action View">
-                  <Placeholder.Paragraph rows={10} />
-                </Panel>
-                <Panel header="Nested Set View" defaultExpanded>
+              </Row>
+              {data?.uiState?.editingTypename === Typename.Block && (
+                <>
                   <Row>
-                    <Col xs={16}>
-                      <BlockChildrenList
-                        blocks={data?.uiState?.draftBlock?.children}
-                        parent={data?.uiState?.draftBlock}
-                        type={data?.uiState?.draftBlock?.type}
+                    <StateBar state={data?.uiState?.draftBlock?.state} />
+                  </Row>
+                  <Row>
+                    <Col lg={6}>
+                      <div>Requestors: </div>
+                      <TagPicker
+                        data={usersResult?.users}
+                        valueKey="id"
+                        labelKey="name"
+                        value={data?.uiState?.draftBlock?.requestors?.map(
+                          (user) => user.id
+                        )}
+                        onChange={(value) => {
+                          setUiState({
+                            draftBlock: {
+                              requestors: value.map((id) =>
+                                usersResult?.users.find(
+                                  (user) => user.id === id
+                                )
+                              ),
+                            },
+                          })
+                        }}
                       />
                     </Col>
-                    <Col xs={8}>
-                      <BlockCatalogList />
+                    <Col lg={6} lgOffset={6}>
+                      <div>Responders: </div>
+                      <TagPicker
+                        data={usersResult?.users}
+                        valueKey="id"
+                        labelKey="name"
+                        value={data?.uiState?.draftBlock?.responders?.map(
+                          (user) => user.id
+                        )}
+                        onChange={(value) => {
+                          setUiState({
+                            draftBlock: {
+                              responders: value.map((id) =>
+                                usersResult?.users.find(
+                                  (user) => user.id === id
+                                )
+                              ),
+                            },
+                          })
+                        }}
+                      />
                     </Col>
                   </Row>
-                </Panel>
-                <Panel header="Tree View" defaultExpanded>
-                  <Tree
-                    data={[getTreeData(data?.uiState?.draftBlock)]}
-                    labelKey="name"
-                    valueKey="id"
-                    defaultExpandAll
-                    size="lg"
-                    renderTreeNode={(nodeData) => {
-                      return (
-                        <span>
-                          <i className={nodeData.icon} /> {nodeData.name}
-                        </span>
-                      )
-                    }}
-                  />
-                </Panel>
-                <Panel header="Debug View">
-                  <AceEditor
-                    readOnly={true}
-                    mode="json"
-                    theme="dracula"
-                    name="debug"
-                    width="100%"
-                    showGutter={true}
-                    maxLines={Infinity}
-                    editorProps={{ $blockScrolling: true }}
-                    value={JSON.stringify(data?.uiState?.draftBlock, null, 2)}
-                  />
-                </Panel>
-              </PanelGroup>
+                </>
+              )}
+
+              <Row>
+                <PanelGroup accordion bordered>
+                  <Panel header="Action View">
+                    <Placeholder.Paragraph rows={10} />
+                  </Panel>
+                  <Panel header="Nested Set View" defaultExpanded>
+                    <Row>
+                      <Col xs={16}>
+                        <BlockChildrenList
+                          blocks={data?.uiState?.draftBlock?.children}
+                          parent={data?.uiState?.draftBlock}
+                          type={data?.uiState?.draftBlock?.type}
+                        />
+                      </Col>
+                      <Col xs={8}>
+                        <BlockCatalogList />
+                      </Col>
+                    </Row>
+                  </Panel>
+                  <Panel header="Tree View" defaultExpanded>
+                    <Tree
+                      data={[getTreeData(data?.uiState?.draftBlock)]}
+                      labelKey="name"
+                      valueKey="id"
+                      defaultExpandAll
+                      size="lg"
+                      renderTreeNode={(nodeData) => {
+                        return (
+                          <span>
+                            <i className={nodeData.icon} /> {nodeData.name}
+                          </span>
+                        )
+                      }}
+                    />
+                  </Panel>
+                  <Panel header="Debug View">
+                    <AceEditor
+                      readOnly={true}
+                      mode="json"
+                      theme="dracula"
+                      name="debug"
+                      width="100%"
+                      showGutter={true}
+                      maxLines={Infinity}
+                      editorProps={{ $blockScrolling: true }}
+                      value={JSON.stringify(data?.uiState?.draftBlock, null, 2)}
+                    />
+                  </Panel>
+                </PanelGroup>
+              </Row>
               <Divider />
-              <FormGroup>
+              <Row>
                 <ButtonToolbar>
                   <IconButton
                     onClick={() => {
-                      const createFn =
-                        data?.uiState?.editingTypename === "Block"
-                          ? createOneBlock
-                          : createOneBlockDef
-                      createFn({
-                        variables: {
-                          data: transformBlockInput(data?.uiState?.draftBlock),
-                        },
-                      })
+                      if (data?.uiState?.editorMode === EditMode.Create) {
+                        const createFn =
+                          data?.uiState?.editingTypename === "Block"
+                            ? createOneBlock
+                            : createOneBlockDef
+                        createFn({
+                          variables: {
+                            data: transformBlockInput(
+                              data?.uiState?.draftBlock
+                            ),
+                          },
+                        })
+                      }
                       close()
                     }}
                     icon={<Icon icon="check" />}
@@ -232,13 +243,19 @@ const Editor = () => {
                     Cancel
                   </IconButton>
                 </ButtonToolbar>
-              </FormGroup>
-            </Form>
+              </Row>
+            </Grid>
           </Drawer.Body>
         </Drawer>
       )}
     </>
   )
 }
+
+const Editor = styled(EditorRaw)``
+
+const Row = styled(RowRaw)`
+  margin-bottom: 20px;
+`
 
 export { Editor }
