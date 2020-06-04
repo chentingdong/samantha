@@ -98,11 +98,12 @@ const Demo = styled(DemoRaw)`
     }
     h1 {
       line-height: 1.2em;
+      font-family: Varela, sans-serif;
     }
     h6 {
       line-height: 1em;
       font-style: italic;
-      text-transform: uppercase;
+      font-family: Varela, sans-serif;
     }
   }
 `

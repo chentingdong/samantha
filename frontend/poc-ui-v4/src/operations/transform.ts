@@ -22,7 +22,6 @@ const _transformBlockInput = (block) => {
     block.responders = {
       connect: block.responders?.map((user) => ({ id: user.id })),
     }
-
   return block
 }
 
