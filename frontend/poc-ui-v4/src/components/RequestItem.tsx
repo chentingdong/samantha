@@ -82,6 +82,27 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
+          <IconButton
+            appearance="default"
+            icon={<Icon icon="edit" />}
+            onClick={(e) => {
+              const editingTypename =
+                block.__typename === "Block"
+                  ? Typename.Block
+                  : Typename.BlockDef
+              setUiState(
+                {
+                  showEditor: true,
+                  editingTypename,
+                  editorMode: EditMode.Edit,
+                  draftBlock: { ...block, __typename: editingTypename },
+                },
+                true
+              )
+            }}
+          >
+            View/Edit <i>New!</i>
+          </IconButton>
           {itemOrigin !== ItemOrigin.Catalog &&
             (block as Block).state !== "COMPLETE" && (
               <IconButton
@@ -115,27 +136,6 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               Make a Bell
             </IconButton>
           )}
-          <IconButton
-            appearance="default"
-            icon={<Icon icon="edit" />}
-            onClick={(e) => {
-              const editingTypename =
-                block.__typename === "Block"
-                  ? Typename.Block
-                  : Typename.BlockDef
-              setUiState(
-                {
-                  showEditor: true,
-                  editingTypename,
-                  editorMode: EditMode.Edit,
-                  draftBlock: { ...block, __typename: editingTypename },
-                },
-                true
-              )
-            }}
-          >
-            View/Edit <i>New!</i>
-          </IconButton>
         </Col>
       </Grid>
     </Card>
