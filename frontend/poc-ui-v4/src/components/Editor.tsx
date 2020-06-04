@@ -172,9 +172,13 @@ const EditorRaw = () => {
                         data={usersResult?.users}
                         valueKey="id"
                         labelKey="name"
-                        value={data?.uiState?.draftBlock?.requestors?.map(
-                          (user) => user.id
-                        )}
+                        value={
+                          data?.uiState?.draftBlock?.requestors
+                            ? data?.uiState?.draftBlock?.requestors?.map(
+                                (user) => user.id
+                              )
+                            : []
+                        }
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
@@ -195,9 +199,13 @@ const EditorRaw = () => {
                         data={usersResult?.users}
                         valueKey="id"
                         labelKey="name"
-                        value={data?.uiState?.draftBlock?.responders?.map(
-                          (user) => user.id
-                        )}
+                        value={
+                          data?.uiState?.draftBlock?.responders
+                            ? data?.uiState?.draftBlock?.responders?.map(
+                                (user) => user.id
+                              )
+                            : []
+                        }
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
