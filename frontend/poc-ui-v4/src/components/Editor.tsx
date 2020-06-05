@@ -64,6 +64,7 @@ const EditorRaw = () => {
       : updateOneBlockDef
 
   const saveExistingBlock = () => {
+    Notification.info({ title: `onBlur`, description: "" })
     if (data?.uiState?.editorMode === EditMode.Edit) {
       const draftBlock = data?.uiState?.draftBlock
       const dataInput: any = {
@@ -178,9 +179,9 @@ const EditorRaw = () => {
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
-                              requestors: value.map((id) =>
+                              requestors: value.map((selectedUser) =>
                                 usersResult?.users.find(
-                                  (user) => user.id === id
+                                  (user) => user.id === selectedUser.id
                                 )
                               ),
                             },
@@ -199,9 +200,9 @@ const EditorRaw = () => {
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
-                              responders: value.map((id) =>
+                              responders: value.map((selectedUser) =>
                                 usersResult?.users.find(
-                                  (user) => user.id === id
+                                  (user) => user.id === selectedUser.id
                                 )
                               ),
                             },
