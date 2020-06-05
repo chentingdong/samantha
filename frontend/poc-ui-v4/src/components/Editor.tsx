@@ -172,8 +172,6 @@ const EditorRaw = () => {
                       <div>Requestors: </div>
                       <TagPicker
                         data={usersResult?.users}
-                        valueKey="id"
-                        labelKey="name"
                         value={data?.uiState?.draftBlock?.requestors?.map(
                           (user) => user
                         )}
@@ -195,8 +193,6 @@ const EditorRaw = () => {
                       <div>Responders: </div>
                       <TagPicker
                         data={usersResult?.users}
-                        valueKey="id"
-                        labelKey="name"
                         value={data?.uiState?.draftBlock?.responders?.map(
                           (user) => user
                         )}

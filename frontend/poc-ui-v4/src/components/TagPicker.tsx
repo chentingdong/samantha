@@ -1,15 +1,22 @@
 import React, { useState } from "react"
 import { Icon } from "rsuite"
 import styled from "styled-components"
+import { User } from "../models/interface"
 
-const TagPickerRaw = (props) => {
-  const { value, data: options } = props
+type TagPickerType = {
+  value: User[]
+  data: User[]
+  onChange: (option: User[]) => void
+  onBlur?: () => void
+}
+const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
 
   const pickTags = (e, option) => {
     if (e.target.checked && !objInArr(option, tags)) setTags([...tags, option])
     else if (!e.target.checked && objInArr(option, tags)) deleteTag(e, option)
+    onChange([option])
   }
 
   const deleteTag = (e, tag) => {
@@ -49,19 +56,19 @@ const TagPickerRaw = (props) => {
         </div>
       </div>
       <div className="">
-        {options?.map((option) => {
+        {data?.map((option) => {
           return (
             showSelect && (
               <div key={option.id}>
                 <input
                   type="checkbox"
                   className="inline-block cursor-pointer"
-                  id={options.id}
+                  id={option.id}
                   value={option.id}
                   checked={objInArr(option, tags)}
                   onChange={(e) => pickTags(e, option)}
                 />
-                <label htmlFor={options.name} className="inline-block m-1">
+                <label htmlFor={option.name} className="inline-block m-1">
                   {option.name}
                 </label>
               </div>
@@ -100,7 +107,7 @@ const Styles = styled.div.attrs({})`
   }
 `
 
-const TagPicker = (props) => {
+const TagPicker: React.FC<TagPickerType> = (props) => {
   // use react HOC to pass on props to Raw component
   return (
     <Styles>
