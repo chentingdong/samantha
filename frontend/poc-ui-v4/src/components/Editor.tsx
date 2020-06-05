@@ -73,10 +73,10 @@ const EditorRaw = () => {
       }
       if (data?.uiState?.editingTypename === "Block") {
         dataInput.requestors = {
-          connect: draftBlock.requestors.map((user) => ({ id: user.id })),
+          set: draftBlock.requestors.map((user) => ({ id: user.id })),
         }
         dataInput.responders = {
-          connect: draftBlock.responders.map((user) => ({ id: user.id })),
+          set: draftBlock.responders.map((user) => ({ id: user.id })),
         }
       }
       updateFn({
