@@ -143,9 +143,13 @@ const EditorRaw = () => {
                       <div>Requestors: </div>
                       <TagPicker
                         data={usersResult?.users}
-                        value={data?.uiState?.draftBlock?.requestors?.map(
-                          (user) => user
-                        )}
+                        value={
+                          Array.isArray(data?.uiState?.draftBlock?.requestors)
+                            ? data?.uiState?.draftBlock?.requestors?.map(
+                                (user) => user
+                              )
+                            : []
+                        }
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
@@ -163,9 +167,13 @@ const EditorRaw = () => {
                       <div>Responders: </div>
                       <TagPicker
                         data={usersResult?.users}
-                        value={data?.uiState?.draftBlock?.responders?.map(
-                          (user) => user
-                        )}
+                        value={
+                          Array.isArray(data?.uiState?.draftBlock?.responders)
+                            ? data?.uiState?.draftBlock?.responders?.map(
+                                (user) => user
+                              )
+                            : []
+                        }
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
