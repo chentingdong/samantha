@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Icon } from "rsuite"
 import styled from "styled-components"
 import { User } from "../models/interface"
@@ -12,12 +12,15 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
 
+  useEffect(() => {
+    onChange(tags)
+  }, [tags])
+
   const pickTags = (e, option) => {
     let newTags = [...tags, option]
     if (e.target.checked && !objInArr(option, tags)) {
       newTags = [...tags, option]
       setTags(newTags)
-      onChange(newTags)
     } else if (!e.target.checked && objInArr(option, tags)) {
       deleteTag(e, option)
     }
@@ -28,7 +31,6 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
     const tmp = [...tags]
     tmp.splice(tags.indexOf(tag), 1)
     setTags(tmp)
-    onChange(tmp)
   }
 
   const toggleSelect = (e) => {
