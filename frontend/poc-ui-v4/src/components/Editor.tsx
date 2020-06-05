@@ -5,7 +5,6 @@ import {
   Placeholder,
   PanelGroup,
   Panel,
-  TagPicker,
   Grid,
   Row as RowRaw,
   Col,
@@ -16,6 +15,7 @@ import {
   Input,
   Notification,
 } from "rsuite"
+import { TagPicker } from "./TagPicker"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
@@ -174,13 +174,9 @@ const EditorRaw = () => {
                         data={usersResult?.users}
                         valueKey="id"
                         labelKey="name"
-                        value={
-                          Array.isArray(data?.uiState?.draftBlock?.requestors)
-                            ? data?.uiState?.draftBlock?.requestors.map(
-                                (user) => user.id
-                              )
-                            : []
-                        }
+                        value={data?.uiState?.draftBlock?.requestors?.map(
+                          (user) => user
+                        )}
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {
@@ -201,13 +197,9 @@ const EditorRaw = () => {
                         data={usersResult?.users}
                         valueKey="id"
                         labelKey="name"
-                        value={
-                          Array.isArray(data?.uiState?.draftBlock?.responders)
-                            ? data?.uiState?.draftBlock?.responders.map(
-                                (user) => user.id
-                              )
-                            : []
-                        }
+                        value={data?.uiState?.draftBlock?.responders?.map(
+                          (user) => user
+                        )}
                         onChange={(value) => {
                           setUiState({
                             draftBlock: {

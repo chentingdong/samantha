@@ -3,7 +3,7 @@ import { Icon } from "rsuite"
 import styled from "styled-components"
 
 const TagPickerRaw = (props) => {
-  const { value, options } = props
+  const { value, data: options } = props
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
 
@@ -20,20 +20,22 @@ const TagPickerRaw = (props) => {
   }
 
   const objInArr = (obj, arr) => {
-    return arr.some((el) => el.value === obj.value)
+    return arr.some((el) => el.id === obj.id)
   }
 
   return (
     <div className="rounded p-1 text-sm">
       <div
         onClick={(e) => {
+          e.stopPropagation()
           setShowSelect(!showSelect)
         }}
       >
+        {tags.length === 0 && <span>click to select...</span>}
         {tags?.map((tag, index) => {
           return (
             <span key={index} className="tag inline-block w-auto text-xs">
-              <span className="m-1">{tag.label}</span>
+              <span className="m-1">{tag.name}</span>
               <Icon
                 className="text-xs cursor-pointer"
                 icon="close"
@@ -42,13 +44,7 @@ const TagPickerRaw = (props) => {
             </span>
           )
         })}
-        <div
-          className="toggle p-1 pl-2 m-1"
-          onClick={(e) => {
-            e.stopPropagation()
-            setShowSelect(!showSelect)
-          }}
-        >
+        <div className="toggle p-1 pl-2 m-1">
           <Icon icon="arrow-down" className="" />
         </div>
       </div>
@@ -56,17 +52,17 @@ const TagPickerRaw = (props) => {
         {options?.map((option) => {
           return (
             showSelect && (
-              <div key={option.value}>
+              <div key={option.id}>
                 <input
                   type="checkbox"
                   className="inline-block cursor-pointer"
-                  id={options.value}
-                  value={option.value}
+                  id={options.id}
+                  value={option.id}
                   checked={objInArr(option, tags)}
                   onChange={(e) => pickTags(e, option)}
                 />
-                <label htmlFor={options.value} className="inline-block m-1">
-                  {option.label}
+                <label htmlFor={options.name} className="inline-block m-1">
+                  {option.name}
                 </label>
               </div>
             )
