@@ -7,21 +7,15 @@ type TagPickerType = {
   value: User[]
   data: User[]
   onChange: (option: User[]) => void
-  onBlur?: () => void
 }
-const TagPickerRaw: React.FC<TagPickerType> = ({
-  value,
-  data,
-  onChange,
-  onBlur,
-}) => {
+const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
 
   const pickTags = (e, option) => {
     if (e.target.checked && !objInArr(option, tags)) setTags([...tags, option])
     else if (!e.target.checked && objInArr(option, tags)) deleteTag(e, option)
-    onChange([option])
+    onChange(tags)
   }
 
   const deleteTag = (e, tag) => {
@@ -29,14 +23,12 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
     let tmp = [...tags]
     tmp.splice(tags.indexOf(tag), 1)
     setTags(tmp)
-    onChange([tag])
-    // onBlur()
+    onChange(tags)
   }
 
   const toggleSelect = (e) => {
     e.stopPropagation()
     setShowSelect(!showSelect)
-    // onBlur()
   }
 
   const objInArr = (obj, arr) => {
