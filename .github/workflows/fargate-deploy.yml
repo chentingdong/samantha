@@ -60,7 +60,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           echo $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/backend/poc-v3
+          cd $GITHUB_WORKSPACE/server
           docker build -t $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=server_image::$ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG"
@@ -76,7 +76,7 @@ jobs:
           # push it to ECR so that it can
           # be deployed to ECS.
           echo $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/frontend/poc-ui-v4
+          cd $GITHUB_WORKSPACE/web
           docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
