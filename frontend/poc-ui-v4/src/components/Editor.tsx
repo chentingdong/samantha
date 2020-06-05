@@ -64,7 +64,7 @@ const EditorRaw = () => {
       : updateOneBlockDef
 
   const saveExistingBlock = () => {
-    Notification.info({ title: `onBlur`, description: "" })
+    Notification.info({ title: `saveExistingBlock`, description: "" })
     if (data?.uiState?.editorMode === EditMode.Edit) {
       const draftBlock = data?.uiState?.draftBlock
       const dataInput: any = {
@@ -186,8 +186,8 @@ const EditorRaw = () => {
                               ),
                             },
                           })
+                          saveExistingBlock()
                         }}
-                        onBlur={saveExistingBlock}
                       />
                     </Col>
                     <Col lg={6} lgOffset={6}>
@@ -207,8 +207,8 @@ const EditorRaw = () => {
                               ),
                             },
                           })
+                          saveExistingBlock()
                         }}
-                        onBlur={saveExistingBlock}
                       />
                     </Col>
                   </Row>

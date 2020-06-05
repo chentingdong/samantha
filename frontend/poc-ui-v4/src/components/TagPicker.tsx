@@ -9,7 +9,12 @@ type TagPickerType = {
   onChange: (option: User[]) => void
   onBlur?: () => void
 }
-const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
+const TagPickerRaw: React.FC<TagPickerType> = ({
+  value,
+  data,
+  onChange,
+  onBlur,
+}) => {
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
 
@@ -24,6 +29,14 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
     let tmp = [...tags]
     tmp.splice(tags.indexOf(tag), 1)
     setTags(tmp)
+    onChange([tag])
+    // onBlur()
+  }
+
+  const toggleSelect = (e) => {
+    e.stopPropagation()
+    setShowSelect(!showSelect)
+    // onBlur()
   }
 
   const objInArr = (obj, arr) => {
@@ -32,12 +45,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
 
   return (
     <div className="rounded p-1 text-sm">
-      <div
-        onClick={(e) => {
-          e.stopPropagation()
-          setShowSelect(!showSelect)
-        }}
-      >
+      <div onClick={toggleSelect}>
         {tags.length === 0 && <span>click to select...</span>}
         {tags?.map((tag, index) => {
           return (
