@@ -16,9 +16,9 @@ import {
 import { Drawer } from "./Drawer"
 import { TagPicker } from "./TagPicker"
 import { UI_STATE } from "../operations/queries/uiState"
-import { useQuery, useMutation } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
-import { Typename, MutationType, EditMode } from "../models/enum"
+import { Typename, EditMode } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
 import "ace-builds/src-noconflict/ace"
 import "ace-builds/webpack-resolver"
@@ -31,37 +31,13 @@ import { BlockOrDef } from "../models/interface"
 import { getIconClassByType } from "../utils/Styles"
 import { StateBar } from "./StateBar"
 import { transformBlockInput } from "../operations/transform"
-import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
-import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
-import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
-import { UPDATE_ONE_BLOCK_DEF } from "../operations/mutations/updateOneBlockDef"
-import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
-import { REQUESTS_MADE } from "../operations/queries/requestsMade"
-import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
+import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
-
-  // TODO: move to operations
-  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {
-    refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
-  })
-  const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF, {
-    refetchQueries: [{ query: REQUEST_CATALOG }],
-  })
-  const createFn =
-    data?.uiState?.editingTypename === "Block"
-      ? createOneBlock
-      : createOneBlockDef
-
-  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
-  const [updateOneBlockDef] = useMutation(UPDATE_ONE_BLOCK_DEF)
-  const updateFn =
-    data?.uiState?.editingTypename === "Block"
-      ? updateOneBlock
-      : updateOneBlockDef
+  const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
   useEffect(() => {
     if (data?.uiState?.editorMode === EditMode.Edit) {
