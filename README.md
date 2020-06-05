@@ -38,9 +38,9 @@
 
 ## Docker Compose for standing up the full stack in local env
 
-- `cd $REPO_ROOT/backend/poc-v3`
+- `cd $REPO_ROOT/server`
 - `docker build -t samantha-server:latest .`
-- `cd $REPO_ROOT/frontend/poc-ui-v3`
+- `cd $REPO_ROOT/web`
 - `docker build -t samantha-web:latest .`
 - `cd $REPO_ROOT`
 - `docker-compose up`
