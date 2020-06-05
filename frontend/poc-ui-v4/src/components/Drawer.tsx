@@ -28,20 +28,20 @@ const DrawerRaw: React.FC<DrawerType> = ({
   return (
     show && (
       <div className={className}>
-        <div className="backdrop">
-          <Grid fluid>
-            <Row onClick={hide}>
-              <Col xs={20} xsOffset={offset} className="p-4">
-                <Icon
-                  icon="close"
-                  className="float-right cursor-pointer m-4"
-                  onClick={hide}
-                />
-                <div onClick={(e) => e.stopPropagation()}>{children}</div>
-              </Col>
-            </Row>
-          </Grid>
-        </div>
+        <Grid fluid>
+          <Row onClick={hide} className="backdrop">
+            <Col xs={20} xsOffset={offset} className="p-4">
+              <Icon
+                icon="close"
+                className="float-right cursor-pointer m-4"
+                onClick={hide}
+              />
+              <div className="children" onClick={(e) => e.stopPropagation()}>
+                {children}
+              </div>
+            </Col>
+          </Row>
+        </Grid>
       </div>
     )
   )
@@ -53,11 +53,15 @@ const Drawer: React.FC<DrawerType> = styled(DrawerRaw)`
   right: 0;
   z-index: 10;
   height: 100vh;
+  overflow: auto;
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
-  .rs-col {
-    background: var(--color-bg-default);
-    transition: margin-left 0.5s ease;
+  .backdrop {
+    > .rs-col {
+      min-height: 100vh;
+      background: var(--color-bg-default);
+      transition: margin-left 0.5s ease;
+    }
   }
 `
 
