@@ -6,15 +6,11 @@ import { MutationType, EditMode } from "../models/enum"
 import tw from "tailwind.macro"
 import styled from "styled-components"
 import { Panel, Notification } from "rsuite"
-import { useQuery, useMutation } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { addOneBlock, moveOneBlock } from "../operations/blockOperations"
-import { CREATE_ONE_BLOCK } from "../operations/mutations/createOneBlock"
-import { CREATE_ONE_BLOCK_DEF } from "../operations/mutations/createOneBlockDef"
-import { REQUESTS_MADE } from "../operations/queries/requestsMade"
-import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
-import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
+import { useBlockMutations } from "../operations/mutations"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]
@@ -29,16 +25,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 }) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: authUser } = useQuery(AUTH_USER)
-  const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {
-    refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
-  })
-  const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF, {
-    refetchQueries: [{ query: REQUEST_CATALOG }],
-  })
-  const createFn =
-    data?.uiState?.editingTypename === "Block"
-      ? createOneBlock
-      : createOneBlockDef
+  const [createFn] = useBlockMutations(data?.uiState?.editingTypename)
 
   return (
     <Panel shaded collapsible defaultExpanded bodyFill>
