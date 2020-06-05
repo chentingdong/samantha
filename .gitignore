@@ -122,3 +122,5 @@ build
 .webpack
 
 .terraform
+
+.tmp_build

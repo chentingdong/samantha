@@ -5,7 +5,8 @@
     "lib": ["esnext"],
     "strict": true,
     "rootDir": "src",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "plugins": [{ "name": "nexus/typescript-language-service" }]
   },
   "include": ["src"]
 }
