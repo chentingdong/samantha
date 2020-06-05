@@ -4,7 +4,7 @@ import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { ItemOrigin, EditMode, Typename } from "../models/enum"
 import { useQuery } from "@apollo/client"
 import { BlockDef } from "../models/interface"
-import { Error } from "./Misc"
+import { Error } from "../components/Misc"
 import { Divider, Loader } from "rsuite"
 import { CatalogDropdown } from "./CatalogDropdown"
 

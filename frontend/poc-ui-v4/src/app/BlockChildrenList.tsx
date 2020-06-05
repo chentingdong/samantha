@@ -1,7 +1,7 @@
 import React from "react"
 import { BlockOrDef } from "../models/interface"
 import { BlockChildrenItem } from "./BlockChildrenItem"
-import { DndTargetBox } from "./DndTargetBox"
+import { DndTargetBox } from "../components/DndTargetBox"
 import { MutationType, EditMode } from "../models/enum"
 import tw from "tailwind.macro"
 import styled from "styled-components"

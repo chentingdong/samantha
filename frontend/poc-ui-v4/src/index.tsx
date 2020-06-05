@@ -1,6 +1,6 @@
 import React from "react"
 import { render } from "react-dom"
-import App from "./components/App"
+import App from "./app/App"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import config from "../configs/config"

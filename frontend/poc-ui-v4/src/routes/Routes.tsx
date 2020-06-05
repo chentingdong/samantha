@@ -2,9 +2,9 @@ import React from "react"
 import { BrowserRouter, Switch } from "react-router-dom"
 import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"
-import Login from "../pages/Login"
-import NotFound from "../pages/NotFound"
-import { Demo } from "../components/Demo"
+import Login from "../app/Login"
+import NotFound from "../app/NotFound"
+import { Demo } from "../app/Demo"
 
 const routes = [
   {

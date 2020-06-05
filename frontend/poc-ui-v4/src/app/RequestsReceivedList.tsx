@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import { RequestItem } from "./RequestItem"
 import { ItemOrigin } from "../models/enum"
-import { Error } from "./Misc"
+import { Error } from "../components/Misc"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { Loader } from "rsuite"
 
