@@ -177,6 +177,9 @@ const EditorRaw = () => {
                           (user) => user
                         )}
                         onChange={async (value) => {
+                          console.log(
+                            `onchange value: ${JSON.stringify(value, null, 2)}`
+                          )
                           await setUiState({
                             draftBlock: {
                               requestors: value.map((selectedUser) =>
@@ -198,6 +201,10 @@ const EditorRaw = () => {
                           (user) => user
                         )}
                         onChange={(value) => {
+                          console.log(
+                            `onchange value: ${JSON.stringify(value, null, 2)}`
+                          )
+
                           setUiState({
                             draftBlock: {
                               responders: value.map((selectedUser) =>

@@ -13,17 +13,22 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
   const [showSelect, setShowSelect] = useState(false)
 
   const pickTags = (e, option) => {
-    if (e.target.checked && !objInArr(option, tags)) setTags([...tags, option])
-    else if (!e.target.checked && objInArr(option, tags)) deleteTag(e, option)
-    onChange(tags)
+    let newTags = [...tags, option]
+    if (e.target.checked && !objInArr(option, tags)) {
+      newTags = [...tags, option]
+      setTags(newTags)
+    } else if (!e.target.checked && objInArr(option, tags)) {
+      newTags = deleteTag(e, option)
+    }
+    return newTags
   }
 
   const deleteTag = (e, tag) => {
     e.stopPropagation()
-    let tmp = [...tags]
+    const tmp = [...tags]
     tmp.splice(tags.indexOf(tag), 1)
     setTags(tmp)
-    onChange(tags)
+    return tmp
   }
 
   const toggleSelect = (e) => {
@@ -46,7 +51,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
               <Icon
                 className="text-xs cursor-pointer"
                 icon="close"
-                onClick={(e) => deleteTag(e, tag)}
+                onClick={(e) => onChange(deleteTag(e, tag))}
               />
             </span>
           )
@@ -66,7 +71,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
                   id={option.id}
                   value={option.id}
                   checked={objInArr(option, tags)}
-                  onChange={(e) => pickTags(e, option)}
+                  onChange={(e) => onChange(pickTags(e, option))}
                 />
                 <label htmlFor={option.name} className="inline-block m-1">
                   {option.name}
