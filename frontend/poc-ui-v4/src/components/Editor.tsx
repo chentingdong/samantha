@@ -176,11 +176,11 @@ const EditorRaw = () => {
                         value={data?.uiState?.draftBlock?.requestors?.map(
                           (user) => user
                         )}
-                        onChange={async (value) => {
+                        onChange={(value) => {
                           console.log(
                             `onchange value: ${JSON.stringify(value, null, 2)}`
                           )
-                          await setUiState({
+                          setUiState({
                             draftBlock: {
                               requestors: value.map((selectedUser) =>
                                 usersResult?.users.find(

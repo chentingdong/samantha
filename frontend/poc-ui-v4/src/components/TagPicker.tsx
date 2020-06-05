@@ -17,10 +17,10 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
     if (e.target.checked && !objInArr(option, tags)) {
       newTags = [...tags, option]
       setTags(newTags)
+      onChange(newTags)
     } else if (!e.target.checked && objInArr(option, tags)) {
-      newTags = deleteTag(e, option)
+      deleteTag(e, option)
     }
-    return newTags
   }
 
   const deleteTag = (e, tag) => {
@@ -28,7 +28,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
     const tmp = [...tags]
     tmp.splice(tags.indexOf(tag), 1)
     setTags(tmp)
-    return tmp
+    onChange(tmp)
   }
 
   const toggleSelect = (e) => {
@@ -51,7 +51,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
               <Icon
                 className="text-xs cursor-pointer"
                 icon="close"
-                onClick={(e) => onChange(deleteTag(e, tag))}
+                onClick={(e) => deleteTag(e, tag)}
               />
             </span>
           )
@@ -71,7 +71,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
                   id={option.id}
                   value={option.id}
                   checked={objInArr(option, tags)}
-                  onChange={(e) => onChange(pickTags(e, option))}
+                  onChange={(e) => pickTags(e, option)}
                 />
                 <label htmlFor={option.name} className="inline-block m-1">
                   {option.name}
