@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import {
   ButtonToolbar,
   Placeholder,
@@ -43,6 +43,8 @@ import styled from "styled-components"
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
+
+  // TODO: move to operations
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {
     refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
   })
@@ -61,7 +63,7 @@ const EditorRaw = () => {
       ? updateOneBlock
       : updateOneBlockDef
 
-  const saveExistingBlock = () => {
+  useEffect(() => {
     if (data?.uiState?.editorMode === EditMode.Edit) {
       const draftBlock = data?.uiState?.draftBlock
       const dataInput: any = {
@@ -86,7 +88,12 @@ const EditorRaw = () => {
         },
       })
     }
-  }
+  }, [
+    data?.uiState?.draftBlock?.name,
+    data?.uiState?.draftBlock?.description,
+    data?.uiState?.draftBlock?.requestors,
+    data?.uiState?.draftBlock?.responders,
+  ])
 
   const close = () => {
     setUiState({ showEditor: false })
@@ -134,7 +141,6 @@ const EditorRaw = () => {
                       draftBlock: { name: value },
                     })
                   }
-                  onBlur={saveExistingBlock}
                 />
               </Row>
               <Row className="my-4">
@@ -149,7 +155,6 @@ const EditorRaw = () => {
                       draftBlock: { description: value },
                     })
                   }
-                  onBlur={saveExistingBlock}
                 />
               </Row>
               {data?.uiState?.editingTypename === Typename.Block && (
@@ -166,9 +171,6 @@ const EditorRaw = () => {
                           (user) => user
                         )}
                         onChange={(value) => {
-                          console.log(
-                            `onchange value: ${JSON.stringify(value, null, 2)}`
-                          )
                           setUiState({
                             draftBlock: {
                               requestors: value.map((selectedUser) =>
@@ -178,7 +180,6 @@ const EditorRaw = () => {
                               ),
                             },
                           })
-                          saveExistingBlock()
                         }}
                       />
                     </Col>
@@ -190,10 +191,6 @@ const EditorRaw = () => {
                           (user) => user
                         )}
                         onChange={(value) => {
-                          console.log(
-                            `onchange value: ${JSON.stringify(value, null, 2)}`
-                          )
-
                           setUiState({
                             draftBlock: {
                               responders: value.map((selectedUser) =>
@@ -203,7 +200,6 @@ const EditorRaw = () => {
                               ),
                             },
                           })
-                          saveExistingBlock()
                         }}
                       />
                     </Col>

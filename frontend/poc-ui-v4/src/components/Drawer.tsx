@@ -22,7 +22,7 @@ const DrawerRaw: React.FC<DrawerType> = ({
   }
 
   useEffect(() => {
-    if (show) setOffset(4)
+    if (show) setOffset(8)
   }, [show])
 
   return (
@@ -30,7 +30,7 @@ const DrawerRaw: React.FC<DrawerType> = ({
       <div className={className}>
         <Grid fluid>
           <Row onClick={hide} className="backdrop">
-            <Col xs={20} xsOffset={offset} className="p-4">
+            <Col xs={16} xsOffset={offset} className="p-4">
               <Icon
                 icon="close"
                 className="float-right cursor-pointer m-4"
