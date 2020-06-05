@@ -1,20 +1,19 @@
 import React from "react"
 import {
-  Drawer,
   ButtonToolbar,
   Placeholder,
   PanelGroup,
   Panel,
   Grid,
-  Row as RowRaw,
+  Row,
   Col,
   Icon,
   IconButton,
   Tree,
-  Divider,
   Input,
   Notification,
 } from "rsuite"
+import { Drawer } from "./Drawer"
 import { TagPicker } from "./TagPicker"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation } from "@apollo/client"
@@ -40,7 +39,6 @@ import { REQUEST_CATALOG } from "../operations/queries/requestCatalog"
 import { REQUESTS_MADE } from "../operations/queries/requestsMade"
 import { REQUESTS_RECEIVED } from "../operations/queries/requestsReceived"
 import styled from "styled-components"
-import tw from "tailwind.macro"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -64,7 +62,6 @@ const EditorRaw = () => {
       : updateOneBlockDef
 
   const saveExistingBlock = () => {
-    Notification.info({ title: `saveExistingBlock`, description: "" })
     if (data?.uiState?.editorMode === EditMode.Edit) {
       const draftBlock = data?.uiState?.draftBlock
       const dataInput: any = {
@@ -117,25 +114,17 @@ const EditorRaw = () => {
   }
 
   return (
-    <>
+    <div>
       {data && data.uiState && (
-        <Drawer
-          full={false}
-          size="lg"
-          placement="right"
-          show={data?.uiState?.showEditor}
-          onHide={close}
-        >
-          <Drawer.Header>
-            <Drawer.Title>{`${data?.uiState?.editorMode} a ${
-              data?.uiState?.editingTypename === "Block"
-                ? "Bell"
-                : "Bell Definition"
-            }`}</Drawer.Title>
-          </Drawer.Header>
-          <Drawer.Body>
+        <Drawer show={data?.uiState?.showEditor} close={close}>
+          <h2>{`${data?.uiState?.editorMode} ${
+            data?.uiState?.editingTypename === "Block"
+              ? "Bell"
+              : "Bell Definition"
+          }`}</h2>
+          <div>
             <Grid fluid>
-              <Row>
+              <Row className="my-4">
                 <div>Name</div>
                 <Input
                   name="name"
@@ -148,7 +137,7 @@ const EditorRaw = () => {
                   onBlur={saveExistingBlock}
                 />
               </Row>
-              <Row>
+              <Row className="my-4">
                 <div>Description</div>
                 <Input
                   rows={5}
@@ -165,10 +154,10 @@ const EditorRaw = () => {
               </Row>
               {data?.uiState?.editingTypename === Typename.Block && (
                 <>
-                  <Row>
+                  <Row className="my-4">
                     <StateBar state={data?.uiState?.draftBlock?.state} />
                   </Row>
-                  <Row>
+                  <Row className="my-4">
                     <Col lg={6}>
                       <div>Requestors: </div>
                       <TagPicker
@@ -221,92 +210,83 @@ const EditorRaw = () => {
                   </Row>
                 </>
               )}
-
-              <Row>
-                <PanelGroup accordion bordered>
-                  <Panel header="Action View">
-                    <Placeholder.Paragraph rows={10} />
-                  </Panel>
-                  <Panel header="Nested Set View" defaultExpanded>
-                    <Row>
-                      <Col xs={16}>
-                        <BlockChildrenList
-                          blocks={data?.uiState?.draftBlock?.children}
-                          parent={data?.uiState?.draftBlock}
-                          type={data?.uiState?.draftBlock?.type}
-                        />
-                      </Col>
-                      <Col xs={8}>
-                        <BlockCatalogList />
-                      </Col>
-                    </Row>
-                  </Panel>
-                  <Panel header="Tree View" defaultExpanded>
-                    <Tree
-                      data={[getTreeData(data?.uiState?.draftBlock)]}
-                      labelKey="name"
-                      valueKey="id"
-                      defaultExpandAll
-                      size="lg"
-                      renderTreeNode={(nodeData) => {
-                        return (
-                          <span>
-                            <i className={nodeData.icon} /> {nodeData.name}
-                          </span>
-                        )
-                      }}
-                    />
-                  </Panel>
-                  <Panel header="Debug View">
-                    <AceEditor
-                      readOnly={true}
-                      mode="json"
-                      theme="dracula"
-                      name="debug"
-                      width="100%"
-                      showGutter={true}
-                      maxLines={Infinity}
-                      editorProps={{ $blockScrolling: true }}
-                      value={JSON.stringify(data?.uiState?.draftBlock, null, 2)}
-                    />
-                  </Panel>
-                </PanelGroup>
-              </Row>
+              <PanelGroup accordion bordered>
+                <Panel header="Action View">
+                  <Placeholder.Paragraph rows={10} />
+                </Panel>
+                <Panel header="Nested Set View" defaultExpanded>
+                  <Row>
+                    <Col xs={16}>
+                      <BlockChildrenList
+                        blocks={data?.uiState?.draftBlock?.children}
+                        parent={data?.uiState?.draftBlock}
+                        type={data?.uiState?.draftBlock?.type}
+                      />
+                    </Col>
+                    <Col xs={8}>
+                      <BlockCatalogList />
+                    </Col>
+                  </Row>
+                </Panel>
+                <Panel header="Tree View" defaultExpanded>
+                  <Tree
+                    data={[getTreeData(data?.uiState?.draftBlock)]}
+                    labelKey="name"
+                    valueKey="id"
+                    defaultExpandAll
+                    size="lg"
+                    renderTreeNode={(nodeData) => {
+                      return (
+                        <span>
+                          <i className={nodeData.icon} /> {nodeData.name}
+                        </span>
+                      )
+                    }}
+                  />
+                </Panel>
+                <Panel header="Debug View">
+                  <AceEditor
+                    readOnly={true}
+                    mode="json"
+                    theme="dracula"
+                    name="debug"
+                    width="100%"
+                    showGutter={true}
+                    maxLines={Infinity}
+                    editorProps={{ $blockScrolling: true }}
+                    value={JSON.stringify(data?.uiState?.draftBlock, null, 2)}
+                  />
+                </Panel>
+              </PanelGroup>
               {data?.uiState?.editorMode === EditMode.Create && (
-                <Row>
-                  <ButtonToolbar>
-                    <IconButton
-                      onClick={() => {
-                        saveNewBlock()
-                        close()
-                      }}
-                      icon={<Icon icon="check" />}
-                      appearance="primary"
-                    >
-                      Save
-                    </IconButton>
-                    <IconButton
-                      onClick={close}
-                      icon={<Icon icon="ban" />}
-                      appearance="subtle"
-                    >
-                      Cancel
-                    </IconButton>
-                  </ButtonToolbar>
-                </Row>
+                <ButtonToolbar className="my-2">
+                  <IconButton
+                    onClick={() => {
+                      saveNewBlock()
+                      close()
+                    }}
+                    icon={<Icon icon="check" />}
+                    appearance="primary"
+                  >
+                    Save
+                  </IconButton>
+                  <IconButton
+                    onClick={close}
+                    icon={<Icon icon="ban" />}
+                    appearance="subtle"
+                  >
+                    Cancel
+                  </IconButton>
+                </ButtonToolbar>
               )}
             </Grid>
-          </Drawer.Body>
+          </div>
         </Drawer>
       )}
-    </>
+    </div>
   )
 }
 
 const Editor = styled(EditorRaw)``
-
-const Row = styled(RowRaw)`
-  margin-bottom: 20px;
-`
 
 export { Editor }
