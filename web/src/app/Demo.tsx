@@ -96,6 +96,7 @@ const Demo = styled(DemoRaw)`
   height: 100vh;
   border-radius: 0;
   .brand {
+    ${tw`my-4`}
     .logo {
       ${tw`my-0 mx-4`}
       max-height: 3em;

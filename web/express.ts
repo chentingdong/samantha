@@ -1,3 +1,5 @@
+import path from "path"
+
 const express = require("express")
 const fs = require("fs")
 const http = require("http")
@@ -6,7 +8,7 @@ const https = require("https")
 const sourceDir = "dist"
 const app = express()
 app.use(express.static(sourceDir))
-
+app.use("/static/", express.static(path.join(__dirname, "src", "assets")))
 const port = process.env.PORT || 2000
 // const privateKey  = fs.readFileSync('certs/key.pem', 'utf8');
 // const certificate = fs.readFileSync('certs/cert.pem', 'utf8');

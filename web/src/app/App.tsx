@@ -7,7 +7,6 @@ import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
 import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
 import { setAuthUser } from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
-import "../assets/styles/app.scss"
 import "../assets/rsuite/rsuite-bell.less"
 import "../assets/tailwind/tailwind.generated.css"
 
