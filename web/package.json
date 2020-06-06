@@ -15,7 +15,7 @@
   "author": "Bellhop Inc.",
   "license": "MIT",
   "scripts": {
-    "build:tailwind": "tailwindcss build src/assets/tailwind/tailwind.css -o src/assets/tailwind/tailwind.generated.css",
+    "build:tailwind": "tailwindcss build src/assets/tailwind/tailwind.css -c src/assets/tailwind/tailwind.config.js -o src/assets/tailwind/tailwind.generated.css",
     "prebuild": "rebuild-node-sass",
     "build": "yarn run clean-dist && BABEL_ENV=development webpack -p --config=configs/webpack/prod.js",
     "clean-dist": "rimraf dist/*",
@@ -120,6 +120,9 @@
     "fs": "^0.0.1-security",
     "graphql": "^15.0.0",
     "jquery": "^3.5.0",
+    "less": "^3.11.3",
+    "less-loader": "^6.1.0",
+    "less-middleware": "^3.1.0",
     "markdown-to-jsx": "^6.11.1",
     "moment": "^2.26.0",
     "node-jsx": "^0.13.3",
