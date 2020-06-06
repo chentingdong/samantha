@@ -40,4 +40,28 @@ const getIconClassByType = (type) => {
   return "rs-icon rs-icon-" + getIconByType(type)
 }
 
-export { getIconByType, getIconClassByType, blockBgColor, blockTextColor }
+const injectRsuiteStyle = (theme) => {
+  // const file = theme === "dark" ? "rsuite-dark.less" : "rsuite-light.less"
+  const cdn =
+    theme === "dark"
+      ? "http://cdnjs.cloudflare.com/ajax/libs/rsuite/4.7.2/styles/rsuite-dark.min.css"
+      : "http://cdnjs.cloudflare.com/ajax/libs/rsuite/4.7.2/styles/rsuite-default.min.css"
+  const head = document.body.parentElement.firstElementChild
+  let link = document.getElementById("rsuite")
+  if (!link) link = document.createElement("link")
+
+  // link.setAttribute("href", "http://localhost:2000/styles/" + file)
+  link.setAttribute("href", cdn)
+  link.setAttribute("rel", "stylesheet")
+  link.setAttribute("type", "text/css")
+  link.setAttribute("id", "rsuite") // set id so we can remove it later
+  head.appendChild(link)
+}
+
+export {
+  getIconByType,
+  getIconClassByType,
+  blockBgColor,
+  blockTextColor,
+  injectRsuiteStyle,
+}

@@ -20,7 +20,7 @@
       "type": "chrome",
       "request": "launch",
       "port": 2622,
-      "url": "https://localhost:2000",
+      "url": "http://localhost:2000",
       "webRoot": "${workspaceRoot}/src",
       "sourceMaps": true
     }

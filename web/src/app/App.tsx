@@ -3,12 +3,13 @@ import Amplify, { Auth, Hub } from "aws-amplify"
 import { useEffect } from "react"
 import { hot } from "react-hot-loader/root"
 import Routes from "../routes/Routes"
-import "../assets/scss/app.scss"
-import config from "../../configs/config"
 import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
 import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
-import { AUTH_USER } from "../operations/queries/authUser"
 import { setAuthUser } from "../operations/mutations/setAuthUser"
+import config from "../../configs/config"
+import "../assets/styles/app.scss"
+import "../assets/rsuite/rsuite-bell.less"
+import "../assets/tailwind/tailwind.generated.css"
 
 const App = () => {
   const [upsertOneUser] = useMutation(UPSERT_ONE_USER)

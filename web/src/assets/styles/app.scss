@@ -1,5 +1,3 @@
-// basic tags/classes. Like global variables that all themes use.
-// TODO: refactor to merge with tailwind.css variables
 .font-default {
   font-family: helvetica, arial, sans-serif;
 }
@@ -52,9 +50,5 @@ h6 {
 }
 
 div {
-  transition: background-color 1s ease;
+  transition: background-color 0.7s ease;
 }
-
-// @import "/node_modules/rsuite/dist/styles/rsuite-dark.css";
-@import "../rsuite/rsuite-bell.css";
-@import "../tailwind/tailwind.generated.css";

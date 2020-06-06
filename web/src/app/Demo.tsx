@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { RequestCatalogList } from "./RequestCatalogList"
 import { RequestsMadeList } from "./RequestsMadeList"
 import { RequestsReceivedList } from "./RequestsReceivedList"
@@ -11,6 +11,7 @@ import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import logo from "../assets/img/bell.png"
+import { injectRsuiteStyle } from "../utils/Styles"
 
 function DemoRaw({ className }) {
   const [active, setActive] = useState("requests-made")
@@ -19,14 +20,22 @@ function DemoRaw({ className }) {
     await Auth.signOut()
   }
 
-  const [theme, setTheme] = useState("theme-dark")
+  const [theme, setTheme] = useState("dark")
 
   const toggleTheme = () => {
-    const newTheme = theme === "theme-dark" ? "theme-elegant" : "theme-dark"
-    setTheme(newTheme)
+    if (theme === "light") {
+      setTheme("dark")
+    } else {
+      setTheme("light")
+    }
   }
+
+  useEffect(() => {
+    injectRsuiteStyle(theme)
+  }, [theme])
+
   return (
-    <div className={`${className} ${theme}`}>
+    <div className={`${className} theme-${theme}`}>
       {data?.authUser?.isAuthenticated && (
         <>
           <Grid fluid>
