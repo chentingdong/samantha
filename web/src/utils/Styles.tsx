@@ -44,7 +44,8 @@ const injectRsuiteStyle = (theme) => {
   const css = `/dist/rsuite/theme-${theme}.min.css`
   const head = document.body.parentElement.firstElementChild
   const firstLink = head.getElementsByTagName("link")[0]
-  let link = document.getElementById("rsuite") || document.createElement("link")
+  const link =
+    document.getElementById("rsuite") || document.createElement("link")
 
   link.setAttribute("href", css)
   link.setAttribute("rel", "stylesheet")
