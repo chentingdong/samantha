@@ -111,7 +111,7 @@ const EditorRaw = () => {
                 <div>Name</div>
                 <Input
                   name="name"
-                  value={data?.uiState?.draftBlock?.name}
+                  defaultValue={data?.uiState?.draftBlock?.name}
                   onChange={(value) =>
                     setUiState({
                       draftBlock: { name: value },
@@ -125,7 +125,7 @@ const EditorRaw = () => {
                   rows={5}
                   name="description"
                   componentClass="textarea"
-                  value={data?.uiState?.draftBlock?.description}
+                  defaultValue={data?.uiState?.draftBlock?.description}
                   onChange={(value) =>
                     setUiState({
                       draftBlock: { description: value },
