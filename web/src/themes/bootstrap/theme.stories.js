@@ -7,7 +7,7 @@ import blockStories from "../../../data/storybook-blocks.json"
 const blockLevel1 = blockStories[0].children[0]
 import { light, dark } from "./theme"
 import { ThemeProvider } from "styled-components"
-import "../../assets/scss/bootstrap-wrapper.scss"
+import "../../assets/styles/bootstrap-wrapper.scss"
 
 export default {
   title: "Theme /Bootstrap",
