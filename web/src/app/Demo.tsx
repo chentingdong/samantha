@@ -20,13 +20,13 @@ function DemoRaw({ className }) {
     await Auth.signOut()
   }
 
-  const [theme, setTheme] = useState("dark")
+  const [theme, setTheme] = useState("bell")
 
   const toggleTheme = () => {
-    if (theme === "light") {
+    if (theme === "bell") {
       setTheme("dark")
     } else {
-      setTheme("light")
+      setTheme("bell")
     }
   }
 

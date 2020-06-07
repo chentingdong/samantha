@@ -3,6 +3,29 @@
 @tailwind utilities;
 
 /* Themes */
+.theme-bell {
+  --color-bg-primary: #4438c2;
+  --color-bg-secondary: #b33f5a;
+  --color-bg-default: #f5f7f3;
+  --color-bg-inverse: #1d1320;
+
+  --color-text-primary: #f5f7f3;
+  --color-text-secondary: #eed1d1;
+  --color-text-default: #1d1320;
+  --color-text-inverse: #dad9ac;
+
+  --font-display: Helvetica, Times, "Times New Roman", serif;
+  --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
+    "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,
+    "Verdana Ref", sans-serif;
+
+  --font-weight-normal: 400;
+  --font-weight-display: 400;
+  --font-weight-btn: 600;
+
+  --rounded-btn: 0;
+}
+
 .theme-dark {
   --color-bg-primary: #2d3033;
   --color-bg-secondary: #374655;
@@ -10,13 +33,9 @@
   --color-bg-inverse: #2f333a;
 
   --color-text-primary: #c4d8e6;
-  --color-text-primary-soft: #96a2ac;
   --color-text-secondary: #eed1d1;
-  --color-text-secondary-soft: #aa9595;
   --color-text-default: #99a5af;
-  --color-text-default-soft: #d9dbe0;
   --color-text-inverse: #dad9ac;
-  --color-text-inverse-soft: #b8b5a7;
 
   --font-display: Georgia, Times, "Times New Roman", serif;
   --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
@@ -39,9 +58,7 @@
   --color-bg-primary: #aaa;
   --color-bg-secondary: #7e9292;
   --color-bg-default: #bbb;
-  --color-bg-default-soft: #6a6a6a;
   --color-bg-inverse: #ccc;
-  --color-bg-inverse-soft: #bbb;
 
   --font-display: Georgia, Times, "Times New Roman", serif;
   --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
