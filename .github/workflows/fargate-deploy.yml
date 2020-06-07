@@ -26,6 +26,9 @@
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    tags:
+    - '*'
 
 name: Deploy to Amazon ECS
 
