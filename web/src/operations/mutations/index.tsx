@@ -16,12 +16,8 @@ const useBlockMutations = (typename) => {
   const [createOneBlockDef] = useMutation(CREATE_ONE_BLOCK_DEF, {
     refetchQueries: [{ query: REQUEST_CATALOG }],
   })
-  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK, {
-    refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
-  })
-  const [updateOneBlockDef] = useMutation(UPDATE_ONE_BLOCK_DEF, {
-    refetchQueries: [{ query: REQUEST_CATALOG }],
-  })
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
+  const [updateOneBlockDef] = useMutation(UPDATE_ONE_BLOCK_DEF)
   const [deleteOneBlock] = useMutation(DELETE_ONE_BLOCK, {
     refetchQueries: [{ query: REQUESTS_MADE }, { query: REQUESTS_RECEIVED }],
   })

@@ -11,7 +11,7 @@ import { CatalogDropdown } from "./CatalogDropdown"
 const RequestCatalogList = () => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG, {
     fetchPolicy: "network-only",
-    pollInterval: 1000,
+    // pollInterval: 1000,
   })
 
   if (loading) return <Loader speed="fast" content="Loading..." />

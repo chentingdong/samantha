@@ -13,7 +13,7 @@ const RequestsMadeList = () => {
   const { loading, error, data } = useQuery(REQUESTS_MADE, {
     variables: { userId: authUserResult?.authUser?.id },
     fetchPolicy: "network-only",
-    pollInterval: 1000,
+    // pollInterval: 1000,
   })
 
   if (loading) return <Loader speed="fast" content="Loading..." />
