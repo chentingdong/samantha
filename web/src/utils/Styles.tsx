@@ -42,9 +42,7 @@ const getIconClassByType = (type) => {
 
 const injectRsuiteStyle = (theme) => {
   const cdn =
-    theme === "dark"
-      ? "/src/assets/rsuite/rsuite-dark.min.css"
-      : "/src/assets/rsuite/rsuite-default.min.css"
+    theme === "dark" ? "/rsuite/theme-dark.css" : "/rsuite/theme-light.css"
 
   const head = document.body.parentElement.firstElementChild
   const firstLink = head.getElementsByTagName("link")[0]
@@ -56,7 +54,6 @@ const injectRsuiteStyle = (theme) => {
   link.setAttribute("type", "text/css")
   link.setAttribute("id", "rsuite")
   head.insertBefore(link, firstLink)
-  // head.appendChild(link)
 }
 
 export {
