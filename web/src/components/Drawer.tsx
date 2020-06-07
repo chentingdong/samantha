@@ -60,7 +60,7 @@ const Drawer: React.FC<DrawerType> = styled(DrawerRaw)`
     > .rs-col {
       min-height: 100vh;
       background: var(--color-bg-default);
-      transition: margin-left 0.5s ease;
+      transition: margin-left;
     }
   }
 `

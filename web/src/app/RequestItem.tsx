@@ -143,7 +143,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   )
 }
 
-const RequestItem = styled(RequestItemRaw)`
+const RequestItem = styled(React.memo(RequestItemRaw))`
   ${tw`p-2 pb-4 my-2 rounded border shadow`}
   border-color: var(--color-text-default);
   color: var(--color-text-primary);

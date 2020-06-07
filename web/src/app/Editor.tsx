@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useCallback } from "react"
 import {
   ButtonToolbar,
   Placeholder,
@@ -38,6 +38,20 @@ const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
+
+  const escFunction = useCallback((event) => {
+    if (event.keyCode === 27) {
+      // Do whatever when esc is pressed
+      close()
+    }
+  }, [])
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false)
+    return () => {
+      document.removeEventListener("keydown", escFunction, false)
+    }
+  }, [])
 
   useEffect(() => {
     if (data?.uiState?.editorMode === EditMode.Edit) {

@@ -30,7 +30,7 @@
       }
     },
     {
-      "command": ["yarn", "-s", "start-prod"],
+      "command": ["yarn", "-s", "start"],
       "essential": true,
       "image": "${web_image}",
       "name": "web",
