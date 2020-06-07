@@ -41,18 +41,16 @@ const getIconClassByType = (type) => {
 }
 
 const injectRsuiteStyle = (theme) => {
-  const cdn =
-    theme === "dark" ? "/rsuite/theme-dark.css" : "/rsuite/theme-light.css"
-
+  const css = `/dist/rsuite/theme-${theme}.min.css`
   const head = document.body.parentElement.firstElementChild
   const firstLink = head.getElementsByTagName("link")[0]
-  let link = document.getElementById("rsuite")
-  if (!link) link = document.createElement("link")
+  let link = document.getElementById("rsuite") || document.createElement("link")
 
-  link.setAttribute("href", cdn)
+  link.setAttribute("href", css)
   link.setAttribute("rel", "stylesheet")
   link.setAttribute("type", "text/css")
   link.setAttribute("id", "rsuite")
+
   head.insertBefore(link, firstLink)
 }
 

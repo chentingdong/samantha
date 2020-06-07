@@ -170,7 +170,6 @@
     "tailwindcss": "1.4.6",
     "ts-loader": "^7.0.3",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "url-loader": "^4.1.0",
     "use-reducer-async": "^2.0.1"
   },
   "nohoist": [
