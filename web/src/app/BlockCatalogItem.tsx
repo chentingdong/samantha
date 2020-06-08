@@ -14,7 +14,7 @@ const BlockCatalogItem: React.FC<{
         <div className="text-sm">
           <strong className="card-header">
             <Icon icon={getIconByType(blockDef.type)} />
-            {blockDef.name}
+            <span className="ml-1">{blockDef.name}</span>
           </strong>
           <div className="card-body">{blockDef.description}</div>
         </div>

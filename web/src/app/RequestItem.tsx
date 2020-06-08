@@ -146,7 +146,7 @@ const RequestItem = styled(React.memo(RequestItemRaw))`
   background: var(--color-bg-default);
   .block-state {
     ${tw`border mr-1 my-2 p-1 text-sm rounded`}
-    color: var(--color-text-primary);
+    color: var(--color-text-secondary);
     background: var(--color-bg-primary);
   }
   .block-state-DRAFT {
