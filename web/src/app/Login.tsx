@@ -4,6 +4,7 @@ import config from "../../configs/config.js"
 import logo from "../assets/img/bellhop.png"
 import { Button } from "rsuite"
 import { injectRsuiteStyle } from "../utils/Styles"
+import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
 
 function Login() {
   const [theme, setTheme] = useState("dark")
@@ -19,7 +20,11 @@ function Login() {
         <img src={logo} alt="" className="max-h-16" />
         <Button
           className="btn px-4 py-2 mt-4 w-full text-2xl text-gray-500 hover:text-gray-300 bg-gray-900 hover:bg-gray-700"
-          onClick={() => Auth.federatedSignIn({ provider: "Google" })}
+          onClick={() =>
+            Auth.federatedSignIn({
+              provider: CognitoHostedUIIdentityProvider.Google,
+            })
+          }
         >
           Login with Google
         </Button>
