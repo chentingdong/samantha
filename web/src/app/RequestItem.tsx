@@ -1,8 +1,9 @@
-import React, { useState, useReducer } from "react"
+import React, { useState, useReducer, useEffect } from "react"
 import uuid from "uuid"
 import { BlockOrDef, Block } from "../models/interface"
 import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
+import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation } from "@apollo/client"
 import { Grid, Row, Col, IconButton, Icon } from "rsuite"
 import styled from "styled-components"
@@ -25,6 +26,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   className = "",
 }) => {
   const { data } = useQuery(AUTH_USER)
+  const { data: uiState } = useQuery(UI_STATE)
   const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
 
   const markComplete = (blockToComplete) => {
@@ -40,6 +42,19 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   const stateStyle = (blockWithState) => {
     return blockWithState.state || "default"
   }
+
+  // update draftBlock if remote block has changed. used for co-editing demo. may not be efficient
+  useEffect(() => {
+    if (block.id === uiState?.uiState?.draftBlock?.id) {
+      const editingTypename =
+        block.__typename === "Block" ? Typename.Block : Typename.BlockDef
+      setUiState({
+        editingTypename,
+        editorMode: EditMode.Edit,
+        draftBlock: { ...block, __typename: editingTypename },
+      })
+    }
+  }, [block])
 
   return (
     <div className={className}>
