@@ -11,6 +11,7 @@ import { UI_STATE } from "../operations/queries/uiState"
 import { deleteOneBlock } from "../operations/blockOperations"
 import { EditMode } from "../models/enum"
 import { useBlockMutations } from "../operations/mutations"
+import tw from "tailwind.macro"
 
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
@@ -25,7 +26,7 @@ const BlockChildrenItemRaw: React.FC<{
   )
 
   return (
-    <Card className={`${className}`}>
+    <Card className={`${className} ${isLeaf ? "leaf" : "composite"}`}>
       <DndSourceBox type="block" block={block}>
         <div
           className={`card-header card-header-${isLeaf ? "leaf" : "composite"}`}
@@ -61,6 +62,7 @@ const BlockChildrenItemRaw: React.FC<{
 }
 
 const BlockChildrenItem = styled(BlockChildrenItemRaw)`
+  ${tw`flex`}
   .card-header-composite {
     color: var(--color-text-warning);
     background: var(--color-bg-warning);

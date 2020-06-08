@@ -72,8 +72,6 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 
 const BlockChildrenList: React.FC<BlockChildrenListType> = styled(
   BlockChildrenListRaw
-)`
-  ${tw`flex`}
-`
+)``
 
 export { BlockChildrenList }
