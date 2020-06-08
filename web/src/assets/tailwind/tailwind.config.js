@@ -8,8 +8,8 @@ module.exports = {
       xl: "1280px",
     },
     fontFamily: {
-      display: ["Gilroy", "sans-serif"],
-      body: ["Graphik", "sans-serif"],
+      display: ["Cavela", "sans-serif"],
+      body: ["Cavela", "sans-serif"],
     },
     borderWidth: {
       default: "1px",
