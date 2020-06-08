@@ -10,8 +10,7 @@ import { Editor } from "./Editor"
 import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import logo from "../assets/img/bell.png"
-import { injectRsuiteStyle } from "../utils/Styles"
+import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
 
 function DemoRaw({ className }) {
   const [active, setActive] = useState("requests-made")
@@ -43,15 +42,11 @@ function DemoRaw({ className }) {
               <Col xs={24} lg={4}>
                 <div className="brand">
                   <img
-                    src={logo}
+                    src={getLogoByTheme(theme)}
                     alt=""
-                    className="logo"
+                    className={`logo ${theme}`}
                     onClick={toggleTheme}
                   />
-                  <div className="inline-block">
-                    <h1>Bellhop</h1>
-                    <h6>work engagement platform</h6>
-                  </div>
                 </div>
                 <Nav
                   vertical
@@ -100,7 +95,7 @@ const Demo = styled(DemoRaw)`
     ${tw`my-4`}
     .logo {
       ${tw`my-0 mx-4`}
-      max-height: 3em;
+      max-height: 2em;
       height: 100%;
       display: inline-block;
       vertical-align: top;

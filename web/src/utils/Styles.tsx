@@ -1,3 +1,10 @@
+import logoDark from "../assets/img/bellhop-dark.svg"
+import logoWhite from "../assets/img/bellhop-white.svg"
+
+const getLogoByTheme = (theme) => {
+  return theme === "bell" ? logoDark : logoWhite
+}
+
 const blockColor = (block) => {
   switch (block.state) {
     case "PENDING":
@@ -60,6 +67,7 @@ const injectRsuiteStyle = (theme) => {
 }
 
 export {
+  getLogoByTheme,
   getIconByType,
   getIconClassByType,
   blockBgColor,
