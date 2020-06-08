@@ -16,17 +16,20 @@ const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
   parent: BlockOrDef
   index?: number
-}> = ({ block, parent, index = 0 }) => {
+  className?: string
+}> = ({ block, parent, index = 0, className = "" }) => {
   const { data, loading, error } = useQuery(UI_STATE)
-  const isLeaf = block.type.includes("LEAF_")
+  const isLeaf = block.type?.includes("LEAF_")
   const [createFn, updateFn, deleteFn] = useBlockMutations(
     data?.uiState?.editingTypename
   )
 
   return (
-    <Card className={`${isLeaf ? "leaf" : "composite"} theme-dark`}>
+    <Card className={`${className} ${isLeaf ? "leaf" : "composite"}`}>
       <DndSourceBox type="block" block={block}>
-        <div className="card-header">
+        <div
+          className={`card-header card-header-${isLeaf ? "leaf" : "composite"}`}
+        >
           <Icon icon={getIconByType(block.type)} />
           {block.name}
           <Icon
@@ -45,7 +48,7 @@ const BlockChildrenItemRaw: React.FC<{
           />
         </div>
         <div className="card-body">{block.description}</div>
-        {block.type.includes("COMPOSITE") && (
+        {block.type?.includes("COMPOSITE") && (
           <BlockChildrenList
             blocks={block.children}
             parent={block}
@@ -57,5 +60,14 @@ const BlockChildrenItemRaw: React.FC<{
   )
 }
 
-const BlockChildrenItem = styled(BlockChildrenItemRaw)``
+const BlockChildrenItem = styled(BlockChildrenItemRaw)`
+  .card-header-composite {
+    color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+  }
+  .card-header-leaf {
+    color: var(--color-text-success);
+    background: var(--color-bg-success);
+  }
+`
 export { BlockChildrenItem }

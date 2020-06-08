@@ -7,8 +7,6 @@ import { useQuery, useMutation } from "@apollo/client"
 import { Grid, Row, Col, IconButton, Icon } from "rsuite"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { Card } from "../components/Card"
-import { Button } from "../components/Button"
 import { setUiState } from "../operations/mutations/setUiState"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
@@ -44,7 +42,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   }
 
   return (
-    <Card className={className}>
+    <div className={className}>
       <Grid fluid>
         <Col xs={18}>
           {itemOrigin !== ItemOrigin.Catalog && (
@@ -61,7 +59,6 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           <Row>
             <span className="block-name"> {block.name} </span>
             <span className="responders">
-              {"  "}
               {(block as Block).responders
                 ?.map((user) => "@" + user.name)
                 .join(", ")}
@@ -72,7 +69,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               {block.children?.map((child) => {
                 return (
                   <span
-                    className={`child block-state-${stateStyle(child)}`}
+                    className={`block-state block-state-${stateStyle(child)}`}
                     key={child.id}
                   >
                     {child.name}
@@ -84,7 +81,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
           <IconButton
-            appearance="default"
+            appearance="ghost"
             icon={<Icon icon="edit" />}
             onClick={(e) => {
               const editingTypename =
@@ -107,7 +104,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin !== ItemOrigin.Catalog &&
             (block as Block).state !== "COMPLETE" && (
               <IconButton
-                appearance="default"
+                appearance="ghost"
                 icon={<Icon icon="check" />}
                 onClick={() => markComplete(block)}
               >
@@ -116,7 +113,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             )}
           {itemOrigin === ItemOrigin.Catalog && (
             <IconButton
-              appearance="default"
+              appearance="ghost"
               icon={<Icon icon="bell-o" />}
               onClick={() => {
                 setUiState(
@@ -139,31 +136,34 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
         </Col>
       </Grid>
-    </Card>
+    </div>
   )
 }
 
 const RequestItem = styled(React.memo(RequestItemRaw))`
   ${tw`p-2 pb-4 my-2 rounded border shadow`}
-  border-color: var(--color-text-default);
-  color: var(--color-text-primary);
-  .editor {
-    transition: left 2s;
-  }
-  .child {
+  color: var(--color-text-default);
+  background: var(--color-bg-default);
+  .block-state {
     ${tw`border mr-1 my-2 p-1 text-sm rounded`}
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
   }
   .block-state-DRAFT {
-    color: gray;
+    color: var(--color-text-warning);
+    background: var(--color-bg-warning);
   }
   .block-state-PENDING {
-    color: var(--color-text-secondary);
+    color: var(--color-text-warning);
+    background: var(--color-bg-warning);
   }
   .block-state-ACTIVE {
-    color: var(--color-text-primary);
+    color: var(--color-text-success);
+    background: var(--color-bg-success);
   }
   .block-state-COMPLETE {
     color: var(--color-text-inverse);
+    background: var(--color-bg-primary);
   }
   .requestors {
     font-size: 0.9rem;

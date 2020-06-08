@@ -55,8 +55,8 @@ const Drawer: React.FC<DrawerType> = styled(DrawerRaw)`
   height: 100vh;
   overflow: auto;
   width: 100%;
-  background: var(--color-bg-primary);
   .backdrop {
+    background: rgba(0, 0, 0, 0.5);
     > .rs-col {
       min-height: 100vh;
       background: var(--color-bg-default);

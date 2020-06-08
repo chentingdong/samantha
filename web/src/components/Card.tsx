@@ -4,11 +4,10 @@ import tw from "tailwind.macro"
 
 const Card = styled.div`
   ${tw`rounded-md shadow border text-sm m-1`}
-  color: var(--color-text-primary);
-  background: var(--color-bg-primary);
   .card-header {
     ${tw`rounded-t-md p-1`}
-    background: var(--color-bg-default);
+    color: var(--color-text-inverse);
+    background: var(--color-bg-primary);
     display: block;
     width: 100%;
     white-space: nowrap;
@@ -17,6 +16,8 @@ const Card = styled.div`
   }
   .card-body {
     ${tw`rounded-b-md p-1 text-xs`}
+    color: var(--color-text-default);
+    background: var(--color-bg-default);
     max-height: 4.7em;
   }
   &.composite {
