@@ -26,7 +26,7 @@ const createBlock = (root, targetType, requestor, parent = null) => {
     created_at: new Date(),
     last_updated: new Date(),
     __typename: targetType,
-    children: root.children.map((child) =>
+    children: root.children?.map((child) =>
       createBlock(child, targetType, requestor, {
         __typename: root.__typename,
         id,

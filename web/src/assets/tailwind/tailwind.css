@@ -215,6 +215,7 @@ h6 {
   font-size: 0.67em;
 }
 
-div {
-  transition: background-color 0.7s ease;
+* {
+  transition: background-color 0.3s ease;
+  transition: height width 0.3s ease;
 }
