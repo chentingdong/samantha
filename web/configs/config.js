@@ -21,7 +21,7 @@ const config = {
       redirectSignIn: uiBaseUrl,
       redirectSignOut: uiBaseUrl + "/logout",
       // 'code' or 'token'. REFRESH token will only be generated when the responseType is code
-      responseType: "token",
+      responseType: "code",
     },
   },
   Storage: {
