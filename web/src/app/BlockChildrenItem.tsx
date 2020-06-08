@@ -25,9 +25,11 @@ const BlockChildrenItemRaw: React.FC<{
   )
 
   return (
-    <Card className={`${className} ${isLeaf ? "leaf" : "composite"}`}>
+    <Card className={`${className}`}>
       <DndSourceBox type="block" block={block}>
-        <div className={`card-header`}>
+        <div
+          className={`card-header card-header-${isLeaf ? "leaf" : "composite"}`}
+        >
           <Icon icon={getIconByType(block.type)} />
           <span className="ml-2">{block.name}</span>
           <Icon
@@ -59,13 +61,13 @@ const BlockChildrenItemRaw: React.FC<{
 }
 
 const BlockChildrenItem = styled(BlockChildrenItemRaw)`
-  .composite .card-header {
+  .card-header-composite {
+    color: var(--color-text-warning);
+    background: var(--color-bg-warning);
+  }
+  .card-header-leaf {
     color: var(--color-text-secondary);
     background: var(--color-bg-secondary);
-  }
-  .leaf .card-header {
-    color: var(--color-text-success);
-    background: var(--color-bg-success);
   }
 `
 export { BlockChildrenItem }
