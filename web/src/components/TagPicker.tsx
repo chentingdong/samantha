@@ -58,7 +58,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
             </span>
           )
         })}
-        <div className="toggle p-1 pl-2 m-1">
+        <div className="toggle p-1 px-2">
           <Icon icon="arrow-down" className="" />
         </div>
       </div>
@@ -91,18 +91,18 @@ const Styles = styled.div.attrs({})`
   position: relative;
   border: 1px solid;
   border-radius: 5px;
-  background: var(--color-bg-secondary);
-  min-height: 2.5em;
+  color: var(--color-text-default);
+  background: var(--color-bg-default);
+  padding-right: 2em;
   .tag {
     padding: 0.25em;
     margin: 0.12em;
-    background-color: var(--color-bg-default);
+    color: var(--color-text-inverse);
+    background-color: var(--color-bg-success);
     .close {
-      border-color: var(--color-text-default);
     }
   }
   .toggle {
-    color: var(--color-text-primary);
     border-left: 1px solid;
     position: absolute;
     right: 0;

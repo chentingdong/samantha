@@ -23,10 +23,10 @@ function DemoRaw({ className }) {
   const [theme, setTheme] = useState("dark")
 
   const toggleTheme = () => {
-    if (theme === "light") {
+    if (theme === "bell") {
       setTheme("dark")
     } else {
-      setTheme("light")
+      setTheme("bell")
     }
   }
 

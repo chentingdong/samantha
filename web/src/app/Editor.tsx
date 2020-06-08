@@ -267,7 +267,7 @@ const EditorRaw = () => {
                   <IconButton
                     onClick={close}
                     icon={<Icon icon="ban" />}
-                    appearance="subtle"
+                    appearance="primary"
                   >
                     Cancel
                   </IconButton>
