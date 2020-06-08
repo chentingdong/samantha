@@ -95,6 +95,7 @@ const Demo = styled(DemoRaw)`
   overflow: auto;
   height: 100vh;
   border-radius: 0;
+  font-family: var(--font-body);
   .brand {
     ${tw`my-4`}
     .logo {

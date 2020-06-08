@@ -26,7 +26,7 @@
   --color-bg-inverse: #1d1320;
 
   --font-display: "IBM Plex Mono", sans-serif;
-  --font-body: Varela, sans-serif;
+  --font-body: Varela, Arial, sans-serif;
 
   --font-weight-normal: 400;
   --font-weight-display: 400;
@@ -57,10 +57,8 @@
   --color-text-inverse: #dad9ac;
   --color-bg-inverse: #2d3033;
 
-  --font-display: Georgia, Times, "Times New Roman", serif;
-  --font-body: Corbel, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans",
-    "DejaVu Sans", "Bitstream Vera Sans", "Liberation Sans", Verdana,
-    "Verdana Ref", sans-serif;
+  --font-display: "IBM Plex Mono", sans-serif;
+  --font-body: Varela, Arial, sans-serif;
 
   --font-weight-normal: 400;
   --font-weight-display: 400;
@@ -162,8 +160,8 @@
 }
 
 /* General variables */
-.font-default {
-  font-family: helvetica, arial, sans-serif;
+/* .font-default {
+  font-family: Varela, arial, sans-serif;
 }
 
 .font-sans {
@@ -179,11 +177,8 @@
 .font-mono {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
-}
+} */
 
-body {
-  font-family: var(--font-body);
-}
 h1,
 h2 {
   font-family: var(--font-display);
