@@ -30,7 +30,7 @@ const DrawerRaw: React.FC<DrawerType> = ({
       <div className={className}>
         <Grid fluid>
           <Row onClick={hide} className="backdrop">
-            <Col xs={18} xsOffset={offset} className="p-4">
+            <Col xs={18} xsOffset={offset} className="content p-4">
               <Icon
                 icon="close"
                 className="float-right cursor-pointer m-4"
@@ -57,10 +57,10 @@ const Drawer: React.FC<DrawerType> = styled(DrawerRaw)`
   width: 100%;
   .backdrop {
     background: rgba(0, 0, 0, 0.5);
-    > .rs-col {
+    .content {
       min-height: 100vh;
       background: var(--color-bg-default);
-      transition: margin-left;
+      transition: margin-left 0.5s ease;
     }
   }
 `
