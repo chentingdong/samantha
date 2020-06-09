@@ -11,7 +11,6 @@ import {
   IconButton,
   Tree,
   Input,
-  Notification,
 } from "rsuite"
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
