@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="cypress.integration.examples.network_requests.spec"
+    errors="1" failures="0" hostname="" id="" package="examples" skipped="7"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+    <system-err>
+        SyntaxError: Cannot use import statement outside a module
+   import &#39;./commands&#39;
+   ^^^^^^
+   
+   SyntaxError: Cannot use import statement outside a module
+       at wrapSafe (internal/modules/cjs/loader.js:1101:16)
+       at Module._compile (internal/modules/cjs/loader.js:1149:27)
+       at Object.Module._extensions..js (internal/modules/cjs/loader.js:1205:10)
+       at Module.load (internal/modules/cjs/loader.js:1034:32)
+       at Function.Module._load (internal/modules/cjs/loader.js:923:14)
+       at Module.require (internal/modules/cjs/loader.js:1074:19)
+       at require (internal/modules/cjs/helpers.js:72:18)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Actions}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Aliasing}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Assertions}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Connectors}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Cookies}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Cypress.spec}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Files}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Local Storage}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Location}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Misc}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Navigation}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Network Requests}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Querying}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Spies, Stubs, and Clock}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Traversal}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Utilities}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Viewport}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Waiting}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Window}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Cypress/Plugins/Index}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Cypress/Support/Commands}&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+    </system-err>
+  
+
+    
+    <error message="An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Network Requests}&#34;"><![CDATA[
+      Error: An error occurred while retrieving a new session: &#34;Error forwarding the new session Empty pool of VM for setup Capabilities {acceptSslCerts: true, browserName: chrome, chromeOptions: {w3c: false}, javascriptEnabled: true, name: Network Requests}&#34;
+    at Selenium2Protocol.handleSessionCreateError (/Volumes/Code/samantha/web/node_modules/nightwatch/lib/transport/transport.js:103:15)
+    at HttpRequest.&lt;anonymous&gt; (/Volumes/Code/samantha/web/node_modules/nightwatch/lib/transport/transport.js:158:32)
+    at HttpRequest.emit (events.js:315:20)
+    at HttpResponse.&lt;anonymous&gt; (/Volumes/Code/samantha/web/node_modules/nightwatch/lib/http/request.js:131:19)
+    at HttpResponse.emit (events.js:315:20)
+    at IncomingMessage.&lt;anonymous&gt; (/Volumes/Code/samantha/web/node_modules/nightwatch/lib/http/response.js:60:14)
+    at IncomingMessage.emit (events.js:327:22)
+    at endReadableNT (_stream_readable.js:1218:12)
+    at processTicksAndRejections (internal/process/task_queues.js:84:21)
+      ]]></error>  
+
+  
+    
+    <testcase
+      name="cy.server() - control behavior of network requests and responses" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="cy.request() - make an XHR request" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="cy.request() - verify response using BDD syntax" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="cy.request() with query parameters" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="cy.request() - pass result to the second request" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="cy.request() - save response in the shared test context" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="cy.route() - route responses to matching requests" classname="cypress.integration.examples.network_requests.spec">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

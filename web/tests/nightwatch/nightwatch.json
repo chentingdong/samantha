@@ -1,16 +1,16 @@
 {
-  "src_folders": ["nightwatch/tests"],
-  "output_folder": "nightwatch/reports",
+  "src_folders": ["tests/nightwatch/tests"],
+  "output_folder": "reports",
   "selenium": {
     "start_process": true,
-    "server_path": "nightwatch/bin/selenium-server-standalone-3.9.1.jar",
-    "log_path": "nightwatch/logs",
-    "port": 4444
+    "server_path": "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
+    "log_path": "tests/nightwatch/nightwatch/logs",
+    "port": 2077
   },
   "test_settings": {
     "default": {
       "launch_url": "http://localhost",
-      "selenium_port": 4444,
+      "selenium_port": 2077,
       "selenium_host": "localhost",
       "desiredCapabilities": {
         "browserName": "chrome",

@@ -33,9 +33,9 @@
     "storybook": "yarn run prebuild && start-storybook -p 2040 ",
     "chromatic": "npx chromatic --project-token=jn5n1c1u9l",
     "test": "jest",
-    "test:e2e": "cypress",
-    "test:nightwatch": "nightwatch",
-    "test:selenium-server": "java -jar nightwatch/bin/selenium-server-standalone-3.9.1.jar",
+    "test:e2e": "cypress open",
+    "selenium-server": "java -jar tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar -role hub -port 2077",
+    "test:nightwatch": "nightwatch -c tests/nightwatch/nightwatch.json",
     "test:cypress": "cypress open"
   },
   "jest": {
