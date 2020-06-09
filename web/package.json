@@ -33,10 +33,10 @@
     "storybook": "yarn run prebuild && start-storybook -p 2040 ",
     "chromatic": "npx chromatic --project-token=jn5n1c1u9l",
     "test": "jest",
-    "test:e2e": "cypress open",
+    "test:e2e": "test:cypress",
     "selenium-server": "java -jar tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar -role hub -port 2077",
     "test:nightwatch": "nightwatch -c tests/nightwatch/nightwatch.json",
-    "test:cypress": "cypress open"
+    "test:cypress": "cypress open -C tests/cypress/cypress.json"
   },
   "jest": {
     "testEnvironment": "node",
@@ -46,7 +46,7 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-react": "^7.10.1",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-docs": "^5.3.18",
     "@storybook/addon-info": "^5.3.18",
@@ -67,11 +67,13 @@
     "babel-loader": "^8.1.0",
     "chromatic": "^4.0.2",
     "css-loader": "^3.4.2",
+    "cypress": "^4.8.0",
     "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.0.4",
     "image-webpack-loader": "^6.0.0",
-    "jest": "^25.2.7",
+    "jest": "^26.0.1",
+    "jest-puppeteer": "^4.4.0",
     "node-sass": "^4.14.1",
     "postcss-cli": "^7.1.1",
     "prettier": "^2.0.5",
@@ -90,7 +92,8 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "ws": "^7.3.0"
   },
   "dependencies": {
     "@ant-design/icons": "^4.1.0",
@@ -116,8 +119,6 @@
     "babel-preset-react-app": "^9.1.2",
     "bootstrap": "^4.4.1",
     "chromedriver": "^83.0.0",
-    "cypress": "^4.8.0",
-    "docz": "latest",
     "emotion-theming": "^10.0.27",
     "enhanced-resolve": "^4.1.1",
     "eslint": "^6.8.0",
@@ -138,6 +139,7 @@
     "npm-run-all": "^4.1.5",
     "path-to-regexp": "^6.1.0",
     "prop-types": "^15.7.2",
+    "puppeteer": "^3.3.0",
     "react-ace": "^8.1.0",
     "react-animated-css": "^1.2.1",
     "react-bootstrap": "^1.0.1",
@@ -180,6 +182,7 @@
     "tailwindcss": "1.4.6",
     "ts-loader": "^7.0.3",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "url-loader": "^4.1.0",
     "use-reducer-async": "^2.0.1"
   },
   "nohoist": [
