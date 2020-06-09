@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from "react"
+import React, { useEffect, useCallback, useState, useRef } from "react"
 import {
   ButtonToolbar,
   Placeholder,
@@ -108,6 +108,29 @@ const EditorRaw = () => {
     }
   }
 
+  const nameInputRef = useRef(null)
+  const descriptionInputRef = useRef(null)
+  const [nameSelectionStart, setNameSelectionStart] = useState(0)
+  const [descriptionSelectionStart, setDescriptionSelectionStart] = useState(0)
+
+  useEffect(() => {
+    if (nameInputRef?.current) {
+      nameInputRef.current.setSelectionRange(
+        nameSelectionStart,
+        nameSelectionStart
+      )
+    }
+  })
+
+  useEffect(() => {
+    if (descriptionInputRef?.current) {
+      descriptionInputRef.current.setSelectionRange(
+        descriptionSelectionStart,
+        descriptionSelectionStart
+      )
+    }
+  })
+
   if (!data || !usersResult) return <></>
   const { showEditor, editorMode, editingTypename, draftBlock } = data.uiState
   const { users } = usersResult
@@ -124,12 +147,16 @@ const EditorRaw = () => {
               <div>Name</div>
               <Input
                 name="name"
+                inputRef={nameInputRef}
                 value={draftBlock.name}
-                onChange={(value) =>
+                onChange={(value, event) => {
+                  setNameSelectionStart(
+                    (event.currentTarget as HTMLInputElement).selectionStart
+                  )
                   setUiState({
                     draftBlock: { name: value },
                   })
-                }
+                }}
               />
             </Row>
             <Row className="my-4">
@@ -137,13 +164,17 @@ const EditorRaw = () => {
               <Input
                 rows={5}
                 name="description"
+                inputRef={descriptionInputRef}
                 componentClass="textarea"
                 value={draftBlock.description}
-                onChange={(value) =>
+                onChange={(value, event) => {
+                  setDescriptionSelectionStart(
+                    (event.currentTarget as HTMLTextAreaElement).selectionStart
+                  )
                   setUiState({
                     draftBlock: { description: value },
                   })
-                }
+                }}
               />
             </Row>
             {editingTypename === Typename.Block && (

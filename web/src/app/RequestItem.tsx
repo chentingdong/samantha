@@ -31,7 +31,11 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 
   // update draftBlock if remote block has changed. used for co-editing demo. may not be efficient
   useEffect(() => {
-    if (block.id === data?.uiState?.draftBlock?.id) {
+    if (
+      block.id === data?.uiState?.draftBlock?.id &&
+      moment(block.last_updated).toDate() >
+        data?.uiState?.draftBlock?.last_updated
+    ) {
       const editingTypename =
         block.__typename === "Block" ? Typename.Block : Typename.BlockDef
       setUiState({
