@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState, useRef } from "react"
+import React, { useEffect, useCallback } from "react"
 import {
   ButtonToolbar,
   Placeholder,
@@ -10,8 +10,6 @@ import {
   Icon,
   IconButton,
   Tree,
-  Input,
-  Notification,
 } from "rsuite"
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
@@ -33,6 +31,8 @@ import { StateBar } from "../components/StateBar"
 import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
+import { NameInput } from "./NameInput"
+import { DescriptionInput } from "./DescriptionInput"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -57,8 +57,6 @@ const EditorRaw = () => {
     if (data?.uiState?.editorMode === EditMode.Edit) {
       const draft = data?.uiState?.draftBlock
       const dataInput: any = {
-        name: draft.name,
-        description: draft.description,
         last_updated: new Date(),
       }
       if (data?.uiState?.editingTypename === "Block") {
@@ -79,8 +77,6 @@ const EditorRaw = () => {
       })
     }
   }, [
-    data?.uiState?.draftBlock?.name,
-    data?.uiState?.draftBlock?.description,
     data?.uiState?.draftBlock?.requestors,
     data?.uiState?.draftBlock?.responders,
   ])
@@ -108,29 +104,6 @@ const EditorRaw = () => {
     }
   }
 
-  const nameInputRef = useRef(null)
-  const descriptionInputRef = useRef(null)
-  const [nameSelectionStart, setNameSelectionStart] = useState(0)
-  const [descriptionSelectionStart, setDescriptionSelectionStart] = useState(0)
-
-  useEffect(() => {
-    if (nameInputRef?.current) {
-      nameInputRef.current.setSelectionRange(
-        nameSelectionStart,
-        nameSelectionStart
-      )
-    }
-  })
-
-  useEffect(() => {
-    if (descriptionInputRef?.current) {
-      descriptionInputRef.current.setSelectionRange(
-        descriptionSelectionStart,
-        descriptionSelectionStart
-      )
-    }
-  })
-
   if (!data || !usersResult) return <></>
   const { showEditor, editorMode, editingTypename, draftBlock } = data.uiState
   const { users } = usersResult
@@ -145,37 +118,11 @@ const EditorRaw = () => {
           <Grid fluid>
             <Row className="my-4">
               <div>Name</div>
-              <Input
-                name="name"
-                inputRef={nameInputRef}
-                value={draftBlock.name}
-                onChange={(value, event) => {
-                  setNameSelectionStart(
-                    (event.currentTarget as HTMLInputElement).selectionStart
-                  )
-                  setUiState({
-                    draftBlock: { name: value },
-                  })
-                }}
-              />
+              <NameInput />
             </Row>
             <Row className="my-4">
               <div>Description</div>
-              <Input
-                rows={5}
-                name="description"
-                inputRef={descriptionInputRef}
-                componentClass="textarea"
-                value={draftBlock.description}
-                onChange={(value, event) => {
-                  setDescriptionSelectionStart(
-                    (event.currentTarget as HTMLTextAreaElement).selectionStart
-                  )
-                  setUiState({
-                    draftBlock: { description: value },
-                  })
-                }}
-              />
+              <DescriptionInput />
             </Row>
             {editingTypename === Typename.Block && (
               <>
