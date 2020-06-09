@@ -100,7 +100,7 @@ const EditorRaw = () => {
       id: block.id,
       name: block.name,
       icon: getIconClassByType(block.type),
-      children: block.children.map((child) => getTreeData(child)),
+      children: block.children.map?.((child) => getTreeData(child)),
     }
   }
 
