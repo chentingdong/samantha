@@ -19,6 +19,8 @@ const RequestsMadeList = () => {
   if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />
 
+  if (!data || !authUserResult) return <></>
+
   return (
     <>
       <CatalogDropdown
@@ -29,7 +31,7 @@ const RequestsMadeList = () => {
         editingTypename={Typename.Block}
       />
       <Divider />
-      {data.blocks?.map((block) => (
+      {data.blocks.map((block) => (
         <RequestItem
           block={block}
           key={block.id}

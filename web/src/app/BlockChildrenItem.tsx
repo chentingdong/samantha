@@ -25,6 +25,15 @@ const BlockChildrenItemRaw: React.FC<{
     data?.uiState?.editingTypename
   )
 
+  if (loading || error || !data) return <></>
+
+  const { editorMode, draftBlock } = data.uiState
+
+  const handleDeleteClick = (e) => {
+    const syncRemote = editorMode === EditMode.Edit
+    deleteOneBlock(draftBlock, block, parent, syncRemote, deleteFn)
+  }
+
   return (
     <Card className={`${className} ${isLeaf ? "leaf" : "composite"}`}>
       <DndSourceBox type="block" block={block}>
@@ -36,20 +45,11 @@ const BlockChildrenItemRaw: React.FC<{
           <Icon
             icon="close"
             className="float-right m-1"
-            onClick={(e) => {
-              const syncRemote = data?.uiState?.editorMode === EditMode.Edit
-              deleteOneBlock(
-                data?.uiState?.draftBlock,
-                block,
-                parent,
-                syncRemote,
-                deleteFn
-              )
-            }}
+            onClick={handleDeleteClick}
           />
         </div>
         <div className="card-body">{block.description}</div>
-        {block.type?.includes("COMPOSITE") && (
+        {block.type.includes("COMPOSITE") && (
           <BlockChildrenList
             blocks={block.children}
             parent={block}

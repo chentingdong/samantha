@@ -16,6 +16,7 @@ const RequestCatalogList = () => {
 
   if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />
+  if (!data) return <></>
 
   return (
     <>
@@ -27,7 +28,7 @@ const RequestCatalogList = () => {
         editingTypename={Typename.BlockDef}
       />
       <Divider />
-      {data.blockDefs?.map((blockDef: BlockDef) => (
+      {data.blockDefs.map((blockDef: BlockDef) => (
         <RequestItem
           block={blockDef}
           key={blockDef.id}

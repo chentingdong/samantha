@@ -25,9 +25,22 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   itemOrigin = ItemOrigin.Catalog,
   className = "",
 }) => {
-  const { data } = useQuery(AUTH_USER)
-  const { data: uiState } = useQuery(UI_STATE)
+  const { data: authUserResult } = useQuery(AUTH_USER)
+  const { data } = useQuery(UI_STATE)
   const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
+
+  // update draftBlock if remote block has changed. used for co-editing demo. may not be efficient
+  useEffect(() => {
+    if (block.id === data?.uiState?.draftBlock?.id) {
+      const editingTypename =
+        block.__typename === "Block" ? Typename.Block : Typename.BlockDef
+      setUiState({
+        editingTypename,
+        editorMode: EditMode.Edit,
+        draftBlock: { ...block, __typename: editingTypename },
+      })
+    }
+  }, [block])
 
   const markComplete = (blockToComplete) => {
     blockToComplete.children.map((child) => markComplete(child))
@@ -43,18 +56,10 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     return blockWithState.state || "default"
   }
 
-  // update draftBlock if remote block has changed. used for co-editing demo. may not be efficient
-  useEffect(() => {
-    if (block.id === uiState?.uiState?.draftBlock?.id) {
-      const editingTypename =
-        block.__typename === "Block" ? Typename.Block : Typename.BlockDef
-      setUiState({
-        editingTypename,
-        editorMode: EditMode.Edit,
-        draftBlock: { ...block, __typename: editingTypename },
-      })
-    }
-  }, [block])
+  if (!authUserResult || !data) return <></>
+
+  const { authUser } = authUserResult
+  const { draftBlock } = data.uiState
 
   return (
     <div className={className}>
@@ -139,7 +144,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                     draftBlock: createBlock(
                       cloneDeep(block),
                       Typename.Block,
-                      data?.authUser
+                      authUser
                     ),
                   },
                   true
