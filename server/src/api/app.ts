@@ -5,8 +5,18 @@ import { shield } from 'nexus-plugin-shield'
 import { APP_SECRET } from './utils'
 import { rules } from './permissions'
 import cors from 'cors'
+import * as Sentry from '@sentry/node'
+
+Sentry.init({
+  dsn:
+    'https://d866f1d7be1542138ab4a52e41ecf622@o405323.ingest.sentry.io/5270750',
+})
 
 settings.change({ logger: { filter: { level: 'debug' }, pretty: true } })
+
+server.express.use(Sentry.Handlers.requestHandler())
+
+server.express.use(Sentry.Handlers.errorHandler())
 
 server.express.use(cors())
 

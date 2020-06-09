@@ -7,8 +7,20 @@ import config from "../configs/config"
 import { cache } from "./cache"
 import { ApolloClient, ApolloProvider, HttpLink } from "@apollo/client"
 import LogRocket from "logrocket"
+import * as Sentry from "@sentry/browser"
+
+Sentry.init({
+  dsn:
+    "https://351219521fd645b7a929d0f545fafff9@o405323.ingest.sentry.io/5270738",
+})
 
 LogRocket.init("z5hvnf/samantha")
+
+LogRocket.getSessionURL((sessionURL) => {
+  Sentry.configureScope((scope) => {
+    scope.setExtra("sessionURL", sessionURL)
+  })
+})
 
 const link = new HttpLink(config.graphQL.HttpLink)
 

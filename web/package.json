@@ -102,6 +102,7 @@
     "@material-ui/icons": "^4.9.1",
     "@mdx-js/loader": "^1.6.1",
     "@rebass/preset": "^4.0.5",
+    "@sentry/browser": "^5.17.0",
     "@storybook/addon-console": "^1.2.1",
     "@storybook/addon-storysource": "^5.3.18",
     "@storybook/theming": "^5.3.18",
