@@ -8,6 +8,7 @@ import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
 import { setAuthUser } from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
 import "../../dist/tailwind/tailwind.generated.css"
+import LogRocket from "logrocket"
 
 const App = () => {
   const [upsertOneUser] = useMutation(UPSERT_ONE_USER)
@@ -30,6 +31,10 @@ const App = () => {
         isAuthenticated: true,
       }
       setAuthUser({ ...authUser })
+      LogRocket.identify(authUser.id, {
+        name: authUser.name,
+        email: authUser.email,
+      })
     }
     return authUser
   }
