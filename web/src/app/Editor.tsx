@@ -31,8 +31,7 @@ import { StateBar } from "../components/StateBar"
 import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
-import { NameInput } from "./NameInput"
-import { DescriptionInput } from "./DescriptionInput"
+import { DraftControlledInput } from "./DraftControlledInput"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -118,11 +117,17 @@ const EditorRaw = () => {
           <Grid fluid>
             <Row className="my-4">
               <div>Name</div>
-              <NameInput />
+              <DraftControlledInput
+                fieldName="name"
+                componentClassName="input"
+              />
             </Row>
             <Row className="my-4">
               <div>Description</div>
-              <DescriptionInput />
+              <DraftControlledInput
+                fieldName="description"
+                componentClassName="textarea"
+              />
             </Row>
             {editingTypename === Typename.Block && (
               <>

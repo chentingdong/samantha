@@ -6,15 +6,17 @@ import { setUiState } from "../operations/mutations/setUiState"
 import { EditMode } from "../models/enum"
 import { useBlockMutations } from "../operations/mutations"
 import { debounce } from "../utils/debounce"
+import { usePrevious } from "../utils/hooks"
+import get from "lodash/get"
 
-const DescriptionInput = () => {
+const DraftControlledInput = ({ fieldName, componentClassName }) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
-  const debouncedDescriptionUpdate = useRef(
+  const debouncedUpdate = useRef(
     debounce((draft) => {
       const dataInput: any = {
-        description: draft.description,
+        [fieldName]: get(draft, fieldName),
         last_updated: new Date(),
       }
       updateFn({
@@ -30,24 +32,22 @@ const DescriptionInput = () => {
 
   useEffect(() => {
     if (data?.uiState?.editorMode === EditMode.Edit) {
-      debouncedDescriptionUpdate.current(data?.uiState?.draftBlock)
+      debouncedUpdate.current(data?.uiState?.draftBlock)
     }
-  }, [data?.uiState?.draftBlock?.description])
+  }, [get(data?.uiState?.draftBlock, fieldName)])
 
-  const descriptionInputRef = useRef(null)
-  const [descriptionSelectionStart, setDescriptionSelectionStart] = useState(0)
+  const inputRef = useRef(null)
+  const [selectionStart, setSelectionStart] = useState(0)
+  const prevSelectionStart = usePrevious(selectionStart)
 
   useEffect(() => {
     if (
-      descriptionInputRef?.current &&
-      descriptionInputRef?.current.selectionStart !== descriptionSelectionStart
+      inputRef?.current &&
+      inputRef?.current.selectionStart !== prevSelectionStart
     ) {
-      descriptionInputRef.current.setSelectionRange(
-        descriptionSelectionStart,
-        descriptionSelectionStart
-      )
+      inputRef.current.setSelectionRange(prevSelectionStart, prevSelectionStart)
     }
-  })
+  }, [inputRef?.current?.selectionStart])
 
   if (!data) return <></>
   const { draftBlock } = data.uiState
@@ -55,20 +55,20 @@ const DescriptionInput = () => {
   return (
     <Input
       rows={5}
-      name="description"
-      inputRef={descriptionInputRef}
-      componentClass="textarea"
-      value={draftBlock.description}
+      name={fieldName}
+      inputRef={inputRef}
+      componentClass={componentClassName}
+      value={get(draftBlock, fieldName)}
       onChange={(value, event) => {
-        setDescriptionSelectionStart(
+        setSelectionStart(
           (event.currentTarget as HTMLTextAreaElement).selectionStart
         )
         setUiState({
-          draftBlock: { description: value },
+          draftBlock: { [fieldName]: value },
         })
       }}
     />
   )
 }
 
-export { DescriptionInput }
+export { DraftControlledInput }
