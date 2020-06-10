@@ -12,8 +12,13 @@ import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 
 const CatalogDropdown = ({ editingTypename, ...rest }) => {
-  const { data: authUser } = useQuery(AUTH_USER)
+  const { data: authUserResult } = useQuery(AUTH_USER)
   const { data } = useQuery(BLOCK_CATALOG)
+
+  if (!authUserResult || !data) return <></>
+
+  const { authUser } = authUserResult
+  const { blockDefs } = data
 
   return (
     <Dropdown
@@ -26,7 +31,7 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
         )
       }}
     >
-      {data?.blockDefs?.map((blockDef: BlockDef) => (
+      {blockDefs.map((blockDef: BlockDef) => (
         <Dropdown.Item
           icon={<Icon icon={getIconByType(blockDef.type)} />}
           key={blockDef.id}
@@ -39,7 +44,7 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
                 draftBlock: createBlock(
                   cloneDeep(blockDef),
                   editingTypename,
-                  authUser?.authUser
+                  authUser
                 ),
               },
               true

@@ -24,8 +24,13 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   type,
 }) => {
   const { data, loading, error } = useQuery(UI_STATE)
-  const { data: authUser } = useQuery(AUTH_USER)
+  const { data: authUserResult } = useQuery(AUTH_USER)
   const [createFn] = useBlockMutations(data?.uiState?.editingTypename)
+
+  if (loading || error || !authUserResult || !data) return <></>
+
+  const { authUser } = authUserResult
+  const { editorMode, draftBlock } = data.uiState
 
   return (
     <Panel shaded collapsible defaultExpanded bodyFill>
@@ -33,23 +38,17 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
         accept={["block", "catalogItem"]}
         greedy={false}
         onDrop={(childBlock, dragType) => {
-          const syncRemote = data?.uiState?.editorMode === EditMode.Edit
+          const syncRemote = editorMode === EditMode.Edit
           if (dragType === "catalogItem")
             addOneBlock(
-              data?.uiState?.draftBlock,
+              draftBlock,
               childBlock,
               parent,
-              authUser?.authUser,
+              authUser,
               syncRemote,
               createFn
             )
-          else
-            moveOneBlock(
-              data?.uiState?.draftBlock,
-              childBlock,
-              parent,
-              syncRemote
-            )
+          else moveOneBlock(draftBlock, childBlock, parent, syncRemote)
         }}
       >
         {Array.isArray(blocks) &&

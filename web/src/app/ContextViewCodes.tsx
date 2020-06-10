@@ -15,17 +15,20 @@ import { UI_STATE } from "../operations/queries/uiState"
 import { Button, Tree } from "rsuite"
 
 const ContextViewCodes = () => {
-  const { data: authUser } = useQuery(AUTH_USER)
-  const { data: users } = useQuery(GET_USERS)
-  const { data: uiState } = useQuery(UI_STATE)
+  const { data: authUserResult } = useQuery(AUTH_USER)
+  const { data: usersResult } = useQuery(GET_USERS)
+  const { data: uiStateResult } = useQuery(UI_STATE)
   const { data: blockCatalog } = useQuery(BLOCK_CATALOG)
   const { data: requestCatalog } = useQuery(REQUEST_CATALOG)
   const { data: requestsMade } = useQuery(REQUESTS_MADE)
   const { data: requestsReceived } = useQuery(REQUESTS_RECEIVED)
+
+  if (!authUserResult || !uiStateResult || !usersResult) return <></>
+
   const data = {
-    authUser: authUser?.authUser,
-    uiState: uiState?.uiState,
-    users: users?.users,
+    authUser: authUserResult.authUser,
+    uiState: uiStateResult.uiState,
+    users: usersResult.users,
     blockCatalog,
     requestCatalog,
     requestsMade,

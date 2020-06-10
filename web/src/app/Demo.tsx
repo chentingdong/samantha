@@ -33,9 +33,12 @@ function DemoRaw({ className }) {
     injectRsuiteStyle(theme)
   }, [theme])
 
+  if (!data) return <></>
+  const { authUser } = data
+
   return (
     <div className={`${className} theme-${theme}`}>
-      {data?.authUser?.isAuthenticated && (
+      {authUser.isAuthenticated && (
         <>
           <Grid fluid>
             <Row>
@@ -61,7 +64,7 @@ function DemoRaw({ className }) {
                   <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
                   <Dropdown noCaret title="User">
                     <Dropdown.Item disabled eventKey="auth-user">
-                      Signed in as {data?.authUser?.name}
+                      Signed in as {authUser.name}
                     </Dropdown.Item>
                     <Dropdown.Item eventKey="logout" onClick={logout}>
                       Logout
