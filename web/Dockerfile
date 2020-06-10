@@ -1,4 +1,4 @@
-FROM node:12-stretch-slim AS BUILD_IMAGE
+FROM node:12-stretch-slim
 
 RUN apt-get -qy update && apt-get -qy install openssl curl
 
@@ -9,20 +9,10 @@ WORKDIR /app
 
 COPY package.json yarn.lock /app/
 RUN yarn -s install --frozen-lockfile --production && yarn -s cache clean
-
-
-COPY . /app/
-
-RUN yarn build
-
 RUN /usr/local/bin/node-prune
 
-FROM node:12-stretch-slim
-
-WORKDIR /app
-
-COPY --from=BUILD_IMAGE /app/dist ./dist
-COPY --from=BUILD_IMAGE /app/node_modules ./node_modules
+COPY . /app/
+RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
 

@@ -75,7 +75,6 @@
     "autoprefixer": "^9.8.0",
     "chromatic": "^4.0.2",
     "docz": "latest",
-    "express": "^4.17.1",
     "html-webpack-plugin": "^4.0.4",
     "jest": "^25.2.7",
     "postcss-cli": "^7.1.1",
@@ -90,10 +89,8 @@
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.42.1",
     "webpack-bundle-analyzer": "^3.7.0",
-    "webpack-cli": "^3.3.11",
     "webpack-dev-middleware": "^3.7.2",
-    "webpack-dev-server": "^3.10.3",
-    "webpack-merge": "^4.2.2"
+    "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.48",
@@ -119,6 +116,7 @@
     "eslint": "^6.8.0",
     "eslint-import-resolver-typescript": "^2.0.0",
     "eslint-plugin-import": "^2.20.2",
+    "express": "^4.17.1",
     "file-loader": "^6.0.0",
     "fs": "^0.0.1-security",
     "geckodriver": "^1.19.1",
@@ -182,7 +180,9 @@
     "tailwindcss": "1.4.6",
     "ts-loader": "^7.0.3",
     "tsconfig-paths-webpack-plugin": "^3.2.0",
-    "use-reducer-async": "^2.0.1"
+    "use-reducer-async": "^2.0.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-merge": "^4.2.2"
   },
   "nohoist": [
     "**@storybook/**"
