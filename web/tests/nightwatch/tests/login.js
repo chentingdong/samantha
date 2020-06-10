@@ -1,5 +1,5 @@
-const username = "nightwatch"
-const password = "bell2020"
+const username = process.env.IAM_USERNAME_1
+const password = process.env.IAM_PASSWORD_1
 
 module.exports = {
   beforeEach: function (browser) {
@@ -18,6 +18,7 @@ module.exports = {
       .click("button")
       .waitForElementVisible("body")
       .assert.urlContains("accounts.google.com")
+      .pause()
       .end()
   },
 

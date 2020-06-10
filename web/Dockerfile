@@ -15,5 +15,6 @@ COPY . /app/
 RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
+RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
 
 EXPOSE 2000

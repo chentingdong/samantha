@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="0"
+            failures="0"
+            tests="3">
+
+  <testsuite name="login"
+    errors="0" failures="0" hostname="" id="" package="login" skipped="0"
+    tests="3" time="21.25" timestamp="">
+  
+    <testcase name="login redirect" classname="login" time="2.009" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Google login" classname="login" time="2.345" assertions="2">
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="AWS IAM Login" classname="login" time="16.89" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+
+  
+
+    
+
+  
+  </testsuite>
+</testsuites>
