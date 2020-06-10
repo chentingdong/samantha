@@ -1,6 +1,3 @@
-const username = process.env.IAM_USERNAME_1
-const password = process.env.IAM_PASSWORD_1
-
 module.exports = {
   beforeEach: function (browser) {
     browser.url(browser.launch_url)
@@ -11,14 +8,14 @@ module.exports = {
       .waitForElementVisible("body")
       .assert.title("Bellhop")
       .assert.urlContains("/login")
+      .end()
   },
 
   "Google login": (browser) => {
     browser
-      .click("button")
+      .click("button.with-google")
       .waitForElementVisible("body")
       .assert.urlContains("accounts.google.com")
-      .pause()
       .end()
   },
 
@@ -27,8 +24,14 @@ module.exports = {
       .waitForElementVisible("button.hosted-ui")
       .click("button.hosted-ui")
       .waitForElementVisible("body")
-      .setValue(".modal-content-desktop input[name='username']", username)
-      .setValue(".modal-content-desktop input[name='password']", password)
+      .setValue(
+        ".modal-content-desktop input[name='username']",
+        process.env.IAM_USERNAME_1
+      )
+      .setValue(
+        ".modal-content-desktop input[name='password']",
+        process.env.IAM_PASSWORD_1
+      )
       .click(".modal-content-desktop input[type=Submit]")
       .pause(5000)
       .waitForElementVisible("body")

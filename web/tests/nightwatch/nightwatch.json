@@ -27,6 +27,11 @@
         "on_error": false,
         "path": ""
       }
+    },
+    "chrome": {
+      "desiredCapabilities": {
+        "browserName": "chrome"
+      }
     }
   },
   "test_workers": {
