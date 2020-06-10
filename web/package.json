@@ -83,10 +83,10 @@
     "html-webpack-plugin": "^4.0.4",
     "image-webpack-loader": "^6.0.0",
     "jest": "^26.0.1",
-    "jest-puppeteer": "^4.4.0",
     "node-sass": "^4.14.1",
     "postcss-cli": "^7.1.1",
     "prettier": "^2.0.5",
+    "puppeteer": "^3.3.0",
     "react": "^16.13.1",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-icons": "^3.10.0",
@@ -103,6 +103,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.48",
+    "@babel/preset-typescript": "^7.10.1",
     "@fullhuman/postcss-purgecss": "^2.2.0",
     "@hot-loader/react-dom": "^16.13.0",
     "@mdx-js/loader": "^1.6.1",
@@ -117,6 +118,7 @@
     "babel-plugin-add-react-displayname": "^0.0.5",
     "babel-plugin-tailwind-components": "^0.5.10",
     "babel-preset-react-app": "^9.1.2",
+    "babel-preset-stage-1": "^6.24.1",
     "bootstrap": "^4.4.1",
     "chromedriver": "^83.0.0",
     "emotion-theming": "^10.0.27",
@@ -146,7 +148,6 @@
     "npm-run-all": "^4.1.5",
     "path-to-regexp": "^6.1.0",
     "prop-types": "^15.7.2",
-    "puppeteer": "^3.3.0",
     "react-ace": "^8.1.0",
     "react-animated-css": "^1.2.1",
     "react-bootstrap": "^1.0.1",
@@ -194,7 +195,8 @@
     "url-loader": "^4.1.0",
     "webdriverio": "^6.1.17",
     "webpack-cli": "^3.3.11",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "ws": "^7.3.0"
   },
   "nohoist": [
     "**@storybook/**"

@@ -89,6 +89,7 @@ module.exports = {
   ],
   externals: {
     react: "React",
+    puppeteer: "puppeteer",
   },
   performance: {
     hints: false,
