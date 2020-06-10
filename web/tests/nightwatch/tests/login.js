@@ -29,9 +29,10 @@ module.exports = {
       .setValue(".modal-content-desktop input[name='username']", username)
       .setValue(".modal-content-desktop input[name='password']", password)
       .click(".modal-content-desktop input[type=Submit]")
+      .pause(5000)
       .waitForElementVisible("body")
       .assert.urlContains(browser.launch_url)
-      .pause(1000000)
+      .pause(5000)
       .end()
   },
 }

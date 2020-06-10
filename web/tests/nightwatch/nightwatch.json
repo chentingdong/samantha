@@ -1,6 +1,6 @@
 {
   "src_folders": ["tests/nightwatch/tests"],
-  "output_folder": "reports",
+  "output_folder": "tests/nightwatc/reports",
   "selenium": {
     "start_process": true,
     "server_path": "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
