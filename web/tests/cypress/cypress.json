@@ -7,5 +7,5 @@
   "screenshotsFolder": "tests/cypress/screenshots",
   "videosFolder": "tests/cypress/videos",
   "supportFile": "tests/cypress/support/index.js",
-  "chromeWebSecurity": true
+  "chromeWebSecurity": false
 }

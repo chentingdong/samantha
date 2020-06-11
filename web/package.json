@@ -34,7 +34,7 @@
     "chromatic": "npx chromatic --project-token=jn5n1c1u9l",
     "test": "jest",
     "test:e2e": "test:cypress",
-    "selenium-server": "java -jar tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar -role hub -port 2077",
+    "selenium-server": "java -jar tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar -port 2077",
     "test:nightwatch": "nightwatch -c tests/nightwatch/nightwatch.json",
     "test:cypress": "cypress open -C tests/cypress/cypress.json"
   },

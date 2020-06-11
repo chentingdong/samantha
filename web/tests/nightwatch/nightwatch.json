@@ -1,6 +1,7 @@
 {
   "src_folders": ["tests/nightwatch/tests"],
   "output_folder": "tests/nightwatch/reports",
+  "custom_commands_path": "tests/nightwatch/bin",
   "selenium": {
     "start_process": true,
     "server_path": "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
@@ -28,7 +29,12 @@
         "path": ""
       }
     },
-    "chrome": {
+    "chrome_1": {
+      "desiredCapabilities": {
+        "browserName": "chrome"
+      }
+    },
+    "chrome_2": {
       "desiredCapabilities": {
         "browserName": "chrome"
       }
