@@ -5,6 +5,7 @@ node_modules/
 src/**/*.jsx
 tests/__coverage__/
 tests/**/*.jsx
+tests_output
 certs/**/*
 storybook-static/
 .jest-test-results.json
