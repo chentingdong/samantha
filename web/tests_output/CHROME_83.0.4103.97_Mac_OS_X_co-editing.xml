@@ -5,9 +5,9 @@
 
   <testsuite name="co-editing"
     errors="0" failures="0" hostname="" id="" package="co-editing" skipped="0"
-    tests="5" time="16.64" timestamp="">
+    tests="5" time="17.72" timestamp="">
   
-    <testcase name="Step 0. App get redirected to google login page" classname="co-editing" time="4.860" assertions="3">
+    <testcase name="Step 0. App get redirected to google login page" classname="co-editing" time="4.627" assertions="3">
 
     
 
@@ -16,7 +16,7 @@
     
     </testcase>
   
-    <testcase name="Step 1. Both bellmen login with google (with different credentials)" classname="co-editing" time="5.381" assertions="4">
+    <testcase name="Step 1. Both bellmen login with google (with different credentials)" classname="co-editing" time="5.905" assertions="4">
 
     
 
@@ -27,15 +27,15 @@
     
     </testcase>
   
-    <testcase name="Step 2. Bellman one make a bell, Bellman 2 should see it" classname="co-editing" time="6.342" assertions="1">
+    <testcase name="Step 2. Bellman one make a bell, Bellman 2 should see it" classname="co-editing" time="7.128" assertions="1">
 
     
     </testcase>
   
-    <testcase name="Step 3. check if both user reach this point at the same time" classname="co-editing" time="0.000" assertions="0">
+    <testcase name="Step 3. check if both user reach this point at the same time" classname="co-editing" time="0.001000" assertions="0">
     </testcase>
   
-    <testcase name="STEP 4. close session." classname="co-editing" time="0.05700" assertions="0">
+    <testcase name="STEP 4. close session." classname="co-editing" time="0.05600" assertions="0">
     </testcase>
   
 

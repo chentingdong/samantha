@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="0"
+            tests="0">
+
+  <testsuite name="login"
+    errors="1" failures="0" hostname="" id="" package="login" skipped="3"
+    tests="0" time="0.000" timestamp="">
+  
+
+  
+    <system-err>
+        Error: An error occurred while retrieving a new session: &#34;newSession&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+  Error: An error occurred while retrieving a new session: &#34;newSession&#34;
+       at endReadableNT (_stream_readable.js:1218:12)
+       at processTicksAndRejections (internal/process/task_queues.js:84:21)
+    </system-err>
+  
+
+    
+    <error message=""><![CDATA[
+      
+      ]]></error>  
+
+  
+    
+    <testcase
+      name="login redirect" classname="login">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="Google login" classname="login">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="AWS IAM Login" classname="login">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>

@@ -36,7 +36,7 @@
     "test:e2e": "test:cypress",
     "selenium-server": "java -jar tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar -port 2077",
     "test:nightwatch:setenv": "eval $(cat ~/bellhop/samantha/web/tests/nightwatch/.env | sed 's/^/export /') ",
-    "test:nightwatch": "yarn run test:nightwatch:setenv && nightwatch -c tests/nightwatch/nightwatch.json",
+    "test:nightwatch": "yarn run test:nightwatch:setenv && tests/nightwatch/bin/run.sh",
     "test:cypress": "cypress open -C tests/cypress/cypress.json"
   },
   "jest": {

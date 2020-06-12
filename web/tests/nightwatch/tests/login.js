@@ -33,10 +33,8 @@ module.exports = {
         process.env.IAM_PASSWORD_1
       )
       .click(".modal-content-desktop input[type=Submit]")
-      .pause(5000)
       .waitForElementVisible("body")
       .assert.urlContains(browser.launch_url)
-      .pause(5000)
       .end()
   },
 }
