@@ -26,8 +26,8 @@ const App = () => {
     if (poolUser) {
       authUser = {
         id: poolUser?.username,
-        name: poolUser?.attributes.name || poolUser?.username,
-        email: poolUser?.attributes.email,
+        name: poolUser?.attributes?.name || poolUser?.username,
+        email: poolUser?.attributes?.email,
         isAuthenticated: true,
       }
       setAuthUser({ ...authUser })

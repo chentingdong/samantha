@@ -1,7 +1,4 @@
 const bellName = "TESTING..."
-var t1 = new Date().toLocaleString()
-var t2 = new Date().toLocaleString()
-const lodash = require("lodash")
 
 module.exports = {
   "Step 0. App get redirected to google login page": (browser) => {
@@ -44,7 +41,7 @@ module.exports = {
     if (browser.options.desiredCapabilities.name === "chrome_1") {
       browser
         .click(".main-menu .request-catalog a")
-        .waitForElementVisible(".request-catalog-list")
+        .waitForElementVisible(".request-catalog-list", 20000)
         .click(".request-item-0 .make-a-bell")
         .waitForElementVisible("input[name=name]")
         .click(".responders .toggle-select")

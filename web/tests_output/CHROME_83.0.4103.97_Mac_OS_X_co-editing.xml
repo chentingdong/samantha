@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites errors="1"
+            failures="1"
+            tests="3">
+
+  <testsuite name="co-editing"
+    errors="1" failures="1" hostname="" id="" package="co-editing" skipped="2"
+    tests="3" time="33.33" timestamp="">
+  
+    <testcase name="Step 0. App get redirected to google login page" classname="co-editing" time="2.828" assertions="3">
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Step 1. Both bellmen login with google (with different credentials)" classname="co-editing" time="5.018" assertions="4">
+
+    
+
+    
+
+    
+
+    
+    </testcase>
+  
+    <testcase name="Step 2. Bellman one make a bell, Bellman 2 should see it" classname="co-editing" time="25.48" assertions="1">  <failure message="Timed out while waiting for element &lt;.request-catalog-list&gt; to be present for 20000 milliseconds. - expected &#34;visible&#34; but got: &#34;not found&#34; (20370ms)">    at Object.Step 2. Bellman one make a bell, Bellman 2 should see it (/Volumes/Code/samantha/web/tests/nightwatch/tests/co-editing.js:44:10)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)</failure>
+
+    
+    <error message="Timed out while waiting for element &lt;.request-catalog-list&gt; to be present for 20000 milliseconds. - expected [0;32m&#34;visible&#34;[0m but got: [0;31m&#34;not found&#34;[0m [0;90m(20370ms)[0m" type="error"><![CDATA[
+        at Object.Step 2. Bellman one make a bell, Bellman 2 should see it (/Volumes/Code/samantha/web/tests/nightwatch/tests/co-editing.js:44:10)
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    ]]></error>
+    
+    </testcase>
+  
+
+  
+    <system-err>
+        NoSuchElementError: An error occurred while running .click() command on &lt;.main-menu .requests-received a&gt;: 
+   {&#34;sessionId&#34;:&#34;9888f122954d66dbbbb14df1cb2eeab4&#34;,&#34;status&#34;:0,&#34;value&#34;:[]}
+       at processTicksAndRejections (internal/process/task_queues.js:97:5)
+  NoSuchElementError: An error occurred while running .click() command on &lt;.main-menu .request-catalog a&gt;: 
+   {&#34;sessionId&#34;:&#34;cfc75bab11270b141b59a543933a480c&#34;,&#34;status&#34;:0,&#34;value&#34;:[]}
+       at processTicksAndRejections (internal/process/task_queues.js:97:5)
+    </system-err>
+  
+
+    
+
+  
+    
+    <testcase
+      name="Step 3. check if both user reach this point at the same time" classname="co-editing">
+      <skipped />
+    </testcase>
+    
+    <testcase
+      name="STEP 4. close session." classname="co-editing">
+      <skipped />
+    </testcase>
+    
+  
+  </testsuite>
+</testsuites>
