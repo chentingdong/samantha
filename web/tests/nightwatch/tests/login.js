@@ -1,5 +1,5 @@
 module.exports = {
-  beforeEach: function (browser) {
+  before: function (browser) {
     browser.url(browser.launch_url)
   },
 
@@ -8,15 +8,6 @@ module.exports = {
       .waitForElementVisible("body")
       .assert.title("Bellhop")
       .assert.urlContains("/login")
-      .end()
-  },
-
-  "Google login": (browser) => {
-    browser
-      .click("button.with-google")
-      .waitForElementVisible("body")
-      .assert.urlContains("accounts.google.com")
-      .end()
   },
 
   "AWS IAM Login": (browser) => {
