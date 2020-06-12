@@ -2,6 +2,24 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Nightwatch, webrtc",
+      "envFile": "${workspaceFolder}/tests/nightwatch/.env",
+      "program": "${workspaceFolder}/node_modules/nightwatch/bin/runner.js",
+      "stopOnEntry": false,
+      "args": [
+        "-c",
+        "tests/nightwatch/nightwatch.conf.js",
+        "--test",
+        "tests/nightwatch/tests/webrtc.js",
+        "-e",
+        "chrome_1"
+      ],
+      "sourceMaps": false,
+      "skipFiles": ["<node_internals>/**"]
+    },
+    {
       "type": "chrome",
       "request": "launch",
       "name": "Storybook Debug",

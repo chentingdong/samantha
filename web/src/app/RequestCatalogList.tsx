@@ -8,7 +8,7 @@ import { Error } from "../components/Misc"
 import { Divider, Loader } from "rsuite"
 import { CatalogDropdown } from "./CatalogDropdown"
 
-const RequestCatalogList = () => {
+const RequestCatalogList = ({ className = "" }) => {
   const { loading, error, data } = useQuery(REQUEST_CATALOG, {
     fetchPolicy: "network-only",
     // pollInterval: 1000,
@@ -19,7 +19,7 @@ const RequestCatalogList = () => {
   if (!data) return <></>
 
   return (
-    <>
+    <div className={`request-catalog-list ${className}`}>
       <CatalogDropdown
         title="Add a Bell Definition from..."
         trigger={["click", "hover"]}
@@ -28,14 +28,15 @@ const RequestCatalogList = () => {
         editingTypename={Typename.BlockDef}
       />
       <Divider />
-      {data.blockDefs.map((blockDef: BlockDef) => (
+      {data.blockDefs.map((blockDef: BlockDef, index: number) => (
         <RequestItem
           block={blockDef}
           key={blockDef.id}
           itemOrigin={ItemOrigin.Catalog}
+          className={`request-item-${index}`}
         />
       ))}
-    </>
+    </div>
   )
 }
 

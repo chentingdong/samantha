@@ -8,4 +8,5 @@ tests/**/*.jsx
 certs/**/*
 storybook-static/
 .jest-test-results.json
-nightwatch/reports/
+**/nightwatch/reports/*
+**/nightwatch/logs/*

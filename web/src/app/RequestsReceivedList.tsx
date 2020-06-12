@@ -6,8 +6,9 @@ import { ItemOrigin } from "../models/enum"
 import { Error } from "../components/Misc"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { Loader } from "rsuite"
+import { BlockDef } from "../models/interface"
 
-const RequestsReceivedList = () => {
+const RequestsReceivedList = ({ className = "" }) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
 
   const { loading, error, data } = useQuery(REQUESTS_RECEIVED, {
@@ -21,15 +22,16 @@ const RequestsReceivedList = () => {
   if (!data || !authUserResult) return <></>
 
   return (
-    <>
-      {data.blocks.map((block) => (
+    <div className={`requests-received-list ${className}`}>
+      {data.blocks.map((block: BlockDef, index: Number) => (
         <RequestItem
           block={block}
           key={block.id}
           itemOrigin={ItemOrigin.Received}
+          className={`requests-received-${index}`}
         />
       ))}
-    </>
+    </div>
   )
 }
 

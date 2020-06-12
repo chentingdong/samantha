@@ -34,7 +34,6 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
   }
 
   const toggleSelect = (e) => {
-    e.stopPropagation()
     setShowSelect(!showSelect)
   }
 
@@ -44,7 +43,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
 
   return (
     <div className="rounded p-1 text-sm">
-      <div onClick={toggleSelect}>
+      <div className="toggle-select" onClick={toggleSelect}>
         {tags.length === 0 && <span>click to select...</span>}
         {tags?.map((tag, index) => {
           return (
@@ -59,10 +58,10 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
           )
         })}
         <div className="toggle p-1 px-2">
-          <Icon icon="arrow-down" className="" />
+          <Icon icon="arrow-down" />
         </div>
       </div>
-      <div className="">
+      <div>
         {data?.map((option) => {
           return (
             showSelect && (
@@ -70,7 +69,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
                 <input
                   type="checkbox"
                   className="inline-block cursor-pointer"
-                  id={option.id}
+                  name={option.name}
                   value={option.id}
                   checked={objInArr(option, tags)}
                   onChange={(e) => pickTags(e, option)}
@@ -108,9 +107,6 @@ const Styles = styled.div.attrs({})`
     right: 0;
     top: 0;
     cursor: pointer;
-    &:hover {
-      var(--color-text-primary);
-    }
   }
 `
 

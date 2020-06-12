@@ -2,13 +2,14 @@ import React from "react"
 import { useQuery } from "@apollo/client"
 import { REQUESTS_MADE } from "../operations/queries/requestsMade"
 import { RequestItem } from "./RequestItem"
+import { BlockDef } from "../models/interface"
 import { ItemOrigin, Typename, EditMode } from "../models/enum"
 import { Loading, Error } from "../components/Misc"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { CatalogDropdown } from "./CatalogDropdown"
 import { Divider, Loader } from "rsuite"
 
-const RequestsMadeList = () => {
+const RequestsMadeList = ({ className = "" }) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
   const { loading, error, data } = useQuery(REQUESTS_MADE, {
     variables: { userId: authUserResult?.authUser?.id },
@@ -22,7 +23,7 @@ const RequestsMadeList = () => {
   if (!data || !authUserResult) return <></>
 
   return (
-    <>
+    <div className={`requests-made-list ${className}`}>
       <CatalogDropdown
         title="Add a Bell from..."
         trigger={["click", "hover"]}
@@ -31,14 +32,15 @@ const RequestsMadeList = () => {
         editingTypename={Typename.Block}
       />
       <Divider />
-      {data.blocks.map((block) => (
+      {data.blocks.map((block: BlockDef, index: number) => (
         <RequestItem
           block={block}
           key={block.id}
           itemOrigin={ItemOrigin.Made}
+          className={`requests-made-${index}`}
         />
       ))}
-    </>
+    </div>
   )
 }
 

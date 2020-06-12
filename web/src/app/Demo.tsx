@@ -55,6 +55,7 @@ function DemoRaw({ className }) {
                   vertical
                   activeKey={active}
                   onSelect={(activeKey) => setActive(activeKey)}
+                  className="main-menu"
                 >
                   <Nav.Item eventKey="requests-made" className="requests-made">
                     Bells Made
@@ -72,7 +73,7 @@ function DemoRaw({ className }) {
                     Bell Catalog
                   </Nav.Item>
                   <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
-                  <Dropdown noCaret title="User">
+                  <Dropdown noCaret title={authUser.name}>
                     <Dropdown.Item disabled eventKey="auth-user">
                       Signed in as {authUser.name}
                     </Dropdown.Item>

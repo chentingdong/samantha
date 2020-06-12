@@ -144,6 +144,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             <IconButton
               appearance="ghost"
               icon={<Icon icon="bell-o" />}
+              className="make-a-bell"
               onClick={() => {
                 setUiState(
                   {
@@ -214,4 +215,3 @@ const RequestItem = styled(React.memo(RequestItemRaw))`
 `
 
 export { RequestItem }
-// export { RequestItem, ItemOrigin }

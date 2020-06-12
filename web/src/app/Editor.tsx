@@ -108,7 +108,7 @@ const EditorRaw = () => {
   const { users } = usersResult
 
   return (
-    <div>
+    <div className="editor">
       <Drawer show={showEditor} close={close}>
         <h2>{`${editorMode} ${
           editingTypename === "Block" ? "Bell" : "Bell Definition"
@@ -135,7 +135,7 @@ const EditorRaw = () => {
                   <StateBar state={draftBlock.state} />
                 </Row>
                 <Row className="my-4">
-                  <Col lg={6}>
+                  <Col lg={6} className="requestors">
                     <div>Requestors: </div>
                     <TagPicker
                       data={users}
@@ -151,7 +151,7 @@ const EditorRaw = () => {
                       }}
                     />
                   </Col>
-                  <Col lg={6} lgOffset={6}>
+                  <Col lg={6} lgOffset={6} className="responders">
                     <div>Responders: </div>
                     <TagPicker
                       data={users}
@@ -227,6 +227,7 @@ const EditorRaw = () => {
                   }}
                   icon={<Icon icon="check" />}
                   appearance="primary"
+                  className="save-bell"
                 >
                   Save
                 </IconButton>

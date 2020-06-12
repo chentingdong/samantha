@@ -5,9 +5,11 @@
 
   <testsuite name="webrtc"
     errors="0" failures="0" hostname="" id="" package="webrtc" skipped="0"
-    tests="1" time="0.8010" timestamp="">
+    tests="1" time="39.84" timestamp="">
   
-    <testcase name="opening the browser and navigating to the url" classname="webrtc" time="0.8010" assertions="1">
+    <testcase name="1. opening the browser and navigating to the url" classname="webrtc" time="39.84" assertions="2">
+
+    
 
     
     </testcase>
