@@ -18,9 +18,7 @@ module.exports = {
     }
   },
 
-  "Step 1. Both bellmen login with google (with different credentials)": (
-    browser
-  ) => {
+  "Step 1. Two bellmen login with their google account": (browser) => {
     browser
       .waitForElementVisible("input[type=email]", 2000)
       .setValue("input[type=email]", browser.globals.username)
@@ -32,7 +30,7 @@ module.exports = {
       .assert.title("Bellhop")
   },
 
-  "Step 2. Bellman one make a bell, Bellman 2 should see it": (browser) => {
+  "Step 2. Bellman one make a bell, Bellman 2 see it": (browser) => {
     browser.windowHandles((windows) => {
       console.log("windows running")
       console.log(JSON.stringify(windows, null, 2))
@@ -66,7 +64,7 @@ module.exports = {
     }
   },
 
-  "Step 3. check if both user reach this point at the same time": (browser) => {
+  "Step 3. both bellmen reach this point at the same time": (browser) => {
     // if (browser.options.desiredCapabilities.name === "chrome_1") {
     //   t1 = new Date().toLocaleString()
     // } else {
@@ -75,7 +73,7 @@ module.exports = {
     // browser.verify.equal(t1, t2)
   },
 
-  "STEP 4. close session.": (browser) => {
+  "STEP N. close session.": (browser) => {
     browser.end()
   },
 }
