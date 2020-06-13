@@ -1,4 +1,4 @@
-name: Selenium Server
+name: Deploy Selenium Server
 
 on:
   push:
