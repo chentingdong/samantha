@@ -5,6 +5,7 @@ on:
     paths:
     - 'selenium/docker-compose.yml'
 
+jobs:
   build:
     runs-on: ubuntu-latest
 
