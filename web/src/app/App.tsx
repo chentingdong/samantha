@@ -18,7 +18,7 @@ const App = () => {
   async function checkLogin() {
     let poolUser
     try {
-      poolUser = await Auth.currentUserPoolUser()
+      poolUser = await Auth.currentUserPoolUser({ bypassCache: true })
     } catch (error) {
       // do nothing
     }
