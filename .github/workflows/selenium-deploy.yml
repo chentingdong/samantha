@@ -1,8 +1,6 @@
 name: Deploy Selenium Server
 
-on:
-  check_run:
-    types: [created, requested_action]
+on: push
 jobs:
   build:
     runs-on: ubuntu-latest
