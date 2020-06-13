@@ -3,7 +3,7 @@ name: Deploy Selenium Server
 on:
   push:
     paths:
-    - 'selenium/*'
+    - 'selenium/*.*'
 jobs:
   build:
     runs-on: ubuntu-latest
