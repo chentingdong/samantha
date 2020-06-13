@@ -10,8 +10,4 @@ jobs:
 
     - name: Build and run selenium hub
       run:
-        docker network create grid,
-        docker run -d -p 2077:2077 --net grid --name selenium-hub selenium/hub:3.141.59-20200525,
-        docker run -d --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-chrome:3.141.59-20200525,
-        docker run -d --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-firefox:3.141.59-20200525,
-        docker run -d --net grid -e HUB_HOST=selenium-hub -v /dev/shm:/dev/shm selenium/node-opera:3.141.59-20200525
+        docker-compose-up
