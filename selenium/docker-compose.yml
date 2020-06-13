@@ -5,6 +5,7 @@ version: '2'
 services:
   chrome:
     image: selenium/node-chrome:3.141.59-20200525
+    tty: true
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -14,6 +15,7 @@ services:
 
   firefox:
     image: selenium/node-firefox:3.141.59-20200525
+    tty: true
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -23,6 +25,7 @@ services:
 
   opera:
     image: selenium/node-opera:3.141.59-20200525
+    tty: true
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
