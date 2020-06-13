@@ -2,6 +2,7 @@
 const merge = require("webpack-merge")
 const { resolve } = require("path")
 const commonConfig = require("./common")
+const SentryWebpackPlugin = require("@sentry/webpack-plugin")
 
 module.exports = merge(commonConfig, {
   mode: "production",
@@ -12,5 +13,12 @@ module.exports = merge(commonConfig, {
     publicPath: "/",
   },
   devtool: "source-map",
-  plugins: [],
+  plugins: [
+    new SentryWebpackPlugin({
+      include: ".",
+      ignoreFile: ".sentrycliignore",
+      ignore: ["node_modules", "webpack.config.js"],
+      configFile: "sentry.properties",
+    }),
+  ],
 })

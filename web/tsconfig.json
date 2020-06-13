@@ -14,6 +14,8 @@
     "lib": ["es6", "dom"],
     "resolveJsonModule": true,
     "baseUrl": "./src",
+    "inlineSources": true,
+    "sourceRoot": "/",
     "paths": {
       "*": ["src/*"]
     }
