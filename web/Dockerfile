@@ -14,7 +14,7 @@ RUN /usr/local/bin/node-prune
 COPY . /app/
 
 ARG SENTRY_RELEASE="local"
-RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" > /app/.sentryclirc
+RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" >> /app/.sentryclirc
 
 RUN yarn build
 
