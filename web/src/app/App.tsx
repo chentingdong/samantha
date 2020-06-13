@@ -18,7 +18,7 @@ const App = () => {
   async function checkLogin() {
     let poolUser
     try {
-      poolUser = await Auth.currentUserPoolUser()
+      poolUser = await Auth.currentUserPoolUser({ bypassCache: true })
     } catch (error) {
       // do nothing
     }
@@ -26,8 +26,8 @@ const App = () => {
     if (poolUser) {
       authUser = {
         id: poolUser?.username,
-        name: poolUser?.attributes.name || poolUser?.username,
-        email: poolUser?.attributes.email,
+        name: poolUser?.attributes?.name || poolUser?.username,
+        email: poolUser?.attributes?.email,
         isAuthenticated: true,
       }
       setAuthUser({ ...authUser })
