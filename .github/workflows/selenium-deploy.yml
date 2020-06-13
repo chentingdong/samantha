@@ -10,3 +10,6 @@ jobs:
 
     - name: Build and run selenium hub
       run: docker-compose -f selenium/docker-compose.yml up &
+
+    - name: Confirm docker ps
+      run: docker ps
