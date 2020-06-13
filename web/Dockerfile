@@ -12,6 +12,10 @@ RUN yarn -s install --frozen-lockfile --production && yarn -s cache clean
 RUN /usr/local/bin/node-prune
 
 COPY . /app/
+
+ARG SENTRY_RELEASE
+ENV SENTRY_RELEASE=$SENTRY_RELEASE
+
 RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
