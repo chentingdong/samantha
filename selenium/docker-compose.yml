@@ -26,7 +26,7 @@ services:
       - /dev/shm:/dev/shm
     environment:
       HUB_HOST: hub
-      HUB_PORT: 2078
+      HUB_PORT: 2077
     deploy:
         replicas: 1
     entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
@@ -37,7 +37,7 @@ services:
       - /dev/shm:/dev/shm
     environment:
       HUB_HOST: hub
-      HUB_PORT: 2079
+      HUB_PORT: 2077
     deploy:
         replicas: 1
     entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
