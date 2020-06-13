@@ -1,0 +1,17 @@
+name: Selenium Server
+
+on:
+  push:
+    paths:
+    - 'selenium/docker-compose.yml'
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Build and run selenium hub
+      run: |
+        make,
+        docker-compose
