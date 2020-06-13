@@ -46,7 +46,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Create new Sentry release and deploy to Heroku
+      - name: Create new Sentry release
         run: |
           # Install Sentry CLI
           curl -sL https://sentry.io/get-cli/ | bash
