@@ -14,6 +14,6 @@ jobs:
 
     - name: Build and run selenium hub
       run:
-        sudo apt-get install build-essential
+        sudo apt-get install build-essential,
         make,
         docker-compose
