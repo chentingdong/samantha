@@ -10,4 +10,4 @@ jobs:
 
     - name: Build and run selenium hub
       run:
-        selenium/docker-compose up
+        docker-compose -f selenium/docker-compose.yml up
