@@ -30,7 +30,6 @@ services:
     deploy:
         replicas: 1
     entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
-
   opera:
     image: selenium/node-opera:3.141.59-20200525
     volumes:
