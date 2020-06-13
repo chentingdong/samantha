@@ -58,15 +58,15 @@ const DraftControlledInput = ({ fieldName, componentClassName }) => {
       name={fieldName}
       inputRef={inputRef}
       componentClass={componentClassName}
-      // value={get(draftBlock, fieldName)}
-      // onChange={(value, event) => {
-      //   setSelectionStart(
-      //     (event.currentTarget as HTMLTextAreaElement).selectionStart
-      //   )
-      //   setUiState({
-      //     draftBlock: { [fieldName]: value },
-      //   })
-      // }}
+      value={get(draftBlock, fieldName)}
+      onChange={(value, event) => {
+        setSelectionStart(
+          (event.currentTarget as HTMLTextAreaElement).selectionStart
+        )
+        setUiState({
+          draftBlock: { [fieldName]: value },
+        })
+      }}
     />
   )
 }

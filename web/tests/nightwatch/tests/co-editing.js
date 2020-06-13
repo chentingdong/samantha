@@ -56,7 +56,7 @@ module.exports = {
     } else {
       browser
         .click(".main-menu .requests-received a")
-        .waitForElementVisible(".requests-received-0")
+        .waitForElementVisible(".requests-received-0", 10000)
       // some bug saving the name
       // .expect.element(".requests-received-0 .time")
       // .text.to.equal(bellName)

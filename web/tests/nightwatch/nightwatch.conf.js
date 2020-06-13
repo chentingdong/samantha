@@ -48,7 +48,7 @@ module.exports = {
         javascriptEnabled: true,
         chromeOptions: {
           w3c: false,
-          args: ["headless"],
+          // args: ["headless"],
         },
       },
     },
