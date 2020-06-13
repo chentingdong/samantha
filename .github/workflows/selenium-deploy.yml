@@ -10,5 +10,4 @@ jobs:
 
     - name: Build and run selenium hub
       run:
-        cd selenium,
-        docker-compose up
+        selenium/docker-compose up
