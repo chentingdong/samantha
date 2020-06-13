@@ -3,7 +3,7 @@ name: Deploy Selenium Server
 on:
   push:
     paths:
-    - 'selenium/*.*'
+    - 'selenium/docker-compose.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
