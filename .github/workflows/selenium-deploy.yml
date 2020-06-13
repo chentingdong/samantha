@@ -3,7 +3,7 @@ name: Deploy Selenium Server
 on:
   push:
     paths:
-    - 'selenium/docker-compose.yml'
+    - 'selenium/*'
 
 jobs:
   build:
@@ -14,6 +14,7 @@ jobs:
 
     - name: Build and run selenium hub
       run:
+        sudo apt-get update
         sudo apt-get install build-essential,
         make,
         docker-compose
