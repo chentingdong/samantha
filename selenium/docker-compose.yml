@@ -8,7 +8,6 @@ services:
    image: selenium/hub:3.141.59-20200525
    ports:
      - "2077:2077"
-
   chrome:
     image: selenium/node-chrome:3.141.59-20200525
     volumes:
@@ -19,7 +18,6 @@ services:
     deploy:
         replicas: 1
     entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
-
   firefox:
     image: selenium/node-firefox:3.141.59-20200525
     volumes:
@@ -30,7 +28,6 @@ services:
     deploy:
         replicas: 1
     entrypoint: bash -c 'SE_OPTS="-host $$HOSTNAME" /opt/bin/entry_point.sh'
-
   opera:
     image: selenium/node-opera:3.141.59-20200525
     volumes:
