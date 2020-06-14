@@ -33,14 +33,12 @@ jobs:
           echo $GITHUB_WORKSPACE
           cd $GITHUB_WORKSPACE/web
           docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=${SENTRY_RELEASE} .
-          docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
         id: task-def-nightwatch
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: .github/workflows/nightwatch-definition.json
+          task-definition: .github/workflows/task-definition.json
           container-name: nightwatch
           image: ${{ steps.build-web-image.outputs.web_image }}
 
