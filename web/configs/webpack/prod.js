@@ -19,6 +19,7 @@ module.exports = merge(commonConfig, {
       ignoreFile: ".sentrycliignore",
       ignore: ["node_modules", "webpack.config.js"],
       configFile: "sentry.properties",
+      release: process.env.SENTRY_RELEASE,
     }),
   ],
 })
