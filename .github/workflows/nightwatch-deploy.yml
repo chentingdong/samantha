@@ -36,7 +36,7 @@ jobs:
           echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
-        id: task-def-server
+        id: task-def-nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: .github/workflows/nightwatch-definition.json
@@ -46,7 +46,7 @@ jobs:
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-server.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-nightwatch.outputs.task-definition }}
           service: samantha_service
           cluster: samantha
           wait-for-service-stability: true
