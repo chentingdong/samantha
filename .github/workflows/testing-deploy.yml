@@ -27,23 +27,6 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Build, tag, and push server image to Amazon ECR
-        id: build-server-image
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_SERVER_REPOSITORY: samantha-server
-          IMAGE_TAG: ${{ github.sha }}
-        run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          echo $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/server
-          docker build -t $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG .
-          docker tag $IMAGE_TAG $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:latest
-          docker push $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG
-          echo "::set-output name=server_image::$ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG"
-
       - name: Fill in the new samantha-test image ID in the Amazon ECS task definition
         id: nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
