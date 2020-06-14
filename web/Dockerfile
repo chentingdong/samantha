@@ -19,6 +19,7 @@ RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" >> /app/.sentryclirc
 RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
+COPY tests/nightwatch/.env /app/tests/nightwatch/.env
 RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
 RUN tests/nightwatch/bin/run.ci.sh
 
