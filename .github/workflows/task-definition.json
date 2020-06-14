@@ -30,7 +30,7 @@
       }
     },
     {
-      "command": ["yarn", "-s", "start:prod"],
+      "command": ["yarn", "-s", "test:e2e"],
       "essential": true,
       "image": "${web_image}",
       "name": "test",
