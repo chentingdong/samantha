@@ -40,7 +40,7 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: .github/workflows/nightwatch-definition.json
-          container-name: nightwatch
+          container-name: server
           image: ${{ steps.build-web-image.outputs.web_image }}
 
       - name: Deploy Amazon ECS task definition
