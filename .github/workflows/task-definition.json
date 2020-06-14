@@ -30,10 +30,10 @@
       }
     },
     {
-      "command": ["yarn", "-s", "test:e2e"],
+      "command": ["yarn", "-s", "start:prod"],
       "essential": true,
       "image": "${web_image}",
-      "name": "test",
+      "name": "web",
       "cpu": 256,
       "memory": 512,
       "portMappings": [
@@ -46,7 +46,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "samantha-test",
+          "awslogs-group": "samantha-web",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }

@@ -1,16 +1,11 @@
 on: push
 
-name: Integration test
+name: E2E test
 
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    env:
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-      SENTRY_DEPLOY_ENVIRONMENT: ${{ secrets.SENTRY_DEPLOY_ENVIRONMENT }}
 
     steps:
       - name: Checkout
@@ -27,18 +22,18 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Fill in the new samantha-test image ID in the Amazon ECS task definition
+      - name: Fill in the new samantha-nightwatch image ID in the Amazon ECS task definition
         id: nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: .github/workflows/task-definition.json
-          container-name: test
+          task-definition: .github/workflows/nightwatch-definition.json
+          container-name: nightwatch
           image: ${{ steps.login-ecr.outputs.registry }}/samantha-server:latest
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: .github/workflows/task-definition.json
+          task-definition: .github/workflows/nightwatch-definition.json
           service: samantha_service
           cluster: samantha
           wait-for-service-stability: true
