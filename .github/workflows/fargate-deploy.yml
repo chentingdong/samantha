@@ -23,12 +23,12 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-  push:
-    tags:
-    - '*'
+on: push
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
+  # push:
+  #   tags:
+  #   - '*'
 
 name: Deploy to Amazon ECS
 
@@ -123,7 +123,7 @@ jobs:
           container-name: web
           image: ${{ steps.build-web-image.outputs.web_image }}
 
-      - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
+      - name: Fill in the new samantha-nightwatch image ID in the Amazon ECS task definition
         id: task-def-nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
