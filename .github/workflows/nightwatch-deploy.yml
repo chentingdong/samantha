@@ -22,6 +22,23 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      - name: Build, tag, and push web image to Amazon ECR
+        id: build-web-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_WEB_REPOSITORY: samantha-web
+          IMAGE_TAG: ${{ github.sha }}
+          SENTRY_RELEAES: ${{ steps.sentry.outputs.SENTRY_RELEASE }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          echo $GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE/web
+          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=${SENTRY_RELEASE} .
+          docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
+
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
         id: task-def-nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -29,8 +46,6 @@ jobs:
           task-definition: .github/workflows/nightwatch-definition.json
           container-name: nightwatch
           image: 079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-web:latest
-          args:
-              yarn test:e2e
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
