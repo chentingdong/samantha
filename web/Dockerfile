@@ -8,8 +8,8 @@ RUN mkdir /app
 WORKDIR /app
 
 COPY package.json yarn.lock /app/
-COPY ./tests/nightwatch/.env /app/tests/nightwatch/.env
-RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
+# COPY ./tests/nightwatch/.env /app/tests/nightwatch/.env
+# RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
 RUN yarn -s install --frozen-lockfile --production && yarn -s cache clean
 RUN /usr/local/bin/node-prune
 
@@ -22,7 +22,7 @@ RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
 
-RUN yarn start:prod
-RUN tests/nightwatch/bin/run.ci.sh
+# RUN yarn start:prod
+# RUN tests/nightwatch/bin/run.ci.sh
 
 EXPOSE 2000
