@@ -17,7 +17,7 @@
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
-          "awslogs-group": "samantha-dev",
+          "awslogs-group": "samantha-web",
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
