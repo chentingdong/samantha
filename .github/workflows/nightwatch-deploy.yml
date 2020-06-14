@@ -22,13 +22,15 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Fill in the new samantha-nightwatch image ID in the Amazon ECS task definition
+      - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
         id: nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: .github/workflows/nightwatch-definition.json
           container-name: nightwatch
           image: 079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:latest
+          args:
+              yarn test:e2e
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1

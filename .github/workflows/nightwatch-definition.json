@@ -3,7 +3,7 @@
     {
       "command": ["yarn", "-s", "test:e2e"],
       "essential": true,
-      "image": "${nightwatch_image}",
+      "image": "${web_image}",
       "name": "nightwatch",
       "cpu": 256,
       "memory": 512,
