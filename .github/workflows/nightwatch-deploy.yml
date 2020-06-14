@@ -27,8 +27,8 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_WEB_REPOSITORY: samantha-web
-          # IMAGE_TAG: ${{ github.sha }}
-          IMAGE_TAG: "latest"
+          IMAGE_TAG: ${{ github.sha }}
+          # IMAGE_TAG: "latest"
         run: |
           echo $GITHUB_WORKSPACE
           cd $GITHUB_WORKSPACE/web

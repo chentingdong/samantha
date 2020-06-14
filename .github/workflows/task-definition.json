@@ -39,7 +39,7 @@
       "portMappings": [
         {
           "containerPort": 2070,
-          "hostPort": 2000,
+          "hostPort": 2070,
           "protocol": "tcp"
         }
       ],
