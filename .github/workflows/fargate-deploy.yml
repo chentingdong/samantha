@@ -51,7 +51,7 @@ jobs:
         run: |
           # Install Sentry CLI
           curl -sL https://sentry.io/get-cli/ | bash
-
+          
           # Create new Sentry release
           export SENTRY_RELEASE=$(sentry-cli releases propose-version)
           echo "::set-output SENTRY_RELEASE=$SENTRY_RELEASE"
@@ -59,7 +59,7 @@ jobs:
           sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
           sentry-cli releases set-commits --auto $SENTRY_RELEASE
           sentry-cli releases finalize $SENTRY_RELEASE
-
+          
           # Create new deploy for this Sentry release
           sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_DEPLOY_ENVIRONMENT
 
@@ -111,7 +111,7 @@ jobs:
         id: task-def-server
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-server.outputs.task-definition }}
+          task-definition: .github/workflows/task-definition.json
           container-name: server
           image: ${{ steps.build-server-image.outputs.server_image }}
 
