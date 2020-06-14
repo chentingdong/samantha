@@ -3,7 +3,7 @@
     {
       "command": ["yarn", "-s", "test:e2e"],
       "essential": true,
-      "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:latest",
+      "image": "${nightwatch_image}",
       "name": "nightwatch",
       "cpu": 256,
       "memory": 512,
