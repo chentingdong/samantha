@@ -115,7 +115,7 @@ jobs:
       #     container-name: server
       #     image: ${{ steps.build-server-image.outputs.server_image }}
 
-      - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
+      - name: Fill in the new samantha-web image ID in the Amazon ECS task definition for testing
         id: task-def-test
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -123,7 +123,7 @@ jobs:
           container-name: test
           image: ${{ steps.build-web-image.outputs.web_image }}
 
-      # - name: Fill in the new samantha-web image ID in the Amazon ECS task definition for testing
+      # - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
       #   id: task-def-web
       #   uses: aws-actions/amazon-ecs-render-task-definition@v1
       #   with:
