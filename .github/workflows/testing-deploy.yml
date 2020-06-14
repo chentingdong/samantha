@@ -37,6 +37,6 @@ jobs:
         run: |
           echo $GITHUB_WORKSPACE
           cd $GITHUB_WORKSPACE/web
-          # docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG .
           yarn test:e2e
 
