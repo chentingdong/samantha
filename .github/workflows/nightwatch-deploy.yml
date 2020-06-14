@@ -28,7 +28,7 @@ jobs:
         with:
           task-definition: .github/workflows/nightwatch-definition.json
           container-name: nightwatch
-          image: 079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:latest
+          image: 079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-web:latest
           args:
               yarn test:e2e
 
