@@ -129,7 +129,7 @@ jobs:
         with:
           task-definition: ${{ steps.task-def-web.outputs.task-definition }}
           container-name: nightwatch
-          image: ${{ steps.build-web-nightwatch.outputs.web_image }}
+          image: ${{ steps.build-web-image.outputs.web_image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
