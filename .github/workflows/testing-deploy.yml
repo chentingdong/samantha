@@ -34,3 +34,11 @@ jobs:
           task-definition: .github/workflows/task-definition.json
           container-name: test
           image: $ECR_REGISTRY/$ECR_WEB_REPOSITORY:latest
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: .github/workflows/task-definition.json
+          service: samantha_service
+          cluster: samantha
+          wait-for-service-stability: true
