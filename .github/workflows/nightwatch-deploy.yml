@@ -28,7 +28,7 @@ jobs:
         with:
           task-definition: .github/workflows/nightwatch-definition.json
           container-name: nightwatch
-          image: ${{ steps.login-ecr.outputs.registry }}/samantha-server:latest
+          image: 079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:latest
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
