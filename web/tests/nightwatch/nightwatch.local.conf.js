@@ -1,5 +1,6 @@
-// If you run nightwatch from command line, run this command to set env variables first.
-// eval $(cat ~/bellhop/samantha/web/tests/nightwatch/.env | sed 's/^/export /')
+const selenium_host = "localhost"
+const selenium_port = 2077
+
 module.exports = {
   src_folders: ["tests/nightwatch/tests"],
   tests_output: "tests/nightwatch/tests_output",
@@ -9,7 +10,7 @@ module.exports = {
     start_process: true,
     server_path: "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
     log_path: "tests/nightwatch/logs",
-    port: 2077,
+    port: selenium_port,
   },
   live_output: true,
   test_workers: {
@@ -24,21 +25,15 @@ module.exports = {
       persist_globals: true,
     },
     selenium: {
-      selenium: {
-        start_process: false,
-        selenium_host: "localhost",
-        selenium_port: 2077,
-        output_timestamp: true,
-        server_path:
-          "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
-        log_path: "tests/nightwatch/logs",
-        cli_args: {
-          "webdriver.gecko.driver": require("geckodriver").path,
-          "webdriver.chrome.driver": require("chromedriver").path,
-        },
-      },
-      webdriver: {
-        start_process: false,
+      start_process: false,
+      selenium_host: selenium_host,
+      selenium_port: selenium_port,
+      output_timestamp: true,
+      server_path: "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
+      log_path: "tests/nightwatch/logs",
+      cli_args: {
+        "webdriver.gecko.driver": require("geckodriver").path,
+        "webdriver.chrome.driver": require("chromedriver").path,
       },
     },
     "selenium.chrome": {

@@ -16,5 +16,6 @@ RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
 RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
+RUN tests/nightwatch/bin/run.ci.sh
 
 EXPOSE 2000

@@ -1,6 +1,8 @@
 // If you run nightwatch from command line, run this command to set env variables first.
 // eval $(cat ~/bellhop/samantha/web/tests/nightwatch/.env | sed 's/^/export /')
+// const selenium_host = "35.175.142.214"
 const selenium_host = "35.175.142.214"
+const selenium_port = 2077
 
 module.exports = {
   src_folders: ["tests/nightwatch/tests"],
@@ -17,12 +19,12 @@ module.exports = {
     server_path: "",
     log_path: "",
     host: selenium_host,
-    port: 2077,
+    port: selenium_port,
   },
   test_settings: {
     default: {
       launch_url: "http://localhost:2000",
-      selenium_port: 2077,
+      selenium_port: selenium_port,
       selenium_host: selenium_host,
       silent: true,
       screenshots: {
@@ -30,11 +32,19 @@ module.exports = {
         path: "",
       },
       skip_testcases_on_fail: false,
+      webdriver: {
+        start_process: false,
+      },
     },
     "selenium.chrome": {
+      extends: "selenium",
       desiredCapabilities: {
         browserName: "chrome",
         javascriptEnabled: true,
+        chromeOptions: {
+          w3c: false,
+          args: ["headless"],
+        },
       },
     },
 
