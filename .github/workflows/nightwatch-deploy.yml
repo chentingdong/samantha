@@ -23,7 +23,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
-        id: nightwatch
+        id: task-def-nightwatch
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: .github/workflows/nightwatch-definition.json
