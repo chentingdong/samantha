@@ -119,9 +119,10 @@ jobs:
         id: task-def-test
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-server.outputs.task-definition }}
+          task-definition: .github/workflows/task-definition.json
           container-name: test
           image: ${{ steps.build-web-image.outputs.web_image }}
+          push_image_and_stages: false
 
       # - name: Fill in the new samantha-web image ID in the Amazon ECS task definition for testing
       #   id: task-def-web
