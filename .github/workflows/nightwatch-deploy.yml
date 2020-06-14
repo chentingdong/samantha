@@ -30,13 +30,10 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           SENTRY_RELEAES: ${{ steps.sentry.outputs.SENTRY_RELEASE }}
         run: |
-          # Build a docker container and
-          # push it to ECR so that it can
-          # be deployed to ECS.
-          echo $GITHUB_WORKSPACE
-          cd $GITHUB_WORKSPACE/web
-          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=${SENTRY_RELEASE} .
-          docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
+          # echo $GITHUB_WORKSPACE
+          # cd $GITHUB_WORKSPACE/web
+          # docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=${SENTRY_RELEASE} .
+          # docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
