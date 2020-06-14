@@ -4,7 +4,7 @@
       "command": ["yarn", "-s", "test:e2e"],
       "essential": true,
       "image": "${web_image}",
-      "name": "server",
+      "name": "nightwatch",
       "cpu": 256,
       "memory": 512,
       "portMappings": [

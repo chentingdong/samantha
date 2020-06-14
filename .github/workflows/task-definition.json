@@ -30,6 +30,29 @@
       }
     },
     {
+      "command": ["yarn", "-s", "test:e2e"],
+      "essential": true,
+      "image": "${web_image}",
+      "name": "nightwatch",
+      "cpu": 256,
+      "memory": 512,
+      "portMappings": [
+        {
+          "containerPort": 2000,
+          "hostPort": 2000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-web",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    },
+    {
       "command": ["yarn", "-s", "start:prod"],
       "essential": true,
       "image": "${web_image}",
