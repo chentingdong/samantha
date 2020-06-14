@@ -27,18 +27,16 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Fill in the new samantha-web image ID in the Amazon ECS task definition for testing
-        id: task-def-test
-        uses: aws-actions/amazon-ecs-render-task-definition@v1
-        with:
-          task-definition: .github/workflows/task-definition.json
-          container-name: test
-          image: $ECR_REGISTRY/$ECR_WEB_REPOSITORY:latest
+      - name: Build, and test image
+        id: nightwatch
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_WEB_REPOSITORY: samantha-web
+          IMAGE_TAG: ${{ github.sha }}
+          SENTRY_RELEAES: ${{ steps.sentry.outputs.SENTRY_RELEASE }}
+        run: |
+          echo $GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE/web
+          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG .
+          yarn test:e2e
 
-      - name: Deploy Amazon ECS task definition
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-        with:
-          task-definition: .github/workflows/task-definition.json
-          service: samantha_service
-          cluster: samantha
-          wait-for-service-stability: true
