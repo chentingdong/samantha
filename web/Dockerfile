@@ -21,6 +21,8 @@ RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" >> /app/.sentryclirc
 RUN yarn build
 
 ENV PATH /app/node_modules/.bin:$PATH
+
+RUN yarn start:prod
 RUN tests/nightwatch/bin/run.ci.sh
 
 EXPOSE 2000
