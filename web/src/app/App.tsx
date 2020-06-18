@@ -3,7 +3,7 @@ import Amplify, { Auth, Hub } from "aws-amplify"
 import { useEffect } from "react"
 import { hot } from "react-hot-loader/root"
 import Routes from "../routes/Routes"
-import { UPSERT_ONE_USER } from "../operations/mutations/upsertOneUser"
+import { UPSERT_USER } from "../operations/mutations/upsertUser"
 import { useMutation, useApolloClient, gql, useQuery } from "@apollo/client"
 import { setAuthUser } from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
@@ -11,7 +11,7 @@ import "../../dist/tailwind/tailwind.generated.css"
 import LogRocket from "logrocket"
 
 const App = () => {
-  const [upsertOneUser] = useMutation(UPSERT_ONE_USER)
+  const [upsertUser] = useMutation(UPSERT_USER)
   const client = useApolloClient()
   Amplify.configure(config)
 
@@ -55,9 +55,7 @@ const App = () => {
               name: authUser.name,
               email: authUser.email,
             }
-            upsertOneUser({
-              variables: { where: { id: user.id }, create: user, update: user },
-            })
+            upsertUser({ variables: { objects: [user] } })
           }
 
           break

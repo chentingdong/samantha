@@ -5,8 +5,8 @@ const wsPort = uiBaseUrl.includes("local") ? "3001" : ""
 const wsUrl = `wss://${window.location.hostname}:${wsPort}`
 const graphQLUri =
   process.env.NODE_ENV === "production"
-    ? `${apiBaseUrl}/graphql`
-    : `http://localhost:8080/v1/graphql`
+    ? `${apiBaseUrl}/v1alpha1/graphql`
+    : `http://localhost:8080/v1alpha1/graphql`
 
 const config = {
   Auth: {
@@ -42,8 +42,7 @@ const config = {
     HttpLink: {
       uri: graphQLUri,
       headers: {
-        Authorization:
-          "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiJiYWlqaSJ9.TG1mdxB0dbE6_aeD0WyQWUf1Pnwq4PeZ01Pp5eSv8p4",
+        "x-hasura-admin-secret": "myadminsecretkey",
       },
     },
   },

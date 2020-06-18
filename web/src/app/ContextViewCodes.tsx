@@ -28,7 +28,7 @@ const ContextViewCodes = () => {
   const data = {
     authUser: authUserResult.authUser,
     uiState: uiStateResult.uiState,
-    users: usersResult.users,
+    users: usersResult.User,
     blockCatalog,
     requestCatalog,
     requestsMade,

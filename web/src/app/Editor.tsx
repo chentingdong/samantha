@@ -107,7 +107,7 @@ const EditorRaw = () => {
 
   if (!data || !usersResult) return <></>
   const { showEditor, editorMode, editingTypename, draftBlock } = data.uiState
-  const { users } = usersResult
+  const { User } = usersResult
 
   return (
     <div className="editor">
@@ -140,13 +140,13 @@ const EditorRaw = () => {
                   <Col lg={6} className="requestors">
                     <div>Requestors: </div>
                     <TagPicker
-                      data={users}
+                      data={User}
                       value={draftBlock.requestors}
                       onChange={(value) => {
                         setUiState({
                           draftBlock: {
                             requestors: value.map((selectedUser) =>
-                              users.find((user) => user.id === selectedUser.id)
+                              User.find((user) => user.id === selectedUser.id)
                             ),
                           },
                         })
@@ -156,13 +156,13 @@ const EditorRaw = () => {
                   <Col lg={6} lgOffset={6} className="responders">
                     <div>Responders: </div>
                     <TagPicker
-                      data={users}
+                      data={User}
                       value={draftBlock.responders}
                       onChange={(value) => {
                         setUiState({
                           draftBlock: {
                             responders: value.map((selectedUser) =>
-                              users.find((user) => user.id === selectedUser.id)
+                              User.find((user) => user.id === selectedUser.id)
                             ),
                           },
                         })
