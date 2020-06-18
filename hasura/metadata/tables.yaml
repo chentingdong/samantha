@@ -1,0 +1,77 @@
+- table:
+    schema: public
+    name: Block
+  object_relationships:
+  - name: parent
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: Block
+        column_mapping:
+          parent_id: id
+  array_relationships:
+  - name: children
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: Block
+        column_mapping:
+          id: parent_id
+  - name: requestors
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: _requestors
+  - name: responders
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: _responders
+- table:
+    schema: public
+    name: BlockDef
+  object_relationships:
+  - name: parent
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: BlockDef
+        column_mapping:
+          parent_id: id
+  array_relationships:
+  - name: children
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: BlockDef
+        column_mapping:
+          id: parent_id
+- table:
+    schema: public
+    name: BlockDefState
+  is_enum: true
+- table:
+    schema: public
+    name: BlockState
+  is_enum: true
+- table:
+    schema: public
+    name: BlockType
+  is_enum: true
+- table:
+    schema: public
+    name: User
+- table:
+    schema: public
+    name: _requestors
+- table:
+    schema: public
+    name: _responders
