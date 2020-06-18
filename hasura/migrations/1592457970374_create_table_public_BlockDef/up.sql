@@ -1,1 +1,0 @@
-CREATE TABLE "public"."BlockDef"("id" text NOT NULL, "name" text NOT NULL, "description" text NOT NULL DEFAULT '''', "type" text NOT NULL, "state" text NOT NULL, "props" jsonb NOT NULL DEFAULT '{}', "parent_id" text, "created_at" timestamptz NOT NULL, "last_updated" timestamptz NOT NULL, PRIMARY KEY ("id") );
