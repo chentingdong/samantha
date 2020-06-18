@@ -1,0 +1,113 @@
+- table:
+    schema: public
+    name: Block
+  object_relationships:
+  - name: BlockState
+    using:
+      foreign_key_constraint_on: state
+  - name: BlockType
+    using:
+      foreign_key_constraint_on: type
+  array_relationships:
+  - name: _requestors
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: _requestors
+  - name: _responders
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: _responders
+- table:
+    schema: public
+    name: BlockDef
+  object_relationships:
+  - name: BlockDefState
+    using:
+      foreign_key_constraint_on: state
+  - name: BlockType
+    using:
+      foreign_key_constraint_on: type
+- table:
+    schema: public
+    name: BlockDefState
+  array_relationships:
+  - name: BlockDefs
+    using:
+      foreign_key_constraint_on:
+        column: state
+        table:
+          schema: public
+          name: BlockDef
+- table:
+    schema: public
+    name: BlockState
+  array_relationships:
+  - name: Blocks
+    using:
+      foreign_key_constraint_on:
+        column: state
+        table:
+          schema: public
+          name: Block
+- table:
+    schema: public
+    name: BlockType
+  array_relationships:
+  - name: BlockDefs
+    using:
+      foreign_key_constraint_on:
+        column: type
+        table:
+          schema: public
+          name: BlockDef
+  - name: Blocks
+    using:
+      foreign_key_constraint_on:
+        column: type
+        table:
+          schema: public
+          name: Block
+- table:
+    schema: public
+    name: User
+  array_relationships:
+  - name: _requestors
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: _requestors
+  - name: _responders
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: _responders
+- table:
+    schema: public
+    name: _requestors
+  object_relationships:
+  - name: Block
+    using:
+      foreign_key_constraint_on: block_id
+  - name: User
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: public
+    name: _responders
+  object_relationships:
+  - name: Block
+    using:
+      foreign_key_constraint_on: block_id
+  - name: User
+    using:
+      foreign_key_constraint_on: user_id
