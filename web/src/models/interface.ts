@@ -8,6 +8,7 @@ export interface Block {
   state: string
   control?: string
   context?: string
+  action?: string
   parent?: BlockOrDef
   children: BlockOrDef[]
   requestors: User[]
@@ -26,6 +27,7 @@ export interface BlockDef {
   type: string
   control?: string
   context?: string
+  action?: string
   parent?: BlockOrDef
   children: BlockOrDef[]
   created_at: Date

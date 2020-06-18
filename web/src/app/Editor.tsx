@@ -32,6 +32,8 @@ import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
+import Actions from "../actions"
+// import SpendRequestForm from "../actions/spendRequestForm"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -119,16 +121,13 @@ const EditorRaw = () => {
           <Grid fluid>
             <Row className="my-4">
               <div>Name</div>
-              <DraftControlledInput
-                fieldName="name"
-                componentClassName="input"
-              />
+              <DraftControlledInput fieldName="name" className="input" />
             </Row>
             <Row className="my-4">
               <div>Description</div>
               <DraftControlledInput
                 fieldName="description"
-                componentClassName="textarea"
+                className="textarea"
               />
             </Row>
             {editingTypename === Typename.Block && (
@@ -174,7 +173,7 @@ const EditorRaw = () => {
             )}
             <PanelGroup accordion bordered>
               <Panel header="Action View">
-                <Placeholder.Paragraph rows={10} />
+                <Actions tagName={draftBlock.action} />
               </Panel>
               <Panel header="Nested Set View" defaultExpanded>
                 <Row>

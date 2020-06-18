@@ -11,6 +11,7 @@ const initialBlock: BlockOrDef = {
   children: [],
   requestors: [],
   responders: [],
+  action: "",
   created_at: new Date(),
   last_updated: new Date(),
 }

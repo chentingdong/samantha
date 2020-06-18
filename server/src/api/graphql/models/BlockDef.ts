@@ -10,6 +10,7 @@ schema.objectType({
     t.model.children()
     t.model.control()
     t.model.context()
+    t.model.action()
     t.model.type()
     t.model.created_at()
     t.model.last_updated()

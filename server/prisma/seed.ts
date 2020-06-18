@@ -68,12 +68,14 @@ const seedCatalog = async (db: PrismaClient) => {
         name: 'Gather Info Form',
         description: 'Gather Information from Responders',
         type: BlockType.LEAF_FORM,
+        action: 'SpendRequestForm',
       },
       {
         id: uuid.v4(),
         name: 'Approval Form',
         description: 'Ask for Approval',
         type: BlockType.LEAF_FORM,
+        action: 'SpendRequestApproval',
       },
       {
         id: uuid.v4(),
