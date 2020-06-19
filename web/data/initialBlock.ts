@@ -5,7 +5,7 @@ const initialBlock: BlockOrDef = {
   id: uuid.v4(),
   name: "",
   description: "",
-  type: "COMPOSITE_PARALLEL",
+  type: "ParallelAll",
   state: "DRAFT",
   parent: null,
   children: [],
