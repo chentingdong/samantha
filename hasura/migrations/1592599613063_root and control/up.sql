@@ -5,21 +5,19 @@ ADD COLUMN "root_id" jsonb NOT NULL;
 ALTER TABLE "public"."blocks"
 ADD COLUMN "control" jsonb NOT NULL DEFAULT '{}';
 ALTER TABLE "public"."blocks"
-ADD COLUMN "root_id" text NOT NULL;
+ADD COLUMN "root_id" text;
 alter table "public"."blocks"
 add constraint "blocks_root_id_fkey" foreign key ("root_id") references "public"."blocks" ("id") on update restrict on delete restrict;
 ALTER TABLE "public"."blockDefs" DROP COLUMN "root_id" CASCADE;
 ALTER TABLE "public"."blockDefs"
-ADD COLUMN "root_id" text NOT NULL;
+ADD COLUMN "root_id" text;
 alter table "public"."blockDefs"
 add constraint "blockDefs_root_id_fkey" foreign key ("root_id") references "public"."blockDefs" ("id") on update restrict on delete restrict;
 ALTER TABLE "public"."blockDefs"
-ALTER COLUMN "root_id" DROP NOT NULL;
 ALTER TABLE "public"."blocks"
-ALTER COLUMN "root_id" DROP NOT NULL;
 ALTER TABLE ONLY "public"."blockDefs"
 ALTER COLUMN "description"
-SET DEFAULT '''::text';
+SET DEFAULT '';
 ALTER TABLE "public"."blockDefs"
 ALTER COLUMN "description" DROP DEFAULT;
 ALTER TABLE "public"."blocks"
