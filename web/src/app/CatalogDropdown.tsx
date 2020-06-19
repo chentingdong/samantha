@@ -7,7 +7,7 @@ import { setUiState } from "../operations/mutations/setUiState"
 import { Typename, EditMode } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { getIconByType } from "../utils/Styles"
-import uuid from "uuid"
+import { nanoid } from "nanoid"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 

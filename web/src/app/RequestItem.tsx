@@ -1,5 +1,4 @@
 import React, { useState, useReducer, useEffect } from "react"
-import uuid from "uuid"
 import { BlockOrDef, Block } from "../models/interface"
 import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
@@ -55,7 +54,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     blockToComplete.children.map((child) => markComplete(child))
     updateOneBlock({
       variables: {
-        data: { state: "COMPLETE", last_updated: new Date() },
+        data: { state: "Success", last_updated: new Date() },
         where: { id: blockToComplete.id },
       },
     })
@@ -131,7 +130,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             View/Edit <i>New!</i>
           </IconButton>
           {itemOrigin !== ItemOrigin.Catalog &&
-            (block as Block).state !== "COMPLETE" && (
+            (block as Block).state !== "Success" && (
               <IconButton
                 appearance="ghost"
                 icon={<Icon icon="check" />}

@@ -7,13 +7,13 @@ const getLogoByTheme = (theme) => {
 
 const blockColor = (block) => {
   switch (block.state) {
-    case "PENDING":
+    case "Running":
       return "warning"
-    case "ACTIVE":
+    case "Success":
       return "success"
-    case "COMPLETE":
+    case "Failure":
       return "primary"
-    case "DRAFT":
+    case "Draft":
       return "light"
     default:
       return "white"
@@ -30,13 +30,13 @@ const blockTextColor = (block) => {
 
 const getIconByType = (type) => {
   switch (type) {
-    case "COMPOSITE_PARALLEL":
+    case "ParallelAll":
       return "list"
-    case "COMPOSITE_SEQUENTIAL":
+    case "Sequence":
       return "list-ol"
-    case "LEAF_FORM":
+    case "Form":
       return "order-form"
-    case "LEAF_API":
+    case "API":
       return "gears2"
     default:
       return "peoples"

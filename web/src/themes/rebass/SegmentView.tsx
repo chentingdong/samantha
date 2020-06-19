@@ -6,8 +6,8 @@ const SegmentView: React.FC<{
   block: BlockOrDef
 }> = ({ block }) => {
   switch (block.type) {
-    case "COMPOSITE_PARALLEL":
-    case "COMPOSITE_SEQUENTIAL":
+    case "ParallelAll":
+    case "Sequence":
       return (
         <SegmentCompositeStages
           type={block.type}

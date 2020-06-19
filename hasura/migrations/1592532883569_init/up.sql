@@ -78,3 +78,25 @@ ALTER TABLE ONLY public.blocks
     ADD CONSTRAINT blockstate_fkey FOREIGN KEY (state) REFERENCES public."blockState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY public.blocks
     ADD CONSTRAINT blocktype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+INSERT INTO public."blockDefState" (value, comment) VALUES ('Draft', NULL);
+INSERT INTO public."blockDefState" (value, comment) VALUES ('Published', NULL);
+INSERT INTO public."blockType" (value, comment) VALUES ('Form', 'Action');
+INSERT INTO public."blockType" (value, comment) VALUES ('API', 'Action');
+INSERT INTO public."blockType" (value, comment) VALUES ('Retry', 'Decorator');
+INSERT INTO public."blockType" (value, comment) VALUES ('Repeat', 'Decorator');
+INSERT INTO public."blockType" (value, comment) VALUES ('Inverter', 'Decorator');
+INSERT INTO public."blockType" (value, comment) VALUES ('Sequence', 'Control');
+INSERT INTO public."blockType" (value, comment) VALUES ('ParallelAll', 'Control');
+INSERT INTO public."blockType" (value, comment) VALUES ('ParallelAny', 'Control');
+INSERT INTO public."blockType" (value, comment) VALUES ('Selector', 'Control');
+INSERT INTO public."blockType" (value, comment) VALUES ('ManualSelector', 'Control');
+INSERT INTO public."blockType" (value, comment) VALUES ('BehaviorTree', 'BehaviorTree');
+INSERT INTO public."blockType" (value, comment) VALUES ('Subtree', 'Action');
+INSERT INTO public."blockDefs" (id, name, description, type, state, props, parent_id, created_at, last_updated) VALUES ('2U3KS-AVZzwZ9JMbLpKrR', 'Bell', 'An empty bell', 'BehaviorTree', 'Draft', '{}', NULL, '2020-06-19 00:00:00+00', '2020-06-19 00:00:00+00');
+INSERT INTO public."blockState" (value, comment) VALUES ('Created', NULL);
+INSERT INTO public."blockState" (value, comment) VALUES ('Ready', NULL);
+INSERT INTO public."blockState" (value, comment) VALUES ('Running', NULL);
+INSERT INTO public."blockState" (value, comment) VALUES ('Success', NULL);
+INSERT INTO public."blockState" (value, comment) VALUES ('Failure', NULL);
+

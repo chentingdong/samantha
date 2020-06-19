@@ -11,10 +11,10 @@ const stateMap = {
 const StateBar = ({ state }) => {
   return (
     <Steps current={stateMap[state]}>
-      <Steps.Item title="Draft" />
-      <Steps.Item title="Pending" />
-      <Steps.Item title="Active" />
-      <Steps.Item title="Complete" />
+      <Steps.Item title="Created" />
+      <Steps.Item title="Ready" />
+      <Steps.Item title="Running" />
+      <Steps.Item title="Success" />
     </Steps>
   )
 }

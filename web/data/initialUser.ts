@@ -1,8 +1,8 @@
 import { User } from "../src/models/interface"
-import uuid from "uuid"
+import { nanoid } from "nanoid"
 
 const initialUser: User = {
-  id: uuid.v4(),
+  id: nanoid(),
   name: "",
   email: "",
   isAuthenticated: false,

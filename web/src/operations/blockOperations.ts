@@ -3,7 +3,7 @@ import { Typename } from "../models/enum"
 import { Notification } from "rsuite"
 import cloneDeep from "lodash/cloneDeep"
 import { setUiState } from "../operations/mutations/setUiState"
-import uuid from "uuid"
+import { nanoid } from "nanoid"
 import { transformBlockInput } from "./transform"
 
 /**
@@ -16,12 +16,12 @@ import { transformBlockInput } from "./transform"
  * @returns the newly created output block tree
  */
 const createBlock = (root, targetType, requestor, parent = null) => {
-  const id = uuid.v4()
+  const id = nanoid()
   return {
     ...root,
     id,
     parent,
-    state: targetType === Typename.Block ? "ACTIVE" : "DRAFT",
+    state: targetType === Typename.Block ? "Ready" : "Draft",
     requestors: targetType === Typename.Block ? [requestor] : [],
     created_at: new Date(),
     last_updated: new Date(),

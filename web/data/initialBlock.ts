@@ -1,12 +1,12 @@
 import { BlockOrDef } from "../src/models/interface"
-import uuid from "uuid"
+import { nanoid } from "nanoid"
 
 const initialBlock: BlockOrDef = {
-  id: uuid.v4(),
+  id: nanoid(),
   name: "",
   description: "",
   type: "ParallelAll",
-  state: "DRAFT",
+  state: "Draft",
   parent: null,
   children: [],
   requestors: [],
