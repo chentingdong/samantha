@@ -31,8 +31,10 @@ const SpendRequestFormRaw: React.FC<{ className: string }> = ({
 }
 
 const SpendRequestForm = styled(SpendRequestFormRaw)`
-  input {
-    color: var(--color-text-default);
+  & {
+    div {
+      ${tw`my-4`}
+    }
   }
 `
 export default SpendRequestForm

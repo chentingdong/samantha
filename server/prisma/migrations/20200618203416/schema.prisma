@@ -1,0 +1,71 @@
+generator prisma_client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = "***"
+}
+
+enum State {
+  DELETE
+  DRAFT
+  PENDING
+  ACTIVE
+  COMPLETE
+}
+
+enum BlockType {
+  COMPOSITE_PARALLEL
+  COMPOSITE_SEQUENTIAL
+  LEAF_FORM
+  LEAF_API
+}
+
+model User {
+  id              String  @id
+  name            String
+  email           String
+  requestedBlocks Block[] @relation("requestors", references: [id])
+  respondedBlocks Block[] @relation("responders", references: [id])
+}
+
+model Block {
+  id           String    @id
+  name         String    @default("")
+  description  String    @default("")
+  type         BlockType @default(COMPOSITE_PARALLEL)
+  state        State     @default(DRAFT)
+  control      String    @default("{}")
+  context      String    @default("{}")
+  action       String    @default("")
+  // actions      String    @relation("blockAction", fields: [actionId], references: [id])
+  parentId     String?   @map("parent")
+  parent       Block?    @relation("parentChildren", fields: [parentId], references: [id])
+  children     Block[]   @relation("parentChildren")
+  requestors   User[]    @relation("requestors", references: [id])
+  responders   User[]    @relation("responders", references: [id])
+  created_at   DateTime  @default(now())
+  last_updated DateTime  @default(now())
+  due_date     DateTime?
+}
+
+model Action {
+  id    String  @id
+  name  String  @default("")
+}
+
+model BlockDef {
+  id           String     @id
+  name         String     @default("")
+  description  String     @default("")
+  type         BlockType  @default(COMPOSITE_PARALLEL)
+  control      String     @default("{}")
+  context      String     @default("{}")
+  action      String     @default("")
+  parentId     String?    @map("parent")
+  parent       BlockDef?  @relation("blockDefParentChildren", fields: [parentId], references: [id])
+  children     BlockDef[] @relation("blockDefParentChildren")
+  created_at   DateTime   @default(now())
+  last_updated DateTime   @default(now())
+}

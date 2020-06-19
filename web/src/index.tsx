@@ -8,6 +8,7 @@ import { cache } from "./cache"
 import { ApolloClient, ApolloProvider, HttpLink } from "@apollo/client"
 import LogRocket from "logrocket"
 import * as Sentry from "@sentry/browser"
+import AppStyles from "./assets/styles/appStyles.tsx"
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
@@ -36,7 +37,9 @@ const rootEl = document.getElementById("root")
 render(
   <ApolloProvider client={apolloClient}>
     <DndProvider backend={Backend}>
-      <App />
+      <AppStyles>
+        <App />
+      </AppStyles>
     </DndProvider>
   </ApolloProvider>,
   rootEl

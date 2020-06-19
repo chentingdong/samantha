@@ -1,16 +1,18 @@
 import React, { Component } from "react"
 import SpendRequestForm from "./spendRequestForm"
-
+import SpendRequestApproval from "./spendRequestApproval"
 interface ActionStateProps {
   tagName: string
 }
 
 const Action: React.FC<ActionStateProps> = ({ tagName = "" }) => {
-  const components = {
-    SpendRequestForm: SpendRequestForm,
-  }
+  let components = {}
 
-  return components[tagName] ? components[tagName] : <></>
+  components["SpendRequestForm"] = SpendRequestForm
+  components["SpendRequestApproval"] = SpendRequestApproval
+
+  const TagName = components[tagName]
+  return TagName ? <TagName /> : <></>
 }
 
 export default Action

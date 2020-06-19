@@ -9,6 +9,7 @@ const BlockFullFragment = gql`
     state
     control
     context
+    action
     parent {
       id
       name
@@ -23,6 +24,7 @@ const BlockFullFragment = gql`
       state
       control
       context
+      action
       parent {
         id
         name
@@ -37,6 +39,7 @@ const BlockFullFragment = gql`
         state
         control
         context
+        action
         parent {
           id
           name
@@ -52,6 +55,7 @@ const BlockFullFragment = gql`
           state
           control
           context
+          action
           parent {
             id
             name

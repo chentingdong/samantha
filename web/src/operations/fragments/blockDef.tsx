@@ -8,6 +8,7 @@ const BlockDefFullFragment = gql`
     type
     control
     context
+    action
     parent {
       id
       name
@@ -20,6 +21,7 @@ const BlockDefFullFragment = gql`
       type
       control
       context
+      action
       parent {
         id
         name
@@ -32,6 +34,7 @@ const BlockDefFullFragment = gql`
         type
         control
         context
+        action
         parent {
           id
           name
@@ -44,6 +47,7 @@ const BlockDefFullFragment = gql`
           type
           control
           context
+          action
           parent {
             id
             name
