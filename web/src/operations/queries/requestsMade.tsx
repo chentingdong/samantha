@@ -1,14 +1,14 @@
 import { gql } from "@apollo/client"
-import { BlockFullFragment } from "../fragments/block"
+import { blockFullFragment } from "../fragments/block"
 
 export const REQUESTS_MADE = gql`
   query requestsMade($userId: String) {
-    Block(
+    blocks(
       order_by: { last_updated: desc }
-      where: { _and: { requestors: { user_id: { _eq: $userId } } } }
+      where: { _and: { block_requestors: { user_id: { _eq: $userId } } } }
     ) {
-      ...BlockFullFragment
+      ...blockFullFragment
     }
   }
-  ${BlockFullFragment}
+  ${blockFullFragment}
 `

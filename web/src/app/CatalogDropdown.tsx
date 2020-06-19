@@ -30,7 +30,7 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
         )
       }}
     >
-      {data.BlockDef.map((blockDef: BlockDef) => (
+      {data.blockDefs.map((blockDef: BlockDef) => (
         <Dropdown.Item
           icon={<Icon icon={getIconByType(blockDef.type)} />}
           key={blockDef.id}

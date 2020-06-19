@@ -1,113 +1,149 @@
 - table:
     schema: public
-    name: Block
-  object_relationships:
-  - name: BlockState
-    using:
-      foreign_key_constraint_on: state
-  - name: BlockType
-    using:
-      foreign_key_constraint_on: type
+    name: blockDefState
+  is_enum: true
   array_relationships:
-  - name: _requestors
-    using:
-      foreign_key_constraint_on:
-        column: block_id
-        table:
-          schema: public
-          name: _requestors
-  - name: _responders
-    using:
-      foreign_key_constraint_on:
-        column: block_id
-        table:
-          schema: public
-          name: _responders
-- table:
-    schema: public
-    name: BlockDef
-  object_relationships:
-  - name: BlockDefState
-    using:
-      foreign_key_constraint_on: state
-  - name: BlockType
-    using:
-      foreign_key_constraint_on: type
-- table:
-    schema: public
-    name: BlockDefState
-  array_relationships:
-  - name: BlockDefs
+  - name: blockDefs
     using:
       foreign_key_constraint_on:
         column: state
         table:
           schema: public
-          name: BlockDef
+          name: blockDefs
 - table:
     schema: public
-    name: BlockState
+    name: blockDefs
+  object_relationships:
+  - name: blockDefState
+    using:
+      foreign_key_constraint_on: state
+  - name: blockType
+    using:
+      foreign_key_constraint_on: type
+  - name: parent
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: blockDefs
+        column_mapping:
+          parent_id: id
   array_relationships:
-  - name: Blocks
+  - name: children
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: blockDefs
+        column_mapping:
+          id: parent_id
+- table:
+    schema: public
+    name: blockState
+  is_enum: true
+  array_relationships:
+  - name: blocks
     using:
       foreign_key_constraint_on:
         column: state
         table:
           schema: public
-          name: Block
+          name: blocks
 - table:
     schema: public
-    name: BlockType
+    name: blockType
+  is_enum: true
   array_relationships:
-  - name: BlockDefs
+  - name: blockDefs
     using:
       foreign_key_constraint_on:
         column: type
         table:
           schema: public
-          name: BlockDef
-  - name: Blocks
+          name: blockDefs
+  - name: blocks
     using:
       foreign_key_constraint_on:
         column: type
         table:
           schema: public
-          name: Block
+          name: blocks
 - table:
     schema: public
-    name: User
+    name: block_requestor
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: block_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: public
+    name: block_responder
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: block_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: public
+    name: blocks
+  object_relationships:
+  - name: blockState
+    using:
+      foreign_key_constraint_on: state
+  - name: blockType
+    using:
+      foreign_key_constraint_on: type
+  - name: parent
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: blocks
+        column_mapping:
+          parent_id: id
   array_relationships:
-  - name: _requestors
+  - name: block_requestors
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: block_requestor
+  - name: block_responders
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: block_responder
+  - name: children
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: blocks
+        column_mapping:
+          id: parent_id
+- table:
+    schema: public
+    name: users
+  array_relationships:
+  - name: block_requestors
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: _requestors
-  - name: _responders
+          name: block_requestor
+  - name: block_responders
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
-          name: _responders
-- table:
-    schema: public
-    name: _requestors
-  object_relationships:
-  - name: Block
-    using:
-      foreign_key_constraint_on: block_id
-  - name: User
-    using:
-      foreign_key_constraint_on: user_id
-- table:
-    schema: public
-    name: _responders
-  object_relationships:
-  - name: Block
-    using:
-      foreign_key_constraint_on: block_id
-  - name: User
-    using:
-      foreign_key_constraint_on: user_id
+          name: block_responder

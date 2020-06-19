@@ -32,7 +32,7 @@ const RequestsMadeList = ({ className = "" }) => {
         editingTypename={Typename.Block}
       />
       <Divider />
-      {data.Block.map((block: BlockDef, index: number) => (
+      {data.blocks.map((block: BlockDef, index: number) => (
         <RequestItem
           block={block}
           key={block.id}

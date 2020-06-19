@@ -28,7 +28,7 @@ const RequestCatalogList = ({ className = "" }) => {
         editingTypename={Typename.BlockDef}
       />
       <Divider />
-      {data.BlockDef.map((blockDef: BlockDef, index: number) => (
+      {data.blockDefs.map((blockDef: BlockDef, index: number) => (
         <RequestItem
           block={blockDef}
           key={blockDef.id}

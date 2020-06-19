@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client"
 
-const BlockFullFragment = gql`
-  fragment BlockFullFragment on Block {
+const blockFullFragment = gql`
+  fragment blockFullFragment on blocks {
     id
     name
     description
@@ -14,8 +14,10 @@ const BlockFullFragment = gql`
       name
       state
       type
-      requestors {
-        user_id
+      block_requestors {
+        user {
+          id
+        }
       }
     }
     children {
@@ -66,15 +68,23 @@ const BlockFullFragment = gql`
         }
       }
     }
-    requestors {
-      user_id
+    block_requestors {
+      user {
+        id
+        name
+        email
+      }
     }
-    responders {
-      user_id
+    block_responders {
+      user {
+        id
+        name
+        email
+      }
     }
     created_at
     last_updated
   }
 `
 
-export { BlockFullFragment }
+export { blockFullFragment }
