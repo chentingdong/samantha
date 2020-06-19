@@ -1,16 +1,14 @@
 import { gql } from "@apollo/client"
 
 export const UPSERT_USER = gql`
-  mutation upsert_user($object: User_insert_input!) {
-    insert_user(
+  mutation upsert_users_one($object: users_insert_input!) {
+    insert_users_one(
       object: $object
       on_conflict: { constraint: users_pkey, update_columns: [name, email] }
     ) {
-      returning {
-        id
-        name
-        email
-      }
+      id
+      name
+      email
     }
   }
 `

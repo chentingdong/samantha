@@ -141,7 +141,7 @@ const deleteOneBlock = (
       block.children?.map((child) => deleteFnRecursive(child))
       deleteFn({
         variables: {
-          where: { id: block.id },
+          id: block.id,
         },
       })
     }
