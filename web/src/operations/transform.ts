@@ -3,7 +3,6 @@ import cloneDeep from "lodash/cloneDeep"
 
 const _transformBlockInput = (block) => {
   if (!Object.isExtensible(block)) block = { ...block }
-
   delete block.parent
 
   const childrenForCreate = []
@@ -19,23 +18,21 @@ const _transformBlockInput = (block) => {
     delete block.children
   }
 
-  if (block.requestors?.length > 0) {
+  if (block.block_requestors?.length > 0) {
     block.block_requestors = {
       data:
         block.block_requestors?.map((user) => ({
-          user_id: user.id,
-          block_id: block.id,
+          user_id: user.user.id,
         })) || [],
     }
   }
   delete block.requestors
 
-  if (block.responders?.length > 0) {
+  if (block.block_responders?.length > 0) {
     block.block_responders = {
       data:
         block.block_responders?.map((user) => ({
-          user_id: user.id,
-          block_id: block.id,
+          user_id: user.user.id,
         })) || [],
     }
   }

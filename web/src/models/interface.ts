@@ -10,8 +10,8 @@ export interface Block {
   context?: string
   parent?: BlockOrDef
   children: BlockOrDef[]
-  requestors: User[]
-  responders: User[]
+  block_requestors: BlockUser[]
+  block_responders: BlockUser[]
   created_at: Date
   last_updated: Date
   due_date?: Date
@@ -41,6 +41,13 @@ export interface UiState {
   editorMode?: EditMode
   editingTypename?: Typename
   draftBlock?: BlockOrDef
+}
+
+// for postgres many to many relationship
+export interface BlockUser {
+  user_id: string
+  block_id: string
+  user: User
 }
 
 export interface User {

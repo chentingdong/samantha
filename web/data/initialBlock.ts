@@ -9,8 +9,8 @@ const initialBlock: BlockOrDef = {
   state: "Draft",
   parent: null,
   children: [],
-  requestors: [],
-  responders: [],
+  block_requestors: [],
+  block_responders: [],
   created_at: new Date(),
   last_updated: new Date(),
 }

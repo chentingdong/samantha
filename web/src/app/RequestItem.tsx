@@ -55,7 +55,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     updateOneBlock({
       variables: {
         data: { state: "Success", last_updated: new Date() },
-        where: { id: blockToComplete.id },
+        id: blockToComplete.id,
       },
     })
   }
@@ -76,8 +76,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin !== ItemOrigin.Catalog && (
             <Row>
               <span className="requestors">
-                {(block as Block).requestors
-                  ?.map((user) => user.name)
+                {(block as Block).block_requestors
+                  ?.map((user) => user.user.name)
                   .join(", ")}
                 {":  "}
               </span>
@@ -87,8 +87,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           <Row>
             <span className="block-name"> {block.name} </span>
             <span className="responders">
-              {(block as Block).responders
-                ?.map((user) => "@" + user.name)
+              {(block as Block).block_responders
+                ?.map((user) => "@" + user.user.name)
                 .join(", ")}
             </span>
           </Row>

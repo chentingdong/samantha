@@ -22,7 +22,10 @@ const createBlock = (root, targetType, requestor, parent = null) => {
     id,
     parent,
     state: targetType === Typename.Block ? "Ready" : "Draft",
-    requestors: targetType === Typename.Block ? [requestor] : [],
+    block_requestors:
+      targetType === Typename.Block
+        ? [{ user_id: requestor.id, block_id: id, user: requestor }]
+        : [],
     created_at: new Date(),
     last_updated: new Date(),
     __typename: targetType,
