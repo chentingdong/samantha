@@ -55,7 +55,7 @@ const App = () => {
               name: authUser.name,
               email: authUser.email,
             }
-            upsertUser({ variables: { objects: [user] } })
+            upsertUser({ variables: { object: user } })
           }
 
           break

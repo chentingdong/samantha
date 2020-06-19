@@ -69,9 +69,7 @@ const EditorRaw = () => {
       updateFn({
         variables: {
           data: dataInput,
-          where: {
-            id: draft.id,
-          },
+          id: draft.id,
         },
       })
     }

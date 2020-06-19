@@ -11,17 +11,35 @@ const _transformBlockInput = (block) => {
     const transformedChild = _transformBlockInput(child)
     childrenForCreate.push(transformedChild)
   }
-  block.children = {}
-  if (childrenForCreate.length > 0) block.children.create = childrenForCreate
 
-  if (block.requestors?.length > 0)
-    block.requestors = {
-      connect: block.requestors?.map((user) => ({ id: user.id })),
+  if (childrenForCreate.length > 0) {
+    block.children = {}
+    block.children.data = childrenForCreate
+  } else {
+    delete block.children
+  }
+
+  if (block.requestors?.length > 0) {
+    block.block_requestors = {
+      data:
+        block.block_requestors?.map((user) => ({
+          user_id: user.id,
+          block_id: block.id,
+        })) || [],
     }
-  if (block.responders?.length > 0)
-    block.responders = {
-      connect: block.responders?.map((user) => ({ id: user.id })),
+  }
+  delete block.requestors
+
+  if (block.responders?.length > 0) {
+    block.block_responders = {
+      data:
+        block.block_responders?.map((user) => ({
+          user_id: user.id,
+          block_id: block.id,
+        })) || [],
     }
+  }
+  delete block.responders
   return block
 }
 

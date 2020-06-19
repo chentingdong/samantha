@@ -22,9 +22,7 @@ const DraftControlledInput = ({ fieldName, componentClassName }) => {
       updateFn({
         variables: {
           data: dataInput,
-          where: {
-            id: draft.id,
-          },
+          id: draft.id,
         },
       })
     }, 1000)
