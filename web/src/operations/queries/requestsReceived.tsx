@@ -4,8 +4,8 @@ import { blockFullFragment } from "../fragments/block"
 export const REQUESTS_RECEIVED = gql`
   query requestsReceived($userId: String) {
     blocks(
-      order_by: { last_updated: desc }
-      where: { _and: { block_responders: { user_id: { _eq: $userId } } } }
+      order_by: { last_updated: desc_nulls_first }
+      where: { block_responders: { user: { id: { _eq: $userId } } } }
     ) {
       ...blockFullFragment
     }
