@@ -22,21 +22,15 @@
       foreign_key_constraint_on: type
   - name: parent
     using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: blockDefs
-        column_mapping:
-          parent_id: id
+      foreign_key_constraint_on: parent_id
   array_relationships:
   - name: children
     using:
-      manual_configuration:
-        remote_table:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
           schema: public
           name: blockDefs
-        column_mapping:
-          id: parent_id
 - table:
     schema: public
     name: blockState
@@ -100,12 +94,7 @@
       foreign_key_constraint_on: type
   - name: parent
     using:
-      manual_configuration:
-        remote_table:
-          schema: public
-          name: blocks
-        column_mapping:
-          parent_id: id
+      foreign_key_constraint_on: parent_id
   array_relationships:
   - name: block_requestors
     using:
@@ -123,12 +112,11 @@
           name: block_responder
   - name: children
     using:
-      manual_configuration:
-        remote_table:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
           schema: public
           name: blocks
-        column_mapping:
-          id: parent_id
 - table:
     schema: public
     name: users
