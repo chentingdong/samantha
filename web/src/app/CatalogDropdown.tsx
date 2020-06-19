@@ -18,7 +18,6 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
   if (!authUserResult || !data) return <></>
 
   const { authUser } = authUserResult
-  const { blockDefs } = data
 
   return (
     <Dropdown
@@ -31,7 +30,7 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
         )
       }}
     >
-      {blockDefs.map((blockDef: BlockDef) => (
+      {data.BlockDef.map((blockDef: BlockDef) => (
         <Dropdown.Item
           icon={<Icon icon={getIconByType(blockDef.type)} />}
           key={blockDef.id}

@@ -3,14 +3,9 @@ import { BlockFullFragment } from "../fragments/block"
 
 export const REQUESTS_RECEIVED = gql`
   query requestsReceived($userId: String) {
-    blocks(
-      orderBy: { last_updated: desc }
-      where: { 
-        AND: [
-          {responders: { some: { id: { equals: $userId } } }}
-          {NOT: {state: COMPLETE}}
-        ]
-      }
+    Block(
+      order_by: { last_updated: desc }
+      where: { _and: { responders: { user_id: { _eq: $userId } } } }
     ) {
       ...BlockFullFragment
     }
