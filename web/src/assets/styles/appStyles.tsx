@@ -1,6 +1,8 @@
+// This file is used for common HTML5 tags.
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
+// TODO: use tailwind variables to replace these hard coded numbers.
 const AppStyles = styled.div.attrs({
   className: "",
 })`

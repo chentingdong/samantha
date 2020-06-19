@@ -159,8 +159,8 @@
   --rounded-btn: 0;
 }
 
-/* General variables */
-/* .font-default {
+/* fonts */
+.font-default {
   font-family: Varela, arial, sans-serif;
 }
 
@@ -177,4 +177,4 @@
 .font-mono {
   font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
-} */
+}
