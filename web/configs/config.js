@@ -42,7 +42,7 @@ const config = {
     HttpLink: {
       uri: graphQLUri,
       headers: {
-        "x-hasura-admin-secret": "myadminsecretkey",
+        "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
       },
     },
   },
