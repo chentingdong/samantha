@@ -1,0 +1,38 @@
+[
+  {
+    "type": "FORM",
+    "action": "MarketingSpendRequestForm"
+  },
+  {
+    "type": "FORM",
+    "action": "MarketingSpendRequestApproval"
+  },
+  {
+    "type": "API",
+    "action": "GetSpendBudget"
+  },
+  {
+    "type": "Decorator",
+    "action": "Retry"
+  },
+  {
+    "type": "Decorator",
+    "action": "Inverter"
+  },
+  {
+    "type": "Control",
+    "action": "Sequence"
+  },
+  {
+    "type": "Control",
+    "action": "ParallelAll"
+  },
+  {
+    "type": "Control",
+    "action": "ParallelAny"
+  },
+  {
+    "type": "Control",
+    "action": "ManualSelector"
+  }
+]

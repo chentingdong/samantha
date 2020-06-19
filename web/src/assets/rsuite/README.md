@@ -12,5 +12,5 @@ If developer need to update it, you can either restart UI, or run following comm
 yarn build:rsuite
 ```
 
-list of variables refer to:
+Full list of variables refer to:
 https://github.com/rsuite/rsuite/blob/master/src/styles/variables.less

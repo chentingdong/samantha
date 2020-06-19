@@ -11,6 +11,7 @@ schema.objectType({
     t.model.state()
     t.model.control()
     t.model.context()
+    t.model.action()
     t.model.type()
     t.model.requestors()
     t.model.responders()

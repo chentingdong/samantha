@@ -32,6 +32,7 @@ import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
+import Actions from "../actions"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -125,16 +126,13 @@ const EditorRaw = () => {
           <Grid fluid>
             <Row className="my-4">
               <div>Name</div>
-              <DraftControlledInput
-                fieldName="name"
-                componentClassName="input"
-              />
+              <DraftControlledInput fieldName="name" className="input" />
             </Row>
             <Row className="my-4">
               <div>Description</div>
               <DraftControlledInput
                 fieldName="description"
-                componentClassName="textarea"
+                className="textarea"
               />
             </Row>
             {editingTypename === Typename.Block && (
@@ -186,77 +184,78 @@ const EditorRaw = () => {
                 </Row>
               </>
             )}
-            <PanelGroup accordion bordered>
-              <Panel header="Action View">
-                <Placeholder.Paragraph rows={10} />
-              </Panel>
-              <Panel header="Nested Set View" defaultExpanded>
-                <Row>
-                  <Col xs={16}>
-                    <BlockChildrenList
-                      blocks={draftBlock.children}
-                      parent={draftBlock}
-                      type={draftBlock.type}
-                    />
-                  </Col>
-                  <Col xs={8}>
-                    <BlockCatalogList />
-                  </Col>
-                </Row>
-              </Panel>
-              <Panel header="Tree View" defaultExpanded>
-                <Tree
-                  data={[getTreeData(draftBlock)]}
-                  labelKey="name"
-                  valueKey="id"
-                  defaultExpandAll
-                  size="lg"
-                  renderTreeNode={(nodeData) => {
-                    return (
-                      <span>
-                        <i className={nodeData.icon} /> {nodeData.name}
-                      </span>
-                    )
-                  }}
-                />
-              </Panel>
-              <Panel header="Debug View">
-                <AceEditor
-                  readOnly={true}
-                  mode="json"
-                  theme="dracula"
-                  name="debug"
-                  width="100%"
-                  showGutter={true}
-                  maxLines={Infinity}
-                  editorProps={{ $blockScrolling: true }}
-                  value={JSON.stringify(draftBlock, null, 2)}
-                />
-              </Panel>
-            </PanelGroup>
-            {editorMode === EditMode.Create && (
-              <ButtonToolbar className="my-2">
-                <IconButton
-                  onClick={() => {
-                    saveNewBlock(editorMode, draftBlock)
-                    close()
-                  }}
-                  icon={<Icon icon="check" />}
-                  appearance="primary"
-                  className="save-bell"
-                >
-                  Save
-                </IconButton>
-                <IconButton
-                  onClick={close}
-                  icon={<Icon icon="ban" />}
-                  appearance="primary"
-                >
-                  Cancel
-                </IconButton>
-              </ButtonToolbar>
-            )}
           </Grid>
+
+          <PanelGroup accordion bordered>
+            <Panel header="Action View" defaultExpanded>
+              <Actions tagName={draftBlock.action} />
+            </Panel>
+            <Panel header="Nested Set View">
+              <Row>
+                <Col xs={16}>
+                  <BlockChildrenList
+                    blocks={draftBlock.children}
+                    parent={draftBlock}
+                    type={draftBlock.type}
+                  />
+                </Col>
+                <Col xs={8}>
+                  <BlockCatalogList />
+                </Col>
+              </Row>
+            </Panel>
+            <Panel header="Tree View" defaultExpanded>
+              <Tree
+                data={[getTreeData(draftBlock)]}
+                labelKey="name"
+                valueKey="id"
+                defaultExpandAll
+                size="lg"
+                renderTreeNode={(nodeData) => {
+                  return (
+                    <span>
+                      <i className={nodeData.icon} /> {nodeData.name}
+                    </span>
+                  )
+                }}
+              />
+            </Panel>
+            <Panel header="Debug View">
+              <AceEditor
+                readOnly={true}
+                mode="json"
+                theme="dracula"
+                name="debug"
+                width="100%"
+                showGutter={true}
+                maxLines={Infinity}
+                editorProps={{ $blockScrolling: true }}
+                value={JSON.stringify(draftBlock, null, 2)}
+              />
+            </Panel>
+          </PanelGroup>
+          {editorMode === EditMode.Create && (
+            <ButtonToolbar className="my-2">
+              <IconButton
+                onClick={() => {
+                  saveNewBlock(editorMode, draftBlock)
+                  close()
+                }}
+                icon={<Icon icon="check" />}
+                appearance="primary"
+                className="save-bell"
+              >
+                Save
+              </IconButton>
+              <IconButton
+                onClick={close}
+                icon={<Icon icon="ban" />}
+                appearance="primary"
+              >
+                Cancel
+              </IconButton>
+            </ButtonToolbar>
+          )}
         </div>
       </Drawer>
     </div>

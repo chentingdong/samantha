@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap');
-@import 'node_modules/bootstrap/scss/functions';
-@import 'node_modules/bootstrap/scss/variables';
-@import 'node_modules/bootstrap/scss/mixins';
+// Bootstrap is used for storybook only. deprecated.
+
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,700,900&display=swap");
+@import "node_modules/bootstrap/scss/functions";
+@import "node_modules/bootstrap/scss/variables";
+@import "node_modules/bootstrap/scss/mixins";
 
 // color override
 $primary: #308dc9;
@@ -35,4 +37,4 @@ $theme-colors: (
 );
 
 // import bootstrap after variable override
-@import 'bootstrap';
+@import "bootstrap";

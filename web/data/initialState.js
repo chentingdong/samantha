@@ -10,6 +10,7 @@ export default {
     state: "Draft",
     block_requestors: [],
     block_responders: [],
+    action: "",
     parent: null,
     children: [],
     created_at: new Date(),

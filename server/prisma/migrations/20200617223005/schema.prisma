@@ -4,7 +4,7 @@ generator prisma_client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = "***"
 }
 
 enum State {
@@ -38,7 +38,7 @@ model Block {
   state        State     @default(DRAFT)
   control      String    @default("{}")
   context      String    @default("{}")
-  action       String    @default("")
+  actions      String    @default("[]")
   // actions      String    @relation("blockAction", fields: [actionId], references: [id])
   parentId     String?   @map("parent")
   parent       Block?    @relation("parentChildren", fields: [parentId], references: [id])
@@ -62,7 +62,7 @@ model BlockDef {
   type         BlockType  @default(COMPOSITE_PARALLEL)
   control      String     @default("{}")
   context      String     @default("{}")
-  action      String     @default("")
+  actions      String     @default("[]")
   parentId     String?    @map("parent")
   parent       BlockDef?  @relation("blockDefParentChildren", fields: [parentId], references: [id])
   children     BlockDef[] @relation("blockDefParentChildren")

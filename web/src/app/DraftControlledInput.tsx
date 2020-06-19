@@ -9,7 +9,16 @@ import { debounce } from "../utils/debounce"
 import { usePrevious } from "../utils/hooks"
 import get from "lodash/get"
 
-const DraftControlledInput = ({ fieldName, componentClassName }) => {
+type DraftControlledInputType = {
+  fieldName: string
+  className?: string
+  type?: string
+}
+const DraftControlledInput: React.FC<DraftControlledInputType> = ({
+  fieldName,
+  className = "",
+  type = "text",
+}) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
@@ -51,21 +60,45 @@ const DraftControlledInput = ({ fieldName, componentClassName }) => {
   const { draftBlock } = data.uiState
 
   return (
-    <Input
-      rows={5}
-      name={fieldName}
-      inputRef={inputRef}
-      componentClass={componentClassName}
-      value={get(draftBlock, fieldName)}
-      onChange={(value, event) => {
-        setSelectionStart(
-          (event.currentTarget as HTMLTextAreaElement).selectionStart
-        )
-        setUiState({
-          draftBlock: { [fieldName]: value },
-        })
-      }}
-    />
+    <>
+      {/* TODO: Rewrite the following properly? */}
+      {type === "text" && (
+        <Input
+          rows={5}
+          name={fieldName}
+          inputRef={inputRef}
+          className={className}
+          value={get(draftBlock, fieldName)}
+          onChange={(value, event) => {
+            setSelectionStart(
+              (event.currentTarget as HTMLTextAreaElement).selectionStart
+            )
+            setUiState({
+              draftBlock: { [fieldName]: value },
+            })
+          }}
+        />
+      )}
+      {type === "number" && (
+        <Input
+          name={fieldName}
+          type={type}
+          min="0.0"
+          max="10000.0"
+          // inputRef={inputRef}
+          className={className}
+          value={get(draftBlock, fieldName)}
+          // onChange={(value, event) => {
+          //   setSelectionStart(
+          //     (event.currentTarget as HTMLTextAreaElement).selectionStart
+          //   )
+          //   setUiState({
+          //     draftBlock: { [fieldName]: value },
+          //   })
+          // }}
+        />
+      )}
+    </>
   )
 }
 
