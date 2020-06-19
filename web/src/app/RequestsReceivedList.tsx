@@ -23,7 +23,7 @@ const RequestsReceivedList = ({ className = "" }) => {
 
   return (
     <div className={`requests-received-list ${className}`}>
-      {data.blocks.map((block: BlockDef, index: Number) => (
+      {data.Block.map((block: BlockDef, index: number) => (
         <RequestItem
           block={block}
           key={block.id}

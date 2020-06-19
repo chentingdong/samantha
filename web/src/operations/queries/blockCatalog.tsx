@@ -3,7 +3,10 @@ import { BlockDefFullFragment } from "../fragments/blockDef"
 
 export const BLOCK_CATALOG = gql`
   query blockCatalog {
-    blockDefs(orderBy: { type: asc }, where: { parent: null }) {
+    blockDefs(
+      order_by: { last_updated: desc }
+      where: { _and: { parent_id: { _is_null: true } } }
+    ) {
       ...BlockDefFullFragment
     }
   }

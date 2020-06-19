@@ -7,13 +7,16 @@ const BlockFullFragment = gql`
     description
     type
     state
-    control
+    props
     context
     parent {
       id
       name
       state
       type
+      requestors {
+        user_id
+      }
     }
     children {
       id
@@ -21,7 +24,7 @@ const BlockFullFragment = gql`
       description
       type
       state
-      control
+      props
       context
       parent {
         id
@@ -35,7 +38,7 @@ const BlockFullFragment = gql`
         description
         type
         state
-        control
+        props
         context
         parent {
           id
@@ -43,14 +46,13 @@ const BlockFullFragment = gql`
           state
           type
         }
-
         children {
           id
           name
           description
           type
           state
-          control
+          props
           context
           parent {
             id
@@ -65,12 +67,10 @@ const BlockFullFragment = gql`
       }
     }
     requestors {
-      id
-      name
+      user_id
     }
     responders {
-      id
-      name
+      user_id
     }
     created_at
     last_updated

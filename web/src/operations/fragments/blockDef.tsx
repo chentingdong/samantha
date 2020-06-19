@@ -6,8 +6,8 @@ const BlockDefFullFragment = gql`
     name
     description
     type
-    control
-    context
+    state
+    props
     parent {
       id
       name
@@ -18,8 +18,8 @@ const BlockDefFullFragment = gql`
       name
       description
       type
-      control
-      context
+      state
+      props
       parent {
         id
         name
@@ -30,8 +30,8 @@ const BlockDefFullFragment = gql`
         name
         description
         type
-        control
-        context
+        state
+        props
         parent {
           id
           name
@@ -42,8 +42,8 @@ const BlockDefFullFragment = gql`
           name
           description
           type
-          control
-          context
+          state
+          props
           parent {
             id
             name
