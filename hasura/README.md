@@ -12,6 +12,7 @@
 - `npm install --global hasura-cli`
 - `docker-compose up -d`
 - `hasura migrate apply`
+- `hasura metadata apply`
 - `hasura console`
 - go to data tab, track all the tables in hasura database public schema.
   - make sure blockType, blockState, blockDefState are set as enum table.
