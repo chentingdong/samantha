@@ -6,7 +6,7 @@ const wsUrl = `wss://${window.location.hostname}:${wsPort}`
 const graphQLUri =
   process.env.NODE_ENV === "production"
     ? `${apiBaseUrl}/graphql`
-    : `http://localhost:4000/graphql`
+    : `http://localhost:8080/v1/graphql`
 
 const config = {
   Auth: {
