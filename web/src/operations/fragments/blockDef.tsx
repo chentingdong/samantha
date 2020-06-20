@@ -5,49 +5,77 @@ const blockDefFullFragment = gql`
     id
     name
     description
-    type
+    blockType {
+      value
+      category
+    }
     state
+    control
     props
     parent {
       id
       name
-      type
+      blockType {
+        value
+        category
+      }
     }
     children {
       id
       name
       description
-      type
+      blockType {
+        value
+        category
+      }
       state
+      control
       props
       parent {
         id
         name
-        type
+        blockType {
+          value
+          category
+        }
       }
       children {
         id
         name
         description
-        type
+        blockType {
+          value
+          category
+        }
         state
+        control
         props
         parent {
           id
           name
-          type
+          blockType {
+            value
+            category
+          }
         }
         children {
           id
           name
           description
-          type
+          blockType {
+            value
+            category
+          }
           state
+          control
           props
           parent {
             id
             name
-            type
+            blockType {
+              value
+              category
+            }
           }
           children {
             id

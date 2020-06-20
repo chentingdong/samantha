@@ -8,6 +8,7 @@ const initialBlock: BlockOrDef = {
   name: "",
   description: "",
   type: "ParallelAll",
+  control: "",
   state: "Draft",
   control: {},
   context: {},

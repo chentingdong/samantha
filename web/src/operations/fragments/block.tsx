@@ -7,6 +7,7 @@ const blockFullFragment = gql`
     description
     type
     state
+    control
     props
     context
     parent {
@@ -26,6 +27,7 @@ const blockFullFragment = gql`
       description
       type
       state
+      control
       props
       context
       parent {
@@ -40,6 +42,7 @@ const blockFullFragment = gql`
         description
         type
         state
+        control
         props
         context
         parent {
@@ -54,6 +57,7 @@ const blockFullFragment = gql`
           description
           type
           state
+          control
           props
           context
           parent {

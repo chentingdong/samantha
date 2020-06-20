@@ -194,39 +194,45 @@ const EditorRaw = () => {
           </Grid>
 
           <PanelGroup accordion bordered>
-            <Panel header="Action View" defaultExpanded>
-              <Actions tagName={draftBlock.action} />
-            </Panel>
-            <Panel header="Nested Set View">
-              <Row>
-                <Col xs={16}>
-                  <BlockChildrenList
-                    blocks={draftBlock.children}
-                    parent={draftBlock}
-                    type={draftBlock.type}
-                  />
-                </Col>
-                <Col xs={8}>
-                  <BlockCatalogList />
-                </Col>
-              </Row>
-            </Panel>
-            <Panel header="Tree View" defaultExpanded>
-              <Tree
-                data={[getTreeData(draftBlock)]}
-                labelKey="name"
-                valueKey="id"
-                defaultExpandAll
-                size="lg"
-                renderTreeNode={(nodeData) => {
-                  return (
-                    <span>
-                      <i className={nodeData.icon} /> {nodeData.name}
-                    </span>
-                  )
-                }}
-              />
-            </Panel>
+            {draftBlock.blockType.category === "Action" && (
+              <Panel header="Action View" defaultExpanded>
+                <Actions tagName={draftBlock.control.component} />
+              </Panel>
+            )}
+            {draftBlock.blockType.category === "Control" && (
+              <Panel header="Nested Set View">
+                <Row>
+                  <Col xs={16}>
+                    <BlockChildrenList
+                      blocks={draftBlock.children}
+                      parent={draftBlock}
+                      type={draftBlock.blockType}
+                    />
+                  </Col>
+                  <Col xs={8}>
+                    <BlockCatalogList />
+                  </Col>
+                </Row>
+              </Panel>
+            )}
+            {draftBlock.type.category === "Control" && (
+              <Panel header="Tree View" defaultExpanded>
+                <Tree
+                  data={[getTreeData(draftBlock)]}
+                  labelKey="name"
+                  valueKey="id"
+                  defaultExpandAll
+                  size="lg"
+                  renderTreeNode={(nodeData) => {
+                    return (
+                      <span>
+                        <i className={nodeData.icon} /> {nodeData.name}
+                      </span>
+                    )
+                  }}
+                />
+              </Panel>
+            )}
             <Panel header="Debug View">
               <AceEditor
                 readOnly={true}
