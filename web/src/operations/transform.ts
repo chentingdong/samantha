@@ -45,8 +45,6 @@ const _transformBlockInput = (block) => {
 
 const _clearnBlockInput = (block, recursive = false) => {
   if (block.__typename === Typename.blockDefs) {
-    delete block.requestors
-    delete block.responders
     delete block.context
   }
   delete block.__mutation_type__
