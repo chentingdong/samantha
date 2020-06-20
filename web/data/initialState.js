@@ -1,3 +1,5 @@
+// used by react context store, which is used by src/themes
+
 export default {
   isAuthenticated: false,
   user: {},
@@ -6,11 +8,14 @@ export default {
     id: "0",
     name: "",
     description: "",
-    type: "",
+    type: "ParallelAll",
     state: "Draft",
+    control: {},
+    context: {},
+    props: {},
     block_requestors: [],
     block_responders: [],
-    action: "",
+    root: null,
     parent: null,
     children: [],
     created_at: new Date(),

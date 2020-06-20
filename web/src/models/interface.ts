@@ -6,9 +6,10 @@ export interface Block {
   description: string
   type: string
   state: string
-  props?: string
-  context?: string
-  action?: string
+  props?: object
+  context?: object
+  control?: object
+  root?: BlockOrDef
   parent?: BlockOrDef
   children: BlockOrDef[]
   block_requestors: BlockUser[]
@@ -25,9 +26,10 @@ export interface BlockDef {
   name: string
   description: string
   type: string
-  props?: string
-  state?: string
-  action?: string
+  props?: object
+  state?: object
+  control?: object
+  root?: BlockOrDef
   parent?: BlockOrDef
   children: BlockOrDef[]
   created_at: Date
