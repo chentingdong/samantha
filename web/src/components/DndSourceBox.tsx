@@ -7,7 +7,10 @@ const DndSourceBox = ({ block, type, children }) => {
       block,
       type,
     },
-    canDrag: () => block.__typename === "BlockDef",
+    canDrag: () => {
+      const canDrag = block.__typename === "blockDefs"
+      return canDrag
+    },
     collect: (monitor: DragSourceMonitor) => ({
       isDragging: monitor.isDragging(),
     }),

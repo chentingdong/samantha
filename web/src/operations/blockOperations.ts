@@ -21,9 +21,9 @@ const createBlock = (root, targetType, requestor, parent = null) => {
     ...root,
     id,
     parent,
-    state: targetType === Typename.Block ? "Ready" : "Draft",
+    state: targetType === Typename.blocks ? "Ready" : "Draft",
     block_requestors:
-      targetType === Typename.Block
+      targetType === Typename.blocks
         ? [{ user_id: requestor.id, block_id: id, user: requestor }]
         : [],
     created_at: new Date(),
@@ -67,7 +67,7 @@ const addOneBlock = (
   syncRemote = false,
   createFn = ({}) => null
 ) => {
-  if (childBlock.__typename !== Typename.BlockDef) {
+  if (childBlock.__typename !== Typename.blockDefs) {
     Notification.warning({
       title: "error adding a block",
       description: `from ${childBlock.__typename} "${childBlock.name}" to ${parentBlock.__typename} "${parentBlock.name}"`,

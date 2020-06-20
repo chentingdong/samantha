@@ -41,7 +41,7 @@ const _transformBlockInput = (block) => {
 }
 
 const _clearnBlockInput = (block) => {
-  if (block.__typename === Typename.BlockDef) {
+  if (block.__typename === Typename.blockDefs) {
     delete block.state
     delete block.requestors
     delete block.responders

@@ -29,7 +29,7 @@ const RequestsMadeList = ({ className = "" }) => {
         trigger={["click", "hover"]}
         noCaret
         placement="rightStart"
-        editingTypename={Typename.Block}
+        editingTypename={Typename.blocks}
       />
       <Divider />
       {data.blocks.map((block: BlockDef, index: number) => (

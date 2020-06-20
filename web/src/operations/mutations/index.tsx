@@ -25,7 +25,7 @@ const useBlockMutations = (typename) => {
     refetchQueries: [{ query: REQUEST_CATALOG }],
   })
 
-  return typename === "Block"
+  return typename === "blocks"
     ? [createOneBlock, updateOneBlock, deleteOneBlock]
     : [createOneBlockDef, updateOneBlockDef, deleteOneBlockDef]
 }

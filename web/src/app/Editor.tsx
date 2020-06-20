@@ -59,7 +59,7 @@ const EditorRaw = () => {
       const dataInput: any = {
         last_updated: new Date(),
       }
-      if (data?.uiState?.editingTypename === "Block") {
+      if (data?.uiState?.editingTypename === Typename.blocks) {
         dataInput.block_requestors = {
           data: draft.block_requestors.map((user) => ({
             user_id: user.id,
@@ -135,7 +135,7 @@ const EditorRaw = () => {
                 className="textarea"
               />
             </Row>
-            {editingTypename === Typename.Block && (
+            {editingTypename === Typename.blocks && (
               <>
                 <Row className="my-4">
                   <StateBar state={draftBlock.state} />

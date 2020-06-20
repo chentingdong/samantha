@@ -25,7 +25,7 @@ const RequestCatalogList = ({ className = "" }) => {
         trigger={["click", "hover"]}
         noCaret
         placement="rightStart"
-        editingTypename={Typename.BlockDef}
+        editingTypename={Typename.blockDefs}
       />
       <Divider />
       {data.blockDefs.map((blockDef: BlockDef, index: number) => (

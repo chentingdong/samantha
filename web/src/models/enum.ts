@@ -10,8 +10,8 @@ enum EditMode {
 }
 
 enum Typename {
-  Block = "Block",
-  BlockDef = "BlockDef",
+  blocks = "blocks",
+  blockDefs = "blockDefs",
 }
 
 enum MutationType {

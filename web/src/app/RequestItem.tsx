@@ -40,7 +40,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
         moment(data?.uiState?.draftBlock?.last_updated).toISOString()
       ) {
         const editingTypename =
-          block.__typename === "Block" ? Typename.Block : Typename.BlockDef
+          block.__typename === "blocks" ? Typename.blocks : Typename.blockDefs
         setUiState({
           editingTypename,
           editorMode: EditMode.Edit,
@@ -113,9 +113,9 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             icon={<Icon icon="edit" />}
             onClick={(e) => {
               const editingTypename =
-                block.__typename === "Block"
-                  ? Typename.Block
-                  : Typename.BlockDef
+                block.__typename === Typename.blocks
+                  ? Typename.blocks
+                  : Typename.blockDefs
               setUiState(
                 {
                   showEditor: true,
@@ -148,11 +148,11 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                 setUiState(
                   {
                     showEditor: true,
-                    editingTypename: Typename.Block,
+                    editingTypename: Typename.blocks,
                     editorMode: EditMode.Create,
                     draftBlock: createBlock(
                       cloneDeep(block),
-                      Typename.Block,
+                      Typename.blocks,
                       authUser
                     ),
                   },
