@@ -27,6 +27,13 @@
     using:
       foreign_key_constraint_on: root_id
   array_relationships:
+  - name: blockDefs
+    using:
+      foreign_key_constraint_on:
+        column: root_id
+        table:
+          schema: public
+          name: blockDefs
   - name: children
     using:
       foreign_key_constraint_on:
@@ -116,6 +123,13 @@
         table:
           schema: public
           name: block_responder
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: root_id
+        table:
+          schema: public
+          name: blocks
   - name: children
     using:
       foreign_key_constraint_on:
