@@ -13,6 +13,8 @@ import { EditMode } from "../models/enum"
 import { useBlockMutations } from "../operations/mutations"
 import tw from "tailwind.macro"
 
+const leafTypes = ["Form", "API", "Subtree"]
+
 const BlockChildrenItemRaw: React.FC<{
   block: BlockOrDef
   parent: BlockOrDef
@@ -20,7 +22,7 @@ const BlockChildrenItemRaw: React.FC<{
   className?: string
 }> = ({ block, parent, index = 0, className = "" }) => {
   const { data, loading, error } = useQuery(UI_STATE)
-  const isLeaf = block.type?.includes("LEAF_")
+  const isLeaf = leafTypes.includes(block.type)
   const [createFn, updateFn, deleteFn] = useBlockMutations(
     data?.uiState?.editingTypename
   )
@@ -49,7 +51,7 @@ const BlockChildrenItemRaw: React.FC<{
           />
         </div>
         <div className="card-body">{block.description}</div>
-        {block.type.includes("COMPOSITE") && (
+        {!isLeaf && (
           <BlockChildrenList
             blocks={block.children}
             parent={block}

@@ -9,6 +9,7 @@ import {
   Col,
   Icon,
   IconButton,
+  Notification,
   Tree,
 } from "rsuite"
 import { Drawer } from "../components/Drawer"
@@ -75,12 +76,18 @@ const EditorRaw = () => {
           })),
         }
       }
-      updateFn({
-        variables: {
-          data: dataInput,
-          id: draft.id,
-        },
+
+      Notification.warning({
+        title: "TODO",
+        description:
+          "change mutation to update_block_requestors/update_block_responders",
       })
+      // updateFn({
+      //   variables: {
+      //     data: dataInput,
+      //     id: draft.id,
+      //   },
+      // })
     }
   }, [
     data?.uiState?.draftBlock?.block_requestors,

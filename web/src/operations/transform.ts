@@ -7,7 +7,10 @@ const _transformBlockInput = (block) => {
 
   const childrenForCreate = []
   for (const child of block.children) {
-    const transformedChild = _transformBlockInput(child)
+    const transformedChild = _clearnBlockInput(
+      _transformBlockInput(child),
+      false
+    )
     childrenForCreate.push(transformedChild)
   }
 
@@ -40,23 +43,24 @@ const _transformBlockInput = (block) => {
   return block
 }
 
-const _clearnBlockInput = (block) => {
+const _clearnBlockInput = (block, recursive = false) => {
   if (block.__typename === Typename.blockDefs) {
-    delete block.state
     delete block.requestors
     delete block.responders
+    delete block.context
   }
   delete block.__mutation_type__
   delete block.__typename
   if (block.block_requestors?.length === 0) delete block.block_requestors
   if (block.block_responders?.length === 0) delete block.block_responders
 
-  block.children?.create?.map((child) => _clearnBlockInput(child))
+  if (recursive)
+    block.children?.create?.map((child) => _clearnBlockInput(child))
   return block
 }
 
 const transformBlockInput = (block) => {
-  return _clearnBlockInput(_transformBlockInput(block))
+  return _clearnBlockInput(_transformBlockInput(block), true)
 }
 
 export { transformBlockInput }
