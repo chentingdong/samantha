@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback } from "react"
 import {
   ButtonToolbar,
-  Placeholder,
   PanelGroup,
   Panel,
   Grid,
@@ -33,7 +32,7 @@ import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
-import Actions from "../actions"
+import { Action } from "../actions/Action"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -194,12 +193,12 @@ const EditorRaw = () => {
           </Grid>
 
           <PanelGroup accordion bordered>
-            {draftBlock.blockType.category === "Action" && (
+            {draftBlock.blockType?.category === "Action" && (
               <Panel header="Action View" defaultExpanded>
-                <Actions tagName={draftBlock.control.component} />
+                <Action tagName={draftBlock.control.form} />
               </Panel>
             )}
-            {draftBlock.blockType.category === "Control" && (
+            {draftBlock.blockType?.category === "Control" && (
               <Panel header="Nested Set View">
                 <Row>
                   <Col xs={16}>

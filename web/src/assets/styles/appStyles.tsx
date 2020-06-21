@@ -6,6 +6,11 @@ import tw from "tailwind.macro"
 const AppStyles = styled.div.attrs({
   className: "",
 })`
+  * {
+    transition: background-color 0.3s ease;
+    transition: height width 0.3s ease;
+  }
+
   h1,
   h2 {
     font-family: var(--font-display);
@@ -40,9 +45,10 @@ const AppStyles = styled.div.attrs({
     font-size: 0.67em;
   }
 
-  * {
-    transition: background-color 0.3s ease;
-    transition: height width 0.3s ease;
+  input {
+    ${tw`rounded px-4 py-2 w-full my-2`}
+    background: var(--color-bg-default);
+    border: 1px solid var(--color-text-default);
   }
 `
 export default AppStyles

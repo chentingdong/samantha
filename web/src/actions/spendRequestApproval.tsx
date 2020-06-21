@@ -3,8 +3,8 @@ import styled from "styled-components"
 import { Button } from "../components/Button"
 import tw from "tailwind.macro"
 
-const SpendRequestApprovalRaw: React.FC<{ className: string }> = ({
-  className,
+const SpendRequestApprovalRaw: React.FC<{ className?: string }> = ({
+  className = "",
 }) => {
   return (
     <div className={className}>

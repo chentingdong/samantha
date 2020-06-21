@@ -5,7 +5,10 @@ const blockFullFragment = gql`
     id
     name
     description
-    type
+    blockType {
+      value
+      category
+    }
     state
     control
     props
@@ -14,7 +17,10 @@ const blockFullFragment = gql`
       id
       name
       state
-      type
+      blockType {
+        value
+        category
+      }
       block_requestors {
         user {
           id
@@ -25,7 +31,10 @@ const blockFullFragment = gql`
       id
       name
       description
-      type
+      blockType {
+        value
+        category
+      }
       state
       control
       props
@@ -34,13 +43,19 @@ const blockFullFragment = gql`
         id
         name
         state
-        type
+        blockType {
+          value
+          category
+        }
       }
       children {
         id
         name
         description
-        type
+        blockType {
+          value
+          category
+        }
         state
         control
         props
@@ -49,13 +64,19 @@ const blockFullFragment = gql`
           id
           name
           state
-          type
+          blockType {
+            value
+            category
+          }
         }
         children {
           id
           name
           description
-          type
+          blockType {
+            value
+            category
+          }
           state
           control
           props
@@ -64,7 +85,10 @@ const blockFullFragment = gql`
             id
             name
             state
-            type
+            blockType {
+              value
+              category
+            }
           }
           children {
             id
