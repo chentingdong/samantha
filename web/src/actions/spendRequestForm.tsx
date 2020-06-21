@@ -5,11 +5,10 @@ import { useForm } from "react-hook-form"
 
 const SpendRequestFormRaw: React.FC<{
   onSubmit: (form) => void
-  form: object
-}> = ({ onSubmit, form = {} }) => {
+  action: object
+}> = ({ onSubmit, action = {} }) => {
   const { register, getValues } = useForm({
-    mode: "onChange",
-    defaultValues: form,
+    defaultValues: action,
   })
 
   const submit = () => {
@@ -24,6 +23,7 @@ const SpendRequestFormRaw: React.FC<{
         <input
           name="name"
           ref={register({ required: true, maxLength: 100 })}
+          onChange={submit}
           type="text"
         />
       </div>
@@ -32,6 +32,7 @@ const SpendRequestFormRaw: React.FC<{
         <input
           name="discription"
           ref={register({ required: true, maxLength: 500 })}
+          onChange={submit}
           type="text"
         />
       </div>
@@ -40,6 +41,7 @@ const SpendRequestFormRaw: React.FC<{
         <input
           name="spend"
           ref={register({ min: 0.0, max: 10000.0 })}
+          onChange={submit}
           type="number"
         />
       </div>
@@ -48,6 +50,7 @@ const SpendRequestFormRaw: React.FC<{
         <input
           name="revenue"
           ref={register({ min: 0.0, max: 10000.0 })}
+          onChange={submit}
           type="number"
         />
       </div>

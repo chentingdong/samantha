@@ -15,27 +15,37 @@ const Action: React.FC<ActionType> = ({ tagName = "" }) => {
   let components = {}
   const { data, loading, error } = useQuery(UI_STATE)
   const form = data?.uiState?.draftBlock?.context?.form
-  const [updateFn] = useBlockMutations(data?.uiState?.editingTypename)
+  const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
-  // TODO: debouncedSubmit
+  // TODO: debounce happen here
   const submit = (form) => {
-    console.log(form)
-    const newContext = {
-      form: form,
+    const updatedContext = {
       ...data?.uiState?.draftBlock.context,
+      form: form,
     }
+
+    const updatedDraftBlock = {
+      ...data?.uiState?.draftBlock,
+      context: updatedContext,
+    }
+
     setUiState({
-      draftBlock: {
-        context: newContext,
-      },
+      draftBlock: updatedDraftBlock,
     })
+
+    // updateFn({
+    //   variables: {
+    //     data: updatedDraftBlock,
+    //     id: data?.uiState?.draftBlock.id,
+    //   },
+    // })
   }
 
   components["SpendRequestForm"] = SpendRequestForm
   components["SpendRequestApproval"] = SpendRequestApproval
 
   const TagName = components[tagName]
-  return <TagName onSubmit={submit} form={form} />
+  return <TagName onSubmit={submit} action={form} />
 }
 
 export { Action, ActionType }
