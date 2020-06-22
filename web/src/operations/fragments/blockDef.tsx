@@ -83,6 +83,20 @@ const blockDefFullFragment = gql`
         }
       }
     }
+    block_requestors {
+      user {
+        id
+        name
+        email
+      }
+    }
+    block_responders {
+      user {
+        id
+        name
+        email
+      }
+    }
     created_at
     last_updated
   }
