@@ -1,6 +1,33 @@
 {
+  "name": "hasura",
+  "version": "0.1.0",
+  "description": "Samantha Server with Hasura",
+  "main": "src/index.ts",
+  "repository": "https://poc.dev.bellhop.io:8080",
+  "author": "Bellhop",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-typescript": "^7.10.1",
+    "@types/express": "^4.17.6",
+    "@types/jest": "^26.0.0",
+    "@types/node": "^14.0.13",
+    "jest": "^26.0.1",
+    "nodemon": "^2.0.4",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
+  },
   "dependencies": {
-    "global": "^4.4.0",
+    "@apollo/client": "^3.0.0-rc.6",
+    "@apollo/link-error": "^2.0.0-beta.3",
+    "cross-fetch": "^3.0.5",
+    "express": "^4.17.1",
+    "graphql": "^15.1.0",
     "nanoid": "^3.1.10"
+  },
+  "scripts": {
+    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js"
   }
 }
