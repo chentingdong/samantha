@@ -32,21 +32,27 @@ const createRandomBlockDefInput = () => {
 
 describe("GraphQL", () => {
   describe("users", () => {
+    const user = createRandomUserInput()
     describe("Query", () => {
+      beforeAll(async () => {
+        await insertUser({ data: user })
+      })
+
+      afterAll(async () => {
+        await deleteUserByPk({ id: user.id })
+      })
+
       it("should return list of users", async () => {
         const result = await getUsers()
         expect(result.length).toBeGreaterThan(0)
       })
       it("should return single user", async () => {
-        const result = await getUser("Google_111918078641246610063")
-        expect(result[0].name).toEqual("Baiji He")
+        const result = await getUser(user.id)
+        expect(result[0].name).toEqual(user.name)
       })
       it("should return single user by pk", async () => {
-        const result = await getUserByPk("Google_111918078641246610063")
-        expect(result.name).toEqual("Baiji He")
-        expect(result.block_requestors[0].block_id).toEqual(
-          result.block_requestors[0].block.id
-        )
+        const result = await getUserByPk(user.id)
+        expect(result.name).toEqual(user.name)
       })
       it("should return users aggregate", async () => {
         const result = await getUsersAggregate()
@@ -55,17 +61,13 @@ describe("GraphQL", () => {
     })
 
     describe("Insert Mutation", () => {
-      const id = nanoid()
-      const name = "User " + Math.floor(Math.random() * 10)
-      const email = "user" + Math.floor(Math.random() * 10) + "@bellhop.io"
-
       afterEach(async () => {
-        await deleteUserByPk({ id })
+        await deleteUserByPk({ id: user.id })
       })
 
       it("should insert a user", async () => {
-        const result = await insertUser({ data: { id, name, email } })
-        expect(result.id).toEqual(id)
+        const result = await insertUser({ data: user })
+        expect(result.id).toEqual(user.id)
       })
     })
   })
@@ -87,17 +89,27 @@ describe("GraphQL", () => {
   })
 
   describe("blockDefs", () => {
+    const blockDef = createRandomBlockDefInput()
+
     describe("Query", () => {
+      beforeAll(async () => {
+        await insertBlockDef({ data: blockDef })
+      })
+
+      afterAll(async () => {
+        await deleteBlockDefByPk({ id: blockDef.id })
+      })
+
       it("should return blockDefs", async () => {
         const result = await getBlockDefs()
         expect(result.length).toBeGreaterThan(0)
       })
       it("should return single blockDef", async () => {
-        const result = await getBlockDef("vMldJyFpeD4rbY4dW5Gb-")
+        const result = await getBlockDef(blockDef.id)
         expect(result.length).toEqual(1)
       })
       it("should return single blockDef by pk", async () => {
-        const result = await getBlockDefByPk("vMldJyFpeD4rbY4dW5Gb-")
+        const result = await getBlockDefByPk(blockDef.id)
         expect(result.name).toBeDefined()
       })
       it("should return blockDefs aggregate", async () => {
@@ -107,8 +119,7 @@ describe("GraphQL", () => {
     })
 
     describe("Insert Mutation", () => {
-      const blockDef = createRandomBlockDefInput()
-
+      // blockDef will be created from random input
       afterEach(async () => {
         await deleteBlockDefByPk({ id: blockDef.id })
       })
@@ -152,26 +163,31 @@ describe("GraphQL", () => {
       })
 
       describe("With block_requestors", () => {
+        const user = createRandomUserInput()
+        beforeAll(async () => {
+          await insertUser({ data: user })
+        })
+
+        afterAll(async () => {
+          await deleteUserByPk({ id: user.id })
+        })
+
         it("should insert with block_requestors replacing existing user_id (working with a warning)", async () => {
-          const user_id = "Google_111918078641246610063"
           const result = await insertBlockDef({
             data: {
               ...blockDef,
               block_requestors: {
-                data: [{ user_id }],
+                data: [{ user_id: user.id }],
               },
             },
           })
           expect(result.block_requestors[0].user_id).toBeUndefined()
-          expect(result.block_requestors[0].user.id).toEqual(user_id)
+          expect(result.block_requestors[0].user.id).toEqual(user.id)
         })
         it("should insert with block_requestors upserting an existing user (working with a warning, too long)", async () => {
           // data array assumes elements are being inserted.
           // [GraphQL Error]: Message: cannot proceed to insert object relation "user" since insert to table "users" affects zero rows,
           // Path: $.selectionSet.insert_blockDefs_one.args.object[0].block_requestors.data[0].user
-          const user_id = "Google_111918078641246610063"
-          const user_name = "Baiji He"
-          const user_email = "bhe@bellhop.io"
           const result = await insertBlockDef({
             data: {
               ...blockDef,
@@ -179,11 +195,7 @@ describe("GraphQL", () => {
                 data: [
                   {
                     user: {
-                      data: {
-                        id: user_id,
-                        name: user_name,
-                        email: user_email,
-                      },
+                      data: user,
                       on_conflict: {
                         constraint: "users_pkey",
                         update_columns: ["name"],
@@ -195,7 +207,7 @@ describe("GraphQL", () => {
             },
           })
           expect(result.block_requestors[0].user_id).toBeUndefined()
-          expect(result.block_requestors[0].user.id).toEqual(user_id)
+          expect(result.block_requestors[0].user.id).toEqual(user.id)
         })
         it("should insert with block_requestors while creating a new user (rarely used)", async () => {
           const user = createRandomUserInput()
@@ -213,26 +225,30 @@ describe("GraphQL", () => {
       })
 
       describe("With block_responders", () => {
+        const user = createRandomUserInput()
+        beforeAll(async () => {
+          await insertUser({ data: user })
+        })
+
+        afterAll(async () => {
+          await deleteUserByPk({ id: user.id })
+        })
         it("should insert with block_responders replacing existing user_id (working with a warning)", async () => {
-          const user_id = "Google_111918078641246610063"
           const result = await insertBlockDef({
             data: {
               ...blockDef,
               block_responders: {
-                data: [{ user_id }],
+                data: [{ user_id: user.id }],
               },
             },
           })
           expect(result.block_responders[0].user_id).toBeUndefined()
-          expect(result.block_responders[0].user.id).toEqual(user_id)
+          expect(result.block_responders[0].user.id).toEqual(user.id)
         })
         it("should insert with block_responders upserting an existing user (working with a warning, too long)", async () => {
           // data array assumes elements are being inserted.
           // [GraphQL Error]: Message: cannot proceed to insert object relation "user" since insert to table "users" affects zero rows,
           // Path: $.selectionSet.insert_blockDefs_one.args.object[0].block_responders.data[0].user
-          const user_id = "Google_111918078641246610063"
-          const user_name = "Baiji He"
-          const user_email = "bhe@bellhop.io"
           const result = await insertBlockDef({
             data: {
               ...blockDef,
@@ -240,11 +256,7 @@ describe("GraphQL", () => {
                 data: [
                   {
                     user: {
-                      data: {
-                        id: user_id,
-                        name: user_name,
-                        email: user_email,
-                      },
+                      data: user,
                       on_conflict: {
                         constraint: "users_pkey",
                         update_columns: ["name"],
@@ -256,7 +268,7 @@ describe("GraphQL", () => {
             },
           })
           expect(result.block_responders[0].user_id).toBeUndefined()
-          expect(result.block_responders[0].user.id).toEqual(user_id)
+          expect(result.block_responders[0].user.id).toEqual(user.id)
         })
         it("should insert with block_responders while creating a new user (rarely used)", async () => {
           const user = createRandomUserInput()
@@ -343,6 +355,7 @@ describe("GraphQL", () => {
           await deleteBlockDefByPk({ id: child2.id })
         })
         it("can not connect with existing children", async () => {
+          // upsert won't return any children ids
           const child1Result = await insertBlockDef({ data: { ...child1 } })
           const child2Result = await insertBlockDef({ data: { ...child2 } })
           const result = await insertBlockDef({
@@ -366,79 +379,38 @@ describe("GraphQL", () => {
     })
 
     describe("Update Mutation", () => {
-      it("should handle wrong input", async () => {
-        const name = "BehaviorTree " + Math.floor(Math.random() * 10)
+      beforeEach(async () => {
+        await insertBlockDef({ data: blockDef })
+      })
+
+      afterEach(async () => {
+        await deleteBlockDefByPk({ id: blockDef.id })
+      })
+
+      it.skip("should not update id, it's unexpected", async () => {
         const result = await updateBlockDefByPk({
-          id: "vMldJyFpeD4rbY4dW5Gb-",
+          id: blockDef.id,
+          data: { id: "invalid" },
+        })
+        expect(result).toBeUndefined()
+        await deleteBlockDefByPk({ id: "invalid" })
+      })
+      it("should not update unexistent field", async () => {
+        const name = "Bell " + Math.floor(Math.random() * 10)
+        const result = await updateBlockDefByPk({
+          id: blockDef.id,
           data: { lable: name },
         })
         expect(result).toBeUndefined()
       })
-      it("should not update id", async () => {
-        const name = "BehaviorTree " + Math.floor(Math.random() * 10)
-        const result = await updateBlockDefByPk({
-          id: "vMldJyFpeD4rbY4dW5Gb-",
-          data: { id: "vMldJyFpeD4rbY4dW5Gb" },
-        })
-        expect(result).toBeUndefined()
-      })
       it("should update name", async () => {
-        const name = "BehaviorTree " + Math.floor(Math.random() * 10)
+        const name = "Bell " + Math.floor(Math.random() * 10)
         const result = await updateBlockDefByPk({
-          id: "vMldJyFpeD4rbY4dW5Gb-",
+          id: blockDef.id,
           data: { name },
         })
         expect(result.name).toEqual(name)
       })
-      // it("should update type?", async () => {
-      //   const name = "Bell " + Math.floor(Math.random() * 10)
-      //   const result = await updateBlockDefByPk({
-      //     id: "vMldJyFpeD4rbY4dW5Gb-",
-      //     data: { name },
-      //   })
-      //   expect(result.name).toEqual(name)
-      // })
-      // it("should update state", async () => {
-      //   const name = "Bell " + Math.floor(Math.random() * 10)
-      //   const result = await updateBlockDefByPk({
-      //     id: "vMldJyFpeD4rbY4dW5Gb-",
-      //     data: { lable: name },
-      //   })
-      //   expect(result).toBeUndefined()
-      // })
-      // it("should not update to invalid state", async () => {
-      //   const name = "Bell " + Math.floor(Math.random() * 10)
-      //   const result = await updateBlockDefByPk({
-      //     id: "vMldJyFpeD4rbY4dW5Gb-",
-      //     data: { lable: name },
-      //   })
-      //   expect(result).toBeUndefined()
-      // })
-
-      // it("should update block requestors", async () => {
-      //   const name = "Bell " + Math.floor(Math.random() * 10)
-      //   const result = await updateBlockDefByPk({
-      //     id: "vMldJyFpeD4rbY4dW5Gb-",
-      //     data: { lable: name },
-      //   })
-      //   expect(result).toBeUndefined()
-      // })
-      // it("should update parent", async () => {
-      //   const name = "Bell " + Math.floor(Math.random() * 10)
-      //   const result = await updateBlockDefByPk({
-      //     id: "vMldJyFpeD4rbY4dW5Gb-",
-      //     data: { lable: name },
-      //   })
-      //   expect(result).toBeUndefined()
-      // })
-      // it("should update children", async () => {
-      //   const name = "Bell " + Math.floor(Math.random() * 10)
-      //   const result = await updateBlockDefByPk({
-      //     id: "vMldJyFpeD4rbY4dW5Gb-",
-      //     data: { lable: name },
-      //   })
-      //   expect(result).toBeUndefined()
-      // })
     })
   })
 })
