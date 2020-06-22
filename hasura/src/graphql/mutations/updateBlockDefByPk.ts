@@ -21,7 +21,7 @@ export const updateBlockDefByPk = async ({
       }
       ${blockDefFragment}
     `,
-    variables: { data, id },
+    variables: { data: { ...data, last_updated: new Date() }, id },
   })
   if (errors) return
   return returnData.update_blockDefs_by_pk

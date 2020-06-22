@@ -17,6 +17,7 @@ const blockDefFragment = gql`
     state
     control
     props
+    root_id
     root {
       id
       name
@@ -25,6 +26,7 @@ const blockDefFragment = gql`
         category
       }
     }
+    parent_id
     parent {
       id
       name

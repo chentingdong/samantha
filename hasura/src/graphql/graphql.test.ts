@@ -298,6 +298,7 @@ describe("GraphQL", () => {
             },
           })
           expect(result.root.id).toEqual(root.id)
+          expect(result.root_id).toEqual(root.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: root.id })
         })
@@ -309,6 +310,7 @@ describe("GraphQL", () => {
             },
           })
           expect(result.root.id).toEqual(root.id)
+          expect(result.root_id).toEqual(root.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: root.id })
         })
@@ -325,6 +327,7 @@ describe("GraphQL", () => {
             },
           })
           expect(result.parent.id).toEqual(parent.id)
+          expect(result.parent_id).toEqual(parent.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: parent.id })
         })
@@ -336,6 +339,7 @@ describe("GraphQL", () => {
             },
           })
           expect(result.parent.id).toEqual(parent.id)
+          expect(result.parent_id).toEqual(parent.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: parent.id })
         })
@@ -448,7 +452,7 @@ describe("GraphQL", () => {
         expect(result).toBeUndefined()
       })
 
-      describe("blockDef_requestor", () => {
+      describe("Update blockDef_requestor via blockDef_requestor", () => {
         const user = createRandomUserInput()
         beforeAll(async () => {
           await insertUser({ data: user })
@@ -475,11 +479,72 @@ describe("GraphQL", () => {
         })
       })
 
-      describe("root (don't usually update root)", () => {})
+      describe("Update root", () => {
+        const root = createRandomBlockDefInput()
+        beforeEach(async () => {
+          await insertBlockDef({ data: root })
+        })
 
-      describe("parent", () => {})
+        afterEach(async () => {
+          await deleteBlockDefByPk({ id: root.id })
+        })
+        it("should connect to an existing root (don't usually happen though)", async () => {
+          const result = await updateBlockDefByPk({
+            id: blockDef.id,
+            data: { root_id: root.id },
+          })
+          expect(result.root.id).toEqual(root.id)
+          expect(result.root_id).toEqual(root.id)
+        })
+      })
 
-      describe("children", () => {})
+      describe("Update parent", () => {
+        const parent = createRandomBlockDefInput()
+        beforeEach(async () => {
+          await insertBlockDef({ data: parent })
+        })
+
+        afterEach(async () => {
+          await deleteBlockDefByPk({ id: parent.id })
+        })
+        it("should connect to an existing parent", async () => {
+          const result = await updateBlockDefByPk({
+            id: blockDef.id,
+            data: { parent_id: parent.id },
+          })
+          expect(result.parent.id).toEqual(parent.id)
+          expect(result.parent_id).toEqual(parent.id)
+
+          const parentResult = await getBlockDefByPk(parent.id)
+          expect(parentResult.children.length).toEqual(1)
+        })
+      })
+
+      describe("Update children via children's parent_id", () => {
+        const child = createRandomBlockDefInput()
+        beforeEach(async () => {
+          await insertBlockDef({ data: child })
+        })
+
+        afterEach(async () => {
+          await deleteBlockDefByPk({ id: child.id })
+        })
+        it("should connect to existing children (had to re-fetch parent to populate the children array)", async () => {
+          const childResult = await updateBlockDefByPk({
+            id: child.id,
+            data: {
+              parent_id: blockDef.id,
+            },
+          })
+          expect(childResult.parent.id).toEqual(blockDef.id)
+
+          let result
+          result = await getBlockDefByPk(blockDef.id, "cache-first")
+          expect(result.children.length).toEqual(0)
+          result = await getBlockDefByPk(blockDef.id, "network-only")
+          expect(result.children.length).toEqual(1)
+        })
+      })
     })
   })
 })
