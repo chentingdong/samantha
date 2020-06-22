@@ -19,7 +19,7 @@ const RequestCatalogList = ({ className = "" }) => {
   if (!data) return <></>
 
   return (
-    <div className={`request-catalog-list ${className}`}>
+    <div className={`request-catalog-list ${className} grid grid-cols-2 gap-4`}>
       <CatalogDropdown
         title="Add a Bell Definition from..."
         trigger={["click", "hover"]}
@@ -33,7 +33,7 @@ const RequestCatalogList = ({ className = "" }) => {
           block={blockDef}
           key={blockDef.id}
           itemOrigin={ItemOrigin.Catalog}
-          className={`request-item-${index}`}
+          className={`request-item-${index} col-span-2 xl:col-span-1`}
         />
       ))}
     </div>
