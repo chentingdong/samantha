@@ -16,6 +16,8 @@ import { deleteUserByPk } from "./mutations/deleteUserByPk"
 import { insertUser } from "./mutations/insertUser"
 import { insertBlockDefRequestor } from "./mutations/insertBlockDefRequestor"
 import { deleteBlockDefRequestorByPk } from "./mutations/deleteBlockDefRequestorByPk"
+import { addChildToBlockDef } from "./mutations/addChildToBlockDef"
+import { removeChildFromBlockDef } from "./mutations/removeChildFromBlockDef"
 
 const createRandomUserInput = () => {
   const id = nanoid()
@@ -24,9 +26,11 @@ const createRandomUserInput = () => {
   return { id, name, email }
 }
 
+let seq = 0
 const createRandomBlockDefInput = () => {
   const id = nanoid()
-  const name = "Bell " + Math.floor(Math.random() * 10)
+  // const name = "Bell " + Math.floor(Math.random() * 10)
+  const name = "Bell " + ++seq
   const type = "Form"
   const state = "Draft"
   return { id, name, type, state }
@@ -495,6 +499,11 @@ describe("GraphQL", () => {
           })
           expect(result.root.id).toEqual(root.id)
           expect(result.root_id).toEqual(root.id)
+          // clean up
+          await updateBlockDefByPk({
+            id: blockDef.id,
+            data: { root_id: null },
+          })
         })
       })
 
@@ -510,17 +519,27 @@ describe("GraphQL", () => {
         it("should connect to an existing parent", async () => {
           const result = await updateBlockDefByPk({
             id: blockDef.id,
-            data: { parent_id: parent.id },
+            data: {
+              parent_id: parent.id,
+            },
           })
           expect(result.parent.id).toEqual(parent.id)
           expect(result.parent_id).toEqual(parent.id)
 
           const parentResult = await getBlockDefByPk(parent.id)
           expect(parentResult.children.length).toEqual(1)
+
+          // clean up
+          await updateBlockDefByPk({
+            id: blockDef.id,
+            data: {
+              parent_id: null,
+            },
+          })
         })
       })
 
-      describe("Update children via children's parent_id", () => {
+      describe("Update children", () => {
         const child = createRandomBlockDefInput()
         beforeEach(async () => {
           await insertBlockDef({ data: child })
@@ -529,7 +548,7 @@ describe("GraphQL", () => {
         afterEach(async () => {
           await deleteBlockDefByPk({ id: child.id })
         })
-        it("should connect to existing children (had to re-fetch parent to populate the children array)", async () => {
+        it("should connect to existing children via children's parent_id (had to re-fetch parent to populate the children array)", async () => {
           const childResult = await updateBlockDefByPk({
             id: child.id,
             data: {
@@ -539,10 +558,31 @@ describe("GraphQL", () => {
           expect(childResult.parent.id).toEqual(blockDef.id)
 
           let result
-          result = await getBlockDefByPk(blockDef.id, "cache-first")
-          expect(result.children.length).toEqual(0)
+          // result = await getBlockDefByPk(blockDef.id, "cache-first")
+          // expect(result.children.length).toEqual(0)
           result = await getBlockDefByPk(blockDef.id, "network-only")
           expect(result.children.length).toEqual(1)
+        })
+
+        it("should connect to existing children using multiple mutations (correct solution)", async () => {
+          const result = await addChildToBlockDef({
+            parent_id: blockDef.id,
+            child_id: child.id,
+          })
+          expect(result.childBlockDef.parent.id).toEqual(blockDef.id)
+          expect(result.parentBlockDef.children[0].id).toEqual(child.id)
+        })
+        it("should remove existing children using multiple mutations (correct solution)", async () => {
+          const addResult = await addChildToBlockDef({
+            parent_id: blockDef.id,
+            child_id: child.id,
+          })
+          const result = await removeChildFromBlockDef({
+            parent_id: blockDef.id,
+            child_id: child.id,
+          })
+          expect(result.childBlockDef.parent).toEqual(null)
+          expect(result.parentBlockDef.children).toEqual([])
         })
       })
     })
