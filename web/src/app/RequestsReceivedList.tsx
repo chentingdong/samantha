@@ -22,13 +22,15 @@ const RequestsReceivedList = ({ className = "" }) => {
   if (!data || !authUserResult) return <></>
 
   return (
-    <div className={`requests-received-list ${className}`}>
+    <div
+      className={`requests-received-list ${className} grid grid-cols-2 gap-4`}
+    >
       {data.blocks.map((block: BlockDef, index: number) => (
         <RequestItem
           block={block}
           key={block.id}
           itemOrigin={ItemOrigin.Received}
-          className={`requests-received-${index}`}
+          className={`requests-received-${index} col-span-2 xl:col-span-1`}
         />
       ))}
     </div>

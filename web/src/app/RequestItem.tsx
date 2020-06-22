@@ -60,6 +60,34 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     })
   }
 
+  const viewEditNew = (e) => {
+    const editingTypename =
+      block.__typename === Typename.blocks
+        ? Typename.blocks
+        : Typename.blockDefs
+    setUiState(
+      {
+        showEditor: true,
+        editingTypename,
+        editorMode: EditMode.Edit,
+        draftBlock: { ...block, __typename: editingTypename },
+      },
+      true
+    )
+  }
+
+  const makeBell = () => {
+    setUiState(
+      {
+        showEditor: true,
+        editingTypename: Typename.blocks,
+        editorMode: EditMode.Create,
+        draftBlock: createBlock(cloneDeep(block), Typename.blocks, authUser),
+      },
+      true
+    )
+  }
+
   const stateStyle = (blockWithState) => {
     return blockWithState.state || "default"
   }
@@ -111,21 +139,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           <IconButton
             appearance="ghost"
             icon={<Icon icon="edit" />}
-            onClick={(e) => {
-              const editingTypename =
-                block.__typename === Typename.blocks
-                  ? Typename.blocks
-                  : Typename.blockDefs
-              setUiState(
-                {
-                  showEditor: true,
-                  editingTypename,
-                  editorMode: EditMode.Edit,
-                  draftBlock: { ...block, __typename: editingTypename },
-                },
-                true
-              )
-            }}
+            onClick={(e) => viewEditNew(e)}
           >
             View/Edit <i>New!</i>
           </IconButton>
@@ -144,21 +158,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               appearance="ghost"
               icon={<Icon icon="bell-o" />}
               className="make-a-bell"
-              onClick={() => {
-                setUiState(
-                  {
-                    showEditor: true,
-                    editingTypename: Typename.blocks,
-                    editorMode: EditMode.Create,
-                    draftBlock: createBlock(
-                      cloneDeep(block),
-                      Typename.blocks,
-                      authUser
-                    ),
-                  },
-                  true
-                )
-              }}
+              onClick={makeBell}
             >
               Make a Bell
             </IconButton>

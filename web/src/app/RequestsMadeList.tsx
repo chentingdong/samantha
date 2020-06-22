@@ -23,7 +23,7 @@ const RequestsMadeList = ({ className = "" }) => {
   if (!data || !authUserResult) return <></>
 
   return (
-    <div className={`requests-made-list ${className}`}>
+    <div className={`requests-made-list ${className} grid grid-cols-2 gap-4`}>
       <CatalogDropdown
         title="Add a Bell from..."
         trigger={["click", "hover"]}
@@ -37,7 +37,7 @@ const RequestsMadeList = ({ className = "" }) => {
           block={block}
           key={block.id}
           itemOrigin={ItemOrigin.Made}
-          className={`requests-made-${index}`}
+          className={`requests-made-${index} col-span-2 xl:col-span-1`}
         />
       ))}
     </div>
