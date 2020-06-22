@@ -14,6 +14,8 @@ import { insertBlockDef } from "./mutations/insertBlockDef"
 import { deleteBlockDefByPk } from "./mutations/deleteBlockDefByPk"
 import { deleteUserByPk } from "./mutations/deleteUserByPk"
 import { insertUser } from "./mutations/insertUser"
+import { insertBlockDefRequestor } from "./mutations/insertBlockDefRequestor"
+import { deleteBlockDefRequestorByPk } from "./mutations/deleteBlockDefRequestorByPk"
 
 const createRandomUserInput = () => {
   const id = nanoid()
@@ -285,33 +287,6 @@ describe("GraphQL", () => {
         })
       })
 
-      describe("With parent", () => {
-        const parent = createRandomBlockDefInput()
-        it("should insert with parent replacing existing parent_id", async () => {
-          const parentResult = await insertBlockDef({ data: { ...parent } })
-          const result = await insertBlockDef({
-            data: {
-              ...blockDef,
-              parent_id: parent.id,
-            },
-          })
-          expect(result.parent.id).toEqual(parent.id)
-          await deleteBlockDefByPk({ id: blockDef.id })
-          await deleteBlockDefByPk({ id: parent.id })
-        })
-        it("should insert while creating a new parent (rarely used)", async () => {
-          const result = await insertBlockDef({
-            data: {
-              ...blockDef,
-              parent: { data: { ...parent } },
-            },
-          })
-          expect(result.parent.id).toEqual(parent.id)
-          await deleteBlockDefByPk({ id: blockDef.id })
-          await deleteBlockDefByPk({ id: parent.id })
-        })
-      })
-
       describe("With root", () => {
         const root = createRandomBlockDefInput()
         it("should insert with root replacing existing root_id", async () => {
@@ -336,6 +311,33 @@ describe("GraphQL", () => {
           expect(result.root.id).toEqual(root.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: root.id })
+        })
+      })
+
+      describe("With parent", () => {
+        const parent = createRandomBlockDefInput()
+        it("should insert with parent replacing existing parent_id", async () => {
+          const parentResult = await insertBlockDef({ data: { ...parent } })
+          const result = await insertBlockDef({
+            data: {
+              ...blockDef,
+              parent_id: parent.id,
+            },
+          })
+          expect(result.parent.id).toEqual(parent.id)
+          await deleteBlockDefByPk({ id: blockDef.id })
+          await deleteBlockDefByPk({ id: parent.id })
+        })
+        it("should insert while creating a new parent (rarely used)", async () => {
+          const result = await insertBlockDef({
+            data: {
+              ...blockDef,
+              parent: { data: { ...parent } },
+            },
+          })
+          expect(result.parent.id).toEqual(parent.id)
+          await deleteBlockDefByPk({ id: blockDef.id })
+          await deleteBlockDefByPk({ id: parent.id })
         })
       })
 
@@ -445,6 +447,39 @@ describe("GraphQL", () => {
         })
         expect(result).toBeUndefined()
       })
+
+      describe("blockDef_requestor", () => {
+        const user = createRandomUserInput()
+        beforeAll(async () => {
+          await insertUser({ data: user })
+        })
+
+        afterAll(async () => {
+          await deleteUserByPk({ id: user.id })
+        })
+        it("should add and remove requestor", async () => {
+          const insertResult = await insertBlockDefRequestor({
+            data: {
+              blockDef_id: blockDef.id,
+              user_id: user.id,
+            },
+          })
+          expect(insertResult.blockDef.block_requestors[0].user_id).toEqual(
+            user.id
+          )
+          const deleteResult = await deleteBlockDefRequestorByPk({
+            blockDef_id: blockDef.id,
+            user_id: user.id,
+          })
+          expect(deleteResult.blockDef.block_requestors).toEqual([])
+        })
+      })
+
+      describe("root (don't usually update root)", () => {})
+
+      describe("parent", () => {})
+
+      describe("children", () => {})
     })
   })
 })
