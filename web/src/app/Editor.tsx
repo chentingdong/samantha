@@ -33,6 +33,7 @@ import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
 import { Action } from "../actions/Action"
+import { Decorator } from "../decorators/Decorator"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -107,6 +108,26 @@ const EditorRaw = () => {
     }
   }
 
+  const chooseRequestors = (value) => {
+    setUiState({
+      draftBlock: {
+        block_requestors: value.map((selectedUser) => ({
+          user: users.find((user) => user.id === selectedUser.id),
+        })),
+      },
+    })
+  }
+
+  const chooseResponders = (value) => {
+    setUiState({
+      draftBlock: {
+        block_responders: value.map((selectedUser) => ({
+          user: users.find((user) => user.id === selectedUser.id),
+        })),
+      },
+    })
+  }
+
   const getTreeData = (block: BlockOrDef) => {
     return {
       id: block.id,
@@ -154,17 +175,7 @@ const EditorRaw = () => {
                       value={draftBlock.block_requestors.map(
                         (user) => user.user
                       )}
-                      onChange={(value) => {
-                        setUiState({
-                          draftBlock: {
-                            block_requestors: value.map((selectedUser) => ({
-                              user: users.find(
-                                (user) => user.id === selectedUser.id
-                              ),
-                            })),
-                          },
-                        })
-                      }}
+                      onChange={(value) => chooseRequestors(value)}
                     />
                   </Col>
                   <Col lg={6} lgOffset={6} className="responders">
@@ -174,17 +185,7 @@ const EditorRaw = () => {
                       value={draftBlock.block_responders.map(
                         (user) => user.user
                       )}
-                      onChange={(value) => {
-                        setUiState({
-                          draftBlock: {
-                            block_responders: value.map((selectedUser) => ({
-                              user: users.find(
-                                (user) => user.id === selectedUser.id
-                              ),
-                            })),
-                          },
-                        })
-                      }}
+                      onChange={(value) => chooseResponders(value)}
                     />
                   </Col>
                 </Row>
@@ -251,28 +252,28 @@ const EditorRaw = () => {
               />
             </Panel>
           </PanelGroup>
-          {editorMode === EditMode.Create && (
-            <ButtonToolbar className="my-2">
-              <IconButton
-                onClick={() => {
-                  saveNewBlock(editorMode, draftBlock)
-                  close()
-                }}
-                icon={<Icon icon="check" />}
-                appearance="primary"
-                className="save-bell"
-              >
-                Save
-              </IconButton>
-              <IconButton
-                onClick={close}
-                icon={<Icon icon="ban" />}
-                appearance="primary"
-              >
-                Cancel
-              </IconButton>
-            </ButtonToolbar>
-          )}
+          {/* {editorMode === EditMode.Create && ( */}
+          <ButtonToolbar className="my-2">
+            <IconButton
+              onClick={() => {
+                saveNewBlock(editorMode, draftBlock)
+                close()
+              }}
+              icon={<Icon icon="check" />}
+              appearance="primary"
+              className="save-bell"
+            >
+              Save
+            </IconButton>
+            <IconButton
+              onClick={close}
+              icon={<Icon icon="ban" />}
+              appearance="primary"
+            >
+              Cancel
+            </IconButton>
+          </ButtonToolbar>
+          {/* )} */}
         </div>
       </Drawer>
     </div>
