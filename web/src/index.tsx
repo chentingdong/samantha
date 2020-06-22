@@ -5,11 +5,13 @@ import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 import config from "../configs/config"
 import { cache } from "./cache"
-import { ApolloClient, ApolloProvider, HttpLink } from "@apollo/client"
+import { ApolloClient, ApolloProvider, HttpLink, split } from "@apollo/client"
 import { onError } from "@apollo/link-error"
 import LogRocket from "logrocket"
 import * as Sentry from "@sentry/browser"
 import AppStyles from "./assets/styles/appStyles.tsx"
+import { getMainDefinition } from "@apollo/client/utilities"
+import { WebSocketLink } from "@apollo/link-ws"
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
@@ -36,10 +38,22 @@ const errorLink = onError(({ operation, graphQLErrors, networkError }) => {
 })
 
 const httpLink = new HttpLink(config.graphQL.HttpLink)
+const wsLink = new WebSocketLink(config.graphQL.WebSocketLink)
+const splitLink = split(
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+    return (
+      definition.kind === "OperationDefinition" &&
+      definition.operation === "subscription"
+    )
+  },
+  wsLink,
+  httpLink
+)
 
 export const apolloClient = new ApolloClient({
   cache,
-  link: httpLink.concat(errorLink),
+  link: errorLink.concat(splitLink),
   connectToDevTools: true,
   defaultOptions: {
     watchQuery: {

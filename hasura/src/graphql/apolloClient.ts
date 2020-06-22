@@ -22,7 +22,7 @@ const httpLink = new HttpLink({
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: httpLink.concat(errorLink),
+  link: errorLink.concat(httpLink),
   defaultOptions: {
     watchQuery: {
       errorPolicy: "all",

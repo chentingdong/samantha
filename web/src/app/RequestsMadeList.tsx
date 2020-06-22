@@ -1,6 +1,6 @@
 import React from "react"
-import { useQuery } from "@apollo/client"
-import { REQUESTS_MADE } from "../operations/queries/requestsMade"
+import { useQuery, useSubscription } from "@apollo/client"
+import { REQUESTS_MADE } from "../operations/subscriptions/requestsMade"
 import { RequestItem } from "./RequestItem"
 import { BlockDef } from "../models/interface"
 import { ItemOrigin, Typename, EditMode } from "../models/enum"
@@ -11,10 +11,8 @@ import { Divider, Loader } from "rsuite"
 
 const RequestsMadeList = ({ className = "" }) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
-  const { loading, error, data } = useQuery(REQUESTS_MADE, {
+  const { loading, error, data } = useSubscription(REQUESTS_MADE, {
     variables: { userId: authUserResult?.authUser?.id },
-    fetchPolicy: "network-only",
-    pollInterval: 1000,
   })
 
   if (loading) return <Loader speed="fast" content="Loading..." />

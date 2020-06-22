@@ -5,9 +5,9 @@ import { UPDATE_ONE_BLOCK } from "./updateOneBlock"
 import { UPDATE_ONE_BLOCK_DEF } from "./updateOneBlockDef"
 import { DELETE_ONE_BLOCK } from "./deleteOneBlock"
 import { DELETE_ONE_BLOCK_DEF } from "./deleteOneBlockDef"
-import { REQUEST_CATALOG } from "../queries/requestCatalog"
-import { REQUESTS_MADE } from "../queries/requestsMade"
-import { REQUESTS_RECEIVED } from "../queries/requestsReceived"
+import { REQUEST_CATALOG } from "../subscriptions/requestCatalog"
+import { REQUESTS_MADE } from "../subscriptions/requestsMade"
+import { REQUESTS_RECEIVED } from "../subscriptions/requestsReceived"
 
 const useBlockMutations = (typename) => {
   const [createOneBlock] = useMutation(CREATE_ONE_BLOCK, {

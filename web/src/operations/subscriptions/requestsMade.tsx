@@ -2,7 +2,7 @@ import { gql } from "@apollo/client"
 import { blockFullFragment } from "../fragments/block"
 
 export const REQUESTS_MADE = gql`
-  query requestsMade($userId: String) {
+  subscription requestsMade($userId: String) {
     blocks(
       order_by: { last_updated: desc_nulls_first }
       where: { block_requestors: { user: { id: { _eq: $userId } } } }

@@ -1,13 +1,15 @@
 import { ErrorPolicy } from "@apollo/client"
 const uiBaseUrl = window.location.origin
-const apiPort = "4000"
-const apiBaseUrl = `${window.location.protocol}//${window.location.hostname}:${apiPort}`
-const wsPort = uiBaseUrl.includes("local") ? "3001" : ""
-const wsUrl = `wss://${window.location.hostname}:${wsPort}`
+const apiPort = "8080"
+const graphQLPath = "/v1alpha1/graphql"
 const graphQLUri =
   process.env.NODE_ENV === "production"
-    ? `${apiBaseUrl}/v1alpha1/graphql`
-    : `http://localhost:8080/v1alpha1/graphql`
+    ? `${window.location.protocol}//${window.location.hostname}:${apiPort}${graphQLPath}`
+    : `http://localhost:${apiPort}${graphQLPath}`
+const webSocketUri =
+  process.env.NODE_ENV === "production"
+    ? `ws://${window.location.hostname}:${apiPort}${graphQLPath}`
+    : `ws://localhost:${apiPort}${graphQLPath}`
 
 const config = {
   Auth: {
@@ -35,15 +37,24 @@ const config = {
       "207735501972-ocdbkaprm6s2mvsb7h91ecfq7r4fvmne.apps.googleusercontent.com",
     facebookAppId: "2505833796351691",
   },
-  wsUrl: wsUrl,
   suggestUrl:
     "https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest",
-  apiBaseUrl: apiBaseUrl,
   graphQL: {
     HttpLink: {
       uri: graphQLUri,
       headers: {
         "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
+      },
+    },
+    WebSocketLink: {
+      uri: webSocketUri,
+      options: {
+        reconnect: true,
+        connectionParams: {
+          headers: {
+            "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
+          },
+        },
       },
     },
   },
