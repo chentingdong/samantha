@@ -10,6 +10,14 @@ const blockFragment = gql`
     control
     props
     context
+    root {
+      id
+      name
+      blockType {
+        value
+        category
+      }
+    }
     parent {
       id
       name

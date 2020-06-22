@@ -12,6 +12,14 @@ const blockDefFragment = gql`
     state
     control
     props
+    root {
+      id
+      name
+      blockType {
+        value
+        category
+      }
+    }
     parent {
       id
       name
