@@ -4,14 +4,25 @@ import { UI_STATE } from "../operations/queries/uiState"
 import { useBlockMutations } from "../operations/mutations"
 import { setUiState } from "../operations/mutations/setUiState"
 
+import DataBinding from "./DataBinding"
+import ExitDecorator from "./ExitDecorator"
+import PreCondition from "./PreCondition"
+import Retry from "./ReTry"
+
 type DecoratorType = {
   tagName: string
 }
 
 const Decorator: React.FC<DecoratorType> = ({ tagName = "" }) => {
-  let components = {}
   const { data, loading, error } = useQuery(UI_STATE)
   const decorator = data?.uiState?.draftBlock?.context?.decorator
+
+  const components = {
+    DataBinding: DataBinding,
+    ExitDecorator: ExitDecorator,
+    PreCondition: PreCondition,
+    Retry: Retry,
+  }
 
   // TODO: debouncedSubmit
   const submit = (form) => {
