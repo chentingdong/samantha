@@ -1,3 +1,4 @@
+import { ErrorPolicy } from "@apollo/client"
 const uiBaseUrl = window.location.origin
 const apiPort = "4000"
 const apiBaseUrl = `${window.location.protocol}//${window.location.hostname}:${apiPort}`
