@@ -411,6 +411,40 @@ describe("GraphQL", () => {
         })
         expect(result.name).toEqual(name)
       })
+      it("should update state", async () => {
+        const state = "Published"
+        const result = await updateBlockDefByPk({
+          id: blockDef.id,
+          data: { state },
+        })
+        expect(result.state).toEqual(state)
+        expect(result.blockDefState.value).toEqual(state)
+      })
+      it("should not allow invalid state enum value", async () => {
+        const state = "invalid"
+        const result = await updateBlockDefByPk({
+          id: blockDef.id,
+          data: { state },
+        })
+        expect(result).toBeUndefined()
+      })
+      it("is able to update type (but undesired)", async () => {
+        const type = "API"
+        const result = await updateBlockDefByPk({
+          id: blockDef.id,
+          data: { type },
+        })
+        expect(result.type).toEqual(type)
+        expect(result.blockType.value).toEqual(type)
+      })
+      it("should not allow invalid type enum value", async () => {
+        const type = "invalid"
+        const result = await updateBlockDefByPk({
+          id: blockDef.id,
+          data: { type },
+        })
+        expect(result).toBeUndefined()
+      })
     })
   })
 })

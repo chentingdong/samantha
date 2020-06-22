@@ -5,7 +5,15 @@ const blockFragment = gql`
     id
     name
     description
+    blockType {
+      value
+      category
+    }
     type
+    blockDefState {
+      value
+      comment
+    }
     state
     control
     props

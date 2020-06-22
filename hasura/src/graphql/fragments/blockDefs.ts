@@ -9,6 +9,11 @@ const blockDefFragment = gql`
       value
       category
     }
+    type
+    blockDefState {
+      value
+      comment
+    }
     state
     control
     props
