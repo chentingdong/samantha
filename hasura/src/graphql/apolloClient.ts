@@ -2,7 +2,7 @@ import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client"
 import fetch from "cross-fetch"
 import { onError } from "@apollo/link-error"
 
-const link = onError(({ operation, graphQLErrors, networkError }) => {
+const errorLink = onError(({ operation, graphQLErrors, networkError }) => {
   console.info(`[Error]: on operation ${operation.operationName}`)
   if (graphQLErrors)
     graphQLErrors.map(({ message, extensions: { path } }) =>
@@ -22,7 +22,7 @@ const httpLink = new HttpLink({
 
 const apolloClient = new ApolloClient({
   cache: new InMemoryCache(),
-  link: link.concat(httpLink),
+  link: httpLink.concat(errorLink),
   defaultOptions: {
     watchQuery: {
       errorPolicy: "all",
