@@ -5,15 +5,15 @@ import { useForm } from "react-hook-form"
 
 const SpendRequestRaw: React.FC<{
   onSubmit: (form) => void
-  action: object
-}> = ({ onSubmit, action = {} }) => {
+  form: object
+}> = ({ onSubmit, form = {} }) => {
   const { register, getValues } = useForm({
-    defaultValues: action,
+    defaultValues: form,
   })
 
   const submit = () => {
-    const form = getValues()
-    onSubmit(form)
+    const updatedForm = getValues()
+    onSubmit(updatedForm)
   }
 
   return (

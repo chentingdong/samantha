@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import Amplify, { Auth } from "aws-amplify"
 import config from "../../configs/config.js"
 import logo from "../assets/img/bellhop.png"
-import { Button } from "rsuite"
+import { Button } from "../components/Button"
 import { injectRsuiteStyle } from "../utils/Styles"
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
 
