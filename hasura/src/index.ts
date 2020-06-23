@@ -1,21 +1,26 @@
 import express from "express"
-import { getUsers } from "./graphql/queries/getUsers"
-import { getUser } from "./graphql/queries/getUser"
+import bodyParser from "body-parser"
+import { echo } from "./handlers/echo"
+import * as Sentry from "@sentry/node"
 
 const app = express()
-const port = process.env.PORT || "8000"
+const port = process.env.PORT || "3000"
 
-app.get("/users", async (req, res) => res.json(await getUsers()))
+if (process.env.NODE_ENV === "production") {
+  Sentry.init({
+    dsn:
+      "https://440b17bea1104064a2bef3d1f95c99a9@o405323.ingest.sentry.io/5286841",
+  })
+}
 
-app.get("/users/:id", async (req, res) =>
-  res.json(await getUser(req.params.id))
-)
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler())
 
-app.post("/users", async (req, res) => res.json(req.body))
+app.use(bodyParser.json())
+app.post("/", echo)
 
-app.patch("/users/:id", async (req, res) => res.json(req.body))
-
-app.use(express.json())
+// The error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler())
 
 app.listen(port, (err) => {
   if (err) return console.error(err)
