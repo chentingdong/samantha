@@ -1,7 +1,7 @@
 import React from "react"
 
 function ReTry(props) {
-  return <div>retry decorator</div>
+  return <div>Retry...</div>
 }
 
 export default ReTry

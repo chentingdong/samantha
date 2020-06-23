@@ -114,6 +114,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           )}
           <Row>
             <span className="block-name"> {block.name} </span>
+            <span>{block.id}</span>
             <span className="responders">
               {(block as Block).block_responders
                 ?.map((user) => "@" + user.user.name)

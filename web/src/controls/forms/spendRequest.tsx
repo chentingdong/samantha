@@ -3,7 +3,7 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { useForm } from "react-hook-form"
 
-const SpendRequestFormRaw: React.FC<{
+const SpendRequestRaw: React.FC<{
   onSubmit: (form) => void
   action: object
 }> = ({ onSubmit, action = {} }) => {
@@ -58,7 +58,7 @@ const SpendRequestFormRaw: React.FC<{
   )
 }
 
-const SpendRequestForm = styled(SpendRequestFormRaw)`
+const SpendRequest = styled(SpendRequestRaw)`
   & {
     div {
       ${tw`my-4`}
@@ -66,4 +66,4 @@ const SpendRequestForm = styled(SpendRequestFormRaw)`
   }
 `
 
-export { SpendRequestForm }
+export default SpendRequest

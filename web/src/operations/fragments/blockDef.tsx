@@ -5,6 +5,7 @@ const blockDefFullFragment = gql`
     id
     name
     description
+    type
     blockType {
       value
       category
@@ -15,6 +16,7 @@ const blockDefFullFragment = gql`
     parent {
       id
       name
+      type
       blockType {
         value
         category
@@ -24,6 +26,7 @@ const blockDefFullFragment = gql`
       id
       name
       description
+      type
       blockType {
         value
         category
@@ -34,6 +37,7 @@ const blockDefFullFragment = gql`
       parent {
         id
         name
+        type
         blockType {
           value
           category
@@ -43,6 +47,7 @@ const blockDefFullFragment = gql`
         id
         name
         description
+        type
         blockType {
           value
           category
@@ -53,6 +58,7 @@ const blockDefFullFragment = gql`
         parent {
           id
           name
+          type
           blockType {
             value
             category
@@ -62,6 +68,7 @@ const blockDefFullFragment = gql`
           id
           name
           description
+          type
           blockType {
             value
             category
@@ -72,6 +79,7 @@ const blockDefFullFragment = gql`
           parent {
             id
             name
+            type
             blockType {
               value
               category

@@ -5,6 +5,7 @@ const blockFullFragment = gql`
     id
     name
     description
+    type
     blockType {
       value
       category
@@ -17,6 +18,7 @@ const blockFullFragment = gql`
       id
       name
       state
+      type
       blockType {
         value
         category
@@ -31,6 +33,7 @@ const blockFullFragment = gql`
       id
       name
       description
+      type
       blockType {
         value
         category
@@ -43,6 +46,7 @@ const blockFullFragment = gql`
         id
         name
         state
+        type
         blockType {
           value
           category
@@ -52,6 +56,7 @@ const blockFullFragment = gql`
         id
         name
         description
+        type
         blockType {
           value
           category
@@ -64,6 +69,7 @@ const blockFullFragment = gql`
           id
           name
           state
+          type
           blockType {
             value
             category
@@ -73,6 +79,7 @@ const blockFullFragment = gql`
           id
           name
           description
+          type
           blockType {
             value
             category
@@ -85,6 +92,7 @@ const blockFullFragment = gql`
             id
             name
             state
+            type
             blockType {
               value
               category

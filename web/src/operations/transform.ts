@@ -49,6 +49,8 @@ const _clearnBlockInput = (block, recursive = false) => {
   }
   delete block.__mutation_type__
   delete block.__typename
+  delete block.blockType
+
   if (block.block_requestors?.length === 0) delete block.block_requestors
   if (block.block_responders?.length === 0) delete block.block_responders
 

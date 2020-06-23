@@ -111,7 +111,6 @@ const Styles = styled.div.attrs({})`
 `
 
 const TagPicker: React.FC<TagPickerType> = (props) => {
-  // use react HOC to pass on props to Raw component
   return (
     <Styles>
       <TagPickerRaw {...props} />

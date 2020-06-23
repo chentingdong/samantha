@@ -32,8 +32,7 @@ import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
-import { Action } from "../actions/Action"
-import { Decorator } from "../decorators/Decorator"
+import { Control } from "../controls/Control"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -106,6 +105,7 @@ const EditorRaw = () => {
         },
       })
     }
+    close()
   }
 
   const chooseRequestors = (value) => {
@@ -194,14 +194,9 @@ const EditorRaw = () => {
           </Grid>
 
           <PanelGroup accordion bordered>
-            {draftBlock.blockType?.category === "Decorator" && (
-              <Panel header="Decorators" defaultExpanded>
-                <Decorator tagName={draftBlock.control.decorator} />
-              </Panel>
-            )}
             {draftBlock.blockType?.category === "Action" && (
               <Panel header="Action View" defaultExpanded>
-                <Action tagName={draftBlock.control.form} />
+                <Control />
               </Panel>
             )}
             {draftBlock.blockType?.category === "Control" && (
@@ -252,28 +247,27 @@ const EditorRaw = () => {
               />
             </Panel>
           </PanelGroup>
-          {/* {editorMode === EditMode.Create && ( */}
-          <ButtonToolbar className="my-2">
-            <IconButton
-              onClick={() => {
-                saveNewBlock(editorMode, draftBlock)
-                close()
-              }}
-              icon={<Icon icon="check" />}
-              appearance="primary"
-              className="save-bell"
-            >
-              Save
-            </IconButton>
-            <IconButton
-              onClick={close}
-              icon={<Icon icon="ban" />}
-              appearance="primary"
-            >
-              Cancel
-            </IconButton>
-          </ButtonToolbar>
-          {/* )} */}
+          {editorMode === EditMode.Create && (
+            <ButtonToolbar className="my-2">
+              <IconButton
+                onClick={() => {
+                  saveNewBlock(editorMode, draftBlock)
+                }}
+                icon={<Icon icon="check" />}
+                appearance="primary"
+                className="save-bell"
+              >
+                Save
+              </IconButton>
+              <IconButton
+                onClick={close}
+                icon={<Icon icon="ban" />}
+                appearance="primary"
+              >
+                Cancel
+              </IconButton>
+            </ButtonToolbar>
+          )}
         </div>
       </Drawer>
     </div>

@@ -13,7 +13,7 @@ import tw from "tailwind.macro"
 import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
 
 function DemoRaw({ className }) {
-  const [active, setActive] = useState("requests-made")
+  const [active, setActive] = useState("request-catalog")
   const { data } = useQuery(AUTH_USER)
   const logout = async () => {
     await Auth.signOut()

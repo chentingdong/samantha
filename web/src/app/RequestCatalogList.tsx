@@ -16,7 +16,7 @@ const RequestCatalogList = ({ className = "" }) => {
   if (!data) return <></>
 
   return (
-    <div className={`request-catalog-list ${className} grid grid-cols-2 gap-4`}>
+    <div className={`request-catalog-list ${className}`}>
       <CatalogDropdown
         title="Add a Bell Definition from..."
         trigger={["click", "hover"]}
@@ -25,14 +25,16 @@ const RequestCatalogList = ({ className = "" }) => {
         editingTypename={Typename.blockDefs}
       />
       <Divider />
-      {data.blockDefs.map((blockDef: BlockDef, index: number) => (
-        <RequestItem
-          block={blockDef}
-          key={blockDef.id}
-          itemOrigin={ItemOrigin.Catalog}
-          className={`request-item-${index} col-span-2 xl:col-span-1`}
-        />
-      ))}
+      <div className="grid grid-cols-2 gap-4">
+        {data.blockDefs.map((blockDef: BlockDef, index: number) => (
+          <RequestItem
+            block={blockDef}
+            key={blockDef.id}
+            itemOrigin={ItemOrigin.Catalog}
+            className={`request-item-${index} col-span-2 xl:col-span-1`}
+          />
+        ))}
+      </div>
     </div>
   )
 }
