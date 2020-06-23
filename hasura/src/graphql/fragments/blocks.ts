@@ -10,7 +10,7 @@ const blockFragment = gql`
       category
     }
     type
-    blockDefState {
+    blockState {
       value
       comment
     }

@@ -21,6 +21,15 @@ services:
       - HASURA_GRAPHQL_ADMIN_SECRET=qcA.wmEfFzDpfzZZoepJs7gw
     ports:
       - "8080:8080"
+  express:
+    image: samantha-server:latest
+    container_name: my_express
+    depends_on:
+      - postgres
+      - hasura
+    ports:
+      - "3000:3000"
+    command: yarn start
 
 volumes:
   my_dbdata:

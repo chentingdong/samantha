@@ -1,95 +1,19 @@
-import { nanoid } from "nanoid"
-import { getUsers } from "./queries/getUsers"
-import { getUser } from "./queries/getUser"
-import { getUserByPk } from "./queries/getUserByPk"
-import { getUsersAggregate } from "./queries/getUsersAggregate"
-import { getBlockType } from "./queries/getBlockType"
-import { getBlockDefState } from "./queries/getBlockDefState"
-import { getBlockDefs } from "./queries/getBlockDefs"
-import { getBlockDef } from "./queries/getBlockDef"
-import { getBlockDefByPk } from "./queries/getBlockDefByPk"
-import { getBlockDefsAggregate } from "./queries/getBlockDefsAggregate"
-import { updateBlockDefByPk } from "./mutations/updateBlockDefByPk"
-import { insertBlockDef } from "./mutations/insertBlockDef"
-import { deleteBlockDefByPk } from "./mutations/deleteBlockDefByPk"
-import { deleteUserByPk } from "./mutations/deleteUserByPk"
-import { insertUser } from "./mutations/insertUser"
-import { insertBlockDefRequestor } from "./mutations/insertBlockDefRequestor"
-import { deleteBlockDefRequestorByPk } from "./mutations/deleteBlockDefRequestorByPk"
-
-const createRandomUserInput = () => {
-  const id = nanoid()
-  const name = "User " + Math.floor(Math.random() * 10)
-  const email = "user" + Math.floor(Math.random() * 10) + "@bellhop.io"
-  return { id, name, email }
-}
-
-const createRandomBlockDefInput = () => {
-  const id = nanoid()
-  const name = "Bell " + Math.floor(Math.random() * 10)
-  const type = "Form"
-  const state = "Draft"
-  return { id, name, type, state }
-}
+import { deleteUserByPk } from "../mutations/deleteUserByPk"
+import { insertUser } from "../mutations/insertUser"
+import { getBlockDefs } from "../queries/getBlockDefs"
+import { getBlockDef } from "../queries/getBlockDef"
+import { getBlockDefByPk } from "../queries/getBlockDefByPk"
+import { getBlockDefsAggregate } from "../queries/getBlockDefsAggregate"
+import { updateBlockDefByPk } from "../mutations/updateBlockDefByPk"
+import { insertBlockDef } from "../mutations/insertBlockDef"
+import { deleteBlockDefByPk } from "../mutations/deleteBlockDefByPk"
+import { insertBlockDefRequestor } from "../mutations/insertBlockDefRequestor"
+import { deleteBlockDefRequestorByPk } from "../mutations/deleteBlockDefRequestorByPk"
+import { addChildToBlockDef } from "../mutations/addChildToBlockDef"
+import { removeChildFromBlockDef } from "../mutations/removeChildFromBlockDef"
+import { createRandomUserInput, createRandomBlockDefInput } from "./utils"
 
 describe("GraphQL", () => {
-  describe("users", () => {
-    const user = createRandomUserInput()
-    describe("Query", () => {
-      beforeAll(async () => {
-        await insertUser({ data: user })
-      })
-
-      afterAll(async () => {
-        await deleteUserByPk({ id: user.id })
-      })
-
-      it("should return list of users", async () => {
-        const result = await getUsers()
-        expect(result.length).toBeGreaterThan(0)
-      })
-      it("should return single user", async () => {
-        const result = await getUser(user.id)
-        expect(result[0].name).toEqual(user.name)
-      })
-      it("should return single user by pk", async () => {
-        const result = await getUserByPk(user.id)
-        expect(result.name).toEqual(user.name)
-      })
-      it("should return users aggregate", async () => {
-        const result = await getUsersAggregate()
-        expect(result.aggregate.count).toBeGreaterThan(0)
-      })
-    })
-
-    describe("Insert Mutation", () => {
-      afterEach(async () => {
-        await deleteUserByPk({ id: user.id })
-      })
-
-      it("should insert a user", async () => {
-        const result = await insertUser({ data: user })
-        expect(result.id).toEqual(user.id)
-      })
-    })
-  })
-
-  describe("blockType", () => {
-    it("should return blockType and counts", async () => {
-      const result = await getBlockType()
-      expect(result.length).toBeGreaterThan(0)
-      expect(result[0].blockDefs_aggregate.aggregate.count).toBeGreaterThan(0)
-    })
-  })
-
-  describe("blockDefState", () => {
-    it("should return blockDefState and counts", async () => {
-      const result = await getBlockDefState()
-      expect(result.length).toBeGreaterThan(0)
-      expect(result[0].blockDefs_aggregate.aggregate.count).toBeGreaterThan(0)
-    })
-  })
-
   describe("blockDefs", () => {
     const blockDef = createRandomBlockDefInput()
 
@@ -495,6 +419,11 @@ describe("GraphQL", () => {
           })
           expect(result.root.id).toEqual(root.id)
           expect(result.root_id).toEqual(root.id)
+          // clean up
+          await updateBlockDefByPk({
+            id: blockDef.id,
+            data: { root_id: null },
+          })
         })
       })
 
@@ -510,17 +439,27 @@ describe("GraphQL", () => {
         it("should connect to an existing parent", async () => {
           const result = await updateBlockDefByPk({
             id: blockDef.id,
-            data: { parent_id: parent.id },
+            data: {
+              parent_id: parent.id,
+            },
           })
           expect(result.parent.id).toEqual(parent.id)
           expect(result.parent_id).toEqual(parent.id)
 
           const parentResult = await getBlockDefByPk(parent.id)
           expect(parentResult.children.length).toEqual(1)
+
+          // clean up
+          await updateBlockDefByPk({
+            id: blockDef.id,
+            data: {
+              parent_id: null,
+            },
+          })
         })
       })
 
-      describe("Update children via children's parent_id", () => {
+      describe("Update children", () => {
         const child = createRandomBlockDefInput()
         beforeEach(async () => {
           await insertBlockDef({ data: child })
@@ -529,7 +468,7 @@ describe("GraphQL", () => {
         afterEach(async () => {
           await deleteBlockDefByPk({ id: child.id })
         })
-        it("should connect to existing children (had to re-fetch parent to populate the children array)", async () => {
+        it("should connect to existing children via children's parent_id (had to re-fetch parent to populate the children array)", async () => {
           const childResult = await updateBlockDefByPk({
             id: child.id,
             data: {
@@ -538,11 +477,29 @@ describe("GraphQL", () => {
           })
           expect(childResult.parent.id).toEqual(blockDef.id)
 
-          let result
-          result = await getBlockDefByPk(blockDef.id, "cache-first")
-          expect(result.children.length).toEqual(0)
-          result = await getBlockDefByPk(blockDef.id, "network-only")
+          const result = await getBlockDefByPk(blockDef.id, "network-only")
           expect(result.children.length).toEqual(1)
+        })
+
+        it("should connect to existing children using multiple mutations (correct solution)", async () => {
+          const result = await addChildToBlockDef({
+            parent_id: blockDef.id,
+            child_id: child.id,
+          })
+          expect(result.childBlockDef.parent.id).toEqual(blockDef.id)
+          expect(result.parentBlockDef.children[0].id).toEqual(child.id)
+        })
+        it("should remove existing children using multiple mutations (correct solution)", async () => {
+          const addResult = await addChildToBlockDef({
+            parent_id: blockDef.id,
+            child_id: child.id,
+          })
+          const result = await removeChildFromBlockDef({
+            parent_id: blockDef.id,
+            child_id: child.id,
+          })
+          expect(result.childBlockDef.parent).toEqual(null)
+          expect(result.parentBlockDef.children).toEqual([])
         })
       })
     })
