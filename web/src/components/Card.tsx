@@ -22,7 +22,6 @@ const Card = styled.div`
     max-height: 4.7em;
   }
   &.composite {
-    padding: 1px;
     display: block;
   }
   &.leaf {
