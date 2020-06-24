@@ -27,9 +27,13 @@ services:
     depends_on:
       - postgres
       - hasura
+    environment:
+      - NODE_ENV=development
     ports:
       - "3000:3000"
-    command: yarn start
+    volumes:
+      - ./:/app
+    command: yarn dev
 
 volumes:
   my_dbdata:

@@ -1,6 +1,6 @@
 import express from "express"
 import bodyParser from "body-parser"
-import { echo } from "./handlers/echo"
+import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 import * as Sentry from "@sentry/node"
 
 const app = express()
@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === "production") {
 app.use(Sentry.Handlers.requestHandler())
 
 app.use(bodyParser.json())
-app.post("/", echo)
+app.post("/block_state_update", blockStateUpdateHandler)
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler())
