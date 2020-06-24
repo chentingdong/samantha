@@ -168,7 +168,7 @@ const EditorRaw = () => {
                   <StateBar state={draftBlock.state} />
                 </Row>
                 <Row className="my-4">
-                  <Col lg={6} className="requestors">
+                  <Col xs={12} className="requestors">
                     <div>Requestors: </div>
                     <TagPicker
                       data={users}
@@ -178,7 +178,7 @@ const EditorRaw = () => {
                       onChange={(value) => chooseRequestors(value)}
                     />
                   </Col>
-                  <Col lg={6} lgOffset={6} className="responders">
+                  <Col xs={12} className="responders">
                     <div>Responders: </div>
                     <TagPicker
                       data={users}
