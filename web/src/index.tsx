@@ -9,7 +9,7 @@ import { ApolloClient, ApolloProvider, HttpLink, split } from "@apollo/client"
 import { onError } from "@apollo/link-error"
 import LogRocket from "logrocket"
 import * as Sentry from "@sentry/browser"
-import AppStyles from "./assets/styles/appStyles.tsx"
+import AppStyles from "./assets/styles/appStyles"
 import { getMainDefinition } from "@apollo/client/utilities"
 import { WebSocketLink } from "@apollo/link-ws"
 

@@ -23,6 +23,7 @@ const Control: React.FC<{}> = () => {
   }
 
   const { data, loading, error } = useQuery(UI_STATE)
+  // TODO, list of forms
   const template = data?.uiState?.draftBlock?.control?.forms[0].template
   const TagName = components[template]
   let root =

@@ -6,10 +6,11 @@ const Card = styled.div`
   ${tw`rounded-md shadow border text-sm m-1`}
   .card-header {
     ${tw`rounded-t-md p-1`}
-    color: var(--color-text-inverse);
+    color: var(--color-text-default);
     background: var(--color-bg-primary);
     display: block;
     width: 100%;
+    cursor: pointer;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -21,6 +22,7 @@ const Card = styled.div`
     max-height: 4.7em;
   }
   &.composite {
+    padding: 1px;
     display: block;
   }
   &.leaf {

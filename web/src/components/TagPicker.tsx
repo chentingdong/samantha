@@ -96,7 +96,7 @@ const Styles = styled.div.attrs({})`
   .tag {
     padding: 0.25em;
     margin: 0.12em;
-    color: var(--color-text-inverse);
+    color: var(--color-text-success);
     background-color: var(--color-bg-success);
     .close {
     }

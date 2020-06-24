@@ -7,12 +7,14 @@ type DndTargetBoxProps = {
   accept: string | string[]
   greedy?: boolean
   onDrop: (item: BlockOrDef, type: string) => void
+  className?: string
 }
 const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
   accept,
   onDrop,
   greedy = false,
   children,
+  className,
 }) => {
   const [{ isOver, isOverCurrent }, drop] = useDrop({
     accept,
@@ -39,18 +41,18 @@ const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
 
   const hoverClass = isOverCurrent || (isOver && greedy) ? "bg-highlight" : ""
   return (
-    <div ref={drop} className={`${hoverClass} pb-5`}>
-      {children}
+    <div ref={drop} className={className}>
+      <div className={hoverClass}>{children}</div>
     </div>
   )
 }
 
 const DndTargetBox: React.FC<DndTargetBoxProps> = styled(DndTargetBoxRaw)`
-  border: red;
-  background: red;
   min-height: 100px;
+  background: var(--color-bg-primary);
   .bg-highlight {
-    background: var(--color-bg-primary);
+    padding-bottom: 100px;
+    background: var(--color-bg-inverse);
   }
 `
 
