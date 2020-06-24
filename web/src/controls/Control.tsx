@@ -3,16 +3,23 @@ import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useBlockMutations } from "../operations/mutations"
 import { setUiState } from "../operations/mutations/setUiState"
-import { BLOCK } from "../operations/queries/block"
 
 // TODO: import all forms and decorators reflectively
 import SpendRequest from "./forms/spendRequest"
 import SpendRequestApproval from "./forms/spendRequestApproval"
+import Conditional from "./decorators/Conditional"
+import Inverter from "./decorators/Inverter"
+import Repeat from "./decorators/Repeat"
+import ReTry from "./decorators/ReTry"
 
 const Control: React.FC<{}> = () => {
   let components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,
+    Conditional: Conditional,
+    Inverter: Inverter,
+    Repeat: Repeat,
+    ReTry: ReTry,
   }
 
   const { data, loading, error } = useQuery(UI_STATE)
@@ -22,8 +29,7 @@ const Control: React.FC<{}> = () => {
     data?.uiState?.draftBlock?.root === null
       ? data?.uiState?.draftBlock
       : data?.uiState?.draftBlock?.root
-  const form = root.context?.TagName
-
+  const form = root.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
   // TODO: debounce happen here

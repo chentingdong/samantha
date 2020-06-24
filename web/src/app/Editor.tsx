@@ -194,6 +194,11 @@ const EditorRaw = () => {
           </Grid>
 
           <PanelGroup accordion bordered>
+            {draftBlock.blockType?.category === "Decorator" && (
+              <Panel header="Decorators" defaultExpanded>
+                <Control />
+              </Panel>
+            )}
             {draftBlock.blockType?.category === "Action" && (
               <Panel header="Action View" defaultExpanded>
                 <Control />

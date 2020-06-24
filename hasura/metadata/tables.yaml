@@ -171,18 +171,6 @@
         table:
           schema: public
           name: blocks
-  event_triggers:
-  - name: blockState_change
-    definition:
-      enable_manual: true
-      update:
-        columns:
-        - state
-    retry_conf:
-      num_retries: 0
-      interval_sec: 10
-      timeout_sec: 60
-    webhook: http://express:3000
 - table:
     schema: public
     name: users

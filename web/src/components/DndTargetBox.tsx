@@ -39,18 +39,15 @@ const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
 
   const hoverClass = isOverCurrent || (isOver && greedy) ? "bg-highlight" : ""
   return (
-    <div
-      ref={drop}
-      className={`${hoverClass}`}
-      style={{ minHeight: "200px", borderStyle: "dotted" }}
-    >
+    <div ref={drop} className={`${hoverClass} pb-5`}>
       {children}
     </div>
   )
 }
 
-const DndTargetBox = styled(DndTargetBoxRaw)`
+const DndTargetBox: React.FC<DndTargetBoxProps> = styled(DndTargetBoxRaw)`
   border: red;
+  background: red;
   min-height: 100px;
   .bg-highlight {
     background: var(--color-bg-primary);

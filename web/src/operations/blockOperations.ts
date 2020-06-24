@@ -17,6 +17,7 @@ import { transformBlockInput } from "./transform"
  */
 const createBlock = (root, targetType, requestor, parent = null) => {
   const id = nanoid()
+
   return {
     ...root,
     id,

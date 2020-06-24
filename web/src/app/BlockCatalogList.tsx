@@ -17,7 +17,7 @@ const BlockCatalogList = () => {
   return (
     <div>
       <h2>Block Catalog</h2>
-      <div className="grid grid-cols-2 gap-1">
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-1">
         {data.blockDefs.map((blockDef: BlockDef) => {
           return <BlockCatalogItem blockDef={blockDef} key={blockDef.id} />
         })}
