@@ -65,7 +65,7 @@ VALUES (
   '2020-06-22 20:30:47.339+00',
   '{
     "forms": [{
-      "template": "SpendRequestApproval",
+      "template": "SpendRequest",
       "data": {}
     }]
   }',
