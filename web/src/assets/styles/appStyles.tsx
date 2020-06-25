@@ -52,5 +52,8 @@ const AppStyles = styled.div.attrs({
     background: var(--color-bg-default);
     border: 1px solid var(--color-text-default);
   }
+  foreignObject {
+    overflow: visible;
+  }
 `
 export default AppStyles

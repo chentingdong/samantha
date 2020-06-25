@@ -9,7 +9,6 @@ import {
   Icon,
   IconButton,
   Notification,
-  Tree,
 } from "rsuite"
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
@@ -25,14 +24,13 @@ import "ace-builds/src-noconflict/theme-dracula"
 import AceEditor from "react-ace"
 import { BlockChildrenList } from "./BlockChildrenList"
 import { BlockCatalogList } from "./BlockCatalogList"
-import { BlockOrDef } from "../models/interface"
-import { getIconClassByType } from "../utils/Styles"
 import { StateBar } from "../components/StateBar"
 import { transformBlockInput } from "../operations/transform"
 import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
 import { Control } from "../controls/Control"
+import { BellTree } from "./BellTree"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -76,11 +74,11 @@ const EditorRaw = () => {
         }
       }
 
-      Notification.warning({
-        title: "TODO",
-        description:
-          "change mutation to update_block_requestors/update_block_responders",
-      })
+      // Notification.warning({
+      //   title: "TODO",
+      //   description:
+      //     "change mutation to update_block_requestors/update_block_responders",
+      // })
       // updateFn({
       //   variables: {
       //     data: dataInput,
@@ -126,17 +124,6 @@ const EditorRaw = () => {
         })),
       },
     })
-  }
-
-  const getTreeData = (block: BlockOrDef) => {
-    return {
-      id: block.id,
-      name: block.name,
-      icon: getIconClassByType(block.type),
-      children: Array.isArray(block.children)
-        ? block.children.map?.((child) => getTreeData(child))
-        : [],
-    }
   }
 
   if (!data || !usersResult) return <></>
@@ -217,20 +204,7 @@ const EditorRaw = () => {
             )}
             {draftBlock.blockType?.category === "Control" && (
               <Panel header="Tree View" defaultExpanded>
-                <Tree
-                  data={[getTreeData(draftBlock)]}
-                  labelKey="name"
-                  valueKey="id"
-                  defaultExpandAll
-                  size="lg"
-                  renderTreeNode={(nodeData) => {
-                    return (
-                      <span>
-                        <i className={nodeData.icon} /> {nodeData.name}
-                      </span>
-                    )
-                  }}
-                />
+                <BellTree data={draftBlock} />
               </Panel>
             )}
             <Panel header="Debug View">

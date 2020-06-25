@@ -3,7 +3,7 @@ import { blockDefFullFragment } from "../fragments/blockDef"
 
 export const BLOCK_CATALOG = gql`
   query requestCatalog {
-    blockDefs(order_by: { last_updated: desc_nulls_first }) {
+    blockDefs(order_by: { created_at: desc_nulls_first }) {
       ...blockDefFullFragment
     }
   }
