@@ -7,8 +7,8 @@ type TagPickerType = {
   value: User[]
   data: User[]
   onChange: (tags: User[]) => void
-  onInsertTag: (tag: User) => void
-  onDeleteTag: (tag: User) => void
+  onInsertTag?: (tag: User) => void
+  onDeleteTag?: (tag: User) => void
 }
 const TagPickerRaw: React.FC<TagPickerType> = ({
   value,

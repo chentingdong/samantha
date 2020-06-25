@@ -7,6 +7,8 @@ export const UI_STATE = gql`
       editorMode
       editingTypename
       draftBlock
+      showBlockEditor
+      currentBlockId
     }
   }
 `

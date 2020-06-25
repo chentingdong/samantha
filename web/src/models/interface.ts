@@ -44,9 +44,11 @@ export type BlockOrDef = Block | BlockDef
 
 export interface UiState {
   showEditor?: boolean
+  draftBlock?: BlockOrDef
+  showBlockEditor?: boolean
+  currentBlockId?: string
   editorMode?: EditMode
   editingTypename?: Typename
-  draftBlock?: BlockOrDef
 }
 
 // for postgres many to many relationship
