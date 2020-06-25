@@ -39,7 +39,7 @@ const blockFragment = gql`
         }
       }
     }
-    children {
+    children(order_by: { created_at: asc, id: asc }) {
       id
       name
       description
@@ -54,7 +54,7 @@ const blockFragment = gql`
         state
         type
       }
-      children {
+      children(order_by: { created_at: asc, id: asc }) {
         id
         name
         description
@@ -69,7 +69,7 @@ const blockFragment = gql`
           state
           type
         }
-        children {
+        children(order_by: { created_at: asc, id: asc }) {
           id
           name
           description
@@ -84,7 +84,7 @@ const blockFragment = gql`
             state
             type
           }
-          children {
+          children(order_by: { created_at: asc, id: asc }) {
             id
           }
         }

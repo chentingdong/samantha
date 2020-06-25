@@ -35,7 +35,7 @@ const blockDefFragment = gql`
         category
       }
     }
-    children {
+    children(order_by: { created_at: asc, id: asc }) {
       id
       name
       description
@@ -54,7 +54,7 @@ const blockDefFragment = gql`
           category
         }
       }
-      children {
+      children(order_by: { created_at: asc, id: asc }) {
         id
         name
         description
@@ -73,7 +73,7 @@ const blockDefFragment = gql`
             category
           }
         }
-        children {
+        children(order_by: { created_at: asc, id: asc }) {
           id
           name
           description
@@ -92,7 +92,7 @@ const blockDefFragment = gql`
               category
             }
           }
-          children {
+          children(order_by: { created_at: asc, id: asc }) {
             id
           }
         }
