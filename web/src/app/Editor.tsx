@@ -31,6 +31,7 @@ import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
 import { Control } from "../controls/Control"
 import { BellTree } from "./BellTree"
+import EditBlock from "./EditBlock"
 import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockRequestor"
 import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
 import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
@@ -163,7 +164,13 @@ const EditorRaw = () => {
   }
 
   if (!data || !usersResult) return <></>
-  const { showEditor, editorMode, editingTypename, draftBlock } = data.uiState
+  const {
+    showEditor,
+    editorMode,
+    editingTypename,
+    draftBlock,
+    showBlockEditor,
+  } = data.uiState
   const { users } = usersResult
 
   return (
@@ -241,6 +248,7 @@ const EditorRaw = () => {
             {draftBlock.blockType?.category === "Control" && (
               <Panel header="Tree View" defaultExpanded>
                 <BellTree data={draftBlock} />
+                {data.uiState.showBlockEditor && <EditBlock />}
               </Panel>
             )}
             <Panel header="Debug View">

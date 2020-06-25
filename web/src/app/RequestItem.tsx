@@ -121,18 +121,16 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             </span>
           </Row>
           <Row>
-            <div className="flex flex-row">
-              {block.children?.map((child) => {
-                return (
-                  <span
-                    className={`block-state block-state-${stateStyle(child)}`}
-                    key={child.id}
-                  >
-                    {child.name}
-                  </span>
-                )
-              })}
-            </div>
+            {block.children?.map((child) => {
+              return (
+                <div
+                  className={`block-state block-state-${stateStyle(child)}`}
+                  key={child.id}
+                >
+                  {child.name}
+                </div>
+              )
+            })}
           </Row>
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
@@ -176,6 +174,7 @@ const RequestItem = styled(React.memo(RequestItemRaw))`
   background: var(--color-bg-default);
   .block-state {
     ${tw`border mr-1 my-2 p-1 text-sm rounded`}
+    display: inline-block;
     color: var(--color-text-secondary);
     background: var(--color-bg-primary);
   }
