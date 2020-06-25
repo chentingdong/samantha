@@ -38,7 +38,6 @@ function BellTreeRaw({ data }) {
   }
 
   const onClick = (nodeData) => {
-    console.log(nodeData)
     setUiState({
       showBlockEditor: true,
       currentBlockId: nodeData.id,
@@ -57,6 +56,7 @@ function BellTreeRaw({ data }) {
           {nodeData.name}
         </div>
         <div className="card-body">
+          <div>id: {nodeData.id}</div>
           <div>
             Created at: {moment(nodeData.createdAt).format("YYYY-MM-DD")}
           </div>
