@@ -54,6 +54,6 @@ export default {
   parent: null,
   requestors: ["Google_111918078641246610063"],
   responders: ["Google_111918078641246610063"],
-  state: "READY",
+  state: "Created",
   type: "ParallelAll",
 }

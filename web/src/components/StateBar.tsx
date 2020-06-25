@@ -12,7 +12,7 @@ const StateBar = ({ state }) => {
   return (
     <Steps current={stateMap[state]}>
       <Steps.Item title="Created" />
-      <Steps.Item title="Ready" />
+      <Steps.Item title="Created" />
       <Steps.Item title="Running" />
       <Steps.Item title="Success" />
     </Steps>

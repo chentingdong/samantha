@@ -29,7 +29,7 @@ const blockFullFragment = gql`
         }
       }
     }
-    children {
+    children(order_by: { created_at: asc, id: asc }) {
       id
       name
       description
@@ -98,9 +98,48 @@ const blockFullFragment = gql`
               category
             }
           }
-          children {
-            id
+          requestors {
+            user {
+              id
+              name
+              email
+            }
           }
+          responders {
+            user {
+              id
+              name
+              email
+            }
+          }
+        }
+        requestors {
+          user {
+            id
+            name
+            email
+          }
+        }
+        responders {
+          user {
+            id
+            name
+            email
+          }
+        }
+      }
+      requestors {
+        user {
+          id
+          name
+          email
+        }
+      }
+      responders {
+        user {
+          id
+          name
+          email
         }
       }
     }

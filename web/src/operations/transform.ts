@@ -29,7 +29,6 @@ const _transformBlockInput = (block) => {
         })) || [],
     }
   }
-  delete block.requestors
 
   if (block.responders?.length > 0) {
     block.responders = {
@@ -39,7 +38,6 @@ const _transformBlockInput = (block) => {
         })) || [],
     }
   }
-  delete block.responders
   return block
 }
 
