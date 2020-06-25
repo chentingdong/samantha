@@ -13,7 +13,7 @@ import {
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
 import { UI_STATE } from "../operations/queries/uiState"
-import { useQuery } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename, EditMode } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
@@ -31,11 +31,19 @@ import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
 import { Control } from "../controls/Control"
 import { BellTree } from "./BellTree"
+import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockRequestor"
+import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
+import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
+import { DELETE_BLOCK_RESPONDER } from "../operations/mutations/deleteBlockResponder"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
+  const [insertBlockRequestor] = useMutation(INSERT_BLOCK_REQUESTOR)
+  const [deleteBlockRequestor] = useMutation(DELETE_BLOCK_REQUESTOR)
+  const [insertBlockResponder] = useMutation(INSERT_BLOCK_RESPONDER)
+  const [deleteBlockResponder] = useMutation(DELETE_BLOCK_RESPONDER)
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -73,17 +81,6 @@ const EditorRaw = () => {
           })),
         }
       }
-
-      // Notification.warning({
-      //   title: "TODO",
-      //   description: "change mutation to update_requestors/update_responders",
-      // })
-      // updateFn({
-      //   variables: {
-      //     data: dataInput,
-      //     id: draft.id,
-      //   },
-      // })
     }
   }, [
     data?.uiState?.draftBlock?.requestors,
@@ -125,6 +122,46 @@ const EditorRaw = () => {
     })
   }
 
+  const insertRequestor = (value) => {
+    insertBlockRequestor({
+      variables: {
+        object: {
+          block_id: draftBlock.id,
+          user_id: value.id,
+        },
+      },
+    })
+  }
+
+  const deleteRequestor = (value) => {
+    deleteBlockRequestor({
+      variables: {
+        block_id: draftBlock.id,
+        user_id: value.id,
+      },
+    })
+  }
+
+  const insertResponder = (value) => {
+    insertBlockResponder({
+      variables: {
+        object: {
+          block_id: draftBlock.id,
+          user_id: value.id,
+        },
+      },
+    })
+  }
+
+  const deleteResponder = (value) => {
+    deleteBlockResponder({
+      variables: {
+        block_id: draftBlock.id,
+        user_id: value.id,
+      },
+    })
+  }
+
   if (!data || !usersResult) return <></>
   const { showEditor, editorMode, editingTypename, draftBlock } = data.uiState
   const { users } = usersResult
@@ -160,6 +197,8 @@ const EditorRaw = () => {
                       data={users}
                       value={draftBlock.requestors.map((user) => user.user)}
                       onChange={(value) => chooseRequestors(value)}
+                      onInsertTag={(value) => insertRequestor(value)}
+                      onDeleteTag={(value) => deleteRequestor(value)}
                     />
                   </Col>
                   <Col xs={12} className="responders">
@@ -168,6 +207,8 @@ const EditorRaw = () => {
                       data={users}
                       value={draftBlock.responders.map((user) => user.user)}
                       onChange={(value) => chooseResponders(value)}
+                      onInsertTag={(value) => insertResponder(value)}
+                      onDeleteTag={(value) => deleteResponder(value)}
                     />
                   </Col>
                 </Row>

@@ -6,9 +6,17 @@ import { User } from "../models/interface"
 type TagPickerType = {
   value: User[]
   data: User[]
-  onChange: (option: User[]) => void
+  onChange: (tags: User[]) => void
+  onInsertTag: (tag: User) => void
+  onDeleteTag: (tag: User) => void
 }
-const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
+const TagPickerRaw: React.FC<TagPickerType> = ({
+  value,
+  data,
+  onChange,
+  onInsertTag,
+  onDeleteTag,
+}) => {
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
 
@@ -16,13 +24,14 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
     onChange(tags)
   }, [tags])
 
-  const pickTags = (e, option) => {
-    let newTags = [...tags, option]
-    if (e.target.checked && !objInArr(option, tags)) {
-      newTags = [...tags, option]
+  const pickTags = (e, tag) => {
+    let newTags = [...tags, tag]
+    if (e.target.checked && !objInArr(tag, tags)) {
+      newTags = [...tags, tag]
       setTags(newTags)
-    } else if (!e.target.checked && objInArr(option, tags)) {
-      deleteTag(e, option)
+      onInsertTag(tag)
+    } else if (!e.target.checked && objInArr(tag, tags)) {
+      deleteTag(e, tag)
     }
   }
 
@@ -30,6 +39,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
     e.stopPropagation()
     const tmp = [...tags]
     tmp.splice(tags.indexOf(tag), 1)
+    onDeleteTag(tag)
     setTags(tmp)
   }
 
@@ -62,20 +72,20 @@ const TagPickerRaw: React.FC<TagPickerType> = ({ value, data, onChange }) => {
         </div>
       </div>
       <div>
-        {data?.map((option) => {
+        {data?.map((tag) => {
           return (
             showSelect && (
-              <div key={option.id}>
+              <div key={tag.id}>
                 <input
                   type="checkbox"
                   className="inline-block cursor-pointer"
-                  name={option.name}
-                  value={option.id}
-                  checked={objInArr(option, tags)}
-                  onChange={(e) => pickTags(e, option)}
+                  name={tag.name}
+                  value={tag.id}
+                  checked={objInArr(tag, tags)}
+                  onChange={(e) => pickTags(e, tag)}
                 />
-                <label htmlFor={option.name} className="inline-block m-1">
-                  {option.name}
+                <label htmlFor={tag.name} className="inline-block m-1">
+                  {tag.name}
                 </label>
               </div>
             )
