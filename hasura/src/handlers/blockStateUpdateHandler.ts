@@ -23,8 +23,11 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
       await onRun(block)
     }
 
-    if (block.parent_id) {
-      const parent = await getBlockByPk(block.parent_id, "network-only")
+    if (block.parents.length > 0) {
+      const parent = await getBlockByPk(
+        block.parents[0].parent.id,
+        "network-only"
+      )
       await onChildStateChange(parent, block)
     }
 

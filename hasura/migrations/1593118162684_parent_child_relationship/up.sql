@@ -11,18 +11,18 @@ alter table "public"."blockDefs" drop constraint "blockDefs_parent_id_fkey";
 
 ALTER TABLE "public"."blockDefs" DROP COLUMN "parent_id" CASCADE;
 
-DELETE FROM public."users";
-DELETE FROM public."blockType";
-DELETE FROM public."blockState";
-DELETE FROM public."blocks";
-DELETE FROM public."block_requestor";
-DELETE FROM public."block_responder";
-DELETE FROM public."block_parent_child";
-DELETE FROM public."blockDefsState";
-DELETE FROM public."blockDefs";
-DELETE FROM public."blockDef_requestor";
-DELETE FROM public."blockDef_responder";
-DELETE FROM public."blockDef_parent_child";
+TRUNCATE TABLE public."block_requestor";
+TRUNCATE TABLE public."block_responder";
+TRUNCATE TABLE public."block_parent_child";
+TRUNCATE TABLE public."blockDef_requestor";
+TRUNCATE TABLE public."blockDef_responder";
+TRUNCATE TABLE public."blockDef_parent_child";
+TRUNCATE TABLE public."users";
+TRUNCATE TABLE public."blockType";
+TRUNCATE TABLE public."blockState";
+TRUNCATE TABLE public."blockDefsState";
+TRUNCATE TABLE public."blocks";
+TRUNCATE TABLE public."blockDefs";
 
 
 INSERT INTO public."blockDefState" (value, comment) VALUES ('Draft', NULL);

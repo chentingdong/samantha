@@ -64,14 +64,14 @@
   - name: children
     using:
       foreign_key_constraint_on:
-        column: child_id
+        column: parent_id
         table:
           schema: public
           name: blockDef_parent_child
   - name: parents
     using:
       foreign_key_constraint_on:
-        column: parent_id
+        column: child_id
         table:
           schema: public
           name: blockDef_parent_child
@@ -174,14 +174,14 @@
   - name: children
     using:
       foreign_key_constraint_on:
-        column: child_id
+        column: parent_id
         table:
           schema: public
           name: block_parent_child
   - name: parents
     using:
       foreign_key_constraint_on:
-        column: parent_id
+        column: child_id
         table:
           schema: public
           name: block_parent_child

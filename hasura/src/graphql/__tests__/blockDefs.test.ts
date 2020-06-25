@@ -9,9 +9,9 @@ import { insertBlockDef } from "../mutations/insertBlockDef"
 import { deleteBlockDefByPk } from "../mutations/deleteBlockDefByPk"
 import { insertBlockDefRequestor } from "../mutations/insertBlockDefRequestor"
 import { deleteBlockDefRequestorByPk } from "../mutations/deleteBlockDefRequestorByPk"
-import { addChildToBlockDef } from "../mutations/addChildToBlockDef"
-import { removeChildFromBlockDef } from "../mutations/removeChildFromBlockDef"
 import { createRandomUserInput, createRandomBlockDefInput } from "./utils"
+import { insertBlockDefParentChild } from "../mutations/insertBlockDefParentChild"
+import { deleteBlockDefParentChildByPk } from "../mutations/deleteBlockDefParentChildByPk"
 
 describe("GraphQL", () => {
   describe("blockDefs", () => {
@@ -62,7 +62,7 @@ describe("GraphQL", () => {
         })
         expect(result.id).toEqual(blockDef.id)
         expect(result.root).toEqual(null)
-        expect(result.parent).toEqual(null)
+        expect(result.parents).toEqual([])
         expect(result.children).toEqual([])
         expect(result.requestors).toEqual([])
         expect(result.responders).toEqual([])
@@ -242,16 +242,22 @@ describe("GraphQL", () => {
 
       describe("With parent", () => {
         const parent = createRandomBlockDefInput()
-        it("should insert with parent replacing existing parent_id", async () => {
+        it("can connect with existing parent_id", async () => {
           const parentResult = await insertBlockDef({ data: { ...parent } })
           const result = await insertBlockDef({
             data: {
               ...blockDef,
-              parent_id: parent.id,
+              parents: {
+                data: [
+                  {
+                    parent_id: parent.id,
+                    sibling_order: 1,
+                  },
+                ],
+              },
             },
           })
-          expect(result.parent.id).toEqual(parent.id)
-          expect(result.parent_id).toEqual(parent.id)
+          expect(result.parents[0].parent.id).toEqual(parent.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: parent.id })
         })
@@ -259,11 +265,10 @@ describe("GraphQL", () => {
           const result = await insertBlockDef({
             data: {
               ...blockDef,
-              parent: { data: { ...parent } },
+              parents: { data: [{ parent: { data: parent } }] },
             },
           })
-          expect(result.parent.id).toEqual(parent.id)
-          expect(result.parent_id).toEqual(parent.id)
+          expect(result.parents[0].parent.id).toEqual(parent.id)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: parent.id })
         })
@@ -272,19 +277,7 @@ describe("GraphQL", () => {
       describe("With children", () => {
         const child1 = createRandomBlockDefInput()
         const child2 = createRandomBlockDefInput()
-        it("should insert while creating new children", async () => {
-          const result = await insertBlockDef({
-            data: {
-              ...blockDef,
-              children: { data: [{ ...child1 }, { ...child2 }] },
-            },
-          })
-          expect(result.children.length).toEqual(2)
-          await deleteBlockDefByPk({ id: blockDef.id })
-          await deleteBlockDefByPk({ id: child1.id })
-          await deleteBlockDefByPk({ id: child2.id })
-        })
-        it("can not connect with existing children", async () => {
+        it("can connect with existing children", async () => {
           // upsert won't return any children ids
           const child1Result = await insertBlockDef({ data: { ...child1 } })
           const child2Result = await insertBlockDef({ data: { ...child2 } })
@@ -292,15 +285,31 @@ describe("GraphQL", () => {
             data: {
               ...blockDef,
               children: {
-                data: [{ ...child1 }, { ...child2 }],
-                on_conflict: {
-                  constraint: "blockdefs_pkey",
-                  update_columns: ["name"],
-                },
+                data: [
+                  { child_id: child1.id, sibling_order: 1 },
+                  { child_id: child2.id, sibling_order: 2 },
+                ],
               },
             },
           })
-          expect(result.children).toEqual([])
+          expect(result.children.length).toBeGreaterThan(0)
+          await deleteBlockDefByPk({ id: blockDef.id })
+          await deleteBlockDefByPk({ id: child1.id })
+          await deleteBlockDefByPk({ id: child2.id })
+        })
+        it("should insert while creating new children", async () => {
+          const result = await insertBlockDef({
+            data: {
+              ...blockDef,
+              children: {
+                data: [
+                  { child: { data: child1 }, sibling_order: 1 },
+                  { child: { data: child2 }, sibling_order: 2 },
+                ],
+              },
+            },
+          })
+          expect(result.children.length).toEqual(2)
           await deleteBlockDefByPk({ id: blockDef.id })
           await deleteBlockDefByPk({ id: child1.id })
           await deleteBlockDefByPk({ id: child2.id })
@@ -376,16 +385,16 @@ describe("GraphQL", () => {
         expect(result).toBeUndefined()
       })
 
-      describe("Update blockDef_requestor via blockDef_requestor", () => {
+      describe("Update blockDef_requestor", () => {
         const user = createRandomUserInput()
-        beforeAll(async () => {
+        beforeEach(async () => {
           await insertUser({ data: user })
         })
 
-        afterAll(async () => {
+        afterEach(async () => {
           await deleteUserByPk({ id: user.id })
         })
-        it("should add and remove requestor", async () => {
+        it("should add and remove requestor via blockDef_requestor", async () => {
           const insertResult = await insertBlockDefRequestor({
             data: {
               blockDef_id: blockDef.id,
@@ -435,13 +444,12 @@ describe("GraphQL", () => {
           await deleteBlockDefByPk({ id: parent.id })
         })
         it("should connect to an existing parent", async () => {
-          const result = await updateBlockDefByPk({
-            id: blockDef.id,
+          const result = await insertBlockDefParentChild({
             data: {
               parent_id: parent.id,
+              child_id: blockDef.id,
             },
           })
-          expect(result.parent.id).toEqual(parent.id)
           expect(result.parent_id).toEqual(parent.id)
 
           const parentResult = await getBlockDefByPk(parent.id)
@@ -466,38 +474,39 @@ describe("GraphQL", () => {
         afterEach(async () => {
           await deleteBlockDefByPk({ id: child.id })
         })
-        it("should connect to existing children via children's parent_id (had to re-fetch parent to populate the children array)", async () => {
+        it("cannot connect to existing children via children's parent id ", async () => {
           const childResult = await updateBlockDefByPk({
             id: child.id,
             data: {
-              parent_id: blockDef.id,
+              parents: { data: [{ parent_id: blockDef.id }] },
             },
           })
-          expect(childResult.parent.id).toEqual(blockDef.id)
-
-          const result = await getBlockDefByPk(blockDef.id, "network-only")
-          expect(result.children.length).toEqual(1)
+          expect(childResult).toBeUndefined()
         })
 
         it("should connect to existing children using multiple mutations (correct solution)", async () => {
-          const result = await addChildToBlockDef({
-            parent_id: blockDef.id,
-            child_id: child.id,
+          const result = await insertBlockDefParentChild({
+            data: {
+              parent_id: blockDef.id,
+              child_id: child.id,
+            },
           })
-          expect(result.childBlockDef.parent.id).toEqual(blockDef.id)
-          expect(result.parentBlockDef.children[0].id).toEqual(child.id)
+          expect(result.parent_id).toEqual(blockDef.id)
+          expect(result.child_id).toEqual(child.id)
         })
         it("should remove existing children using multiple mutations (correct solution)", async () => {
-          const addResult = await addChildToBlockDef({
+          const insertResult = await insertBlockDefParentChild({
+            data: {
+              parent_id: blockDef.id,
+              child_id: child.id,
+            },
+          })
+          const result = await deleteBlockDefParentChildByPk({
             parent_id: blockDef.id,
             child_id: child.id,
           })
-          const result = await removeChildFromBlockDef({
-            parent_id: blockDef.id,
-            child_id: child.id,
-          })
-          expect(result.childBlockDef.parent).toEqual(null)
-          expect(result.parentBlockDef.children).toEqual([])
+          expect(result.parent_id).toEqual(blockDef.id)
+          expect(result.child_id).toEqual(child.id)
         })
       })
     })
