@@ -16,7 +16,7 @@ export const deleteBlockRequestorByPk = async ({
       ) {
         delete_block_requestor_by_pk(block_id: $block_id, user_id: $user_id) {
           block {
-            block_requestors {
+            requestors {
               user_id
             }
           }

@@ -60,15 +60,15 @@ const EditorRaw = () => {
         last_updated: new Date(),
       }
       if (data?.uiState?.editingTypename === Typename.blocks) {
-        dataInput.block_requestors = {
-          data: draft.block_requestors.map((user) => ({
+        dataInput.requestors = {
+          data: draft.requestors.map((user) => ({
             user_id: user.id,
             block_id: draft.id,
             user,
           })),
         }
-        dataInput.block_responders = {
-          data: draft.block_responders.map((user) => ({
+        dataInput.responders = {
+          data: draft.responders.map((user) => ({
             user_id: user.id,
             block_id: draft.id,
             user,
@@ -78,8 +78,7 @@ const EditorRaw = () => {
 
       Notification.warning({
         title: "TODO",
-        description:
-          "change mutation to update_block_requestors/update_block_responders",
+        description: "change mutation to update_requestors/update_responders",
       })
       // updateFn({
       //   variables: {
@@ -89,8 +88,8 @@ const EditorRaw = () => {
       // })
     }
   }, [
-    data?.uiState?.draftBlock?.block_requestors,
-    data?.uiState?.draftBlock?.block_responders,
+    data?.uiState?.draftBlock?.requestors,
+    data?.uiState?.draftBlock?.responders,
   ])
 
   const close = () => {
@@ -111,7 +110,7 @@ const EditorRaw = () => {
   const chooseRequestors = (value) => {
     setUiState({
       draftBlock: {
-        block_requestors: value.map((selectedUser) => ({
+        requestors: value.map((selectedUser) => ({
           user: users.find((user) => user.id === selectedUser.id),
         })),
       },
@@ -121,7 +120,7 @@ const EditorRaw = () => {
   const chooseResponders = (value) => {
     setUiState({
       draftBlock: {
-        block_responders: value.map((selectedUser) => ({
+        responders: value.map((selectedUser) => ({
           user: users.find((user) => user.id === selectedUser.id),
         })),
       },
@@ -172,9 +171,7 @@ const EditorRaw = () => {
                     <div>Requestors: </div>
                     <TagPicker
                       data={users}
-                      value={draftBlock.block_requestors.map(
-                        (user) => user.user
-                      )}
+                      value={draftBlock.requestors.map((user) => user.user)}
                       onChange={(value) => chooseRequestors(value)}
                     />
                   </Col>
@@ -182,9 +179,7 @@ const EditorRaw = () => {
                     <div>Responders: </div>
                     <TagPicker
                       data={users}
-                      value={draftBlock.block_responders.map(
-                        (user) => user.user
-                      )}
+                      value={draftBlock.responders.map((user) => user.user)}
                       onChange={(value) => chooseResponders(value)}
                     />
                   </Col>

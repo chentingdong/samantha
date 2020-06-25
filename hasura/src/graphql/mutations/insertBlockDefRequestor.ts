@@ -9,7 +9,7 @@ export const insertBlockDefRequestor = async ({ data }: { data: object }) => {
       ) {
         insert_blockDef_requestor_one(object: $object) {
           blockDef {
-            block_requestors {
+            requestors {
               user_id
             }
           }

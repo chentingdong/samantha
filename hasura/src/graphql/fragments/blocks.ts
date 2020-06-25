@@ -33,7 +33,7 @@ const blockFragment = gql`
       name
       state
       type
-      block_requestors {
+      requestors {
         user {
           id
         }
@@ -90,14 +90,14 @@ const blockFragment = gql`
         }
       }
     }
-    block_requestors {
+    requestors {
       user {
         id
         name
         email
       }
     }
-    block_responders {
+    responders {
       user {
         id
         name

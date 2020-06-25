@@ -104,7 +104,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin !== ItemOrigin.Catalog && (
             <Row>
               <span className="requestors">
-                {(block as Block).block_requestors
+                {(block as Block).requestors
                   ?.map((user) => user.user.name)
                   .join(", ")}
                 {":  "}
@@ -115,7 +115,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           <Row>
             <span className="block-name"> {block.name} </span>
             <span className="responders">
-              {(block as Block).block_responders
+              {(block as Block).responders
                 ?.map((user) => "@" + user.user.name)
                 .join(", ")}
             </span>

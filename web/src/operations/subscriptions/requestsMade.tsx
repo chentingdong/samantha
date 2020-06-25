@@ -5,7 +5,7 @@ export const REQUESTS_MADE = gql`
   subscription requestsMade($userId: String) {
     blocks(
       order_by: { last_updated: desc_nulls_first }
-      where: { block_requestors: { user: { id: { _eq: $userId } } } }
+      where: { requestors: { user: { id: { _eq: $userId } } } }
     ) {
       ...blockFullFragment
     }

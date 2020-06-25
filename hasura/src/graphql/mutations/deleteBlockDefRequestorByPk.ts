@@ -19,7 +19,7 @@ export const deleteBlockDefRequestorByPk = async ({
           user_id: $user_id
         ) {
           blockDef {
-            block_requestors {
+            requestors {
               user_id
             }
           }

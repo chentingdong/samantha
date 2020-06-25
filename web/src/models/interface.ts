@@ -12,8 +12,8 @@ export interface Block {
   root?: BlockOrDef
   parent?: BlockOrDef
   children: BlockOrDef[]
-  block_requestors: BlockUser[]
-  block_responders: BlockUser[]
+  requestors: BlockUser[]
+  responders: BlockUser[]
   created_at: Date
   last_updated: Date
   due_date?: Date
@@ -32,8 +32,8 @@ export interface BlockDef {
   root?: BlockOrDef
   parent?: BlockOrDef
   children: BlockOrDef[]
-  block_requestors: BlockUser[]
-  block_responders: BlockUser[]
+  requestors: BlockUser[]
+  responders: BlockUser[]
   created_at: Date
   last_updated: Date
   __mutation_type__?: MutationType
