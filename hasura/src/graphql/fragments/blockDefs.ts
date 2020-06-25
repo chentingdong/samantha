@@ -35,7 +35,7 @@ const blockDefFragment = gql`
         category
       }
     }
-    children {
+    children(order_by: { created_at: asc, id: asc }) {
       id
       name
       description
@@ -54,58 +54,15 @@ const blockDefFragment = gql`
           category
         }
       }
-      children {
-        id
-        name
-        description
-        blockType {
-          value
-          category
-        }
-        state
-        control
-        props
-        parent {
-          id
-          name
-          blockType {
-            value
-            category
-          }
-        }
-        children {
-          id
-          name
-          description
-          blockType {
-            value
-            category
-          }
-          state
-          control
-          props
-          parent {
-            id
-            name
-            blockType {
-              value
-              category
-            }
-          }
-          children {
-            id
-          }
-        }
-      }
     }
-    block_requestors {
+    requestors {
       user {
         id
         name
         email
       }
     }
-    block_responders {
+    responders {
       user {
         id
         name

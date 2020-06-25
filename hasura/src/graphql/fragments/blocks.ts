@@ -33,13 +33,13 @@ const blockFragment = gql`
       name
       state
       type
-      block_requestors {
+      requestors {
         user {
           id
         }
       }
     }
-    children {
+    children(order_by: { created_at: asc, id: asc }) {
       id
       name
       description
@@ -54,50 +54,15 @@ const blockFragment = gql`
         state
         type
       }
-      children {
-        id
-        name
-        description
-        type
-        state
-        control
-        props
-        context
-        parent {
-          id
-          name
-          state
-          type
-        }
-        children {
-          id
-          name
-          description
-          type
-          state
-          control
-          props
-          context
-          parent {
-            id
-            name
-            state
-            type
-          }
-          children {
-            id
-          }
-        }
-      }
     }
-    block_requestors {
+    requestors {
       user {
         id
         name
         email
       }
     }
-    block_responders {
+    responders {
       user {
         id
         name

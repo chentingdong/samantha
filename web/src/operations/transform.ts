@@ -21,20 +21,20 @@ const _transformBlockInput = (block) => {
     delete block.children
   }
 
-  if (block.block_requestors?.length > 0) {
-    block.block_requestors = {
+  if (block.requestors?.length > 0) {
+    block.requestors = {
       data:
-        block.block_requestors?.map((user) => ({
+        block.requestors?.map((user) => ({
           user_id: user.user.id,
         })) || [],
     }
   }
   delete block.requestors
 
-  if (block.block_responders?.length > 0) {
-    block.block_responders = {
+  if (block.responders?.length > 0) {
+    block.responders = {
       data:
-        block.block_responders?.map((user) => ({
+        block.responders?.map((user) => ({
           user_id: user.user.id,
         })) || [],
     }
@@ -51,8 +51,8 @@ const _clearnBlockInput = (block, recursive = false) => {
   delete block.__typename
   delete block.blockType
 
-  if (block.block_requestors?.length === 0) delete block.block_requestors
-  if (block.block_responders?.length === 0) delete block.block_responders
+  if (block.requestors?.length === 0) delete block.requestors
+  if (block.responders?.length === 0) delete block.responders
 
   if (recursive)
     block.children?.create?.map((child) => _clearnBlockInput(child))

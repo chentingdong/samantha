@@ -1,19 +1,28 @@
-import { BlockTypeMap, Block } from "./interfaces"
-import retry from "./retry"
-import conditional from "./conditional"
-import sequence from "./sequence"
+import { Block, BlockTypeMap } from "./interfaces"
+import Parallel from "./Parallel"
+import Selector from "./Selector"
+import Sequence from "./Sequence"
 
 const blockTypeMap: BlockTypeMap = {
-  Retry: retry,
-  Sequence: sequence,
-  Conditional: conditional,
+  Parallel,
+  Selector,
+  Sequence,
 }
 
-export const run = async (block: Block) => {
-  const func = blockTypeMap[block.type]
-  if (func === undefined) {
-    console.log(`Block type ${block.type} is not supported.`)
+export const onRun = async (block: Block) => {
+  const blockType = blockTypeMap[block.type]
+  if (blockType === undefined) {
+    console.log(`Block type ${block.type} doesn't have onRun().`)
     return
   }
-  await func(block)
+  await blockType.onRun(block)
+}
+
+export const onChildStateChange = async (block: Block, child: Block) => {
+  const blockType = blockTypeMap[block.type]
+  if (blockType === undefined) {
+    console.log(`Block type ${block.type} doesn't have onChildStateChange()`)
+    return
+  }
+  await blockType.onChildStateChange(block, child)
 }

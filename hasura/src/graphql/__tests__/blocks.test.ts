@@ -66,8 +66,8 @@ describe("GraphQL", () => {
         expect(result.root).toEqual(null)
         expect(result.parent).toEqual(null)
         expect(result.children).toEqual([])
-        expect(result.block_requestors).toEqual([])
-        expect(result.block_responders).toEqual([])
+        expect(result.requestors).toEqual([])
+        expect(result.responders).toEqual([])
       })
       it("should validate block state enum", async () => {
         // [GraphQL Error]: Message: unexpected value "Invalid" for enum: 'blockState_enum', Path: $.variableValues.object.state
@@ -90,7 +90,7 @@ describe("GraphQL", () => {
         expect(result).toBeUndefined()
       })
 
-      describe("With block_requestors", () => {
+      describe("With requestors", () => {
         const user = createRandomUserInput()
         beforeAll(async () => {
           await insertUser({ data: user })
@@ -100,26 +100,26 @@ describe("GraphQL", () => {
           await deleteUserByPk({ id: user.id })
         })
 
-        it("should insert with block_requestors replacing existing user_id (working with a warning)", async () => {
+        it("should insert with requestors replacing existing user_id (working with a warning)", async () => {
           const result = await insertBlock({
             data: {
               ...block,
-              block_requestors: {
+              requestors: {
                 data: [{ user_id: user.id }],
               },
             },
           })
-          expect(result.block_requestors[0].user_id).toBeUndefined()
-          expect(result.block_requestors[0].user.id).toEqual(user.id)
+          expect(result.requestors[0].user_id).toBeUndefined()
+          expect(result.requestors[0].user.id).toEqual(user.id)
         })
-        it("should insert with block_requestors upserting an existing user (working with a warning, too long)", async () => {
+        it("should insert with requestors upserting an existing user (working with a warning, too long)", async () => {
           // data array assumes elements are being inserted.
           // [GraphQL Error]: Message: cannot proceed to insert object relation "user" since insert to table "users" affects zero rows,
-          // Path: $.selectionSet.insert_blocks_one.args.object[0].block_requestors.data[0].user
+          // Path: $.selectionSet.insert_blocks_one.args.object[0].requestors.data[0].user
           const result = await insertBlock({
             data: {
               ...block,
-              block_requestors: {
+              requestors: {
                 data: [
                   {
                     user: {
@@ -134,25 +134,25 @@ describe("GraphQL", () => {
               },
             },
           })
-          expect(result.block_requestors[0].user_id).toBeUndefined()
-          expect(result.block_requestors[0].user.id).toEqual(user.id)
+          expect(result.requestors[0].user_id).toBeUndefined()
+          expect(result.requestors[0].user.id).toEqual(user.id)
         })
-        it("should insert with block_requestors while creating a new user (rarely used)", async () => {
+        it("should insert with requestors while creating a new user (rarely used)", async () => {
           const user = createRandomUserInput()
           const result = await insertBlock({
             data: {
               ...block,
-              block_requestors: {
+              requestors: {
                 data: [{ user: { data: user } }],
               },
             },
           })
-          expect(result.block_requestors[0].user.id).toEqual(user.id)
+          expect(result.requestors[0].user.id).toEqual(user.id)
           await deleteUserByPk({ id: user.id })
         })
       })
 
-      describe("With block_responders", () => {
+      describe("With responders", () => {
         const user = createRandomUserInput()
         beforeAll(async () => {
           await insertUser({ data: user })
@@ -161,26 +161,26 @@ describe("GraphQL", () => {
         afterAll(async () => {
           await deleteUserByPk({ id: user.id })
         })
-        it("should insert with block_responders replacing existing user_id (working with a warning)", async () => {
+        it("should insert with responders replacing existing user_id (working with a warning)", async () => {
           const result = await insertBlock({
             data: {
               ...block,
-              block_responders: {
+              responders: {
                 data: [{ user_id: user.id }],
               },
             },
           })
-          expect(result.block_responders[0].user_id).toBeUndefined()
-          expect(result.block_responders[0].user.id).toEqual(user.id)
+          expect(result.responders[0].user_id).toBeUndefined()
+          expect(result.responders[0].user.id).toEqual(user.id)
         })
-        it("should insert with block_responders upserting an existing user (working with a warning, too long)", async () => {
+        it("should insert with responders upserting an existing user (working with a warning, too long)", async () => {
           // data array assumes elements are being inserted.
           // [GraphQL Error]: Message: cannot proceed to insert object relation "user" since insert to table "users" affects zero rows,
-          // Path: $.selectionSet.insert_blocks_one.args.object[0].block_responders.data[0].user
+          // Path: $.selectionSet.insert_blocks_one.args.object[0].responders.data[0].user
           const result = await insertBlock({
             data: {
               ...block,
-              block_responders: {
+              responders: {
                 data: [
                   {
                     user: {
@@ -195,20 +195,20 @@ describe("GraphQL", () => {
               },
             },
           })
-          expect(result.block_responders[0].user_id).toBeUndefined()
-          expect(result.block_responders[0].user.id).toEqual(user.id)
+          expect(result.responders[0].user_id).toBeUndefined()
+          expect(result.responders[0].user.id).toEqual(user.id)
         })
-        it("should insert with block_responders while creating a new user (rarely used)", async () => {
+        it("should insert with responders while creating a new user (rarely used)", async () => {
           const user = createRandomUserInput()
           const result = await insertBlock({
             data: {
               ...block,
-              block_responders: {
+              responders: {
                 data: [{ user: { data: user } }],
               },
             },
           })
-          expect(result.block_responders[0].user.id).toEqual(user.id)
+          expect(result.responders[0].user.id).toEqual(user.id)
           await deleteUserByPk({ id: user.id })
         })
       })
@@ -394,14 +394,12 @@ describe("GraphQL", () => {
               user_id: user.id,
             },
           })
-          expect(insertResult.block.block_requestors[0].user_id).toEqual(
-            user.id
-          )
+          expect(insertResult.block.requestors[0].user_id).toEqual(user.id)
           const deleteResult = await deleteBlockRequestorByPk({
             block_id: block.id,
             user_id: user.id,
           })
-          expect(deleteResult.block.block_requestors).toEqual([])
+          expect(deleteResult.block.requestors).toEqual([])
         })
       })
 

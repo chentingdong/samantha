@@ -1,6 +1,8 @@
 import { Request, Response } from "express"
 import { getBlockByPk } from "../graphql/queries/getBlockByPk"
-import { run } from "../BTEngine"
+import invariant from "invariant"
+import { onRun, onChildStateChange } from "../BTEngine"
+import { BlockState, Block } from "../BTEngine/interfaces"
 export const blockStateUpdateHandler = async (req: Request, res: Response) => {
   let statusCode, body
   try {
@@ -8,27 +10,30 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
       table: { name },
       event: { op, data },
     } = req.body
-    statusCode = 200
-    body = "Event ignored."
-    if (name === "blocks" && op === "UPDATE") {
-      const parentId = data.new.parent_id
-      const oldState = data.old.state
-      const newState = data.new.state
-      if (parentId && oldState !== newState) {
-        // before this is resolved, we will need to query the parent block for more information
-        // https://github.com/hasura/graphql-engine/issues/1175
-        // Allow Relationship Data to be Used in Triggers
-        const parent = await getBlockByPk(parentId)
-        body =
-          `Block {id: ${data.new.id}, name: ${data.new.name}} updated, from state: ${oldState} to state: ${newState},` +
-          ` running parent block {id: ${parentId}, name: ${parent.name}, type: ${parent.type}}`
-        run(parent)
-      }
+
+    invariant(
+      name === "blocks" && op === "UPDATE",
+      "Only handle block state change."
+    )
+    invariant(data.old.state !== data.new.state, "Only hanlde state change.")
+
+    const block = await getBlockByPk(data.new.id, "network-only")
+
+    if (data.new.state === BlockState.Running) {
+      await onRun(block)
     }
-  } catch (e) {
-    console.warn(e)
+
+    if (block.parent_id) {
+      const parent = await getBlockByPk(block.parent_id, "network-only")
+      await onChildStateChange(parent, block)
+    }
+
+    statusCode = 200
+    body = "Success"
+  } catch (error) {
+    console.warn(error)
     statusCode = 400
-    body = "Cannot parse hasura event"
+    body = error.message
   }
   console.log(body)
   return res.status(statusCode).send(body)

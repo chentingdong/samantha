@@ -91,14 +91,14 @@ const blockDefFullFragment = gql`
         }
       }
     }
-    block_requestors {
+    requestors {
       user {
         id
         name
         email
       }
     }
-    block_responders {
+    responders {
       user {
         id
         name
