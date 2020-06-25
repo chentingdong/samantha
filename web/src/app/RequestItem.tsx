@@ -170,7 +170,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 }
 
 const RequestItem = styled(React.memo(RequestItemRaw))`
-  ${tw`p-2 pb-4 my-2 rounded border shadow`}
+  ${tw`p-2 pb-4 my-1 rounded border shadow`}
+  border-color: var(--color-text-default);
   color: var(--color-text-default);
   background: var(--color-bg-default);
   .block-state {

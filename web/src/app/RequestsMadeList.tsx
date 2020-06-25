@@ -21,7 +21,7 @@ const RequestsMadeList = ({ className = "" }) => {
   if (!data || !authUserResult) return <></>
 
   return (
-    <div className={`requests-made-list ${className} grid grid-cols-2 gap-4`}>
+    <div className={`requests-made-list ${className}`}>
       <CatalogDropdown
         title="Add a Bell from..."
         trigger={["click", "hover"]}

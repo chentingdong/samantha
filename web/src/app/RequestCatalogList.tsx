@@ -25,13 +25,13 @@ const RequestCatalogList = ({ className = "" }) => {
         editingTypename={Typename.blockDefs}
       />
       <Divider />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="gap-4">
         {data.blockDefs.map((blockDef: BlockDef, index: number) => (
           <RequestItem
             block={blockDef}
             key={blockDef.id}
             itemOrigin={ItemOrigin.Catalog}
-            className={`request-item-${index} col-span-2 xl:col-span-1`}
+            className={`request-item-${index}`}
           />
         ))}
       </div>
