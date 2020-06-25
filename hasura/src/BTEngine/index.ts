@@ -1,8 +1,12 @@
 import { Block, BlockTypeMap } from "./interfaces"
-import sequence from "./sequence"
+import Parallel from "./Parallel"
+import Selector from "./Selector"
+import Sequence from "./Sequence"
 
 const blockTypeMap: BlockTypeMap = {
-  Sequence: sequence,
+  Parallel,
+  Selector,
+  Sequence,
 }
 
 export const onRun = async (block: Block) => {

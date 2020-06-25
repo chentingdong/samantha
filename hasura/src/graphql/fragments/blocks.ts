@@ -54,41 +54,6 @@ const blockFragment = gql`
         state
         type
       }
-      children(order_by: { created_at: asc, id: asc }) {
-        id
-        name
-        description
-        type
-        state
-        control
-        props
-        context
-        parent {
-          id
-          name
-          state
-          type
-        }
-        children(order_by: { created_at: asc, id: asc }) {
-          id
-          name
-          description
-          type
-          state
-          control
-          props
-          context
-          parent {
-            id
-            name
-            state
-            type
-          }
-          children(order_by: { created_at: asc, id: asc }) {
-            id
-          }
-        }
-      }
     }
     requestors {
       user {
