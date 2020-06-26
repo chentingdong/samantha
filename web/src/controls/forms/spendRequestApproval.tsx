@@ -5,8 +5,10 @@ import { useForm } from "react-hook-form"
 
 const SpendRequestApprovalRaw: React.FC<{
   onSubmit: (form) => void
+  onSuccess: () => void
+  onFailure: () => void
   form: object
-}> = ({ onSubmit, form }) => {
+}> = ({ onSubmit, onSuccess, onFailure, form }) => {
   const { register, getValues } = useForm({
     defaultValues: form,
   })
@@ -18,13 +20,25 @@ const SpendRequestApprovalRaw: React.FC<{
   return (
     <form>
       <div>
-        <Button name="approve" onClick={(e) => submit(e, "approval")}>
+        <Button
+          name="approve"
+          onClick={(e) => {
+            submit(e, "approval")
+            onSuccess()
+          }}
+        >
           Approve
         </Button>
         <label>Approve this request</label>
       </div>
       <div>
-        <Button name="reject" onClick={(e) => submit(e, "reject")}>
+        <Button
+          name="reject"
+          onClick={(e) => {
+            submit(e, "reject")
+            onFailure()
+          }}
+        >
           Reject
         </Button>
         <label>Reject this request and do not need extra action</label>

@@ -13,6 +13,12 @@ const blockDefFullFragment = gql`
     state
     control
     props
+    root {
+      id
+      type
+      state
+      control
+    }
     parents {
       parent {
         id

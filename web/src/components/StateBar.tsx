@@ -4,7 +4,7 @@ import { Steps, Icon } from "rsuite"
 const statusMap = [
   { state: "Created", status: "process", icon: "edit" },
   { state: "Running", status: "process", icon: "user" },
-  { state: "Success", status: "finish", icon: "check" },
+  { state: "Success", status: "process", icon: "check" },
   { state: "Failure", status: "error", icon: "exclamation" },
 ]
 
