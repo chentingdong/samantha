@@ -35,7 +35,7 @@ function BellTree({ data }) {
   }
 
   const getTreeData = (block: BlockOrDef) => {
-    if (block === undefined) return
+    if (block === undefined) return {}
     return {
       bid: block.id,
       name: block.name,
@@ -64,7 +64,7 @@ function BellTree({ data }) {
     return (
       <Card
         className={`card border text-xs bg-gray-700`}
-        style={{ width: "200px", height: "120px" }}
+        style={{ width: "220px", height: "120px" }}
         onClick={(e) => onClick(nodeData)}
       >
         <div className="card-header bg-gray-900">
@@ -72,6 +72,7 @@ function BellTree({ data }) {
           {nodeData.name}
         </div>
         <div className="card-body bg-gray-700">
+          <div>Block ID: {nodeData.bid}</div>
           <div>
             Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
           </div>

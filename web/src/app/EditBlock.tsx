@@ -1,54 +1,51 @@
 import React, { useState, useEffect } from "react"
-import { useQuery } from "@apollo/client"
+import { useQuery, useLazyQuery } from "@apollo/client"
 import { BLOCKS_BY_PK } from "../operations/queries/blockByPk"
 import { useForm } from "react-hook-form"
 
 function EditBlock({ blockId }) {
-  const { data, loading, error } = useQuery(BLOCKS_BY_PK, {
-    variables: { id: blockId },
-  })
-  console.log(data)
+  const [block, setBlock] = useState({})
+  const [getData, { data, loading }] = useLazyQuery(BLOCKS_BY_PK)
   const { register, getValues } = useForm({
-    defaultValues: data.blocks[0],
+    defaultValues: block,
   })
 
   useEffect(() => {
-    fetchMore({
-      variables: { id: blockId },
-      updateQuery: (prev, { fetchMoreResult, ...rest }) => {
-        if (!fetchMoreResult) return prev
-        return fetchMoreResult
-      },
-    })
+    getData({ variables: { id: blockId } })
+    if (data) setBlock(data.blocks[0])
+    console.log(block)
   }, [blockId])
 
   const submit = () => {
-    const updatedForm = getValues()
-    console.log(updatedForm)
+    // const updatedForm = getValues()
+    // console.log(updatedForm)
   }
 
+  if (loading) return <p>Loading ...</p>
   return (
     <div>
-      <form onSubmit={submit}>
-        <div>
-          <label className="block">Bell name</label>
-          <input
-            name="name"
-            ref={register({ required: true, maxLength: 100 })}
-            onChange={submit}
-            type="text"
-          />
-        </div>
-        <div>
-          <label className="block">Bell description</label>
-          <input
-            name="description"
-            ref={register({ required: true, maxLength: 100 })}
-            onChange={submit}
-            type="text"
-          />
-        </div>
-      </form>
+      {data && (
+        <form onSubmit={submit}>
+          <div>
+            <label className="block">Bell name</label>
+            <input
+              name="name"
+              ref={register({ required: true, maxLength: 100 })}
+              onChange={submit}
+              type="text"
+            />
+          </div>
+          <div>
+            <label className="block">Bell description</label>
+            <input
+              name="description"
+              ref={register({ required: true, maxLength: 100 })}
+              onChange={submit}
+              type="text"
+            />
+          </div>
+        </form>
+      )}
     </div>
   )
 }
