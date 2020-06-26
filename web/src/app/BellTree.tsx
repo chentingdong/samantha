@@ -10,29 +10,14 @@ import { setUiState } from "../operations/mutations/setUiState"
 
 function BellTree({ data }) {
   const treeContainer = useRef()
-  const [translate, setTranslate] = useState({ x: 400, y: 20 })
+  const [translate, setTranslate] = useState({ x: 400, y: 30 })
 
   useEffect(() => {
     setTranslate({
       x: treeContainer?.current?.offsetWidth / 2,
-      y: 40,
+      y: 30,
     })
   }, [treeContainer])
-
-  const svgSquare = {
-    shape: "rect",
-    shapeProps: {
-      width: 200,
-      height: 120,
-      x: -75,
-      y: -30,
-      fill: "white",
-    },
-  }
-
-  const styles = {
-    links: { stroke: "yellow" },
-  }
 
   const getTreeData = (block: BlockOrDef) => {
     if (block === undefined) return {}
@@ -61,6 +46,7 @@ function BellTree({ data }) {
   }
 
   const NodeLabel = ({ nodeData }) => {
+    // TODO: move styles to styled css
     let color
     switch (nodeData.state) {
       case "Running":
@@ -75,7 +61,7 @@ function BellTree({ data }) {
     return (
       <Card
         className={`card border text-xs bg-${color}-700`}
-        style={{ width: "220px", height: "120px" }}
+        style={{ width: "180px", height: "120px" }}
         onClick={(e) => onClick(nodeData)}
       >
         <div className={`card-header bg-${color}-900`}>
@@ -83,7 +69,6 @@ function BellTree({ data }) {
           {nodeData.name}
         </div>
         <div className={`card-body bg-${color}-700`}>
-          <div>Block ID: {nodeData.bid}</div>
           <div>
             Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
           </div>
@@ -101,15 +86,17 @@ function BellTree({ data }) {
         translate={translate}
         collapsible={false}
         nodeSvgShape={{ shape: "none" }}
-        styles={styles}
+        nodeSize={{ x: 250, y: 150 }}
+        styles={{ links: { stroke: "yellow" } }}
+        zoomable={false}
         orientation="vertical"
         transitionDuration={0}
-        separation={{ siblings: 2, nonSiblings: 3 }}
+        separation={{ siblings: 1, nonSiblings: 1 }}
         allowForeignObjects
         nodeLabelComponent={{
           render: <NodeLabel />,
           foreignObjectWrapper: {
-            x: -80,
+            x: -100,
             y: -30,
           },
         }}

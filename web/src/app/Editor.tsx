@@ -37,7 +37,6 @@ import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockReque
 import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
 import { DELETE_BLOCK_RESPONDER } from "../operations/mutations/deleteBlockResponder"
 import { GET_BLOCK } from "../operations/subscriptions/getBlock"
-import { ConsoleSqlOutlined } from "@ant-design/icons"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
