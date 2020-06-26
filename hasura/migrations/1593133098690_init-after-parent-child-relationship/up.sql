@@ -145,19 +145,6 @@ ALTER TABLE ONLY public.blocks
 ALTER TABLE ONLY public.blocks
     ADD CONSTRAINT blocktype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-TRUNCATE TABLE public."block_requestor";
-TRUNCATE TABLE public."block_responder";
-TRUNCATE TABLE public."block_parent_child";
-TRUNCATE TABLE public."blockDef_requestor";
-TRUNCATE TABLE public."blockDef_responder";
-TRUNCATE TABLE public."blockDef_parent_child";
-TRUNCATE TABLE public."users";
-TRUNCATE TABLE public."blockType";
-TRUNCATE TABLE public."blockState";
-TRUNCATE TABLE public."blockDefsState";
-TRUNCATE TABLE public."blocks";
-TRUNCATE TABLE public."blockDefs";
-
 
 INSERT INTO public."blockDefState" (value, comment) VALUES ('Draft', NULL);
 INSERT INTO public."blockDefState" (value, comment) VALUES ('Published', NULL);
