@@ -14,6 +14,7 @@ const blockFullFragment = gql`
     control
     props
     context
+    root_id
     root {
       id
       type

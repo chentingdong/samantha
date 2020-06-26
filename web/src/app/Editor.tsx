@@ -97,6 +97,11 @@ const EditorRaw = () => {
     setUiState({ showEditor: false })
   }
 
+  const setRootId = async (_block, root_id) => {
+    updateFn({ variables: { data: { root_id }, id: _block.id } })
+    _block.children.map(({ child }) => setRootId(child, root_id))
+  }
+
   const saveNewBlock = async (_editorMode, _editingTypename, block) => {
     if (_editorMode === EditMode.Create) {
       await createFn({
@@ -104,6 +109,9 @@ const EditorRaw = () => {
           data: transformBlockInput(block),
         },
       })
+      // set root recursively
+      await setRootId(block, block.id)
+
       if (_editingTypename === "blocks") {
         updateFn({ variables: { data: { state: "Running" }, id: block.id } })
       }

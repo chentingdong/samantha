@@ -82,7 +82,12 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
         showEditor: true,
         editingTypename: Typename.blocks,
         editorMode: EditMode.Create,
-        draftBlock: createBlock(cloneDeep(block), Typename.blocks, authUser),
+        draftBlock: createBlock(
+          block.id,
+          cloneDeep(block),
+          Typename.blocks,
+          authUser
+        ),
       },
       true
     )
