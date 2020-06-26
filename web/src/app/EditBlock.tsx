@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { Action } from "../controls/Action"
 import { initialBlock } from "../../data/initialBlock"
+import { Assignment } from "./Assignment"
 
 function EditBlock({ blockId }) {
   const [block, setBlock] = useState(initialBlock)
@@ -58,10 +59,16 @@ function EditBlock({ blockId }) {
             type="text"
           />
         </div>
-        {block?.blockType?.category === "Action" && (
-          <Action block={block} setBlock={setBlock} />
-        )}
       </form>
+      <div>
+        <Assignment block={block} setBlock={setBlock} />
+      </div>
+      {block?.blockType?.category === "Action" && (
+        <>
+          <h3>Action</h3>
+          <Action block={block} setBlock={setBlock} />
+        </>
+      )}
     </div>
   )
 }

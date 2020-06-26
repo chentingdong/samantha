@@ -6,6 +6,7 @@ import { User } from "../models/interface"
 type TagPickerType = {
   value: User[]
   data: User[]
+  className?: string
   onChange: (tags: User[]) => void
   onInsertTag?: (tag: User) => void
   onDeleteTag?: (tag: User) => void
@@ -13,12 +14,17 @@ type TagPickerType = {
 const TagPickerRaw: React.FC<TagPickerType> = ({
   value,
   data,
+  className,
   onChange,
   onInsertTag,
   onDeleteTag,
 }) => {
   const [tags, setTags] = useState(value)
   const [showSelect, setShowSelect] = useState(false)
+
+  useEffect(() => {
+    if (tags.length === 0) setTags(value)
+  }, [value])
 
   useEffect(() => {
     onChange(tags)
@@ -52,7 +58,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   }
 
   return (
-    <div className="rounded p-1 text-sm">
+    <div className={`${className} rounded p-1 text-sm`}>
       <div className="toggle-select" onClick={toggleSelect}>
         {tags.length === 0 && <span>click to select...</span>}
         {tags?.map((tag, index) => {
