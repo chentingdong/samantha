@@ -6,10 +6,7 @@ export const getBlockDefs = async () => {
   const { data, errors } = await apolloClient.query({
     query: gql`
       query blockDefs {
-        blockDefs(
-          order_by: { last_updated: desc }
-          where: { _and: { parent_id: { _is_null: true } } }
-        ) {
+        blockDefs(order_by: { last_updated: desc }) {
           ...blockDefFragment
         }
       }

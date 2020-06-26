@@ -13,27 +13,7 @@ const blockDefFullFragment = gql`
     state
     control
     props
-    parent {
-      id
-      name
-      type
-      blockType {
-        value
-        category
-      }
-    }
-    children(order_by: { created_at: asc, id: asc }) {
-      id
-      name
-      description
-      type
-      blockType {
-        value
-        category
-      }
-      state
-      control
-      props
+    parents {
       parent {
         id
         name
@@ -43,7 +23,9 @@ const blockDefFullFragment = gql`
           category
         }
       }
-      children {
+    }
+    children(order_by: { sibling_order: asc }) {
+      child {
         id
         name
         description
@@ -55,27 +37,7 @@ const blockDefFullFragment = gql`
         state
         control
         props
-        parent {
-          id
-          name
-          type
-          blockType {
-            value
-            category
-          }
-        }
-        children {
-          id
-          name
-          description
-          type
-          blockType {
-            value
-            category
-          }
-          state
-          control
-          props
+        parents {
           parent {
             id
             name
@@ -83,20 +45,6 @@ const blockDefFullFragment = gql`
             blockType {
               value
               category
-            }
-          }
-          requestors {
-            user {
-              id
-              name
-              email
-            }
-          }
-          responders {
-            user {
-              id
-              name
-              email
             }
           }
         }
@@ -114,19 +62,90 @@ const blockDefFullFragment = gql`
             email
           }
         }
-      }
-      requestors {
-        user {
-          id
-          name
-          email
-        }
-      }
-      responders {
-        user {
-          id
-          name
-          email
+        children(order_by: { sibling_order: asc }) {
+          child {
+            id
+            name
+            description
+            type
+            blockType {
+              value
+              category
+            }
+            state
+            control
+            props
+            parents {
+              parent {
+                id
+                name
+                type
+                blockType {
+                  value
+                  category
+                }
+              }
+            }
+            requestors {
+              user {
+                id
+                name
+                email
+              }
+            }
+            responders {
+              user {
+                id
+                name
+                email
+              }
+            }
+            children(order_by: { sibling_order: asc }) {
+              child {
+                id
+                name
+                description
+                type
+                blockType {
+                  value
+                  category
+                }
+                state
+                control
+                props
+                parents {
+                  parent {
+                    id
+                    name
+                    type
+                    blockType {
+                      value
+                      category
+                    }
+                  }
+                }
+                requestors {
+                  user {
+                    id
+                    name
+                    email
+                  }
+                }
+                responders {
+                  user {
+                    id
+                    name
+                    email
+                  }
+                }
+                children {
+                  child {
+                    id
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

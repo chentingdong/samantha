@@ -27,32 +27,43 @@ const blockFragment = gql`
         category
       }
     }
-    parent_id
-    parent {
-      id
-      name
-      state
-      type
-      requestors {
-        user {
-          id
-        }
-      }
-    }
-    children(order_by: { created_at: asc, id: asc }) {
-      id
-      name
-      description
-      type
-      state
-      control
-      props
-      context
+    parents {
       parent {
         id
         name
         state
         type
+        requestors {
+          user {
+            id
+          }
+        }
+      }
+    }
+    children(order_by: { sibling_order: asc }) {
+      sibling_order
+      child {
+        id
+        name
+        description
+        type
+        state
+        control
+        props
+        context
+        parents {
+          parent {
+            id
+            name
+            state
+            type
+            requestors {
+              user {
+                id
+              }
+            }
+          }
+        }
       }
     }
     requestors {

@@ -17,7 +17,7 @@ export default {
     requestors: [],
     responders: [],
     root: null,
-    parent: null,
+    parents: [],
     children: [],
     created_at: new Date(),
     last_updated: new Date(),
