@@ -13,7 +13,7 @@ import {
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
 import { UI_STATE } from "../operations/queries/uiState"
-import { useQuery, useMutation } from "@apollo/client"
+import { useQuery, useMutation, useSubscription } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename, EditMode } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
@@ -36,6 +36,7 @@ import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockReque
 import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
 import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
 import { DELETE_BLOCK_RESPONDER } from "../operations/mutations/deleteBlockResponder"
+import { GET_BLOCK } from "../operations/subscriptions/getBlock"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -45,6 +46,9 @@ const EditorRaw = () => {
   const [deleteBlockRequestor] = useMutation(DELETE_BLOCK_REQUESTOR)
   const [insertBlockResponder] = useMutation(INSERT_BLOCK_RESPONDER)
   const [deleteBlockResponder] = useMutation(DELETE_BLOCK_RESPONDER)
+  const { data: blockResult } = useSubscription(GET_BLOCK, {
+    variables: { id: data?.uiState?.draftBlock?.id },
+  })
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -253,11 +257,21 @@ const EditorRaw = () => {
                 </Row>
               </Panel>
             )}
-            {draftBlock.blockType?.category === "Control" && (
-              <Panel header="Tree View" defaultExpanded>
-                <BellTree data={draftBlock} />
-              </Panel>
-            )}
+            {draftBlock.blockType?.category === "Control" &&
+              (editorMode === EditMode.Create ||
+                editingTypename === Typename.blockDefs) && (
+                <Panel header="Tree View" defaultExpanded>
+                  <BellTree data={draftBlock} />
+                </Panel>
+              )}
+            {draftBlock.blockType?.category === "Control" &&
+              editorMode === EditMode.Edit &&
+              editingTypename === Typename.blocks &&
+              blockResult && (
+                <Panel header="Tree View" defaultExpanded>
+                  <BellTree data={blockResult?.blocks_by_pk} />
+                </Panel>
+              )}
             {data.uiState.showBlockEditor && (
               <Panel header="Edit Block" defaultExpanded>
                 <EditBlock blockId={data.uiState.currentBlockId} />
