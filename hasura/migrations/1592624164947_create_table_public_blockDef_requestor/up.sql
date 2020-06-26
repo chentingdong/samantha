@@ -1,1 +1,0 @@
-CREATE TABLE "public"."blockDef_requestor"("blockDef_id" text NOT NULL, "user_id" text NOT NULL, PRIMARY KEY ("blockDef_id","user_id") , FOREIGN KEY ("blockDef_id") REFERENCES "public"."blockDefs"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON UPDATE cascade ON DELETE cascade);
