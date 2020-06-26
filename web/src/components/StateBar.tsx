@@ -1,20 +1,29 @@
 import React from "react"
-import { Steps } from "rsuite"
+import { Steps, Icon } from "rsuite"
 
-const stateMap = {
-  DRAFT: 0,
-  PENDING: 1,
-  ACTIVE: 2,
-  COMPLETE: 3,
-}
+const statusMap = [
+  { state: "Created", status: "process", icon: "edit" },
+  { state: "Running", status: "process", icon: "user" },
+  { state: "Success", status: "finish", icon: "check" },
+  { state: "Failure", status: "error", icon: "exclamation" },
+]
+
+const findStepIndex = (state) => statusMap.findIndex((s) => s.state === state)
+const findStep = (state) => statusMap.find((s) => s.state === state)
 
 const StateBar = ({ state }) => {
   return (
-    <Steps current={stateMap[state]}>
-      <Steps.Item title="Created" />
-      <Steps.Item title="Created" />
-      <Steps.Item title="Running" />
-      <Steps.Item title="Success" />
+    <Steps
+      current={findStepIndex(state)}
+      currentStatus={findStep(state).status}
+    >
+      {statusMap.map((item) => (
+        <Steps.Item
+          title={item.state}
+          key={item.state}
+          icon={<Icon icon={item.icon} />}
+        />
+      ))}
     </Steps>
   )
 }
