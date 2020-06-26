@@ -5,12 +5,20 @@ export enum BlockState {
   Failure = "Failure",
 }
 
+export interface ParentChild {
+  parent_id: string
+  child_id: string
+  parent?: Block
+  child?: Block
+  sibling_order?: number
+}
+
 export interface Block {
   id: string
   name: string
   type: string
   state: BlockState
-  children: Block[]
+  children: ParentChild[]
 }
 
 export interface BlockTypeMap {
