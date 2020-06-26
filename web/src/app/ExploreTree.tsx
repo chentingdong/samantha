@@ -10,7 +10,7 @@ function ExploreTree({ draftBlock }) {
       name: block.name,
       icon: getIconClassByType(block.type),
       children: Array.isArray(block.children)
-        ? block.children.map?.((child) => getTreeData(child))
+        ? block.children.map?.(({ child }) => getTreeData(child))
         : [],
     }
   }

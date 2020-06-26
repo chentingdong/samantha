@@ -3,22 +3,19 @@ import cloneDeep from "lodash/cloneDeep"
 
 const _transformBlockInput = (block) => {
   if (!Object.isExtensible(block)) block = { ...block }
-  delete block.parent
 
   const childrenForCreate = []
   for (const child of block.children) {
     const transformedChild = _clearnBlockInput(
-      _transformBlockInput(child),
+      _transformBlockInput(child.child),
       false
     )
-    childrenForCreate.push(transformedChild)
+    childrenForCreate.push({ child: { data: transformedChild } })
   }
 
+  block.children = []
   if (childrenForCreate.length > 0) {
-    block.children = {}
-    block.children.data = childrenForCreate
-  } else {
-    delete block.children
+    block.children = childrenForCreate
   }
 
   if (block.requestors?.length > 0) {
@@ -52,8 +49,7 @@ const _clearnBlockInput = (block, recursive = false) => {
   if (block.requestors?.length === 0) delete block.requestors
   if (block.responders?.length === 0) delete block.responders
 
-  if (recursive)
-    block.children?.create?.map((child) => _clearnBlockInput(child))
+  if (recursive) block.children?.data?.map((child) => _clearnBlockInput(child))
   return block
 }
 

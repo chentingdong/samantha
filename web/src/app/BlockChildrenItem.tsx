@@ -53,7 +53,7 @@ const BlockChildrenItemRaw: React.FC<{
         <div className="card-body">{block.description}</div>
         {!isLeaf && (
           <BlockChildrenList
-            blocks={block.children}
+            blocks={block.children.map(({ child }) => child)}
             parent={block}
             type={block.type}
           />

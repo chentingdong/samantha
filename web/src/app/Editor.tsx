@@ -234,7 +234,7 @@ const EditorRaw = () => {
                 <Row>
                   <Col xs={16}>
                     <BlockChildrenList
-                      blocks={draftBlock.children}
+                      blocks={draftBlock.children.map(({ child }) => child)}
                       parent={draftBlock}
                       type={draftBlock.blockType}
                     />

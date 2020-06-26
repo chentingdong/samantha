@@ -10,8 +10,8 @@ export interface Block {
   context?: object
   control?: object
   root?: BlockOrDef
-  parent?: BlockOrDef
-  children: BlockOrDef[]
+  parents: ParentChild[]
+  children: ParentChild[]
   requestors: BlockUser[]
   responders: BlockUser[]
   created_at: Date
@@ -30,8 +30,8 @@ export interface BlockDef {
   state?: object
   control?: object
   root?: BlockOrDef
-  parent?: BlockOrDef
-  children: BlockOrDef[]
+  parents: ParentChild[]
+  children: ParentChild[]
   requestors: BlockUser[]
   responders: BlockUser[]
   created_at: Date
@@ -56,6 +56,15 @@ export interface BlockUser {
   user_id: string
   block_id: string
   user: User
+}
+
+// for postgres many to many relationship
+export interface ParentChild {
+  parent_id: string
+  child_id: string
+  parent?: BlockOrDef
+  child?: BlockOrDef
+  sibling_order?: number
 }
 
 export interface User {

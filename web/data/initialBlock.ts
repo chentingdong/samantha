@@ -13,7 +13,7 @@ const initialBlock: BlockOrDef = {
   state: "Draft",
   props: {},
   root: null,
-  parent: null,
+  parents: [],
   children: [],
   requestors: [],
   responders: [],

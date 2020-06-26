@@ -25,14 +25,14 @@ function BellTreeRaw({ data }) {
       name: block.name,
       createdAt: block.created_at,
       state: block.state,
-      responders: block?.block_responders
-        ?.map((responder) => {
-          return responder.user.name
+      responders: block?.responders
+        ?.map(({ user }) => {
+          return user.name
         })
         .toString(),
       icon: getIconClassByType(block.type),
       children: Array.isArray(block.children)
-        ? block.children.map?.((child) => getTreeData(child))
+        ? block.children.map?.(({ child }) => getTreeData(child))
         : [],
     }
   }

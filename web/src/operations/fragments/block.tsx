@@ -14,34 +14,7 @@ const blockFullFragment = gql`
     control
     props
     context
-    parent {
-      id
-      name
-      state
-      type
-      blockType {
-        value
-        category
-      }
-      requestors {
-        user {
-          id
-        }
-      }
-    }
-    children(order_by: { created_at: asc, id: asc }) {
-      id
-      name
-      description
-      type
-      blockType {
-        value
-        category
-      }
-      state
-      control
-      props
-      context
+    parents {
       parent {
         id
         name
@@ -51,8 +24,15 @@ const blockFullFragment = gql`
           value
           category
         }
+        requestors {
+          user {
+            id
+          }
+        }
       }
-      children {
+    }
+    children(order_by: { sibling_order: asc }) {
+      child {
         id
         name
         description
@@ -65,29 +45,7 @@ const blockFullFragment = gql`
         control
         props
         context
-        parent {
-          id
-          name
-          state
-          type
-          blockType {
-            value
-            category
-          }
-        }
-        children {
-          id
-          name
-          description
-          type
-          blockType {
-            value
-            category
-          }
-          state
-          control
-          props
-          context
+        parents {
           parent {
             id
             name
@@ -96,20 +54,6 @@ const blockFullFragment = gql`
             blockType {
               value
               category
-            }
-          }
-          requestors {
-            user {
-              id
-              name
-              email
-            }
-          }
-          responders {
-            user {
-              id
-              name
-              email
             }
           }
         }
@@ -127,19 +71,94 @@ const blockFullFragment = gql`
             email
           }
         }
-      }
-      requestors {
-        user {
-          id
-          name
-          email
-        }
-      }
-      responders {
-        user {
-          id
-          name
-          email
+        children(order_by: { sibling_order: asc }) {
+          child {
+            id
+            name
+            description
+            type
+            blockType {
+              value
+              category
+            }
+            state
+            control
+            props
+            context
+            parents {
+              parent {
+                id
+                name
+                state
+                type
+                blockType {
+                  value
+                  category
+                }
+              }
+            }
+            requestors {
+              user {
+                id
+                name
+                email
+              }
+            }
+            responders {
+              user {
+                id
+                name
+                email
+              }
+            }
+            children(order_by: { sibling_order: asc }) {
+              child {
+                id
+                name
+                description
+                type
+                blockType {
+                  value
+                  category
+                }
+                state
+                control
+                props
+                context
+                parents {
+                  parent {
+                    id
+                    name
+                    state
+                    type
+                    blockType {
+                      value
+                      category
+                    }
+                  }
+                }
+                requestors {
+                  user {
+                    id
+                    name
+                    email
+                  }
+                }
+                responders {
+                  user {
+                    id
+                    name
+                    email
+                  }
+                }
+                children {
+                  child {
+                    id
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

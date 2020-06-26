@@ -51,7 +51,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   }, [block])
 
   const markComplete = (blockToComplete) => {
-    blockToComplete.children.map((child) => markComplete(child))
+    blockToComplete.children.map(({ child }) => markComplete(child))
     updateOneBlock({
       variables: {
         data: { state: "Success", last_updated: new Date() },
@@ -121,7 +121,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             </span>
           </Row>
           <Row>
-            {block.children?.map((child) => {
+            {block.children?.map(({ child }) => {
               return (
                 <div
                   className={`block-state block-state-${stateStyle(child)}`}

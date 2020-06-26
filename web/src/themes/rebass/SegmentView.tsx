@@ -11,7 +11,7 @@ const SegmentView: React.FC<{
       return (
         <SegmentCompositeStages
           type={block.type}
-          childrenBlocks={block.children}
+          childrenBlocks={block.children.map(({ child }) => child)}
         />
       )
     default:

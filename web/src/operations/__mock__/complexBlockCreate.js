@@ -51,7 +51,7 @@ export default {
   description: "Status Update which gathers information and gets approval",
   id: "29de52c6-310f-4c8d-bde6-efe46bc25620",
   name: "test",
-  parent: null,
+  parent: [],
   requestors: ["Google_111918078641246610063"],
   responders: ["Google_111918078641246610063"],
   state: "Created",

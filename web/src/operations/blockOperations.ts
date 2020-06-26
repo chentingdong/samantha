@@ -15,13 +15,13 @@ import { transformBlockInput } from "./transform"
  * @param {*} requestor the requestor of the nodes on the output block tree
  * @returns the newly created output block tree
  */
-const createBlock = (root, targetType, requestor, parent = null) => {
+const createBlock = (root, targetType, requestor, parents = []) => {
   const id = nanoid()
 
   return {
     ...root,
     id,
-    parent,
+    parents,
     state: targetType === Typename.blocks ? "Created" : "Draft",
     requestors:
       targetType === Typename.blocks
@@ -30,13 +30,17 @@ const createBlock = (root, targetType, requestor, parent = null) => {
     created_at: new Date(),
     last_updated: new Date(),
     __typename: targetType,
-    children: root.children?.map((child) =>
-      createBlock(child, targetType, requestor, {
-        __typename: root.__typename,
-        id,
-        name: root.name,
-        type: root.type,
-      })
+    children: root.children?.map(({ child }) =>
+      createBlock(child, targetType, requestor, [
+        {
+          parent: {
+            __typename: root.__typename,
+            id,
+            name: root.name,
+            type: root.type,
+          },
+        },
+      ])
     ),
   }
 }
@@ -85,17 +89,23 @@ const addOneBlock = (
     childBlock,
     parentBlock.__typename,
     requestor,
-    {
-      __typename: newParent.__typename,
-      id: newParent.id,
-      name: newParent.name,
-      type: newParent.type,
-    }
+    [
+      {
+        parent: {
+          __typename: newParent.__typename,
+          id: newParent.id,
+          name: newParent.name,
+          type: newParent.type,
+        },
+      },
+    ]
   )
   newParent.children = [
     ...newParent.children,
     {
-      ...newChildBlock,
+      child: {
+        ...newChildBlock,
+      },
     },
   ]
   setUiState({
@@ -107,7 +117,7 @@ const addOneBlock = (
       variables: {
         data: {
           ...transformBlockInput(newChildBlock),
-          parent: { connect: { id: newParent.id } },
+          parents: [{ parent_id: newParent.id }],
         },
       },
     })
@@ -142,7 +152,7 @@ const deleteOneBlock = (
   setUiState({ draftBlock: newDraftBlock })
   if (syncRemote) {
     const deleteFnRecursive = (block) => {
-      block.children?.map((child) => deleteFnRecursive(child))
+      block.children?.map(({ child }) => deleteFnRecursive(child))
       deleteFn({
         variables: {
           id: block.id,
@@ -174,19 +184,23 @@ const moveOneBlock = (root, childBlock, parent, syncRemote) => {
     ...newParent.children,
     {
       ...childBlock,
-      parent: {
-        __typename: newParent.__typename,
-        id: newParent.id,
-        name: newParent.name,
-        type: newParent.type,
-      },
+      parents: [
+        {
+          parent: {
+            __typename: newParent.__typename,
+            id: newParent.id,
+            name: newParent.name,
+            type: newParent.type,
+          },
+        },
+      ],
       last_updated: new Date(),
     },
   ]
   setUiState({ draftBlock: newDraftBlock })
   Notification.info({
     title: `moving a subtree`,
-    description: `${childBlock.__typename} "${childBlock.name}" from old parent "${childBlock.parent.name}" to new parent "${parent.name}"`,
+    description: `${childBlock.__typename} "${childBlock.name}" from old parent "${childBlock.parents[0].parent.name}" to new parent "${parent.name}"`,
   })
 }
 
