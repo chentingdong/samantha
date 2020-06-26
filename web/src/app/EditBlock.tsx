@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 function EditBlock({ blockId }) {
   const [block, setBlock] = useState({})
   const [getData, { data, loading }] = useLazyQuery(BLOCKS_BY_PK)
-  const { register, getValues } = useForm({
+  const { register, getValues, reset } = useForm({
     defaultValues: block,
   })
 
@@ -14,6 +14,7 @@ function EditBlock({ blockId }) {
     getData({ variables: { id: blockId } })
     if (data) setBlock(data.blocks[0])
     console.log(block)
+    reset(block)
   }, [blockId])
 
   const submit = () => {
