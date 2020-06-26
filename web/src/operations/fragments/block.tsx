@@ -14,6 +14,13 @@ const blockFullFragment = gql`
     control
     props
     context
+    root_id
+    root {
+      id
+      type
+      state
+      context
+    }
     parents {
       parent {
         id

@@ -5,7 +5,7 @@ import invariant from "invariant"
 const onRun = async (block: Block) => {
   console.log(`onRun: block: ${block.id} ${block.state}`)
 
-  block.children.map((child) => updateBlockState(child, BlockState.Running))
+  block.children.map(({ child }) => updateBlockState(child, BlockState.Running))
 }
 
 const onChildStateChange = async (block: Block, child: Block) => {
@@ -19,7 +19,7 @@ const onChildStateChange = async (block: Block, child: Block) => {
 
   if (child.state === BlockState.Success) {
     const successChildren = block.children.filter(
-      (c: Block) => c.state === BlockState.Success
+      ({ child: c }) => c.state === BlockState.Success
     )
     if (successChildren.length === block.children.length) {
       updateBlockState(block, BlockState.Success)

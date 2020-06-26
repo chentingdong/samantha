@@ -2,11 +2,14 @@ import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { useForm } from "react-hook-form"
+import { Button } from "../../components/Button"
 
 const SpendRequestRaw: React.FC<{
   onSubmit: (form) => void
+  onSuccess: () => void
+  onFailure: () => void
   form: object
-}> = ({ onSubmit, form = {} }) => {
+}> = ({ onSubmit, onSuccess, onFailure, form = {} }) => {
   const { register, getValues } = useForm({
     defaultValues: form,
   })
@@ -53,6 +56,17 @@ const SpendRequestRaw: React.FC<{
           onChange={submit}
           type="number"
         />
+      </div>
+      <div>
+        <Button
+          name="success"
+          onClick={(e) => {
+            e.preventDefault()
+            onSuccess()
+          }}
+        >
+          Submit
+        </Button>
       </div>
     </form>
   )

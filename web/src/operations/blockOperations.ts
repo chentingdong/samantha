@@ -10,17 +10,24 @@ import { transformBlockInput } from "./transform"
  * Recursively generate new id for the nodes of block tree
  * If targetType is Block, it will also set the requestor recursively
  *
- * @param {*} root the root node of draft block tree
+ * @param {*} currentBlock the currentBlock node of draft block tree
  * @param {*} targetType the __typename of the nodes on the output block tree
  * @param {*} requestor the requestor of the nodes on the output block tree
  * @returns the newly created output block tree
  */
-const createBlock = (root, targetType, requestor, parents = []) => {
+const createBlock = (
+  rootId,
+  currentBlock,
+  targetType,
+  requestor,
+  parents = []
+) => {
   const id = nanoid()
 
   return {
-    ...root,
+    ...currentBlock,
     id,
+    root_id: rootId,
     parents,
     state: targetType === Typename.blocks ? "Created" : "Draft",
     requestors:
@@ -30,14 +37,15 @@ const createBlock = (root, targetType, requestor, parents = []) => {
     created_at: new Date(),
     last_updated: new Date(),
     __typename: targetType,
-    children: root.children?.map(({ child }) => ({
-      child: createBlock(child, targetType, requestor, [
+    children: currentBlock.children?.map(({ child }) => ({
+      child: createBlock(rootId, child, targetType, requestor, [
         {
+          root_id: rootId,
           parent: {
-            __typename: root.__typename,
+            __typename: currentBlock.__typename,
             id,
-            name: root.name,
-            type: root.type,
+            name: currentBlock.name,
+            type: currentBlock.type,
           },
         },
       ]),
@@ -45,10 +53,10 @@ const createBlock = (root, targetType, requestor, parents = []) => {
   }
 }
 
-const findBlock = (root, target) => {
-  if (root.id === target.id) return root
+const findBlock = (currentBlock, target) => {
+  if (currentBlock.id === target.id) return currentBlock
   let found
-  for (const child of root.children) {
+  for (const child of currentBlock.children) {
     found = findBlock(child, target)
     if (found) return found
   }
@@ -56,16 +64,16 @@ const findBlock = (root, target) => {
 }
 
 /**
- * Recursively clone the childBlock as the BlockDef, add the new clone tree as a child node of the parentBlock on this root tree
+ * Recursively clone the childBlock as the BlockDef, add the new clone tree as a child node of the parentBlock on this currentBlock tree
  * If targetType is Block, it will also set the requestor recursively
- * @param {*} root the root node of draft block tree
+ * @param {*} currentBlock the currentBlock node of draft block tree
  * @param {*} childBlock the blockDef to be cloned and added as a child
  * @param {*} parentBlock the node where the child will be added
  * @param {*} requestor the requestor of the nodes on the child block tree
  * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
 const addOneBlock = (
-  root,
+  currentBlock,
   childBlock,
   parentBlock,
   requestor,
@@ -83,9 +91,10 @@ const addOneBlock = (
     title: "adding a block",
     description: `from ${childBlock.__typename} "${childBlock.name}" to ${parentBlock.__typename} "${parentBlock.name}"`,
   })
-  const newDraftBlock = cloneDeep(root)
+  const newDraftBlock = cloneDeep(currentBlock)
   const newParent = findBlock(newDraftBlock, parentBlock)
   const newChildBlock = createBlock(
+    newDraftBlock.id,
     childBlock,
     parentBlock.__typename,
     requestor,
@@ -125,15 +134,15 @@ const addOneBlock = (
 }
 
 /**
- * delete childBlock from parentBlock on the root tree
+ * delete childBlock from parentBlock on the currentBlock tree
  *
- * @param {*} root the root node of draft block tree
+ * @param {*} currentBlock the currentBlock node of draft block tree
  * @param {*} childBlock the child node to be deleted
  * @param {*} parentBlock the node where the child will be deleted
  * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
 const deleteOneBlock = (
-  root,
+  currentBlock,
   childBlock,
   parentBlock,
   syncRemote,
@@ -143,7 +152,7 @@ const deleteOneBlock = (
     title: "deleting a block",
     description: `${childBlock.__typename} "${childBlock.name}" from parent "${parentBlock.name}"`,
   })
-  const newDraftBlock = cloneDeep(root)
+  const newDraftBlock = cloneDeep(currentBlock)
   const newParent = findBlock(newDraftBlock, parentBlock)
   newParent.children.splice(
     newParent.children.findIndex((child) => child.id === childBlock.id),
@@ -164,15 +173,15 @@ const deleteOneBlock = (
 }
 
 /**
- * move the subtree on childBlock from the old parent to a new parent on the root tree
+ * move the subtree on childBlock from the old parent to a new parent on the currentBlock tree
  *
- * @param {*} root the root node of draft block tree
+ * @param {*} currentBlock the currentBlock node of draft block tree
  * @param {*} childBlock the child node to be moved
  * @param {*} parent the new parent node where the child will be moved to
  * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
-const moveOneBlock = (root, childBlock, parent, syncRemote) => {
-  const newDraftBlock = cloneDeep(root)
+const moveOneBlock = (currentBlock, childBlock, parent, syncRemote) => {
+  const newDraftBlock = cloneDeep(currentBlock)
   const oldParent = findBlock(newDraftBlock, childBlock.parent)
   const newParent = findBlock(newDraftBlock, parent)
 

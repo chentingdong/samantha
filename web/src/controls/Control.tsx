@@ -41,6 +41,7 @@ const Control: React.FC<{}> = () => {
     }
     updatedContext[template] = form
 
+    // draftblock may be different from root
     setUiState({
       draftBlock: {
         ...data?.uiState?.draftBlock,
@@ -56,7 +57,44 @@ const Control: React.FC<{}> = () => {
     })
   }
 
-  return <TagName onSubmit={submit} form={form} />
+  const onSuccess = () => {
+    setUiState({
+      draftBlock: {
+        state: "Success",
+      },
+    })
+
+    updateFn({
+      variables: {
+        data: { state: "Success" },
+        id: data?.uiState?.draftBlock?.id,
+      },
+    })
+  }
+
+  const onFailure = () => {
+    setUiState({
+      draftBlock: {
+        state: "Failure",
+      },
+    })
+
+    updateFn({
+      variables: {
+        data: { state: "Failure" },
+        id: data?.uiState?.draftBlock?.id,
+      },
+    })
+  }
+
+  return (
+    <TagName
+      onSubmit={submit}
+      onSuccess={onSuccess}
+      onFailure={onFailure}
+      form={form}
+    />
+  )
 }
 
 export { Control }

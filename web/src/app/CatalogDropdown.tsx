@@ -41,6 +41,7 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
                 editingTypename,
                 editorMode: EditMode.Create,
                 draftBlock: createBlock(
+                  blockDef.id,
                   cloneDeep(blockDef),
                   editingTypename,
                   authUser

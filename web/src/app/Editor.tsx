@@ -13,7 +13,7 @@ import {
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
 import { UI_STATE } from "../operations/queries/uiState"
-import { useQuery, useMutation } from "@apollo/client"
+import { useQuery, useMutation, useSubscription } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
 import { Typename, EditMode } from "../models/enum"
 import { GET_USERS } from "../operations/queries/getUsers"
@@ -36,6 +36,8 @@ import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockReque
 import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
 import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
 import { DELETE_BLOCK_RESPONDER } from "../operations/mutations/deleteBlockResponder"
+import { GET_BLOCK } from "../operations/subscriptions/getBlock"
+import { ConsoleSqlOutlined } from "@ant-design/icons"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
@@ -45,6 +47,9 @@ const EditorRaw = () => {
   const [deleteBlockRequestor] = useMutation(DELETE_BLOCK_REQUESTOR)
   const [insertBlockResponder] = useMutation(INSERT_BLOCK_RESPONDER)
   const [deleteBlockResponder] = useMutation(DELETE_BLOCK_RESPONDER)
+  const { data: blockResult } = useSubscription(GET_BLOCK, {
+    variables: { id: data?.uiState?.draftBlock?.id },
+  })
 
   const escFunction = useCallback((event) => {
     if (event.keyCode === 27) {
@@ -92,13 +97,24 @@ const EditorRaw = () => {
     setUiState({ showEditor: false })
   }
 
-  const saveNewBlock = (_editorMode, block) => {
+  const setRootId = async (_block, root_id) => {
+    updateFn({ variables: { data: { root_id }, id: _block.id } })
+    _block.children.map(({ child }) => setRootId(child, root_id))
+  }
+
+  const saveNewBlock = async (_editorMode, _editingTypename, block) => {
     if (_editorMode === EditMode.Create) {
-      createFn({
+      await createFn({
         variables: {
           data: transformBlockInput(block),
         },
       })
+      // set root recursively
+      await setRootId(block, block.id)
+
+      if (_editingTypename === "blocks") {
+        updateFn({ variables: { data: { state: "Running" }, id: block.id } })
+      }
     }
     close()
   }
@@ -185,7 +201,7 @@ const EditorRaw = () => {
     <div className="editor">
       <Drawer show={showEditor} close={close}>
         <h2>{`${editorMode} ${
-          editingTypename === "Block" ? "Bell" : "Bell Definition"
+          editingTypename === "blocks" ? "Bell" : "Bell Definition"
         }`}</h2>
         <div>
           <Grid fluid>
@@ -253,11 +269,21 @@ const EditorRaw = () => {
                 </Row>
               </Panel>
             )}
-            {draftBlock.blockType?.category === "Control" && (
-              <Panel header="Tree View" defaultExpanded>
-                <BellTree data={draftBlock} />
-              </Panel>
-            )}
+            {draftBlock.blockType?.category === "Control" &&
+              (editorMode === EditMode.Create ||
+                editingTypename === Typename.blockDefs) && (
+                <Panel header="Tree View" defaultExpanded>
+                  <BellTree data={draftBlock} />
+                </Panel>
+              )}
+            {draftBlock.blockType?.category === "Control" &&
+              editorMode === EditMode.Edit &&
+              editingTypename === Typename.blocks &&
+              blockResult && (
+                <Panel header="Tree View" defaultExpanded>
+                  <BellTree data={blockResult?.blocks_by_pk} />
+                </Panel>
+              )}
             {data.uiState.showBlockEditor && (
               <Panel header="Edit Block" defaultExpanded>
                 <EditBlock blockId={data.uiState.currentBlockId} />
@@ -281,7 +307,7 @@ const EditorRaw = () => {
             <ButtonToolbar className="my-2">
               <IconButton
                 onClick={() => {
-                  saveNewBlock(editorMode, draftBlock)
+                  saveNewBlock(editorMode, editingTypename, draftBlock)
                 }}
                 icon={<Icon icon="check" />}
                 appearance="primary"

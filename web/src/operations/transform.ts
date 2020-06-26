@@ -47,6 +47,8 @@ const _clearnBlockInput = (block, recursive = false) => {
   delete block.__typename
   delete block.blockType
   delete block.parents
+  delete block.root
+  delete block.root_id
 
   if (block.requestors?.length === 0) delete block.requestors
   if (block.responders?.length === 0) delete block.responders

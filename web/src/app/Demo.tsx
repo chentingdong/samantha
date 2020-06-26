@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { RequestCatalogList } from "./RequestCatalogList"
+import { RequestsActiveList } from "./RequestsActiveList"
 import { RequestsMadeList } from "./RequestsMadeList"
 import { RequestsReceivedList } from "./RequestsReceivedList"
 import { ContextViewCodes } from "./ContextViewCodes"
@@ -57,14 +58,20 @@ function DemoRaw({ className }) {
                   onSelect={(activeKey) => setActive(activeKey)}
                   className="main-menu"
                 >
+                  <Nav.Item
+                    eventKey="requests-active"
+                    className="requests-active"
+                  >
+                    Active Work
+                  </Nav.Item>
                   <Nav.Item eventKey="requests-made" className="requests-made">
-                    Bells Made
+                    Your Requested Work
                   </Nav.Item>
                   <Nav.Item
                     eventKey="requests-received"
                     className="requests-received"
                   >
-                    Bells Received
+                    Your Assigned Work
                   </Nav.Item>
                   <Nav.Item
                     eventKey="request-catalog"
@@ -85,6 +92,7 @@ function DemoRaw({ className }) {
               </Col>
               <Col xs={24} lg={20}>
                 {active === "request-catalog" && <RequestCatalogList />}
+                {active === "requests-active" && <RequestsActiveList />}
                 {active === "requests-made" && <RequestsMadeList />}
                 {active === "requests-received" && <RequestsReceivedList />}
                 {active === "context-viewer" && <ContextViewCodes />}
