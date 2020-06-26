@@ -22,6 +22,7 @@ const blockFragment = gql`
     root {
       id
       name
+      context
       blockType {
         value
         category

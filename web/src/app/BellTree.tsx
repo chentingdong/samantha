@@ -20,7 +20,7 @@ function BellTree({ data }) {
   }, [treeContainer])
 
   const getTreeData = (block: BlockOrDef) => {
-    if (block === undefined) return {}
+    if (!block) return {}
     return {
       bid: block.id,
       name: block.name,
