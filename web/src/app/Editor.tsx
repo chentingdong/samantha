@@ -124,43 +124,51 @@ const EditorRaw = () => {
   }
 
   const insertRequestor = (value) => {
-    insertBlockRequestor({
-      variables: {
-        object: {
-          block_id: draftBlock.id,
-          user_id: value.id,
+    if (data?.uiState?.editorMode === EditMode.Edit) {
+      insertBlockRequestor({
+        variables: {
+          object: {
+            block_id: draftBlock.id,
+            user_id: value.id,
+          },
         },
-      },
-    })
+      })
+    }
   }
 
   const deleteRequestor = (value) => {
-    deleteBlockRequestor({
-      variables: {
-        block_id: draftBlock.id,
-        user_id: value.id,
-      },
-    })
-  }
-
-  const insertResponder = (value) => {
-    insertBlockResponder({
-      variables: {
-        object: {
+    if (data?.uiState?.editorMode === EditMode.Edit) {
+      deleteBlockRequestor({
+        variables: {
           block_id: draftBlock.id,
           user_id: value.id,
         },
-      },
-    })
+      })
+    }
+  }
+
+  const insertResponder = (value) => {
+    if (data?.uiState?.editorMode === EditMode.Edit) {
+      insertBlockResponder({
+        variables: {
+          object: {
+            block_id: draftBlock.id,
+            user_id: value.id,
+          },
+        },
+      })
+    }
   }
 
   const deleteResponder = (value) => {
-    deleteBlockResponder({
-      variables: {
-        block_id: draftBlock.id,
-        user_id: value.id,
-      },
-    })
+    if (data?.uiState?.editorMode === EditMode.Edit) {
+      deleteBlockResponder({
+        variables: {
+          block_id: draftBlock.id,
+          user_id: value.id,
+        },
+      })
+    }
   }
 
   if (!data || !usersResult) return <></>
