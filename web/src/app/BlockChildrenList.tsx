@@ -53,8 +53,9 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
       >
         {Array.isArray(blocks) &&
           blocks
-            .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+            .filter((block) => block?.__mutation_type__ !== MutationType.Delete)
             .map((block: BlockOrDef, index: number) => {
+              if (block === undefined) return <></>
               return (
                 <BlockChildrenItem
                   block={block}

@@ -35,6 +35,7 @@ function BellTree({ data }) {
   }
 
   const getTreeData = (block: BlockOrDef) => {
+    if (block === undefined) return
     return {
       bid: block.id,
       name: block.name,

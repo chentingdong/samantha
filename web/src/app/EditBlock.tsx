@@ -4,7 +4,7 @@ import { BLOCKS_BY_PK } from "../operations/queries/blockByPk"
 import { useForm } from "react-hook-form"
 
 function EditBlock({ blockId }) {
-  const { data, loading, error, fetchMore } = useQuery(BLOCKS_BY_PK, {
+  const { data, loading, error } = useQuery(BLOCKS_BY_PK, {
     variables: { id: blockId },
   })
   console.log(data)
