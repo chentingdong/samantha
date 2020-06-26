@@ -13,9 +13,10 @@ const _transformBlockInput = (block) => {
     childrenForCreate.push({ child: { data: transformedChild } })
   }
 
-  block.children = []
   if (childrenForCreate.length > 0) {
-    block.children = childrenForCreate
+    block.children = { data: childrenForCreate }
+  } else {
+    delete block.children
   }
 
   if (block.requestors?.length > 0) {
@@ -45,6 +46,7 @@ const _clearnBlockInput = (block, recursive = false) => {
   delete block.__mutation_type__
   delete block.__typename
   delete block.blockType
+  delete block.parents
 
   if (block.requestors?.length === 0) delete block.requestors
   if (block.responders?.length === 0) delete block.responders
