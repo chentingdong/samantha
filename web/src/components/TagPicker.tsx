@@ -23,12 +23,8 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   const [showSelect, setShowSelect] = useState(false)
 
   useEffect(() => {
-    if (tags.length === 0) setTags(value)
+    setTags(value)
   }, [value])
-
-  useEffect(() => {
-    onChange(tags)
-  }, [tags])
 
   const pickTags = (e, tag) => {
     let newTags = [...tags, tag]
