@@ -30,8 +30,8 @@ const createBlock = (root, targetType, requestor, parents = []) => {
     created_at: new Date(),
     last_updated: new Date(),
     __typename: targetType,
-    children: root.children?.map(({ child }) =>
-      createBlock(child, targetType, requestor, [
+    children: root.children?.map(({ child }) => ({
+      child: createBlock(child, targetType, requestor, [
         {
           parent: {
             __typename: root.__typename,
@@ -40,8 +40,8 @@ const createBlock = (root, targetType, requestor, parents = []) => {
             type: root.type,
           },
         },
-      ])
-    ),
+      ]),
+    })),
   }
 }
 
