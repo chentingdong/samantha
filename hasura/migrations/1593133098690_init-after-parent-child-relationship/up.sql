@@ -84,67 +84,6 @@ CREATE TABLE public.users (
 );
 ALTER TABLE ONLY public."blockDef_parent_child" ALTER COLUMN sibling_order SET DEFAULT nextval('public."blockDef_parent_child_sibling_order_seq"'::regclass);
 ALTER TABLE ONLY public.block_parent_child ALTER COLUMN sibling_order SET DEFAULT nextval('public.block_parent_child_sibling_order_seq'::regclass);
-ALTER TABLE ONLY public."blockDef_parent_child"
-    ADD CONSTRAINT "blockDef_parent_child_pkey" PRIMARY KEY (parent_id, child_id);
-ALTER TABLE ONLY public."blockDef_requestor"
-    ADD CONSTRAINT "blockDef_requestor_pkey" PRIMARY KEY ("blockDef_id", user_id);
-ALTER TABLE ONLY public."blockDef_responder"
-    ADD CONSTRAINT "blockDef_responder_pkey" PRIMARY KEY ("blockDef_id", user_id);
-ALTER TABLE ONLY public.block_parent_child
-    ADD CONSTRAINT block_parent_child_pkey PRIMARY KEY (parent_id, child_id);
-ALTER TABLE ONLY public.block_requestor
-    ADD CONSTRAINT block_requestors_pkey PRIMARY KEY (block_id, user_id);
-ALTER TABLE ONLY public.block_responder
-    ADD CONSTRAINT block_responders_pkey PRIMARY KEY (block_id, user_id);
-ALTER TABLE ONLY public."blockDefs"
-    ADD CONSTRAINT blockdefs_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public."blockDefState"
-    ADD CONSTRAINT blockdefstate_pkey PRIMARY KEY (value);
-ALTER TABLE ONLY public.blocks
-    ADD CONSTRAINT blocks_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public."blockState"
-    ADD CONSTRAINT blockstate_pkey PRIMARY KEY (value);
-ALTER TABLE ONLY public."blockType"
-    ADD CONSTRAINT blocktype_pkey PRIMARY KEY (value);
-ALTER TABLE ONLY public.users
-    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
-ALTER TABLE ONLY public."blockDef_parent_child"
-    ADD CONSTRAINT "blockDef_parent_child_child_id_fkey" FOREIGN KEY (child_id) REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDef_parent_child"
-    ADD CONSTRAINT "blockDef_parent_child_parent_id_fkey" FOREIGN KEY (parent_id) REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDef_requestor"
-    ADD CONSTRAINT "blockDef_requestor_blockDef_id_fkey" FOREIGN KEY ("blockDef_id") REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDef_requestor"
-    ADD CONSTRAINT "blockDef_requestor_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDef_responder"
-    ADD CONSTRAINT "blockDef_responder_blockDef_id_fkey" FOREIGN KEY ("blockDef_id") REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDef_responder"
-    ADD CONSTRAINT "blockDef_responder_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDefs"
-    ADD CONSTRAINT "blockDefs_root_id_fkey" FOREIGN KEY (root_id) REFERENCES public."blockDefs"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE ONLY public.block_parent_child
-    ADD CONSTRAINT block_parent_child_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public.block_parent_child
-    ADD CONSTRAINT block_parent_child_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public.block_requestor
-    ADD CONSTRAINT block_requestor_block_id_fkey FOREIGN KEY (block_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public.block_requestor
-    ADD CONSTRAINT block_requestor_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public.block_responder
-    ADD CONSTRAINT block_responder_block_id_fkey FOREIGN KEY (block_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public.block_responder
-    ADD CONSTRAINT block_responder_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
-ALTER TABLE ONLY public."blockDefs"
-    ADD CONSTRAINT blockdefstate_fkey FOREIGN KEY (state) REFERENCES public."blockDefState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE ONLY public."blockDefs"
-    ADD CONSTRAINT blockdeftype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE ONLY public.blocks
-    ADD CONSTRAINT blocks_root_id_fkey FOREIGN KEY (root_id) REFERENCES public.blocks(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE ONLY public.blocks
-    ADD CONSTRAINT blockstate_fkey FOREIGN KEY (state) REFERENCES public."blockState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
-ALTER TABLE ONLY public.blocks
-    ADD CONSTRAINT blocktype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
-
 
 INSERT INTO public."blockDefState" (value, comment) VALUES ('Draft', NULL);
 INSERT INTO public."blockDefState" (value, comment) VALUES ('Published', NULL);
@@ -245,3 +184,66 @@ INSERT INTO public.block_responder (block_id, user_id) VALUES ('UtsDGMfnTcRuu5ok
 INSERT INTO public.block_responder (block_id, user_id) VALUES ('ffu_jXHStddazcbZsxpCL', 'Google_111918078641246610063');
 SELECT pg_catalog.setval('public."blockDef_parent_child_sibling_order_seq"', 8, true);
 SELECT pg_catalog.setval('public.block_parent_child_sibling_order_seq', 1, false);
+
+ALTER TABLE ONLY public."blockDef_parent_child"
+    ADD CONSTRAINT "blockDef_parent_child_pkey" PRIMARY KEY (parent_id, child_id);
+ALTER TABLE ONLY public."blockDef_requestor"
+    ADD CONSTRAINT "blockDef_requestor_pkey" PRIMARY KEY ("blockDef_id", user_id);
+ALTER TABLE ONLY public."blockDef_responder"
+    ADD CONSTRAINT "blockDef_responder_pkey" PRIMARY KEY ("blockDef_id", user_id);
+ALTER TABLE ONLY public.block_parent_child
+    ADD CONSTRAINT block_parent_child_pkey PRIMARY KEY (parent_id, child_id);
+ALTER TABLE ONLY public.block_requestor
+    ADD CONSTRAINT block_requestors_pkey PRIMARY KEY (block_id, user_id);
+ALTER TABLE ONLY public.block_responder
+    ADD CONSTRAINT block_responders_pkey PRIMARY KEY (block_id, user_id);
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT blockdefs_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public."blockDefState"
+    ADD CONSTRAINT blockdefstate_pkey PRIMARY KEY (value);
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocks_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public."blockState"
+    ADD CONSTRAINT blockstate_pkey PRIMARY KEY (value);
+ALTER TABLE ONLY public."blockType"
+    ADD CONSTRAINT blocktype_pkey PRIMARY KEY (value);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public."blockDef_parent_child"
+    ADD CONSTRAINT "blockDef_parent_child_child_id_fkey" FOREIGN KEY (child_id) REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDef_parent_child"
+    ADD CONSTRAINT "blockDef_parent_child_parent_id_fkey" FOREIGN KEY (parent_id) REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDef_requestor"
+    ADD CONSTRAINT "blockDef_requestor_blockDef_id_fkey" FOREIGN KEY ("blockDef_id") REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDef_requestor"
+    ADD CONSTRAINT "blockDef_requestor_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDef_responder"
+    ADD CONSTRAINT "blockDef_responder_blockDef_id_fkey" FOREIGN KEY ("blockDef_id") REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDef_responder"
+    ADD CONSTRAINT "blockDef_responder_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT "blockDefs_root_id_fkey" FOREIGN KEY (root_id) REFERENCES public."blockDefs"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY public.block_parent_child
+    ADD CONSTRAINT block_parent_child_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.block_parent_child
+    ADD CONSTRAINT block_parent_child_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.block_requestor
+    ADD CONSTRAINT block_requestor_block_id_fkey FOREIGN KEY (block_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.block_requestor
+    ADD CONSTRAINT block_requestor_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.block_responder
+    ADD CONSTRAINT block_responder_block_id_fkey FOREIGN KEY (block_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public.block_responder
+    ADD CONSTRAINT block_responder_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT blockdefstate_fkey FOREIGN KEY (state) REFERENCES public."blockDefState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT blockdeftype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocks_root_id_fkey FOREIGN KEY (root_id) REFERENCES public.blocks(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blockstate_fkey FOREIGN KEY (state) REFERENCES public."blockState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocktype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
