@@ -248,7 +248,9 @@ const EditorRaw = () => {
             {draftBlock.blockType?.category === "Control" && (
               <Panel header="Tree View" defaultExpanded>
                 <BellTree data={draftBlock} />
-                {data.uiState.showBlockEditor && <EditBlock />}
+                {data.uiState.showBlockEditor && (
+                  <EditBlock blockId={data.uiState.currentBlockId} />
+                )}
               </Panel>
             )}
             <Panel header="Debug View">
