@@ -5,6 +5,7 @@ export interface Block {
   name: string
   description: string
   type: string
+  blockType?: object
   state: string
   props?: object
   context?: object
@@ -26,6 +27,7 @@ export interface BlockDef {
   name: string
   description: string
   type: string
+  blockType?: object
   props?: object
   state?: object
   control?: object

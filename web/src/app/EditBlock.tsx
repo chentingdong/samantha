@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react"
-import { useQuery, useLazyQuery } from "@apollo/client"
+import { useLazyQuery, useMutation } from "@apollo/client"
 import { BLOCKS_BY_PK } from "../operations/queries/blockByPk"
 import { useForm } from "react-hook-form"
-import { Card } from "../components/Card"
+import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
+import { Action } from "../controls/Action"
+import { initialBlock } from "../../data/initialBlock"
 
 function EditBlock({ blockId }) {
-  const [block, setBlock] = useState()
-  const [getData, { data, loading }] = useLazyQuery(BLOCKS_BY_PK)
+  const [block, setBlock] = useState(initialBlock)
+  const [getData, { data }] = useLazyQuery(BLOCKS_BY_PK)
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
 
   const { register, getValues, reset } = useForm({
     defaultValues: block,
@@ -17,7 +20,7 @@ function EditBlock({ blockId }) {
   }, [blockId])
 
   useEffect(() => {
-    if (data) {
+    if (data && data.blocks) {
       setBlock(data.blocks[0])
       reset(data.blocks[0])
     }
@@ -26,9 +29,14 @@ function EditBlock({ blockId }) {
   const submit = () => {
     const updatedForm = getValues()
     console.log(updatedForm)
+    updateOneBlock({
+      variables: {
+        id: blockId,
+        data: updatedForm,
+      },
+    })
   }
 
-  if (loading) return <p>Loading ...</p>
   return (
     <div>
       <form onSubmit={submit}>
@@ -50,6 +58,9 @@ function EditBlock({ blockId }) {
             type="text"
           />
         </div>
+        {block?.blockType?.category === "Action" && (
+          <Action block={block} setBlock={setBlock} />
+        )}
       </form>
     </div>
   )

@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useBlockMutations } from "../operations/mutations"
-import { setUiState } from "../operations/mutations/setUiState"
 
 // TODO: import all forms and decorators reflectively
 import SpendRequest from "./forms/spendRequest"
@@ -11,8 +10,13 @@ import Conditional from "./decorators/Conditional"
 import Inverter from "./decorators/Inverter"
 import Repeat from "./decorators/Repeat"
 import ReTry from "./decorators/ReTry"
+import { Block } from "../models/interface"
 
-const Control: React.FC<{}> = () => {
+type ActionType = {
+  block: Block
+  setBlock: (block: Block) => void
+}
+const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   let components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,
@@ -24,13 +28,9 @@ const Control: React.FC<{}> = () => {
 
   const { data, loading, error } = useQuery(UI_STATE)
   // TODO, list of forms
-  if (!data?.uiState?.draftBlock?.control?.forms) return <></>
-  const template = data?.uiState?.draftBlock?.control?.forms[0].template
+  const template = block?.control?.forms[0].template
   const TagName = components[template]
-  let root =
-    data?.uiState?.draftBlock?.root === null
-      ? data?.uiState?.draftBlock
-      : data?.uiState?.draftBlock?.root
+  let root = block?.root ? lock.root : block
   const form = root.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
@@ -40,13 +40,6 @@ const Control: React.FC<{}> = () => {
       ...root.context,
     }
     updatedContext[template] = form
-
-    setUiState({
-      draftBlock: {
-        ...data?.uiState?.draftBlock,
-        context: updatedContext,
-      },
-    })
 
     updateFn({
       variables: {
@@ -59,4 +52,4 @@ const Control: React.FC<{}> = () => {
   return <TagName onSubmit={submit} form={form} />
 }
 
-export { Control }
+export { Action }
