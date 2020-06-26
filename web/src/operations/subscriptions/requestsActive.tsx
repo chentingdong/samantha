@@ -4,7 +4,7 @@ import { blockFullFragment } from "../fragments/block"
 export const REQUESTS_ACTIVE = gql`
   subscription requestsActive($userId: String) {
     blocks(
-      order_by: { last_updated: desc_nulls_first }
+      order_by: { created_at: desc_nulls_first }
       where: {
         _and: [
           { state: { _eq: Running } }
