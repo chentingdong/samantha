@@ -189,7 +189,7 @@ const EditorRaw = () => {
     <div className="editor">
       <Drawer show={showEditor} close={close}>
         <h2>{`${editorMode} ${
-          editingTypename === "Block" ? "Bell" : "Bell Definition"
+          editingTypename === "blocks" ? "Bell" : "Bell Definition"
         }`}</h2>
         <div>
           <Grid fluid>

@@ -61,17 +61,28 @@ function BellTree({ data }) {
   }
 
   const NodeLabel = ({ nodeData }) => {
+    let color
+    switch (nodeData.state) {
+      case "Running":
+        color = "orange"
+        break
+      case "Success":
+        color = "purple"
+      default:
+        color = "gray"
+        break
+    }
     return (
       <Card
-        className={`card border text-xs bg-gray-700`}
+        className={`card border text-xs bg-${color}-700`}
         style={{ width: "220px", height: "120px" }}
         onClick={(e) => onClick(nodeData)}
       >
-        <div className="card-header bg-gray-900">
+        <div className={`card-header bg-${color}-900`}>
           <Icon icon={nodeData.icon} className="pr-1" />
           {nodeData.name}
         </div>
-        <div className="card-body bg-gray-700">
+        <div className={`card-body bg-${color}-700`}>
           <div>Block ID: {nodeData.bid}</div>
           <div>
             Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
