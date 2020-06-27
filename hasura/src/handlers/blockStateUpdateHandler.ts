@@ -28,16 +28,17 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
         block.parents[0].parent.id,
         "network-only"
       )
-      await onChildStateChange(parent, block)
+      if (parent?.state === "Running") {
+        await onChildStateChange(parent, block)
+      }
     }
 
     statusCode = 200
-    body = "Success"
+    body = { result: "Success" }
   } catch (error) {
-    console.warn(error)
+    console.warn(error.message)
     statusCode = 400
     body = error.message
   }
-  console.log(body)
   return res.status(statusCode).send(body)
 }

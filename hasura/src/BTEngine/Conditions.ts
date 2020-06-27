@@ -1,25 +1,36 @@
 import { Block, BlockState } from "./interfaces"
 import { updateBlockState } from "./utils"
-import invariant from "invariant"
-import { JSONPath } from "jsonpath-plus"
+import { Engine } from "json-rules-engine"
+import cloneDeep from "lodash.clonedeep"
 
-export const preCondition = async (block: Block) => {
+export const preCondition = async (block: Block): Promise<boolean> => {
   const decorators = block.control.decorators
   if (decorators) {
-    const { fact, value, operator } = decorators[0].data[0].all[0]
-    if (operator !== "greaterThan") {
-      console.debug("Only one rule with greaterThan is supported.")
-      return
+    const engine = new Engine()
+    const event = {
+      type: "matched",
     }
-    const lhs = JSONPath({
-      path: fact,
-      json: block.root.context,
-      wrap: false,
-    })
+    const rules: object[] = []
+    if (decorators) {
+      decorators.map((decorator: any) => {
+        if (decorator.template === "Conditional") {
+          decorator.data.map((conditions: any) => {
+            engine.addRule({ conditions, event })
+            rules.push(conditions)
+          })
+        }
+      })
+    }
 
-    console.log("evaluating: ", lhs, " >= ", value)
-
-    if (!(lhs >= value)) {
+    const facts = cloneDeep(block.root.context)
+    const { events } = await engine.run(facts)
+    console.log(
+      "rules: ",
+      JSON.stringify(rules, null, 2),
+      ", events: ",
+      JSON.stringify(events, null, 2)
+    )
+    if (rules.length > 0 && events.length === 0) {
       updateBlockState(block, BlockState.Success)
       return false
     }

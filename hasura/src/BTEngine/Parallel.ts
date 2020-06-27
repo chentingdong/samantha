@@ -12,10 +12,6 @@ const onChildStateChange = async (block: Block, child: Block) => {
   console.log(
     `onChildStateChange: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
   )
-  invariant(
-    block.state === BlockState.Running,
-    "Only Running blocks care about child state change."
-  )
 
   if (child.state === BlockState.Success) {
     const successChildren = block.children.filter(

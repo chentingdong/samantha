@@ -7,6 +7,7 @@ const onRun = async (block: Block) => {
   console.log(`onRun: block: ${block.id} ${block.state}`)
 
   const result = await preCondition(block)
+  console.log("result: ", result)
   if (result) {
     if (block.children.length > 0) {
       updateBlockState(block.children[0].child, BlockState.Running)
@@ -18,10 +19,6 @@ const onRun = async (block: Block) => {
 const onChildStateChange = async (block: Block, child: Block) => {
   console.log(
     `onChildStateChange: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
-  )
-  invariant(
-    block.state === BlockState.Running,
-    "Only Running blocks care about child state change."
   )
 
   if (child.state === BlockState.Success) {
