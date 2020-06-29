@@ -1,6 +1,13 @@
 - table:
     schema: public
     name: bells
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: block_id
+  - name: blockState
+    using:
+      foreign_key_constraint_on: state
 - table:
     schema: public
     name: blockDefState
@@ -167,6 +174,13 @@
     using:
       foreign_key_constraint_on: root_id
   array_relationships:
+  - name: bells
+    using:
+      foreign_key_constraint_on:
+        column: block_id
+        table:
+          schema: public
+          name: bells
   - name: blocks
     using:
       foreign_key_constraint_on:

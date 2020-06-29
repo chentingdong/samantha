@@ -358,6 +358,7 @@ describe("GraphQL", () => {
           id: block.id,
           data: { state },
         })
+        console.log(result)
         expect(result.state).toEqual(state)
         expect(result.blockState.value).toEqual(state)
       })

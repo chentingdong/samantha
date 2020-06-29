@@ -6,6 +6,10 @@ const bellFragment = gql`
     name
     description
     state
+    blockState {
+      value
+      comment
+    }
     context
     created_at
     last_updated

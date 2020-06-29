@@ -31,6 +31,16 @@ describe("GraphQL", () => {
         })
         expect(result.name).toEqual(name)
       })
+
+      it("should update state", async () => {
+        const state = "Success"
+        const result = await updateBellByPk({
+          id: bell.id,
+          data: { state },
+        })
+        expect(result.state).toEqual(state)
+        expect(result.blockState.value).toEqual(state)
+      })
     })
   })
 })
