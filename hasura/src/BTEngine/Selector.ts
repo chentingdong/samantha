@@ -13,11 +13,7 @@ const onRun = async (block: Block) => {
 
 const onChildStateChange = async (block: Block, child: Block) => {
   console.log(
-    `onRun: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
-  )
-  invariant(
-    block.state === BlockState.Running,
-    "Only Running blocks care about child state change."
+    `onChildStateChange: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
   )
 
   if (child.state === BlockState.Failure) {

@@ -19,6 +19,9 @@ export interface Block {
   type: string
   state: BlockState
   children: ParentChild[]
+  root: Block
+  context: any
+  control: any
 }
 
 export interface BlockTypeMap {

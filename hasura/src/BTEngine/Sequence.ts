@@ -1,23 +1,24 @@
 import { Block, BlockState } from "./interfaces"
 import { updateBlockState } from "./utils"
 import invariant from "invariant"
+import { preCondition } from "./Conditions"
 
 const onRun = async (block: Block) => {
   console.log(`onRun: block: ${block.id} ${block.state}`)
 
-  if (block.children.length > 0) {
-    updateBlockState(block.children[0].child, BlockState.Running)
-    // TODO: do I need to reset other children state to Created?
+  const result = await preCondition(block)
+  console.log("result: ", result)
+  if (result) {
+    if (block.children.length > 0) {
+      updateBlockState(block.children[0].child, BlockState.Running)
+      // TODO: do I need to reset other children state to Created?
+    }
   }
 }
 
 const onChildStateChange = async (block: Block, child: Block) => {
   console.log(
-    `onRun: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
-  )
-  invariant(
-    block.state === BlockState.Running,
-    "Only Running blocks care about child state change."
+    `onChildStateChange: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
   )
 
   if (child.state === BlockState.Success) {
