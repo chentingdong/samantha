@@ -1,7 +1,9 @@
 import { createRandomBellInput } from "./utils"
 import { insertBell } from "../mutations/insertBell"
 import { updateBellByPk } from "../mutations/updateBellByPk"
+import { getBellByPk } from "../queries/getBellByPk"
 import { getBell } from "../queries/getBell"
+import { getBells } from "../queries/getBells"
 import { deleteBellByPk } from "../mutations/deleteBellByPk"
 
 describe("GraphQL", () => {
@@ -13,16 +15,25 @@ describe("GraphQL", () => {
         await insertBell({ data: bell })
       })
 
-      afterAll(async () => {
-        await deleteBellByPk({ id: bell.id })
-      })
+      // afterAll(async () => {
+      //   await deleteBellByPk({ id: bell.id })
+      // })
 
       it("should return bells", async () => {
-        console.log(bell.id)
+        const result = await getBells()
+        expect(result.length).toBeGreaterThanOrEqual(0)
+      })
+      it("should return single bell", async () => {
         const result = await getBell(bell.id)
         expect(result.length).toEqual(1)
       })
+      it("should return single bell by pk", async () => {
+        const result = await getBellByPk(bell.id)
+        expect(result.name).toBeDefined()
+      })
+    })
 
+    describe("Insert Mutation", () => {
       it("should update name", async () => {
         const name = "updated Bell " + Math.floor(Math.random() * 10)
         const result = await updateBellByPk({
@@ -40,6 +51,16 @@ describe("GraphQL", () => {
         })
         expect(result.state).toEqual(state)
         expect(result.blockState.value).toEqual(state)
+      })
+
+      it("should not allow invalid state enum value", async () => {
+        const state = "invalid"
+        console.log(bell.id)
+        const result = await updateBellByPk({
+          id: bell.id,
+          data: { state },
+        })
+        expect(result).toBeUndefined()
       })
     })
   })
