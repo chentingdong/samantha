@@ -15,9 +15,9 @@ describe("GraphQL", () => {
         await insertBell({ data: bell })
       })
 
-      // afterAll(async () => {
-      //   await deleteBellByPk({ id: bell.id })
-      // })
+      afterAll(async () => {
+        await deleteBellByPk({ id: bell.id })
+      })
 
       it("should return bells", async () => {
         const result = await getBells()
@@ -34,6 +34,31 @@ describe("GraphQL", () => {
     })
 
     describe("Insert Mutation", () => {
+      afterEach(async () => {
+        await deleteBellByPk({ id: bell.id })
+      })
+      it("should fail if non-nullable columns are not provided", async () => {
+        const result = await insertBell({
+          data: { id: bell.id, name: bell.name },
+        })
+        expect(result).toBeUndefined()
+      })
+      it("should fail if block state enum is invalid", async () => {
+        const result = await insertBell({
+          data: { ...bell, state: "Invalid" },
+        })
+        expect(result).toBeUndefined()
+      })
+    })
+
+    describe("Update Mutation", () => {
+      beforeEach(async () => {
+        await insertBell({ data: bell })
+      })
+
+      afterEach(async () => {
+        await deleteBellByPk({ id: bell.id })
+      })
       it("should update name", async () => {
         const name = "updated Bell " + Math.floor(Math.random() * 10)
         const result = await updateBellByPk({
@@ -42,7 +67,6 @@ describe("GraphQL", () => {
         })
         expect(result.name).toEqual(name)
       })
-
       it("should update state", async () => {
         const state = "Success"
         const result = await updateBellByPk({
@@ -52,7 +76,6 @@ describe("GraphQL", () => {
         expect(result.state).toEqual(state)
         expect(result.blockState.value).toEqual(state)
       })
-
       it("should not allow invalid state enum value", async () => {
         const state = "invalid"
         console.log(bell.id)
