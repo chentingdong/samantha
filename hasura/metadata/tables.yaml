@@ -1,5 +1,8 @@
 - table:
     schema: public
+    name: bells
+- table:
+    schema: public
     name: blockDefState
   is_enum: true
   array_relationships:

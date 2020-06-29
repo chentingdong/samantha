@@ -8,15 +8,22 @@ export const createRandomUserInput = () => {
 }
 export const createRandomBlockDefInput = () => {
   const id = nanoid()
-  const name = "Bell " + Math.floor(Math.random() * 10)
+  const name = "BlockDef " + Math.floor(Math.random() * 10)
   const type = "Form"
   const state = "Draft"
   return { id, name, type, state }
 }
 export const createRandomBlockInput = () => {
   const id = nanoid()
-  const name = "Bell " + Math.floor(Math.random() * 10)
+  const name = "Block " + Math.floor(Math.random() * 10)
   const type = "Form"
   const state = "Created"
   return { id, name, type, state }
+}
+export const createRandomBellInput = () => {
+  const id = nanoid()
+  const name = "Bell " + Math.floor(Math.random() * 10)
+  const state = "Created"
+  const context = "{}"
+  return { id, name, state, context }
 }
