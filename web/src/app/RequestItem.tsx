@@ -65,15 +65,24 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
       block.__typename === Typename.blocks
         ? Typename.blocks
         : Typename.blockDefs
-    setUiState(
-      {
-        showEditor: true,
-        editingTypename,
-        editorMode: EditMode.Edit,
+
+    if (block.__typename === Typename.blocks) {
+      setUiState({
+        showBellEditor: true,
+        showEditor: false,
         draftBlock: { ...block, __typename: editingTypename },
-      },
-      true
-    )
+      })
+    } else {
+      setUiState(
+        {
+          showEditor: true,
+          editingTypename,
+          editorMode: EditMode.Edit,
+          draftBlock: { ...block, __typename: editingTypename },
+        },
+        true
+      )
+    }
   }
 
   const makeBell = () => {

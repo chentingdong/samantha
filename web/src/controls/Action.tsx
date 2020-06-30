@@ -11,6 +11,7 @@ import Inverter from "./decorators/Inverter"
 import Repeat from "./decorators/Repeat"
 import ReTry from "./decorators/ReTry"
 import { Block } from "../models/interface"
+import { setUiState } from "../operations/mutations/setUiState"
 
 type ActionType = {
   block: Block
@@ -30,7 +31,7 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   // TODO, list of forms
   const template = block?.control?.forms[0].template
   const TagName = components[template]
-  let root = block?.root ? lock.root : block
+  let root = block?.root ? block.root : block
   const form = root.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
@@ -48,8 +49,43 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
       },
     })
   }
+  const onSuccess = () => {
+    setUiState({
+      draftBlock: {
+        state: "Success",
+      },
+    })
 
-  return <TagName onSubmit={submit} form={form} />
+    updateFn({
+      variables: {
+        data: { state: "Success" },
+        id: data?.uiState?.currentBlockId,
+      },
+    })
+  }
+
+  const onFailure = () => {
+    setUiState({
+      draftBlock: {
+        state: "Failure",
+      },
+    })
+
+    updateFn({
+      variables: {
+        data: { state: "Failure" },
+        id: data?.uiState?.currentBlockId,
+      },
+    })
+  }
+  return (
+    <TagName
+      onSubmit={submit}
+      form={form}
+      onSuccess={onSuccess}
+      onFailure={onFailure}
+    />
+  )
 }
 
 export { Action }

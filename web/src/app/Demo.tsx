@@ -8,6 +8,7 @@ import { Grid, Row, Col, Nav, Dropdown } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { Editor } from "./Editor"
+import { BellEditor } from "./BellEditor"
 import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -100,6 +101,7 @@ function DemoRaw({ className }) {
             </Row>
           </Grid>
           <Editor />
+          <BellEditor />
         </>
       )}
     </div>

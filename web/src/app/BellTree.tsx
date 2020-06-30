@@ -22,7 +22,7 @@ function BellTree({ data }) {
   const getTreeData = (block: BlockOrDef) => {
     if (!block) return {}
     return {
-      bid: block.id,
+      blockId: block.id,
       name: block.name,
       createdAt: block.created_at,
       state: block.state,
@@ -39,9 +39,10 @@ function BellTree({ data }) {
   }
 
   const onClick = (nodeData) => {
+    console.log(nodeData)
     setUiState({
-      showBlockEditor: true,
-      currentBlockId: nodeData.bid,
+      // showBellEditor: true,
+      currentBlockId: nodeData.blockId,
     })
   }
 

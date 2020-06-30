@@ -1,5 +1,18 @@
 import { MutationType, EditMode, Typename } from "./enum"
 
+export interface Bell {
+  id: string
+  name: string
+  description?: string
+  state: string
+  context: object
+  created_at: Date
+  last_updated: Date
+  started_at: Date
+  root_block_id: string
+  block: object
+}
+
 export interface Block {
   id: string
   name: string
@@ -11,6 +24,7 @@ export interface Block {
   context?: object
   control?: object
   root?: BlockOrDef
+  bells?: Bell[]
   parents: ParentChild[]
   children: ParentChild[]
   requestors: BlockUser[]
@@ -47,7 +61,7 @@ export type BlockOrDef = Block | BlockDef
 export interface UiState {
   showEditor?: boolean
   draftBlock?: BlockOrDef
-  showBlockEditor?: boolean
+  showBellEditor?: boolean
   currentBlockId?: string
   editorMode?: EditMode
   editingTypename?: Typename

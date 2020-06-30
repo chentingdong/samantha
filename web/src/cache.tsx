@@ -27,9 +27,9 @@ export const authUserVar: ReactiveVar<User> = cache.makeVar<User>(initialUser)
 
 export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   showEditor: false,
+  showBellEditor: false,
   editorMode: EditMode.Create,
   editingTypename: Typename.blocks,
   draftBlock: initialBlock,
-  showBlockEditor: false,
   currentBlockId: "",
 })

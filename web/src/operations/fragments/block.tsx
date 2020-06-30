@@ -21,6 +21,13 @@ const blockFullFragment = gql`
       state
       context
     }
+    bells {
+      id
+      name
+      description
+      context
+      started_at
+    }
     parents {
       parent {
         id
@@ -52,6 +59,20 @@ const blockFullFragment = gql`
         control
         props
         context
+        root_id
+        root {
+          id
+          type
+          state
+          context
+        }
+        bells {
+          id
+          name
+          description
+          context
+          started_at
+        }
         parents {
           parent {
             id
@@ -92,6 +113,20 @@ const blockFullFragment = gql`
             control
             props
             context
+            root_id
+            root {
+              id
+              type
+              state
+              context
+            }
+            bells {
+              id
+              name
+              description
+              context
+              started_at
+            }
             parents {
               parent {
                 id
@@ -132,6 +167,20 @@ const blockFullFragment = gql`
                 control
                 props
                 context
+                root_id
+                root {
+                  id
+                  type
+                  state
+                  context
+                }
+                bells {
+                  id
+                  name
+                  description
+                  context
+                  started_at
+                }
                 parents {
                   parent {
                     id

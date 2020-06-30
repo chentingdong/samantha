@@ -10,7 +10,7 @@ const initialBlock: BlockOrDef = {
   type: "ParallelAll",
   control: {},
   context: {},
-  state: "Draft",
+  state: "Created",
   props: {},
   root: null,
   parents: [],

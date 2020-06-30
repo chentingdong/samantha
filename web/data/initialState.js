@@ -26,6 +26,7 @@ export default {
   uiState: {
     showEditRequestDef: false,
     showEditRequest: false,
+    showBellEditor: false,
     showRequestViewRequester: false,
     showRequestViewResponder: false,
   },

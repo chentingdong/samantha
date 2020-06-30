@@ -22,28 +22,30 @@ const DrawerRaw: React.FC<DrawerType> = ({
   }
 
   useEffect(() => {
-    if (show) setOffset(6)
+    setOffset(6)
   }, [show])
 
   return (
-    show && (
-      <div className={className}>
-        <Grid fluid>
-          <Row onClick={hide} className="backdrop">
-            <Col xs={18} xsOffset={offset} className="content p-4">
-              <Icon
-                icon="close"
-                className="float-right cursor-pointer m-4"
-                onClick={hide}
-              />
-              <div className="children" onClick={(e) => e.stopPropagation()}>
-                {children}
-              </div>
-            </Col>
-          </Row>
-        </Grid>
-      </div>
-    )
+    <>
+      {show && (
+        <div className={className}>
+          <Grid fluid>
+            <Row onClick={hide} className="backdrop">
+              <Col xs={18} xsOffset={offset} className="content p-4">
+                <Icon
+                  icon="close"
+                  className="float-right cursor-pointer m-4"
+                  onClick={hide}
+                />
+                <div className="children" onClick={(e) => e.stopPropagation()}>
+                  {children}
+                </div>
+              </Col>
+            </Row>
+          </Grid>
+        </div>
+      )}
+    </>
   )
 }
 

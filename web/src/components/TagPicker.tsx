@@ -19,9 +19,8 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   onInsertTag,
   onDeleteTag,
 }) => {
-  const [tags, setTags] = useState(value)
+  const [tags, setTags] = useState([])
   const [showSelect, setShowSelect] = useState(false)
-
   useEffect(() => {
     setTags(value)
   }, [value])
@@ -56,7 +55,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   return (
     <div className={`${className} rounded p-1 text-sm`}>
       <div className="toggle-select" onClick={toggleSelect}>
-        {tags.length === 0 && <span>click to select...</span>}
+        {tags?.length === 0 && <span>click to select...</span>}
         {tags?.map((tag, index) => {
           return (
             <span key={index} className="tag inline-block w-auto text-xs">

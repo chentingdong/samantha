@@ -187,13 +187,7 @@ const EditorRaw = () => {
   }
 
   if (!data || !usersResult) return <></>
-  const {
-    showEditor,
-    editorMode,
-    editingTypename,
-    draftBlock,
-    showBlockEditor,
-  } = data.uiState
+  const { showEditor, editorMode, editingTypename, draftBlock } = data.uiState
   const { users } = usersResult
 
   return (
@@ -283,11 +277,13 @@ const EditorRaw = () => {
                   <BellTree data={blockResult?.blocks_by_pk} />
                 </Panel>
               )}
-            {data.uiState.showBlockEditor && (
-              <Panel header="Edit Block" defaultExpanded>
-                <EditBlock blockId={data.uiState.currentBlockId} />
-              </Panel>
-            )}
+            {/* {editorMode === EditMode.Edit &&
+              editingTypename === Typename.blocks &&
+              data.uiState.showBellEditor && (
+                <Panel header="Edit Block" defaultExpanded>
+                  <EditBlock blockId={data.uiState.currentBlockId} />
+                </Panel>
+              )} */}
             <Panel header="Debug View">
               <AceEditor
                 readOnly={true}
