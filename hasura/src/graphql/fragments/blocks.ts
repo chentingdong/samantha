@@ -18,6 +18,13 @@ const blockFragment = gql`
     control
     props
     context
+    bells {
+      id
+      name
+      description
+      context
+      state
+    }
     root_id
     root {
       id

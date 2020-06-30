@@ -7,6 +7,7 @@ import { getBells } from "../queries/getBells"
 import { deleteBellByPk } from "../mutations/deleteBellByPk"
 import { insertBlock } from "../mutations/insertBlock"
 import { deleteBlockByPk } from "../mutations/deleteBlockByPk"
+import { getBlockByPk } from "../queries/getBlockByPk"
 
 describe("GraphQL", () => {
   describe("bells", () => {
@@ -89,13 +90,21 @@ describe("GraphQL", () => {
     })
 
     describe("Bell Block relationship", () => {
-      it("create a block with bell should create a bell", async () => {
-        const bellWithBLock = { ...bell, root_block_id: block.id }
-        const resultBlock = await insertBlock({ data: block })
-        const resultBell = await insertBell({ data: bellWithBLock })
-        expect(resultBell.root_block_id).toEqual(resultBlock.id)
+      beforeAll(async () => {
+        await insertBlock({ data: block })
+        const bellWithBlock = { ...bell, root_block_id: block.id }
+        await insertBell({ data: bellWithBlock })
+      })
+      afterAll(async () => {
         await deleteBellByPk({ id: bell.id })
         await deleteBlockByPk({ id: block.id })
+      })
+      it("bell relates to block by root_block_id", async () => {
+        const resultBlock = await getBlockByPk(block.id)
+        const resultBell = await getBellByPk(bell.id)
+        console.log(resultBlock, resultBell)
+        expect(resultBell.root_block_id).toEqual(block.id)
+        expect(resultBlock.bells[0].id).toEqual(bell.id)
       })
     })
   })

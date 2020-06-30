@@ -14,6 +14,23 @@ const bellFragment = gql`
     created_at
     last_updated
     root_block_id
+    block {
+      id
+      name
+      description
+      requestors {
+        user {
+          id
+          name
+        }
+      }
+      responders {
+        user {
+          id
+          name
+        }
+      }
+    }
   }
 `
 export { bellFragment }
