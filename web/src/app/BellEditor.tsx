@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { Drawer } from "../components/Drawer"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation, useSubscription } from "@apollo/client"
@@ -13,6 +13,11 @@ function BellEditor(props) {
     variables: { id: data?.uiState?.draftBlock?.id },
   })
 
+  useEffect(() => {
+    if (blockResult?.blocks_by_pk)
+      setUiState({ currentBlockId: blockResult.blocks_by_pk.id })
+  }, [])
+
   const close = () => {
     setUiState({ showBellEditor: false })
   }
@@ -22,7 +27,9 @@ function BellEditor(props) {
       <Drawer show={data?.uiState?.showBellEditor} close={close}>
         <h2>Editing Bell</h2>
         <BellTree data={blockResult?.blocks_by_pk} />
-        <EditBlock blockId={data.uiState.currentBlockId} />
+        <div className="container mx-auto">
+          <EditBlock blockId={data.uiState.currentBlockId} />
+        </div>
       </Drawer>
     </div>
   )

@@ -7,7 +7,7 @@ import { Action } from "../controls/Action"
 import { initialBlock } from "../../data/initialBlock"
 import { Assignment } from "./Assignment"
 
-function EditBlock({ blockId }) {
+function EditBlock({ blockId, className = "" }) {
   const [block, setBlock] = useState(initialBlock)
   const [getData, { data }] = useLazyQuery(BLOCKS_BY_PK)
   const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)

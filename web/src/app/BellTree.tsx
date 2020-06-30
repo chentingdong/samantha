@@ -13,10 +13,15 @@ function BellTree({ data }) {
   const [translate, setTranslate] = useState({ x: 400, y: 30 })
 
   useEffect(() => {
-    setTranslate({
-      x: treeContainer?.current?.offsetWidth / 2,
-      y: 30,
-    })
+    const handleWindowResize = () => {
+      const width = treeContainer?.current?.offsetWidth / 2 || 500
+      setTranslate({
+        x: width,
+        y: 30,
+      })
+    }
+    handleWindowResize()
+    window.addEventListener("resize", handleWindowResize)
   }, [treeContainer])
 
   const getTreeData = (block: BlockOrDef) => {
@@ -89,7 +94,7 @@ function BellTree({ data }) {
         nodeSvgShape={{ shape: "none" }}
         nodeSize={{ x: 250, y: 150 }}
         styles={{ links: { stroke: "yellow" } }}
-        zoomable={false}
+        zoomable={true}
         orientation="vertical"
         transitionDuration={0}
         separation={{ siblings: 1, nonSiblings: 1 }}

@@ -70,7 +70,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
       setUiState({
         showBellEditor: true,
         showEditor: false,
-        draftBlock: { ...block, __typename: editingTypename },
+        currentBlockId: block.id,
       })
     } else {
       setUiState(
