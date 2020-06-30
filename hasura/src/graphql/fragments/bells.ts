@@ -13,7 +13,7 @@ const bellFragment = gql`
     context
     created_at
     last_updated
-    block_id
+    root_block_id
   }
 `
 export { bellFragment }

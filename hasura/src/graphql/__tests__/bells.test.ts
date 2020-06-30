@@ -1,14 +1,17 @@
-import { createRandomBellInput } from "./utils"
+import { createRandomBellInput, createRandomBlockInput } from "./utils"
 import { insertBell } from "../mutations/insertBell"
 import { updateBellByPk } from "../mutations/updateBellByPk"
 import { getBellByPk } from "../queries/getBellByPk"
 import { getBell } from "../queries/getBell"
 import { getBells } from "../queries/getBells"
 import { deleteBellByPk } from "../mutations/deleteBellByPk"
+import { insertBlock } from "../mutations/insertBlock"
+import { deleteBlockByPk } from "../mutations/deleteBlockByPk"
 
 describe("GraphQL", () => {
   describe("bells", () => {
     const bell = createRandomBellInput()
+    const block = createRandomBlockInput()
 
     describe("Query", () => {
       beforeAll(async () => {
@@ -43,7 +46,7 @@ describe("GraphQL", () => {
         })
         expect(result).toBeUndefined()
       })
-      it("should fail if block state enum is invalid", async () => {
+      it("should fail if bell state enum is invalid", async () => {
         const result = await insertBell({
           data: { ...bell, state: "Invalid" },
         })
@@ -55,7 +58,6 @@ describe("GraphQL", () => {
       beforeEach(async () => {
         await insertBell({ data: bell })
       })
-
       afterEach(async () => {
         await deleteBellByPk({ id: bell.id })
       })
@@ -78,12 +80,22 @@ describe("GraphQL", () => {
       })
       it("should not allow invalid state enum value", async () => {
         const state = "invalid"
-        console.log(bell.id)
         const result = await updateBellByPk({
           id: bell.id,
           data: { state },
         })
         expect(result).toBeUndefined()
+      })
+    })
+
+    describe("Bell Block relationship", () => {
+      it("create a block with bell should create a bell", async () => {
+        const bellWithBLock = { ...bell, root_block_id: block.id }
+        const resultBlock = await insertBlock({ data: block })
+        const resultBell = await insertBell({ data: bellWithBLock })
+        expect(resultBell.root_block_id).toEqual(resultBlock.id)
+        await deleteBellByPk({ id: bell.id })
+        await deleteBlockByPk({ id: block.id })
       })
     })
   })

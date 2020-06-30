@@ -1,2 +1,20 @@
+type Mutation {
+  MakeABell (
+    data: MakeABellInput!
+  ): MakeABellOutput
+}
 
+
+
+
+input MakeABellInput {
+  id : String!
+  name : String!
+  description : String!
+  roob_block_id : String!
+}
+
+type MakeABellOutput {
+  message : String!
+}
 

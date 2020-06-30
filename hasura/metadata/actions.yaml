@@ -1,6 +1,12 @@
-actions: []
+actions:
+- name: MakeABell
+  definition:
+    kind: synchronous
+    handler: http://host.docker.internal:3010
 custom_types:
   enums: []
-  input_objects: []
-  objects: []
+  input_objects:
+  - name: MakeABellInput
+  objects:
+  - name: MakeABellOutput
   scalars: []
