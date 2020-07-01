@@ -106,6 +106,6 @@
   "requiresCompatibilities": ["FARGATE"],
   "networkMode": "awsvpc",
   "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole",
-  "cpu": "1024",
-  "memory": "2048"
+  "cpu": "2048",
+  "memory": "4096"
 }
