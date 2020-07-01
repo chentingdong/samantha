@@ -1,7 +1,7 @@
 {
   "version": 4,
   "terraform_version": "0.12.25",
-  "serial": 110,
+  "serial": 109,
   "lineage": "fdac4fa9-832a-744f-cd03-ef633f33606c",
   "outputs": {
     "load_balancer_dns": {
@@ -446,6 +446,87 @@
             "tags": {}
           },
           "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ecs_service",
+      "name": "samantha_service",
+      "provider": "provider.aws",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "capacity_provider_strategy": [],
+            "cluster": "arn:aws:ecs:us-east-1:079056339674:cluster/samantha",
+            "deployment_controller": [
+              {
+                "type": "ECS"
+              }
+            ],
+            "deployment_maximum_percent": 200,
+            "deployment_minimum_healthy_percent": 100,
+            "desired_count": 1,
+            "enable_ecs_managed_tags": false,
+            "force_new_deployment": null,
+            "health_check_grace_period_seconds": 0,
+            "iam_role": "aws-service-role",
+            "id": "arn:aws:ecs:us-east-1:079056339674:service/samantha_service",
+            "launch_type": "FARGATE",
+            "load_balancer": [
+              {
+                "container_name": "hasura",
+                "container_port": 8080,
+                "elb_name": "",
+                "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:079056339674:targetgroup/samantha-target-group-hasura/008fe8093e201af4"
+              },
+              {
+                "container_name": "server",
+                "container_port": 3000,
+                "elb_name": "",
+                "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:079056339674:targetgroup/samantha-target-group-server/de31d41bb68396dc"
+              },
+              {
+                "container_name": "web",
+                "container_port": 2000,
+                "elb_name": "",
+                "target_group_arn": "arn:aws:elasticloadbalancing:us-east-1:079056339674:targetgroup/samantha-target-group-web/2f17cf4e7973550e"
+              }
+            ],
+            "name": "samantha_service",
+            "network_configuration": [
+              {
+                "assign_public_ip": true,
+                "security_groups": [
+                  "sg-039737a157d710dc3"
+                ],
+                "subnets": [
+                  "subnet-ac5f4f82",
+                  "subnet-e878b4e6",
+                  "subnet-eba9beb7"
+                ]
+              }
+            ],
+            "ordered_placement_strategy": [],
+            "placement_constraints": [],
+            "placement_strategy": [],
+            "platform_version": "LATEST",
+            "propagate_tags": "NONE",
+            "scheduling_strategy": "REPLICA",
+            "service_registries": [],
+            "tags": null,
+            "task_definition": "arn:aws:ecs:us-east-1:079056339674:task-definition/samantha:69"
+          },
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_ecs_cluster.samantha",
+            "aws_ecs_task_definition.samantha",
+            "aws_lb_target_group.target_group_hasura",
+            "aws_lb_target_group.target_group_server",
+            "aws_lb_target_group.target_group_web",
+            "aws_security_group.service_security_group"
+          ]
         }
       ]
     },

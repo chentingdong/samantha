@@ -17,6 +17,22 @@ if (process.env.NODE_ENV === "production") {
 app.use(Sentry.Handlers.requestHandler())
 
 app.use(bodyParser.json())
+
+app.get("/", async (_req, res, _next) => {
+  // optional: add further things to check (e.g. connecting to dababase)
+  const healthcheck = {
+    uptime: process.uptime(),
+    message: "OK",
+    timestamp: Date.now(),
+  }
+  try {
+    res.send()
+  } catch (e) {
+    healthcheck.message = e
+    res.status(503).send()
+  }
+})
+
 app.post("/block_state_update", blockStateUpdateHandler)
 
 // The error handler must be before any other error middleware and after all controllers

@@ -38,7 +38,11 @@
       }
     },
     {
-      "command": ["yarn hasura:migrate && yarn hasura:metadata && yarn start"],
+      "command": [
+        "sh",
+        "-c",
+        "yarn hasura:migrate && yarn hasura:metadata && yarn start"
+      ],
       "essential": true,
       "image": "${SERVER_IMAGE}",
       "name": "server",
@@ -58,7 +62,7 @@
         },
         {
           "name": "HASURA_GRAPHQL_ENDPOINT",
-          "value": "http://hasura:8080"
+          "value": "http://localhost:8080"
         },
         {
           "name": "HASURA_GRAPHQL_CLI_ENVIRONMENT",
