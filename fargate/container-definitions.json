@@ -37,7 +37,9 @@
     }
   },
   {
-    "command": ["yarn hasura:migrate && yarn hasura:metadata && yarn start"],
+    "command": [
+      "/bin/sh -c \"yarn hasura:migrate && yarn hasura:metadata && yarn start\""
+    ],
     "essential": true,
     "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:13c97c269cf4bb643ed4a6e3b34b633543235a2a",
     "name": "server",
