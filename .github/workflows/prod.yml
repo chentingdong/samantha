@@ -49,36 +49,45 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v1
 
       - name: Build, tag, and push server image to Amazon ECR
-        id: buildServerImage
+        id: build-server-image
         env:
-          ECR_REGISTRY: ${{ steps.loginEcr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_SERVER_REPOSITORY: samantha-server
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          cd $GITHUB_WORKSPACE/hasura
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          echo $GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE/server
           docker build -t $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG
-          echo "::set-env name=SERVER_IMAGE::$ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=server_image::$ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG"
 
       - name: Build, tag, and push web image to Amazon ECR
-        id: buildWebImage
+        id: build-web-image
         env:
-          ECR_REGISTRY: ${{ steps.loginEcr.outputs.registry }}
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_WEB_REPOSITORY: samantha-web
           IMAGE_TAG: ${{ github.sha }}
+          SENTRY_RELEAES: ${{ steps.sentry.outputs.SENTRY_RELEASE }}
         run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          echo $GITHUB_WORKSPACE
           cd $GITHUB_WORKSPACE/web
-          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=$SENTRY_RELEASE .
+          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=${SENTRY_RELEASE} .
           docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
-          echo "::set-env name=WEB_IMAGE::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
+          echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
       - name: Fill in the new samantha-server image ID in the Amazon ECS task definition
         id: task-def-server
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: .github/workflows/prod.json
+          task-definition: .github/workflows/task-definition.json
           container-name: server
-          image: $SERVER_IMAGE
+          image: ${{ steps.build-server-image.outputs.server_image }}
 
       - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
         id: task-def-web
@@ -86,7 +95,7 @@ jobs:
         with:
           task-definition: ${{ steps.task-def-server.outputs.task-definition }}
           container-name: web
-          image: $WEB_IMAGE
+          image: ${{ steps.build-web-image.outputs.web_image }}
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
