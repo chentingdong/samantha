@@ -184,7 +184,7 @@ resource "aws_lb_target_group" "target_group_web" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
-  deregistration_delay = 30
+  deregistration_delay = 120
 }
 
 resource "aws_lb_target_group" "target_group_server" {
@@ -193,7 +193,7 @@ resource "aws_lb_target_group" "target_group_server" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
-  deregistration_delay = 30
+  deregistration_delay = 120
 }
 
 resource "aws_lb_target_group" "target_group_hasura" {
@@ -202,7 +202,10 @@ resource "aws_lb_target_group" "target_group_hasura" {
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
-  deregistration_delay = 30
+  deregistration_delay = 120
+  health_check  {
+    path = "/v1/version"
+  }
 }
 
 resource "aws_lb_listener" "web_listener" {
