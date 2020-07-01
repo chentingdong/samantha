@@ -7,7 +7,7 @@ name: E2E Testing
 jobs:
   deploy:
     name: E2E Testing
-    runs-on: [self-hosted, ubuntu-latest]
+    runs-on: [self-hosted, Linux, ARM64]
 
     steps:
       - name: Checkout
