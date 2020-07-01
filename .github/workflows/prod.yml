@@ -8,7 +8,7 @@ name: Production Deployment to Amazon ECS
 jobs:
   deploy:
     name: Production Deployment
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, ubuntu-latest]
     env:
       SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
       SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
