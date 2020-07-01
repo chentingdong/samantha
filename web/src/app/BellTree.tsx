@@ -7,11 +7,8 @@ import { Card } from "../components/Card"
 import moment from "moment"
 import { Icon } from "rsuite"
 import { setUiState } from "../operations/mutations/setUiState"
-import { useQuery, useMutation, useSubscription } from "@apollo/client"
-import { BELLS_BY_PK } from "../operations/queries/bellByPk"
+import { useSubscription } from "@apollo/client"
 import { GET_BLOCK } from "../operations/subscriptions/getBlock"
-
-import { UI_STATE } from "../operations/queries/uiState"
 
 const BellTree = ({ bell }) => {
   const rootBlockId = bell.block.id

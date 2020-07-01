@@ -13,6 +13,7 @@ const bellFragment = gql`
     context
     created_at
     last_updated
+    started_at
     root_block_id
     block {
       id

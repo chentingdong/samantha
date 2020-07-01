@@ -39,51 +39,43 @@ const Assignment: React.FC<AssignmentType> = ({ block, setBlock }) => {
   }
 
   const insertRequestor = (value) => {
-    if (data?.uiState?.editorMode === EditMode.Edit) {
-      insertBlockRequestor({
-        variables: {
-          object: {
-            block_id: block.id,
-            user_id: value.id,
-          },
+    insertBlockRequestor({
+      variables: {
+        object: {
+          block_id: block.id,
+          user_id: value.id,
         },
-      })
-    }
+      },
+    })
   }
 
   const deleteRequestor = (value) => {
-    if (data?.uiState?.editorMode === EditMode.Edit) {
-      deleteBlockRequestor({
-        variables: {
-          block_id: block.id,
-          user_id: value.id,
-        },
-      })
-    }
+    deleteBlockRequestor({
+      variables: {
+        block_id: block.id,
+        user_id: value.id,
+      },
+    })
   }
 
   const insertResponder = (value) => {
-    if (data?.uiState?.editorMode === EditMode.Edit) {
-      insertBlockResponder({
-        variables: {
-          object: {
-            block_id: block.id,
-            user_id: value.id,
-          },
-        },
-      })
-    }
-  }
-
-  const deleteResponder = (value) => {
-    if (data?.uiState?.editorMode === EditMode.Edit) {
-      deleteBlockResponder({
-        variables: {
+    insertBlockResponder({
+      variables: {
+        object: {
           block_id: block.id,
           user_id: value.id,
         },
-      })
-    }
+      },
+    })
+  }
+
+  const deleteResponder = (value) => {
+    deleteBlockResponder({
+      variables: {
+        block_id: block.id,
+        user_id: value.id,
+      },
+    })
   }
 
   return (
