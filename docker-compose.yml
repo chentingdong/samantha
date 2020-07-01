@@ -2,6 +2,9 @@ version: "3"
 services:
   web:
     image: samantha-web:latest
+    build:
+      context: ./web
+      dockerfile: Dockerfile
     container_name: samantha-web
     restart: always
     depends_on:
@@ -39,6 +42,9 @@ services:
 
   server:
     image: samantha-server:latest
+    build:
+      context: ./hasura
+      dockerfile: Dockerfile
     container_name: samantha-server
     restart: always
     depends_on:
