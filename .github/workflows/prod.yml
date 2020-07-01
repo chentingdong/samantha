@@ -19,23 +19,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Create new Sentry release
-        id: sentry
-        run: |
-          # Install Sentry CLI
-          curl -sL https://sentry.io/get-cli/ | bash
+      # - name: Create new Sentry release
+      #   id: sentry
+      #   run: |
+      #     # Install Sentry CLI
+      #     curl -sL https://sentry.io/get-cli/ | bash
 
-          # Create new Sentry release
-          export SENTRY_RELEASE=$(sentry-cli releases propose-version)
-          echo "::set-env name=SENTRY_RELEASE::$SENTRY_RELEASE"
+      #     # Create new Sentry release
+      #     export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+      #     echo "::set-env name=SENTRY_RELEASE::$SENTRY_RELEASE"
 
-          echo "sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE"
-          sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
-          sentry-cli releases set-commits --auto $SENTRY_RELEASE
-          sentry-cli releases finalize $SENTRY_RELEASE
+      #     echo "sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE"
+      #     sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+      #     sentry-cli releases set-commits --auto $SENTRY_RELEASE
+      #     sentry-cli releases finalize $SENTRY_RELEASE
 
-          # Create new deploy for this Sentry release
-          sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_DEPLOY_ENVIRONMENT
+      #     # Create new deploy for this Sentry release
+      #     sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_DEPLOY_ENVIRONMENT
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
