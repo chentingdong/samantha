@@ -1,10 +1,15 @@
-on: release
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    tags:
+      - "*"
 
-name: E2E test
+name: E2E Testing
 
 jobs:
   deploy:
-    name: Deploy
+    name: E2E Testing
     runs-on: ubuntu-latest
 
     steps:

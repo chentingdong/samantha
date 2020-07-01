@@ -227,7 +227,7 @@
       num_retries: 0
       interval_sec: 10
       timeout_sec: 60
-    webhook: http://express:3000/block_state_update
+    webhook: http://server:3000/block_state_update
 - table:
     schema: public
     name: users

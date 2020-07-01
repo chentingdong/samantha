@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - localTest
+
+name: Test steps locally
+
+jobs:
+  deploy:
+    name: Local Test
+    runs-on: ubuntu-latest
+    env:
+      SERVER_IMAGE: samantha-server:latest
+      WEB_IMAGE: samantha-web:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Render task definition
+        id: render
+        run: |
+          tmpFile=$(mktemp /tmp/task-definition-XXXXXX)
+
+          # render the json template with a list of env variables
+          sed \
+          -e "s/\${WEB_IMAGE}/${WEB_IMAGE}/g" \
+          -e "s/\${SERVER_IMAGE}/${SERVER_IMAGE}/g" \
+          .github/workflows/prod.json \
+          > $tmpFile
+
+          # set output for the subsequent steps to use
+          echo "::set-output name=taskDefinition::$tmpFile"
+
+      - name: Debug
+        run: |
+          echo ${{ steps.render.outputs.taskDefinition }}
+          cat ${{ steps.render.outputs.taskDefinition }}
+
+      - name: Clean up
+        run: |
+          rm ${{ steps.render.outputs.taskDefinition }}

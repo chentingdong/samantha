@@ -124,3 +124,5 @@ build
 .terraform
 
 .tmp_build
+
+.secret

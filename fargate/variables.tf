@@ -8,16 +8,22 @@ variable "web_image_tag" {
   type        = string
 }
 
-variable "server_port" {
-  description = "The server port."
-  type        = number
-  default     = 4000
-}
-
 variable "web_port" {
   description = "The web port"
   type        = number
   default     = 2000
+}
+
+variable "server_port" {
+  description = "The server port."
+  type        = number
+  default     = 3000
+}
+
+variable "hasura_port" {
+  description = "The hasura port."
+  type        = number
+  default     = 8080
 }
 
 variable "whitelist_cidrs" {
