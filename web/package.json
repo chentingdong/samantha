@@ -33,10 +33,7 @@
     "storybook:deploy": "yarn chromatic",
     "chromatic": "npx chromatic --project-token=jn5n1c1u9l",
     "test": "jest",
-    "test:e2e": "NODE_ENV=production PORT=2070 node express.ts & yarn run test:nightwatch:ci",
-    "test:nightwatch:local": "tests/nightwatch/bin/run.local.sh",
-    "test:nightwatch:ci": "tests/nightwatch/bin/run.ci.sh",
-    "test:cypress": "cypress open -C tests/cypress/cypress.json"
+    "test:nightwatch": "tests/nightwatch/bin/run.sh"
   },
   "jest": {
     "testEnvironment": "node",
@@ -73,7 +70,6 @@
     "antd": "^4.2.5",
     "autoprefixer": "^9.8.0",
     "chromatic": "^4.0.2",
-    "cypress": "^4.8.0",
     "dotenv": "^8.2.0",
     "html-webpack-plugin": "^4.0.4",
     "iedriver": "^3.14.2",
@@ -81,7 +77,6 @@
     "jest": "^26.0.1",
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
-    "puppeteer": "^3.3.0",
     "react": "^16.13.1",
     "react-docgen-typescript-loader": "^3.7.2",
     "react-icons": "^3.10.0",
