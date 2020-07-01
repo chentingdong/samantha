@@ -1,26 +1,17 @@
 import React, { useState, useEffect, useRef } from "react"
 import { getIconClassByType } from "../utils/Styles"
-import { Bell, BlockOrDef } from "../models/interface"
+import { BlockOrDef } from "../models/interface"
 import Tree from "react-d3-tree"
 import styled from "styled-components"
 import { Card } from "../components/Card"
 import moment from "moment"
 import { Icon } from "rsuite"
 import { setUiState } from "../operations/mutations/setUiState"
-import { useQuery, useMutation, useSubscription } from "@apollo/client"
-import { BELLS_BY_PK } from "../operations/queries/bellByPk"
-import { GET_BLOCK } from "../operations/subscriptions/getBlock"
 
-import { UI_STATE } from "../operations/queries/uiState"
-
-const BellTree = ({ bell }) => {
-  const rootBlockId = bell.block.id
-  const { data, loading, error } = useSubscription(GET_BLOCK, {
-    variables: { id: rootBlockId },
-  })
-
-  const [translate, setTranslate] = useState({ x: 400, y: 30 })
+function BlockTree({ data }) {
   const treeContainer = useRef()
+  const [translate, setTranslate] = useState({ x: 400, y: 30 })
+
   useEffect(() => {
     const resize = () => {
       setTranslate({
@@ -32,9 +23,8 @@ const BellTree = ({ bell }) => {
     window.addEventListener("resize", resize)
   }, [treeContainer])
 
-  if (loading) return <>Loading...</>
-
   const getTreeData = (block: BlockOrDef) => {
+    if (!block) return {}
     return {
       blockId: block.id,
       name: block.name,
@@ -61,29 +51,17 @@ const BellTree = ({ bell }) => {
   }
 
   const NodeLabel = ({ nodeData }) => {
-    // TODO: move styles to styled css
-    let color
-    switch (nodeData.state) {
-      case "Running":
-        color = "orange"
-        break
-      case "Success":
-        color = "purple"
-      default:
-        color = "gray"
-        break
-    }
     return (
       <Card
-        className={`card border text-xs bg-${color}-700`}
+        className="card border text-xs"
         style={{ width: "180px", height: "120px" }}
         onClick={(e) => onClick(nodeData)}
       >
-        <div className={`card-header bg-${color}-900`}>
+        <div className="card-header">
           <Icon icon={nodeData.icon} className="pr-1" />
           {nodeData.name}
         </div>
-        <div className={`card-body bg-${color}-700`}>
+        <div className="card-body">
           <div>
             Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
           </div>
@@ -95,31 +73,29 @@ const BellTree = ({ bell }) => {
   }
 
   return (
-    data && (
-      <div className="w-full" style={{ height: "500px" }} ref={treeContainer}>
-        <Tree
-          data={getTreeData(data.blocks_by_pk)}
-          translate={translate}
-          collapsible={false}
-          nodeSvgShape={{ shape: "none" }}
-          nodeSize={{ x: 250, y: 150 }}
-          styles={{ links: { stroke: "yellow" } }}
-          zoomable={false}
-          orientation="vertical"
-          transitionDuration={0}
-          separation={{ siblings: 1, nonSiblings: 1 }}
-          allowForeignObjects
-          nodeLabelComponent={{
-            render: <NodeLabel />,
-            foreignObjectWrapper: {
-              x: -100,
-              y: -30,
-            },
-          }}
-        />
-      </div>
-    )
+    <div className="w-full" style={{ height: "500px" }} ref={treeContainer}>
+      <Tree
+        data={getTreeData(data)}
+        translate={translate}
+        collapsible={false}
+        nodeSvgShape={{ shape: "none" }}
+        nodeSize={{ x: 250, y: 150 }}
+        styles={{ links: { stroke: "yellow" } }}
+        zoomable={false}
+        orientation="vertical"
+        transitionDuration={0}
+        separation={{ siblings: 1, nonSiblings: 1 }}
+        allowForeignObjects
+        nodeLabelComponent={{
+          render: <NodeLabel />,
+          foreignObjectWrapper: {
+            x: -100,
+            y: -30,
+          },
+        }}
+      />
+    </div>
   )
 }
 
-export { BellTree }
+export { BlockTree }

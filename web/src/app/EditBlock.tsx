@@ -74,4 +74,4 @@ function EditBlock({ blockId, className = "" }) {
   )
 }
 
-export default EditBlock
+export { EditBlock }

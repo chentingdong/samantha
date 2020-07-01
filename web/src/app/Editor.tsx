@@ -31,7 +31,7 @@ import { useBlockMutations } from "../operations/mutations"
 import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
 import { Control } from "../controls/Control"
-import { BellTree } from "./BellTree"
+import { BlockTree } from "./BlockTree"
 import EditBlock from "./EditBlock"
 import { CREATE_ONE_BELL } from "../operations/mutations/createOneBell"
 import { DELETE_ONE_BELL } from "../operations/mutations/deleteOneBell"
@@ -319,7 +319,7 @@ const EditorRaw = () => {
               (editorMode === EditMode.Create ||
                 editingTypename === Typename.blockDefs) && (
                 <Panel header="Tree View" defaultExpanded>
-                  <BellTree data={draftBlock} />
+                  <BlockTree data={draftBlock} />
                 </Panel>
               )}
             {draftBlock.blockType?.category === "Control" &&
@@ -327,7 +327,7 @@ const EditorRaw = () => {
               editingTypename === Typename.blocks &&
               blockResult && (
                 <Panel header="Tree View" defaultExpanded>
-                  <BellTree data={blockResult?.blocks_by_pk} />
+                  <BlockTree data={blockResult?.blocks_by_pk} />
                 </Panel>
               )}
             {/* {editorMode === EditMode.Edit &&

@@ -9,6 +9,7 @@ export const UI_STATE = gql`
       draftBlock
       showBellEditor
       currentBlockId
+      currentBellId
     }
   }
 `

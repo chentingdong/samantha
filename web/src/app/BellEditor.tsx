@@ -1,22 +1,24 @@
-import React, { useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Drawer } from "../components/Drawer"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation, useSubscription } from "@apollo/client"
 import { setUiState } from "../operations/mutations/setUiState"
-import { GET_BLOCK } from "../operations/subscriptions/getBlock"
+import { BELLS_BY_PK } from "../operations/queries/bellByPk"
+import { GET_BELL } from "../operations/subscriptions/getBell"
 import { BellTree } from "./BellTree"
-import EditBlock from "./EditBlock"
+import { EditBlock } from "./EditBlock"
 
 function BellEditor(props) {
+  const [bell, setBell] = useState({ name: "", description: "" })
   const { data, loading, error } = useQuery(UI_STATE)
-  const { data: blockResult } = useSubscription(GET_BLOCK, {
-    variables: { id: data?.uiState?.currentBlockId },
+  const { data: bellResult, loading: loadingBell } = useQuery(BELLS_BY_PK, {
+    variables: { id: data?.uiState.currentBellId },
   })
 
-  useEffect(() => {
-    if (blockResult?.blocks_by_pk)
-      setUiState({ currentBlockId: blockResult.blocks_by_pk.id })
-  }, [])
+  if (loading) return <>Loading...</>
+  if (loadingBell) return <>Loading Bell</>
+
+  if (bellResult.length > 0) setBell(bellResult.bells[0])
 
   const close = () => {
     setUiState({ showBellEditor: false })
@@ -25,8 +27,14 @@ function BellEditor(props) {
   return (
     <div className="editor">
       <Drawer show={data?.uiState?.showBellEditor} close={close}>
-        <h2>Editing Bell</h2>
-        <BellTree data={blockResult?.blocks_by_pk} />
+        <div className="container mx-auto">
+          <h2>Editing Bell</h2>
+          <label>Name</label>
+          <div>{bell.name}</div>
+          <label>Description</label>
+          <div>{bell.description}</div>
+        </div>
+        <BellTree bell={bellResult.bells[0]} />
         <div className="container mx-auto">
           <EditBlock blockId={data?.uiState?.currentBlockId} />
         </div>

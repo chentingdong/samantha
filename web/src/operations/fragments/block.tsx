@@ -20,6 +20,13 @@ const blockFullFragment = gql`
       type
       state
       context
+      bells {
+        id
+        name
+        description
+        context
+        started_at
+      }
     }
     bells {
       id
@@ -119,6 +126,13 @@ const blockFullFragment = gql`
               type
               state
               context
+              bells {
+                id
+                name
+                description
+                context
+                started_at
+              }
             }
             bells {
               id
@@ -173,6 +187,13 @@ const blockFullFragment = gql`
                   type
                   state
                   context
+                  bells {
+                    id
+                    name
+                    description
+                    context
+                    started_at
+                  }
                 }
                 bells {
                   id

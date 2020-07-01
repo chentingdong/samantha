@@ -46,6 +46,7 @@ export interface BlockDef {
   state?: object
   control?: object
   root?: BlockOrDef
+  bells?: Bell[]
   parents: ParentChild[]
   children: ParentChild[]
   requestors: BlockUser[]
@@ -62,6 +63,7 @@ export interface UiState {
   showEditor?: boolean
   draftBlock?: BlockOrDef
   showBellEditor?: boolean
+  currentBellId?: string
   currentBlockId?: string
   editorMode?: EditMode
   editingTypename?: Typename
