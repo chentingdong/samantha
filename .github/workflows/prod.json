@@ -38,7 +38,9 @@
       }
     },
     {
-      "command": ["yarn hasura:migrate && yarn hasura:metadata && yarn start"],
+      "command": [
+        "/bin/sh -c \"yarn hasura:migrate && yarn hasura:metadata && yarn start\""
+      ],
       "essential": true,
       "image": "${SERVER_IMAGE}",
       "name": "server",
