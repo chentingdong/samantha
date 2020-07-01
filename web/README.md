@@ -79,9 +79,10 @@ https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27
 
 ## Testing
 
-### E2E testing with nightwatch on local
+### E2E testing with nightwatch
 
-- `yarn test:nightwatch:local`
+- `cd nightwatch`
+- `yarn test`
 
 ### Unit testing
 
