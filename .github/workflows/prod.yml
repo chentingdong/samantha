@@ -72,29 +72,26 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
           echo "::set-env name=WEB_IMAGE::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
-      - name: Render task definition
-        id: renderTaskDefinition
-        run: |
-          tmpFile=$(mktemp /tmp/task-definition-XXXXXX)
+      - name: Fill in the new samantha-server image ID in the Amazon ECS task definition
+        id: task-def-server
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: .github/workflows/prod.json
+          container-name: server
+          image: $SERVER_IMAGE
 
-          # render the json template with a list of env variables
-          sed \
-          -e "s/\${WEB_IMAGE}/${WEB_IMAGE}/g" \
-          -e "s/\${SERVER_IMAGE}/${SERVER_IMAGE}/g" \
-          .github/workflows/prod.json \
-          > $tmpFile
-
-          # set output for the subsequent steps to use
-          echo "::set-output name=taskDefinition::$tmpFile"
+      - name: Fill in the new samantha-web image ID in the Amazon ECS task definition
+        id: task-def-web
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-server.outputs.task-definition }}
+          container-name: web
+          image: $WEB_IMAGE
 
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.renderTaskDefinition.outputs.taskDefinition }}
+          task-definition: ${{ steps.task-def-web.outputs.task-definition }}
           service: samantha_service
           cluster: samantha
           wait-for-service-stability: true
-
-      - name: Clean up
-        run: |
-          rm ${{ steps.renderTaskDefinition.outputs.taskDefinition }}
