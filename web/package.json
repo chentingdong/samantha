@@ -181,7 +181,7 @@
     "rimraf": "^3.0.2",
     "rsuite": "^4.7.0",
     "sass-loader": "^8.0.2",
-    "selenium-server": "^3.9.1",
+    "selenium-server": "3.9.1",
     "selenium-webdriver": "^4.0.0-alpha.7",
     "shallowequal": "^1.1.0",
     "source-map-loader": "^0.2.4",

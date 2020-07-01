@@ -8,7 +8,8 @@ module.exports = {
   custom_commands_path: "tests/nightwatch/bin",
   selenium: {
     start_process: true,
-    server_path: "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
+    server_path:
+      "node_modules/selenium-server/lib/runner/selenium-server-standalone-3.9.1.jar",
     log_path: "tests/nightwatch/logs",
     port: selenium_port,
   },
@@ -29,7 +30,8 @@ module.exports = {
       selenium_host: selenium_host,
       selenium_port: selenium_port,
       output_timestamp: true,
-      server_path: "tests/nightwatch/bin/selenium-server-standalone-3.9.1.jar",
+      server_path:
+        "node_modules/selenium-server/lib/runner/selenium-server-standalone-3.9.1.jar",
       log_path: "tests/nightwatch/logs",
       cli_args: {
         "webdriver.gecko.driver": require("geckodriver").path,
