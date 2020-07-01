@@ -13,15 +13,14 @@ function BellTree({ data }) {
   const [translate, setTranslate] = useState({ x: 400, y: 30 })
 
   useEffect(() => {
-    const handleWindowResize = () => {
-      const width = treeContainer?.current?.offsetWidth / 2 || 500
+    const resize = () => {
       setTranslate({
-        x: width,
+        x: window.innerWidth / 3,
         y: 30,
       })
     }
-    handleWindowResize()
-    window.addEventListener("resize", handleWindowResize)
+    resize()
+    window.addEventListener("resize", resize)
   }, [treeContainer])
 
   const getTreeData = (block: BlockOrDef) => {
@@ -46,7 +45,7 @@ function BellTree({ data }) {
   const onClick = (nodeData) => {
     console.log(nodeData)
     setUiState({
-      // showBellEditor: true,
+      showBlockEditor: true,
       currentBlockId: nodeData.blockId,
     })
   }
@@ -94,7 +93,7 @@ function BellTree({ data }) {
         nodeSvgShape={{ shape: "none" }}
         nodeSize={{ x: 250, y: 150 }}
         styles={{ links: { stroke: "yellow" } }}
-        zoomable={true}
+        zoomable={false}
         orientation="vertical"
         transitionDuration={0}
         separation={{ siblings: 1, nonSiblings: 1 }}

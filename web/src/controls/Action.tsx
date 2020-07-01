@@ -32,6 +32,7 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   const template = block?.control?.forms[0].template
   const TagName = components[template]
   let root = block?.root ? block.root : block
+
   const form = root.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 

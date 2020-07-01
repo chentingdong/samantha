@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback } from "react"
+import { nanoid } from "nanoid"
 import {
   ButtonToolbar,
   PanelGroup,
@@ -32,16 +33,23 @@ import { DraftControlledInput } from "./DraftControlledInput"
 import { Control } from "../controls/Control"
 import { BellTree } from "./BellTree"
 import EditBlock from "./EditBlock"
+import { CREATE_ONE_BELL } from "../operations/mutations/createOneBell"
+import { DELETE_ONE_BELL } from "../operations/mutations/deleteOneBell"
 import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockRequestor"
 import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
 import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
 import { DELETE_BLOCK_RESPONDER } from "../operations/mutations/deleteBlockResponder"
 import { GET_BLOCK } from "../operations/subscriptions/getBlock"
+import { deleteOneBlock } from "../operations/blockOperations"
 
 const EditorRaw = () => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
-  const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
+  const [createFn, updateFn, deleteFn] = useBlockMutations(
+    data?.uiState?.editingTypename
+  )
+  const [createOneBell] = useMutation(CREATE_ONE_BELL)
+  const [deleteOneBell] = useMutation(DELETE_ONE_BELL)
   const [insertBlockRequestor] = useMutation(INSERT_BLOCK_REQUESTOR)
   const [deleteBlockRequestor] = useMutation(DELETE_BLOCK_REQUESTOR)
   const [insertBlockResponder] = useMutation(INSERT_BLOCK_RESPONDER)
@@ -101,18 +109,53 @@ const EditorRaw = () => {
     _block.children.map(({ child }) => setRootId(child, root_id))
   }
 
+  const createBell = async (block) => {
+    const bell = {
+      id: nanoid(),
+      root_block_id: block.id,
+      name: block.name,
+      description: block.description,
+      state: "Created",
+      context: {},
+    }
+    await createOneBell({ variables: { data: bell } })
+    return bell.id
+  }
+
+  const deleteBell = async (bellId) => {
+    deleteOneBell({
+      variables: {
+        data: { id: bellId },
+      },
+    })
+  }
+
+  const deleteBLock = (block) => {
+    const syncRemote = editorMode === EditMode.Edit
+    deleteOneBlock(draftBlock, block, parent, syncRemote, deleteFn)
+  }
+
   const saveNewBlock = async (_editorMode, _editingTypename, block) => {
     if (_editorMode === EditMode.Create) {
-      await createFn({
-        variables: {
-          data: transformBlockInput(block),
-        },
-      })
-      // set root recursively
-      await setRootId(block, block.id)
+      let bellId = ""
+      try {
+        await createFn({
+          variables: {
+            data: transformBlockInput(block),
+          },
+        })
+        // set root recursively
+        await setRootId(block, block.id)
 
-      if (_editingTypename === "blocks") {
-        updateFn({ variables: { data: { state: "Running" }, id: block.id } })
+        // create a bell based on root block
+        bellId = await createBell(block)
+
+        if (_editingTypename === "blocks") {
+          updateFn({ variables: { data: { state: "Running" }, id: block.id } })
+        }
+      } catch (error) {
+        deleteBLock(block)
+        deleteBell(bellId)
       }
     }
     close()

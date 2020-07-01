@@ -10,7 +10,7 @@ import EditBlock from "./EditBlock"
 function BellEditor(props) {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: blockResult } = useSubscription(GET_BLOCK, {
-    variables: { id: data?.uiState?.draftBlock?.id },
+    variables: { id: data?.uiState?.currentBlockId },
   })
 
   useEffect(() => {
@@ -28,7 +28,7 @@ function BellEditor(props) {
         <h2>Editing Bell</h2>
         <BellTree data={blockResult?.blocks_by_pk} />
         <div className="container mx-auto">
-          <EditBlock blockId={data.uiState.currentBlockId} />
+          <EditBlock blockId={data?.uiState?.currentBlockId} />
         </div>
       </Drawer>
     </div>

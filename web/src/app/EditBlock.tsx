@@ -40,9 +40,10 @@ function EditBlock({ blockId, className = "" }) {
 
   return (
     <div>
-      <form onSubmit={submit}>
+      <form onSubmit={submit} className="mb-4">
+        <h2>Block</h2>
         <div>
-          <label className="block">Bell name</label>
+          <label className="block">Block name</label>
           <input
             name="name"
             ref={register({ required: true, maxLength: 100 })}
@@ -51,7 +52,7 @@ function EditBlock({ blockId, className = "" }) {
           />
         </div>
         <div>
-          <label className="block">Bell description</label>
+          <label className="block">Block description</label>
           <input
             name="description"
             ref={register({ required: true, maxLength: 100 })}
@@ -60,12 +61,12 @@ function EditBlock({ blockId, className = "" }) {
           />
         </div>
       </form>
-      <div>
+      <div className="mb-4">
         <Assignment block={block} setBlock={setBlock} />
       </div>
       {block?.blockType?.category === "Action" && (
         <>
-          <h3>Action</h3>
+          <h2>Action</h2>
           <Action block={block} setBlock={setBlock} />
         </>
       )}
