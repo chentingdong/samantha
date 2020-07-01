@@ -1,9 +1,6 @@
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-  push:
-    tags:
-      - "*"
 
 name: E2E Testing
 
