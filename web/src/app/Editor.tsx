@@ -72,14 +72,14 @@ const EditorRaw = () => {
       }
       if (data?.uiState?.editingTypename === Typename.blocks) {
         dataInput.requestors = {
-          data: draft.requestors.map((user) => ({
+          data: draft.requestors?.map((user) => ({
             user_id: user.id,
             block_id: draft.id,
             user,
           })),
         }
         dataInput.responders = {
-          data: draft.responders.map((user) => ({
+          data: draft.responders?.map((user) => ({
             user_id: user.id,
             block_id: draft.id,
             user,
@@ -98,7 +98,9 @@ const EditorRaw = () => {
 
   const setRootId = async (_block, root_id) => {
     updateFn({ variables: { data: { root_id }, id: _block.id } })
-    _block.children.map(({ child }) => setRootId(child, root_id))
+    if (Array.isArray(_block?.children)) {
+      _block?.children?.map(({ child }) => setRootId(child, root_id))
+    }
   }
 
   const saveNewBlock = async (_editorMode, _editingTypename, block) => {
@@ -219,7 +221,11 @@ const EditorRaw = () => {
                     <div>Requestors: </div>
                     <TagPicker
                       data={users}
-                      value={draftBlock.requestors.map((user) => user.user)}
+                      value={
+                        Array.isArray(draftBlock?.requestors)
+                          ? draftBlock?.requestors?.map((user) => user.user)
+                          : []
+                      }
                       onChange={(value) => chooseRequestors(value)}
                       onInsertTag={(value) => insertRequestor(value)}
                       onDeleteTag={(value) => deleteRequestor(value)}
@@ -229,7 +235,11 @@ const EditorRaw = () => {
                     <div>Responders: </div>
                     <TagPicker
                       data={users}
-                      value={draftBlock.responders.map((user) => user.user)}
+                      value={
+                        Array.isArray(draftBlock?.responders)
+                          ? draftBlock?.responders?.map((user) => user.user)
+                          : []
+                      }
                       onChange={(value) => chooseResponders(value)}
                       onInsertTag={(value) => insertResponder(value)}
                       onDeleteTag={(value) => deleteResponder(value)}
@@ -251,7 +261,7 @@ const EditorRaw = () => {
                 <Row>
                   <Col xs={16}>
                     <BlockChildrenList
-                      blocks={draftBlock.children.map(({ child }) => child)}
+                      blocks={draftBlock?.children?.map(({ child }) => child)}
                       parent={draftBlock}
                       type={draftBlock.blockType}
                     />

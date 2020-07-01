@@ -49,3 +49,15 @@
 
 - CI/CD managed by Github Actions
 - DATABASE_URL will be injected into api service from .env
+
+## [Optional] Test Github Actions locally using https://github.com/nektos/act and custom runner image
+
+- build a github actions runner image locally:
+
+  - `cd .github/runners`
+  - `docker build -t github-actions-runner:latest .`
+  - `cd ../..`
+
+- copy .github/workflows/.secret.template to .github/workflows/.secret and fill out the secrets for local environment
+  - List all the github actions workflows `act -l`
+  - Dry run with specific ENVIRONMENT: `act -n -P ubuntu-latest=github-actions-runner:latest --secret-file .github/workflows/.secret -b -W .github/workflows/${ENVIRONMENT}.yml`

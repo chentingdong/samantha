@@ -44,15 +44,15 @@ resource "aws_ecs_cluster" "samantha" {
   }
 }
 
-data "template_file" "container_definitions" {
-  template = "${file("${path.module}/container-definitions.json")}"
+# data "template_file" "container_definitions" {
+#   template = "${file("${path.module}/container-definitions.json")}"
 
-  vars = {
-    server_image = "${data.aws_ecr_repository.samantha-server.repository_url}:${var.server_image_tag}"
-    web_image    = "${data.aws_ecr_repository.samantha-web.repository_url}:${var.web_image_tag}"
-    DATABASE_URL = "${file("${path.module}/.env")}"
-  }
-}
+#   vars = {
+#     server_image = "${data.aws_ecr_repository.samantha-server.repository_url}:${var.server_image_tag}"
+#     web_image    = "${data.aws_ecr_repository.samantha-web.repository_url}:${var.web_image_tag}"
+#     DATABASE_URL = "${file("${path.module}/.env")}"
+#   }
+# }
 
 # # ecs task created from `ecs-cli compose create`
 # resource "aws_ecs_task_definition" "samantha" {
@@ -81,6 +81,11 @@ data "template_file" "container_definitions" {
 #     target_group_arn = aws_lb_target_group.target_group_server.arn # Referencing our target group
 #     container_name   = "server"
 #     container_port   = var.server_port # Specifying the container port
+#   }
+#   load_balancer {
+#     target_group_arn = aws_lb_target_group.target_group_hasura.arn # Referencing our target group
+#     container_name   = "hasura"
+#     container_port   = var.hasura_port # Specifying the container port
 #   }
 #   network_configuration {
 #     subnets          = data.aws_subnet_ids.public.ids
@@ -158,6 +163,13 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks     = var.whitelist_cidrs # Allowing traffic in from all sources
     security_groups = ["sg-e25dbbb4"]
   }
+  ingress {
+    from_port       = var.hasura_port # Allowing traffic in from port 80
+    to_port         = var.hasura_port
+    protocol        = "tcp"
+    cidr_blocks     = var.whitelist_cidrs # Allowing traffic in from all sources
+    security_groups = ["sg-e25dbbb4"]
+  }
   egress {
     from_port   = 0             # Allowing any incoming port
     to_port     = 0             # Allowing any outgoing port
@@ -177,6 +189,14 @@ resource "aws_lb_target_group" "target_group_web" {
 resource "aws_lb_target_group" "target_group_server" {
   name        = "samantha-target-group-server"
   port        = var.server_port
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
+}
+
+resource "aws_lb_target_group" "target_group_hasura" {
+  name        = "samantha-target-group-hasura"
+  port        = var.hasura_port
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
@@ -208,13 +228,30 @@ resource "aws_lb_listener" "server_listener" {
   }
 }
 
+resource "aws_lb_listener" "hasura_listener" {
+  load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
+  port              = var.hasura_port
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-east-1:079056339674:certificate/26c59fef-a5e1-4f24-90e8-a94cda70d1f3"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group_hasura.arn # Referencing our tagrte group
+  }
+}
+
 # cloudwatch
+resource "aws_cloudwatch_log_group" "samantha-web" {
+  name = "samantha-web"
+}
+
 resource "aws_cloudwatch_log_group" "samantha-server" {
   name = "samantha-server"
 }
 
-resource "aws_cloudwatch_log_group" "samantha-web" {
-  name = "samantha-web"
+resource "aws_cloudwatch_log_group" "samantha-hasura" {
+  name = "samantha-hasura"
 }
 
 resource "aws_cloudwatch_log_group" "samantha-postgres" {

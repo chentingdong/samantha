@@ -1,0 +1,100 @@
+on:
+  push:
+    tags:
+      - "*"
+
+name: Production Deployment to Amazon ECS
+
+jobs:
+  deploy:
+    name: Production Deployment
+    runs-on: ubuntu-latest
+    env:
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+      SENTRY_DEPLOY_ENVIRONMENT: ${{ secrets.SENTRY_DEPLOY_ENVIRONMENT }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Create new Sentry release
+        id: sentry
+        run: |
+          # Install Sentry CLI
+          curl -sL https://sentry.io/get-cli/ | bash
+
+          # Create new Sentry release
+          export SENTRY_RELEASE=$(sentry-cli releases propose-version)
+          echo "::set-env name=SENTRY_RELEASE::$SENTRY_RELEASE"
+
+          echo "sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE"
+          sentry-cli releases new -p $SENTRY_PROJECT $SENTRY_RELEASE
+          sentry-cli releases set-commits --auto $SENTRY_RELEASE
+          sentry-cli releases finalize $SENTRY_RELEASE
+
+          # Create new deploy for this Sentry release
+          sentry-cli releases deploys $SENTRY_RELEASE new -e $SENTRY_DEPLOY_ENVIRONMENT
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: loginEcr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push server image to Amazon ECR
+        id: buildServerImage
+        env:
+          ECR_REGISTRY: ${{ steps.loginEcr.outputs.registry }}
+          ECR_SERVER_REPOSITORY: samantha-server
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd $GITHUB_WORKSPACE/hasura
+          docker build -t $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG
+          echo "::set-env name=SERVER_IMAGE::$ECR_REGISTRY/$ECR_SERVER_REPOSITORY:$IMAGE_TAG"
+
+      - name: Build, tag, and push web image to Amazon ECR
+        id: buildWebImage
+        env:
+          ECR_REGISTRY: ${{ steps.loginEcr.outputs.registry }}
+          ECR_WEB_REPOSITORY: samantha-web
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          cd $GITHUB_WORKSPACE/web
+          docker build -t $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=$SENTRY_RELEASE .
+          docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
+          echo "::set-env name=WEB_IMAGE::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
+
+      - name: Render task definition
+        id: renderTaskDefinition
+        run: |
+          tmpFile=$(mktemp /tmp/task-definition-XXXXXX)
+
+          # render the json template with a list of env variables
+          sed \
+          -e "s/\${WEB_IMAGE}/${WEB_IMAGE}/g" \
+          -e "s/\${SERVER_IMAGE}/${SERVER_IMAGE}/g" \
+          .github/workflows/prod.json \
+          > $tmpFile
+
+          # set output for the subsequent steps to use
+          echo "::set-output name=taskDefinition::$tmpFile"
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.renderTaskDefinition.outputs.taskDefinition }}
+          service: samantha_service
+          cluster: samantha
+          wait-for-service-stability: true
+
+      - name: Clean up
+        run: |
+          rm ${{ steps.renderTaskDefinition.outputs.taskDefinition }}

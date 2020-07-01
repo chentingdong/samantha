@@ -1,0 +1,111 @@
+{
+  "containerDefinitions": [
+    {
+      "command": ["graphql-engine", "serve"],
+      "essential": true,
+      "image": "hasura/graphql-engine:v1.2.2",
+      "name": "hasura",
+      "cpu": 512,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "hostPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "HASURA_GRAPHQL_DATABASE_URL",
+          "value": "postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/hasura"
+        },
+        {
+          "name": "HASURA_GRAPHQL_ENABLE_CONSOLE",
+          "value": "true"
+        },
+        {
+          "name": "HASURA_GRAPHQL_ADMIN_SECRET",
+          "value": "qcA.wmEfFzDpfzZZoepJs7gw"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-hasura",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    },
+    {
+      "command": ["yarn hasura:migrate && yarn hasura:metadata && yarn start"],
+      "essential": true,
+      "image": "${SERVER_IMAGE}",
+      "name": "server",
+      "cpu": 512,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "HASURA_GRAPHQL_ENDPOINT",
+          "value": "http://hasura:8080"
+        },
+        {
+          "name": "HASURA_GRAPHQL_CLI_ENVIRONMENT",
+          "value": "default"
+        },
+        {
+          "name": "HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION",
+          "value": "false"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-server",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    },
+    {
+      "command": ["yarn", "-s", "start:prod"],
+      "essential": true,
+      "image": "${WEB_IMAGE}",
+      "name": "web",
+      "cpu": 512,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "containerPort": 2000,
+          "hostPort": 2000,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-web",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
+    }
+  ],
+  "family": "samantha",
+  "requiresCompatibilities": ["FARGATE"],
+  "networkMode": "awsvpc",
+  "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole",
+  "cpu": "1024",
+  "memory": "2048"
+}
