@@ -8,7 +8,7 @@ const graphQLUri =
     : `http://localhost:${apiPort}${graphQLPath}`
 const webSocketUri =
   process.env.NODE_ENV === "production"
-    ? `ws://${window.location.hostname}:${apiPort}${graphQLPath}`
+    ? `wss://${window.location.hostname}:${apiPort}${graphQLPath}`
     : `ws://localhost:${apiPort}${graphQLPath}`
 
 const config = {
