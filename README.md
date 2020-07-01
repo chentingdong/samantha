@@ -1,6 +1,6 @@
 ## Project Status
 
-![Deploy to Amazon ECS](https://github.com/bellhop-io/samantha/workflows/Deploy%20to%20Amazon%20ECS/badge.svg)
+![Production Deployment to Amazon ECS](https://github.com/bellhop-io/samantha/workflows/Production%20Deployment%20to%20Amazon%20ECS/badge.svg)
 
 ## Services
 
