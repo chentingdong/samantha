@@ -17,7 +17,7 @@
       "environment": [
         {
           "name": "HASURA_GRAPHQL_DATABASE_URL",
-          "value": "postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/hasura"
+          "value": "postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@db.dev.bellhop.io:5432/hasura"
         },
         {
           "name": "HASURA_GRAPHQL_ENABLE_CONSOLE",

@@ -1,20 +1,71 @@
 [
   {
-    "command": ["yarn", "-s", "prod"],
+    "command": ["graphql-engine", "serve"],
     "essential": true,
-    "image": "${server_image}",
-    "name": "server",
+    "image": "hasura/graphql-engine:v1.2.2",
+    "name": "hasura",
+    "cpu": 512,
+    "memory": 1024,
     "portMappings": [
       {
-        "containerPort": 4000,
-        "hostPort": 4000,
+        "containerPort": 8080,
+        "hostPort": 8080,
         "protocol": "tcp"
       }
     ],
     "environment": [
       {
-        "name": "DATABASE_URL",
-        "value": "${DATABASE_URL}"
+        "name": "HASURA_GRAPHQL_DATABASE_URL",
+        "value": "postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@db.dev.bellhop.io:5432/hasura"
+      },
+      {
+        "name": "HASURA_GRAPHQL_ENABLE_CONSOLE",
+        "value": "true"
+      },
+      {
+        "name": "HASURA_GRAPHQL_ADMIN_SECRET",
+        "value": "qcA.wmEfFzDpfzZZoepJs7gw"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "samantha-hasura",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "ecs"
+      }
+    }
+  },
+  {
+    "command": ["yarn hasura:migrate && yarn hasura:metadata && yarn start"],
+    "essential": true,
+    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:13c97c269cf4bb643ed4a6e3b34b633543235a2a",
+    "name": "server",
+    "cpu": 512,
+    "memory": 1024,
+    "portMappings": [
+      {
+        "containerPort": 3000,
+        "hostPort": 3000,
+        "protocol": "tcp"
+      }
+    ],
+    "environment": [
+      {
+        "name": "NODE_ENV",
+        "value": "production"
+      },
+      {
+        "name": "HASURA_GRAPHQL_ENDPOINT",
+        "value": "http://hasura:8080"
+      },
+      {
+        "name": "HASURA_GRAPHQL_CLI_ENVIRONMENT",
+        "value": "default"
+      },
+      {
+        "name": "HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION",
+        "value": "false"
       }
     ],
     "logConfiguration": {
@@ -27,10 +78,12 @@
     }
   },
   {
-    "command": ["yarn", "-s", "start-prod"],
+    "command": ["yarn", "-s", "start:prod"],
     "essential": true,
-    "image": "${web_image}",
+    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-web:13c97c269cf4bb643ed4a6e3b34b633543235a2a",
     "name": "web",
+    "cpu": 512,
+    "memory": 1024,
     "portMappings": [
       {
         "containerPort": 2000,
