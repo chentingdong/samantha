@@ -79,11 +79,9 @@ https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27
 
 ## Testing
 
-## Behavior testing
+### E2E testing with nightwatch on local
 
-- start selenium server `yarn selenium-server`
-- set up testing env `test:nightwatch:setenv`
-- run test `yarn test:nightwatch`
+- `yarn test:nightwatch:local`
 
 ### Unit testing
 

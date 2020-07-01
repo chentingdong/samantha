@@ -4,8 +4,9 @@
 
 ## Services
 
-- React web app
-- GraphQL API server
+- React Web App
+- Express Server for event handling
+- Hasura GraphQL
 - Postgres DB (local) or RDS Aurora Postgres (prod)
 
 ## Getting Started Guide
@@ -16,10 +17,12 @@
 - Install VSCode
   - Download https://code.visualstudio.com/download
   - Install useful extensions https://marketplace.visualstudio.com/
+    - Auto Import
     - ESLint
-    - npm
-    - Beautify
-    - Debugger for Chrom
+    - Jest
+    - Path Intellisense
+    - Prettier - Code formatter
+    - YAML
 - Install homebrew
   - https://brew.sh/
 - Install NVM
@@ -32,18 +35,16 @@
 - Install Docker
   - brew install docker
 
-### Starting your local environment (with or without Docker)
 
-- SEE `poc` directories for specific instructions
+## Docker Compose for standing up the server/hasura/postgres while developing web
+
+- `cd $REPO_ROOT`
+- `docker-compose up -d server`
 
 ## Docker Compose for standing up the full stack in local env
 
-- `cd $REPO_ROOT/server`
-- `docker build -t samantha-server:latest .`
-- `cd $REPO_ROOT/web`
-- `docker build -t samantha-web:latest .`
 - `cd $REPO_ROOT`
-- `docker-compose up`
+- `docker-compose up -d`
 
 ## Terraform for deploying the full stack to AWS Fargate
 
