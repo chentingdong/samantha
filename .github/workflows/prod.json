@@ -62,7 +62,7 @@
         },
         {
           "name": "HASURA_GRAPHQL_ENDPOINT",
-          "value": "https://poc.dev.bellhop.io:8080"
+          "value": "http://localhost:8080"
         },
         {
           "name": "HASURA_GRAPHQL_CLI_ENVIRONMENT",
