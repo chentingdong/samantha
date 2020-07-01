@@ -1,11 +1,13 @@
-on: release
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
 
-name: E2E test
+name: E2E Testing
 
 jobs:
   deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
+    name: E2E Testing
+    runs-on: [self-hosted, Linux, X64]
 
     steps:
       - name: Checkout

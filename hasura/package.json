@@ -16,11 +16,9 @@
     "@types/react": "^16.9.38",
     "babel-jest": "^26.1.0",
     "jest": "^26.0.1",
-    "lodash.clonedeep": "^4.5.0",
     "nodemon": "^2.0.4",
     "ts-jest": "^26.1.1",
-    "ts-node": "^8.10.2",
-    "typescript": "^3.9.5"
+    "ts-node": "^8.10.2"
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-rc.6",
@@ -31,14 +29,19 @@
     "cross-fetch": "^3.0.5",
     "express": "^4.17.1",
     "graphql": "^15.1.0",
+    "hasura-cli": "^1.2.2",
     "invariant": "^2.2.4",
     "json-rules-engine": "^5.0.3",
     "jsonpath-plus": "^4.0.0",
-    "nanoid": "^3.1.10"
+    "lodash.clonedeep": "^4.5.0",
+    "nanoid": "^3.1.10",
+    "typescript": "^3.9.5"
   },
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "hasura:migrate": "hasura --skip-update-check migrate apply",
+    "hasura:metadata": "hasura --skip-update-check metadata apply"
   }
 }

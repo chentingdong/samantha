@@ -18,7 +18,7 @@
     "prestart": "yarn run prebuild",
     "start": "yarn start:dev",
     "start:dev": "NODE_ENV=development webpack-dev-server --config=configs/webpack/dev.js --sourcemap --http --port 2000",
-    "start:prod": "NODE_ENV=production node express.ts &",
+    "start:prod": "NODE_ENV=production node express.ts",
     "prod": "yarn run build && yarn run start:prod",
     "build": "NODE_ENV=production BABEL_ENV=production webpack -p --config=configs/webpack/prod.js ",
     "prebuild": "yarn clean && rebuild-node-sass && yarn run build:theme",

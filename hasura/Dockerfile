@@ -1,5 +1,8 @@
 FROM node:12-stretch-slim
 
+RUN apt update && apt install -y git
+RUN git config --global http.sslverify false
+
 RUN mkdir /app
 WORKDIR /app
 
