@@ -45,7 +45,7 @@ jobs:
       - name: Start services
         env:
           WEB_IMAGE_TAG: $IMAGE_TAG
-          SERVER_IMAGE_TAG: $SERVER_TAG
+          SERVER_IMAGE_TAG: $IMAGE_TAG
         run: docker-compose up -d
 
       - name: Run e2e tests
@@ -56,5 +56,5 @@ jobs:
       - name: Stop services
         env:
           WEB_IMAGE_TAG: $IMAGE_TAG
-          SERVER_IMAGE_TAG: $SERVER_TAG
+          SERVER_IMAGE_TAG: $IMAGE_TAG
         run: docker-compose down
