@@ -63,11 +63,11 @@ function DemoRaw({ className }) {
                     eventKey="requests-active"
                     className="requests-active"
                   >
-                    Active Work
+                    All Active Bells
                   </Nav.Item>
-                  <Nav.Item eventKey="requests-made" className="requests-made">
+                  {/* <Nav.Item eventKey="requests-made" className="requests-made">
                     Your Requested Work
-                  </Nav.Item>
+                  </Nav.Item> */}
                   <Nav.Item
                     eventKey="requests-received"
                     className="requests-received"
@@ -92,10 +92,10 @@ function DemoRaw({ className }) {
                 </Nav>
               </Col>
               <Col xs={24} lg={20}>
-                {active === "request-catalog" && <RequestCatalogList />}
                 {active === "requests-active" && <RequestsActiveList />}
-                {active === "requests-made" && <RequestsMadeList />}
+                {/* {active === "requests-made" && <RequestsMadeList />} */}
                 {active === "requests-received" && <RequestsReceivedList />}
+                {active === "request-catalog" && <RequestCatalogList />}
                 {active === "context-viewer" && <ContextViewCodes />}
               </Col>
             </Row>

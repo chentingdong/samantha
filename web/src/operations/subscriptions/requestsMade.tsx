@@ -6,7 +6,12 @@ export const REQUESTS_MADE = gql`
     blocks(
       limit: 20
       order_by: { last_updated: desc_nulls_first }
-      where: { requestors: { user: { id: { _eq: $userId } } } }
+      where: {
+        _and: [
+          { bells: {} }
+          { requestors: { user: { id: { _eq: $userId } } } }
+        ]
+      }
     ) {
       ...blockFullFragment
     }

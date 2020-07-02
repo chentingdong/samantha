@@ -20,9 +20,7 @@ const RequestsReceivedList = ({ className = "" }) => {
   if (!data || !authUserResult) return <></>
 
   return (
-    <div
-      className={`requests-received-list ${className} grid grid-cols-2 gap-4`}
-    >
+    <div className={`requests-received-list ${className}`}>
       {data.blocks.map((block: BlockDef, index: number) => (
         <RequestItem
           block={block}

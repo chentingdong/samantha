@@ -7,6 +7,7 @@ export const REQUESTS_ACTIVE = gql`
       order_by: { created_at: desc_nulls_first }
       where: {
         _and: [
+          { bells: {} }
           { state: { _eq: Running } }
           {
             _or: [
