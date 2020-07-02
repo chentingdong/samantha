@@ -29,5 +29,5 @@ variable "hasura_port" {
 variable "whitelist_cidrs" {
   description = "Home IPs to whitelist in the security groups"
   type = list
-  default = ["67.180.84.92/32", "71.198.133.9/32", "98.248.138.166/32", "76.95.235.24/32", "67.161.45.56/32"]
+  default = ["67.180.84.92/32", "71.198.133.9/32", "98.248.138.166/32", "76.95.235.24/32", "67.161.45.56/32", "24.6.72.244/32"]
 }
