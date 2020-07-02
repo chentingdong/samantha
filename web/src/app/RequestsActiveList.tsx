@@ -3,13 +3,14 @@ import { useQuery, useSubscription } from "@apollo/client"
 import { REQUESTS_ACTIVE } from "../operations/subscriptions/requestsActive"
 import { RequestItem } from "./RequestItem"
 import { BlockDef } from "../models/interface"
-import { ItemOrigin, Typename, EditMode } from "../models/enum"
-import { Loading, Error } from "../components/Misc"
+import { ItemOrigin } from "../models/enum"
+import { Error } from "../components/Misc"
 import { AUTH_USER } from "../operations/queries/authUser"
-import { CatalogDropdown } from "./CatalogDropdown"
-import { Divider, Loader } from "rsuite"
+import { Loader } from "rsuite"
 
-const RequestsActiveList = ({ className = "" }) => {
+const RequestsActiveList: React.FC<{ className: string }> = ({
+  className = "",
+}) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
   const { loading, error, data } = useSubscription(REQUESTS_ACTIVE)
 
