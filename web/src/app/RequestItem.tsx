@@ -71,7 +71,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
         showBellEditor: true,
         showEditor: false,
         currentBlockId: block.id,
-        currentBellId: block.bells[0].id,
+        currentBellId: block?.bells[0].id,
       })
     } else {
       setUiState(
