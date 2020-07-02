@@ -43,9 +43,6 @@ jobs:
           echo "::set-output name=web_image::$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
       - name: Start services
-        env:
-          WEB_IMAGE_TAG: $IMAGE_TAG
-          SERVER_IMAGE_TAG: $IMAGE_TAG
         run: docker-compose up -d
 
       - name: Run e2e tests
@@ -54,7 +51,4 @@ jobs:
           yarn test
 
       - name: Stop services
-        env:
-          WEB_IMAGE_TAG: $IMAGE_TAG
-          SERVER_IMAGE_TAG: $IMAGE_TAG
         run: docker-compose down
