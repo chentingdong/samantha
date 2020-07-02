@@ -1,7 +1,7 @@
 version: "3"
 services:
   web:
-    image: samantha-web:latest
+    image: samantha-web:${WEB_IMAGE_TAG:-latest}
     build:
       context: ./web
       dockerfile: Dockerfile
@@ -41,7 +41,7 @@ services:
     command: graphql-engine serve
 
   server:
-    image: samantha-server:latest
+    image: samantha-server:${SERVER_IMAGE_TAG:-latest}
     build:
       context: ./hasura
       dockerfile: Dockerfile
