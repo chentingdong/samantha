@@ -6,12 +6,7 @@ export const REQUESTS_RECEIVED = gql`
     blocks(
       limit: 20
       order_by: { last_updated: desc_nulls_first }
-      where: {
-        _and: [
-          { bells: {} }
-          { responders: { user: { id: { _eq: $userId } } } }
-        ]
-      }
+      where: { _and: [{ responders: { user: { id: { _eq: $userId } } } }] }
     ) {
       ...blockFullFragment
     }
