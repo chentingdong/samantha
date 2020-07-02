@@ -50,7 +50,8 @@ jobs:
       - name: Run e2e tests
         run: |
           cd $GITHUB_WORKSPACE/web/nightwatch
-          source /home/ubuntu/.bashrc
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           yarn install
           yarn test
 
