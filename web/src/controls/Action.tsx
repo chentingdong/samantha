@@ -34,7 +34,7 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   const template = block?.control?.forms[0].template
   const TagName = components[template]
   const bell = block?.root?.bells[0]
-  const form = bell.context[template]
+  const form = bell?.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
   // TODO: debounce happen here

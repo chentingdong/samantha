@@ -31,13 +31,13 @@ const Control: React.FC<{}> = () => {
     data?.uiState?.draftBlock?.root === null
       ? data?.uiState?.draftBlock
       : data?.uiState?.draftBlock?.root
-  const form = root.context[template]
+  const form = root?.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
   // TODO: debounce happen here
   const submit = (form) => {
     const updatedContext = {
-      ...root.context,
+      ...root?.context,
     }
     updatedContext[template] = form
 
