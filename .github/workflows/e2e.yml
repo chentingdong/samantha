@@ -50,6 +50,7 @@ jobs:
       - name: Run e2e tests
         run: |
           cd $GITHUB_WORKSPACE/web/nightwatch
+          source /home/ubuntu/.bashrc
           yarn install
           yarn test
 
