@@ -12,8 +12,8 @@ import Inverter from "./decorators/Inverter"
 import Repeat from "./decorators/Repeat"
 import ReTry from "./decorators/ReTry"
 
-const Control: React.FC<{}> = () => {
-  let components = {
+const Control: React.FC<> = () => {
+  const components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,
     Conditional: Conditional,
@@ -27,7 +27,7 @@ const Control: React.FC<{}> = () => {
   if (!data?.uiState?.draftBlock?.control?.forms) return <></>
   const template = data?.uiState?.draftBlock?.control?.forms[0].template
   const TagName = components[template]
-  let root =
+  const root =
     data?.uiState?.draftBlock?.root === null
       ? data?.uiState?.draftBlock
       : data?.uiState?.draftBlock?.root
