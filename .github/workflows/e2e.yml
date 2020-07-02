@@ -48,6 +48,9 @@ jobs:
           docker-compose up -d
 
       - name: Run e2e tests
+        env:
+          IAM_USERNAME_1: ${{ secrets.IAM_USERNAME_1 }}
+          IAM_PASSWORD_1: ${{ secrets.IAM_PASSWORD_1 }}
         run: |
           cd $GITHUB_WORKSPACE/web/nightwatch
           export NVM_DIR="$HOME/.nvm"
