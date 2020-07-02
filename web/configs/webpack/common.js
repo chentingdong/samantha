@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin")
 module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".mjs"],
+    modules: [resolve(__dirname, "../../src"), "node_modules"],
     alias: {
       "react-dom": "@hot-loader/react-dom",
     },
@@ -20,7 +21,6 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        // use: ["babel-loader", "awesome-typescript-loader"],
         loader: require.resolve("babel-loader"),
         options: {
           presets: [["react-app", { flow: false, typescript: true }]],

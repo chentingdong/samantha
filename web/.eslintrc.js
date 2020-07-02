@@ -1,4 +1,4 @@
-export default {
+module.exports = exports = {
   parser: "@typescript-eslint/parser",
   root: true,
   env: {
@@ -18,6 +18,10 @@ export default {
     "import/resolver": {
       // this loads <rootdir>/tsconfig.json to eslint
       typescript: {},
+      // If webpack pass, eslint should pass
+      webpack: {
+        config: "./configs/webpack/common.js",
+      },
     },
   },
 }
