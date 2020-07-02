@@ -8,7 +8,7 @@ import { Error } from "../components/Misc"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { Loader } from "rsuite"
 
-const RequestsActiveList: React.FC<{ className: string }> = ({
+const RequestsActiveList: React.FC<{ className?: string }> = ({
   className = "",
 }) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
