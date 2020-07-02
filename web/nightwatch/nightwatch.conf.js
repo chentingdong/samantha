@@ -45,7 +45,7 @@ module.exports = {
         javascriptEnabled: true,
         chromeOptions: {
           w3c: false,
-          // args: ["headless"],
+          args: ["headless", "window-size=1920,1080"],
         },
       },
     },
