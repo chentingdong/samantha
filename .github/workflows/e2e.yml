@@ -52,6 +52,7 @@ jobs:
           cd $GITHUB_WORKSPACE/web/nightwatch
           export NVM_DIR="$HOME/.nvm"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+          nvm use 12
           yarn install
           yarn test
 
