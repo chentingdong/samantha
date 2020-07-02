@@ -10,7 +10,7 @@ WORKDIR /app
 COPY package.json yarn.lock /app/
 # COPY ./tests/nightwatch/.env /app/tests/nightwatch/.env
 # RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
-RUN yarn -s install --frozen-lockfile --production && yarn -s cache clean
+RUN yarn -s install --frozen-lockfile && yarn -s cache clean
 RUN /usr/local/bin/node-prune
 
 COPY . /app/
