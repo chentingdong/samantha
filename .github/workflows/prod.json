@@ -41,7 +41,7 @@
       "command": [
         "sh",
         "-c",
-        "yarn hasura:migrate && yarn hasura:metadata && yarn start"
+        "yarn hasura:pre && yarn hasura:migrate && yarn hasura:metadata && yarn start"
       ],
       "essential": true,
       "image": "${SERVER_IMAGE}",
