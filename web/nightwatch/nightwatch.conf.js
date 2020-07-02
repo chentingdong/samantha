@@ -2,15 +2,15 @@ const selenium_host = "localhost"
 const selenium_port = 2077
 
 module.exports = {
-  src_folders: ["tests/nightwatch/tests"],
-  tests_output: "tests/nightwatch/tests_output",
-  output_folders: "tests/nightwatch/reports",
-  custom_commands_path: "tests/nightwatch/bin",
+  src_folders: ["tests"],
+  tests_output: "tests_output",
+  output_folders: "reports",
+  custom_commands_path: "bin",
   selenium: {
     start_process: true,
     server_path:
-      "node_modules/selenium-server/lib/runner/selenium-server-standalone-3.9.1.jar",
-    log_path: "tests/nightwatch/logs",
+      "node_modules/selenium-server/lib/runner/selenium-server-standalone-3.141.59.jar",
+    log_path: "logs",
     port: selenium_port,
   },
   live_output: true,
@@ -31,8 +31,8 @@ module.exports = {
       selenium_port: selenium_port,
       output_timestamp: true,
       server_path:
-        "node_modules/selenium-server/lib/runner/selenium-server-standalone-3.9.1.jar",
-      log_path: "tests/nightwatch/logs",
+        "node_modules/selenium-server/lib/runner/selenium-server-standalone-3.141.59.jar",
+      log_path: "logs",
       cli_args: {
         "webdriver.gecko.driver": require("geckodriver").path,
         "webdriver.chrome.driver": require("chromedriver").path,
@@ -45,7 +45,7 @@ module.exports = {
         javascriptEnabled: true,
         chromeOptions: {
           w3c: false,
-          // args: ["headless"],
+          args: ["headless", "window-size=1920,1080"],
         },
       },
     },
