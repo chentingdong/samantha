@@ -15,13 +15,13 @@ import tw from "tailwind.macro"
 import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
 
 function DemoRaw({ className }) {
-  const [active, setActive] = useState("requests-made")
+  const [active, setActive] = useState("request-catalog")
   const { data } = useQuery(AUTH_USER)
   const logout = async () => {
     await Auth.signOut()
   }
 
-  const [theme, setTheme] = useState("dark")
+  const [theme, setTheme] = useState("bell")
 
   const toggleTheme = () => {
     if (theme === "bell") {
@@ -109,7 +109,7 @@ function DemoRaw({ className }) {
 }
 const Demo = styled(DemoRaw)`
   ${tw`p-4`}
-  color: var(--color-text-primary);
+  color: var(--color-text-default);
   background-color: var(--color-bg-default);
   overflow: auto;
   height: 100vh;

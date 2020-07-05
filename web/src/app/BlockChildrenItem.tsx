@@ -70,8 +70,8 @@ const BlockChildrenItem = styled(BlockChildrenItemRaw)`
     background: var(--color-bg-warning);
   }
   .card-header-leaf {
-    color: var(--color-text-secondary);
-    background: var(--color-bg-secondary);
+    color: var(--color-text-success);
+    background: var(--color-bg-success);
   }
 `
 export { BlockChildrenItem }

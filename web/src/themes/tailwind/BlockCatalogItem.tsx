@@ -49,7 +49,7 @@ const Styles = styled.div.attrs({
       ${tw`relative px-2 py-1 rounded-t-md `}
       font-size: 1em;
       text-transform: capitalize;
-      color: var(--color-text-primary);
+      color: var(--color-text-default);
       &.leaf {
         background: var(--color-bg-primary);
       }

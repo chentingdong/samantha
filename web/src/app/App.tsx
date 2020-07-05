@@ -12,7 +12,6 @@ import LogRocket from "logrocket"
 
 const App = () => {
   const [upsertUser] = useMutation(UPSERT_USER)
-  const client = useApolloClient()
   Amplify.configure(config)
 
   async function checkLogin() {
@@ -73,7 +72,7 @@ const App = () => {
   }, [])
 
   return (
-    <div className="h-full font-serif">
+    <div className="h-full font-sans">
       <Routes />
     </div>
   )

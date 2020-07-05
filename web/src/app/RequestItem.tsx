@@ -184,13 +184,12 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 
 const RequestItem = styled(React.memo(RequestItemRaw))`
   ${tw`p-2 pb-4 my-1 rounded border shadow`}
-  border-color: var(--color-text-default);
   color: var(--color-text-default);
   background: var(--color-bg-default);
   .block-state {
     ${tw`border mr-1 my-2 p-1 text-sm rounded`}
     display: inline-block;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
     background: var(--color-bg-primary);
   }
   .block-state-DRAFT {
@@ -207,23 +206,23 @@ const RequestItem = styled(React.memo(RequestItemRaw))`
   }
   .block-state-COMPLETE {
     color: var(--color-text-inverse);
-    background: var(--color-bg-primary);
+    background: var(--color-bg-inverse);
   }
   .requestors {
-    font-size: 0.9rem;
+    font-size: 0.9em;
     font-family: var(--font-body);
   }
   .responders {
     color: var(--color-text-default);
-    font-size: 0.75rem;
+    font-size: 0.75em;
   }
   .block-name {
-    color: var(--color-text-primary);
-    font-size: 1.1rem;
+    color: var(--color-text-default);
+    font-size: 1.1em;
     font-family: var(--font-body);
   }
   .time {
-    font-size: 0.75rem;
+    font-size: 0.75em;
     color: var(--color-text-primary-soft);
   }
 `

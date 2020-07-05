@@ -32,21 +32,21 @@ const BellEditor = (props) => {
         {data?.uiState.currentBellId && (
           <>
             <div className="container mx-auto">
-              <h2>Editing Bell</h2>
+              <h3>Editing Bell</h3>
               <div className="m-2">
-                <h3>Name</h3>
+                <h4>Name</h4>
                 <div>{bell.name}</div>
               </div>
               <div className="m-2">
-                <h3>Description</h3>
+                <h4>Description</h4>
                 <div>{bell.description}</div>
               </div>
               <div className="m-2">
-                <h3>Started at</h3>
+                <h4>Started at</h4>
                 {/* <div>{bell.started_at}</div> */}
               </div>
               <div className="m-2">
-                <h3>State</h3>
+                <h4>State</h4>
                 <div>{bell.state}</div>
               </div>
             </div>
