@@ -47,14 +47,11 @@ module.exports = {
       none: "0",
       sm: "0.125rem",
       default: "0.375rem",
-      md: "0.375rem",
-      lg: "0.75rem",
+      md: "0.75rem",
+      lg: "1.25rem",
       full: "9999px",
     },
     extend: {
-      colors: {
-        cyan: "#9cdbfe",
-      },
       margin: {
         "96": "24rem",
         "128": "32rem",

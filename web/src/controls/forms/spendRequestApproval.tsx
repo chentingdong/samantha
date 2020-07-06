@@ -22,6 +22,8 @@ const SpendRequestApprovalRaw: React.FC<{
       <div>
         <Button
           name="approve"
+          variant="success"
+          filled={false}
           onClick={(e) => {
             submit(e, "approval")
             onSuccess()
@@ -34,6 +36,8 @@ const SpendRequestApprovalRaw: React.FC<{
       <div>
         <Button
           name="reject"
+          variant="warning"
+          filled={false}
           onClick={(e) => {
             submit(e, "reject")
             onFailure()
@@ -44,7 +48,12 @@ const SpendRequestApprovalRaw: React.FC<{
         <label>Reject this request and do not need extra action</label>
       </div>
       <div>
-        <Button name="rejectExit" onClick={(e) => submit(e, "rejectExit")}>
+        <Button
+          name="rejectExit"
+          variant="warning"
+          filled={false}
+          onClick={(e) => submit(e, "rejectExit")}
+        >
           Reject for Edit
         </Button>
         <label>

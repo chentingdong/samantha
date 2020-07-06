@@ -9,15 +9,20 @@ type ButtonType = {
   onClick?: (e) => void
   variant?: string
   className?: string
+  filled?: boolean
 }
 
 const ButtonRaw: React.FC<ButtonType> = ({
   icon,
   onClick,
   variant = "primary",
-  className,
+  className = "",
+  filled = true,
   ...props
 }) => {
+  if (filled) {
+    className += " filled"
+  }
   return (
     <button className={className} onClick={onClick}>
       {icon && <Icon className="pr-4" icon={icon} />}
@@ -28,8 +33,11 @@ const ButtonRaw: React.FC<ButtonType> = ({
 
 const Button = styled(ButtonRaw)`
   ${tw`rounded-full shadow py-2 px-4 items-baseline m-2 flex`}
-  color: ${(props) => `var(--color-text-${props.variant})`};
-  background: ${(props) => `var(--color-bg-${props.variant})`};
+  border: 1px solid ${(props) => `var(--color-bg-${props.variant})`};
+  &.filled {
+    color: ${(props) => `var(--color-text-${props.variant})`};
+    background: ${(props) => `var(--color-bg-${props.variant})`};
+  }
   cursor: pointer;
   transition: background 0.3s;
 `
