@@ -14,14 +14,14 @@ const AppStyles = styled.div.attrs({
 })`
   & {
     body {
-      font-size: 20px;
+      font-size: 16px;
       font-weight: 500;
     }
 
     h1,
     h2,
     h3 {
-      ${tw`font-serif`};
+      ${tw`font-serif my-2`};
       display: flex;
       align-items: center;
       line-height: 100%;
@@ -57,6 +57,10 @@ const AppStyles = styled.div.attrs({
     h6 {
       font-size: 20px;
       font-size: 1.25rem;
+    }
+
+    label {
+      font-weight: 800;
     }
 
     .quote {

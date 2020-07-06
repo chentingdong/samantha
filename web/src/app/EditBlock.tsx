@@ -66,7 +66,7 @@ function EditBlock({ blockId, className = "" }) {
       </div>
       {block?.blockType?.category === "Action" && (
         <>
-          <h2>Action</h2>
+          <h4>Action</h4>
           <Action block={block} setBlock={setBlock} />
         </>
       )}

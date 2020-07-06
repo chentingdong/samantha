@@ -49,10 +49,10 @@ const DndTargetBoxRaw: React.FC<DndTargetBoxProps> = ({
 
 const DndTargetBox: React.FC<DndTargetBoxProps> = styled(DndTargetBoxRaw)`
   min-height: 100px;
-  background: var(--color-bg-inverse);
+  background: var(--color-bg-disabled);
   .bg-highlight {
     padding-bottom: 100px;
-    background: var(--color-bg-inverse);
+    background: var(--color-bg-disabled);
   }
 `
 

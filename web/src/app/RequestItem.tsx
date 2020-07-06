@@ -12,6 +12,7 @@ import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import moment from "moment"
+import { Button } from "../components/Button"
 
 type RequestItemType = {
   block: BlockOrDef
@@ -149,32 +150,29 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           </Row>
         </Col>
         <Col xs={6} className="grid grid-cols-1 gap-1">
-          <IconButton
-            appearance="ghost"
-            icon={<Icon icon="edit" />}
-            onClick={(e) => viewEditNew(e)}
-          >
+          <Button icon="edit" variant="primary" onClick={(e) => viewEditNew(e)}>
             View/Edit <i>New!</i>
-          </IconButton>
+          </Button>
+
           {itemOrigin !== ItemOrigin.Catalog &&
             (block as Block).state !== "Success" && (
-              <IconButton
-                appearance="ghost"
-                icon={<Icon icon="check" />}
+              <Button
+                variant="primary"
+                icon="check"
                 onClick={() => markComplete(block)}
               >
                 Mark as Complete
-              </IconButton>
+              </Button>
             )}
           {itemOrigin === ItemOrigin.Catalog && (
-            <IconButton
-              appearance="ghost"
-              icon={<Icon icon="bell-o" />}
+            <Button
+              variant="primary"
+              icon="bell-o"
               className="make-a-bell"
               onClick={makeBell}
             >
               Make a Bell
-            </IconButton>
+            </Button>
           )}
         </Col>
       </Grid>
@@ -205,8 +203,8 @@ const RequestItem = styled(React.memo(RequestItemRaw))`
     background: var(--color-bg-success);
   }
   .block-state-COMPLETE {
-    color: var(--color-text-inverse);
-    background: var(--color-bg-inverse);
+    color: var(--color-text-disabled);
+    background: var(--color-bg-disabled);
   }
   .requestors {
     font-size: 0.9em;

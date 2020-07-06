@@ -62,19 +62,19 @@ const BellTree = ({ bell }) => {
     let color
     switch (nodeData.state) {
       case "Running":
-        color = "orange"
+        color = "primary"
         break
       case "Success":
-        color = "purple"
+        color = "success"
       default:
-        color = "gray"
+        color = "info"
         break
     }
     return (
       <Card
         className={`card border text-xs bg-${color}-700`}
         style={{ width: "180px", height: "120px" }}
-        onClick={(e) => onClick(nodeData)}
+        onClick={() => onClick(nodeData)}
       >
         <div className={`card-header bg-${color}-900`}>
           <Icon icon={nodeData.icon} className="pr-1" />
