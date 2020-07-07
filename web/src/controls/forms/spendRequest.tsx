@@ -61,7 +61,7 @@ const SpendRequestRaw: React.FC<{
         <Button
           name="success"
           variant="primary"
-          filled={false}
+          fill={false}
           onClick={(e) => {
             e.preventDefault()
             onSuccess()

@@ -9,7 +9,7 @@
   --color-text-primary: theme("colors.white");
   --color-bg-primary: theme("colors.purple");
 
-  --color-text-secondary: theme("colors.black");
+  --color-text-secondary: theme("colors.white");
   --color-bg-secondary: theme("colors.violet");
 
   --color-text-success: theme("colors.white");

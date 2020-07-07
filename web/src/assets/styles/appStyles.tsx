@@ -20,13 +20,17 @@ const AppStyles = styled.div.attrs({
 
     h1,
     h2,
-    h3 {
+    h3,
+    h4,
+    h5,
+    h6 {
       ${tw`font-serif my-2`};
       display: flex;
       align-items: center;
       line-height: 100%;
       font-style: normal;
       font-weight: 800;
+      display: flex;
     }
 
     h1 {

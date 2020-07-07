@@ -23,7 +23,7 @@ const SpendRequestApprovalRaw: React.FC<{
         <Button
           name="approve"
           variant="success"
-          filled={false}
+          fill={false}
           onClick={(e) => {
             submit(e, "approval")
             onSuccess()
@@ -37,7 +37,7 @@ const SpendRequestApprovalRaw: React.FC<{
         <Button
           name="reject"
           variant="warning"
-          filled={false}
+          fill={false}
           onClick={(e) => {
             submit(e, "reject")
             onFailure()
@@ -51,7 +51,7 @@ const SpendRequestApprovalRaw: React.FC<{
         <Button
           name="rejectExit"
           variant="warning"
-          filled={false}
+          fill={false}
           onClick={(e) => submit(e, "rejectExit")}
         >
           Reject for Edit

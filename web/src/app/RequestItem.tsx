@@ -111,14 +111,13 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
   if (!authUserResult || !data) return <></>
 
   const { authUser } = authUserResult
-  const { draftBlock } = data.uiState
 
   return (
     <div className={className}>
-      <Grid fluid>
-        <Col xs={18}>
+      <div className="w-full grid grid-cols-4 p-2">
+        <div className="col-span-3">
           {itemOrigin !== ItemOrigin.Catalog && (
-            <Row>
+            <div>
               <span className="requestors">
                 {(block as Block).requestors
                   ?.map((user) => user.user.name)
@@ -126,17 +125,17 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                 {":  "}
               </span>
               <span className="time">{moment(block.created_at).fromNow()}</span>
-            </Row>
+            </div>
           )}
-          <Row>
+          <div>
             <span className="block-name"> {block.name} </span>
             <span className="responders">
               {(block as Block).responders
                 ?.map((user) => "@" + user.user.name)
                 .join(", ")}
             </span>
-          </Row>
-          <Row>
+          </div>
+          <div>
             {block.children?.map(({ child }) => {
               return (
                 <div
@@ -147,10 +146,16 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                 </div>
               )
             })}
-          </Row>
-        </Col>
-        <Col xs={6} className="grid grid-cols-1 gap-1">
-          <Button icon="edit" variant="primary" onClick={(e) => viewEditNew(e)}>
+          </div>
+        </div>
+        <div className="col-span-1">
+          <Button
+            icon="edit"
+            className="w-2/3 mx-auto"
+            fill={false}
+            variant="primary"
+            onClick={(e) => viewEditNew(e)}
+          >
             View/Edit <i>New!</i>
           </Button>
 
@@ -158,7 +163,9 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             (block as Block).state !== "Success" && (
               <Button
                 variant="primary"
+                fill={false}
                 icon="check"
+                className="w-2/3 mx-auto"
                 onClick={() => markComplete(block)}
               >
                 Mark as Complete
@@ -167,25 +174,26 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin === ItemOrigin.Catalog && (
             <Button
               variant="primary"
+              fill={false}
               icon="bell-o"
-              className="make-a-bell"
+              className="make-a-bell w-2/3 mx-auto"
               onClick={makeBell}
             >
               Make a Bell
             </Button>
           )}
-        </Col>
-      </Grid>
+        </div>
+      </div>
     </div>
   )
 }
 
 const RequestItem = styled(React.memo(RequestItemRaw))`
-  ${tw`p-2 pb-4 my-1 rounded border shadow`}
+  ${tw`p-2 my-2 rounded shadow`}
   color: var(--color-text-default);
   background: var(--color-bg-default);
   .block-state {
-    ${tw`border mr-1 my-2 p-1 text-sm rounded`}
+    ${tw`mr-1 my-2 p-1 text-sm rounded`}
     display: inline-block;
     color: var(--color-text-primary);
     background: var(--color-bg-primary);
