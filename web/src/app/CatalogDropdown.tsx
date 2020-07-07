@@ -1,13 +1,12 @@
 import React from "react"
-import { Dropdown, IconButton, Icon, Button } from "rsuite"
+import { Dropdown, IconButton, Icon } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
 import { BlockDef } from "../models/interface"
 import { setUiState } from "../operations/mutations/setUiState"
-import { Typename, EditMode } from "../models/enum"
+import { EditMode } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { getIconByType } from "../utils/Styles"
-import { nanoid } from "nanoid"
 import { createBlock } from "../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 
@@ -34,7 +33,7 @@ const CatalogDropdown = ({ editingTypename, ...rest }) => {
         <Dropdown.Item
           icon={<Icon icon={getIconByType(blockDef.type)} />}
           key={blockDef.id}
-          onSelect={(eventKey, event) => {
+          onSelect={() => {
             setUiState(
               {
                 showEditor: true,

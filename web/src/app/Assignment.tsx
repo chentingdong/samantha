@@ -2,9 +2,7 @@ import React from "react"
 import { BlockOrDef } from "../models/interface"
 import { TagPicker } from "../components/TagPicker"
 import { useQuery, useMutation } from "@apollo/client"
-import { UI_STATE } from "../operations/queries/uiState"
 import { GET_USERS } from "../operations/queries/getUsers"
-import { EditMode } from "../models/enum"
 import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockRequestor"
 import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
 import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
@@ -15,7 +13,6 @@ type AssignmentType = {
   setBlock: (block: BlockOrDef) => void
 }
 const Assignment: React.FC<AssignmentType> = ({ block, setBlock }) => {
-  const { data, loading, error } = useQuery(UI_STATE)
   const {
     data: { users },
   } = useQuery(GET_USERS)

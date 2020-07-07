@@ -1,10 +1,9 @@
-import React, { useState, useReducer, useEffect } from "react"
+import React, { useEffect } from "react"
 import { BlockOrDef, Block } from "../models/interface"
-import { EditMode, ItemOrigin, MutationType, Typename } from "../models/enum"
+import { EditMode, ItemOrigin, Typename } from "../models/enum"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { UI_STATE } from "../operations/queries/uiState"
 import { useQuery, useMutation } from "@apollo/client"
-import { Grid, Row, Col, IconButton, Icon } from "rsuite"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { setUiState } from "../operations/mutations/setUiState"
@@ -61,7 +60,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
     })
   }
 
-  const viewEditNew = (e) => {
+  const viewEditNew = () => {
     const editingTypename =
       block.__typename === Typename.blocks
         ? Typename.blocks

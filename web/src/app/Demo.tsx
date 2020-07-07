@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { RequestCatalogList } from "./RequestCatalogList"
 import { RequestsActiveList } from "./RequestsActiveList"
-import { RequestsMadeList } from "./RequestsMadeList"
 import { RequestsReceivedList } from "./RequestsReceivedList"
 import { ContextViewCodes } from "./ContextViewCodes"
 import { Grid, Row, Col, Nav, Dropdown } from "rsuite"

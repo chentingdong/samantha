@@ -3,9 +3,8 @@ import { BlockOrDef } from "../models/interface"
 import { BlockChildrenItem } from "./BlockChildrenItem"
 import { DndTargetBox } from "../components/DndTargetBox"
 import { MutationType, EditMode } from "../models/enum"
-import tw from "tailwind.macro"
 import styled from "styled-components"
-import { Panel, Notification } from "rsuite"
+import { Panel } from "rsuite"
 import { useQuery } from "@apollo/client"
 import { UI_STATE } from "../operations/queries/uiState"
 import { AUTH_USER } from "../operations/queries/authUser"
@@ -21,7 +20,6 @@ type BlockChildrenListType = {
 const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   blocks,
   parent,
-  type,
 }) => {
   const { data, loading, error } = useQuery(UI_STATE)
   const { data: authUserResult } = useQuery(AUTH_USER)

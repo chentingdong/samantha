@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { getIconClassByType } from "../utils/Styles"
-import { Bell, BlockOrDef } from "../models/interface"
+import { BlockOrDef } from "../models/interface"
 import Tree from "react-d3-tree"
-import styled from "styled-components"
 import { Card } from "../components/Card"
 import moment from "moment"
 import { Icon } from "rsuite"
@@ -12,7 +11,7 @@ import { GET_BLOCK } from "../operations/subscriptions/getBlock"
 
 const BellTree = ({ bell }) => {
   const rootBlockId = bell.block.id
-  const { data, loading, error } = useSubscription(GET_BLOCK, {
+  const { data, loading } = useSubscription(GET_BLOCK, {
     variables: { id: rootBlockId },
   })
 

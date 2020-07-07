@@ -9,7 +9,6 @@ import {
   Col,
   Icon,
   IconButton,
-  Notification,
 } from "rsuite"
 import { Drawer } from "../components/Drawer"
 import { TagPicker } from "../components/TagPicker"
@@ -32,7 +31,6 @@ import styled from "styled-components"
 import { DraftControlledInput } from "./DraftControlledInput"
 import { Control } from "../controls/Control"
 import { BlockTree } from "./BlockTree"
-import { EditBlock } from "./EditBlock"
 import { CREATE_ONE_BELL } from "../operations/mutations/createOneBell"
 import { DELETE_ONE_BELL } from "../operations/mutations/deleteOneBell"
 import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockRequestor"
@@ -43,7 +41,7 @@ import { GET_BLOCK } from "../operations/subscriptions/getBlock"
 import { deleteOneBlock } from "../operations/blockOperations"
 
 const EditorRaw = () => {
-  const { data, loading, error } = useQuery(UI_STATE)
+  const { data } = useQuery(UI_STATE)
   const { data: usersResult } = useQuery(GET_USERS)
   const [createFn, updateFn, deleteFn] = useBlockMutations(
     data?.uiState?.editingTypename

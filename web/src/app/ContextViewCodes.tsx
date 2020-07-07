@@ -12,7 +12,6 @@ import { REQUESTS_RECEIVED } from "../operations/subscriptions/requestsReceived"
 import { GET_USERS } from "../operations/queries/getUsers"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { UI_STATE } from "../operations/queries/uiState"
-import { Button, Tree } from "rsuite"
 
 const ContextViewCodes = () => {
   const { data: authUserResult } = useQuery(AUTH_USER)

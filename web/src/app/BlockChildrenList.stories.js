@@ -7,7 +7,6 @@ import blockStories from "../../data/storybook-blocks.json"
 const blockLevel2 = blockStories[0]
 const blockLevel1 = blockLevel2.children[0]
 const blockLeaf = blockLevel1.children[0]
-const blockLevel0 = { ...blockLevel1, children: [] }
 
 export default {
   title: "Components / BlockChildrenList",
