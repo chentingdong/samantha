@@ -12,88 +12,85 @@ import theme from "tailwindcss"
 const AppStyles = styled.div.attrs({
   className: "",
 })`
-  & {
-    body {
-      font-size: 16px;
-      font-weight: 500;
-    }
+  body {
+    ${tw`font-body`}
+    font-size: 16px;
+    font-weight: 500;
+  }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      ${tw`font-serif my-2`};
-      display: flex;
-      align-items: center;
-      line-height: 100%;
-      font-style: normal;
-      font-weight: 800;
-      display: flex;
-    }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    ${tw`font-serif my-2`};
+    font-style: normal;
+    font-weight: 800;
+    align-items: center;
+    line-height: 100%;
+  }
 
-    h1 {
-      font-size: 61.04px;
-      font-size: 3.815rem;
-    }
+  h1 {
+    font-size: 61.04px;
+    font-size: 3.815rem;
+  }
 
-    h2 {
-      font-size: 48.33px;
-      font-size: 3.02rem;
-    }
+  h2 {
+    font-size: 48.33px;
+    font-size: 3.02rem;
+  }
 
-    h3 {
-      font-size: 39.06px;
-      font-size: 2.48rem;
-    }
+  h3 {
+    font-size: 39.06px;
+    font-size: 2.48rem;
+  }
 
-    h4 {
-      font-size: 31.25px;
-      font-size: 1.95rem;
-    }
+  h4 {
+    font-size: 31.25px;
+    font-size: 1.95rem;
+  }
 
-    h5 {
-      font-size: 25px;
-      font-size: 1.56rem;
-    }
+  h5 {
+    font-size: 25px;
+    font-size: 1.56rem;
+  }
 
-    h6 {
-      font-size: 20px;
-      font-size: 1.25rem;
-    }
+  h6 {
+    font-size: 20px;
+    font-size: 1.25rem;
+  }
 
-    label {
-      font-weight: 800;
-    }
+  label {
+    font-weight: 800;
+  }
 
-    .quote {
-      ${tw`font-serif`};
-      font-style: normal;
-      font-weight: bold;
-      font-size: 39.06px;
-      font-size: 2.48rem;
-      line-height: 133%;
-    }
+  .quote {
+    ${tw`font-serif`};
+    font-style: normal;
+    font-weight: bold;
+    font-size: 39.06px;
+    font-size: 2.48rem;
+    line-height: 133%;
+  }
 
-    * {
-      transition: background-color 0.3s ease;
-      transition: height width 0.3s ease;
-    }
+  * {
+    transition: background-color 0.3s ease;
+    transition: height width 0.3s ease;
+  }
 
-    /*
+  /*
    * TODO: convert the following to bellhop theme
    */
 
-    input[type="text"],
-    input[type="number"],
-    textarea {
-      ${tw`rounded px-4 py-2 w-full my-2 bg-default text-default`}
-      border: 1px solid var(--color-text-default);
-    }
-    foreignObject {
-      overflow: visible;
-    }
+  input[type="text"],
+  input[type="number"],
+  textarea {
+    ${tw`rounded px-4 py-2 w-full my-2 bg-default text-default`}
+    border: 1px solid var(--color-text-default);
+  }
+  foreignObject {
+    overflow: visible;
   }
 `
 export default AppStyles
