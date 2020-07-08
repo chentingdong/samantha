@@ -9,9 +9,6 @@ const SpendRequestApprovalRaw: React.FC<{
   onFailure: () => void
   form: object
 }> = ({ onSubmit, onSuccess, onFailure, form }) => {
-  const { register, getValues } = useForm({
-    defaultValues: form,
-  })
   const submit = (e, value) => {
     e.preventDefault()
     onSubmit({ value: value })

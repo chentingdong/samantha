@@ -2,7 +2,7 @@
  *
  * Bellhop M2 Figma Design
  * https://www.figma.com/file/Vi2o1sJNRvmCQQgyFnQvDa/UI-Design-System?node-id=24%3A77
- *
+ * TODO: convert into css file instead?
  */
 
 import styled from "styled-components"

@@ -15,7 +15,7 @@ import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
 import "../../dist/tailwind/tailwind.generated.css"
 
 function DemoRaw({ className }) {
-  const [active, setActive] = useState("requests-made")
+  const [active, setActive] = useState("requests-active")
   const { data } = useQuery(AUTH_USER)
   const logout = async () => {
     await Auth.signOut()

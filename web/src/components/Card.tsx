@@ -29,9 +29,8 @@ const Card = styled(CardRaw)`
     color: var(--color-text-default);
     background: var(--color-bg-default);
     .card-header {
-      ${tw`rounded-t-md p-1`};
+      ${tw`rounded-t-md p-1 bg-orange`};
       color: var(--color-text-secondary);
-      background: var(--color-bg-orange);
       display: block;
       width: 100%;
       cursor: pointer;

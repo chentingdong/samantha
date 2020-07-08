@@ -14,9 +14,9 @@
 
   --color-text-light: theme("colors.black");
   --color-bg-light: theme("colors.light");
+
   --color-text-dark: theme("colors.light");
   --color-bg-dark: theme("colors.dark");
-  --color-bg-orange: theme("colors.orange");
 
   --color-text-success: theme("colors.white");
   --color-bg-success: theme("colors.green");
@@ -41,6 +41,13 @@
 
   --color-text-disabled: theme("colors.purple");
   --color-bg-disabled: theme("colors.light");
+}
+
+.text-error {
+  color: theme("colors.red");
+}
+.bg-orange {
+  background: theme("colors.orange");
 }
 
 /* Storybook themes */

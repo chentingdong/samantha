@@ -10,7 +10,8 @@ const SpendRequestRaw: React.FC<{
   onFailure: () => void
   form: object
 }> = ({ onSubmit, onSuccess, onFailure, form = {} }) => {
-  const { register, getValues } = useForm({
+  const { register, errors, getValues } = useForm({
+    mode: "onBlur",
     defaultValues: form,
   })
 
@@ -26,36 +27,44 @@ const SpendRequestRaw: React.FC<{
         <input
           name="name"
           ref={register({ required: true, maxLength: 100 })}
-          onChange={submit}
+          onBlur={submit}
           type="text"
         />
+        {errors.name && (
+          <span className="text-error">This field is required</span>
+        )}{" "}
       </div>
       <div>
         <label className="block">Description</label>
         <input
           name="discription"
           ref={register({ required: true, maxLength: 500 })}
-          onChange={submit}
+          onBlur={submit}
           type="text"
         />
+        {errors.name && (
+          <span className="text-error">This field is required</span>
+        )}{" "}
       </div>
       <div>
         <label className="block">Spend</label>
         <input
           name="spend"
           ref={register({ min: 0.0, max: 10000.0 })}
-          onChange={submit}
+          onBlur={submit}
           type="number"
         />
+        {errors.name && <span className="text-error">Spend not in range</span>}
       </div>
       <div>
         <label className="block">Revenue</label>
         <input
           name="revenue"
           ref={register({ min: 0.0, max: 10000.0 })}
-          onChange={submit}
+          onBlur={submit}
           type="number"
         />
+        {errors.name && <span className="text-error">Revenu not in range</span>}
       </div>
       <div>
         <Button
