@@ -260,3 +260,45 @@
         table:
           schema: public
           name: block_responder
+- table:
+    schema: v2
+    name: Bell
+- table:
+    schema: v2
+    name: Bellhop
+- table:
+    schema: v2
+    name: BellhopUser
+- table:
+    schema: v2
+    name: Block
+  object_relationships:
+  - name: blockState
+    using:
+      foreign_key_constraint_on: state
+  - name: blockType
+    using:
+      foreign_key_constraint_on: type
+- table:
+    schema: v2
+    name: BlockParentChildren
+- table:
+    schema: v2
+    name: BlockState
+  is_enum: true
+- table:
+    schema: v2
+    name: BlockType
+  is_enum: true
+- table:
+    schema: v2
+    name: Control
+- table:
+    schema: v2
+    name: FormTask
+- table:
+    schema: v2
+    name: Role
+- table:
+    schema: v2
+    name: User
