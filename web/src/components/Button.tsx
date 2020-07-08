@@ -39,6 +39,9 @@ const Button = styled(ButtonRaw)`
     background: ${(props) => `var(--color-bg-${props.color})`};
   }
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   transition: background 0.3s;
 `
 

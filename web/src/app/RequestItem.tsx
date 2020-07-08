@@ -113,8 +113,8 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 
   return (
     <div className={className}>
-      <div className="w-full grid grid-cols-4 p-2">
-        <div className="col-span-3">
+      <div className="w-full grid sm:grid-cols-3 lg:grid-cols-4 p-2">
+        <div className="col-span-2 lg:col-span-3">
           {itemOrigin !== ItemOrigin.Catalog && (
             <div>
               <span className="requestors">
@@ -147,10 +147,10 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             })}
           </div>
         </div>
-        <div className="col-span-1">
+        <div className="col-span-2 sm:col-span-1 lg:grid-col-1">
           <Button
             icon="edit"
-            className="w-2/3 mx-auto"
+            className="w-3/4 mx-auto"
             fill={false}
             color="primary"
             onClick={(e) => viewEditNew(e)}
@@ -164,7 +164,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                 color="primary"
                 fill={false}
                 icon="check"
-                className="w-2/3 mx-auto"
+                className="w-3/4 mx-auto"
                 onClick={() => markComplete(block)}
               >
                 Mark as Complete
@@ -175,7 +175,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
               color="primary"
               fill={false}
               icon="bell-o"
-              className="make-a-bell w-2/3 mx-auto"
+              className="make-a-bell w-3/4 mx-auto"
               onClick={makeBell}
             >
               Make a Bell
