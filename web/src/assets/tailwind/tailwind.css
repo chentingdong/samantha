@@ -26,6 +26,8 @@
 
   --color-text-error: theme("colors.light");
   --color-bg-error: theme("colors.red");
+
+  --color-bg-orange: theme("colors.orange");
 }
 .theme-bell {
   --color-text-default: theme("colors.black");
@@ -43,11 +45,17 @@
   --color-bg-disabled: theme("colors.light");
 }
 
+.text-secondary {
+  color: var(--color-text-secondary);
+}
 .text-error {
   color: theme("colors.red");
 }
 .bg-orange {
   background: theme("colors.orange");
+}
+.bg-default {
+  background: var(--color-bg-default);
 }
 
 /* Storybook themes */
