@@ -1628,6 +1628,11 @@
     postcss "7.0.32"
     purgecss "^2.3.0"
 
+"@hookform/error-message@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@hookform/error-message/-/error-message-0.0.2.tgz#230ef927a94f22d1eae91088f69e42254bc888f9"
+  integrity sha512-0zmcp1Xh9n3VBMYH4Dn55klONJabF15kkVonroI2kOWFZZVmAzRL/tgVRaE7ZMpdqBFWdURQ/tAzXDYARSlwbA==
+
 "@hot-loader/react-dom@^16.13.0":
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/@hot-loader/react-dom/-/react-dom-16.13.0.tgz#de245b42358110baf80aaf47a0592153d4047997"

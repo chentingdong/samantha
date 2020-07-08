@@ -44,9 +44,14 @@
   --color-text-disabled: theme("colors.purple");
   --color-bg-disabled: theme("colors.light");
 }
-
+.text-primary {
+  color: theme("colors.purple");
+}
+.bg-primary {
+  background-color: theme("colors.purple");
+}
 .text-secondary {
-  color: var(--color-text-secondary);
+  color: theme("colors.violet");
 }
 .text-error {
   color: theme("colors.red");

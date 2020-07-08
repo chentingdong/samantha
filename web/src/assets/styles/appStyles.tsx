@@ -82,8 +82,9 @@ const AppStyles = styled.div.attrs({
   input[type="text"],
   input[type="number"],
   textarea {
-    ${tw`rounded px-4 py-2 w-full my-2 bg-default text-default`}
+    ${tw`rounded px-4 py-2 w-full my-2 text-default`}
     border: 1px solid var(--color-text-default);
+    background: var(--color-bg-default);
   }
 `
 export default AppStyles

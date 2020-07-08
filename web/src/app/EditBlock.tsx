@@ -6,6 +6,7 @@ import { UPDATE_ONE_BLOCK } from "../operations/mutations/updateOneBlock"
 import { Action } from "../controls/Action"
 import { initialBlock } from "../../data/initialBlock"
 import { Assignment } from "./Assignment"
+import { FormValidationMessage } from "components/FormValidationMessage"
 
 function EditBlock({ blockId }) {
   const [block, setBlock] = useState(initialBlock)
@@ -18,7 +19,7 @@ function EditBlock({ blockId }) {
     defaultValues: block,
     resolver: undefined,
     context: undefined,
-    criteriaMode: "firstErrorDetected",
+    criteriaMode: "firstError",
     shouldFocusError: true,
     shouldUnregister: true,
   })
@@ -52,26 +53,25 @@ function EditBlock({ blockId }) {
           <label className="block">Block name</label>
           <input
             name="name"
-            ref={register({ required: true, minLength: 5, maxLength: 100 })}
+            ref={register({
+              required: "Name is required",
+              minLength: 5,
+              maxLength: 100,
+            })}
             onBlur={submit}
             type="text"
           />
-          {/* TODO: ErrorMessage component */}
-          {errors.name && (
-            <span className="text-error">This field is required</span>
-          )}
+          <FormValidationMessage errors={errors} name="name" />
         </div>
         <div className="m-2">
           <label className="block">Block description</label>
           <input
             name="description"
-            ref={register({ required: true })}
+            ref={register({ required: "Description is required" })}
             onBlur={submit}
             type="text"
           />
-          {errors.name && (
-            <span className="text-error">This field is required</span>
-          )}
+          <FormValidationMessage errors={errors} name="description" />
         </div>
       </form>
       <div className="m-2">
