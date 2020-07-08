@@ -1,7 +1,7 @@
 # Multi theming and theme switch with rsuite.
 
-- Use rsuite-[theme].less and rsuite-light.less to import the rsuite themes.
-- Add customized variables in each theme.
+- Use rsuite.less to hold shared theme elements.
+- Use rsuite-[theme].less for theme differences.
 - `yarn build:rsuite` will generate in dist/rsuite/rsuite-[theme].min.css
 - in component, example Demo.tsx, can inject the theme accordingly.
 

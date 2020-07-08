@@ -127,6 +127,7 @@
     "less": "^3.11.3",
     "less-loader": "^6.1.0",
     "less-middleware": "^3.1.0",
+    "less-plugin-clean-css": "^1.5.1",
     "logrocket": "^1.0.7",
     "logrocket-react": "^4.0.1",
     "markdown-to-jsx": "^6.11.1",
