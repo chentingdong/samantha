@@ -7,7 +7,6 @@ import { UPSERT_USER } from "../operations/mutations/upsertUser"
 import { useMutation } from "@apollo/client"
 import { setAuthUser } from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
-import "../../dist/tailwind/tailwind.generated.css"
 import LogRocket from "logrocket"
 
 const App = () => {

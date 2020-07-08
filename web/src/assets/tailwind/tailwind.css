@@ -12,6 +12,12 @@
   --color-text-secondary: theme("colors.white");
   --color-bg-secondary: theme("colors.violet");
 
+  --color-text-light: theme("colors.black");
+  --color-bg-light: theme("colors.light");
+  --color-text-dark: theme("colors.light");
+  --color-bg-dark: theme("colors.dark");
+  --color-bg-orange: theme("colors.orange");
+
   --color-text-success: theme("colors.white");
   --color-bg-success: theme("colors.green");
 

@@ -12,9 +12,10 @@ import { Auth } from "aws-amplify"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
+import "../../dist/tailwind/tailwind.generated.css"
 
 function DemoRaw({ className }) {
-  const [active, setActive] = useState("request-catalog")
+  const [active, setActive] = useState("requests-made")
   const { data } = useQuery(AUTH_USER)
   const logout = async () => {
     await Auth.signOut()

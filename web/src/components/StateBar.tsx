@@ -2,10 +2,10 @@ import React from "react"
 import { Steps, Icon } from "rsuite"
 
 const statusMap = [
-  { state: "Created", status: "process", icon: "edit" },
-  { state: "Running", status: "process", icon: "user" },
-  { state: "Success", status: "process", icon: "check" },
-  { state: "Failure", status: "error", icon: "exclamation" },
+  { state: "Created", status: "process", icon: "edit", color: "info" },
+  { state: "Running", status: "process", icon: "user", color: "primary" },
+  { state: "Success", status: "process", icon: "check", color: "success" },
+  { state: "Failure", status: "error", icon: "exclamation", color: "error" },
 ]
 
 const findStepIndex = (state) => statusMap.findIndex((s) => s.state === state)
@@ -28,4 +28,4 @@ const StateBar = ({ state }) => {
   )
 }
 
-export { StateBar }
+export { StateBar, statusMap }

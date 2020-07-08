@@ -58,17 +58,17 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
         {tags?.length === 0 && <span>click to select...</span>}
         {tags?.map((tag, index) => {
           return (
-            <span key={index} className="tag inline-block w-auto text-xs">
+            <span key={index} className="tag inline-block w-auto rounded p-1">
               <span className="m-1">{tag.name}</span>
               <Icon
-                className="text-xs cursor-pointer"
+                className="text-sm cursor-pointer"
                 icon="close"
                 onClick={(e) => deleteTag(e, tag)}
               />
             </span>
           )
         })}
-        <div className="toggle p-1 px-2">
+        <div className="toggle p-2">
           <Icon icon="arrow-down" />
         </div>
       </div>
@@ -105,19 +105,19 @@ const Styles = styled.div.attrs({})`
   background: var(--color-bg-default);
   padding-right: 2em;
   .tag {
-    padding: 0.25em;
-    margin: 0.12em;
     color: var(--color-text-success);
     background-color: var(--color-bg-success);
     .close {
     }
   }
   .toggle {
-    border-left: 1px solid;
     position: absolute;
     right: 0;
     top: 0;
     cursor: pointer;
+    .rs-icon {
+      color: var(--color-bg-primary);
+    }
   }
 `
 

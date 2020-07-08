@@ -8,8 +8,10 @@ import { Icon } from "rsuite"
 import { setUiState } from "../operations/mutations/setUiState"
 import { useSubscription } from "@apollo/client"
 import { GET_BLOCK } from "../operations/subscriptions/getBlock"
+import { statusMap } from "components/StateBar"
+import styled from "styled-components"
 
-const BellTree = ({ bell }) => {
+const BellTreeRaw = ({ bell }) => {
   const rootBlockId = bell.block.id
   const { data, loading } = useSubscription(GET_BLOCK, {
     variables: { id: rootBlockId },
@@ -57,21 +59,11 @@ const BellTree = ({ bell }) => {
   }
 
   const NodeLabel = ({ nodeData }) => {
-    // TODO: move styles to styled css
-    let color
-    switch (nodeData.state) {
-      case "Running":
-        color = "primary"
-        break
-      case "Success":
-        color = "success"
-      default:
-        color = "info"
-        break
-    }
+    const color = statusMap[nodeData.state]
+
     return (
       <Card
-        className={`card border text-xs bg-${color}-700`}
+        className={`card border bg-${color}-700`}
         style={{ width: "180px", height: "120px" }}
         onClick={() => onClick(nodeData)}
       >
@@ -100,7 +92,7 @@ const BellTree = ({ bell }) => {
           nodeSvgShape={{ shape: "none" }}
           nodeSize={{ x: 250, y: 150 }}
           styles={{ links: { stroke: "blue" } }}
-          zoomable={false}
+          zoomable={true}
           orientation="vertical"
           transitionDuration={0}
           separation={{ siblings: 1, nonSiblings: 1 }}
@@ -117,5 +109,11 @@ const BellTree = ({ bell }) => {
     )
   )
 }
+
+const BellTree = styled(BellTreeRaw)`
+  foreignObject {
+    overflow: visible;
+  }
+`
 
 export { BellTree }

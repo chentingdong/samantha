@@ -7,7 +7,7 @@ import { IconNames } from "rsuite/lib/Icon"
 type ButtonType = {
   icon?: IconNames
   onClick?: (e) => void
-  variant?: string
+  color?: string
   className?: string
   fill?: boolean
 }
@@ -15,7 +15,7 @@ type ButtonType = {
 const ButtonRaw: React.FC<ButtonType> = ({
   icon,
   onClick,
-  variant = "primary",
+  color = "primary",
   className = "",
   fill = true,
   ...props
@@ -33,10 +33,10 @@ const ButtonRaw: React.FC<ButtonType> = ({
 
 const Button = styled(ButtonRaw)`
   ${tw`rounded-full shadow py-2 px-4 items-baseline m-2 flex`}
-  border: 1px solid ${(props) => `var(--color-bg-${props.variant})`};
+  border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
   &.fill {
-    color: ${(props) => `var(--color-text-${props.variant})`};
-    background: ${(props) => `var(--color-bg-${props.variant})`};
+    color: ${(props) => `var(--color-text-${props.color})`};
+    background: ${(props) => `var(--color-bg-${props.color})`};
   }
   cursor: pointer;
   transition: background 0.3s;

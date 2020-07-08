@@ -80,7 +80,7 @@ function BlockTree({ data }) {
         nodeSvgShape={{ shape: "none" }}
         nodeSize={{ x: 250, y: 150 }}
         styles={{ links: { stroke: `var(--color-bg-primary)` } }}
-        zoomable={false}
+        zoomable={true}
         orientation="vertical"
         transitionDuration={0}
         separation={{ siblings: 1, nonSiblings: 1 }}

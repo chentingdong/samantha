@@ -12,6 +12,11 @@ import theme from "tailwindcss"
 const AppStyles = styled.div.attrs({
   className: "",
 })`
+  * {
+    transition: background-color 0.3s ease;
+    transition: height width 0.3s ease;
+  }
+
   body {
     ${tw`font-body`}
     font-size: 16px;
@@ -62,7 +67,7 @@ const AppStyles = styled.div.attrs({
   }
 
   label {
-    font-weight: 800;
+    font-weight: 500;
   }
 
   .quote {
@@ -74,23 +79,11 @@ const AppStyles = styled.div.attrs({
     line-height: 133%;
   }
 
-  * {
-    transition: background-color 0.3s ease;
-    transition: height width 0.3s ease;
-  }
-
-  /*
-   * TODO: convert the following to bellhop theme
-   */
-
   input[type="text"],
   input[type="number"],
   textarea {
     ${tw`rounded px-4 py-2 w-full my-2 bg-default text-default`}
     border: 1px solid var(--color-text-default);
-  }
-  foreignObject {
-    overflow: visible;
   }
 `
 export default AppStyles

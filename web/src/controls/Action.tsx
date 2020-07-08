@@ -30,12 +30,14 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
 
   const { data, loading, error } = useQuery(UI_STATE)
   const [updateBell] = useMutation(UPDATE_ONE_BELL)
-  // TODO, list of forms
+
+  // TODO: list of forms?
   const template = block?.control?.forms[0].template
   const TagName = components[template]
   const bell = block?.root?.bells[0]
   const form = bell?.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
+  if (loading) return <>Loading...</>
 
   // TODO: debounce happen here
   const submit = (form) => {
