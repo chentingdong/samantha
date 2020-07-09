@@ -34,15 +34,20 @@ const ButtonRaw: React.FC<ButtonType> = ({
 const Button = styled(ButtonRaw)`
   ${tw`rounded-full shadow py-2 px-4 items-baseline m-2 flex`}
   border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
-  &.fill {
+  &.fill,
+  &:hover {
     color: ${(props) => `var(--color-text-${props.color})`};
     background: ${(props) => `var(--color-bg-${props.color})`};
+  }
+  &.fill:hover {
+    color: ${(props) => `var(--color-bg-${props.color})`};
+    background: ${(props) => `var(--color-text-${props.color})`};
   }
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: background 0.3s;
+  transition: background 0.5s;
 `
 
 export { Button }
