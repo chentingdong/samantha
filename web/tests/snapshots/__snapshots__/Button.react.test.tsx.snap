@@ -7,7 +7,6 @@ exports[`Button renders correctly 1`] = `
   <span
     className="flex-auto"
   >
-     
     Bellhop
   </span>
 </button>
