@@ -1,0 +1,1 @@
+CREATE TABLE "v2"."BellExecutor"("executor_id" text NOT NULL, "configurations" jsonb NOT NULL, PRIMARY KEY ("executor_id") , FOREIGN KEY ("executor_id") REFERENCES "v2"."Block"("block_id") ON UPDATE cascade ON DELETE cascade);

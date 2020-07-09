@@ -262,7 +262,13 @@
           name: block_responder
 - table:
     schema: v2
+    name: APITask
+- table:
+    schema: v2
     name: Bell
+- table:
+    schema: v2
+    name: BellExecutor
 - table:
     schema: v2
     name: Bellhop
@@ -293,6 +299,9 @@
 - table:
     schema: v2
     name: Control
+- table:
+    schema: v2
+    name: Decorator
 - table:
     schema: v2
     name: FormTask
