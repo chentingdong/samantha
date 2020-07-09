@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button renders correctly 1`] = `
+<button
+  className="sc-AxjAm dlbdkY primary fill"
+>
+  <span
+    className="flex-auto"
+  >
+     
+    Bellhop
+  </span>
+</button>
+`;

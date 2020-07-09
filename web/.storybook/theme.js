@@ -1,3 +1,5 @@
+// theme.js
+// This file is for storybook page theming, not rsuite theming
 import { create } from "@storybook/theming/create"
 import logo from "../src/assets/img/bellhop-1000x.png"
 
