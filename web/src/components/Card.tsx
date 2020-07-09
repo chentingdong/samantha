@@ -5,19 +5,17 @@ import tw from "tailwind.macro"
 type CardType = {
   color?: string
   className?: string
-  style?: CSSProperties
   onClick?: () => void
 }
 
 const CardRaw: React.FC<CardType> = ({
   color = "primary",
   className,
-  style,
   onClick,
   ...props
 }) => {
   return (
-    <div className={`${className} card`} onClick={onClick} style={style}>
+    <div className={`${className} card`} onClick={onClick}>
       {props.children}
     </div>
   )
@@ -25,7 +23,7 @@ const CardRaw: React.FC<CardType> = ({
 
 const Card = styled(CardRaw)`
   & {
-    ${tw`rounded-md shadow m-1`}
+    ${tw`rounded-lg shadow m-1`}
     color: var(--color-text-default);
     background: var(--color-bg-default);
     .card-header {

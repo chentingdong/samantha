@@ -3,6 +3,7 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { useForm } from "react-hook-form"
 import { Button } from "../../components/Button"
+import { FormValidationMessage } from "components/FormValidationMessage"
 
 const SpendRequestRaw: React.FC<{
   onSubmit: (form) => void
@@ -26,45 +27,67 @@ const SpendRequestRaw: React.FC<{
         <label className="block">Form name</label>
         <input
           name="name"
-          ref={register({ required: true, maxLength: 100 })}
+          ref={register({
+            required: "Name is required",
+            minLength: 5,
+            maxLength: 100,
+          })}
           onBlur={submit}
           type="text"
         />
-        {errors.name && (
-          <span className="text-error">This field is required</span>
-        )}{" "}
+        <FormValidationMessage errors={errors} name="name" />
       </div>
       <div>
         <label className="block">Description</label>
         <input
           name="discription"
-          ref={register({ required: true, maxLength: 500 })}
+          ref={register({
+            required: "Description required",
+            minLength: 10,
+            maxLength: 500,
+          })}
           onBlur={submit}
           type="text"
         />
-        {errors.name && (
-          <span className="text-error">This field is required</span>
-        )}{" "}
+        <FormValidationMessage errors={errors} name="description" />
       </div>
       <div>
         <label className="block">Spend</label>
         <input
           name="spend"
-          ref={register({ min: 0.0, max: 10000.0 })}
+          ref={register({
+            min: {
+              value: 0.0,
+              message: "spend must be positive numbers",
+            },
+            max: {
+              value: 10000.0,
+              message: "spend exceeded maximum number of 10000.0",
+            },
+          })}
           onBlur={submit}
           type="number"
         />
-        {errors.name && <span className="text-error">Spend not in range</span>}
+        <FormValidationMessage errors={errors} name="spend" />
       </div>
       <div>
         <label className="block">Revenue</label>
         <input
           name="revenue"
-          ref={register({ min: 0.0, max: 10000.0 })}
+          ref={register({
+            min: {
+              value: 0.0,
+              message: "spend must be positive numbers",
+            },
+            max: {
+              value: 10000.0,
+              message: "spend exceeded maximum number of 10000.0",
+            },
+          })}
           onBlur={submit}
           type="number"
         />
-        {errors.name && <span className="text-error">Revenu not in range</span>}
+        <FormValidationMessage errors={errors} name="revenue" />
       </div>
       <div>
         <Button
@@ -83,12 +106,6 @@ const SpendRequestRaw: React.FC<{
   )
 }
 
-const SpendRequest = styled(SpendRequestRaw)`
-  & {
-    div {
-      ${tw`my-4`}
-    }
-  }
-`
+const SpendRequest = styled(SpendRequestRaw)``
 
 export default SpendRequest
