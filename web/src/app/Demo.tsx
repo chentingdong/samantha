@@ -8,7 +8,7 @@ import { useQuery } from "@apollo/client"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { Editor } from "./Editor"
 import { BellEditor } from "./BellEditor"
-import { Auth } from "aws-amplify"
+import { Logout } from "components/Logout"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
@@ -17,9 +17,6 @@ import "../../dist/tailwind/tailwind.generated.css"
 function DemoRaw({ className }) {
   const [active, setActive] = useState("requests-active")
   const { data } = useQuery(AUTH_USER)
-  const logout = async () => {
-    await Auth.signOut()
-  }
 
   const [theme, setTheme] = useState("bell")
 
@@ -81,14 +78,12 @@ function DemoRaw({ className }) {
                     Bell Catalog
                   </Nav.Item>
                   <Nav.Item eventKey="context-viewer">Context Viewer</Nav.Item>
-                  <Dropdown noCaret title={authUser.name}>
-                    <Dropdown.Item disabled eventKey="auth-user">
-                      Signed in as {authUser.name}
-                    </Dropdown.Item>
-                    <Dropdown.Item eventKey="logout" onClick={logout}>
-                      Logout
-                    </Dropdown.Item>
-                  </Dropdown>
+                  <Nav.Item disabled eventKey="auth-user">
+                    Signed in as {authUser.name}
+                  </Nav.Item>
+                  <Nav.Item eventKey={null}>
+                    <Logout />
+                  </Nav.Item>
                 </Nav>
               </Col>
               <Col xs={24} lg={20}>

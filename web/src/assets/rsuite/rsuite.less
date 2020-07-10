@@ -1,5 +1,6 @@
 // Shared styles in dark/light mode to override rsuite style.
 @font-family-base: "canada-type-gibson", "Avenir", "Varela", "Arial", "Sans";
+@font-family-display: "kepler-std-display", "Varela", "serif";
 @font-size-base: 16px;
 @input-bg: #eeeeee;
 @secondary-bg-color: #eeeeee;
@@ -14,8 +15,19 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "kepler-std-display", "Varela", "serif" !important;
-  font-weight: 500 !important;
+  font-family: @font-family-display;
+  font-weight: 500;
   color: inherit;
   margin: 0;
+}
+
+.rs-modal {
+  margin-top: 30%;
+  .rs-modal-header .rs-modal-title {
+    font-family: @font-family-base;
+  }
+  .rs-modal-content {
+    border-radius: 0;
+    padding: 1rem;
+  }
 }

@@ -1,7 +1,19 @@
 module.exports = {
+  plugins: ["tailwind-components", "react-hot-loader/babel", "macros"],
   presets: [
     ["@babel/preset-env", { targets: { node: "current" } }],
     "@babel/preset-typescript",
     "@babel/preset-react",
   ],
+  sourceType: "unambiguous",
+  sourceMaps: true,
+  retainLines: true,
+  env: {
+    production: {
+      presets: ["minify"],
+    },
+    test: {
+      presets: ["@babel/preset-env", "@babel/preset-react"],
+    },
+  },
 }
