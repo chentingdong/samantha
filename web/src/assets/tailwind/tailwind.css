@@ -134,13 +134,19 @@ label {
 input[type="text"],
 input[type="number"],
 textarea {
-  @apply rounded-full;
+  border-radius: 20px;
   @apply px-4;
   @apply py-2;
   @apply w-full;
   @apply my-2;
   border: 1px solid var(--color-text-default);
   background: var(--color-bg-default);
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  border-radius: 20px;
+  outline: none;
 }
 
 /* Storybook themes */

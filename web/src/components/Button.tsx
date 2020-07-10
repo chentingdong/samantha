@@ -34,6 +34,9 @@ const ButtonRaw: React.FC<ButtonType> = ({
 const Button = styled(ButtonRaw)`
   ${tw`rounded-full shadow py-2 px-8 items-baseline m-2 flex`}
   border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
+  &:focus {
+    outline: none;
+  }
   &.fill,
   &:hover {
     color: ${(props) => `var(--color-text-${props.color})`};

@@ -100,7 +100,8 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
 }
 
 const Styles = styled.div.attrs({})`
-  ${tw`rounded-full px-3`}
+  ${tw`px-3`}
+  border-radius: 20px;
   line-height: 1rem;
   position: relative;
   border: 1px solid;
