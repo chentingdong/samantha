@@ -263,51 +263,188 @@
 - table:
     schema: v2
     name: APITask
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: task_id
 - table:
     schema: v2
     name: Bell
+  object_relationships:
+  - name: initiator
+    using:
+      foreign_key_constraint_on: initiator_id
+  - name: owner
+    using:
+      foreign_key_constraint_on: owner_id
+  - name: rootBlock
+    using:
+      foreign_key_constraint_on: root_id
+  array_relationships:
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: bell_id
+        table:
+          schema: v2
+          name: Block
 - table:
     schema: v2
     name: BellExecutor
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: executor_id
 - table:
     schema: v2
     name: Bellhop
+  array_relationships:
+  - name: initiatedBells
+    using:
+      foreign_key_constraint_on:
+        column: initiator_id
+        table:
+          schema: v2
+          name: Bell
+  - name: ownedBells
+    using:
+      foreign_key_constraint_on:
+        column: owner_id
+        table:
+          schema: v2
+          name: Bell
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: bellhop_id
+        table:
+          schema: v2
+          name: BellhopUser
 - table:
     schema: v2
     name: BellhopUser
+  object_relationships:
+  - name: bellhop
+    using:
+      foreign_key_constraint_on: bellhop_id
+  - name: role
+    using:
+      foreign_key_constraint_on: role_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: v2
     name: Block
   object_relationships:
+  - name: bell
+    using:
+      foreign_key_constraint_on: bell_id
   - name: blockState
     using:
       foreign_key_constraint_on: state
   - name: blockType
     using:
       foreign_key_constraint_on: type
+  array_relationships:
+  - name: children
+    using:
+      foreign_key_constraint_on:
+        column: child_id
+        table:
+          schema: v2
+          name: BlockParentChildren
+  - name: parents
+    using:
+      foreign_key_constraint_on:
+        column: parent_id
+        table:
+          schema: v2
+          name: BlockParentChildren
 - table:
     schema: v2
     name: BlockParentChildren
+  object_relationships:
+  - name: child
+    using:
+      foreign_key_constraint_on: child_id
+  - name: parent
+    using:
+      foreign_key_constraint_on: parent_id
 - table:
     schema: v2
     name: BlockState
   is_enum: true
+  array_relationships:
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: state
+        table:
+          schema: v2
+          name: Block
 - table:
     schema: v2
     name: BlockType
   is_enum: true
+  array_relationships:
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: type
+        table:
+          schema: v2
+          name: Block
 - table:
     schema: v2
     name: Control
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: control_id
 - table:
     schema: v2
     name: Decorator
+  object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: decorator_id
 - table:
     schema: v2
     name: FormTask
+  object_relationships:
+  - name: assignee
+    using:
+      foreign_key_constraint_on: assignee_id
+  - name: block
+    using:
+      foreign_key_constraint_on: task_id
 - table:
     schema: v2
     name: Role
+  array_relationships:
+  - name: BellhopUsers
+    using:
+      foreign_key_constraint_on:
+        column: role_id
+        table:
+          schema: v2
+          name: BellhopUser
 - table:
     schema: v2
     name: User
+  array_relationships:
+  - name: AssignedFormTasks
+    using:
+      foreign_key_constraint_on:
+        column: assignee_id
+        table:
+          schema: v2
+          name: FormTask
+  - name: Bellhops
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: v2
+          name: BellhopUser
