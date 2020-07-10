@@ -46,8 +46,10 @@ const Button = styled(ButtonRaw)`
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
+  min-width: 5rem;
+  max-width: 20rem;
   text-overflow: ellipsis;
-  transition: background 0.5s;
+  transition: background 0.2s;
 `
 
 export { Button }
