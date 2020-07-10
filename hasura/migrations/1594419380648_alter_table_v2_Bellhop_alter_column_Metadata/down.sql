@@ -1,0 +1,1 @@
+ALTER TABLE ONLY "v2"."Bellhop" ALTER COLUMN "Metadata" DROP DEFAULT;

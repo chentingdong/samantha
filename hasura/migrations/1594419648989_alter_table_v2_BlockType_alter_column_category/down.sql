@@ -1,0 +1,1 @@
+ALTER TABLE "v2"."BlockType" ALTER COLUMN "category" SET NOT NULL;

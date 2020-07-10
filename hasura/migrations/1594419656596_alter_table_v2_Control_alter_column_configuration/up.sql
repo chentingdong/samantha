@@ -1,0 +1,1 @@
+ALTER TABLE ONLY "v2"."Control" ALTER COLUMN "configuration" SET DEFAULT '{}';

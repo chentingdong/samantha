@@ -1,0 +1,1 @@
+ALTER TABLE ONLY "v2"."Bell" ALTER COLUMN "outputs" SET DEFAULT '{}';
