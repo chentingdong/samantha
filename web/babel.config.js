@@ -3,7 +3,12 @@ module.exports = {
     "tailwind-components",
     "react-hot-loader/babel",
     "macros",
-    "wildcard",
+    [
+      "wildcard",
+      {
+        exts: ["js", "jsx", "ts", "tsx", ""],
+      },
+    ],
   ],
   presets: [
     ["@babel/preset-env", { targets: { node: "current" } }],

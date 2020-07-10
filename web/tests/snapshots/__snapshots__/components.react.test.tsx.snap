@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button renders correctly 1`] = `
+<button
+  className="sc-AxjAm grFpqg primary fill"
+>
+  <span>
+    Bellhop
+  </span>
+</button>
+`;
+
+exports[`Drawer renders correctly 1`] = `
+<style
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": ".css-1qodn49{position:fixed;top:0;right:0;z-index:10;height:100vh;overflow:auto;width:100%;}.css-1qodn49 .backdrop{background:var(--color-bg-dark);}.css-1qodn49 .backdrop .content{min-height:100vh;background:var(--color-bg-default);-webkit-transition:margin-left 0.5s ease;transition:margin-left 0.5s ease;}",
+    }
+  }
+  data-emotion-css="1qodn49"
+/>
+`;
