@@ -1,5 +1,10 @@
 module.exports = {
-  plugins: ["tailwind-components", "react-hot-loader/babel", "macros"],
+  plugins: [
+    "tailwind-components",
+    "react-hot-loader/babel",
+    "macros",
+    "wildcard",
+  ],
   presets: [
     ["@babel/preset-env", { targets: { node: "current" } }],
     "@babel/preset-typescript",

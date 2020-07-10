@@ -32,7 +32,7 @@ const ButtonRaw: React.FC<ButtonType> = ({
 }
 
 const Button = styled(ButtonRaw)`
-  ${tw`rounded-full shadow py-2 px-4 items-baseline m-2 flex`}
+  ${tw`rounded-full shadow py-2 px-8 items-baseline m-2 flex`}
   border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
   &.fill,
   &:hover {
@@ -48,6 +48,7 @@ const Button = styled(ButtonRaw)`
   overflow: hidden;
   min-width: 5rem;
   max-width: 20rem;
+  padding: 0.7rem 1rem;
   text-overflow: ellipsis;
   transition: background 0.2s;
 `

@@ -1,8 +1,8 @@
 import logoDark from "../assets/img/bellhop-dark.svg"
-import logoWhite from "../assets/img/bellhop-white.svg"
+import logoWhite from "../assets/img/brand-1.svg"
 
 const getLogoByTheme = (theme) => {
-  return theme === "bell" ? logoDark : logoWhite
+  return theme === "bell" ? logoWhite : logoDark
 }
 
 const blockColor = (block) => {

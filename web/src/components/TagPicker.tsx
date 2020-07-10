@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react"
 import { Icon } from "rsuite"
 import styled from "styled-components"
 import { User } from "../models/interface"
+import tw from "tailwind.macro"
+import ChevronDown from "assets/img/chevron-down.svg"
 
 type TagPickerType = {
   value: User[]
@@ -55,7 +57,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   return (
     <div className={`${className} rounded p-1 text-sm`}>
       <div className="toggle-select" onClick={toggleSelect}>
-        {tags?.length === 0 && <span>click to select...</span>}
+        {tags?.length === 0 && <div className="p-1">click to select...</div>}
         {tags?.map((tag, index) => {
           return (
             <span key={index} className="tag inline-block w-auto rounded p-1">
@@ -69,7 +71,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
           )
         })}
         <div className="toggle p-2">
-          <Icon icon="arrow-down" />
+          <img src={ChevronDown} alt="" />
         </div>
       </div>
       <div>
@@ -98,9 +100,10 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
 }
 
 const Styles = styled.div.attrs({})`
+  ${tw`rounded-full px-3`}
+  line-height: 1rem;
   position: relative;
   border: 1px solid;
-  border-radius: 5px;
   color: var(--color-text-default);
   background: var(--color-bg-default);
   padding-right: 2em;
@@ -112,8 +115,8 @@ const Styles = styled.div.attrs({})`
   }
   .toggle {
     position: absolute;
-    right: 0;
-    top: 0;
+    right: 0.5em;
+    top: 0.2em;
     cursor: pointer;
     .rs-icon {
       color: var(--color-bg-primary);

@@ -4,6 +4,21 @@
 @tailwind screens;
 
 /* App Themes */
+.theme-bell {
+  --color-text-default: theme("colors.black");
+  --color-bg-default: theme("colors.white");
+
+  --color-text-disabled: theme("colors.light");
+  --color-bg-disabled: theme("colors.dark");
+}
+
+.theme-dark {
+  --color-text-default: theme("colors.white");
+  --color-bg-default: theme("colors.black");
+
+  --color-text-disabled: theme("colors.purple");
+  --color-bg-disabled: theme("colors.light");
+}
 
 * {
   --color-text-primary: theme("colors.white");
@@ -29,21 +44,7 @@
 
   --color-bg-orange: theme("colors.orange");
 }
-.theme-bell {
-  --color-text-default: theme("colors.black");
-  --color-bg-default: theme("colors.white");
 
-  --color-text-disabled: theme("colors.light");
-  --color-bg-disabled: theme("colors.dark");
-}
-
-.theme-dark {
-  --color-text-default: theme("colors.white");
-  --color-bg-default: theme("colors.black");
-
-  --color-text-disabled: theme("colors.purple");
-  --color-bg-disabled: theme("colors.light");
-}
 .text-primary {
   color: theme("colors.purple");
 }
@@ -60,6 +61,85 @@
   background: theme("colors.orange");
 }
 .bg-default {
+  background: var(--color-bg-default);
+}
+
+* {
+  transition: background-color 0.3s ease;
+  transition: height width 0.3s ease;
+}
+
+body {
+  font-family: theme("fontFamily.body");
+  font-size: 16px;
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: theme("fontFamily.display");
+  font-style: normal;
+  font-weight: 800;
+  align-items: center;
+  line-height: 100%;
+}
+
+h1 {
+  font-size: 61.04px;
+  font-size: 3.815rem;
+}
+
+h2 {
+  font-size: 48.33px;
+  font-size: 3.02rem;
+}
+
+h3 {
+  font-size: 39.06px;
+  font-size: 2.48rem;
+}
+
+h4 {
+  font-size: 31.25px;
+  font-size: 1.95rem;
+}
+
+h5 {
+  font-size: 25px;
+  font-size: 1.56rem;
+}
+
+h6 {
+  font-size: 20px;
+  font-size: 1.25rem;
+}
+
+label {
+  font-weight: 500;
+}
+
+.quote {
+  font-family: theme("fontFamily.serif");
+  font-style: normal;
+  font-weight: bold;
+  font-size: 39.06px;
+  font-size: 2.48rem;
+  line-height: 133%;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  @apply rounded-full;
+  @apply px-4;
+  @apply py-2;
+  @apply w-full;
+  @apply my-2;
+  border: 1px solid var(--color-text-default);
   background: var(--color-bg-default);
 }
 
