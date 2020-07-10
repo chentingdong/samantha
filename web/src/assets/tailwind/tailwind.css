@@ -134,7 +134,8 @@ label {
 input[type="text"],
 input[type="number"],
 textarea {
-  border-radius: 20px;
+  border-radius: 1.6875em;
+  line-height: 1.6875em;
   @apply px-4;
   @apply py-2;
   @apply w-full;
@@ -145,7 +146,6 @@ textarea {
 input[type="text"]:focus,
 input[type="number"]:focus,
 textarea:focus {
-  border-radius: 20px;
   outline: none;
 }
 

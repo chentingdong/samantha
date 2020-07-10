@@ -141,7 +141,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
                   className={`block-state block-state-${stateStyle(child)}`}
                   key={child.id}
                 >
-                  {child.name}
+                  &nbsp;{child.name}
                 </div>
               )
             })}
@@ -188,11 +188,12 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 }
 
 const RequestItem = styled(React.memo(RequestItemRaw))`
-  ${tw`p-2 my-2 rounded shadow`}
+  ${tw`p-2 my-2 rounded-t shadow`}
   color: var(--color-text-default);
   background: var(--color-bg-default);
   .block-state {
-    ${tw`mr-1 my-2 p-1 text-sm rounded`}
+    ${tw`mr-1 my-2 p-1 text-sm rounded-t`}
+    min-width: 2em;
     display: inline-block;
     color: var(--color-text-primary);
     background: var(--color-bg-primary);
