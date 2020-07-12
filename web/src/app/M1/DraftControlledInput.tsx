@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from "react"
 import { Input } from "rsuite"
-import { UI_STATE } from "../operations/queries/uiState"
+import { UI_STATE } from "../../operations/queries/uiState"
 import { useQuery } from "@apollo/client"
-import { setUiState } from "../operations/mutations/setUiState"
-import { EditMode } from "../models/enum"
-import { useBlockMutations } from "../operations/mutations"
-import { debounce } from "../utils/debounce"
-import { usePrevious } from "../utils/hooks"
+import { setUiState } from "../../operations/mutations/setUiState"
+import { EditMode } from "../../models/enum"
+import { useBlockMutations } from "../../operations/mutations"
+import { debounce } from "../../utils/debounce"
+import { usePrevious } from "../../utils/hooks"
 import get from "lodash/get"
 
 type DraftControlledInputType = {

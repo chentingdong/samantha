@@ -1,9 +1,9 @@
 import React from "react"
 import { BlockCatalogItem } from "./BlockCatalogItem"
 import { useQuery } from "@apollo/client"
-import { BLOCK_CATALOG } from "../operations/queries/blockCatalog"
-import { BlockDef } from "../models/interface"
-import { Error } from "../components/Misc"
+import { BLOCK_CATALOG } from "../../operations/queries/blockCatalog"
+import { BlockDef } from "../../models/interface"
+import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
 
 const BlockCatalogList = () => {

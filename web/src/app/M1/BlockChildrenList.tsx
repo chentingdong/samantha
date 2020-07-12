@@ -1,15 +1,15 @@
 import React from "react"
-import { BlockOrDef } from "../models/interface"
+import { BlockOrDef } from "../../models/interface"
 import { BlockChildrenItem } from "./BlockChildrenItem"
-import { DndTargetBox } from "../components/DndTargetBox"
-import { MutationType, EditMode } from "../models/enum"
+import { DndTargetBox } from "../../components/DndTargetBox"
+import { MutationType, EditMode } from "../../models/enum"
 import styled from "styled-components"
 import { Panel } from "rsuite"
 import { useQuery } from "@apollo/client"
-import { UI_STATE } from "../operations/queries/uiState"
-import { AUTH_USER } from "../operations/queries/authUser"
-import { addOneBlock, moveOneBlock } from "../operations/blockOperations"
-import { useBlockMutations } from "../operations/mutations"
+import { UI_STATE } from "../../operations/queries/uiState"
+import { AUTH_USER } from "../../operations/queries/authUser"
+import { addOneBlock, moveOneBlock } from "../../operations/blockOperations"
+import { useBlockMutations } from "../../operations/mutations"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]

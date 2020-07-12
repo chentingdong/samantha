@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from "react"
-import { getIconClassByType } from "../utils/Styles"
-import { BlockOrDef } from "../models/interface"
+import { getIconClassByType } from "../../utils/Styles"
+import { BlockOrDef } from "../../models/interface"
 import Tree from "react-d3-tree"
-import { Card } from "../components/Card"
+import { Card } from "../../components/Card"
 import moment from "moment"
 import { Icon } from "rsuite"
-import { setUiState } from "../operations/mutations/setUiState"
+import { setUiState } from "../../operations/mutations/setUiState"
 
 function BlockTree({ data }) {
   const treeContainer = useRef()

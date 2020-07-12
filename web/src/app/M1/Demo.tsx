@@ -5,14 +5,14 @@ import { RequestsReceivedList } from "./RequestsReceivedList"
 import { ContextViewCodes } from "./ContextViewCodes"
 import { Grid, Row, Col, Nav, Dropdown } from "rsuite"
 import { useQuery } from "@apollo/client"
-import { AUTH_USER } from "../operations/queries/authUser"
+import { AUTH_USER } from "../../operations/queries/authUser"
 import { Editor } from "./Editor"
 import { BellEditor } from "./BellEditor"
 import { Logout } from "components/Logout"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { injectRsuiteStyle, getLogoByTheme } from "../utils/Styles"
-import "../../dist/tailwind/tailwind.generated.css"
+import { injectRsuiteStyle, getLogoByTheme } from "../../utils/Styles"
+import "../../../dist/tailwind/tailwind.generated.css"
 
 function DemoRaw({ className }) {
   const [active, setActive] = useState("requests-active")

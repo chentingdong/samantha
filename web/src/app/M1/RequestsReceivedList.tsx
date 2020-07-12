@@ -1,12 +1,12 @@
 import React from "react"
 import { useQuery, useSubscription } from "@apollo/client"
-import { REQUESTS_RECEIVED } from "../operations/subscriptions/requestsReceived"
+import { REQUESTS_RECEIVED } from "../../operations/subscriptions/requestsReceived"
 import { RequestItem } from "./RequestItem"
-import { ItemOrigin } from "../models/enum"
-import { Error } from "../components/Misc"
-import { AUTH_USER } from "../operations/queries/authUser"
+import { ItemOrigin } from "../../models/enum"
+import { Error } from "../../components/Misc"
+import { AUTH_USER } from "../../operations/queries/authUser"
 import { Loader } from "rsuite"
-import { BlockDef } from "../models/interface"
+import { BlockDef } from "../../models/interface"
 
 const RequestsReceivedList = ({ className = "" }) => {
   const { data: authUserResult } = useQuery(AUTH_USER)

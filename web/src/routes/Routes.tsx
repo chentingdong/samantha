@@ -4,7 +4,7 @@ import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"
 import Login from "../app/Login"
 import NotFound from "../app/NotFound"
-import { Demo } from "../app/Demo"
+import { Demo } from "../app/M1/Demo"
 
 const routes = [
   {

@@ -1,8 +1,8 @@
 import React from "react"
-import { BlockDef } from "../models/interface"
-import { DndSourceBox } from "../components/DndSourceBox"
-import { Card } from "../components/Card"
-import { getIconByType } from "../utils/Styles"
+import { BlockDef } from "../../models/interface"
+import { DndSourceBox } from "../../components/DndSourceBox"
+import { Card } from "../../components/Card"
+import { getIconByType } from "../../utils/Styles"
 import { Icon } from "rsuite"
 
 const BlockCatalogItem: React.FC<{

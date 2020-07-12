@@ -1,12 +1,12 @@
 import React from "react"
-import { BlockOrDef } from "../models/interface"
-import { TagPicker } from "../components/TagPicker"
+import { BlockOrDef } from "../../models/interface"
+import { TagPicker } from "../../components/TagPicker"
 import { useQuery, useMutation } from "@apollo/client"
-import { GET_USERS } from "../operations/queries/getUsers"
-import { INSERT_BLOCK_REQUESTOR } from "../operations/mutations/insertBlockRequestor"
-import { DELETE_BLOCK_REQUESTOR } from "../operations/mutations/deleteBlockRequestor"
-import { INSERT_BLOCK_RESPONDER } from "../operations/mutations/insertBlockResponder"
-import { DELETE_BLOCK_RESPONDER } from "../operations/mutations/deleteBlockResponder"
+import { GET_USERS } from "../../operations/queries/getUsers"
+import { INSERT_BLOCK_REQUESTOR } from "../../operations/mutations/insertBlockRequestor"
+import { DELETE_BLOCK_REQUESTOR } from "../../operations/mutations/deleteBlockRequestor"
+import { INSERT_BLOCK_RESPONDER } from "../../operations/mutations/insertBlockResponder"
+import { DELETE_BLOCK_RESPONDER } from "../../operations/mutations/deleteBlockResponder"
 
 type AssignmentType = {
   block: BlockOrDef

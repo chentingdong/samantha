@@ -1,12 +1,12 @@
 import React from "react"
 import { RequestItem } from "./RequestItem"
-import { ItemOrigin, EditMode } from "../models/enum"
+import { ItemOrigin, EditMode } from "../../models/enum"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
-import { apolloClient } from "../index"
+import { apolloClient } from "../../index"
 import { ApolloProvider } from "@apollo/client"
-import blockStories from "../../data/storybook-blocks.json"
-import users from "../../data/users.json"
+import blockStories from "../../../data/storybook-blocks.json"
+import users from "../../../data/users.json"
 
 const blockLevel2 = blockStories[0]
 const blockLevel1 = blockLevel2.children[0]

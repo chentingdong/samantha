@@ -3,7 +3,7 @@ import { BlockCatalogItem } from "./BlockCatalogItem"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 
-import blockStories from "../../data/storybook-blocks.json"
+import blockStories from "../../../data/storybook-blocks.json"
 const blockLevel2 = blockStories[0]
 
 export default {

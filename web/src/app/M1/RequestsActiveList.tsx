@@ -1,11 +1,11 @@
 import React from "react"
 import { useQuery, useSubscription } from "@apollo/client"
-import { REQUESTS_ACTIVE } from "../operations/subscriptions/requestsActive"
+import { REQUESTS_ACTIVE } from "../../operations/subscriptions/requestsActive"
 import { RequestItem } from "./RequestItem"
-import { BlockDef } from "../models/interface"
-import { ItemOrigin } from "../models/enum"
-import { Error } from "../components/Misc"
-import { AUTH_USER } from "../operations/queries/authUser"
+import { BlockDef } from "../../models/interface"
+import { ItemOrigin } from "../../models/enum"
+import { Error } from "../../components/Misc"
+import { AUTH_USER } from "../../operations/queries/authUser"
 import { Loader } from "rsuite"
 
 const RequestsActiveList: React.FC<{ className?: string }> = ({

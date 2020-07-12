@@ -1,6 +1,6 @@
 import React from "react"
-import { BlockOrDef } from "../models/interface"
-import { getIconClassByType } from "../utils/Styles"
+import { BlockOrDef } from "../../models/interface"
+import { getIconClassByType } from "../../utils/Styles"
 import { Tree } from "rsuite"
 
 function ExploreTree({ draftBlock }) {

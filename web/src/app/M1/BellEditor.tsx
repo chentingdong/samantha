@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { Drawer } from "../components/Drawer"
-import { UI_STATE } from "../operations/queries/uiState"
+import { Drawer } from "../../components/Drawer"
+import { UI_STATE } from "../../operations/queries/uiState"
 import { useQuery, useSubscription } from "@apollo/client"
-import { setUiState } from "../operations/mutations/setUiState"
-import { GET_BELL } from "../operations/subscriptions/getBell"
+import { setUiState } from "../../operations/mutations/setUiState"
+import { GET_BELL } from "../../operations/subscriptions/getBell"
 import { BellTree } from "./BellTree"
 import { EditBlock } from "./EditBlock"
-import { initialBell } from "../../data/initialBell"
+import { initialBell } from "../../../data/initialBell"
 
 const BellEditor = (props) => {
   const [bell, setBell] = useState(initialBell)

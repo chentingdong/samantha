@@ -4,7 +4,7 @@ import { BlockCatalogList } from "./BlockCatalogList"
 import { RequestsMadeList } from "./RequestsMadeList"
 import { RequestsReceivedList } from "./RequestsReceivedList"
 import { ApolloProvider } from "@apollo/client"
-import { apolloClient } from "../index"
+import { apolloClient } from "../../index"
 import { DndProvider } from "react-dnd"
 import Backend from "react-dnd-html5-backend"
 
