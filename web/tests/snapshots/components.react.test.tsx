@@ -23,7 +23,7 @@ describe("Button", () => {
 describe("Drawer", () => {
   it("renders correctly", () => {
     const component = renderer.create(
-      <Drawer show={null} close={null}>
+      <Drawer show={console.log("show")} close={console.log("hide")}>
         Drawer content...
       </Drawer>
     )

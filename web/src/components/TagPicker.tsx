@@ -71,7 +71,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
           )
         })}
         <div className="toggle p-2">
-          <img src={ChevronDown} alt="" />
+          <Icon icon={ChevronDown} size="lg" />
         </div>
       </div>
       <div>
