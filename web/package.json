@@ -33,11 +33,7 @@
     "storybook": "yarn run prebuild && start-storybook -p 2040 ",
     "storybook:deploy": "yarn chromatic",
     "chromatic": "npx chromatic --project-token=jn5n1c1u9l",
-    "test": "jest"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "verbose": true
+    "test": "jest --config configs/jest.config.js"
   },
   "devDependencies": {
     "@ant-design/icons": "^4.1.0",
@@ -83,6 +79,7 @@
     "eslint-loader": "^4.0.2",
     "image-webpack-loader": "^6.0.0",
     "jest": "^26.1.0",
+    "jest-svg-transformer": "^1.0.0",
     "jsdom": "^16.2.2",
     "jsdom-global": "^3.0.2",
     "node-sass": "^4.14.1",

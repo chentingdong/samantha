@@ -3,7 +3,7 @@ import { Icon } from "rsuite"
 import styled from "styled-components"
 import { User } from "../models/interface"
 import tw from "tailwind.macro"
-import ChevronDown from "assets/img/chevron-down.svg"
+import ChevronDown from "../assets/img/chevron-down.svg"
 
 type TagPickerType = {
   value: User[]

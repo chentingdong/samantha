@@ -10,6 +10,16 @@ exports[`Button renders correctly 1`] = `
 </button>
 `;
 
+exports[`Card renders correctly 1`] = `
+<div
+  className="sc-AxirZ cOmRup card"
+>
+  Drawer content...
+</div>
+`;
+
+exports[`Confirm renders correctly 1`] = `null`;
+
 exports[`Drawer renders correctly 1`] = `
 <style
   dangerouslySetInnerHTML={
@@ -20,3 +30,5 @@ exports[`Drawer renders correctly 1`] = `
   data-emotion-css="1qodn49"
 />
 `;
+
+exports[`FormValidationMessage renders correctly 1`] = `null`;

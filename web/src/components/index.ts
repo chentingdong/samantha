@@ -1,3 +1,6 @@
 export * from "./Button"
 export * from "./Drawer"
 export * from "./Card"
+export * from "./TagPicker"
+export * from "./Confirm"
+export * from "./FormValidationMessage"

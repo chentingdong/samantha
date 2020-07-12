@@ -1,8 +1,14 @@
 "use strict"
 
 import React from "react"
-import { Button, Drawer } from "../../src/components/"
 import renderer from "react-test-renderer"
+import {
+  Button,
+  Drawer,
+  Card,
+  Confirm,
+  FormValidationMessage,
+} from "src/components"
 
 describe("Button", () => {
   it("renders correctly", () => {
@@ -20,6 +26,40 @@ describe("Drawer", () => {
       <Drawer show={null} close={null}>
         Drawer content...
       </Drawer>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})
+
+describe("Card", () => {
+  it("renders correctly", () => {
+    const component = renderer.create(
+      <Card colors="primary">Drawer content...</Card>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})
+
+describe("Confirm", () => {
+  it("renders correctly", () => {
+    const component = renderer.create(
+      <Confirm onYes={null} onNo={null}>
+        Drawer content...
+      </Confirm>
+    )
+    let tree = component.toJSON()
+    expect(tree).toMatchSnapshot()
+  })
+})
+
+describe("FormValidationMessage", () => {
+  it("renders correctly", () => {
+    const component = renderer.create(
+      <FormValidationMessage errors={null}>
+        Drawer content...
+      </FormValidationMessage>
     )
     let tree = component.toJSON()
     expect(tree).toMatchSnapshot()
