@@ -9,7 +9,6 @@ import { ApolloClient, ApolloProvider, HttpLink, split } from "@apollo/client"
 import { onError } from "@apollo/link-error"
 import LogRocket from "logrocket"
 import * as Sentry from "@sentry/browser"
-import AppStyles from "./assets/styles/appStyles"
 import { getMainDefinition } from "@apollo/client/utilities"
 import { WebSocketLink } from "@apollo/link-ws"
 
@@ -73,9 +72,7 @@ const rootEl = document.getElementById("root")
 render(
   <ApolloProvider client={apolloClient}>
     <DndProvider backend={Backend}>
-      <AppStyles>
-        <App />
-      </AppStyles>
+      <App />
     </DndProvider>
   </ApolloProvider>,
   rootEl

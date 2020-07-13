@@ -16,11 +16,11 @@ module.exports = {
       purple: "#3A0751",
     },
     fontFamily: {
-      sans: ["canada-type-gibson", "Avenir", "Varela", "Arial", "sans"],
-      serif: ["kepler-std-display", "Varela", "serif"],
+      sans: ["Avenir", "Varela", "Arial", "sans"],
+      serif: ["kepler-std", "Varela", "serif"],
       mono: ["Menlo", '"Liberation Mono"', '"Courier New"', "monospace"],
-      display: ["kepler-std-display", "Varela", "serif"],
-      body: ["canada-type-gibson", "Avenir", "Varela", "Arial", "sans"],
+      display: ["kepler-std", "Varela", "serif"],
+      body: ["Avenir", "Varela", "Arial", "sans"],
     },
     fontSize: {
       "2xs": "0.5rem",

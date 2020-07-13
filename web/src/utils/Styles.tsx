@@ -1,8 +1,8 @@
 import logoDark from "../assets/img/bellhop-dark.svg"
-import logoWhite from "../assets/img/bellhop-white.svg"
+import logoWhite from "../assets/img/brand-1.svg"
 
 const getLogoByTheme = (theme) => {
-  return theme === "bell" ? logoDark : logoWhite
+  return theme === "bell" ? logoWhite : logoDark
 }
 
 const blockColor = (block) => {
@@ -50,8 +50,8 @@ const getIconClassByType = (type) => {
 const injectRsuiteStyle = (theme) => {
   const css =
     process.env.NODE_ENV === "production"
-      ? `/rsuite/theme-${theme}.min.css`
-      : `/dist/rsuite/theme-${theme}.min.css`
+      ? `/assets/rsuite/theme-${theme}.min.css`
+      : `/src/assets/rsuite/theme-${theme}.min.css`
 
   const head = document.body.parentElement.firstElementChild
   const firstLink = head.getElementsByTagName("link")[0]

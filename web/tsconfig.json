@@ -10,6 +10,7 @@
     "allowJs": true,
     "target": "es6",
     "jsx": "react",
+    "tsx": "react",
     "esModuleInterop": true,
     "lib": ["es6", "dom"],
     "resolveJsonModule": true,
@@ -18,11 +19,11 @@
     "sourceRoot": "/",
     "paths": {
       "*": ["src/*", "tests/*"]
-    }
-    // "allowSyntheticDefaultImports": true
+    },
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["./node_modules/**/*"],
-  "include": ["./src/**/*", "src/assets/tailwind/tailwind.js"],
+  "include": ["./src/**/*"],
   "awesomeTypescriptLoaderOptions": {
     "reportFiles": ["./src/**/*"]
   }

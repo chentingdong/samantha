@@ -7,7 +7,7 @@ import { injectRsuiteStyle } from "../utils/Styles"
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
 
 function Login() {
-  const theme = "dark"
+  const theme = "bell"
   Amplify.configure(config)
 
   useEffect(() => {

@@ -26,14 +26,17 @@ const ButtonRaw: React.FC<ButtonType> = ({
   return (
     <button className={className} onClick={onClick}>
       {icon && <Icon className="pr-4" icon={icon} />}
-      <span className="flex-auto">{props.children}</span>
+      <span>{props.children}</span>
     </button>
   )
 }
 
 const Button = styled(ButtonRaw)`
-  ${tw`rounded-full shadow py-2 px-4 items-baseline m-2 flex`}
+  ${tw`rounded-full shadow py-2 px-4 items-baseline m-2`}
   border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
+  &:focus {
+    outline: none;
+  }
   &.fill,
   &:hover {
     color: ${(props) => `var(--color-text-${props.color})`};
@@ -46,8 +49,9 @@ const Button = styled(ButtonRaw)`
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
-  min-width: 5rem;
-  max-width: 20rem;
+  min-width: 5em;
+  max-width: 20em;
+  padding: 0.7em 1em;
   text-overflow: ellipsis;
   transition: background 0.2s;
 `

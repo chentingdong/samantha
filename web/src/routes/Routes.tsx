@@ -4,12 +4,23 @@ import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"
 import Login from "../app/Login"
 import NotFound from "../app/NotFound"
-import { Demo } from "../app/Demo"
+import { Demo as DemoM1 } from "../app/M1/Demo"
+import DemoM2 from "../app/M2/Demo"
 
 const routes = [
   {
     path: "/",
-    component: Demo,
+    component: DemoM1,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/m1",
+    component: DemoM1,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/m2",
+    component: DemoM2,
     tag: PrivateRoute,
   },
   {

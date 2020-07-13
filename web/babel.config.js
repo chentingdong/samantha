@@ -1,9 +1,19 @@
 module.exports = {
-  plugins: ["tailwind-components", "react-hot-loader/babel", "macros"],
+  plugins: [
+    "tailwind-components",
+    "react-hot-loader/babel",
+    "macros",
+    [
+      "wildcard",
+      {
+        exts: ["js", "jsx", "ts", "tsx", ""],
+      },
+    ],
+  ],
   presets: [
     ["@babel/preset-env", { targets: { node: "current" } }],
-    "@babel/preset-typescript",
     "@babel/preset-react",
+    "@babel/preset-typescript",
   ],
   sourceType: "unambiguous",
   sourceMaps: true,

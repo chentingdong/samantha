@@ -25,6 +25,7 @@ const Logout: React.SFC<LogoutProps> = () => {
     Notification[funcName]({
       title: "Info",
       description: "You are successfully logged out.",
+      duration: 0,
     })
   }
 
