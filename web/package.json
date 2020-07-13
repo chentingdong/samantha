@@ -23,7 +23,7 @@
     "build": "NODE_ENV=production BABEL_ENV=production webpack -p --config=configs/webpack/prod.js ",
     "prebuild": "yarn clean && rebuild-node-sass && yarn run build:theme",
     "build:theme": "yarn run build:tailwind && yarn run build:rsuite",
-    "build:tailwind": "tailwindcss build src/assets/tailwind/tailwind.css -c src/assets/tailwind/tailwind.config.js -o dist/tailwind/tailwind.generated.css",
+    "build:tailwind": "tailwindcss build src/assets/tailwind/tailwind.css -c src/assets/tailwind/tailwind.config.js -o src/assets/tailwind/tailwind.generated.css",
     "build:rsuite": "src/assets/rsuite/build-rsuite.sh",
     "clean": "rimraf dist/*",
     "#lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
@@ -91,7 +91,8 @@
     "webpack-bundle-analyzer": "^3.7.0",
     "webpack-dev-middleware": "^3.7.2",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^4.2.2"
+    "webpack-merge": "^4.2.2",
+    "webpack-multiple-themes-compile": "^2.0.0"
   },
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.48",

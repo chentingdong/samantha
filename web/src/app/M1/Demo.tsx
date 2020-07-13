@@ -12,7 +12,7 @@ import { Logout } from "components/Logout"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { injectRsuiteStyle, getLogoByTheme } from "../../utils/Styles"
-import "../../../dist/tailwind/tailwind.generated.css"
+import "assets/tailwind/tailwind.generated.css"
 
 function DemoRaw({ className }) {
   const [active, setActive] = useState("requests-active")
