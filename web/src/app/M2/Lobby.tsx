@@ -2,7 +2,7 @@ import * as React from "react"
 import { useQuery, useSubscription } from "@apollo/client"
 import { AUTH_USER } from "operations/queries/authUser"
 import { REQUESTS_RECEIVED } from "operations/subscriptions/requestsReceived"
-import { Loader } from "rsuite"
+import { Loader, Placeholder } from "rsuite"
 import { Error } from "components/Misc"
 import { BlockDef } from "models/interface"
 import { Block } from "models/interface"
@@ -23,7 +23,9 @@ export const Lobby: React.FC<LobbyProps> = (props) => {
 
   return (
     <div
-      className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"}
+      className={
+        "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-4"
+      }
       {...props}
     >
       {data.blocks.map((block: BlockDef, index: number) => (
@@ -44,13 +46,15 @@ const LobbyBellCard: React.FC<LobbyBellCardProps> = ({ block, index }) => {
   return (
     <Card color={`bell-${stringHashBucket(block.id, 10)}`}>
       <div className="card-header">
-        <h5 className="overflow-hidden truncate">{block.name || "..."}</h5>
+        <h5 className="overflow-hidden truncate">
+          {block.name || <Placeholder.Paragraph rows={1} />}
+        </h5>
         <p>{moment(block.created_at).fromNow()}</p>
         <p>Bell started by: {usersToString(block)}</p>
       </div>
       <div className="card-body m-8 w-auto pb-20">
-        <h6>{block.name || "..."}</h6>
-        <p>{block.description}</p>
+        <h6>{block.name || <Placeholder.Paragraph rows={1} />}</h6>
+        <p>{block.description || <Placeholder.Paragraph rows={2} />}</p>
         <p className="text-sm text-right">
           Requested by: {usersToString(block)}
         </p>

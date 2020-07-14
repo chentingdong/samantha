@@ -66,6 +66,9 @@ module.exports = {
         "96": "24rem",
         "128": "32rem",
       },
+      screens: {
+        "2xl": "1920px",
+      },
     },
   },
   variants: {
