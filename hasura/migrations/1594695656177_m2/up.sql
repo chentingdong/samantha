@@ -10,12 +10,38 @@ CREATE TABLE v2."Block" (
     updated_at timestamp with time zone DEFAULT now() NOT NULL,
     started_at timestamp with time zone
 );
+CREATE TABLE v2."Decorator" (
+    CONSTRAINT block_type CHECK ((type = 'Decorator'::text)) NO INHERIT
+)
+INHERITS (v2."Block");
+CREATE TABLE v2."HumanTask" (
+    requestor_id text,
+    assignee_id text,
+    CONSTRAINT block_type CHECK ((type = 'HumanTask'::text)) NO INHERIT
+)
+INHERITS (v2."Block");
+CREATE TABLE v2."FormTask" (
+    title text,
+    theme jsonb,
+    fields jsonb,
+    logic jsonb,
+    CONSTRAINT block_type CHECK ((type = 'FormTask'::text)) NO INHERIT
+)
+INHERITS (v2."HumanTask");
+CREATE TABLE v2."Control" (
+    CONSTRAINT block_type CHECK ((type = 'Control'::text)) NO INHERIT
+)
+INHERITS (v2."Block");
 CREATE TABLE v2."Executor" (
     CONSTRAINT block_type CHECK ((type = 'Executor'::text)) NO INHERIT
 )
 INHERITS (v2."Block");
 CREATE TABLE v2."APIExecutor" (
     CONSTRAINT block_type CHECK ((type = 'APIExecutor'::text)) NO INHERIT
+)
+INHERITS (v2."Executor");
+CREATE TABLE v2."BellExecutor" (
+    CONSTRAINT block_type CHECK ((type = 'BellExecutor'::text)) NO INHERIT
 )
 INHERITS (v2."Executor");
 CREATE TABLE v2."Bell" (
@@ -34,10 +60,6 @@ CREATE TABLE v2."Bell" (
     started_at timestamp with time zone,
     is_definition boolean DEFAULT false NOT NULL
 );
-CREATE TABLE v2."BellExecutor" (
-    CONSTRAINT block_type CHECK ((type = 'BellExecutor'::text)) NO INHERIT
-)
-INHERITS (v2."Executor");
 CREATE TABLE v2."Bellhop" (
     id text NOT NULL,
     name text NOT NULL,
@@ -72,28 +94,6 @@ CREATE TABLE v2."BlockType" (
     type text NOT NULL,
     category text
 );
-CREATE TABLE v2."Control" (
-    CONSTRAINT block_type CHECK ((type = 'Control'::text)) NO INHERIT
-)
-INHERITS (v2."Block");
-CREATE TABLE v2."Decorator" (
-    CONSTRAINT block_type CHECK ((type = 'Decorator'::text)) NO INHERIT
-)
-INHERITS (v2."Block");
-CREATE TABLE v2."HumanTask" (
-    requestor_id text,
-    assignee_id text,
-    CONSTRAINT block_type CHECK ((type = 'HumanTask'::text)) NO INHERIT
-)
-INHERITS (v2."Block");
-CREATE TABLE v2."FormTask" (
-    title text,
-    theme jsonb,
-    fields jsonb,
-    logic jsonb,
-    CONSTRAINT block_type CHECK ((type = 'FormTask'::text)) NO INHERIT
-)
-INHERITS (v2."HumanTask");
 CREATE TABLE v2."Role" (
     id text NOT NULL,
     name text NOT NULL
@@ -105,35 +105,7 @@ CREATE TABLE v2."User" (
     created_at timestamp with time zone DEFAULT now() NOT NULL,
     updated_at timestamp with time zone DEFAULT now() NOT NULL
 );
-ALTER TABLE ONLY v2."APIExecutor" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."APIExecutor" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."APIExecutor" ALTER COLUMN created_at SET DEFAULT now();
-ALTER TABLE ONLY v2."APIExecutor" ALTER COLUMN updated_at SET DEFAULT now();
-ALTER TABLE ONLY v2."BellExecutor" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."BellExecutor" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."BellExecutor" ALTER COLUMN created_at SET DEFAULT now();
-ALTER TABLE ONLY v2."BellExecutor" ALTER COLUMN updated_at SET DEFAULT now();
 ALTER TABLE ONLY v2."BlockParentChildren" ALTER COLUMN sibling_order SET DEFAULT nextval('v2."BlockParentChildren_sibling_order_seq"'::regclass);
-ALTER TABLE ONLY v2."Control" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."Control" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."Control" ALTER COLUMN created_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."Control" ALTER COLUMN updated_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."Decorator" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."Decorator" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."Decorator" ALTER COLUMN created_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."Decorator" ALTER COLUMN updated_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."Executor" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."Executor" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."Executor" ALTER COLUMN created_at SET DEFAULT now();
-ALTER TABLE ONLY v2."Executor" ALTER COLUMN updated_at SET DEFAULT now();
-ALTER TABLE ONLY v2."FormTask" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."FormTask" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."FormTask" ALTER COLUMN created_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."FormTask" ALTER COLUMN updated_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."HumanTask" ALTER COLUMN is_definition SET DEFAULT false;
-ALTER TABLE ONLY v2."HumanTask" ALTER COLUMN configs SET DEFAULT '{}'::jsonb;
-ALTER TABLE ONLY v2."HumanTask" ALTER COLUMN created_at SET DEFAULT NULL;
-ALTER TABLE ONLY v2."HumanTask" ALTER COLUMN updated_at SET DEFAULT NULL;
 ALTER TABLE ONLY v2."Bell"
     ADD CONSTRAINT "Bell_root_id_key" UNIQUE (root_id);
 ALTER TABLE ONLY v2."BellhopUser"
@@ -182,3 +154,17 @@ ALTER TABLE ONLY v2."Block"
     ADD CONSTRAINT block_state_fkey FOREIGN KEY (state) REFERENCES v2."BlockState"(state) ON UPDATE CASCADE ON DELETE CASCADE;
 ALTER TABLE ONLY v2."Block"
     ADD CONSTRAINT block_type_fkey FOREIGN KEY (type) REFERENCES v2."BlockType"(type) ON UPDATE CASCADE ON DELETE CASCADE;
+
+INSERT INTO v2."BlockState" (state, comment) VALUES ('Created', '');
+INSERT INTO v2."BlockState" (state, comment) VALUES ('Running', '');
+INSERT INTO v2."BlockState" (state, comment) VALUES ('Success', '');
+INSERT INTO v2."BlockState" (state, comment) VALUES ('Failure', '');
+INSERT INTO v2."BlockType" (type, category) VALUES ('Sequence', 'Control');
+INSERT INTO v2."BlockType" (type, category) VALUES ('Executor', 'Executor');
+INSERT INTO v2."BlockType" (type, category) VALUES ('BellExecutor', 'Executor');
+INSERT INTO v2."BlockType" (type, category) VALUES ('Parallel', 'Control');
+INSERT INTO v2."BlockType" (type, category) VALUES ('APIExecutor', 'Executor');
+INSERT INTO v2."BlockType" (type, category) VALUES ('Decorator', 'Decorator');
+INSERT INTO v2."BlockType" (type, category) VALUES ('FormTask', 'HumanTask');
+INSERT INTO v2."BlockType" (type, category) VALUES ('HumanTask', 'HumanTask');
+SELECT pg_catalog.setval('v2."BlockParentChildren_sibling_order_seq"', 1, false);
