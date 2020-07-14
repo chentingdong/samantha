@@ -28,7 +28,7 @@ services:
 
   hasura:
     image: hasura/graphql-engine:v1.2.2
-    container_name: samantha_hasura
+    container_name: samantha-hasura
     restart: always
     depends_on:
       - postgres
