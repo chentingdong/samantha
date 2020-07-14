@@ -5,7 +5,7 @@ import PrivateRoute from "./PrivateRoute"
 import Login from "../app/Login"
 import NotFound from "../app/NotFound"
 import { Demo as DemoM1 } from "../app/M1/Demo"
-import DemoM2 from "../app/M2/Demo"
+import { Demo as DemoM2 } from "../app/M2/Demo"
 
 const routes = [
   {

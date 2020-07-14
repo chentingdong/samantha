@@ -8,12 +8,22 @@ module.exports = {
       white: "#FFFFFF",
       light: "#EEEEEE",
       dark: "#979797",
-      red: "#AE3A34",
-      green: "#2F6C30",
-      orange: "#F29441",
-      yellow: "#F2C85B",
-      violet: "#A13670",
-      purple: "#3A0751",
+      red: {
+        default: "#AE3A34",
+      },
+      green: {
+        default: "#2F6C30",
+      },
+      orange: {
+        default: "#F29441",
+      },
+      yellow: {
+        default: "#F2C85B",
+      },
+      purple: {
+        default: "#3A0751",
+        light: "#A13670",
+      },
     },
     fontFamily: {
       sans: ["Avenir", "Varela", "Arial", "sans"],

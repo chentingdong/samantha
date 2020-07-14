@@ -9,7 +9,7 @@ export interface MainMenuProps {
   onSelect: (activeKey: string) => void
 }
 
-const MainMenuRaw: React.SFC<MainMenuProps> = ({
+export const MainMenu: React.FC<MainMenuProps> = ({
   active,
   onSelect,
   ...props
@@ -18,21 +18,21 @@ const MainMenuRaw: React.SFC<MainMenuProps> = ({
     <div className="show-grid" {...props}>
       <FlexboxGrid justify="space-between">
         <img
+          className={`logo bell m-3 h-8`}
           src={getLogoByTheme("bell")}
           alt="Bellhop"
-          className={`logo bell m-3 h-8`}
         />
         <Navbar>
-          <Nav className="bg-default">
-            <Nav.Item eventKey="news">Lobby</Nav.Item>
-            <Nav.Item eventKey="solutions">Bell Desk</Nav.Item>
-            <Nav.Item eventKey="products">My Bellhops</Nav.Item>
+          <Nav className="bg-default" activeKey={active} onSelect={onSelect}>
+            <Nav.Item eventKey="lobby">Lobby</Nav.Item>
+            <Nav.Item eventKey="bellDesk">Bell Desk</Nav.Item>
+            <Nav.Item eventKey="myBellhops">My Bellhops</Nav.Item>
           </Nav>
         </Navbar>
         <Navbar>
           <Nav className="bg-default">
-            <Nav.Item eventKey="account">Account</Nav.Item>
-            <Button fill={false} color="primary" className="p-2">
+            <Nav.Item eventKey={null}>Account</Nav.Item>
+            <Button color="primary" fill={true} className="p-2">
               Sign Out
             </Button>
           </Nav>
@@ -41,6 +41,3 @@ const MainMenuRaw: React.SFC<MainMenuProps> = ({
     </div>
   )
 }
-
-const MainMenu = styled(MainMenuRaw)``
-export default MainMenu

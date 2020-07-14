@@ -116,10 +116,6 @@ const Demo = styled(DemoRaw)`
       ${tw`my-0 mx-4`}
       max-height: 2em;
       height: 100%;
-      display: inline-block;
-      vertical-align: top;
-    }
-    h1 {
       line-height: 1.2em;
     }
     h6 {

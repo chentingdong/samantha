@@ -16,16 +16,16 @@
   --color-text-default: theme("colors.white");
   --color-bg-default: theme("colors.black");
 
-  --color-text-disabled: theme("colors.purple");
+  --color-text-disabled: theme("colors.purple.default");
   --color-bg-disabled: theme("colors.light");
 }
 
 * {
   --color-text-primary: theme("colors.white");
-  --color-bg-primary: theme("colors.purple");
+  --color-bg-primary: theme("colors.purple.default");
 
   --color-text-secondary: theme("colors.white");
-  --color-bg-secondary: theme("colors.violet");
+  --color-bg-secondary: theme("colors.purple.light");
 
   --color-text-light: theme("colors.black");
   --color-bg-light: theme("colors.light");
@@ -34,34 +34,68 @@
   --color-bg-dark: theme("colors.dark");
 
   --color-text-success: theme("colors.white");
-  --color-bg-success: theme("colors.green");
+  --color-bg-success: theme("colors.green.default");
 
   --color-text-warning: theme("colors.light");
-  --color-bg-warning: theme("colors.orange");
+  --color-bg-warning: theme("colors.orange.default");
 
   --color-text-error: theme("colors.light");
-  --color-bg-error: theme("colors.red");
+  --color-bg-error: theme("colors.red.default");
 
-  --color-bg-orange: theme("colors.orange");
+  --color-bell: theme("colors.orange.default");
+  --color-bell-1: var(--color-bell);
+  --color-bell-2: theme("colors.red.default");
+  --color-bell-3: theme("colors.yellow.default");
+  --color-bell-4: theme("colors.purple.light");
+  --color-bell-5: theme("colors.red.default");
+  --color-bell-6: theme("colors.yellow.default");
+  --color-bell-7: theme("colors.purple.light");
+  --color-bell-8: theme("colors.red.default");
+  --color-bell-9: theme("colors.yellow.default");
+  --color-bell-10: theme("colors.purple.light");
 }
 
-.text-primary {
-  color: theme("colors.purple");
-}
-.bg-primary {
-  background-color: theme("colors.purple");
-}
-.text-secondary {
-  color: theme("colors.violet");
-}
-.text-error {
-  color: theme("colors.red");
-}
-.bg-orange {
-  background: theme("colors.orange");
+.text-default {
+  color: var(--color-text-default);
 }
 .bg-default {
-  background: var(--color-bg-default);
+  background-color: var(--color-bg-default);
+}
+.text-primary {
+  color: var(--color-text-primary);
+}
+.bg-primary {
+  background-color: var(--color-bg-primary);
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.bg-secondary {
+  background-color: var(--color-bg-primary);
+}
+.text-success {
+  background-color: var(--color-text-success);
+}
+.bg-success {
+  background-color: var(--color-bg-success);
+}
+.text-warning {
+  color: var(--color-text-warning);
+}
+.bg-warning {
+  background-color: var(--color-bg-warning);
+}
+.text-error {
+  color: var(--color-text-error);
+}
+.bg-error {
+  background-color: var(--color-bg-error);
+}
+.bg-bell {
+  background-color: var(--color-bell);
+}
+.bg-bell-1 {
+  background-color: var(--color-bell-1);
 }
 
 * {
