@@ -152,7 +152,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             icon="edit"
             className="w-3/4 mx-auto"
             fill={false}
-            color="primary"
+            color="bg-primary"
             onClick={(e) => viewEditNew(e)}
           >
             View/Edit <i>New!</i>
@@ -161,7 +161,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
           {itemOrigin !== ItemOrigin.Catalog &&
             (block as Block).state !== "Success" && (
               <Button
-                color="primary"
+                color="bg-primary"
                 fill={false}
                 icon="check"
                 className="w-3/4 mx-auto"
@@ -172,7 +172,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             )}
           {itemOrigin === ItemOrigin.Catalog && (
             <Button
-              color="primary"
+              color="bg-primary"
               fill={false}
               icon="bell-o"
               className="make-a-bell w-3/4 mx-auto"

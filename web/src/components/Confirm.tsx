@@ -37,10 +37,10 @@ const Confirm: FC<ConfirmTypes> = ({
         <p>Please confirm you want to logout </p>
       </Modal.Body>
       <Modal.Footer className="flex absolute bottom-0 right-0">
-        <Button className="" onClick={handleYes} color="primary">
+        <Button className="" onClick={handleYes} color="bg-primary">
           Ok
         </Button>
-        <Button className="" onClick={handleNo} color="warning" fill={false}>
+        <Button className="" onClick={handleNo} color="bg-warning" fill={false}>
           Cancel
         </Button>
       </Modal.Footer>

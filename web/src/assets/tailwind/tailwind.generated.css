@@ -42574,16 +42574,16 @@ video {
   --color-text-error: #EEEEEE;
   --color-bg-error: #AE3A34;
   --color-bell: #F29441;
-  --color-bell-1: var(--color-bell);
-  --color-bell-2: #AE3A34;
-  --color-bell-3: #F2C85B;
-  --color-bell-4: #A13670;
-  --color-bell-5: #AE3A34;
-  --color-bell-6: #F2C85B;
-  --color-bell-7: #A13670;
-  --color-bell-8: #AE3A34;
-  --color-bell-9: #F2C85B;
-  --color-bell-10: #A13670;
+  --color-bell-0: var(--color-bell);
+  --color-bell-1: #a4cf30;
+  --color-bell-2: #62d26f;
+  --color-bell-3: #37c5ab;
+  --color-bell-4: #20aaea;
+  --color-bell-5: #4186e0;
+  --color-bell-6: #7a6ff0;
+  --color-bell-7: #aa62e3;
+  --color-bell-8: #ea4e9d;
+  --color-bell-9: #fc91ad;
 }
 
 .text-default {

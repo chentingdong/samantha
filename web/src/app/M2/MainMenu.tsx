@@ -32,7 +32,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         <Navbar>
           <Nav className="bg-default">
             <Nav.Item eventKey={null}>Account</Nav.Item>
-            <Button color="primary" fill={true} className="p-2">
+            <Button color="bg-primary" fill={true} className="p-2">
               Sign Out
             </Button>
           </Nav>

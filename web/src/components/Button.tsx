@@ -15,7 +15,7 @@ type ButtonType = {
 const ButtonRaw: React.FC<ButtonType> = ({
   icon,
   onClick,
-  color = "primary",
+  color = "bg-primary",
   className = "",
   fill = true,
   ...props
@@ -33,7 +33,7 @@ const ButtonRaw: React.FC<ButtonType> = ({
 
 const Button = styled(ButtonRaw)`
   ${tw`rounded-full shadow py-2 px-4 items-baseline m-2`}
-  border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
+  border: 1px solid ${(props) => `var(--color-${props.color})`};
   &:focus {
     outline: none;
   }

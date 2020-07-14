@@ -18,8 +18,7 @@ const SpendRequestApprovalRaw: React.FC<{
     <form>
       <div>
         <Button
-          name="approve"
-          color="primary"
+          color="bg-primary"
           fill={true}
           onClick={(e) => {
             submit(e, "approval")
@@ -32,8 +31,7 @@ const SpendRequestApprovalRaw: React.FC<{
       </div>
       <div>
         <Button
-          name="reject"
-          color="warning"
+          color="bg-warning"
           fill={false}
           onClick={(e) => {
             submit(e, "reject")
@@ -46,8 +44,7 @@ const SpendRequestApprovalRaw: React.FC<{
       </div>
       <div>
         <Button
-          name="rejectExit"
-          color="warning"
+          color="bg-warning"
           fill={false}
           onClick={(e) => submit(e, "rejectExit")}
         >

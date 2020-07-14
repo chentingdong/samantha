@@ -55,7 +55,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   }
 
   return (
-    <div className={`${className} rounded p-1 text-sm`}>
+    <div className={`${className} rounded p-1`}>
       <div className="toggle-select" onClick={toggleSelect}>
         {tags?.length === 0 && <div className="p-1">click to select...</div>}
         {tags?.map((tag, index) => {
@@ -102,7 +102,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
 const Styles = styled.div.attrs({})`
   ${tw`px-3`}
   border-radius: 20px;
-  line-height: 1rem;
+  line-height: 1.5rem;
   position: relative;
   border: 1px solid;
   color: var(--color-text-default);

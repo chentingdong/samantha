@@ -43,16 +43,16 @@
   --color-bg-error: theme("colors.red.default");
 
   --color-bell: theme("colors.orange.default");
-  --color-bell-1: var(--color-bell);
-  --color-bell-2: theme("colors.red.default");
-  --color-bell-3: theme("colors.yellow.default");
-  --color-bell-4: theme("colors.purple.light");
-  --color-bell-5: theme("colors.red.default");
-  --color-bell-6: theme("colors.yellow.default");
-  --color-bell-7: theme("colors.purple.light");
-  --color-bell-8: theme("colors.red.default");
-  --color-bell-9: theme("colors.yellow.default");
-  --color-bell-10: theme("colors.purple.light");
+  --color-bell-0: var(--color-bell);
+  --color-bell-1: #a4cf30;
+  --color-bell-2: #62d26f;
+  --color-bell-3: #37c5ab;
+  --color-bell-4: #20aaea;
+  --color-bell-5: #4186e0;
+  --color-bell-6: #7a6ff0;
+  --color-bell-7: #aa62e3;
+  --color-bell-8: #ea4e9d;
+  --color-bell-9: #fc91ad;
 }
 
 .text-default {
