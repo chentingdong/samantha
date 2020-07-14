@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."block"("block_id" text NOT NULL, "state" text NOT NULL, "type" text NOT NULL, PRIMARY KEY ("block_id") , FOREIGN KEY ("state") REFERENCES "v2"."blockState"("state") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("type") REFERENCES "v2"."blockType"("type") ON UPDATE cascade ON DELETE cascade);

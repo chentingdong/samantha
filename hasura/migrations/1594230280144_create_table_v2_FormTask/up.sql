@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."FormTask"("task_id" text NOT NULL, "title" text NOT NULL, "theme" jsonb NOT NULL, "fields" jsonb NOT NULL, "welcome_screen" jsonb NOT NULL, "thankyou_screen" jsonb NOT NULL, "logic" jsonb NOT NULL, PRIMARY KEY ("task_id") , FOREIGN KEY ("task_id") REFERENCES "v2"."block"("block_id") ON UPDATE cascade ON DELETE cascade);

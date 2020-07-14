@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."bell"("bell_id" text NOT NULL, "name" text NOT NULL, "description" text NOT NULL, "owner" text NOT NULL, "initiator" text NOT NULL, "context" jsonb NOT NULL, "inputs" jsonb NOT NULL, "outputs" jsonb NOT NULL, PRIMARY KEY ("bell_id") , FOREIGN KEY ("bell_id") REFERENCES "v2"."block"("block_id") ON UPDATE cascade ON DELETE cascade);

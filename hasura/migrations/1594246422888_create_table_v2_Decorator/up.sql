@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."Decorator"("decorator_id" text NOT NULL, "configurations" jsonb NOT NULL, PRIMARY KEY ("decorator_id") , FOREIGN KEY ("decorator_id") REFERENCES "v2"."Block"("block_id") ON UPDATE cascade ON DELETE cascade);

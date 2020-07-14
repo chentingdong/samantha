@@ -1,1 +1,0 @@
-ALTER TABLE "v2"."Block" ALTER COLUMN "bell_id" SET NOT NULL;

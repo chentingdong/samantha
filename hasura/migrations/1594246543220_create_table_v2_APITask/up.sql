@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."APITask"("task_id" text NOT NULL, "configurations" jsonb NOT NULL, PRIMARY KEY ("task_id") , FOREIGN KEY ("task_id") REFERENCES "v2"."Block"("block_id") ON UPDATE cascade ON DELETE cascade);

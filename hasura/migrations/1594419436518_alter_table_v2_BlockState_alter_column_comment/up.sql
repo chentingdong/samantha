@@ -1,1 +1,0 @@
-ALTER TABLE "v2"."BlockState" ALTER COLUMN "comment" DROP NOT NULL;

@@ -1,1 +1,0 @@
-ALTER TABLE ONLY "v2"."Bell" ALTER COLUMN "context" SET DEFAULT '{}';

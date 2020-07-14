@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."BlockParentChildren"("parent_id" text NOT NULL, "child_id" text NOT NULL, "sibling_order" serial NOT NULL, PRIMARY KEY ("parent_id","child_id") , FOREIGN KEY ("parent_id") REFERENCES "v2"."Block"("block_id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("child_id") REFERENCES "v2"."Block"("block_id") ON UPDATE cascade ON DELETE cascade);

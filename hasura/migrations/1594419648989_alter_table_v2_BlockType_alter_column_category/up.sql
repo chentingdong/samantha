@@ -1,1 +1,0 @@
-ALTER TABLE "v2"."BlockType" ALTER COLUMN "category" DROP NOT NULL;

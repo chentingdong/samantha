@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."Control"("control_id" text NOT NULL, "type" text NOT NULL, "configuration" jsonb NOT NULL, PRIMARY KEY ("control_id") , FOREIGN KEY ("control_id") REFERENCES "v2"."Block"("block_id") ON UPDATE cascade ON DELETE cascade);

@@ -1,1 +1,0 @@
-ALTER TABLE ONLY "v2"."Bellhop" ALTER COLUMN "Metadata" SET DEFAULT '{}';

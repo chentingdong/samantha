@@ -1,1 +1,0 @@
-CREATE TABLE "v2"."BellhopUser"("bellhop_id" text NOT NULL, "user_id" text NOT NULL, "role_id" text NOT NULL, PRIMARY KEY ("bellhop_id","user_id","role_id") , FOREIGN KEY ("bellhop_id") REFERENCES "v2"."Bellhop"("bellhop_id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("user_id") REFERENCES "v2"."User"("user_id") ON UPDATE cascade ON DELETE cascade);
