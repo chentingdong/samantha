@@ -59,19 +59,19 @@ const BellTreeRaw = ({ bell }) => {
   }
 
   const NodeLabel = ({ nodeData }) => {
-    const color = statusMap[nodeData.state]
+    const color = statusMap[nodeData.state] || "orange"
 
     return (
       <Card
-        className={`card border bg-${color}-700`}
+        className="card shadow"
         style={{ width: "180px", height: "120px" }}
         onClick={() => onClick(nodeData)}
       >
-        <div className={`card-header bg-${color}-900`}>
+        <div className={`card-header bg-${color}`}>
           <Icon icon={nodeData.icon} className="pr-1" />
           {nodeData.name}
         </div>
-        <div className={`card-body bg-${color}-700`}>
+        <div className="card-body">
           <div>
             Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
           </div>

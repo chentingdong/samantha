@@ -9,7 +9,7 @@ type CardType = {
 }
 
 const CardRaw: React.FC<CardType> = ({
-  color = "bell",
+  color = "bg-secondary",
   className,
   onClick,
   ...props
@@ -33,7 +33,7 @@ const Card = styled(CardRaw)`
     }
     .card-header {
       ${tw`rounded-t-md p-2`};
-      color: var(--color-text-secondary);
+      color: var(--color-text-default);
       background-color: ${(props) => `var(--color-${props.color})`};
       display: block;
       cursor: pointer;
