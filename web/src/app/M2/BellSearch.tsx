@@ -1,14 +1,14 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { Dropdown, Icon } from "rsuite"
-import { Link } from "react-router-dom"
+import { Icon } from "rsuite"
+import IconBell from "assets/img/bell.svg"
 
 type BellSearchProps = {}
 
 const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
-  const [show, setShow] = useState(true)
-  const [value, setValue] = useState("asdf")
+  const [show, setShow] = useState(false)
+  const [value, setValue] = useState("")
   const [suggestions, setSuggestions] = useState({
     bellhops: ["Finance", "Facilities", "Engineering"],
     bells: ["bell 1", "bell 2"],
@@ -40,8 +40,9 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
         value={value}
         onChange={onChange}
         onBlur={(e) => setShow(false)}
+        placeholder="Quick Start Bell"
       />
-      <Icon icon="search" className="absolute right-0 top-0 m-5 text-lg" />
+      <img src={IconBell} className="absolute right-0 top-0 m-5 h-4" />
       {show && (
         <div className="menu border border-dark rounded-lg p-4 absolute w-full bg-default z-10 shadow-xl">
           <div className="grid grid-cols-3 border-b-2 p-2">

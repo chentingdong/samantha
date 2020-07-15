@@ -1,7 +1,7 @@
 import * as React from "react"
 
-interface MyBellDesk {}
+interface MyBellDeskProps {}
 
-export const MyBellhops: React.FC<MyBellDesk> = (props) => {
+export const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
   return <div>My Bellhop</div>
 }
