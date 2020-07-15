@@ -24,16 +24,16 @@ const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
         <div>{usersToString(block)}</div>
       </div>
       {whose === "mine" && (
-        <div className="card-body my-8 mx-6 h-32 w-auto relative bg-none border border-light overflow-x-hidden truncate bg-white">
-          <h6 className="text-center m-8 overflow hidden truncate break-words">
+        <div className="card-body my-8 mx-6 w-auto relative bg-none border border-light bg-white rounded-md h-36">
+          <h6 className="text-center m-6 p-2 overflow-hidden truncate">
             {block.name || <Placeholder.Paragraph rows={1} />}
           </h6>
-          <div className="text-right absolute bottom-0 m-2 text-sm right-0">
-            <i>Requested by: {usersToString(block)}</i>
+          <div className="right-6 text-right text-sm">
+            Requested by: {usersToString(block)}
           </div>
         </div>
       )}
-      <div className="card-footer text-lg  my-2 mx-4 mt-16">
+      <div className="card-footer text-lg mx-4 my-2">
         <a href="#" className="underline">
           Facilities
         </a>
