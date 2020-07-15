@@ -1,7 +1,6 @@
 import { Nav, Icon, Navbar, FlexboxGrid } from "rsuite"
 import React from "react"
 import { getLogoByTheme } from "../../utils/Styles"
-import styled from "styled-components"
 import { Button } from "components/Button"
 
 export interface MainMenuProps {

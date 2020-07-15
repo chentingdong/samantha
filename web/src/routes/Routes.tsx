@@ -10,7 +10,7 @@ import { Demo as DemoM2 } from "../app/M2/Demo"
 const routes = [
   {
     path: "/",
-    component: DemoM1,
+    component: DemoM2,
     tag: PrivateRoute,
   },
   {

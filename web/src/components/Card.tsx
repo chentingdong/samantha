@@ -15,7 +15,7 @@ const CardRaw: React.FC<CardType> = ({
   ...props
 }) => {
   return (
-    <div className={`${className} card`} onClick={onClick}>
+    <div className={`${className} card`} onClick={onClick} {...props}>
       {props.children}
     </div>
   )
@@ -23,7 +23,7 @@ const CardRaw: React.FC<CardType> = ({
 
 const Card = styled(CardRaw)`
   & {
-    ${tw`rounded-lg shadow m-1 relative`}
+    ${tw`rounded-lg m-1 relative hover:shadow`}
     color: var(--color-text-default);
     background-color: var(--color-bg-default);
     .card-header,
@@ -53,6 +53,18 @@ const Card = styled(CardRaw)`
     &.leaf {
       ${tw`m-1 `}
       display: inline-block;
+    }
+    h5,
+    h6 {
+      ${tw`font-sans my-2`}
+    }
+    h5 {
+      font-size: 1.2em;
+      font-weight: 600;
+    }
+    h6 {
+      font-size: 1.1em;
+      font-weight: 500;
     }
   }
 `

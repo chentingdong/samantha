@@ -11,7 +11,7 @@ export const Demo: React.FC<DemoProps> = () => {
   const [active, setActive] = useState("lobby")
 
   return (
-    <div className="theme-bell">
+    <div className="theme-bell max-w-screen-2xl mx-auto">
       <MainMenu
         active={active}
         onSelect={(activeKey) => setActive(activeKey)}

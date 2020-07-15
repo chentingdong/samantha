@@ -3,28 +3,6 @@
 module.exports = {
   important: true,
   theme: {
-    colors: {
-      black: "#212121",
-      white: "#FFFFFF",
-      light: "#EEEEEE",
-      dark: "#979797",
-      red: {
-        default: "#AE3A34",
-      },
-      green: {
-        default: "#2F6C30",
-      },
-      orange: {
-        default: "#F29441",
-      },
-      yellow: {
-        default: "#F2C85B",
-      },
-      purple: {
-        default: "#3A0751",
-        light: "#A13670",
-      },
-    },
     fontFamily: {
       sans: ["Avenir", "Varela", "Arial", "sans"],
       serif: ["kepler-std", "Varela", "serif"],
@@ -68,6 +46,28 @@ module.exports = {
       },
       screens: {
         "2xl": "1920px",
+      },
+      colors: {
+        black: "#212121",
+        white: "#FFFFFF",
+        light: "#EEEEEE",
+        dark: "#979797",
+        red: {
+          default: "#AE3A34",
+        },
+        green: {
+          default: "#2F6C30",
+        },
+        orange: {
+          default: "#F29441",
+        },
+        yellow: {
+          default: "#F2C85B",
+        },
+        purple: {
+          default: "#3A0751",
+          light: "#A13670",
+        },
       },
     },
   },
