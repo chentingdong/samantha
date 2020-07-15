@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { getBlockByPk } from "../graphql/queries/getBlockByPk"
+import { getBlockByPk } from "../graphql/v1/queries/getBlockByPk"
 import invariant from "invariant"
 import { onRun, onChildStateChange } from "../BTEngine"
 import { BlockState, Block } from "../BTEngine/interfaces"
