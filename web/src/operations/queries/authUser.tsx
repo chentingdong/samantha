@@ -6,6 +6,9 @@ export const AUTH_USER = gql`
       id
       name
       email
+      family_name
+      given_name
+      picture
       isAuthenticated
     }
   }
