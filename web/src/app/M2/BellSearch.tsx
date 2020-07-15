@@ -2,21 +2,26 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { Dropdown, Icon } from "rsuite"
+import { Link } from "react-router-dom"
 
 type BellSearchProps = {}
 
 const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
-  const [show, setShow] = useState(false)
-  const [value, setValue] = useState("")
-  const [suggestions, setSuggestions] = useState([
-    "Finance",
-    "Facilities",
-    "Engineering",
-  ])
+  const [show, setShow] = useState(true)
+  const [value, setValue] = useState("asdf")
+  const [suggestions, setSuggestions] = useState({
+    bellhops: ["Finance", "Facilities", "Engineering"],
+    bells: ["bell 1", "bell 2"],
+  })
 
   const suggest = (text) => {
     // TODO: suggest api
-    const newSuggestions = suggestions
+    // quick solution: hasura query name ilike tracks block table
+    // good solution: solar pipeline indexing bell names
+    const newSuggestions = {
+      bellhops: ["Finance", "Facilities"],
+      bells: ["bell 1", "bell 2"],
+    }
     setSuggestions(newSuggestions)
   }
 
@@ -38,10 +43,26 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
       />
       <Icon icon="search" className="absolute right-0 top-0 m-5 text-lg" />
       {show && (
-        <div className="menu border border-dark rounded-lg p-2 absolute w-full bg-default z-10">
-          {suggestions.map((suggestion, index) => {
-            return <div key={index}>{suggestion}</div>
-          })}
+        <div className="menu border border-dark rounded-lg p-4 absolute w-full bg-default z-10 shadow-xl">
+          <div className="grid grid-cols-3 border-b-2 p-2">
+            <div className="col-span-1">Bellhops</div>
+            <div className="col-span-2">
+              {suggestions.bellhops.map((bellhop, index) => {
+                return <div key={`bellhop-${index}`}>{bellhop}</div>
+              })}
+            </div>
+          </div>
+          <div className="grid grid-cols-3 border-b-2 p-2">
+            <div className="col-span-1">Bells</div>
+            <div className="col-span-2">
+              {suggestions.bells.map((bell, index) => {
+                return <div key={`bell-${index}`}>{bell}</div>
+              })}
+            </div>
+          </div>
+          <div className="text-center underline text-lg mt-4">
+            <a href="">Visit Company Bell Desk</a>
+          </div>
         </div>
       )}
     </div>

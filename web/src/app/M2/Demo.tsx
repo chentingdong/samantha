@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { MainMenu } from "./MainMenu"
 import { Lobby } from "./Lobby"
-import { BellDesk } from "./BellDesk"
-import { MyBellhops } from "./MyBellhops"
+import { CompanyBellDesk } from "./CompanyBellDesk"
+import { MyBellDesk } from "./MyBellDesk"
 import "../../../dist/tailwind/tailwind.generated.css"
 
 export interface DemoProps {}
@@ -18,8 +18,8 @@ export const Demo: React.FC<DemoProps> = () => {
       />
       <div className="p-4">
         {active === "lobby" && <Lobby />}
-        {active === "bellDesk" && <BellDesk />}
-        {active === "myBellhops" && <MyBellhops />}
+        {active === "companyBellDesk" && <CompanyBellDesk />}
+        {active === "myBellDesk" && <MyBellDesk />}
       </div>
     </div>
   )

@@ -5,13 +5,12 @@ import moment from "moment"
 import { stringHashBucket } from "utils/styles"
 import { usersToString } from "utils/user"
 import { Placeholder } from "rsuite"
-import styled from "styled-components"
 
 export interface LobbyBellProps {
   whose: "mine" | "others"
   block: Block
 }
-const LobbyBellRaw: React.FC<LobbyBellProps> = ({ block, whose }) => {
+const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
   return (
     <Card
       className="bg-gray-200 hover:bg-gray-300 active:bg-gray-100 rounded-lg cursor-pointer duration-100"
@@ -26,7 +25,7 @@ const LobbyBellRaw: React.FC<LobbyBellProps> = ({ block, whose }) => {
       </div>
       {whose === "mine" && (
         <div className="card-body my-8 mx-6 h-32 w-auto relative bg-none border border-light overflow-x-hidden truncate bg-white">
-          <h6 className="text-center m-8">
+          <h6 className="text-center m-8 overflow hidden truncate break-words">
             {block.name || <Placeholder.Paragraph rows={1} />}
           </h6>
           <div className="text-right absolute bottom-0 m-2 text-sm right-0">
@@ -43,9 +42,4 @@ const LobbyBellRaw: React.FC<LobbyBellProps> = ({ block, whose }) => {
   )
 }
 
-const LobbyBell = styled(LobbyBellRaw)`
-  .card {
-    transition: * linear 1000;
-  }
-`
 export { LobbyBell }

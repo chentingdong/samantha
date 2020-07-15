@@ -24,8 +24,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({
         <Navbar>
           <Nav className="bg-default" activeKey={active} onSelect={onSelect}>
             <Nav.Item eventKey="lobby">Lobby</Nav.Item>
-            <Nav.Item eventKey="bellDesk">Bell Desk</Nav.Item>
-            <Nav.Item eventKey="myBellhops">My Bellhops</Nav.Item>
+            <Nav.Item eventKey="companyBellDesk">Company Bell Desk</Nav.Item>
+            <Nav.Item eventKey="myBellDesk">My Bell Desk</Nav.Item>
           </Nav>
         </Navbar>
         <Navbar>
