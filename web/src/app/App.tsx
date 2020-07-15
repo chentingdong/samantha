@@ -26,6 +26,9 @@ const App = () => {
         id: poolUser?.username,
         name: poolUser?.attributes?.name || poolUser?.username,
         email: poolUser?.attributes?.email,
+        family_name: poolUser?.attributes?.family_name,
+        given_name: poolUser?.attributes?.given_name,
+        picture: poolUser?.attributes?.picture,
         isAuthenticated: true,
       }
       setAuthUser({ ...authUser })
@@ -48,11 +51,7 @@ const App = () => {
           const authUser = await checkLogin()
           if (authUser) {
             // upsert cognito user to backend
-            const user = {
-              id: authUser.id,
-              name: authUser.name,
-              email: authUser.email,
-            }
+            const { isAuthenticated, ...user } = authUser
             upsertUser({ variables: { object: user } })
           }
 
