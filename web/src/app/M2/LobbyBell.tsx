@@ -16,7 +16,7 @@ const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
       className="bg-gray-200 hover:bg-gray-300 active:bg-gray-100 rounded-lg cursor-pointer duration-100"
       color={`bell-${stringHashBucket(block.id, 10)}`}
     >
-      <div className="card-header rounded-t-lg py-4 px-6">
+      <div className="card-header rounded-t-lg px-6 py-2 mb-8">
         <h5 className="overflow-hidden truncate">
           {block.name || <Placeholder.Paragraph rows={1} />}
         </h5>
@@ -24,7 +24,7 @@ const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
         <div>{usersToString(block)}</div>
       </div>
       {whose === "mine" && (
-        <div className="card-body my-8 mx-6 w-auto relative bg-none border border-light bg-white rounded-md h-36">
+        <div className="card-body mx-6 w-auto relative bg-none border border-light bg-white rounded-md h-36">
           <h6 className="text-center m-6 p-2 overflow-hidden truncate">
             {block.name || <Placeholder.Paragraph rows={1} />}
           </h6>
@@ -33,7 +33,7 @@ const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
           </div>
         </div>
       )}
-      <div className="card-footer text-lg mx-4 my-2">
+      <div className="card-footer text-lg m-4 mb-2">
         <a href="#" className="underline">
           Facilities
         </a>

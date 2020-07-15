@@ -8,10 +8,15 @@ const sourceDir = "dist"
 const app = express()
 app.use(express.static(sourceDir))
 app.use("/static/", express.static(path.join(__dirname, "src", "assets")))
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/dist/index.html"))
+})
 const port = process.env.PORT || 2000
+
 // const privateKey  = fs.readFileSync('certs/key.pem', 'utf8');
 // const certificate = fs.readFileSync('certs/cert.pem', 'utf8');
 // const credentials = {key: privateKey, cert: certificate};
+
 const httpServer = http.createServer(app)
 httpServer.listen(port, () => {
   console.log(`Express http web server started on ${port}`)
