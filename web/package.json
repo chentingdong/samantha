@@ -106,7 +106,6 @@
     "@sentry/webpack-plugin": "^1.11.1",
     "@storybook/theming": "^5.3.18",
     "ace-builds": "^1.4.11",
-    "animated": "^0.2.2",
     "apollo-link-ws": "^1.0.20",
     "awesome-typescript-loader": "^5.2.1",
     "aws-amplify": "^2.1.0",

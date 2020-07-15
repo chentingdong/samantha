@@ -11,7 +11,7 @@ import { BellEditor } from "./BellEditor"
 import { Logout } from "components/Logout"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { injectRsuiteStyle, getLogoByTheme } from "../../utils/Styles"
+import { injectRsuiteStyle, getLogoByTheme } from "../../utils/styles"
 import "assets/tailwind/tailwind.generated.css"
 
 function DemoRaw({ className }) {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { getIconClassByType } from "../../utils/Styles"
+import { getIconClassByType } from "../../utils/styles"
 import { BlockOrDef } from "../../models/interface"
 import Tree from "react-d3-tree"
 import { Card } from "../../components/Card"

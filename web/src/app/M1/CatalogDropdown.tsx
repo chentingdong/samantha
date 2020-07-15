@@ -6,7 +6,7 @@ import { BlockDef } from "../../models/interface"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { EditMode } from "../../models/enum"
 import { AUTH_USER } from "../../operations/queries/authUser"
-import { getIconByType } from "../../utils/Styles"
+import { getIconByType } from "../../utils/styles"
 import { createBlock } from "../../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
 

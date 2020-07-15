@@ -2,16 +2,15 @@ import React from "react"
 import { Block } from "models/interface"
 import { Card } from "components"
 import moment from "moment"
-import { stringHashBucket } from "utils/Styles"
+import { stringHashBucket } from "utils/styles"
+import { usersToString } from "utils/user"
 import { Placeholder } from "rsuite"
 
-interface LobbyBellProps {
+export interface LobbyBellProps {
+  whose: "mine" | "others"
   block: Block
 }
-const LobbyBell: React.FC<LobbyBellProps> = ({ block }) => {
-  const usersToString = (block: Block) => {
-    return block.requestors?.map((user) => "@" + user.user.name).join(", ")
-  }
+const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
   return (
     <Card
       className="bg-primary bg-gray-100 rounded-lg cursor-pointer"
@@ -24,15 +23,17 @@ const LobbyBell: React.FC<LobbyBellProps> = ({ block }) => {
         <div>{moment(block.created_at).fromNow()}</div>
         <div>{usersToString(block)}</div>
       </div>
-      <div className="card-body my-8 mx-6 mb-16 h-32 w-auto relative bg-none border border-light overflow-x-hidden truncate">
-        <h6 className="text-center m-8">
-          {block.name || <Placeholder.Paragraph rows={1} />}
-        </h6>
-        <div className="text-right absolute bottom-0 m-2 text-sm right-0">
-          <i>Requested by: {usersToString(block)}</i>
+      {whose === "mine" && (
+        <div className="card-body my-8 mx-6 h-32 w-auto relative bg-none border border-light overflow-x-hidden truncate bg-white">
+          <h6 className="text-center m-8">
+            {block.name || <Placeholder.Paragraph rows={1} />}
+          </h6>
+          <div className="text-right absolute bottom-0 m-2 text-sm right-0">
+            <i>Requested by: {usersToString(block)}</i>
+          </div>
         </div>
-      </div>
-      <div className="card-footer my-2 mx-4 text-lg">
+      )}
+      <div className="card-footer text-lg  my-2 mx-4 mt-16">
         <a href="#" className="underline">
           Facilities
         </a>

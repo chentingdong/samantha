@@ -42,16 +42,15 @@ const Card = styled(CardRaw)`
       text-overflow: ellipsis;
     }
     .card-body {
-      ${tw`rounded-b-md p-2 text-sm h-100`}
+      ${tw`rounded-b-md p-2`}
     }
     .card-footer {
-      ${tw`absolute bottom-0`}
     }
     &.composite {
       display: block;
     }
     &.leaf {
-      ${tw`m-1 `}
+      ${tw`m-1`}
       display: inline-block;
     }
     h5,

@@ -1,4 +1,5 @@
 // Default config for reference.
+import "./tailwind.default.config.js"
 
 module.exports = {
   purge: [],

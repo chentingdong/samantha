@@ -3,7 +3,7 @@ import Amplify, { Auth } from "aws-amplify"
 import config from "../../configs/config.js"
 import logo from "../assets/img/bellhop.png"
 import { Button } from "../components/Button"
-import { injectRsuiteStyle } from "../utils/Styles"
+import { injectRsuiteStyle } from "../utils/styles"
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
 
 function Login() {
