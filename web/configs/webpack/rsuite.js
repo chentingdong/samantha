@@ -8,7 +8,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const webpackConfigs = {
   mode: "none",
   output: {
-    path: path.join(__dirname, "../../src/assets/rsuite"),
+    path: path.join(__dirname, "../../dist/rsuite"),
   },
   plugins: [
     new MiniCssExtractPlugin({

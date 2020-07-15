@@ -73,8 +73,9 @@ module.exports = {
   },
   variants: {
     opacity: ["responsive", "hover"],
-    backgroundColor: ["responsive", "hover", "focus"],
+    backgroundColor: ["responsive", "hover", "focus", "active"],
     fontFamily: ["responsive", "hover", "focus"],
     fontSize: ["responsive"],
+    transitionDuration: ["responsive"],
   },
 }

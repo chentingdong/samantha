@@ -3,7 +3,7 @@ import { MainMenu } from "./MainMenu"
 import { Lobby } from "./Lobby"
 import { BellDesk } from "./BellDesk"
 import { MyBellhops } from "./MyBellhops"
-import "assets/tailwind/tailwind.generated.css"
+import "../../../dist/tailwind/tailwind.generated.css"
 
 export interface DemoProps {}
 
