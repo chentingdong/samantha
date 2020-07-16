@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import SortableTree from "react-sortable-tree"
 import "react-sortable-tree/style.css"
 
-const Tree = ({ theme = {} }) => {
+const Tree: React.FC<{ theme: string }> = ({ theme = "bell" }) => {
   const [treeData, setTreeData] = useState([
     {
       title: "Request 1",

@@ -6,7 +6,7 @@ import { Button } from "../components/Button"
 import { injectRsuiteStyle } from "../utils/styles"
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
 
-function Login() {
+const Login = () => {
   const theme = "bell"
   Amplify.configure(config)
 

@@ -15,7 +15,7 @@ module.exports = exports = {
   rules: {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    indent: ["error", 2, { SwitchCase: 1 }],
+    indent: ["warn", 2, { SwitchCase: 1 }],
     "linebreak-style": ["error", "unix"],
     quotes: ["error", "double"],
     semi: ["error", "never"],
@@ -24,9 +24,14 @@ module.exports = exports = {
     "no-prototype-builtins": "off",
     "no-shadow-restricted-names": "off",
     "no-useless-catch": "off",
+    "no-unused-vars": "off",
     "no-with": "off",
-    "require-atomic-updates": "off",
     "no-console": "off",
+    "require-atomic-updates": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/no-unused-vars": ["off"],
+    allowArgumentsExplicitlyTypedAsAny: false,
+    allowDirectConstAssertionInArrowFunctions: "off",
     "@typescript-eslint/no-empty-interface": [
       "off",
       { allowSingleExtends: true },
@@ -37,6 +42,7 @@ module.exports = exports = {
   extends: [
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
+    "plugin:react/recommended",
   ],
   settings: {
     "import/resolver": {
@@ -48,7 +54,7 @@ module.exports = exports = {
       },
       node: {
         paths: ["src"],
-        extensions: [".js", ".ts", ".d.ts"],
+        extensions: [".js", ".ts", "jsx", "tsx", ".d.ts"],
       },
     },
     compilerOptions: {
