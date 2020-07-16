@@ -1,4 +1,3 @@
-import apolloClient from "@apollo/client"
 import { gql } from "@apollo/client"
 import { bellFragment } from "../fragments/bell"
 
