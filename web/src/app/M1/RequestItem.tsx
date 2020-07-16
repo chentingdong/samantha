@@ -160,16 +160,16 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 
           {itemOrigin !== ItemOrigin.Catalog &&
             (block as Block).state !== "Success" && (
-              <Button
-                color="bg-primary"
-                fill={false}
-                icon="check"
-                className="w-3/4 mx-auto"
-                onClick={() => markComplete(block)}
-              >
+            <Button
+              color="bg-primary"
+              fill={false}
+              icon="check"
+              className="w-3/4 mx-auto"
+              onClick={() => markComplete(block)}
+            >
                 Mark as Complete
-              </Button>
-            )}
+            </Button>
+          )}
           {itemOrigin === ItemOrigin.Catalog && (
             <Button
               color="bg-primary"

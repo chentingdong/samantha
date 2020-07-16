@@ -14,6 +14,7 @@ class StepperDemo extends Component {
           href: "http://example1.com",
           onClick: (e) => {
             e.preventDefault()
+            // eslint-disable-next-line no-console
             console.log("onClick", 1)
           },
         },

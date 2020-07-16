@@ -4,7 +4,7 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 import IconBell from "assets/img/bell.svg"
 
-type BellSearchProps = {}
+type BellSearchProps = unknown
 
 const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
   const [show, setShow] = useState(false)

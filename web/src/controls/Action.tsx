@@ -19,7 +19,7 @@ type ActionType = {
   setBlock: (block: Block) => void
 }
 const Action: React.FC<ActionType> = ({ block, setBlock }) => {
-  let components = {
+  const components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,
     Conditional: Conditional,

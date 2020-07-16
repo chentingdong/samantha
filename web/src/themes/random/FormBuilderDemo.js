@@ -1,5 +1,5 @@
-var React = require("react")
-var FormBuilder = require("react-form-builder2")
+import React from "react"
+import FormBuilder from "react-form-builder2"
 import "react-form-builder2/dist/app.css"
 import { BlockCatalogItem } from "../tailwind/BlockCatalogItem"
 import styled from "styled-components"

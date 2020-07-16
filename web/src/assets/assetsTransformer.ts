@@ -1,6 +1,6 @@
 // assetsTransformer.ts
 // For jest to recognizee svg, png for example.
-const path = require("path")
+import path from "path"
 
 module.exports = {
   process(src, filename, config, options) {

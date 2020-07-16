@@ -6,7 +6,7 @@ module.exports = {
     fontFamily: {
       sans: ["Avenir", "Varela", "Arial", "sans"],
       serif: ["kepler-std", "Varela", "serif"],
-      mono: ["Menlo", '"Liberation Mono"', '"Courier New"', "monospace"],
+      mono: ["Menlo", "\"Liberation Mono\"", "\"Courier New\"", "monospace"],
       display: ["kepler-std", "Varela", "serif"],
       body: ["Avenir", "Varela", "Arial", "sans"],
     },

@@ -12,7 +12,7 @@ import Inverter from "./decorators/Inverter"
 import Repeat from "./decorators/Repeat"
 import ReTry from "./decorators/ReTry"
 
-const Control: React.FC<{}> = () => {
+const Control: React.FC<unkonwn> = () => {
   const components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,
@@ -23,6 +23,8 @@ const Control: React.FC<{}> = () => {
   }
 
   const { data, loading, error } = useQuery(UI_STATE)
+  const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
+
   // TODO, list of forms
   if (!data?.uiState?.draftBlock?.control?.forms) return <></>
   const template = data?.uiState?.draftBlock?.control?.forms[0].template
@@ -32,7 +34,6 @@ const Control: React.FC<{}> = () => {
       ? data?.uiState?.draftBlock
       : data?.uiState?.draftBlock?.root
   const form = root?.context[template]
-  const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
 
   // TODO: debounce happen here
   const submit = (form) => {

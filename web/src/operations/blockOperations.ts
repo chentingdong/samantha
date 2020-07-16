@@ -72,6 +72,7 @@ const findBlock = (currentBlock, target) => {
  * @param {*} requestor the requestor of the nodes on the child block tree
  * @param {*} syncRemote whether keep remote state in sync by running GraphQL mutations
  */
+
 const addOneBlock = (
   currentBlock,
   childBlock,
@@ -208,7 +209,7 @@ const moveOneBlock = (currentBlock, childBlock, parent, syncRemote) => {
   ]
   setUiState({ draftBlock: newDraftBlock })
   Notification.info({
-    title: `moving a subtree`,
+    title: "moving a subtree",
     description: `${childBlock.__typename} "${childBlock.name}" from old parent "${childBlock.parents[0].parent.name}" to new parent "${parent.name}"`,
   })
 }

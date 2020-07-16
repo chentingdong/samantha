@@ -86,4 +86,17 @@ https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27
 
 ### Unit testing
 
+- General run unit test and snapshot test
+  `jest`
+- To specify config file
+  `jest --config configs/jest.config.js`
+- to update snapshot
+  `jest --updateSnapshot`
+
+# eslint
+
+- VSCode automatically check by the rules in .eslintrc.js.
+- to debug eslint. --quiet to only show errors.
+  `eslint --quiet ./src`
+
 ### CI/CD

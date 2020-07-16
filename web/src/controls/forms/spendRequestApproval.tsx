@@ -7,7 +7,7 @@ const SpendRequestApprovalRaw: React.FC<{
   onSubmit: (form) => void
   onSuccess: () => void
   onFailure: () => void
-  form: object
+  form: unknown
 }> = ({ onSubmit, onSuccess, onFailure, form }) => {
   const submit = (e, value) => {
     e.preventDefault()

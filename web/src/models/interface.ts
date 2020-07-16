@@ -5,12 +5,12 @@ export interface Bell {
   name: string
   description?: string
   state: string
-  context: object
+  context: unknown
   created_at: Date
   last_updated: Date
   started_at: Date
   root_block_id: string
-  block: object
+  block: unknown
 }
 
 export interface Block {
@@ -18,11 +18,11 @@ export interface Block {
   name: string
   description: string
   type: string
-  blockType?: object
+  blockType?: unknown
   state: string
-  props?: object
-  context?: object
-  control?: object
+  props?: unknown
+  context?: unknown
+  control?: unknown
   root?: BlockOrDef
   bells?: Bell[]
   parents: ParentChild[]
@@ -41,10 +41,10 @@ export interface BlockDef {
   name: string
   description: string
   type: string
-  blockType?: object
-  props?: object
-  state?: object
-  control?: object
+  blockType?: unknown
+  props?: unknown
+  state?: unknown
+  control?: unknown
   root?: BlockOrDef
   bells?: Bell[]
   parents: ParentChild[]

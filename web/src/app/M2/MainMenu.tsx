@@ -1,4 +1,4 @@
-import { Nav, Icon, Navbar, FlexboxGrid } from "rsuite"
+import { Nav, Navbar, FlexboxGrid } from "rsuite"
 import React from "react"
 import { getLogoByTheme } from "../../utils/styles"
 import { Button } from "components/Button"
@@ -17,7 +17,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({
     <div className="show-grid" {...props}>
       <FlexboxGrid justify="space-between">
         <img
-          className={`logo bell m-3 h-8`}
+          className={"logo bell m-3 h-8"}
           src={getLogoByTheme("bell")}
           alt="Bellhop"
         />

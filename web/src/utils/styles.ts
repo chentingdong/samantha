@@ -67,7 +67,7 @@ const injectRsuiteStyle = (theme) => {
   head.insertBefore(link, firstLink)
 }
 
-const stringHashBucket = (str: String, N: number) => {
+const stringHashBucket = (str: string, N: number) => {
   return stringHash(str) % N
 }
 

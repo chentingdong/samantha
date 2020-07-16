@@ -1,7 +1,7 @@
 /**
  * customized 404 not found page.
  */
-import * as React from 'react'
+import * as React from "react"
 
 function NotFound() {
   return (

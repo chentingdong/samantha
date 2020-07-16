@@ -3,7 +3,7 @@ import { ErrorMessage } from "@hookform/error-message"
 import styled from "styled-components"
 
 type FormValidationMessageType = {
-  errors?: object
+  errors?: unknown
   name: string
 }
 const FormValidationMessage: React.FC<FormValidationMessageType> = ({

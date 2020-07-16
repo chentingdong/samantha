@@ -14,11 +14,11 @@ const Store = ({ children }) => {
 const Context = React.createContext<{
   state: State
   dispatch: (action: Action) => void
-}>({
-  state: initialState,
-  dispatch: () => {
-    // empty
-  },
-})
+    }>({
+      state: initialState,
+      dispatch: () => {
+        // empty
+      },
+    })
 
 export { Context, Store, initialState }
