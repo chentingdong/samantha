@@ -1,6 +1,6 @@
-import * as React from "react"
+import React, { useEffect } from "react"
 import Amplify, { Auth, Hub } from "aws-amplify"
-import { useEffect } from "react"
+
 import { hot } from "react-hot-loader/root"
 import Routes from "../routes/Routes"
 import { UPSERT_USER } from "../operations/mutations/upsertUser"
@@ -9,7 +9,7 @@ import { setAuthUser } from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
 import LogRocket from "logrocket"
 
-const App = () => {
+const App = (any) => {
   const [upsertUser] = useMutation(UPSERT_USER)
   Amplify.configure(config)
 

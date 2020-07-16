@@ -24,7 +24,7 @@ const ButtonRaw: React.FC<ButtonType> = ({
     className += " fill"
   }
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} color={color}>
       {icon && <Icon className="pr-4" icon={icon} />}
       <span>{props.children}</span>
     </button>

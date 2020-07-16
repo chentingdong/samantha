@@ -15,7 +15,12 @@ const CardRaw: React.FC<CardType> = ({
   ...props
 }) => {
   return (
-    <div className={`${className} card`} onClick={onClick} {...props}>
+    <div
+      className={`${className} card`}
+      onClick={onClick}
+      color={color}
+      {...props}
+    >
       {props.children}
     </div>
   )

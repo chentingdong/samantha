@@ -14,4 +14,4 @@ const reducer = (state: State, action: Action) => {
   }
 }
 
-export { reducer, Action }
+export { reducer }

@@ -79,7 +79,7 @@ const addOneBlock = (
   parentBlock,
   requestor,
   syncRemote = false,
-  createFn = ({}) => null
+  createFn = (any) => null
 ) => {
   if (childBlock.__typename !== Typename.blockDefs) {
     Notification.warning({
@@ -147,7 +147,7 @@ const deleteOneBlock = (
   childBlock,
   parentBlock,
   syncRemote,
-  deleteFn = ({}) => null
+  deleteFn = (any) => null
 ) => {
   Notification.info({
     title: "deleting a block",
