@@ -91,7 +91,7 @@ const SpendRequestRaw: React.FC<{
       </div>
       <div>
         <Button
-          color="bg-primary"
+          color="primary"
           fill={true}
           onClick={(e) => {
             e.preventDefault()

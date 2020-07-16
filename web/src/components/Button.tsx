@@ -15,14 +15,10 @@ type ButtonType = {
 const ButtonRaw: React.FC<ButtonType> = ({
   icon,
   onClick,
-  color = "bg-primary",
+  color = "primary",
   className = "",
-  fill = true,
   ...props
 }) => {
-  if (fill) {
-    className += " fill"
-  }
   return (
     <button className={className} onClick={onClick} color={color}>
       {icon && <Icon className="pr-4" icon={icon} />}
@@ -36,6 +32,19 @@ const Button = styled(ButtonRaw)`
   border: 1px solid ${(props) => `var(--color-${props.color})`};
   &:focus {
     outline: none;
+  }
+  &.circle,
+  &.circle:hover {
+    ${tw`m-0 p-0`}
+    border-radius: 50%;
+    height: 2.3rem;
+    width: 2.3rem;
+    min-width: 0;
+    overflow: hidden;
+    img {
+      ${tw`h-full w-auto`}
+      object-fit: cover;
+    }
   }
   &.fill,
   &:hover {

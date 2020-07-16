@@ -18,7 +18,7 @@ const SpendRequestApprovalRaw: React.FC<{
     <form>
       <div>
         <Button
-          color="bg-primary"
+          color="primary"
           fill={true}
           onClick={(e) => {
             submit(e, "approval")

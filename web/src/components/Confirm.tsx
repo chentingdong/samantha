@@ -4,7 +4,7 @@ import { Button } from "../components/Button"
 
 type ConfirmTypes = {
   show: boolean
-  setShow: Dispatch<SetStateAction<boolean>>
+  setShow: Dispatch<SetStateAction>
   onYes: () => void
   onNo: () => void
 }
@@ -25,22 +25,23 @@ const Confirm: FC<ConfirmTypes> = ({
     close()
   }
   const handleNo = () => {
+    onNo()
     close()
   }
 
   return (
-    <Modal show={show} onHide={close} className="">
+    <Modal show={show} onHide={close} {...props}>
       <Modal.Header>
         <Modal.Title>Confirm</Modal.Title>
       </Modal.Header>
       <Modal.Body className="text-sm">
-        <p>Please confirm you want to logout </p>
+        <p>Please confirm</p>
       </Modal.Body>
       <Modal.Footer className="flex absolute bottom-0 right-0">
-        <Button className="" onClick={handleYes} color="bg-primary">
+        <Button className="fill" onClick={handleYes} color="primary">
           Ok
         </Button>
-        <Button className="" onClick={handleNo} color="bg-warning" fill={false}>
+        <Button className="" onClick={handleNo} color="warning" fill={false}>
           Cancel
         </Button>
       </Modal.Footer>

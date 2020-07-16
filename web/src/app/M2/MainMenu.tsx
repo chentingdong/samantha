@@ -1,18 +1,28 @@
-import { Nav, Navbar, FlexboxGrid } from "rsuite"
+import { Nav, Navbar, FlexboxGrid, Dropdown, Icon } from "rsuite"
 import React from "react"
 import { getLogoByTheme } from "../../utils/styles"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 import { Button } from "components/Button"
+import { useQuery } from "@apollo/client"
+import { AUTH_USER } from "../../operations/queries/authUser"
+import { Logout } from "components/Logout"
+import { userInitials } from "utils/user"
 
 export interface MainMenuProps {
   active: string
   onSelect: (activeKey: string) => void
 }
 
-export const MainMenu: React.FC<MainMenuProps> = ({
+const MainMenuRaw: React.FC<MainMenuProps> = ({
   active,
   onSelect,
   ...props
 }) => {
+  const {
+    data: { authUser },
+  } = useQuery(AUTH_USER)
+
   return (
     <div className="show-grid" {...props}>
       <FlexboxGrid justify="space-between">
@@ -28,15 +38,33 @@ export const MainMenu: React.FC<MainMenuProps> = ({
             <Nav.Item eventKey="myBellDesk">My Bell Desk</Nav.Item>
           </Nav>
         </Navbar>
-        <Navbar>
-          <Nav className="bg-default">
-            <Nav.Item eventKey={null}>Account</Nav.Item>
-            <Button color="bg-primary" fill={true} className="p-2">
-              Sign Out
+        <Dropdown
+          className="account p-0 "
+          noCaret
+          placement="bottomEnd"
+          title={
+            <Button color="primary" className="fill circle">
+              {authUser.picture && <img src={authUser.picture} alt="" />}
+              {!authUser.picture && (
+                <span className="font-bold">{userInitials(authUser)}</span>
+              )}
             </Button>
-          </Nav>
-        </Navbar>
+          }
+          {...props}
+        >
+          <Dropdown.Item>
+            <div>Admin Console</div>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <div>Profile Setting</div>
+          </Dropdown.Item>
+          <Logout className="p-2 px-3 cursor-pointer" />
+        </Dropdown>
       </FlexboxGrid>
     </div>
   )
 }
+
+const MainMenu = styled(MainMenuRaw)``
+
+export { MainMenu }

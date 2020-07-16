@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react"
-import { Notification } from "rsuite"
-import { Modal } from "rsuite"
+import { Notification, Modal } from "rsuite"
 import { Auth } from "aws-amplify"
 import { Button } from "./Button"
-import { Confirm } from "./Confirm"
 
 export interface LogoutProps {}
 
-const Logout: React.SFC<LogoutProps> = () => {
-  const [show, setShow] = useState(false)
+const Logout: React.SFC<LogoutProps> = (props) => {
+  const [showConfirm, setShowConfirm] = useState(false)
+
+  const confirm = () => {
+    setShowConfirm(true)
+  }
+
   const logout = async () => {
-    await Auth.signOut()
+    await Auth.signOuts()
     notify("success")
   }
 
-  const confirm = () => {
-    setShow(true)
+  const cancel = () => {
+    setShowConfirm(false)
   }
-  useEffect(() => {
-    console.log(show)
-  }, [show])
 
   const notify = (funcName) => {
     Notification[funcName]({
@@ -30,11 +30,24 @@ const Logout: React.SFC<LogoutProps> = () => {
   }
 
   return (
-    <div>
+    <div {...props}>
       <span onClick={confirm}>Logout</span>
-      <Confirm show={show} setShow={setShow} onYes={logout} onNo={null}>
-        Logout
-      </Confirm>
+      <Modal show={showConfirm} onHide={close}>
+        <Modal.Header>
+          <Modal.Title>Confirm</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="text-sm">
+          <p>Please confirm you want to logout </p>
+        </Modal.Body>
+        <Modal.Footer className="flex absolute bottom-0 right-0">
+          <Button className="fill" onClick={logout} color="primary">
+            Logout
+          </Button>
+          <Button className="" onClick={cancel} color="warning" fill={false}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }

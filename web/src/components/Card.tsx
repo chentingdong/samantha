@@ -9,7 +9,7 @@ type CardType = {
 }
 
 const CardRaw: React.FC<CardType> = ({
-  color = "bg-secondary",
+  color = "secondary",
   className,
   onClick,
   ...props
@@ -60,15 +60,7 @@ const Card = styled(CardRaw)`
     }
     h5,
     h6 {
-      ${tw`font-sans my-2`}
-    }
-    h5 {
-      font-size: 1.2em;
-      font-weight: 600;
-    }
-    h6 {
-      font-size: 1.1em;
-      font-weight: 500;
+      ${tw`my-2`}
     }
   }
 `
