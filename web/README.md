@@ -98,5 +98,14 @@ https://www.chromatic.com/builds?appId=5eb8b70df1ad3600221e0e27
 - VSCode automatically check by the rules in .eslintrc.js.
 - to debug eslint. --quiet to only show errors.
   `eslint --quiet ./src`
+- If you are very annoyed by the many restrict eslint options, you can temparaly turn it off in your local by editing settings.json, turning `source.fixAll.eslint to true`
+
+```
+"editor.codeActionsOnSave": {
+  "source.fixAll.eslint": true
+},
+```
+
+This is not recommended because strict eslint helps eliminating bugs.
 
 ### CI/CD
