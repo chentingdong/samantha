@@ -33,7 +33,6 @@ module.exports = exports = {
     ],
     allowArgumentsExplicitlyTypedAsAny: "off",
   },
-  // eslint-disable-next-line react-hooks/rules-of-hooks
 
   extends: [
     "plugin:@typescript-eslint/recommended",
