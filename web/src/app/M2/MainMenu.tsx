@@ -38,7 +38,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
             <Nav.Item eventKey="myBellDesk">My Bell Desk</Nav.Item>
           </Nav>
         </Navbar>
-        <Navbar>
+        <Navbar className="bg-default">
           <Logout className="p-2 px-3 cursor-pointer inline-block" />
           <Dropdown
             className="account p-0 "

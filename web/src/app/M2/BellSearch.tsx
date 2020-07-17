@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import * as IconBell from "../../assets/img/bell.svg"
+import IconBell from "../../assets/img/bell.svg"
 type BellSearchProps = { unknown }
 
 const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
