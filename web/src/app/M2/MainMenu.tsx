@@ -38,28 +38,30 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
             <Nav.Item eventKey="myBellDesk">My Bell Desk</Nav.Item>
           </Nav>
         </Navbar>
-        <Dropdown
-          className="account p-0 "
-          noCaret
-          placement="bottomEnd"
-          title={
-            <Button color="primary" className="fill circle">
-              {authUser.picture && <img src={authUser.picture} alt="" />}
-              {!authUser.picture && (
-                <span className="font-bold">{userInitials(authUser)}</span>
-              )}
-            </Button>
-          }
-          {...props}
-        >
-          <Dropdown.Item>
-            <div>Admin Console</div>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <div>Profile Setting</div>
-          </Dropdown.Item>
-          <Logout className="p-2 px-3 cursor-pointer" />
-        </Dropdown>
+        <Navbar>
+          <Logout className="p-2 px-3 cursor-pointer inline-block" />
+          <Dropdown
+            className="account p-0 "
+            noCaret
+            placement="bottomEnd"
+            title={
+              <Button color="primary" className="fill circle">
+                {authUser.picture && <img src={authUser.picture} alt="" />}
+                {!authUser.picture && (
+                  <span className="font-bold">{userInitials(authUser)}</span>
+                )}
+              </Button>
+            }
+            {...props}
+          >
+            <Dropdown.Item>
+              <div>Admin Console</div>
+            </Dropdown.Item>
+            <Dropdown.Item>
+              <div>Profile Setting</div>
+            </Dropdown.Item>
+          </Dropdown>
+        </Navbar>
       </FlexboxGrid>
     </div>
   )

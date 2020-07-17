@@ -91,7 +91,7 @@ const Assignment: React.FC<AssignmentType> = ({ block, setBlock }) => {
         <label>Responders</label>
         <TagPicker
           data={users}
-          value={block?.responders.map((user) => user.user)}
+          value={block?.responders.map((user) => user?.user)}
           onChange={(value) => chooseResponders(value)}
           onInsertTag={(value) => insertResponder(value)}
           onDeleteTag={(value) => deleteResponder(value)}

@@ -13,11 +13,13 @@ const Logout: React.SFC<LogoutProps> = (props) => {
   }
 
   const logout = async () => {
-    await Auth.signOuts()
+    console.log("cancel")
+    await Auth.signOut()
     notify("success")
   }
 
   const cancel = () => {
+    console.log("cancel")
     setShowConfirm(false)
   }
 
@@ -43,7 +45,7 @@ const Logout: React.SFC<LogoutProps> = (props) => {
           <Button className="fill" onClick={logout} color="primary">
             Logout
           </Button>
-          <Button className="" onClick={cancel} color="warning" fill={false}>
+          <Button className="" onClick={cancel} color="warning">
             Cancel
           </Button>
         </Modal.Footer>

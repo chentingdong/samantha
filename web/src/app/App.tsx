@@ -54,14 +54,12 @@ const App = (any) => {
             const { isAuthenticated, ...user } = authUser
             upsertUser({ variables: { object: user } })
           }
-
           break
         case "signOut":
           setAuthUser({ isAuthenticated: false })
-
           break
         case "signIn_failure":
-          // console.error("user sign in failed")
+          console.error("user sign in failed")
           break
         default:
           break

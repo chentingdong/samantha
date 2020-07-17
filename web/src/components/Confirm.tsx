@@ -4,7 +4,7 @@ import { Button } from "../components/Button"
 
 type ConfirmTypes = {
   show: boolean
-  setShow: Dispatch<SetStateAction>
+  setShow: Dispatch<SetStateAction<boolean>>
   onYes: () => void
   onNo: () => void
 }
@@ -41,7 +41,7 @@ const Confirm: FC<ConfirmTypes> = ({
         <Button className="fill" onClick={handleYes} color="primary">
           Ok
         </Button>
-        <Button className="" onClick={handleNo} color="warning" fill={false}>
+        <Button className="" onClick={handleNo} color="warning">
           Cancel
         </Button>
       </Modal.Footer>

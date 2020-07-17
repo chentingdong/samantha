@@ -6,21 +6,20 @@ import { IconNames } from "rsuite/lib/Icon"
 
 type ButtonType = {
   icon?: IconNames
-  onClick?: (e) => void
   color?: string
   className?: string
-  fill?: boolean
+  onClick?: (e) => void
 }
 
 const ButtonRaw: React.FC<ButtonType> = ({
   icon,
-  onClick,
   color = "primary",
   className = "",
+  onClick,
   ...props
 }) => {
   return (
-    <button className={className} onClick={onClick} color={color}>
+    <button className={className} color={color} {...props} onClick={onClick}>
       {icon && <Icon className="pr-4" icon={icon} />}
       <span>{props.children}</span>
     </button>
@@ -29,13 +28,14 @@ const ButtonRaw: React.FC<ButtonType> = ({
 
 const Button = styled(ButtonRaw)`
   ${tw`rounded-full shadow py-2 px-4 items-baseline m-2`}
-  border: 1px solid ${(props) => `var(--color-${props.color})`};
+  border: 1px solid ${(props) => `var(--color-text-${props.color})`};
   &:focus {
     outline: none;
   }
   &.circle,
   &.circle:hover {
     ${tw`m-0 p-0`}
+    border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
     border-radius: 50%;
     height: 2.3rem;
     width: 2.3rem;
