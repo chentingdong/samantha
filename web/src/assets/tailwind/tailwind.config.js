@@ -3,10 +3,43 @@
 module.exports = {
   important: true,
   theme: {
+    colors: {
+      black: "#212121",
+      white: "#FFFFFF",
+      light: "#EEEEEE",
+      dark: "#979797",
+      gray: {
+        100: "#f7fafc",
+        200: "#edf2f7",
+        300: "#e2e8f0",
+        400: "#cbd5e0",
+        500: "#a0aec0",
+        600: "#718096",
+        700: "#4a5568",
+        800: "#2d3748",
+        900: "#1a202c",
+      },
+      red: {
+        default: "#AE3A34",
+      },
+      green: {
+        default: "#2F6C30",
+      },
+      orange: {
+        default: "#F29441",
+      },
+      yellow: {
+        default: "#F2C85B",
+      },
+      purple: {
+        default: "#3A0751",
+        light: "#A13670",
+      },
+    },
     fontFamily: {
       sans: ["Avenir", "Varela", "Arial", "sans"],
       serif: ["kepler-std", "Varela", "serif"],
-      mono: ["Menlo", "\"Liberation Mono\"", "\"Courier New\"", "monospace"],
+      mono: ["Menlo", '"Liberation Mono"', '"Courier New"', "monospace"],
       display: ["kepler-std", "Varela", "serif"],
       body: ["Avenir", "Varela", "Arial", "sans"],
     },
@@ -39,6 +72,11 @@ module.exports = {
       lg: "1.25rem",
       full: "9999px",
     },
+    maxWidth: {
+      "1/4": "25%",
+      "1/2": "50%",
+      "3/4": "75%",
+    },
     extend: {
       margin: {
         "96": "24rem",
@@ -46,28 +84,6 @@ module.exports = {
       },
       screens: {
         "2xl": "1920px",
-      },
-      colors: {
-        black: "#212121",
-        white: "#FFFFFF",
-        light: "#EEEEEE",
-        dark: "#979797",
-        red: {
-          default: "#AE3A34",
-        },
-        green: {
-          default: "#2F6C30",
-        },
-        orange: {
-          default: "#F29441",
-        },
-        yellow: {
-          default: "#F2C85B",
-        },
-        purple: {
-          default: "#3A0751",
-          light: "#A13670",
-        },
       },
     },
   },

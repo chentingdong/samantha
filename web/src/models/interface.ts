@@ -13,6 +13,13 @@ export interface Bell {
   block: unknown
 }
 
+export interface Bellhop {
+  id: string
+  name: string
+  description?: string
+  image: string
+}
+
 export interface Block {
   id: string
   name: string

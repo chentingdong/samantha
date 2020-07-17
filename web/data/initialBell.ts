@@ -1,8 +1,6 @@
 import { Bell } from "../src/models/interface"
 import { nanoid } from "nanoid"
 
-// used by cache.tsx and setUiState.tsx
-
 const initialBell: Bell = {
   id: nanoid(),
   name: "",

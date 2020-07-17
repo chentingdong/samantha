@@ -5,12 +5,15 @@ import moment from "moment"
 import { stringHashBucket } from "utils/styles"
 import { usersToString } from "utils/user"
 import { Placeholder } from "rsuite"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 
 export interface LobbyBellProps {
   whose: "mine" | "others"
   block: Block
 }
-const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
+const LobbyBellRaw: React.FC<LobbyBellProps> = ({ block, whose }) => {
+  const color = `bell-${stringHashBucket(block.id, 10)}`
   return (
     <Card
       className="bg-gray-200 hover:bg-gray-300 active:bg-gray-100 rounded-lg cursor-pointer duration-100"
@@ -42,4 +45,5 @@ const LobbyBell: React.FC<LobbyBellProps> = ({ block, whose }) => {
   )
 }
 
+const LobbyBell = styled(LobbyBellRaw)``
 export { LobbyBell }

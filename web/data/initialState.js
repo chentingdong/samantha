@@ -24,6 +24,8 @@ export default {
   },
   messages: [],
   uiState: {
+    // M2 ui states
+    // M1 ui states
     showEditRequestDef: false,
     showEditRequest: false,
     showBellEditor: false,

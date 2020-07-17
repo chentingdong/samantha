@@ -8,6 +8,7 @@ import { useQuery } from "@apollo/client"
 import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
 import { userInitials } from "utils/user"
+import { BellSearch } from "./BellSearch"
 
 export interface MainMenuProps {
   active: string
@@ -63,6 +64,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           </Dropdown>
         </Navbar>
       </FlexboxGrid>
+      <BellSearch />
     </div>
   )
 }

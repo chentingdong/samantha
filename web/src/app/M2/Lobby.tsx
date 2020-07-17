@@ -5,7 +5,6 @@ import { REQUESTS_RECEIVED } from "operations/subscriptions/requestsReceived"
 import { Loader, PanelGroup, Panel } from "rsuite"
 import { Error } from "components/Misc"
 import { BlockDef } from "models/interface"
-import { BellSearch } from "./BellSearch"
 import { LobbyBell } from "./LobbyBell"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -50,7 +49,6 @@ const LobbyRaw: React.FC<LobbyProps> = ({ className = "", ...props }) => {
 
   return (
     <div className={className}>
-      <BellSearch />
       <PanelGroup accordion>
         <Panel header="Needs Your Attention" defaultExpanded>
           <div

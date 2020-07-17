@@ -42,17 +42,17 @@
   --color-text-error: theme("colors.light");
   --color-bg-error: theme("colors.red.default");
 
-  --color-bell: theme("colors.orange.default");
-  --color-bell-0: var(--color-bell);
-  --color-bell-1: #a4cf30;
-  --color-bell-2: #62d26f;
-  --color-bell-3: #37c5ab;
-  --color-bell-4: #20aaea;
-  --color-bell-5: #4186e0;
-  --color-bell-6: #7a6ff0;
-  --color-bell-7: #aa62e3;
-  --color-bell-8: #ea4e9d;
-  --color-bell-9: #fc91ad;
+  --color-bg-bell: theme("colors.yellow.default");
+  --color-bg-bell-0: var(--color-bg-bell);
+  --color-bg-bell-1: #a4cf30;
+  --color-bg-bell-2: #62d26f;
+  --color-bg-bell-3: #37c5ab;
+  --color-bg-bell-4: #20aaea;
+  --color-bg-bell-5: #4186e0;
+  --color-bg-bell-6: #7a6ff0;
+  --color-bg-bell-7: #aa62e3;
+  --color-bg-bell-8: #ea4e9d;
+  --color-bg-bell-9: #fc91ad;
 }
 
 .text-default {
@@ -119,7 +119,7 @@ h6 {
   font-style: normal;
   font-weight: 800;
   align-items: center;
-  line-height: 100%;
+  line-height: 1.5em;
 }
 
 h1 {

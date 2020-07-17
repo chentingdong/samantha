@@ -38,8 +38,8 @@ const Card = styled(CardRaw)`
     }
     .card-header {
       ${tw`rounded-t-md p-2`};
-      color: var(--color-text-default);
-      background-color: ${(props) => `var(--color-${props.color})`};
+      color: ${(props) => `var(--color-text-${props.color})`};
+      background-color: ${(props) => `var(--color-bg-${props.color})`};
       display: block;
       cursor: pointer;
       white-space: nowrap;

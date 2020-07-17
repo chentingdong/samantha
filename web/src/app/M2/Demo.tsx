@@ -8,10 +8,10 @@ import "../../../dist/tailwind/tailwind.generated.css"
 export interface DemoProps {}
 
 export const Demo: React.FC<DemoProps> = () => {
-  const [active, setActive] = useState("lobby")
+  const [active, setActive] = useState("companyBellDesk")
 
   return (
-    <div className="theme-bell max-w-screen-2xl mx-auto px-8">
+    <div className="theme-bell max-w-screen-2xl min-w-500 mx-auto px-8">
       <MainMenu
         active={active}
         onSelect={(activeKey) => setActive(activeKey)}
