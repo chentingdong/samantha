@@ -261,63 +261,8 @@
           schema: public
           name: block_responder
 - table:
-    schema: v2
-    name: APIExecutor
-- table:
-    schema: v2
-    name: Bell
-  object_relationships:
-  - name: bell_state
-    using:
-      foreign_key_constraint_on: state
-  - name: initiator
-    using:
-      foreign_key_constraint_on: initiator_id
-  - name: owner
-    using:
-      foreign_key_constraint_on: owner_id
-  - name: root_block
-    using:
-      foreign_key_constraint_on: root_id
-  array_relationships:
-  - name: blocks
-    using:
-      foreign_key_constraint_on:
-        column: bell_id
-        table:
-          schema: v2
-          name: Block
-- table:
-    schema: v2
-    name: BellExecutor
-- table:
-    schema: v2
-    name: Bellhop
-  array_relationships:
-  - name: initiated_bells
-    using:
-      foreign_key_constraint_on:
-        column: initiator_id
-        table:
-          schema: v2
-          name: Bell
-  - name: owned_bells
-    using:
-      foreign_key_constraint_on:
-        column: owner_id
-        table:
-          schema: v2
-          name: Bell
-  - name: users
-    using:
-      foreign_key_constraint_on:
-        column: bellhop_id
-        table:
-          schema: v2
-          name: BellhopUser
-- table:
-    schema: v2
-    name: BellhopUser
+    schema: m2
+    name: bellhop_membership
   object_relationships:
   - name: bellhop
     using:
@@ -329,12 +274,113 @@
     using:
       foreign_key_constraint_on: user_id
 - table:
-    schema: v2
-    name: Block
+    schema: m2
+    name: bellhops
+  array_relationships:
+  - name: initiated_bells
+    using:
+      foreign_key_constraint_on:
+        column: bellhop_initiator_id
+        table:
+          schema: m2
+          name: bells
+  - name: memberships
+    using:
+      foreign_key_constraint_on:
+        column: bellhop_id
+        table:
+          schema: m2
+          name: bellhop_membership
+  - name: owned_bells
+    using:
+      foreign_key_constraint_on:
+        column: bellhop_owner_id
+        table:
+          schema: m2
+          name: bells
+- table:
+    schema: m2
+    name: bells
+  object_relationships:
+  - name: bellhop_initiator
+    using:
+      foreign_key_constraint_on: bellhop_initiator_id
+  - name: bellhop_owner
+    using:
+      foreign_key_constraint_on: bellhop_owner_id
+  - name: bell_state
+    using:
+      foreign_key_constraint_on: state
+  - name: root_block
+    using:
+      foreign_key_constraint_on: root_block_id
+  - name: user_initiator
+    using:
+      foreign_key_constraint_on: user_initiator_id
+  array_relationships:
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: bell_id
+        table:
+          schema: m2
+          name: blocks
+- table:
+    schema: m2
+    name: block_composition
+  object_relationships:
+  - name: child
+    using:
+      foreign_key_constraint_on: child_id
+  - name: parent
+    using:
+      foreign_key_constraint_on: parent_id
+- table:
+    schema: m2
+    name: block_state
+  is_enum: true
+  array_relationships:
+  - name: bells
+    using:
+      foreign_key_constraint_on:
+        column: state
+        table:
+          schema: m2
+          name: bells
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: state
+        table:
+          schema: m2
+          name: blocks
+- table:
+    schema: m2
+    name: block_type
+  is_enum: true
+  array_relationships:
+  - name: blocks
+    using:
+      foreign_key_constraint_on:
+        column: type
+        table:
+          schema: m2
+          name: blocks
+- table:
+    schema: m2
+    name: blocks
   object_relationships:
   - name: bell
     using:
       foreign_key_constraint_on: bell_id
+  - name: bell_at_root
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: bells
+        column_mapping:
+          id: root_block_id
   - name: block_state
     using:
       foreign_key_constraint_on: state
@@ -347,111 +393,83 @@
       foreign_key_constraint_on:
         column: child_id
         table:
-          schema: v2
-          name: BlockParentChildren
+          schema: m2
+          name: block_composition
+  - name: form_tasks
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: form_tasks
+        column_mapping:
+          id: id
+          type: type
   - name: parents
     using:
       foreign_key_constraint_on:
         column: parent_id
         table:
-          schema: v2
-          name: BlockParentChildren
+          schema: m2
+          name: block_composition
 - table:
-    schema: v2
-    name: BlockParentChildren
+    schema: m2
+    name: form_tasks
   object_relationships:
-  - name: child
+  - name: block
     using:
-      foreign_key_constraint_on: child_id
-  - name: parent
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: blocks
+        column_mapping:
+          id: id
+          type: type
+  - name: user_assignee
     using:
-      foreign_key_constraint_on: parent_id
+      foreign_key_constraint_on: user_assignee_id
+  - name: user_requestor
+    using:
+      foreign_key_constraint_on: user_requestor_id
 - table:
-    schema: v2
-    name: BlockState
-  is_enum: true
+    schema: m2
+    name: roles
   array_relationships:
-  - name: bells
-    using:
-      foreign_key_constraint_on:
-        column: state
-        table:
-          schema: v2
-          name: Bell
-  - name: blocks
-    using:
-      foreign_key_constraint_on:
-        column: state
-        table:
-          schema: v2
-          name: Block
-- table:
-    schema: v2
-    name: BlockType
-  is_enum: true
-  array_relationships:
-  - name: blocks
-    using:
-      foreign_key_constraint_on:
-        column: type
-        table:
-          schema: v2
-          name: Block
-- table:
-    schema: v2
-    name: Control
-- table:
-    schema: v2
-    name: Decorator
-- table:
-    schema: v2
-    name: Executor
-- table:
-    schema: v2
-    name: FormTask
-- table:
-    schema: v2
-    name: HumanTask
-  object_relationships:
-  - name: assignee
-    using:
-      foreign_key_constraint_on: assignee_id
-  - name: requestor
-    using:
-      foreign_key_constraint_on: requestor_id
-- table:
-    schema: v2
-    name: Role
-  array_relationships:
-  - name: bellhop_users
+  - name: memberships
     using:
       foreign_key_constraint_on:
         column: role_id
         table:
-          schema: v2
-          name: BellhopUser
+          schema: m2
+          name: bellhop_membership
 - table:
-    schema: v2
-    name: User
+    schema: m2
+    name: users
   array_relationships:
-  - name: assigned_human_tasks
+  - name: assigned_form_tasks
     using:
       foreign_key_constraint_on:
-        column: assignee_id
+        column: user_assignee_id
         table:
-          schema: v2
-          name: HumanTask
-  - name: bellhops
+          schema: m2
+          name: form_tasks
+  - name: initiated_bells
+    using:
+      foreign_key_constraint_on:
+        column: user_initiator_id
+        table:
+          schema: m2
+          name: bells
+  - name: memberships
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
-          schema: v2
-          name: BellhopUser
-  - name: requested_human_tasks
+          schema: m2
+          name: bellhop_membership
+  - name: requested_form_tasks
     using:
       foreign_key_constraint_on:
-        column: requestor_id
+        column: user_requestor_id
         table:
-          schema: v2
-          name: HumanTask
+          schema: m2
+          name: form_tasks
