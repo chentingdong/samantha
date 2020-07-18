@@ -5,6 +5,8 @@ import { useQuery, useSubscription } from "@apollo/client"
 import { CircleImage } from "components/CircleImage"
 import { BellList } from "./BellList"
 import { Button } from "components/Button"
+import { Error } from "../../components/Misc"
+import { Loader } from "rsuite"
 
 interface BellhopContentProps {
   listTitle: string
@@ -17,6 +19,7 @@ const BellhopContent: React.FC<BellhopContentProps> = ({
   const {
     data: { uiState },
     loading,
+    error,
   } = useQuery(UI_STATE)
 
   const unsetCurrentBellhop = () => {
@@ -25,7 +28,8 @@ const BellhopContent: React.FC<BellhopContentProps> = ({
     })
   }
 
-  if (loading) return <>Loading</>
+  if (loading) return <Loader speed="fast" content="Loading..." />
+  if (error) return <Error message={error.message} />
   return (
     <div {...props}>
       <div className="container m-auto">
