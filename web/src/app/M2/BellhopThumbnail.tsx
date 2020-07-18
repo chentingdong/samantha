@@ -25,9 +25,9 @@ const BellhopThumbnail: React.FC<BellhopThumbnailProps> = ({
     })
   }
 
-  useEffect(() => {
-    console.log(uiState?.currentBellhopId)
-  }, [uiState.currentBellhopId])
+  // useEffect(() => {
+  //   console.log(uiState?.currentBellhopId)
+  // }, [uiState.currentBellhopId])
 
   if (loading) return <>Loading</>
 
