@@ -1,4 +1,4 @@
-import { Nav, Navbar, FlexboxGrid, Dropdown, Icon } from "rsuite"
+import { Nav, Navbar, FlexboxGrid, Dropdown } from "rsuite"
 import React from "react"
 import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
@@ -40,13 +40,13 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           </Nav>
         </Navbar>
         <Navbar className="bg-default">
-          <Logout className="p-2 px-3 cursor-pointer inline-block" />
+          <Logout className="inline-block p-2 px-3 cursor-pointer" />
           <Dropdown
-            className="account p-0 "
+            className="p-0 account"
             noCaret
             placement="bottomEnd"
             title={
-              <Button color="primary" className="fill circle">
+              <Button color="secondary" className="fill circle">
                 {authUser.picture && <img src={authUser.picture} alt="" />}
                 {!authUser.picture && (
                   <span className="font-bold">{userInitials(authUser)}</span>

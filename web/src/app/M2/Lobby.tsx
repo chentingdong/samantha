@@ -9,11 +9,9 @@ import { LobbyBell } from "./LobbyBell"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
-export interface LobbyProps {
-  className?: string
-}
+export interface LobbyProps {}
 
-const LobbyRaw: React.FC<LobbyProps> = ({ className = "", ...props }) => {
+const LobbyRaw: React.FC<LobbyProps> = () => {
   const { data: authUserResult } = useQuery(AUTH_USER)
 
   const {
@@ -48,12 +46,12 @@ const LobbyRaw: React.FC<LobbyProps> = ({ className = "", ...props }) => {
   if (!bellsMine || !bellsOthers || !authUserResult) return <></>
 
   return (
-    <div className={className}>
+    <div className="container m-auto">
       <PanelGroup accordion>
         <Panel header="Needs Your Attention" defaultExpanded>
           <div
             className={
-              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 px-18 py-10"
+              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 px-16 py-10"
             }
           >
             {bellsMine.blocks.map((block: BlockDef, index: number) => (
@@ -64,7 +62,7 @@ const LobbyRaw: React.FC<LobbyProps> = ({ className = "", ...props }) => {
         <Panel header="Your Other Active Bells" defaultExpanded>
           <div
             className={
-              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 p-18 py-10"
+              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 p-16 py-10"
             }
           >
             {bellsOthers.blocks.map((block: BlockDef, index: number) => (

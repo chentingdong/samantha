@@ -11,12 +11,12 @@ export const Demo: React.FC<DemoProps> = () => {
   const [active, setActive] = useState("companyBellDesk")
 
   return (
-    <div className="theme-bell max-w-screen-2xl min-w-500 mx-auto px-8">
+    <div className="p-0 m-0 theme-bell max-w-screen-2xl min-w-500">
       <MainMenu
         active={active}
         onSelect={(activeKey) => setActive(activeKey)}
       />
-      <div className="p-4">
+      <div>
         {active === "lobby" && <Lobby />}
         {active === "companyBellDesk" && <CompanyBellDesk />}
         {active === "myBellDesk" && <MyBellDesk />}

@@ -1,6 +1,5 @@
 import React from "react"
 import { Block } from "models/interface"
-import { Card } from "components/Card"
 import moment from "moment"
 import { stringHashBucket } from "utils/common"
 import { usersToString } from "utils/user"
@@ -35,7 +34,7 @@ const LobbyBellRaw: React.FC<LobbyBellProps> = ({ block, whose }) => {
         </div>
       )}
       <div className="content-end m-4 mb-2 text-lg card-footer">
-        <a href="#" className="underline">
+        <a href="#" className="underline TODO">
           Facilities
         </a>
       </div>

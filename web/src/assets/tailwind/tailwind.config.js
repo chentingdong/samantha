@@ -85,6 +85,10 @@ module.exports = {
       screens: {
         "2xl": "1920px",
       },
+      transitionProperty: {
+        height: "height",
+        spacing: "margin, padding",
+      },
     },
   },
   variants: {

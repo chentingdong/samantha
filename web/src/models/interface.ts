@@ -4,41 +4,43 @@ export interface Bell {
   id: string
   name: string
   description?: string
-  state: string
+  bellhop_owner_id: string
+  bellhop_initiator_id: string
+  user_initiator_id: string
   context: unknown
+  inputs: string
+  outputs: string
+  state: string
+  is_definition: boolean
+  private: boolean
+  menu_order: number
+  can_act_as_subbell: boolean
   created_at: Date
   last_updated: Date
   started_at: Date
   root_block_id: string
-  block: unknown
 }
 
 export interface Bellhop {
   id: string
   name: string
-  description?: string
+  metadata?: string
   profile_image_url: string
+  created_at: Date
+  updated_at: Date
 }
 
 export interface Block {
   id: string
-  name: string
-  description: string
-  type: string
-  blockType?: unknown
+  local_id: string
+  bell_id: string
   state: string
-  props?: unknown
-  context?: unknown
-  control?: unknown
-  root?: BlockOrDef
-  bells?: Bell[]
-  parents: ParentChild[]
-  children: ParentChild[]
-  requestors: BlockUser[]
-  responders: BlockUser[]
+  type: string
+  is_definition: boolean
+  configs: string
   created_at: Date
   last_updated: Date
-  due_date?: Date
+  started_at: Date
   __mutation_type__?: MutationType
   __typename?: string
 }
@@ -70,6 +72,7 @@ export interface UiState {
   showEditor?: boolean
   draftBlock?: BlockOrDef
   showBellEditor?: boolean
+  currentBellhopId?: string
   currentBellId?: string
   currentBlockId?: string
   editorMode?: EditMode

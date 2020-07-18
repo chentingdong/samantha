@@ -36,7 +36,7 @@
   --color-text-success: theme("colors.white");
   --color-bg-success: theme("colors.green.500");
 
-  --color-text-warning: theme("colors.gray.300");
+  --color-text-warning: theme("colors.white");
   --color-bg-warning: theme("colors.orange.500");
 
   --color-text-error: theme("colors.gray.300");
@@ -111,7 +111,9 @@
 .bg-error {
   background-color: var(--color-bg-error);
 }
-
+.TODO {
+  color: theme("colors.orange.500");
+}
 /* element theming */
 * {
   transition: background-color 0.3s ease;

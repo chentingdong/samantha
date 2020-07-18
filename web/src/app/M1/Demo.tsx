@@ -103,7 +103,6 @@ function DemoRaw({ className }) {
   )
 }
 const Demo = styled(DemoRaw)`
-  ${tw`p-4`}
   color: var(--color-text-default);
   background-color: var(--color-bg-default);
   overflow: auto;

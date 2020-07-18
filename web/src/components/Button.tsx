@@ -19,7 +19,7 @@ const ButtonRaw: React.FC<ButtonType> = ({
   ...props
 }) => {
   return (
-    <button className={className} color={color} {...props} onClick={onClick}>
+    <button className={className} {...props} onClick={onClick}>
       {icon && <Icon className="pr-4" icon={icon} />}
       <span>{props.children}</span>
     </button>
@@ -27,7 +27,7 @@ const ButtonRaw: React.FC<ButtonType> = ({
 }
 
 const Button = styled(ButtonRaw)`
-  ${tw`rounded-full py-2 px-4 items-baseline m-2`}
+  ${tw`rounded-full py-2 px-4 items-baseline m-2 shadow`}
   border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
   background: ${(props) => `var(--color-text-${props.color})`};
   &:focus {

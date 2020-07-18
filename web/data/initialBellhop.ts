@@ -4,40 +4,52 @@ import { nanoid } from "nanoid"
 const initialBellhop: Bellhop = {
   id: nanoid(),
   name: "",
-  description: "",
+  metadata: "",
   profile_image_url: "",
+  created_at: new Date(),
+  updated_at: new Date(),
 }
 
 const testingBellhopList: Bellhop[] = [
   {
     id: nanoid(),
     name: "Engineering & Product",
-    description: "This is a Engineering bellhop",
+    metadata: "",
     profile_image_url: "/dist/eng.png",
+    created_at: new Date(),
+    updated_at: new Date(),
   },
   {
     id: nanoid(),
     name: "Facilities",
-    description: "This is a Facility bellhop",
+    metadata: "",
     profile_image_url: "/dist/facilities.png",
+    created_at: new Date(),
+    updated_at: new Date(),
   },
   {
     id: nanoid(),
     name: "Finance",
-    description: "This is a Finance bellho",
+    metadata: "",
     profile_image_url: "/dist/finance.png",
+    created_at: new Date(),
+    updated_at: new Date(),
   },
   {
     id: nanoid(),
     name: "Marketing",
-    description: "This is a Marketing bellhop",
+    metadata: "",
     profile_image_url: "/dist/marketing.png",
+    created_at: new Date(),
+    updated_at: new Date(),
   },
   {
     id: nanoid(),
     name: "Purchasing",
-    description: "This is a Purchasing bellhop",
+    metadata: "",
     profile_image_url: "/dist/purchasing.png",
+    created_at: new Date(),
+    updated_at: new Date(),
   },
 ]
 
