@@ -3,10 +3,10 @@ import { setUiState } from "../../operations/mutations/setUiState"
 import { UI_STATE } from "../../operations/queries/uiState"
 import { useQuery, useSubscription } from "@apollo/client"
 import { CircleImage } from "components/CircleImage"
-import { BellList } from "./BellList"
 import { Button } from "components/Button"
 import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
+import { BellCatalogList } from "./BellCatalogList"
 
 interface BellhopContentProps {
   listTitle: string
@@ -51,13 +51,13 @@ const BellhopContent: React.FC<BellhopContentProps> = ({
           </div>
         </div>
       </div>
+
       <div className="container mx-auto mt-8">
         <div className="TODO">
           TODO: load bell is_definition=true on current bellhop id:{" "}
           <i>{uiState.currentBellhopId}</i>
         </div>
-        <h5 className="py-2">Start a bell</h5>
-        <BellList />
+        <BellCatalogList />
       </div>
     </div>
   )

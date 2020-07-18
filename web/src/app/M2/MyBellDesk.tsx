@@ -2,6 +2,7 @@
 import React, { useState } from "react"
 import { testingBellhopList } from "../../../data/initialBellhop"
 import { BellhopThumbnailList } from "./BellhopThumbnailList"
+import { BellsList } from "./BellsList"
 import { BellhopContent } from "./BellhopContent"
 import { useQuery, useSubscription } from "@apollo/client"
 import { UI_STATE } from "../../operations/queries/uiState"
@@ -31,6 +32,7 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
       )}
       {uiState.currentBellhopId && <BellhopContent listTitle={listTitle} />}
+      {uiState.currentBellhopId && <BellsList />}
     </div>
   )
 }
