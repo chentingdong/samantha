@@ -1,6 +1,5 @@
 import logoDark from "../assets/img/bellhop-dark.svg"
 import logoWhite from "../assets/img/brand-1.svg"
-import stringHash from "string-hash"
 
 const getLogoByTheme = (theme) => {
   return theme === "bell" ? logoWhite : logoDark
@@ -67,14 +66,9 @@ const injectRsuiteStyle = (theme) => {
   head.insertBefore(link, firstLink)
 }
 
-const stringHashBucket = (str: string, N: number) => {
-  return stringHash(str) % N
-}
-
 export {
   getLogoByTheme,
   getIconByType,
-  stringHashBucket,
   getIconClassByType,
   blockBgColor,
   blockTextColor,

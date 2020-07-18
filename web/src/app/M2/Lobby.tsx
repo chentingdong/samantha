@@ -68,7 +68,7 @@ const LobbyRaw: React.FC<LobbyProps> = ({ className = "", ...props }) => {
             }
           >
             {bellsOthers.blocks.map((block: BlockDef, index: number) => (
-              <LobbyBell whoese="others" key={block.id} block={block} />
+              <LobbyBell whose="others" key={block.id} block={block} />
             ))}
           </div>
         </Panel>

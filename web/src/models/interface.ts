@@ -17,7 +17,7 @@ export interface Bellhop {
   id: string
   name: string
   description?: string
-  image: string
+  profile_image_url: string
 }
 
 export interface Block {

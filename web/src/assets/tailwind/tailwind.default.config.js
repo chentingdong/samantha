@@ -1,5 +1,5 @@
 // Default config for reference.
-import "./tailwind.default.config.js"
+// can be imported to tailwind.config.js but not yet.
 
 module.exports = {
   purge: [],
@@ -242,24 +242,24 @@ module.exports = {
         "system-ui",
         "-apple-system",
         "BlinkMacSystemFont",
-        "\"Segoe UI\"",
+        '"Segoe UI"',
         "Roboto",
-        "\"Helvetica Neue\"",
+        '"Helvetica Neue"',
         "Arial",
-        "\"Noto Sans\"",
+        '"Noto Sans"',
         "sans-serif",
-        "\"Apple Color Emoji\"",
-        "\"Segoe UI Emoji\"",
-        "\"Segoe UI Symbol\"",
-        "\"Noto Color Emoji\"",
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+        '"Noto Color Emoji"',
       ],
-      serif: ["Georgia", "Cambria", "\"Times New Roman\"", "Times", "serif"],
+      serif: ["Georgia", "Cambria", '"Times New Roman"', "Times", "serif"],
       mono: [
         "Menlo",
         "Monaco",
         "Consolas",
-        "\"Liberation Mono\"",
-        "\"Courier New\"",
+        '"Liberation Mono"',
+        '"Courier New"',
         "monospace",
       ],
     },

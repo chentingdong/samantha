@@ -3,43 +3,43 @@
 module.exports = {
   important: true,
   theme: {
+    // overrite default tailwind pallete
     colors: {
       black: "#212121",
       white: "#FFFFFF",
-      light: "#EEEEEE",
-      dark: "#979797",
       gray: {
         100: "#f7fafc",
         200: "#edf2f7",
         300: "#e2e8f0",
-        400: "#cbd5e0",
         500: "#a0aec0",
-        600: "#718096",
-        700: "#4a5568",
-        800: "#2d3748",
-        900: "#1a202c",
+        800: "#979797",
       },
       red: {
-        default: "#AE3A34",
+        500: "#AE3A34",
+        800: "#AE3A34",
       },
       green: {
-        default: "#2F6C30",
+        500: "#2F6C30",
+        800: "#2F6C30",
       },
       orange: {
-        default: "#F29441",
+        500: "#F29441",
+        800: "#F29441",
       },
       yellow: {
-        default: "#F2C85B",
+        500: "#F2C85B",
+        800: "#F2C85B",
       },
       purple: {
-        default: "#3A0751",
-        light: "#A13670",
+        300: "#A13670",
+        500: "#3A0751",
+        800: "#3A0751",
       },
     },
     fontFamily: {
       sans: ["Avenir", "Varela", "Arial", "sans"],
       serif: ["kepler-std", "Varela", "serif"],
-      mono: ["Menlo", '"Liberation Mono"', '"Courier New"', "monospace"],
+      mono: ["Menlo", "Liberation Mono", "Courier New", "monospace"],
       display: ["kepler-std", "Varela", "serif"],
       body: ["Avenir", "Varela", "Arial", "sans"],
     },

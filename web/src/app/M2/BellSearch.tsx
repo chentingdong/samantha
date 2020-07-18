@@ -32,7 +32,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
   }
 
   return (
-    <div className="bell-search w-1/3 mx-auto relative">
+    <div className="relative w-1/3 mx-auto bell-search">
       <input
         type="text"
         value={value}
@@ -40,10 +40,10 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
         onBlur={(e) => setShow(false)}
         placeholder="Quick Start Bell"
       />
-      <img src={IconBell} className="absolute right-0 top-0 m-5 h-4" />
+      <img src={IconBell} className="absolute top-0 right-0 h-4 m-5" />
       {show && (
-        <div className="menu border border-dark rounded-lg p-4 absolute w-full bg-default z-10 shadow-xl">
-          <div className="grid grid-cols-3 border-b-2 p-2">
+        <div className="absolute z-10 w-full p-4 border rounded-lg shadow-xl menu border-dark bg-default">
+          <div className="p-2 border-b-2 grid grid-cols-3">
             <div className="col-span-1">Bellhops</div>
             <div className="col-span-2">
               {suggestions.bellhops.map((bellhop, index) => {
@@ -51,7 +51,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
               })}
             </div>
           </div>
-          <div className="grid grid-cols-3 border-b-2 p-2">
+          <div className="p-2 border-b-2 grid grid-cols-3">
             <div className="col-span-1">Bells</div>
             <div className="col-span-2">
               {suggestions.bells.map((bell, index) => {
@@ -59,7 +59,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
               })}
             </div>
           </div>
-          <div className="text-center underline text-lg mt-4">
+          <div className="mt-4 text-lg text-center underline">
             <a href="">Visit Company Bell Desk</a>
           </div>
         </div>

@@ -28,7 +28,7 @@ module.exports = exports = {
     "no-unused-vars": "off",
     "no-useless-catch": "off",
     "no-with": "off",
-    quotes: ["error", "double"],
+    quotes: ["off", "double"],
     "require-atomic-updates": "off",
     "react/prop-types": "off",
     "react-hooks/rules-of-hooks": "error",
@@ -55,6 +55,7 @@ module.exports = exports = {
     "plugin:import/warnings",
     "plugin:import/typescript",
     "plugin:react/recommended",
+    "plugin:tailwind/recommended",
   ],
   settings: {
     react: {

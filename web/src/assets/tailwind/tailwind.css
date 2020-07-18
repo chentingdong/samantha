@@ -3,56 +3,77 @@
 @tailwind utilities;
 @tailwind screens;
 
-/* App Themes */
+/* App Themes global variables, keep lean. */
 .theme-bell {
   --color-text-default: theme("colors.black");
   --color-bg-default: theme("colors.white");
 
-  --color-text-disabled: theme("colors.light");
-  --color-bg-disabled: theme("colors.dark");
+  --color-text-disabled: theme("colors.gray.500");
+  --color-bg-disabled: theme("colors.gray.800");
 }
 
 .theme-dark {
   --color-text-default: theme("colors.white");
   --color-bg-default: theme("colors.black");
 
-  --color-text-disabled: theme("colors.purple.default");
-  --color-bg-disabled: theme("colors.light");
+  --color-text-disabled: theme("colors.purple.500");
+  --color-bg-disabled: theme("colors.gray.300");
 }
 
 * {
   --color-text-primary: theme("colors.white");
-  --color-bg-primary: theme("colors.purple.default");
+  --color-bg-primary: theme("colors.purple.500");
 
   --color-text-secondary: theme("colors.white");
-  --color-bg-secondary: theme("colors.purple.light");
+  --color-bg-secondary: theme("colors.purple.300");
 
   --color-text-light: theme("colors.black");
-  --color-bg-light: theme("colors.light");
+  --color-bg-light: theme("colors.gray.300");
 
-  --color-text-dark: theme("colors.light");
-  --color-bg-dark: theme("colors.dark");
+  --color-text-dark: theme("colors.gray.300");
+  --color-bg-dark: theme("colors.gray.800");
 
   --color-text-success: theme("colors.white");
-  --color-bg-success: theme("colors.green.default");
+  --color-bg-success: theme("colors.green.500");
 
-  --color-text-warning: theme("colors.light");
-  --color-bg-warning: theme("colors.orange.default");
+  --color-text-warning: theme("colors.gray.300");
+  --color-bg-warning: theme("colors.orange.500");
 
-  --color-text-error: theme("colors.light");
-  --color-bg-error: theme("colors.red.default");
+  --color-text-error: theme("colors.gray.300");
+  --color-bg-error: theme("colors.red.500");
+}
 
-  --color-bg-bell: theme("colors.yellow.default");
-  --color-bg-bell-0: var(--color-bg-bell);
-  --color-bg-bell-1: #a4cf30;
-  --color-bg-bell-2: #62d26f;
-  --color-bg-bell-3: #37c5ab;
-  --color-bg-bell-4: #20aaea;
-  --color-bg-bell-5: #4186e0;
-  --color-bg-bell-6: #7a6ff0;
-  --color-bg-bell-7: #aa62e3;
-  --color-bg-bell-8: #ea4e9d;
-  --color-bg-bell-9: #fc91ad;
+/* bellhop tailwind theming classnames */
+.bg-bell,
+.bg-bell-0 {
+  background: #ecc94b;
+}
+.bg-bell-1 {
+  background: #a4cf30;
+}
+.bg-bell-2 {
+  background: #62d26f;
+}
+.bg-bell-3 {
+  background: #37c5ab;
+}
+.bg-bell-4 {
+  background: #20aaea;
+}
+.bg-bell-5 {
+  background: #7a6ff0;
+}
+.bg-bell-6 {
+  background: #7a6ff0;
+}
+.bg-bell-7 {
+  background: #aa62e3;
+}
+.bg-bell-8 {
+  background: #ea4e9d;
+}
+.bg-bell-9 {
+  background: #fc91ad;
 }
 
 .text-default {
@@ -91,20 +112,15 @@
 .bg-error {
   background-color: var(--color-bg-error);
 }
-.bg-bell {
-  background-color: var(--color-bell);
-}
-.bg-bell-1 {
-  background-color: var(--color-bell-1);
-}
 
+/* element theming */
 * {
   transition: background-color 0.3s ease;
   transition: height width 0.3s ease;
 }
 
 body {
-  font-family: theme("fontFamily.body");
+  font-family: theme("fontFamily.sans");
   font-size: 16px;
   font-weight: 500;
 }
@@ -115,7 +131,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: theme("fontFamily.body");
+  font-family: theme("fontFamily.serif");
   font-style: normal;
   font-weight: 800;
   align-items: center;
@@ -178,7 +194,9 @@ textarea:focus {
   outline: none;
 }
 
+/********************/
 /* Storybook themes */
+/********************/
 .theme-light {
   --color-text-primary: #333;
   --color-text-secondary: #555;

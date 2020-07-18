@@ -27,15 +27,16 @@ const ButtonRaw: React.FC<ButtonType> = ({
 }
 
 const Button = styled(ButtonRaw)`
-  ${tw`rounded-full shadow py-2 px-4 items-baseline m-2`}
-  border: 1px solid ${(props) => `var(--color-text-${props.color})`};
+  ${tw`rounded-full py-2 px-4 items-baseline m-2`}
+  border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
+  background: ${(props) => `var(--color-text-${props.color})`};
   &:focus {
     outline: none;
   }
   &.circle,
   &.circle:hover {
     ${tw`m-0 p-0`}
-    border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
+    border-color: ${(props) => `var(--color-bg-${props.color})`};
     border-radius: 50%;
     height: 2.3rem;
     width: 2.3rem;
@@ -51,9 +52,10 @@ const Button = styled(ButtonRaw)`
     color: ${(props) => `var(--color-text-${props.color})`};
     background: ${(props) => `var(--color-bg-${props.color})`};
   }
-  &.fill:hover {
+  &.fill:hover{
     color: ${(props) => `var(--color-bg-${props.color})`};
     background: ${(props) => `var(--color-text-${props.color})`};
+    border-color: ${(props) => `var(--color-bg-${props.color})`};
   }
   cursor: pointer;
   white-space: nowrap;
