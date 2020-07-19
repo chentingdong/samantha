@@ -1,15 +1,11 @@
 import React, { useState } from "react"
-import { Loader, Placeholder, Pagination, Icon } from "rsuite"
-import { Error } from "components/Misc"
-import { useQuery } from "@apollo/client"
-import { BELLS_LIST } from "operations/queries/bellsList"
+import { Pagination } from "rsuite"
 import { BellCard, BellRow } from "./BellItem"
-import styled from "styled-components"
 import { Bell } from "models/interface"
-import tw from "tailwind.macro"
 import { TODO } from "components/TODO"
-import { Button } from "components/Button"
 import { ViewMore } from "components/ViewMore"
+import { useQuery } from "@apollo/client"
+import { UI_STATE } from "../../operations/queries/uiState"
 
 export interface BellListProps {
   bells?: Bell[]
@@ -25,6 +21,11 @@ const BellListCard: React.FC<BellListProps> = ({
   const initialCounts = 5
   const [showMore, setShowMore] = useState(false)
   const numberItems = showMore ? bells.length : initialCounts
+  const {
+    data: { uiState },
+    loading,
+    error,
+  } = useQuery(UI_STATE)
 
   return (
     bells && (
@@ -54,7 +55,11 @@ const BellListRow: React.FC<BellListProps> = ({
   const numberItems = showMore ? bells.length : initialCounts
   return (
     <div className="container m-auto" {...props}>
-      <h5 className="pt-4 border-b-2">Start a bell</h5>
+      <h5 className="pt-4 border-b-2">Start a bell</h5>{" "}
+      <TODO>
+        filter bell with is_definition=true bellhop id:
+        <i>{uiState.currentBellhopId}</i>
+      </TODO>
       <ViewMore showMore={showMore} setShowMore={setShowMore} />
       <div className="h-auto transition-height duration-500 ease-in-out">
         {bells.slice(0, numberItems).map((bell: Bell) => {

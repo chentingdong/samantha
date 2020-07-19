@@ -41,10 +41,6 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
           <BellListCard className="container m-auto" bells={bells} />
         </>
       )}
-      <TODO>
-        filter bell with is_definition=true bellhop id:
-        <i>{uiState.currentBellhopId}</i>
-      </TODO>
     </div>
   )
 }
