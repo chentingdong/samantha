@@ -9,7 +9,6 @@ interface MagicWordProps {
   hideWord: string
   show: boolean
   setShow: (boolean) => void
-  className?: string
 }
 
 export const MagicWord: React.FC<MagicWordProps> = ({
@@ -17,15 +16,12 @@ export const MagicWord: React.FC<MagicWordProps> = ({
   hideWord,
   show = false,
   setShow,
-  className = "",
   ...props
 }) => {
   if (process.env.NODE_ENV === "production") return <></>
 
   const charList = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
-  const heightClass = () => {
-    return show ? "h-auto" : "h-0"
-  }
+
   let wordStream = ""
   const addToStream = (key) => {
     wordStream += key
@@ -35,10 +31,7 @@ export const MagicWord: React.FC<MagicWordProps> = ({
   }
 
   return (
-    <div
-      className={`overflow-hidden transition duration-1000 ${heightClass()} ${className}`}
-    >
-      <span>{props.children}</span>
+    <div className="hidden">
       <KeyboardEventHandler
         handleKeys={charList}
         onKeyEvent={(key, e) => addToStream(key)}

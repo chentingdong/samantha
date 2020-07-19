@@ -34,7 +34,7 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
       {uiState.currentBellhopId && <BellhopContent listTitle={listTitle} />}
       <div className="container mx-auto mt-8">
         <TODO>
-          load bell is_definition=true on current bellhop id:{" "}
+          load bell is_definition=true on current bellhop id:
           <i>{uiState.currentBellhopId}</i>
         </TODO>
         <BellCatalogList />

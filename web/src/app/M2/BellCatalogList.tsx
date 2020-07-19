@@ -60,13 +60,13 @@ const BellCatalogList: React.FC<BellCatalogListProps> = (props) => {
       <h5 className="pt-4 border-b-2">Start a bell</h5>
       {ViewMoreButton}
       <div className="h-auto transition-height duration-500 ease-in-out">
-        {data.bells.slice(0, numberItems).map((bell: Bell, index: number) => {
+        {data.bells.slice(0, numberItems).map((bell: Bell) => {
           return <BellCatalogListItem bell={bell} key={bell.id} />
         })}
       </div>
-      <div className="flex flex-row-reverse p-4 px-8 my-4 border-t-2 clear-both">
+      <div className="p-4 px-8 my-4 text-right border-t-2 clear-both">
         <Pagination className="" pages={5} activePage={1} />
-        <TODO>update page</TODO>
+        <TODO position="right">pagination update page (M2 UI only)</TODO>
       </div>
     </div>
   )

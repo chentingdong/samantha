@@ -6,7 +6,6 @@ import { CircleImage } from "components/CircleImage"
 import { Button } from "components/Button"
 import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
-import { BellCatalogList } from "./BellCatalogList"
 import { TODO } from "components/TODO"
 
 interface BellhopContentProps {
@@ -42,9 +41,8 @@ const BellhopContent: React.FC<BellhopContentProps> = ({
         <div className="container flex m-auto">
           <div className="flex-1 m-auto">
             <h5>Engineers</h5>
-            <p className="p-4">
-              Building cool product <TODO>bellhop need description field</TODO>
-            </p>
+            <TODO>bellhop need description field</TODO>
+            <div className="p-4">Building cool product</div>
           </div>
           <div className="flex-none">
             <CircleImage className="border-2" alt="image" src="/dist/eng.png" />
