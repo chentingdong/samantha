@@ -1,3 +1,4 @@
+// Card is deprecated. Used for M1 only.
 import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -37,7 +38,7 @@ const Card = styled(CardRaw)`
       ${tw`p-2 w-full`}
     }
     .card-header {
-      ${tw`rounded-t-md p-2`};
+      ${tw`p-2`};
       color: ${(props) => `var(--color-text-${props.color})`};
       background-color: ${(props) => `var(--color-bg-${props.color})`};
       display: block;

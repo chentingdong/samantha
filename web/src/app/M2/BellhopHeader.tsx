@@ -8,11 +8,11 @@ import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
 import { TODO } from "components/TODO"
 
-interface BellhopContentProps {
+interface BellhopHeaderProps {
   listTitle: string
 }
 
-const BellhopContent: React.FC<BellhopContentProps> = ({
+const BellhopHeader: React.FC<BellhopHeaderProps> = ({
   listTitle = "",
   ...props
 }) => {
@@ -52,4 +52,4 @@ const BellhopContent: React.FC<BellhopContentProps> = ({
     </div>
   )
 }
-export { BellhopContent }
+export { BellhopHeader }

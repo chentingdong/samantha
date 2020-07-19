@@ -1,4 +1,4 @@
-// bellCagalog.tsx
+// bellCatalog.tsx
 import { gql } from "@apollo/client"
 import { bellFragment } from "operations/fragments/bell"
 

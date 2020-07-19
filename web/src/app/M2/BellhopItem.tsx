@@ -4,16 +4,13 @@ import { Button } from "components/Button"
 
 import { UI_STATE } from "../../operations/queries/uiState"
 import { setUiState } from "../../operations/mutations/setUiState"
-import { useQuery, useSubscription } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 
-interface BellhopThumbnailProps {
+interface BellhopProps {
   bellhop: Bellhop
 }
 
-const BellhopThumbnail: React.FC<BellhopThumbnailProps> = ({
-  bellhop,
-  ...props
-}) => {
+const BellhopThumbnail: React.FC<BellhopProps> = ({ bellhop, ...props }) => {
   const {
     data: { uiState },
     loading,
@@ -24,10 +21,6 @@ const BellhopThumbnail: React.FC<BellhopThumbnailProps> = ({
       currentBellhopId: bellhop.id,
     })
   }
-
-  // useEffect(() => {
-  //   console.log(uiState?.currentBellhopId)
-  // }, [uiState.currentBellhopId])
 
   if (loading) return <>Loading</>
 

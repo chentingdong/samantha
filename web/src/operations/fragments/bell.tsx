@@ -1,6 +1,6 @@
 import { gql } from "@apollo/client"
 
-const bellFragment = gql`
+const bellFragmentM1 = gql`
   fragment bellFragment on bells {
     id
     name
@@ -34,4 +34,19 @@ const bellFragment = gql`
     }
   }
 `
+
+const bellFragment = gql`
+  fragment bellFragment on bells {
+    id
+    name
+    description
+    state
+    context
+    created_at
+    last_updated
+    last_updated
+    root_block_id
+  }
+`
+
 export { bellFragment }

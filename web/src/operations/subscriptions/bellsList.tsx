@@ -2,9 +2,9 @@
 import { gql } from "@apollo/client"
 import { bellFragment } from "operations/fragments/bell"
 
-export const BELL_CATALOG = gql`
-  query bellCatalog {
-    bells(order_by: { started_at: desc_nulls_first }) {
+export const BELLS_LIST = gql`
+  subscription bells {
+    bells(order_by: { started_at: desc }) {
       ...bellFragment
     }
   }

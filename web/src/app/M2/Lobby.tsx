@@ -4,11 +4,9 @@ import { AUTH_USER } from "operations/queries/authUser"
 import { REQUESTS_RECEIVED } from "operations/subscriptions/requestsReceived"
 import { Loader, PanelGroup, Panel } from "rsuite"
 import { Error } from "components/Misc"
-import { BlockDef } from "models/interface"
-import { LobbyBell } from "./LobbyBell"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-
+import { BellListCard } from "./BellList"
 export interface LobbyProps {}
 
 const LobbyRaw: React.FC<LobbyProps> = () => {
@@ -49,26 +47,10 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
     <div className="container m-auto">
       <PanelGroup accordion>
         <Panel header="Needs Your Attention" defaultExpanded>
-          <div
-            className={
-              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 px-16 py-10"
-            }
-          >
-            {bellsMine.blocks.map((block: BlockDef, index: number) => (
-              <LobbyBell whose="mine" key={block.id} block={block} />
-            ))}
-          </div>
+          <BellListCard bells={bellsMine.blocks} whose="mine" />
         </Panel>
         <Panel header="Your Other Active Bells" defaultExpanded>
-          <div
-            className={
-              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-12 p-16 py-10"
-            }
-          >
-            {bellsOthers.blocks.map((block: BlockDef, index: number) => (
-              <LobbyBell whose="others" key={block.id} block={block} />
-            ))}
-          </div>
+          <BellListCard bells={bellsOthers.blocks} whose="company" />
         </Panel>
       </PanelGroup>
     </div>

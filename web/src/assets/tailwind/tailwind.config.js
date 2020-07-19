@@ -69,7 +69,7 @@ module.exports = {
       sm: "0.125rem",
       default: "0.375rem",
       md: "0.75rem",
-      lg: "1.25rem",
+      "lg": "1.25rem",
       full: "9999px",
     },
     maxWidth: {
