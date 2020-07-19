@@ -20,6 +20,8 @@ export const MagicWord: React.FC<MagicWordProps> = ({
   className = "",
   ...props
 }) => {
+  if (process.env.NODE_ENV === "production") return <></>
+
   const charList = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
   const heightClass = () => {
     return show ? "h-auto" : "h-0"
@@ -32,6 +34,7 @@ export const MagicWord: React.FC<MagicWordProps> = ({
     if (wordStream === showWord) setShow(true)
     else if (wordStream === hideWord) setShow(false)
   }
+
   return (
     <div
       className={`overflow-hidden transition duration-1000 ${heightClass()} ${className}`}

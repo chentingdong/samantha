@@ -59,6 +59,9 @@ const config = {
       },
     },
   },
+  keyboard: {
+    magic: false,
+  },
 }
 
 export default config

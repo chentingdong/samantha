@@ -5,6 +5,7 @@ import { Button } from "components/Button"
 import { useQuery } from "@apollo/client"
 import { BELL_CATALOG } from "operations/queries/bellCagalog"
 import { BlockDef, Bell } from "models/interface"
+import { TODO } from "components/TODO"
 
 export interface BellCatalogListProps {}
 
@@ -65,6 +66,7 @@ const BellCatalogList: React.FC<BellCatalogListProps> = (props) => {
       </div>
       <div className="flex flex-row-reverse p-4 px-8 my-4 border-t-2 clear-both">
         <Pagination className="" pages={5} activePage={1} />
+        <TODO>update page</TODO>
       </div>
     </div>
   )
