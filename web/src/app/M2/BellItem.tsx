@@ -8,6 +8,7 @@ import { stringHashBucket } from "utils/common"
 import { Placeholder } from "rsuite"
 import { usersToString } from "utils/user"
 import { Button } from "components/Button"
+import { setUiState } from "../../operations/mutations/setUiState"
 
 export interface BellRawProps {
   bell: Bell
@@ -62,6 +63,10 @@ export interface BellRowProps {
 }
 
 const BellRow: React.FC<BellRowProps> = ({ bell }) => {
+  const startBell = (bell) => {
+    console.log(bell.id)
+    setUiState({ currentBellId: bell.id })
+  }
   return (
     <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
       <li className="self-center break-all col-span-2">
@@ -71,7 +76,11 @@ const BellRow: React.FC<BellRowProps> = ({ bell }) => {
         {bell.description || <Placeholder.Paragraph rows={1} />}
       </li>
       <li className="flex flex-row-reverse self-center col-span-1">
-        <Button color="secondary" className="fill">
+        <Button
+          color="secondary"
+          className="fill"
+          onClick={(e) => startBell(bell)}
+        >
           Start
         </Button>
       </li>

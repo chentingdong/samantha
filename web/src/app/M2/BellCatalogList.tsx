@@ -16,7 +16,6 @@ const BellCatalogList: React.FC<BellListProps> = (props) => {
   const initialCounts = 3
   const [showMore, setShowMore] = useState(false)
   const numberItems = showMore ? bells.length : initialCounts
-
   if (loading) return <Loader speed="fast" content="Loading..." />
   if (error) return <Error message={error.message} />
   if (!bells) return <></>

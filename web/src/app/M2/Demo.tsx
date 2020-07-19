@@ -3,6 +3,7 @@ import { MainMenu } from "./MainMenu"
 import { Lobby } from "./Lobby"
 import { CompanyBellDesk } from "./CompanyBellDesk"
 import { MyBellDesk } from "./MyBellDesk"
+import { GoalNavigator } from "./GoalNavigator"
 import "../../../dist/tailwind/tailwind.generated.css"
 
 export interface DemoProps {}
@@ -16,10 +17,11 @@ export const Demo: React.FC<DemoProps> = () => {
         active={active}
         onSelect={(activeKey) => setActive(activeKey)}
       />
-      <div>
+      <div className="relative">
         {active === "lobby" && <Lobby />}
         {active === "companyBellDesk" && <CompanyBellDesk />}
         {active === "myBellDesk" && <MyBellDesk />}
+        <GoalNavigator className="" />
       </div>
     </div>
   )

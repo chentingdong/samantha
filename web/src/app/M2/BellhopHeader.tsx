@@ -1,11 +1,9 @@
 import * as React from "react"
 import { setUiState } from "../../operations/mutations/setUiState"
-import { UI_STATE } from "../../operations/queries/uiState"
-import { useQuery, useSubscription } from "@apollo/client"
 import { CircleImage } from "components/CircleImage"
 import { Button } from "components/Button"
 import { Error } from "../../components/Misc"
-import { Loader } from "rsuite"
+import { Loader, Icon } from "rsuite"
 import { TODO } from "components/TODO"
 
 interface BellhopHeaderProps {
@@ -16,25 +14,18 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
   listTitle = "",
   ...props
 }) => {
-  const {
-    data: { uiState },
-    loading,
-    error,
-  } = useQuery(UI_STATE)
-
   const unsetCurrentBellhop = () => {
     setUiState({
       currentBellhopId: null,
     })
   }
 
-  if (loading) return <Loader speed="fast" content="Loading..." />
-  if (error) return <Error message={error.message} />
   return (
     <div {...props}>
       <div className="container m-auto">
         <Button color="primary" className="fill" onClick={unsetCurrentBellhop}>
-          {listTitle}
+          <Icon icon="left" />
+          <span className="ml-2">{listTitle}</span>
         </Button>
       </div>
       <div className="w-full p-8 bg-gray-300">

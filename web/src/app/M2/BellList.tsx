@@ -31,7 +31,7 @@ const BellListCard: React.FC<BellListProps> = ({
       <div {...props}>
         <h5 className="py-2 border-b-2">Running Bells</h5>
         <ViewMore showMore={showMore} setShowMore={setShowMore} />
-        <div className="h-auto px-8 transition-height duration-500 ease-in-out grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="h-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {bells?.slice(0, numberItems).map((bell) => {
             return <BellCard bell={bell} key={bell.id} whose={whose} />
           })}
