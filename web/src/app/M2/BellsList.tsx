@@ -1,16 +1,13 @@
 import React, { useState } from "react"
 import { Loader, Placeholder, Pagination, Icon } from "rsuite"
 import { Error } from "components/Misc"
-import { Button } from "components/Button"
 import { useQuery } from "@apollo/client"
 import { BELLS_LIST } from "operations/queries/bellsList"
 import { Bell } from "models/interface"
 import { Card } from "components/Card"
 import moment from "moment"
 
-export interface BellsListProps {
-  listTitle: string
-}
+export interface BellsListProps {}
 
 export interface BellsListItem {
   bell: Bell
@@ -29,7 +26,7 @@ const BellsListItem: React.FC<BellsListItem> = ({ bell }) => {
   )
 }
 
-const BellsList: React.FC<BellsListProps> = ({ listTitle = "", ...props }) => {
+const BellsList: React.FC<BellsListProps> = (props) => {
   const { loading, error, data } = useQuery(BELLS_LIST)
 
   const initialCounts = 5

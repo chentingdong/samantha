@@ -57,7 +57,6 @@ const DraftControlledInput: React.FC<DraftControlledInputType> = ({
   if (!data) return <></>
   const { draftBlock } = data.uiState
 
-  /* TODO: Rewrite the following properly? */
   return (
     <Input
       rows={5}

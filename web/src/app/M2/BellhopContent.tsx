@@ -7,6 +7,7 @@ import { Button } from "components/Button"
 import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
 import { BellCatalogList } from "./BellCatalogList"
+import { TODO } from "components/TODO"
 
 interface BellhopContentProps {
   listTitle: string
@@ -42,22 +43,13 @@ const BellhopContent: React.FC<BellhopContentProps> = ({
           <div className="flex-1 m-auto">
             <h5>Engineers</h5>
             <p className="p-4">
-              Building cool product{" "}
-              <span className="TODO">TODO: bellhop need description field</span>
+              Building cool product <TODO>bellhop need description field</TODO>
             </p>
           </div>
           <div className="flex-none">
             <CircleImage className="border-2" alt="image" src="/dist/eng.png" />
           </div>
         </div>
-      </div>
-
-      <div className="container mx-auto mt-8">
-        <div className="TODO">
-          TODO: load bell is_definition=true on current bellhop id:{" "}
-          <i>{uiState.currentBellhopId}</i>
-        </div>
-        <BellCatalogList />
       </div>
     </div>
   )

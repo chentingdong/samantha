@@ -8,11 +8,11 @@ import { useQuery, useSubscription } from "@apollo/client"
 import { UI_STATE } from "../../operations/queries/uiState"
 import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
-
+import { BellCatalogList } from "./BellCatalogList"
+import { TODO } from "components/TODO"
 interface MyBellDeskProps {}
 
 const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
-  // TODO write up query for bellhop list, with fiters
   // const { loading, error, data } = useQuery(Bellhop)
   // const [bellhops, setBellhops] = useState(testingBellhopList)
   const bellhops = testingBellhopList
@@ -32,6 +32,14 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
       )}
       {uiState.currentBellhopId && <BellhopContent listTitle={listTitle} />}
+
+      <div className="container mx-auto mt-8">
+        <TODO>
+          TODO: load bell is_definition=true on current bellhop id:{" "}
+          <i>{uiState.currentBellhopId}</i>
+        </TODO>
+        <BellCatalogList />
+      </div>
       {uiState.currentBellhopId && <BellsList />}
     </div>
   )
