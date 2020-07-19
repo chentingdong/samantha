@@ -30,7 +30,6 @@ export const MagicWord: React.FC<MagicWordProps> = ({
   const addToStream = (key) => {
     wordStream += key
     if (wordStream.length > 4) wordStream = wordStream.substring(1)
-    console.log(wordStream)
     if (wordStream === showWord) setShow(true)
     else if (wordStream === hideWord) setShow(false)
   }

@@ -28,7 +28,6 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
 
   return (
     <div className="">
-      <TODO> write up subscription for bellhop list, with fiters</TODO>
       {!uiState.currentBellhopId && (
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
       )}
