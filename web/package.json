@@ -167,6 +167,7 @@
     "react-hot-loader": "^4.12.20",
     "react-icons": "^3.10.0",
     "react-is": "^16.13.1",
+    "react-keyboard-event-handler": "^1.5.4",
     "react-particles-js": "^3.2.1",
     "react-progressbar": "^15.4.1",
     "react-rating": "^2.0.5",

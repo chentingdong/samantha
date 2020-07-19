@@ -1,0 +1,46 @@
+// connect a word like "todo" as keyboard magic sequence.
+import * as React from "react"
+import KeyboardEventHandler from "react-keyboard-event-handler"
+
+interface MagicWordProps {
+  // Type showWord to show
+  showWord: string
+  // Type hideWord to hide
+  hideWord: string
+  show: boolean
+  setShow: (boolean) => void
+  className?: string
+}
+
+export const MagicWord: React.FC<MagicWordProps> = ({
+  showWord,
+  hideWord,
+  show = false,
+  setShow,
+  className = "",
+  ...props
+}) => {
+  const charList = "abcdefghijklmnopqrstuvwxyz0123456789".split("")
+  const heightClass = () => {
+    return show ? "h-auto" : "h-0"
+  }
+  let wordStream = ""
+  const addToStream = (key) => {
+    wordStream += key
+    if (wordStream.length > 4) wordStream = wordStream.substring(1)
+    console.log(wordStream)
+    if (wordStream === showWord) setShow(true)
+    else if (wordStream === hideWord) setShow(false)
+  }
+  return (
+    <div
+      className={`overflow-hidden transition duration-1000 ${heightClass()} ${className}`}
+    >
+      <span>{props.children}</span>
+      <KeyboardEventHandler
+        handleKeys={charList}
+        onKeyEvent={(key, e) => addToStream(key)}
+      ></KeyboardEventHandler>
+    </div>
+  )
+}
