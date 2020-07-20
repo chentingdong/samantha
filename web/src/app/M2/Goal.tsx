@@ -4,10 +4,10 @@ import { Icon } from "rsuite"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { goalData } from "../../../data/goal"
+import { setUiState } from "../../operations/mutations/setUiState"
 interface GoalProps {
   block: Bell
 }
-import { setUiState } from "../../operations/mutations/setUiState"
 
 const GoalRaw: React.FC<GoalProps> = ({ block, ...props }) => {
   const countCompletedTasks = () => {

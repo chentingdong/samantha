@@ -23,7 +23,7 @@ export const Demo: React.FC<DemoProps> = () => {
         {active === "companyBellDesk" && <CompanyBellDesk />}
         {active === "myBellDesk" && <MyBellDesk />}
         <GoalNavigator className="" />
-        <GoalNotification className="absolute top-0 w-full h-screen lef-0 bg-default" />
+        <GoalNotification className="absolute top-0 z-20 w-screen h-screen lef-0 bg-default" />
       </div>
     </div>
   )
