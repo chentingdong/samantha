@@ -19,6 +19,7 @@ export interface Bell {
   last_updated: Date
   started_at: Date
   root_block_id: string
+  blocks: Block[]
 }
 
 export interface Bellhop {

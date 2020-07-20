@@ -16,7 +16,7 @@ export interface BellRawProps {
   className?: string
 }
 
-const BellRaw: React.FC<BellRawProps> = ({
+const BellCardRaw: React.FC<BellRawProps> = ({
   bell,
   whose,
   className,
@@ -27,7 +27,7 @@ const BellRaw: React.FC<BellRawProps> = ({
   return (
     <div className={`${className} rounded-lg`}>
       <div className={`${bellColor} card-header`}>
-        <h5 className="">{bell.name || <Placeholder.Paragraph rows={1} />}</h5>
+        <h3 className="">{bell.name || <Placeholder.Paragraph rows={1} />}</h3>
         <div>{moment(bell.createdAt).format("MM/DD hh:mm:ss")}</div>
         <div>by</div>
       </div>
@@ -45,7 +45,7 @@ const BellRaw: React.FC<BellRawProps> = ({
     </div>
   )
 }
-const BellCard = styled(BellRaw)`
+const BellCard = styled(BellCardRaw)`
   & {
     ${tw`bg-gray-200 overflow-hidden`}
     .card-header,
@@ -88,4 +88,4 @@ const BellRow: React.FC<BellRowProps> = ({ bell }) => {
   )
 }
 
-export { BellRaw, BellCard, BellRow }
+export { BellCardRaw, BellCard, BellRow }

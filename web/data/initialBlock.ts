@@ -9,7 +9,6 @@ const initialBlock: BlockOrDef = {
   description: "",
   type: "ParallelAll",
   control: {},
-  context: {},
   state: "Created",
   props: {},
   root: null,
@@ -20,4 +19,5 @@ const initialBlock: BlockOrDef = {
   created_at: new Date(),
   last_updated: new Date(),
 }
+
 export { initialBlock }

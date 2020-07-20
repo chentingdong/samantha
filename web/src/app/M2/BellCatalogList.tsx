@@ -22,14 +22,14 @@ const BellCatalogList: React.FC<BellListProps> = (props) => {
 
   return (
     <div {...props}>
-      <h5 className="pt-4 border-b-2">Start a bell</h5>
+      <h3 className="pt-4">Start a bell</h3>
       <ViewMore showMore={showMore} setShowMore={setShowMore} />
       <div className="h-auto transition-height duration-500 ease-in-out">
         {bells.slice(0, numberItems).map((bell: Bell) => {
           return <BellRow bell={bell} key={bell.id} />
         })}
       </div>
-      <div className="p-4 px-8 my-4 text-right border-t-2 clear-both">
+      <div className="p-4 px-8 my-4 text-right border-t-1 clear-both">
         <Pagination className="" pages={5} activePage={1} />
         <TODO position="right">pagination update page (M2 UI only)</TODO>
       </div>

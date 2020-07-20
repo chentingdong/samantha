@@ -1,6 +1,5 @@
 import { Bell } from "../src/models/interface"
 import { nanoid } from "nanoid"
-
 const initialBell: Bell = {
   id: nanoid(),
   name: "",
@@ -20,6 +19,40 @@ const initialBell: Bell = {
   last_updated: new Date(),
   started_at: new Date(),
   root_block_id: "",
+}
+const testingBell: Bell = {
+  id: "1234",
+  name: "New Feature Request",
+  description: "All purpose requests must go through this process",
+  bellhop_owner_id: "",
+  bellhop_initiator_id: "",
+  user_initiator_id: "",
+  context: {},
+  inputs: "",
+  outputs: "",
+  state: "",
+  is_definition: false,
+  private: false,
+  menu_order: 0,
+  can_act_as_subbell: false,
+  created_at: new Date(),
+  last_updated: new Date(),
+  started_at: new Date(),
+  root_block_id: "",
+  blocks: [
+    {
+      id: nanoid(),
+      local_id: nanoid(),
+      bell_id: "asdf",
+      type: "ParallelAll",
+      state: "Created",
+      is_definition: true,
+      configs: "",
+      created_at: new Date(),
+      last_updated: new Date(),
+      started_at: new Date(),
+    },
+  ],
 }
 
 const testingBellList: Bell[] = [
@@ -42,6 +75,7 @@ const testingBellList: Bell[] = [
     last_updated: new Date(),
     started_at: new Date(),
     root_block_id: "",
+    blocks: [],
   },
   {
     id: nanoid(),
@@ -62,6 +96,7 @@ const testingBellList: Bell[] = [
     last_updated: new Date(),
     started_at: new Date(),
     root_block_id: "",
+    blocks: [],
   },
 ]
-export { initialBell, testingBellList }
+export { initialBell, testingBell, testingBellList }

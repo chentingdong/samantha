@@ -38,7 +38,11 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
         <>
           <BellhopHeader listTitle={listTitle} />
           <BellCatalogList className="container m-auto" />
-          <BellListCard className="container m-auto" bells={bells} />
+          <BellListCard
+            className="container m-auto"
+            listTitle={listTitle}
+            bells={bells}
+          />
         </>
       )}
     </div>

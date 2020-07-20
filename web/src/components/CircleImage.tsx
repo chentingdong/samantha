@@ -3,22 +3,18 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 
 interface CircleImageProps {
-  src: string
+  src?: string
 }
 
 const CircleImageRaw: React.FC<CircleImageProps> = ({
   src = null,
   ...props
 }) => {
-  return (
-    <figure {...props}>
-      <img src={src} alt="" />
-    </figure>
-  )
+  return <figure {...props}>{src && <img src={src} alt="" />}</figure>
 }
 
 const CircleImage = styled(CircleImageRaw)`
-  ${tw`m-0 p-0 w-32 h-32 bg-blue-500 border-2 mr-64`}
+  ${tw`m-0 p-0 w-32 h-32 bg-blue-500 border-2`}
   border-radius: 50%;
   min-width: 0;
   overflow: hidden;

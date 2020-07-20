@@ -29,7 +29,7 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
   })
 
   if (loadingMine || loadingOthers)
-    return <Loader speed="fast" content="Loading..." />
+    return <Loader className="container" speed="fast" content="Loading..." />
 
   if (errorMine || errorOthers)
     return (

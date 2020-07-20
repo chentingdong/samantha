@@ -31,12 +31,16 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
       <div className="w-full p-8 bg-gray-300">
         <div className="container flex m-auto">
           <div className="flex-1 m-auto">
-            <h5>Engineers</h5>
+            <h3>Engineers</h3>
             <TODO>bellhop need description field</TODO>
             <div className="p-4">Building cool product</div>
           </div>
           <div className="flex-none">
-            <CircleImage className="border-2" alt="image" src="/dist/eng.png" />
+            <CircleImage
+              className="mr-64 border-2"
+              alt="image"
+              src="/dist/eng.png"
+            />
           </div>
         </div>
       </div>
