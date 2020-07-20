@@ -66,10 +66,10 @@ module.exports = {
     },
     borderRadius: {
       none: "0",
-      sm: "0.125rem",
-      default: "0.25rem",
-      md: "0.375rem",
-      lg: "1.5rem",
+      sm: "0.5rem",
+      default: "1rem",
+      md: "1.5rem",
+      lg: "3rem",
       full: "9999px",
     },
     maxWidth: {

@@ -1,4 +1,5 @@
 //GoalNavigator.tsx
+// Bell Home / Goal Navigator
 // A goal is a list of tasks in a bell, which can have multiple goals.
 
 import React, { useEffect, useState } from "react"

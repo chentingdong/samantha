@@ -31,7 +31,7 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
   }
 
   return (
-    <div className="px-8 py-4 border-gray-800 rounded-lg grid grid-cols-5 border-1">
+    <div className="taskCard grid grid-cols-5 ">
       <main className="col-span-5 lg:col-span-3 ">
         <div className="align-middle">
           <h4 className="inline-block">{bell.name}</h4>
@@ -76,9 +76,18 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
       <aside className="col-span-5 lg:col-span-2">
         <h5 className="my-8 text-center">Recent Activity</h5>
         <div className="activities grid grid-cols-3">
-          <div className="activity">{goalData.notifications.length}</div>
-          <div className="activity">{goalData.chatMessages.length}</div>
-          <div className="activity">{goalData.documents.length}</div>
+          <div className="activity grid grid-rows-2">
+            <div className="circle">{goalData.notifications.length}</div>
+            <label>Bellhop Notifications</label>
+          </div>
+          <div className="activity grid grid-rows-2">
+            <div className="circle">{goalData.chatMessages.length}</div>
+            <label>Chat & Collab</label>
+          </div>
+          <div className="activity grid grid-rows-2">
+            <div className="circle">{goalData.documents.length}</div>
+            <label>Documents & Artigacts</label>
+          </div>
         </div>
       </aside>
     </div>
@@ -86,23 +95,25 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
 }
 
 const GoalStyle = styled.div.attrs({
-  className: "",
+  className: "px-8 py-4 border-gray-800 rounded-lg border-1",
 })`
   & {
     main {
       ${tw`border-r-0 lg:border-r-2 border-b-2 lg:border-b-0 border-gray-300`}
     }
-    aside {
-
-    }
     .activities {
-      ${tw`items-center px-4 mx-auto my-8 `}
-    }
-    .activity {
-      ${tw`flex items-center justify-center p-0 mx-auto`}
-      ${tw`border-gray-500 rounded-full border-2`}
-      ${tw`w-20 sm:w-32 md:w-32 lg:w-24 xl:w-32`}
-      ${tw`h-20 sm:h-32 md:h-32 lg:h-24 xl:h-32`}
+      ${tw`items-center content-center`}
+      .activity {
+        .circle {
+          ${tw`flex self-start mx-auto items-center justify-center `}
+          ${tw`border-gray-500 rounded-full border-2`}
+          ${tw`w-20 sm:w-32 md:w-32 lg:w-24 xl:w-32`}
+          ${tw`h-20 sm:h-32 md:h-32 lg:h-24 xl:h-32`}
+        }
+        label {
+          ${tw`w-32 self-end m-auto block text-center`}
+        }
+      }
     }
   }
 `
