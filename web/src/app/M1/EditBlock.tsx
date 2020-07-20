@@ -4,7 +4,7 @@ import { BLOCKS_BY_PK } from "../../operations/queries/blockByPk"
 import { useForm } from "react-hook-form"
 import { UPDATE_ONE_BLOCK } from "../../operations/mutations/updateOneBlock"
 import { Action } from "../../controls/Action"
-import { initialBlock } from "../../../data/initialBlock"
+import { initialBlock } from "../../../data/block"
 import { Assignment } from "./Assignment"
 import { FormValidationMessage } from "components/FormValidationMessage"
 

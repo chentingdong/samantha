@@ -1,6 +1,6 @@
 // used by react context store, which is used by src/themes
 
-export default {
+export const state = {
   isAuthenticated: false,
   user: {},
   users: [],

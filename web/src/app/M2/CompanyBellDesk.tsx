@@ -1,6 +1,6 @@
 // CompanyBellDesk.tsx
 import React, { useState } from "react"
-import { testingBellhopList } from "../../../data/initialBellhop"
+import { testingBellhopList } from "../../../data/bellhop"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellhopHeader } from "./BellhopHeader"
 import { useQuery, useSubscription } from "@apollo/client"

@@ -11,6 +11,7 @@ export const UI_STATE = gql`
       currentBellhopId
       currentBellId
       currentBlockId
+      showNotification
     }
   }
 `

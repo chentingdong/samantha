@@ -1,6 +1,6 @@
 // MyBellDesk.tsx
 import React, { useState } from "react"
-import { testingBellhopList } from "../../../data/initialBellhop"
+import { testingBellhopList } from "../../../data/bellhop"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellListCard } from "./BellList"
 import { BellhopHeader } from "./BellhopHeader"

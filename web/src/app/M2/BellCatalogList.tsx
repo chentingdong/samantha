@@ -8,6 +8,7 @@ import { TODO } from "components/TODO"
 import { ViewMore } from "components/ViewMore"
 import { BellRow } from "./BellItem"
 import { BellListProps } from "./BellList"
+import { GoalNotification } from "./GoalNotification"
 
 const BellCatalogList: React.FC<BellListProps> = (props) => {
   const { loading, error, data } = useSubscription(BELL_CATALOG, {})
@@ -33,6 +34,7 @@ const BellCatalogList: React.FC<BellListProps> = (props) => {
         <Pagination className="" pages={5} activePage={1} />
         <TODO position="right">pagination update page (M2 UI only)</TODO>
       </div>
+      <GoalNotification />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { uiStateVar } from "../../cache"
 import { UiState } from "../../models/interface"
-import { initialBlock } from "../../../data/initialBlock"
+import { initialBlock } from "../../../data/block"
 
 const setUiState = (incoming: any, reset = false) => {
   const oldUiState = uiStateVar()

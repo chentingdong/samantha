@@ -1,7 +1,7 @@
 // GoalWorkingIndex.tsx
 // Goal working view secondary menu and navigate through 3 views
 import React, { useState } from "react"
-import { goalData } from "../../../data/initialGoal"
+import { goalData } from "../../../data/goal"
 import { Nav, Navbar, FlexboxGrid, Dropdown } from "rsuite"
 
 interface GoalWorkingIndexProps {}

@@ -1,3 +1,5 @@
+import { notifications } from "./notification"
+
 export const goalData = {
   name: "Gather facilities purchase request details",
   owner: {
@@ -14,7 +16,7 @@ export const goalData = {
       bellhops: ["Facilities"],
     },
   ],
-  notifications: ["notification 1", "notification 2", "notification 3"],
+  notifications: notifications,
   chatMessages: [
     { from: "user 1", to: "user 2", timestamp: new Date() },
     { from: "user 2", to: "user 1", timestamp: new Date() },

@@ -73,11 +73,12 @@ export interface UiState {
   showEditor?: boolean
   draftBlock?: BlockOrDef
   showBellEditor?: boolean
+  editorMode?: EditMode
+  editingTypename?: Typename
   currentBellhopId?: string
   currentBellId?: string
   currentBlockId?: string
-  editorMode?: EditMode
-  editingTypename?: Typename
+  showNotification: boolean
 }
 
 // for postgres many to many relationship

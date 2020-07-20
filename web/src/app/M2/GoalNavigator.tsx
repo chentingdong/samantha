@@ -8,7 +8,7 @@ import { useQuery, useLazyQuery } from "@apollo/client"
 import { BELLS_BY_PK } from "operations/queries/bellByPk"
 import { Icon } from "rsuite"
 import { TODO } from "components/TODO"
-import { initialBell, testingBell } from "../../../data/initialBell"
+import { initialBell, testingBell } from "../../../data/bell"
 import { Button } from "components/Button"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { Goal } from "./Goal"
@@ -59,8 +59,7 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
             </Button>
 
             <div className="p-8 align-baseline">
-              <h3>{bell.name}</h3>
-              <TODO>delete this: {uiState.currentBellId}</TODO>
+              <h3>{bell?.name || "goal name"}</h3>
               <div>
                 <span>From: </span>
                 <span> BellOwnerName </span>
@@ -70,8 +69,8 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
               </div>
             </div>
 
-            {bell.blocks?.map((block) => {
-              return <Goal bell={bell} key={bell.id} />
+            {bell?.blocks?.map((block) => {
+              return <Goal block={block} key={bell.id} />
             })}
             <TODO>find bellhop by bell</TODO>
           </div>

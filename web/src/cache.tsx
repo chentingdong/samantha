@@ -1,8 +1,8 @@
 import { InMemoryCache, ReactiveVar } from "@apollo/client"
 import { User, UiState, BlockOrDef } from "./models/interface"
 import { EditMode, Typename } from "./models/enum"
-import { initialBlock } from "../data/initialBlock"
-import { initialUser } from "../data/initialUser"
+import { initialBlock } from "../data/block"
+import { initialUser } from "../data/user"
 
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
@@ -34,4 +34,5 @@ export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   currentBellhopId: "",
   currentBellId: "",
   currentBlockId: "",
+  showNotification: false,
 })

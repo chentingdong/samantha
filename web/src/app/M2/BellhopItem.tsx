@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
 import { Bellhop } from "models/interface"
 import { Button } from "components/Button"
-
 import { UI_STATE } from "../../operations/queries/uiState"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { useQuery } from "@apollo/client"

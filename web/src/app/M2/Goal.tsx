@@ -3,12 +3,13 @@ import { Bell } from "models/interface"
 import { Icon } from "rsuite"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { goalData } from "../../../data/initialGoal"
+import { goalData } from "../../../data/goal"
 interface GoalProps {
-  bell: Bell
+  block: Bell
 }
+import { setUiState } from "../../operations/mutations/setUiState"
 
-const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
+const GoalRaw: React.FC<GoalProps> = ({ block, ...props }) => {
   const countCompletedTasks = () => {
     const completedTasks = goalData.tasks.filter((task) =>
       ["Success", "Failure"].includes(task.state)
@@ -34,7 +35,7 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
     <div className="taskCard grid grid-cols-5 ">
       <main className="col-span-5 lg:col-span-3 ">
         <div className="align-middle">
-          <h4 className="inline-block">{bell.name}</h4>
+          <h4 className="inline-block">{block.name}</h4>
           <span className="px-2">({goalData.owner.bellhops.join(",")})</span>
           <span className="underline">
             {goalData.participants.length} Participants
@@ -77,7 +78,12 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
         <h5 className="my-8 text-center">Recent Activity</h5>
         <div className="activities grid grid-cols-3">
           <div className="activity grid grid-rows-2">
-            <div className="circle">{goalData.notifications.length}</div>
+            <div
+              className="circle"
+              onClick={(e) => setUiState({ showNotification: true })}
+            >
+              {goalData.notifications.length}
+            </div>
             <label>Bellhop Notifications</label>
           </div>
           <div className="activity grid grid-rows-2">
@@ -86,7 +92,7 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
           </div>
           <div className="activity grid grid-rows-2">
             <div className="circle">{goalData.documents.length}</div>
-            <label>Documents & Artigacts</label>
+            <label>Documents & Artifacts</label>
           </div>
         </div>
       </aside>
@@ -95,18 +101,19 @@ const GoalRaw: React.FC<GoalProps> = ({ bell, ...props }) => {
 }
 
 const GoalStyle = styled.div.attrs({
-  className: "px-8 py-4 border-gray-800 rounded-lg border-1",
+  className: "p-8 border-gray-800 rounded-lg border-1",
 })`
   & {
     main {
-      ${tw`border-r-0 lg:border-r-2 border-b-2 lg:border-b-0 border-gray-300`}
+      ${tw`border-r-0 lg:border-r-2 border-b-2 lg:border-b-0`}
     }
     .activities {
       ${tw`items-center content-center`}
       .activity {
         .circle {
-          ${tw`flex self-start mx-auto items-center justify-center `}
-          ${tw`border-gray-500 rounded-full border-2`}
+          ${tw`flex self-start mx-auto items-center justify-center`}
+          ${tw`hover:bg-gray-300 active:bg-gray-100 cursor-pointer`}
+          ${tw`rounded-full border-2`}
           ${tw`w-20 sm:w-32 md:w-32 lg:w-24 xl:w-32`}
           ${tw`h-20 sm:h-32 md:h-32 lg:h-24 xl:h-32`}
         }
@@ -118,10 +125,10 @@ const GoalStyle = styled.div.attrs({
   }
 `
 
-const Goal: React.FC<GoalProps> = ({ bell, ...props }) => {
+const Goal: React.FC<GoalProps> = ({ block, ...props }) => {
   return (
     <GoalStyle>
-      <GoalRaw bell={bell} {...props} />
+      <GoalRaw block={block} {...props} />
     </GoalStyle>
   )
 }
