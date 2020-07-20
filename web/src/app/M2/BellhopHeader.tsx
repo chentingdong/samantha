@@ -39,7 +39,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
             <CircleImage
               className="mr-64 border-2"
               alt="image"
-              src="/dist/eng.png"
+              src="src/assets/img/bellhops/eng.png"
             />
           </div>
         </div>

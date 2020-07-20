@@ -1,42 +1,39 @@
-import React from "react"
-import { Placeholder } from "rsuite"
-
 const notifications = [
   {
     from: "Bellhop",
     to: "Tingdong Chen",
     created_at: new Date(),
-    content: <Placeholder.Paragraph rows={3} />,
+    content: "Bellhop said this",
   },
   {
     from: "Tingdong Chen",
     to: "Bellhop",
     created_at: new Date(),
-    content: <Placeholder.Paragraph row={3} />,
+    content: "I said this",
   },
   {
     from: "Bellhop",
     to: "Tingdong Chen",
     created_at: new Date(),
-    content: <Placeholder.Paragraph row={3} />,
+    content: "Bellhop said this",
   },
   {
     from: "Tingdong Chen",
     to: "Bellhop",
     created_at: new Date(),
-    content: <Placeholder.Paragraph row={3} />,
+    content: null,
   },
   {
     from: "Bellhop",
     to: "Tingdong Chen",
     created_at: new Date(),
-    content: <Placeholder.Paragraph row={3} />,
+    content: null,
   },
   {
     from: "Tingdong Chen",
     to: "Bellhop",
     created_at: new Date(),
-    content: <Placeholder.Paragraph row={3} />,
+    content: "I said this",
   },
 ]
 
