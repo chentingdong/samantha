@@ -27,7 +27,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   hasura:
-    image: hasura/graphql-engine:v1.2.2
+    image: hasura/graphql-engine:v1.3.0
     container_name: samantha-hasura
     restart: always
     depends_on:

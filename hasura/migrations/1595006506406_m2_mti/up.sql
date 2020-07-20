@@ -142,13 +142,3 @@ ALTER TABLE ONLY m2.form_tasks
 ALTER TABLE ONLY m2.form_tasks
     ADD CONSTRAINT form_tasks_user_requestor_id_fkey FOREIGN KEY (user_requestor_id) REFERENCES m2.users(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 
-INSERT INTO m2.block_state (state, comment) VALUES ('Created', NULL);
-INSERT INTO m2.block_state (state, comment) VALUES ('Running', NULL);
-INSERT INTO m2.block_state (state, comment) VALUES ('Success', NULL);
-INSERT INTO m2.block_state (state, comment) VALUES ('Failure', NULL);
-INSERT INTO m2.block_type (type, category) VALUES ('Sequence', 'Control');
-INSERT INTO m2.block_type (type, category) VALUES ('Parallel', 'Control');
-INSERT INTO m2.block_type (type, category) VALUES ('FormTask', 'Task');
-INSERT INTO m2.block_type (type, category) VALUES ('APIExecutor', 'Executor');
-INSERT INTO m2.block_type (type, category) VALUES ('BellExecutor', 'Executor');
-INSERT INTO m2.block_type (type, category) VALUES ('Decorator', 'Decorator');
