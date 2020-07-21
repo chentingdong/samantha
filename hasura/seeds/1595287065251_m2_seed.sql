@@ -24,6 +24,7 @@ INSERT INTO m2.participation_roles (role, attribute) VALUES ('bell_owner', NULL)
 INSERT INTO m2.participation_roles (role, attribute) VALUES ('task_requestor', NULL);
 INSERT INTO m2.participation_roles (role, attribute) VALUES ('task_follower', NULL);
 INSERT INTO m2.participation_roles (role, attribute) VALUES ('bell_follower', NULL);
-INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_111918078641246610063', 'Baiji He', NULL, NULL, NULL, NULL);
-INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_115419186368884878540', 'Tingdong Chen', NULL, NULL, NULL, NULL);
-INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_109551792009621810100', 'Adam Hiatt', NULL, NULL, NULL, NULL);
+INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_111918078641246610063', 'Baiji He', 'bhe@bellhop.io', 'Baiji', 'He', 'https://lh3.googleusercontent.com/a-/AOh14Ghb68OwaaY2L8jaT0shFyIHT4ZaukDMnyPyUCnY=s96-c');
+INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_115419186368884878540', 'Tingdong Chen', 'tchen@bellhop.io', 'Chen', 'Tingdong', 'https://lh3.googleusercontent.com/a-/AOh14GiewYead-zagD_r1jSjTcZ4QCoIW9GQoc_Bzb3m=s96-c');
+INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_109551792009621810100', 'Adam Hiatt', 'ahiatt@bellhop.io', 'Hiatt', 'Adam', 'https://lh6.googleusercontent.com/-c-UyBv5uH2E/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn0pRn1sP_ehaZlcruXojR5zShqFA/s96-c/photo.jpg');
+INSERT INTO m2.users (id, name, email, family_name, given_name, picture) VALUES ('Google_113132363560941198349', 'Ben Werther', 'bwerther@bellhop.io', 'Werther', 'Ben', 'https://lh3.googleusercontent.com/a-/AOh14GiBUMCJtUOa3-tU490ZvIEDVrq93riaTc-iWg9P=s96-c');
