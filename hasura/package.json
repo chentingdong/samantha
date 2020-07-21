@@ -43,6 +43,7 @@
     "start": "node dist/index.js",
     "hasura:migrate": "hasura --skip-update-check migrate apply",
     "hasura:metadata": "hasura --skip-update-check metadata apply",
+    "hasura:seeds": "hasura --skip-update-check seeds apply",
     "hasura:pre": "sed -i -e 's/http:\\/\\/server:3000/http:\\/\\/localhost:3000/g' metadata/tables.yaml",
     "test": "jest --silent"
   }

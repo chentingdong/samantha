@@ -3,7 +3,7 @@
     {
       "command": ["graphql-engine", "serve"],
       "essential": true,
-      "image": "hasura/graphql-engine:v1.2.2",
+      "image": "hasura/graphql-engine:v1.3.0",
       "name": "hasura",
       "cpu": 512,
       "memory": 1024,
@@ -41,7 +41,7 @@
       "command": [
         "sh",
         "-c",
-        "yarn hasura:pre && yarn hasura:migrate && yarn hasura:metadata && yarn start"
+        "hasura update-cli && yarn hasura:pre && yarn hasura:migrate && yarn hasura:seeds && yarn hasura:metadata && yarn start"
       ],
       "essential": true,
       "image": "${SERVER_IMAGE}",
