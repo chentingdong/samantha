@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { MainMenu } from "./MainMenu"
 import { Lobby } from "./Lobby"
 import { CompanyBellDesk } from "./CompanyBellDesk"
@@ -7,6 +7,7 @@ import { GoalNavigator } from "./GoalNavigator"
 import "../../../dist/tailwind/tailwind.generated.css"
 import { GoalNotification } from "./GoalNotification"
 import { resetUiState } from "operations/mutations/setUiState"
+import { injectRsuiteStyle } from "../../utils/styles"
 
 export interface DemoProps {}
 
@@ -16,6 +17,8 @@ export const Demo: React.FC<DemoProps> = () => {
     resetUiState()
     setActive(activeKey)
   }
+  injectRsuiteStyle("bell")
+
   return (
     <div className="p-0 m-0 theme-bell max-w-screen-2xl min-w-500">
       <MainMenu active={active} onSelect={onSelect} />

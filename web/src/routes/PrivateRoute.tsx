@@ -1,10 +1,12 @@
-import * as React from "react"
-import { Route, Redirect } from "react-router-dom"
+import React from "react"
+import { Route } from "react-router-dom"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"
+import { Redirect } from "components/Redirect"
 
 export default function PrivateRoute({ component: Component, ...rest }) {
   const { data } = useQuery(AUTH_USER)
+
   return (
     <Route
       {...rest}
@@ -13,7 +15,7 @@ export default function PrivateRoute({ component: Component, ...rest }) {
         return data?.authUser?.isAuthenticated ? (
           <Component {...props} />
         ) : (
-          <Redirect to={`/login?redirect=${redirect}`} />
+          <Redirect to={`/login?redirect=${redirect}`} delay={3000} />
         )
       }}
     />

@@ -15,11 +15,11 @@ const Login = () => {
   }, [theme])
 
   return (
-    <div className="grid grid-cols-6 h-screen">
-      <div className="col-start-3 col-end-5 my-auto">
+    <div className="h-screen grid grid-cols-6">
+      <div className="my-auto col-start-3 col-end-5">
         <img src={logo} alt="" className="max-h-16" />
         <Button
-          className="with-google btn px-4 py-2 mt-4 w-full text-2xl text-gray-500 hover:text-gray-300 bg-gray-900 hover:bg-gray-700"
+          className="w-full px-4 py-2 mt-4 text-2xl text-gray-500 bg-gray-900 with-google btn hover:text-gray-300 hover:bg-gray-700"
           onClick={() =>
             Auth.federatedSignIn({
               provider: CognitoHostedUIIdentityProvider.Google,
@@ -29,7 +29,7 @@ const Login = () => {
           Login with Google
         </Button>
         <Button
-          className="hosted-ui btn px-4 py-2 mt-4 w-full text-2xl text-gray-500 hover:text-gray-300 bg-gray-900 hover:bg-gray-700"
+          className="w-full px-4 py-2 mt-4 text-2xl text-gray-500 bg-gray-900 hosted-ui btn hover:text-gray-300 hover:bg-gray-700"
           onClick={() => Auth.federatedSignIn()}
         >
           Open Hosted UI

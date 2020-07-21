@@ -34,7 +34,7 @@ const routes = [
   },
 ]
 
-function Routes() {
+const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
