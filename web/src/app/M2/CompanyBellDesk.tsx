@@ -1,5 +1,5 @@
 // CompanyBellDesk.tsx
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import { testingBellhopList } from "../../../data/bellhop"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellhopHeader } from "./BellhopHeader"

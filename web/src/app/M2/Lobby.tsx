@@ -7,6 +7,7 @@ import { Error } from "components/Misc"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { BellListCard } from "./BellList"
+
 export interface LobbyProps {}
 
 const LobbyRaw: React.FC<LobbyProps> = () => {

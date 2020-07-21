@@ -31,8 +31,8 @@ export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   editorMode: EditMode.Create,
   editingTypename: Typename.blocks,
   draftBlock: initialBlock,
-  currentBellhopId: "",
-  currentBellId: "",
-  currentBlockId: "",
+  currentBellhopId: null,
+  currentBellId: null,
+  currentBlockId: null,
   showNotification: false,
 })

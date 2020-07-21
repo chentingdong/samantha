@@ -15,4 +15,14 @@ const setUiState = (incoming: any, reset = false) => {
   uiStateVar(newUiState)
 }
 
-export { setUiState }
+const resetUiState = () => {
+  const states = {
+    currentBellhopId: null,
+    currentBellId: null,
+    currentBlockId: null,
+    showNotification: null,
+  }
+  setUiState(states)
+}
+
+export { setUiState, resetUiState }

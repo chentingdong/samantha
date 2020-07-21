@@ -25,7 +25,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   } = useQuery(AUTH_USER)
 
   return (
-    <div className="show-grid" {...props}>
+    <div className="z-30 show-grid" {...props}>
       <FlexboxGrid justify="space-between">
         <img
           className={"logo bell m-3 h-8"}
@@ -70,6 +70,10 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   )
 }
 
-const MainMenu = styled(MainMenuRaw)``
+const MainMenu = styled(MainMenuRaw)`
+  .rs-dropdown-menu {
+    z-index: 100;
+  }
+`
 
 export { MainMenu }

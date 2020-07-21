@@ -10,7 +10,7 @@ import { BELLS_LIST } from "operations/subscriptions/bellsList"
 import { Error } from "../../components/Misc"
 import { Loader } from "rsuite"
 import { BellCatalogList } from "./BellCatalogList"
-import { TODO } from "components/TODO"
+
 interface MyBellDeskProps {}
 
 const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
