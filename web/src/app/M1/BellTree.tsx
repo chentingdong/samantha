@@ -10,6 +10,7 @@ import { useSubscription } from "@apollo/client"
 import { GET_BLOCK } from "../../operations/subscriptions/getBlock"
 import { statusMap } from "components/StateBar"
 import styled from "styled-components"
+import { dateFormat } from "utils/common"
 
 const BellTreeRaw = ({ bell }) => {
   const rootBlockId = bell.block.id
@@ -63,7 +64,7 @@ const BellTreeRaw = ({ bell }) => {
 
     return (
       <Card
-        className="card shadow"
+        className="shadow card"
         style={{ width: "180px", height: "120px" }}
         onClick={() => onClick(nodeData)}
       >
@@ -72,9 +73,7 @@ const BellTreeRaw = ({ bell }) => {
           {nodeData.name}
         </div>
         <div className="card-body">
-          <div>
-            Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
-          </div>
+          <div>Created at: {moment(nodeData.createdAt).format(dateFormat)}</div>
           <div>Responders: {nodeData.responders}</div>
           <div>State: {nodeData.state}</div>
         </div>

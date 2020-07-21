@@ -8,6 +8,7 @@ import { Icon } from "rsuite"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import moment from "moment"
+import { dateFormat } from "utils/common"
 import { setUiState } from "../../operations/mutations/setUiState"
 
 export interface GoalNotificationProps {
@@ -43,7 +44,7 @@ const GoalNotificationRaw: React.FC<GoalNotificationProps> = ({
                   <div className="message">
                     <span>{notification.from} at </span>
                     <span className="mx-2">
-                      {moment(notification.created_at).format("MM/DD hh:mm:ss")}
+                      {moment(notification.created_at).format(dateFormat)}
                     </span>
                     <div>
                       {notification.content ||

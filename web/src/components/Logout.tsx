@@ -33,7 +33,7 @@ const Logout: React.SFC<LogoutProps> = (props) => {
 
   return (
     <div {...props}>
-      <span onClick={confirm}>Logout</span>
+      <span onClick={confirm}>Sign Out</span>
       <Confirm
         show={showConfirm}
         setShow={setShowConfirm}

@@ -59,7 +59,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
               <div>Admin Console</div>
             </Dropdown.Item>
             <Dropdown.Item>
-              <div>Profile Setting</div>
+              <div>Profile Settings</div>
             </Dropdown.Item>
           </Dropdown>
         </Navbar>

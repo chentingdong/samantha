@@ -17,7 +17,7 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
   // const { loading, error, data } = useQuery(Bellhop)
   // const [bellhops, setBellhops] = useState(testingBellhopList)
   const bellhops = testingBellhopList.slice(1, 3)
-  const listTitle = "My Bellhops"
+  const listTitle = "Running Bells"
   const {
     data: { uiState },
   } = useQuery(UI_STATE)

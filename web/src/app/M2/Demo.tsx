@@ -10,7 +10,7 @@ import { GoalNotification } from "./GoalNotification"
 export interface DemoProps {}
 
 export const Demo: React.FC<DemoProps> = () => {
-  const [active, setActive] = useState("companyBellDesk")
+  const [active, setActive] = useState("lobby")
 
   return (
     <div className="p-0 m-0 theme-bell max-w-screen-2xl min-w-500">

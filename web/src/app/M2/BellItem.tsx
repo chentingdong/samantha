@@ -4,7 +4,7 @@ import moment from "moment"
 import { Bell } from "models/interface"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { stringHashBucket } from "utils/common"
+import { stringHashBucket, dateFormat } from "utils/common"
 import { Placeholder } from "rsuite"
 import { usersToString } from "utils/user"
 import { Button } from "components/Button"
@@ -27,9 +27,11 @@ const BellCardRaw: React.FC<BellRawProps> = ({
   return (
     <div className={`${className} rounded-lg`}>
       <div className={`${bellColor} card-header`}>
-        <h3 className="">{bell.name || <Placeholder.Paragraph rows={1} />}</h3>
-        <div>{moment(bell.createdAt).format("MM/DD hh:mm:ss")}</div>
-        <div>by</div>
+        <h5 className="mb-2 overflow-hidden truncate">
+          {bell.name || <Placeholder.Paragraph rows={1} />}
+        </h5>
+        <div>{moment(bell.createdAt).format(dateFormat)}</div>
+        <div>Started by [bell.started_by]</div>
       </div>
       {whose === "mine" && (
         <div className="relative w-auto m-6 bg-white border bg-none border-light rounded-md h-36">

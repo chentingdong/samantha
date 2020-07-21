@@ -6,6 +6,7 @@ import { Card } from "../../components/Card"
 import moment from "moment"
 import { Icon } from "rsuite"
 import { setUiState } from "../../operations/mutations/setUiState"
+import { dateFormat } from "utils/common"
 
 function BlockTree({ data }) {
   const treeContainer = useRef()
@@ -52,7 +53,7 @@ function BlockTree({ data }) {
   const NodeLabel = ({ nodeData }) => {
     return (
       <Card
-        className="card border text-xs"
+        className="text-xs border card"
         style={{ width: "180px", height: "120px" }}
         onClick={(e) => onClick(nodeData)}
       >
@@ -61,9 +62,7 @@ function BlockTree({ data }) {
           {nodeData.name}
         </div>
         <div className="card-body">
-          <div>
-            Created at: {moment(nodeData.createdAt).format("MM/DD hh:mm:ss")}
-          </div>
+          <div>Created at: {moment(nodeData.createdAt).format(dateFormat)}</div>
           <div>Responders: {nodeData.responders}</div>
           <div>State: {nodeData.state}</div>
         </div>

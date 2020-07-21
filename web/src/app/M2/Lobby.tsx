@@ -46,10 +46,18 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
   return (
     <div className="container m-auto">
       <PanelGroup accordion>
-        <Panel header="Needs Your Attention" defaultExpanded>
+        <Panel
+          header={<h4 className="border-b">Needs Your Attention</h4>}
+          defaultExpanded
+        >
           <BellListCard bells={bellsMine.blocks} whose="mine" />
         </Panel>
-        <Panel header="Your Other Active Bells" defaultExpanded>
+      </PanelGroup>
+      <PanelGroup accordion>
+        <Panel
+          header={<h4 className="border-b">Your Other Active Bells</h4>}
+          defaultExpanded
+        >
           <BellListCard bells={bellsOthers.blocks} whose="company" />
         </Panel>
       </PanelGroup>
@@ -61,11 +69,8 @@ const Lobby = styled(LobbyRaw)`
   .rs-panel-collapsible > .rs-panel-heading {
     ${tw`border-b border-gray-300 px-0`}
   }
-  .rs-panel-group .rs-panel {
-    ${tw`border-b-none`}
-  }
-  .rs-panel-group .rs-panel + .rs-panel::before {
-    border-top: none;
+  .rs-panel-group .rs-panel::before,
+    border: none !important
   }
 `
 export { Lobby }

@@ -55,7 +55,7 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
               color="primary"
               onClick={clearCurrentBellId}
             >
-              <Icon icon="left" /> Back
+              <Icon icon="left" /> {bell.bellhop_owner_id || "Facilities"}
             </Button>
 
             <div className="p-8 align-baseline">

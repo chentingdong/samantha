@@ -4,4 +4,5 @@ const stringHashBucket = (str: string, N: number) => {
   return stringHash(str) % N
 }
 
-export { stringHashBucket }
+const dateFormat = "MMM DD, YYYY h:mma"
+export { stringHashBucket, dateFormat }

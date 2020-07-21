@@ -23,21 +23,25 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
   return (
     <div {...props}>
       <div className="container m-auto">
-        <Button color="primary" className="fill" onClick={unsetCurrentBellhop}>
+        <Button
+          color="primary"
+          className="mb-8 fill"
+          onClick={unsetCurrentBellhop}
+        >
           <Icon icon="left" />
           <span className="ml-2">{listTitle}</span>
         </Button>
       </div>
-      <div className="w-full p-8 bg-gray-300">
+      <div className="w-full p-4 bg-gray-300">
         <div className="container flex m-auto">
           <div className="flex-1 m-auto">
             <h3>Engineers</h3>
             <TODO>bellhop need description field</TODO>
-            <div className="p-4">Building cool product</div>
+            <div className="p-4">Building cool product!</div>
           </div>
-          <div className="flex-none">
+          <div className="flex-none mr-4">
             <CircleImage
-              className="mr-64 border-2"
+              className="mr-4 border-2"
               alt="image"
               src="src/assets/img/bellhops/eng.png"
             />
