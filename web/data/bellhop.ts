@@ -15,7 +15,8 @@ const testingBellhopList: Bellhop[] = [
     id: nanoid(),
     name: "Engineering & Product",
     metadata: "",
-    profile_image_url: "src/assets/img/bellhops/eng.png",
+    profile_image_url:
+      "https://samantha-assets.s3.amazonaws.com/images/eng.png",
     created_at: new Date(),
     updated_at: new Date(),
   },
@@ -23,7 +24,8 @@ const testingBellhopList: Bellhop[] = [
     id: nanoid(),
     name: "Facilities",
     metadata: "",
-    profile_image_url: "src/assets/img/bellhops/facilities.png",
+    profile_image_url:
+      "https://samantha-assets.s3.amazonaws.com/images/facilities.png",
     created_at: new Date(),
     updated_at: new Date(),
   },
@@ -31,7 +33,8 @@ const testingBellhopList: Bellhop[] = [
     id: nanoid(),
     name: "Finance",
     metadata: "",
-    profile_image_url: "src/assets/img/bellhops/finance.png",
+    profile_image_url:
+      "https://samantha-assets.s3.amazonaws.com/images/finance.png",
     created_at: new Date(),
     updated_at: new Date(),
   },
@@ -39,7 +42,8 @@ const testingBellhopList: Bellhop[] = [
     id: nanoid(),
     name: "Marketing",
     metadata: "",
-    profile_image_url: "src/assets/img/bellhops/marketing.png",
+    profile_image_url:
+      "https://samantha-assets.s3.amazonaws.com/images/marketing.png",
     created_at: new Date(),
     updated_at: new Date(),
   },
@@ -47,7 +51,8 @@ const testingBellhopList: Bellhop[] = [
     id: nanoid(),
     name: "Purchasing",
     metadata: "",
-    profile_image_url: "src/assets/img/bellhops/purchasing.png",
+    profile_image_url:
+      "https://samantha-assets.s3.amazonaws.com/images/purchasing.png",
     created_at: new Date(),
     updated_at: new Date(),
   },

@@ -25,7 +25,7 @@ const BellCardRaw: React.FC<BellRawProps> = ({
   const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}`
 
   return (
-    <div className={`${className} rounded-lg`}>
+    <div className={`${className} rounded-lg text-sm`}>
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
           {bell.name || <Placeholder.Paragraph rows={1} />}

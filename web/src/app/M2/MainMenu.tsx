@@ -40,7 +40,6 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           </Nav>
         </Navbar>
         <Navbar className="bg-default">
-          <Logout className="inline-block p-2 px-3 cursor-pointer" />
           <Dropdown
             className="p-0 account"
             noCaret
@@ -55,6 +54,8 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
             }
             {...props}
           >
+            <Logout className="inline-block p-2 px-3 cursor-pointer" />
+
             <Dropdown.Item>
               <div>Admin Console</div>
             </Dropdown.Item>
