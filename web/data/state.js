@@ -34,5 +34,7 @@ export const state = {
     currentBellhopId: "",
     currentBellId: "",
     currentBlockId: "",
+    runningBellId: "",
+    showNotification: "",
   },
 }

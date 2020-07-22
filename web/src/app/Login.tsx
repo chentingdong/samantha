@@ -8,6 +8,7 @@ import { injectRsuiteStyle, getLogoByTheme } from "../utils/styles"
 
 const Login = () => {
   const theme = "bell"
+
   Amplify.configure(config)
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Login = () => {
         src={getLogoByTheme("bell")}
         alt="Bellhop"
       />
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+      <div className="text-center">
         <div className="m-auto my-64 inner col-span-1 md:col-start-2 lg:col-start-3">
           <Button
             className="w-full h-10 p-0 rounded-full"
@@ -40,7 +41,7 @@ const Login = () => {
             </div>
           </Button>
           <Button
-            className="w-full h-10 p-0 rounded-full"
+            className="hidden w-full h-10 p-0 rounded-full"
             onClick={() => Auth.federatedSignIn()}
           >
             <Icon

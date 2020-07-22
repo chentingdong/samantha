@@ -78,6 +78,7 @@ export interface UiState {
   currentBellhopId?: string
   currentBellId?: string
   currentBlockId?: string
+  runningBellId?: string
   showNotification: boolean
 }
 

@@ -23,6 +23,7 @@ const routes = [
     component: DemoM2,
     tag: PrivateRoute,
   },
+
   {
     path: ["/login", "/logout"],
     component: Login,

@@ -22,10 +22,18 @@ const BellCardRaw: React.FC<BellRawProps> = ({
   className,
   ...props
 }) => {
-  const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}`
+  const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}` || "bg-bell"
+
+  const runTheBell = () => {
+    setUiState({ runningBellId: bell.id }, true)
+  }
 
   return (
-    <div className={`${className} rounded-lg text-sm`}>
+    <div
+      className={`${className} rounded-lg text-sm van-gogh`}
+      {...props}
+      onClick={runTheBell}
+    >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
           {bell.name || <Placeholder.Paragraph rows={1} />}
@@ -43,13 +51,13 @@ const BellCardRaw: React.FC<BellRawProps> = ({
           </div>
         </div>
       )}
-      <div className="m-2 card-footer">Facilities</div>
+      <div className="m-2 text-lg card-footer">Facilities</div>
     </div>
   )
 }
 const BellCard = styled(BellCardRaw)`
   & {
-    ${tw`bg-gray-200 overflow-hidden`}
+    ${tw`bg-gray-200 overflow-hidden cursor-pointer`}
     .card-header,
     .card-body,
     .card-footer {
@@ -65,28 +73,29 @@ export interface BellRowProps {
 }
 
 const BellRow: React.FC<BellRowProps> = ({ bell }) => {
-  const startBell = (bell) => {
-    console.log(bell.id)
+  const startTheBell = (bell) => {
     setUiState({ currentBellId: bell.id })
   }
   return (
-    <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
-      <li className="self-center break-all col-span-2">
-        {bell.name || <Placeholder.Paragraph rows={1} />}
-      </li>
-      <li className="self-center break-all col-span-4">
-        {bell.description || <Placeholder.Paragraph rows={1} />}
-      </li>
-      <li className="flex flex-row-reverse self-center col-span-1">
-        <Button
-          color="secondary"
-          className="fill"
-          onClick={(e) => startBell(bell)}
-        >
-          Start
-        </Button>
-      </li>
-    </ul>
+    bell && (
+      <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
+        <li className="self-center break-all col-span-2">
+          {bell.name || <Placeholder.Paragraph rows={1} />}
+        </li>
+        <li className="self-center break-all col-span-4">
+          {bell.description || <Placeholder.Paragraph rows={1} />}
+        </li>
+        <li className="flex flex-row-reverse self-center col-span-1">
+          <Button
+            color="secondary"
+            className="fill"
+            onClick={(e) => startTheBell(bell)}
+          >
+            Start
+          </Button>
+        </li>
+      </ul>
+    )
   )
 }
 

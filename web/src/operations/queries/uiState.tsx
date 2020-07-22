@@ -10,6 +10,7 @@ export const UI_STATE = gql`
       showBellEditor
       currentBellhopId
       currentBellId
+      runningBellId
       currentBlockId
       showNotification
     }

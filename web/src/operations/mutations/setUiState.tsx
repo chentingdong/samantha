@@ -20,6 +20,7 @@ const resetUiState = () => {
     currentBellhopId: null,
     currentBellId: null,
     currentBlockId: null,
+    runningBellId: null,
     showNotification: null,
   }
   setUiState(states)

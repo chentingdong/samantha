@@ -14,7 +14,7 @@ const CircleImageRaw: React.FC<CircleImageProps> = ({
 }
 
 const CircleImage = styled(CircleImageRaw)`
-  ${tw`m-0 p-0 w-24 h-24 bg-blue-500 border-2`}
+  ${tw`m-0 p-0 w-24 h-24 bg-blue-500`}
   border-radius: 50%;
   min-width: 0;
   overflow: hidden;

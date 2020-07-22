@@ -8,6 +8,7 @@ import { useMutation } from "@apollo/client"
 import { setAuthUser } from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
 import LogRocket from "logrocket"
+import { injectRsuiteStyle } from "utils/styles"
 
 const App = (any) => {
   const [upsertUser] = useMutation(UPSERT_USER)
@@ -66,6 +67,8 @@ const App = (any) => {
       }
     })
   }, [])
+
+  injectRsuiteStyle("bell")
 
   return (
     <div className="h-full font-sans">

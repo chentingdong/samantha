@@ -1,9 +1,9 @@
+/* App Themes global variables, keep lean. */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 @tailwind screens;
 
-/* App Themes global variables, keep lean. */
 .theme-bell {
   --color-text-default: theme("colors.black");
   --color-bg-default: theme("colors.white");
@@ -43,38 +43,6 @@
   --color-bg-error: theme("colors.red.500");
 }
 
-/* bellhop tailwind theming classnames */
-.bg-bell,
-.bg-bell-0 {
-  background: #ecc94b;
-}
-.bg-bell-1 {
-  background: #a4cf30;
-}
-.bg-bell-2 {
-  background: #62d26f;
-}
-.bg-bell-3 {
-  background: #37c5ab;
-}
-.bg-bell-4 {
-  background: #20aaea;
-}
-.bg-bell-5 {
-  background: #7a6ff0;
-}
-.bg-bell-6 {
-  background: #7a6ff0;
-}
-.bg-bell-7 {
-  background: #aa62e3;
-}
-.bg-bell-8 {
-  background: #ea4e9d;
-}
-.bg-bell-9 {
-  background: #fc91ad;
-}
 .text-default {
   color: var(--color-text-default);
 }
@@ -114,6 +82,7 @@
 .TODO {
   color: theme("colors.orange.500");
 }
+
 /* element theming */
 * {
   transition: background-color 0.3s ease;
@@ -196,6 +165,74 @@ input[type="number"]:focus,
 textarea:focus {
   outline: none;
 }
+
+/* Bells */
+/* van gogh's pallette */
+.bg-bell,
+.bg-bell-0 {
+  background: rgb(238, 226, 114);
+}
+.bg-bell-1 {
+  background: rgb(248, 196, 91);
+}
+.bg-bell-2 {
+  background: rgb(247, 124, 7);
+}
+.bg-bell-3 {
+  background: rgb(185, 237, 2);
+}
+.bg-bell-4 {
+  background: rgb(90, 126, 65);
+}
+.bg-bell-5 {
+  background: rgb(25, 116, 65);
+}
+.bg-bell-6 {
+  background: rgb(190, 125, 45);
+}
+.bg-bell-7 {
+  background: rgba(231, 90, 14, 0.7);
+}
+.bg-bell-8 {
+  background: rgb(0, 211, 213);
+}
+.bg-bell-9 {
+  background: rgba(49, 69, 219, 0.7);
+}
+
+/* asana.com colors */
+
+/* .bg-bell,
+.bg-bell-0 {
+  background: #ecc94b;
+}
+.bg-bell-1 {
+  background: #a4cf30;
+}
+.bg-bell-2 {
+  background: #62d26f;
+}
+.bg-bell-3 {
+  background: #37c5ab;
+}
+.bg-bell-4 {
+  background: #20aaea;
+}
+.bg-bell-5 {
+  background: #7a6ff0;
+}
+.bg-bell-6 {
+  background: #7a6ff0;
+}
+.bg-bell-7 {
+  background: #aa62e3;
+}
+.bg-bell-8 {
+  background: #ea4e9d;
+}
+.bg-bell-9 {
+  background: #fc91ad;
+} */
 
 /********************/
 /* Storybook themes */

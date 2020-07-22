@@ -21,44 +21,38 @@ const GoalNotificationRaw: React.FC<GoalNotificationProps> = ({
 }) => {
   const {
     data: { uiState },
-    loading,
   } = useQuery(UI_STATE)
 
   return (
-    <>
-      {uiState.showNotification && (
-        <div className={className}>
-          <div className={`container mx-auto`} {...props}>
-            <div
-              className="float-right p-2 overflow-hidden rounded-full cursor-pointer hover:bg-gray-300 active:bg-gray-100"
-              onClick={(e) => setUiState({ showNotification: false })}
-            >
-              <Icon className="text-2xl " icon="close" />
-            </div>
-            {notifications?.map((notification, index) => {
-              return (
-                <div
-                  key={index}
-                  className={notification.from === "Bellhop" ? "others" : "me"}
-                >
-                  <div className="message">
-                    <span>{notification.from} at </span>
-                    <span className="mx-2">
-                      {moment(notification.created_at).format(dateFormat)}
-                    </span>
-                    <div>
-                      {notification.content ||
-                        "missing notification content..."}
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
-            <input type="text" />
-          </div>
+    <div className={className}>
+      <div className={`container mx-auto`} {...props}>
+        <div
+          className="float-right p-2 overflow-hidden rounded-full cursor-pointer hover:bg-gray-300 active:bg-gray-100"
+          onClick={(e) => setUiState({ showNotification: false })}
+        >
+          <Icon className="text-2xl " icon="close" />
         </div>
-      )}
-    </>
+        {notifications?.map((notification, index) => {
+          return (
+            <div
+              key={index}
+              className={notification.from === "Bellhop" ? "others" : "me"}
+            >
+              <div className="message">
+                <span>{notification.from} at </span>
+                <span className="mx-2">
+                  {moment(notification.created_at).format(dateFormat)}
+                </span>
+                <div>
+                  {notification.content || "missing notification content..."}
+                </div>
+              </div>
+            </div>
+          )
+        })}
+        <input type="text" />
+      </div>
+    </div>
   )
 }
 

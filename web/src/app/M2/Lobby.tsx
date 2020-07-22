@@ -32,7 +32,7 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
   if (loadingMine || loadingOthers)
     return (
       <Loader
-        className="w-full text-center"
+        className="w-full my-64 text-center"
         speed="fast"
         content="Loading..."
       />

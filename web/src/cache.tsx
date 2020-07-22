@@ -34,5 +34,6 @@ export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   currentBellhopId: null,
   currentBellId: null,
   currentBlockId: null,
+  runningBellId: null,
   showNotification: false,
 })
