@@ -41,7 +41,7 @@
       "command": [
         "sh",
         "-c",
-        "hasura update-cli && yarn hasura:pre && yarn hasura:migrate && yarn hasura:seeds && yarn hasura:metadata && yarn start"
+        "hasura update-cli && yarn hasura:pre && yarn hasura:migrate && yarn hasura:metadata && yarn start"
       ],
       "essential": true,
       "image": "${SERVER_IMAGE}",

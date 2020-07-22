@@ -2,11 +2,7 @@ import { getBlocks } from "../queries/getBlocks"
 import { getBlockByPk } from "../queries/getBlockByPk"
 import { insertBlock } from "../mutations/insertBlock"
 import { deleteBlockByPk } from "../mutations/deleteBlockByPk"
-import {
-  createRandomSequenceDefInput,
-  createRandomFormTaskDefInput,
-  createRandomGoalExecutorDefInput,
-} from "./utils"
+import { createRandomSequenceDefInput } from "./utils"
 
 describe("GraphQL", () => {
   describe("blocks", () => {
