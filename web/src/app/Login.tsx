@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import Amplify, { Auth } from "aws-amplify"
 import config from "../../configs/config.js"
-import logo from "../assets/img/bellhop.png"
 import { Button } from "../components/Button"
-import { injectRsuiteStyle } from "../utils/styles"
+import { Icon } from "rsuite"
 import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
+import { injectRsuiteStyle, getLogoByTheme } from "../utils/styles"
 
 const Login = () => {
   const theme = "bell"
@@ -15,25 +15,43 @@ const Login = () => {
   }, [theme])
 
   return (
-    <div className="h-screen grid grid-cols-6">
-      <div className="my-auto col-start-3 col-end-5">
-        <img src={logo} alt="" className="max-h-16" />
-        <Button
-          className="w-full px-4 py-2 mt-4 text-2xl text-gray-500 bg-gray-900 with-google btn hover:text-gray-300 hover:bg-gray-700"
-          onClick={() =>
-            Auth.federatedSignIn({
-              provider: CognitoHostedUIIdentityProvider.Google,
-            })
-          }
-        >
-          Login with Google
-        </Button>
-        <Button
-          className="w-full px-4 py-2 mt-4 text-2xl text-gray-500 bg-gray-900 hosted-ui btn hover:text-gray-300 hover:bg-gray-700"
-          onClick={() => Auth.federatedSignIn()}
-        >
-          Open Hosted UI
-        </Button>
+    <div className="h-screen">
+      <img
+        className={"logo bell m-3 h-8"}
+        src={getLogoByTheme("bell")}
+        alt="Bellhop"
+      />
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5">
+        <div className="m-auto my-64 inner col-span-1 md:col-start-2 lg:col-start-3">
+          <Button
+            className="w-full h-10 p-0 rounded-full"
+            onClick={() =>
+              Auth.federatedSignIn({
+                provider: CognitoHostedUIIdentityProvider.Google,
+              })
+            }
+          >
+            <Icon
+              icon="google"
+              className="float-left px-4 py-3 text-lg text-white bg-orange-500"
+            />
+            <div className="p-3 text-lg text-white bg-yellow-500">
+              Sign in with Google
+            </div>
+          </Button>
+          <Button
+            className="w-full h-10 p-0 rounded-full"
+            onClick={() => Auth.federatedSignIn()}
+          >
+            <Icon
+              icon="google"
+              className="float-left px-4 py-3 text-lg text-white bg-orange-500"
+            />
+            <div className="p-3 text-lg text-white bg-yellow-500">
+              Open Hosted UI
+            </div>
+          </Button>
+        </div>
       </div>
     </div>
   )

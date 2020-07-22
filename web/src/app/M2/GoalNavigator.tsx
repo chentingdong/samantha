@@ -47,7 +47,7 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
 
   return (
     <>
-      {uiState?.currentBellId && (
+      {uiState?.currentBellId && bell && (
         <div className="absolute top-0 z-10 w-screen h-screen bg-default">
           <div className="container m-auto my-8">
             <Button
