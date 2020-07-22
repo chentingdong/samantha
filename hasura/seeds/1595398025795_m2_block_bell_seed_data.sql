@@ -59,8 +59,8 @@ VALUES (
     '2020-07-20 22:00:06.802138+00',
     NULL,
     NULL,
-    1
-  );  
+    NULL
+  );
 INSERT INTO m2.blocks (
     id,
     local_id,
@@ -115,9 +115,8 @@ VALUES (
     '2020-07-20 22:01:10.36194+00',
     NULL,
     'fa2FrFUiBE_zjiYn4Bag3',
-    NULL
+    1
   );
-
 INSERT INTO m2.blocks (
     id,
     local_id,
@@ -204,7 +203,7 @@ VALUES (
     'fa2FrFUiBE_zjiYn4Bag3',
     'Facilities Purchase',
     true,
-    NULL,
+    '2jB_SkDO3vd9lLNObfm9_',
     1,
     '{}'
   );
