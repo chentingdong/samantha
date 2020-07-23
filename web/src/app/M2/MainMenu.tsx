@@ -7,7 +7,7 @@ import { Logout } from "components/Logout"
 import { BellSearch } from "./BellSearch"
 import { UserAvatar } from "components/UserAvatar"
 import { NavLink, useLocation } from "react-router-dom"
-import { setUiState } from "operations/mutations/setUiState"
+import { setUiState, resetUiState } from "operations/mutations/setUiState"
 import { UI_STATE } from "operations/queries/uiState"
 import { useQuery } from "@apollo/client"
 import tw from "tailwind.macro"
@@ -42,12 +42,15 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
     switch (location.pathname) {
       default:
       case "/lobby":
+        resetUiState()
         setUiState({ mainMenuActiveItem: "/lobby" })
         break
       case "/company-bell-desk":
+        resetUiState()
         setUiState({ mainMenuActiveItem: "/company-bell-desk" })
         break
       case "/my-bell-desk":
+        resetUiState()
         setUiState({ mainMenuActiveItem: "/my-bell-desk" })
         break
     }

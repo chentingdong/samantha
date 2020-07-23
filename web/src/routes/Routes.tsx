@@ -52,13 +52,6 @@ const routes = [
 ]
 
 const Routes = () => {
-  const {
-    data: { uiState },
-    loading,
-  } = useQuery(UI_STATE)
-
-  if (loading) return <>Loading...</>
-
   return (
     <BrowserRouter>
       <Switch>
