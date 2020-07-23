@@ -6,8 +6,6 @@ import Login from "../app/Login"
 import NotFound from "../app/NotFound"
 import { Demo as DemoM1 } from "../app/M1/Demo"
 import { Demo as DemoM2 } from "../app/M2/Demo"
-import { useQuery } from "@apollo/client"
-import { UI_STATE } from "operations/queries/uiState"
 
 const routes = [
   {
@@ -31,6 +29,16 @@ const routes = [
     tag: PrivateRoute,
   },
   {
+    path: "/bell/:id",
+    component: DemoM2,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/bellhop/:id",
+    component: DemoM2,
+    tag: PrivateRoute,
+  },
+  {
     path: "/m1",
     component: DemoM1,
     tag: PrivateRoute,
@@ -47,7 +55,7 @@ const routes = [
   },
   {
     component: NotFound,
-    tag: PublicRoute,
+    tag: PrivateRoute,
   },
 ]
 

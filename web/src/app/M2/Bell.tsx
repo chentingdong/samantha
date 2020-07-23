@@ -7,7 +7,7 @@ interface BellProps {
 
 export const Bell: React.FC<BellProps> = ({ className, ...props }) => {
   return (
-    <div>
+    <div className={className} {...props}>
       <h3>[Facilities Purchase Request][Facilities]</h3>
       <div className={`${className} grid grid-cols-3 lg:grid-cols-3`}>
         <div className="col-span-3 lg:col-span-2"></div>

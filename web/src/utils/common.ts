@@ -5,4 +5,6 @@ const stringHashBucket = (str: string, N: number) => {
 }
 
 const dateFormat = "MMM DD, YYYY h:mma"
-export { stringHashBucket, dateFormat }
+const dateFormatShort = "h:mma"
+
+export { stringHashBucket, dateFormat, dateFormatShort }

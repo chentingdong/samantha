@@ -2,11 +2,19 @@
  * customized 404 not found page.
  */
 import * as React from "react"
+import { injectRsuiteStyle, getLogoByTheme } from "../utils/styles"
 
-function NotFound() {
+const NotFound = () => {
+  injectRsuiteStyle("bell")
+
   return (
-    <div className="not-found m-auto col-4">
-      <h3>Sorry, page not found!</h3>
+    <div className="h-screen">
+      <img
+        className={"logo bell m-3 h-8"}
+        src={getLogoByTheme("bell")}
+        alt="Bellhop"
+      />
+      <h3 className="mt-64 text-center">Sorry, page not found!</h3>
     </div>
   )
 }
