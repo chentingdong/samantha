@@ -6,10 +6,27 @@ import Login from "../app/Login"
 import NotFound from "../app/NotFound"
 import { Demo as DemoM1 } from "../app/M1/Demo"
 import { Demo as DemoM2 } from "../app/M2/Demo"
+import { useQuery } from "@apollo/client"
+import { UI_STATE } from "operations/queries/uiState"
 
 const routes = [
   {
     path: "/",
+    component: DemoM2,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/lobby",
+    component: DemoM2,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/company-bell-desk",
+    component: DemoM2,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/my-bell-desk",
     component: DemoM2,
     tag: PrivateRoute,
   },
@@ -23,7 +40,6 @@ const routes = [
     component: DemoM2,
     tag: PrivateRoute,
   },
-
   {
     path: ["/login", "/logout"],
     component: Login,
@@ -36,6 +52,13 @@ const routes = [
 ]
 
 const Routes = () => {
+  const {
+    data: { uiState },
+    loading,
+  } = useQuery(UI_STATE)
+
+  if (loading) return <>Loading...</>
+
   return (
     <BrowserRouter>
       <Switch>

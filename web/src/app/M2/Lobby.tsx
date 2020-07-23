@@ -11,7 +11,7 @@ import { BellListCard } from "./BellList"
 export interface LobbyProps {}
 
 const LobbyRaw: React.FC<LobbyProps> = () => {
-  const { data: authUserResult } = useQuery(AUTH_USER)
+  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
 
   const {
     data: bellsMine,
@@ -29,7 +29,7 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
     variables: { userId: authUserResult?.authUser?.id },
   })
 
-  if (loadingMine || loadingOthers)
+  if (loadingUser || loadingMine || loadingOthers)
     return (
       <Loader
         className="w-full my-64 text-center"

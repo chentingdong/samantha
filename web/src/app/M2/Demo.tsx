@@ -7,35 +7,31 @@ import { GoalNavigator } from "./GoalNavigator"
 import { GoalNotification } from "./GoalNotification"
 import { Bell } from "./Bell"
 import { UI_STATE } from "operations/queries/uiState"
-import { resetUiState } from "operations/mutations/setUiState"
 import { useQuery } from "@apollo/client"
 
 export interface DemoProps {}
 
 export const Demo: React.FC<DemoProps> = () => {
-  const {
-    data: { uiState },
-  } = useQuery(UI_STATE)
-  const [active, setActive] = useState("lobby")
-  const onSelect = (activeKey) => {
-    resetUiState()
-    setActive(activeKey)
-  }
-
+  const { data, loading } = useQuery(UI_STATE)
+  if (loading) return <>Loading...</>
   return (
     <div className="p-0 m-0 theme-bell max-w-screen-2xl min-w-500">
-      <MainMenu className="md-8" active={active} onSelect={onSelect} />
+      <MainMenu className="md-8" />
       <div className="relative">
-        {active === "lobby" && <Lobby />}
-        {active === "companyBellDesk" && <CompanyBellDesk />}
-        {active === "myBellDesk" && <MyBellDesk />}
-        {uiState?.currentBellId && (
+        {data?.uiState?.mainMenuActiveItem === "/lobby" && <Lobby />}
+        {data?.uiState?.mainMenuActiveItem === "/company-bell-desk" && (
+          <CompanyBellDesk />
+        )}
+        {data?.uiState?.mainMenuActiveItem === "/my-bell-desk" && (
+          <MyBellDesk />
+        )}
+        {data?.uiState?.currentBellId && (
           <GoalNavigator className="w-screen h-screen bg-default" />
         )}
-        {uiState.showNotification && (
+        {data?.uiState.showNotification && (
           <GoalNotification className="w-screen h-screen lef-0 bg-default" />
         )}
-        {uiState?.runningBellId && (
+        {data?.uiState?.runningBellId && (
           <Bell className="w-screen h-screen lef-0 bg-default" />
         )}
       </div>

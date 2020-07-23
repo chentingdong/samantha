@@ -31,10 +31,10 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
 
   return (
     <div className="">
-      {!uiState.currentBellhopId && (
+      {!uiState?.currentBellhopId && (
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
       )}
-      {uiState.currentBellhopId && (
+      {uiState?.currentBellhopId && (
         <>
           <BellhopHeader listTitle={listTitle} />
           <BellCatalogList className="container m-auto" />

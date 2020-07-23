@@ -1,27 +1,18 @@
 import React, { useEffect } from "react"
 import { Bellhop } from "models/interface"
 import { Button } from "components/Button"
-import { UI_STATE } from "../../operations/queries/uiState"
-import { setUiState } from "../../operations/mutations/setUiState"
-import { useQuery } from "@apollo/client"
+import { setUiState } from "operations/mutations/setUiState"
 
 interface BellhopProps {
   bellhop: Bellhop
 }
 
 const BellhopThumbnail: React.FC<BellhopProps> = ({ bellhop, ...props }) => {
-  const {
-    data: { uiState },
-    loading,
-  } = useQuery(UI_STATE)
-
   const setCurrentBellhop = () => {
     setUiState({
       currentBellhopId: bellhop.id,
     })
   }
-
-  if (loading) return <>Loading</>
 
   return (
     <div className="relative h-32 overflow-hidden border lg:h-48 xl:h-64">

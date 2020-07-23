@@ -1,17 +1,21 @@
+import React, { useEffect } from "react"
 import { Nav, Navbar, FlexboxGrid, Dropdown } from "rsuite"
-import React from "react"
 import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
-import { useQuery } from "@apollo/client"
 import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
 import { BellSearch } from "./BellSearch"
 import { UserAvatar } from "components/UserAvatar"
+import { NavLink, useLocation } from "react-router-dom"
+import { setUiState } from "operations/mutations/setUiState"
+import { UI_STATE } from "operations/queries/uiState"
+import { useQuery } from "@apollo/client"
+import tw from "tailwind.macro"
 
 export interface MainMenuProps {
-  active: string
+  active?: string
   className?: string
-  onSelect: (activeKey: string) => void
+  onSelect?: (activeKey: string) => void
 }
 
 const MainMenuRaw: React.FC<MainMenuProps> = ({
@@ -23,6 +27,34 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   const {
     data: { authUser },
   } = useQuery(AUTH_USER)
+  const location = useLocation()
+  const {
+    data: { uiState },
+  } = useQuery(UI_STATE)
+
+  const activeMenu = (menuItem: string) => {
+    return uiState.mainMenuActiveItem === menuItem ? "active" : ""
+  }
+
+  useEffect(() => {
+    // map route to uiState.
+    console.log(location.pathname)
+    switch (location.pathname) {
+      default:
+      case "/lobby":
+        setUiState({ mainMenuActiveItem: "/lobby" })
+        break
+      case "/company-bell-desk":
+        setUiState({ mainMenuActiveItem: "/company-bell-desk" })
+        break
+      case "/my-bell-desk":
+        setUiState({ mainMenuActiveItem: "/my-bell-desk" })
+        break
+    }
+    return function cleanup() {
+      console.log("here")
+    }
+  }, [location.pathname])
 
   return (
     <div className={`${className} z-30 show-grid`} {...props}>
@@ -32,14 +64,24 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           src={getLogoByTheme("bell")}
           alt="Bellhop"
         />
-        <Navbar>
-          <Nav className="bg-default" activeKey={active} onSelect={onSelect}>
-            <Nav.Item eventKey="lobby">Lobby</Nav.Item>
-            <Nav.Item eventKey="companyBellDesk">Company Bell Desk</Nav.Item>
-            <Nav.Item eventKey="myBellDesk">My Bell Desk</Nav.Item>
-          </Nav>
-        </Navbar>
-        <Navbar className="bg-default">
+        <div className="m-4 bg-default">
+          <NavLink className={`menu-item ${activeMenu("Lobby")}`} to="/lobby">
+            Lobby
+          </NavLink>
+          <NavLink
+            className={`menu-item ${activeMenu("CompanyBellDesk")}`}
+            to="/company-bell-desk"
+          >
+            Company Bell Desk
+          </NavLink>
+          <NavLink
+            className={`menu-item ${activeMenu("MyBellDesk")}`}
+            to="/my-bell-desk"
+          >
+            My Bell Desk
+          </NavLink>
+        </div>
+        <div>
           <Logout className="inline-block p-2 px-3 cursor-pointer" />
           <Dropdown
             className="p-0 account"
@@ -55,7 +97,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
               <div>Profile Settings</div>
             </Dropdown.Item>
           </Dropdown>
-        </Navbar>
+        </div>
       </FlexboxGrid>
       <BellSearch />
     </div>
@@ -63,6 +105,12 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
 }
 
 const MainMenu = styled(MainMenuRaw)`
+  .menu-item {
+    ${tw`mx-2 no-underline`}
+  }
+  .active {
+    font-weight: 700;
+  }
   .rs-dropdown-menu {
     z-index: 100;
   }

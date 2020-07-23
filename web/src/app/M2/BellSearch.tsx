@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import IconBell from "../../assets/img/bell.svg"
+import { NavLink } from "react-router-dom"
 
 export interface BellSearchProps {}
 
@@ -33,12 +34,14 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
   }
 
   return (
-    <div className="relative w-1/3 mx-auto bell-search">
+    <div
+      className="relative w-1/3 mx-auto bell-search"
+      onClick={(e) => setShow(false)}
+    >
       <input
         type="text"
         value={value}
         onChange={onChange}
-        onBlur={(e) => setShow(false)}
         placeholder="Quick Start Bell"
       />
       <img src={IconBell} className="absolute top-0 right-0 h-4 m-5" />
@@ -61,7 +64,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
             </div>
           </div>
           <div className="mt-4 text-lg text-center underline">
-            <a href="">Visit Company Bell Desk</a>
+            <NavLink to="/company-bell-desk">Company Bell Desk</NavLink>
           </div>
         </div>
       )}

@@ -36,5 +36,6 @@ export const state = {
     currentBlockId: "",
     runningBellId: "",
     showNotification: "",
+    mainMenuActiveItem: "lobby",
   },
 }

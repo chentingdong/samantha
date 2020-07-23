@@ -36,4 +36,5 @@ export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   currentBlockId: null,
   runningBellId: null,
   showNotification: false,
+  mainMenuActiveItem: "lobby",
 })

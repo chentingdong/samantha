@@ -13,6 +13,7 @@ export const UI_STATE = gql`
       runningBellId
       currentBlockId
       showNotification
+      mainMenuActiveItem
     }
   }
 `

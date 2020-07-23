@@ -80,6 +80,7 @@ export interface UiState {
   currentBlockId?: string
   runningBellId?: string
   showNotification?: boolean
+  mainMenuActiveItem?: string
 }
 
 // for postgres many to many relationship
