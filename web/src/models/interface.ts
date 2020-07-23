@@ -79,7 +79,7 @@ export interface UiState {
   currentBellId?: string
   currentBlockId?: string
   runningBellId?: string
-  showNotification: boolean
+  showNotification?: boolean
 }
 
 // for postgres many to many relationship

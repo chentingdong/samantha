@@ -5,14 +5,19 @@ import { GET_USERS } from "../../operations/queries/getUsers"
 import { useQuery } from "@apollo/client"
 import { UserAvatar } from "components/UserAvatar"
 
-interface ParticipantsProps {}
+interface ParticipantsProps {
+  className?: string
+}
 
-export const Participants: React.FC<ParticipantsProps> = (props) => {
+export const Participants: React.FC<ParticipantsProps> = ({
+  className,
+  ...props
+}) => {
   const { data, loading } = useQuery(GET_USERS)
   const users = data?.users
 
   return (
-    <div>
+    <div className={className}>
       <h4>Participants</h4>
       <div className="flex">
         {users?.map((user) => (
