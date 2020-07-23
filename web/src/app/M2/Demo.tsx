@@ -19,7 +19,6 @@ export const Demo: React.FC<DemoProps> = () => {
 
   useEffect(() => {
     // map route to uiState.
-    console.log(location.pathname)
     switch (location.pathname) {
       default:
       case "/lobby":
@@ -34,9 +33,6 @@ export const Demo: React.FC<DemoProps> = () => {
         resetUiState()
         setUiState({ mainMenuActiveItem: "/my-bell-desk" })
         break
-    }
-    return function cleanup() {
-      console.log("here")
     }
   }, [location.pathname])
 
