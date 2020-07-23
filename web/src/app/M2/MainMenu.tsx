@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Nav, Navbar, FlexboxGrid, Dropdown } from "rsuite"
 import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
@@ -6,8 +6,7 @@ import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
 import { BellSearch } from "./BellSearch"
 import { UserAvatar } from "components/UserAvatar"
-import { NavLink, useLocation } from "react-router-dom"
-import { setUiState, resetUiState } from "operations/mutations/setUiState"
+import { NavLink } from "react-router-dom"
 import { UI_STATE } from "operations/queries/uiState"
 import { useQuery } from "@apollo/client"
 import tw from "tailwind.macro"
@@ -27,7 +26,6 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   const {
     data: { authUser },
   } = useQuery(AUTH_USER)
-  const location = useLocation()
   const {
     data: { uiState },
   } = useQuery(UI_STATE)
@@ -35,29 +33,6 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   const activeMenu = (menuItem: string) => {
     return uiState.mainMenuActiveItem === menuItem ? "active" : ""
   }
-
-  useEffect(() => {
-    // map route to uiState.
-    console.log(location.pathname)
-    switch (location.pathname) {
-      default:
-      case "/lobby":
-        resetUiState()
-        setUiState({ mainMenuActiveItem: "/lobby" })
-        break
-      case "/company-bell-desk":
-        resetUiState()
-        setUiState({ mainMenuActiveItem: "/company-bell-desk" })
-        break
-      case "/my-bell-desk":
-        resetUiState()
-        setUiState({ mainMenuActiveItem: "/my-bell-desk" })
-        break
-    }
-    return function cleanup() {
-      console.log("here")
-    }
-  }, [location.pathname])
 
   return (
     <div className={`${className} z-30 show-grid`} {...props}>
