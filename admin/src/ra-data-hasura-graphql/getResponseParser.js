@@ -9,7 +9,6 @@ import {
   UPDATE_MANY,
   DELETE_MANY,
 } from "./fetchActions";
-import { nanoid } from "nanoid";
 
 const sanitizeResource = (data = {}) => {
   const result = Object.keys(data).reduce((acc, key) => {
@@ -55,10 +54,6 @@ const sanitizeResource = (data = {}) => {
 
     return { ...acc, [key]: dataKey };
   }, {});
-
-  if ("id" in result === false) {
-    result["id"] = nanoid();
-  }
 
   return result;
 };

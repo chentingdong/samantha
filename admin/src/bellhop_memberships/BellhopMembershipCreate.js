@@ -36,9 +36,8 @@ export const BellhopMembershipCreate = (props) => {
           label="Role"
           source="role"
           reference="m2_membership_roles"
-          sort={{ field: "role", order: "ASC" }}
         >
-          <SelectInput optionText="role" />
+          <SelectInput optionText="id" optionValue="id" />
         </ReferenceInput>
       </SimpleForm>
     </Create>

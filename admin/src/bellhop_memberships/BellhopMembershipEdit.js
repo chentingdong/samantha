@@ -1,12 +1,32 @@
 import React from "react";
-import { Edit, SimpleForm, TextInput } from "react-admin";
+import {
+  Edit,
+  SimpleForm,
+  TextInput,
+  ReferenceInput,
+  SelectInput,
+} from "react-admin";
 
 const BellhopMembershipEdit = (props) => (
   <Edit {...props}>
     <SimpleForm>
-      <TextInput source="bellhop_id" />
-      <TextInput source="user_id" />
-      <TextInput source="role" />
+      <ReferenceInput
+        label="Bellhop"
+        source="bellhop_id"
+        reference="m2_bellhops"
+      >
+        <SelectInput optionText="name" />
+      </ReferenceInput>
+      <ReferenceInput label="User" source="user_id" reference="m2_users">
+        <SelectInput optionText="name" />
+      </ReferenceInput>
+      <ReferenceInput
+        label="Role"
+        source="role"
+        reference="m2_membership_roles"
+      >
+        <SelectInput optionText="id" optionValue="id" />
+      </ReferenceInput>
     </SimpleForm>
   </Edit>
 );
