@@ -37,7 +37,6 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   const bell = block?.root?.bells[0]
   const form = bell?.context[template]
   const [createFn, updateFn] = useBlockMutations(data?.uiState?.editingTypename)
-  if (loading) return <>Loading...</>
 
   // TODO: debounce happen here
   const submit = (form) => {

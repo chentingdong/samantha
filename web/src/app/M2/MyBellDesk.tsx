@@ -7,9 +7,9 @@ import { BellhopHeader } from "./BellhopHeader"
 import { useQuery, useSubscription } from "@apollo/client"
 import { UI_STATE } from "../../operations/queries/uiState"
 import { BELLS_LIST } from "operations/subscriptions/bellsList"
-import { Error } from "../../components/Misc"
-import { Loader } from "rsuite"
+import { Loading, Error } from "components/Misc"
 import { BellCatalogList } from "./BellCatalogList"
+import { MainMenu } from "./MainMenu"
 
 interface MyBellDeskProps {}
 
@@ -25,12 +25,15 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
   const { loading, error, data } = useSubscription(BELLS_LIST, {})
 
   const bells = data?.bells
-  if (loading) return <Loader speed="fast" content="Loading..." />
+  if (loading) return <Loading />
   if (error) return <Error message={error.message} />
   if (!bells) return <></>
 
   return (
     <div className="">
+      <MainMenu className="md-8" />
+      {loading && <Loading />}
+      {error && <Error message={error.message} />}
       {!uiState?.currentBellhopId && (
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
       )}

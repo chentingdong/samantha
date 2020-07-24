@@ -6,10 +6,10 @@ import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
 import { BellSearch } from "./BellSearch"
 import { UserAvatar } from "components/UserAvatar"
-import { NavLink } from "react-router-dom"
-import { UI_STATE } from "operations/queries/uiState"
+import { Link, useLocation } from "react-router-dom"
 import { useQuery } from "@apollo/client"
 import tw from "tailwind.macro"
+import { resetUiState } from "operations/mutations/setUiState"
 
 export interface MainMenuProps {
   active?: string
@@ -23,15 +23,15 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   onSelect,
   ...props
 }) => {
+  const location = useLocation()
   const {
     data: { authUser },
   } = useQuery(AUTH_USER)
-  const {
-    data: { uiState },
-  } = useQuery(UI_STATE)
+
+  console.log(props)
 
   const styleActive = (menuItem: string) => {
-    return uiState.mainMenuActiveItem === menuItem ? "active" : ""
+    return location.pathname === menuItem ? "active" : ""
   }
 
   return (
@@ -43,21 +43,27 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           alt="Bellhop"
         />
         <div className="m-4 bg-default">
-          <NavLink className={`menu-item ${styleActive("/lobby")}`} to="/lobby">
+          <Link
+            className={`menu-item ${styleActive("/lobby")}`}
+            onClick={resetUiState}
+            to="/lobby"
+          >
             Lobby
-          </NavLink>
-          <NavLink
+          </Link>
+          <Link
             className={`menu-item ${styleActive("/company-bell-desk")}`}
+            onClick={resetUiState}
             to="/company-bell-desk"
           >
             Company Bell Desk
-          </NavLink>
-          <NavLink
+          </Link>
+          <Link
             className={`menu-item ${styleActive("/my-bell-desk")}`}
+            onClick={resetUiState}
             to="/my-bell-desk"
           >
             My Bell Desk
-          </NavLink>
+          </Link>
         </div>
         <div>
           <Logout className="inline-block p-2 px-3 cursor-pointer" />

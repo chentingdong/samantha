@@ -2,11 +2,12 @@ import * as React from "react"
 import { useQuery, useSubscription } from "@apollo/client"
 import { AUTH_USER } from "operations/queries/authUser"
 import { REQUESTS_RECEIVED } from "operations/subscriptions/requestsReceived"
-import { Loader, PanelGroup, Panel } from "rsuite"
-import { Error } from "components/Misc"
+import { PanelGroup, Panel } from "rsuite"
+import { Loading, Error } from "components/Misc"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { BellListCard } from "./BellList"
+import { MainMenu } from "./MainMenu"
 
 export interface LobbyProps {}
 
@@ -29,45 +30,42 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
     variables: { userId: authUserResult?.authUser?.id },
   })
 
-  if (loadingUser || loadingMine || loadingOthers)
-    return (
-      <Loader
-        className="w-full my-64 text-center"
-        speed="fast"
-        content="Loading..."
-      />
-    )
-
-  if (errorMine || errorOthers)
-    return (
-      <Error
-        message={`
-        my bells error: ${errorMine.message},
-        other beels error: ${errorOthers.message}
-        `}
-      />
-    )
-
-  if (!bellsMine || !bellsOthers || !authUserResult) return <></>
-
   return (
-    <div className="container mx-auto">
-      <PanelGroup accordion>
-        <Panel
-          header={<h4 className="border-b">Needs Your Attention</h4>}
-          defaultExpanded
-        >
-          <BellListCard bells={bellsMine.blocks} whose="mine" />
-        </Panel>
-      </PanelGroup>
-      <PanelGroup accordion>
-        <Panel
-          header={<h4 className="border-b">Your Other Active Bells</h4>}
-          defaultExpanded
-        >
-          <BellListCard bells={bellsOthers.blocks} whose="company" />
-        </Panel>
-      </PanelGroup>
+    <div>
+      <MainMenu className="md-8" />
+      <div className="container mx-auto">
+        {(loadingUser || loadingMine || loadingOthers) && (
+          <Loading className="text-center" />
+        )}
+        {(errorMine || errorOthers) && (
+          <Error
+            message={`
+              my bells error: ${errorMine.message},
+              other beels error: ${errorOthers.message}
+            `}
+          />
+        )}
+        {bellsMine && (
+          <PanelGroup accordion>
+            <Panel
+              header={<h4 className="border-b">Needs Your Attention</h4>}
+              defaultExpanded
+            >
+              <BellListCard bells={bellsMine.blocks} whose="mine" />
+            </Panel>
+          </PanelGroup>
+        )}
+        {bellsOthers && (
+          <PanelGroup accordion>
+            <Panel
+              header={<h4 className="border-b">Your Other Active Bells</h4>}
+              defaultExpanded
+            >
+              <BellListCard bells={bellsOthers?.blocks} whose="company" />
+            </Panel>
+          </PanelGroup>
+        )}
+      </div>
     </div>
   )
 }

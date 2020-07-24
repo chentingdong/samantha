@@ -14,7 +14,6 @@ export interface User {
 }
 
 const userInitials = (user: User) => {
-  console.log(user)
   let initials = "N/A"
   if (user.given_name && user.family_name)
     initials =

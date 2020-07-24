@@ -35,18 +35,19 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
 
   return (
     <div
-      className="relative w-1/3 mx-auto bell-search"
+      className="relative w-full mx-auto md:w-1/2 lg:w-1/3 bell-search"
       onClick={(e) => setShow(false)}
     >
       <input
         type="text"
         value={value}
         onChange={onChange}
+        className="border border-gray-800"
         placeholder="Quick Start Bell"
       />
       <img src={IconBell} className="absolute top-0 right-0 h-4 m-5" />
       {show && (
-        <div className="absolute z-10 w-full p-4 border rounded-lg shadow-xl menu border-dark bg-default">
+        <div className="absolute z-10 w-full p-4 bg-gray-100 border border-gray-100 rounded-lg shadow-xl menu">
           <div className="p-2 border-b-2 grid grid-cols-3">
             <div className="col-span-1">Bellhops</div>
             <div className="col-span-2">

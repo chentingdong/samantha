@@ -1,14 +1,14 @@
 // CompanyBellDesk.tsx
-import React, { useEffect } from "react"
+import React from "react"
 import { testingBellhopList } from "../../../data/bellhop"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellhopHeader } from "./BellhopHeader"
-import { useQuery, useSubscription } from "@apollo/client"
-import { UI_STATE } from "../../operations/queries/uiState"
-import { Error } from "../../components/Misc"
-import { Loader, Icon } from "rsuite"
+import { useQuery } from "@apollo/client"
+import { UI_STATE } from "operations/queries/uiState"
+import { Loading, Error } from "components/Misc"
 import { BellCatalogList } from "./BellCatalogList"
 import { TODO } from "components/TODO"
+import { MainMenu } from "./MainMenu"
 
 interface CompanyBellDeskProps {}
 
@@ -23,11 +23,11 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
     error,
   } = useQuery(UI_STATE)
 
-  if (loading) return <Loader speed="fast" content="Loading..." />
-  if (error) return <Error message={error.message} />
-
   return (
     <div className="">
+      <MainMenu className="md-8" />
+      {loading && <Loading />}
+      {error && <Error message={error.message} />}
       {!uiState.currentBellhopId && (
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
       )}

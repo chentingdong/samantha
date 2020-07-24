@@ -23,7 +23,6 @@ const BellListCard: React.FC<BellListProps> = ({
   const initialCounts = 4
   const [showMore, setShowMore] = useState(false)
   const numberItems = showMore ? bells.length : initialCounts
-  const { data } = useQuery(UI_STATE)
 
   return (
     bells && (
@@ -46,6 +45,7 @@ const BellListRow: React.FC<BellListProps> = ({
   ...props
 }) => {
   const initialCounts = 4
+  const { data } = useQuery(UI_STATE)
   const [showMore, setShowMore] = useState(false)
   const numberItems = showMore ? bells.length : initialCounts
   return (

@@ -1,6 +1,5 @@
 import React, { useState } from "react"
-import { Loader, Pagination } from "rsuite"
-import { Error } from "components/Misc"
+import { Loading, Error } from "components/Misc"
 import { useSubscription } from "@apollo/client"
 import { BELL_CATALOG } from "operations/subscriptions/bellCatalog"
 import { Bell } from "models/interface"
@@ -16,7 +15,7 @@ const BellCatalogList: React.FC<BellListProps> = (props) => {
   const initialCounts = 4
   const [showMore, setShowMore] = useState(false)
   const numberItems = showMore ? bells.length : initialCounts
-  if (loading) return <Loader speed="fast" content="Loading..." />
+  if (loading) return <Loading />
   if (error) return <Error message={error.message} />
   if (!bells) return <></>
 

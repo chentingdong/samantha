@@ -11,7 +11,7 @@ export default function PrivateRoute({ component: Component, ...props }) {
 
   if (data?.authUser?.isAuthenticated)
     return (
-      <Route {...props}>
+      <Route exact {...props}>
         <Component {...props} />
       </Route>
     )

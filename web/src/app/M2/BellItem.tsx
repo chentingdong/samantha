@@ -1,13 +1,13 @@
 import React from "react"
 import moment from "moment"
 import { Bell } from "models/interface"
+import { Link } from "react-router-dom"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { stringHashBucket, dateFormat } from "utils/common"
 import { Placeholder } from "rsuite"
 import { usersToString } from "utils/user"
 import { Button } from "components/Button"
-import { setUiState } from "../../operations/mutations/setUiState"
 
 export interface BellRawProps {
   bell: Bell
@@ -24,10 +24,10 @@ const BellCardRaw: React.FC<BellRawProps> = ({
   const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}` || "bg-bell"
 
   return (
-    <a
+    <Link
       className={`${className} rounded-lg text-sm van-gogh`}
       {...props}
-      href={`/bells/${bell.id}`}
+      to={`/bells/${bell.id}`}
     >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
@@ -47,7 +47,7 @@ const BellCardRaw: React.FC<BellRawProps> = ({
         </div>
       )}
       <div className="m-2 text-lg card-footer">Facilities</div>
-    </a>
+    </Link>
   )
 }
 const BellCard = styled(BellCardRaw)`
@@ -68,9 +68,6 @@ export interface BellRowProps {
 }
 
 const BellRow: React.FC<BellRowProps> = ({ bell }) => {
-  const startTheBell = (bell) => {
-    setUiState({ currentBellDefId: bell.id })
-  }
   return (
     bell && (
       <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
@@ -81,17 +78,15 @@ const BellRow: React.FC<BellRowProps> = ({ bell }) => {
           {bell.description || <Placeholder.Paragraph rows={1} />}
         </li>
         <li className="flex flex-row-reverse self-center col-span-1">
-          <Button
-            color="secondary"
-            className="fill"
-            onClick={(e) => startTheBell(bell)}
-          >
-            Start
-          </Button>
+          <Link to={`/bells/${bell.id}`}>
+            <Button color="primary" className="fill">
+              Start
+            </Button>
+          </Link>
         </li>
       </ul>
     )
   )
 }
 
-export { BellCardRaw, BellCard, BellRow }
+export { BellCard, BellRow }

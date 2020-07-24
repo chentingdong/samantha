@@ -5,42 +5,35 @@ import PrivateRoute from "./PrivateRoute"
 import Login from "../app/Login"
 import NotFound from "../app/NotFound"
 import { Demo as DemoM1 } from "../app/M1/Demo"
-import { Demo as DemoM2 } from "../app/M2/Demo"
+import { Lobby } from "app/M2/Lobby"
+import { CompanyBellDesk } from "app/M2/CompanyBellDesk"
+import { MyBellDesk } from "app/M2/MyBellDesk"
+import { Bell } from "app/M2/Bell"
 
 const routes = [
   {
-    path: "/",
-    component: DemoM2,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/asdf/asdf",
-    component: DemoM2,
-    tag: PrivateRoute,
-  },
-  {
     path: "/lobby",
-    component: DemoM2,
+    component: Lobby,
     tag: PrivateRoute,
   },
   {
     path: "/company-bell-desk",
-    component: DemoM2,
+    component: CompanyBellDesk,
     tag: PrivateRoute,
   },
   {
     path: "/my-bell-desk",
-    component: DemoM2,
+    component: MyBellDesk,
     tag: PrivateRoute,
   },
   {
     path: "/bells/:id",
-    component: DemoM2,
+    component: Bell,
     tag: PrivateRoute,
   },
   {
     path: "/bellhops/:id",
-    component: DemoM2,
+    component: Bell,
     tag: PrivateRoute,
   },
   {
@@ -49,14 +42,14 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/m2",
-    component: DemoM2,
-    tag: PrivateRoute,
-  },
-  {
     path: ["/login", "/logout"],
     component: Login,
     tag: PublicRoute,
+  },
+  {
+    path: "/",
+    component: Lobby,
+    tag: PrivateRoute,
   },
   {
     path: "*",
@@ -73,7 +66,6 @@ const Routes = () => {
           const TagName = route.tag
           return (
             <TagName
-              exact
               path={route.path}
               component={route.component}
               key={index}
@@ -82,6 +74,7 @@ const Routes = () => {
           )
         })}
       </Switch>
+      <React.Fragment />
     </BrowserRouter>
   )
 }
