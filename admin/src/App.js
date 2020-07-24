@@ -3,6 +3,8 @@ import { Admin, Resource, ShowGuesser } from "react-admin";
 import buildHasuraProvider from "./ra-data-hasura-graphql";
 import users from "./users";
 import bellhops from "./bellhops";
+import bells from "./bells";
+import blocks from "./blocks";
 import bellhop_memberships from "./bellhop_memberships";
 import { HttpLink } from "apollo-client-preset";
 import buildApolloClient from "./ra-data-graphql/buildApolloClient";
@@ -17,8 +19,6 @@ const link = new HttpLink({
 const apolloClient = buildApolloClient({ link });
 
 const knownResources = [
-  "m2_bells",
-  "m2_blocks",
   "m2_form_tasks",
   "m2_goal_executors",
   "m2_membership_roles",
@@ -60,6 +60,8 @@ class App extends Component {
           options={{ label: "Bellhop Memberships" }}
           {...bellhop_memberships}
         />
+        <Resource name="m2_bells" options={{ label: "Bells" }} {...bells} />
+        <Resource name="m2_blocks" options={{ label: "Blocks" }} {...blocks} />
         {knownResources.map((resource) => (
           <Resource
             name={resource}
