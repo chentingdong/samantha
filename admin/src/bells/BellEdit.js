@@ -9,6 +9,7 @@ import {
 } from "react-admin";
 import BellTitle from "./BellTitle";
 import BlockSelectField from "../blocks/BlockSelectField";
+import BellSelectField from "./BellSelectField";
 
 const BellEdit = (props) => (
   <Edit title={<BellTitle />} {...props}>
@@ -19,6 +20,13 @@ const BellEdit = (props) => (
       <BooleanInput source="acts_as_main_bell" />
       <ReferenceInput label="State" source="state" reference="m2_block_state">
         <SelectInput optionText="id" optionValue="id" />
+      </ReferenceInput>
+      <ReferenceInput
+        label="Main Bell"
+        source="main_bell_id"
+        reference="m2_bells"
+      >
+        <SelectInput optionText={<BellSelectField />} optionValue="id" />
       </ReferenceInput>
       <ReferenceInput
         label="Root Block"

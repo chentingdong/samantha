@@ -29,6 +29,18 @@ const BlockShow = (props) => (
         >
           <TextField source="id" />
         </ReferenceField>
+        <ReferenceManyField
+          reference="m2_blocks"
+          target="parent_id"
+          label="Children"
+        >
+          <Datagrid rowClick="show">
+            <TextField source="id" />
+            <TextField source="name" />
+            <TextField source="type" />
+            <TextField source="state" />
+          </Datagrid>
+        </ReferenceManyField>
         <ReferenceField
           label="Bell"
           source="bell_id"

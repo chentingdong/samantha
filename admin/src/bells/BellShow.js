@@ -34,6 +34,14 @@ const BellShow = (props) => (
           </SingleFieldList>
         </ReferenceManyField>
         <ReferenceField
+          label="Main Bell"
+          source="main_bell_id"
+          reference="m2_bells"
+          link="show"
+        >
+          <TextField source="id" />
+        </ReferenceField>
+        <ReferenceField
           label="Root Block"
           source="root_block_id"
           reference="m2_blocks"

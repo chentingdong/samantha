@@ -9,6 +9,7 @@ import {
 } from "react-admin";
 import { nanoid } from "nanoid";
 import BlockSelectField from "../blocks/BlockSelectField";
+import BellSelectField from "./BellSelectField";
 
 export const BellCreate = (props) => (
   <Create title="Create New Bell" {...props}>
@@ -27,6 +28,13 @@ export const BellCreate = (props) => (
       <ReferenceInput label="State" source="state" reference="m2_block_state">
         <SelectInput optionText="id" optionValue="id" />
       </ReferenceInput>
+      <ReferenceInput
+        label="Main Bell"
+        source="main_bell_id"
+        reference="m2_bells"
+      >
+        <SelectInput optionText={<BellSelectField />} optionValue="id" />
+      </ReferenceInput>{" "}
       <ReferenceInput
         label="Root Block"
         source="root_block_id"
