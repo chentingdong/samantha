@@ -14,14 +14,20 @@ const link = new HttpLink({
   },
 });
 
+const apolloClient = buildApolloClient({ link });
+
 const knownResources = [
   "m2_bells",
   "m2_blocks",
   "m2_form_tasks",
   "m2_goal_executors",
-  // "m2_membership_roles",
-  // "m2_participation_roles",
+  "m2_membership_roles",
+  "m2_participation_roles",
 ];
+
+const dataProviderDecorator = (requestHandler) => (type, resource, params) => {
+  return requestHandler(type, resource, params);
+};
 
 class App extends Component {
   constructor() {
@@ -29,8 +35,7 @@ class App extends Component {
     this.state = { dataProvider: null };
   }
   async componentDidMount() {
-    const client = buildApolloClient({ link });
-    buildHasuraProvider({ client }).then((dataProvider) =>
+    buildHasuraProvider({ client: apolloClient }).then((dataProvider) =>
       this.setState({ dataProvider })
     );
   }
@@ -43,7 +48,7 @@ class App extends Component {
     }
 
     return (
-      <Admin dataProvider={dataProvider}>
+      <Admin dataProvider={dataProviderDecorator(dataProvider)}>
         <Resource name="m2_users" options={{ label: "Users" }} {...users} />
         <Resource
           name="m2_bellhops"

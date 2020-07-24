@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-  ReferenceInput,
-  SelectInput,
-} from "react-admin";
+import { Create, SimpleForm, ReferenceInput, SelectInput } from "react-admin";
 import { useLocation } from "react-router";
 import { parse } from "query-string";
 
@@ -17,14 +11,6 @@ export const BellhopMembershipCreate = (props) => {
     : "";
   const { user_id } = parse(location.search);
   const user_redirect = user_id ? `/m2_users/${user_id}/show/bellhops` : "";
-
-  // <ReferenceInput
-  //   label="Role"
-  //   source="role"
-  //   reference="m2_membership_roles"
-  // >
-  //   <SelectInput optionText="role" />
-  // </ReferenceInput>;
 
   return (
     <Create {...props}>
@@ -46,7 +32,14 @@ export const BellhopMembershipCreate = (props) => {
             <SelectInput optionText="name" />
           </ReferenceInput>
         )}
-        <TextInput source="role" />
+        <ReferenceInput
+          label="Role"
+          source="role"
+          reference="m2_membership_roles"
+          sort={{ field: "role", order: "ASC" }}
+        >
+          <SelectInput optionText="role" />
+        </ReferenceInput>
       </SimpleForm>
     </Create>
   );
