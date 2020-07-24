@@ -8,6 +8,7 @@ import blocks from "./blocks";
 import bellhop_memberships from "./bellhop_memberships";
 import { HttpLink } from "apollo-client-preset";
 import buildApolloClient from "./ra-data-graphql/buildApolloClient";
+import Dashboard from "./Dashboard";
 
 const link = new HttpLink({
   uri: "http://localhost:8080/v1/graphql",
@@ -23,6 +24,9 @@ const knownResources = [
   "m2_goal_executors",
   "m2_membership_roles",
   "m2_participation_roles",
+  "m2_bellhop_bell_participations",
+  "m2_user_bell_participations",
+  "m2_user_task_participations",
 ];
 
 const dataProviderDecorator = (requestHandler) => (type, resource, params) => {
@@ -48,7 +52,11 @@ class App extends Component {
     }
 
     return (
-      <Admin dataProvider={dataProviderDecorator(dataProvider)}>
+      <Admin
+        dataProvider={dataProviderDecorator(dataProvider)}
+        title="Admin Console"
+        dashboard={Dashboard}
+      >
         <Resource name="m2_users" options={{ label: "Users" }} {...users} />
         <Resource
           name="m2_bellhops"
