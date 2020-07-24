@@ -32,7 +32,7 @@ export const state = {
     showRequestViewResponder: false,
     // M2 ui states
     currentBellhopId: "",
-    currentBellId: "",
+    currentBellDefId: "",
     currentBlockId: "",
     runningBellId: "",
     showNotification: "",

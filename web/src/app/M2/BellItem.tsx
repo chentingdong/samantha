@@ -1,5 +1,4 @@
-import React, { useState } from "react"
-import { Card } from "components/Card"
+import React from "react"
 import moment from "moment"
 import { Bell } from "models/interface"
 import styled from "styled-components"
@@ -24,15 +23,11 @@ const BellCardRaw: React.FC<BellRawProps> = ({
 }) => {
   const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}` || "bg-bell"
 
-  const runTheBell = () => {
-    setUiState({ runningBellId: bell.id }, true)
-  }
-
   return (
-    <div
+    <a
       className={`${className} rounded-lg text-sm van-gogh`}
       {...props}
-      onClick={runTheBell}
+      href={`/bells/${bell.id}`}
     >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
@@ -52,7 +47,7 @@ const BellCardRaw: React.FC<BellRawProps> = ({
         </div>
       )}
       <div className="m-2 text-lg card-footer">Facilities</div>
-    </div>
+    </a>
   )
 }
 const BellCard = styled(BellCardRaw)`
@@ -74,7 +69,7 @@ export interface BellRowProps {
 
 const BellRow: React.FC<BellRowProps> = ({ bell }) => {
   const startTheBell = (bell) => {
-    setUiState({ currentBellId: bell.id })
+    setUiState({ currentBellDefId: bell.id })
   }
   return (
     bell && (

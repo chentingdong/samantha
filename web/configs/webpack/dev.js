@@ -14,8 +14,12 @@ module.exports = merge(commonConfig, {
   ],
   devServer: {
     historyApiFallback: true,
-    contentBase: "./",
-    hot: true, // enable HMR on the server
+    contentBase: resolve("dist"),
+    // enable HMR on the server
+    hot: true,
+  },
+  output: {
+    publicPath: "/",
   },
   devtool: "source-map",
   plugins: [

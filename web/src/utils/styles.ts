@@ -48,11 +48,7 @@ const getIconClassByType = (type) => {
 }
 
 const injectRsuiteStyle = (theme) => {
-  const css =
-    process.env.NODE_ENV === "production"
-      ? `/rsuite/theme-${theme}.min.css`
-      : `/dist/rsuite/theme-${theme}.min.css`
-
+  const css = `/rsuite/theme-${theme}.min.css`
   const head = document.body.parentElement.firstElementChild
   const firstLink = head.getElementsByTagName("link")[0]
   const link =

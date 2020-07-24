@@ -1,5 +1,5 @@
 import React from "react"
-import { Nav, Navbar, FlexboxGrid, Dropdown } from "rsuite"
+import { FlexboxGrid, Dropdown } from "rsuite"
 import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
 import { AUTH_USER } from "../../operations/queries/authUser"
@@ -30,7 +30,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
     data: { uiState },
   } = useQuery(UI_STATE)
 
-  const activeMenu = (menuItem: string) => {
+  const styleActive = (menuItem: string) => {
     return uiState.mainMenuActiveItem === menuItem ? "active" : ""
   }
 
@@ -43,17 +43,17 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           alt="Bellhop"
         />
         <div className="m-4 bg-default">
-          <NavLink className={`menu-item ${activeMenu("Lobby")}`} to="/lobby">
+          <NavLink className={`menu-item ${styleActive("/lobby")}`} to="/lobby">
             Lobby
           </NavLink>
           <NavLink
-            className={`menu-item ${activeMenu("CompanyBellDesk")}`}
+            className={`menu-item ${styleActive("/company-bell-desk")}`}
             to="/company-bell-desk"
           >
             Company Bell Desk
           </NavLink>
           <NavLink
-            className={`menu-item ${activeMenu("MyBellDesk")}`}
+            className={`menu-item ${styleActive("/my-bell-desk")}`}
             to="/my-bell-desk"
           >
             My Bell Desk
@@ -84,10 +84,10 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
 
 const MainMenu = styled(MainMenuRaw)`
   .menu-item {
-    ${tw`mx-2 no-underline`}
+    ${tw`mx-2 no-underline text-gray-700`}
   }
   .active {
-    font-weight: 700;
+    ${tw`text-black font-bold`}
   }
   .rs-dropdown-menu {
     z-index: 100;

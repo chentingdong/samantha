@@ -14,6 +14,11 @@ const routes = [
     tag: PrivateRoute,
   },
   {
+    path: "/asdf/asdf",
+    component: DemoM2,
+    tag: PrivateRoute,
+  },
+  {
     path: "/lobby",
     component: DemoM2,
     tag: PrivateRoute,
@@ -29,12 +34,12 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/bell/:id",
+    path: "/bells/:id",
     component: DemoM2,
     tag: PrivateRoute,
   },
   {
-    path: "/bellhop/:id",
+    path: "/bellhops/:id",
     component: DemoM2,
     tag: PrivateRoute,
   },
@@ -54,6 +59,7 @@ const routes = [
     tag: PublicRoute,
   },
   {
+    path: "*",
     component: NotFound,
     tag: PrivateRoute,
   },

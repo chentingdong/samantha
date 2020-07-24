@@ -11,8 +11,11 @@ import LogRocket from "logrocket"
 import { injectRsuiteStyle } from "utils/styles"
 
 const App = (any) => {
+  useEffect(() => {
+    injectRsuiteStyle("bell")
+  }, [])
+
   const [upsertUser] = useMutation(UPSERT_USER)
-  injectRsuiteStyle("bell")
 
   Amplify.configure(config)
 

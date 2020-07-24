@@ -15,7 +15,7 @@
   "author": "Bellhop Inc.",
   "license": "MIT",
   "scripts": {
-    "prestart": "yarn run prebuild",
+    "#prestart": "yarn run prebuild",
     "start": " yarn start:dev",
     "start:dev": "NODE_ENV=development PUBLIC_URL='http://localhost:2000' webpack-dev-server --config=configs/webpack/dev.js --sourcemap --http --port 2000",
     "start:prod": "NODE_ENV=production node express.ts",

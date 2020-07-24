@@ -7,55 +7,44 @@ import { GoalNavigator } from "./GoalNavigator"
 import { GoalNotification } from "./GoalNotification"
 import { Bell } from "./Bell"
 import { useQuery } from "@apollo/client"
-import { setUiState, resetUiState } from "operations/mutations/setUiState"
 import { UI_STATE } from "operations/queries/uiState"
 import { useLocation } from "react-router-dom"
+import { setUiState, resetUiState } from "operations/mutations/setUiState"
+import { mainMenuMapping } from "routes/routeUiMapping"
 
 export interface DemoProps {}
 
 export const Demo: React.FC<DemoProps> = () => {
-  const { data, loading } = useQuery(UI_STATE)
+  const {
+    data: { uiState },
+    loading,
+  } = useQuery(UI_STATE)
   const location = useLocation()
 
   useEffect(() => {
-    // map route to uiState.
-    switch (location.pathname) {
-      default:
-      case "/lobby":
-        resetUiState()
-        setUiState({ mainMenuActiveItem: "/lobby" })
-        break
-      case "/company-bell-desk":
-        resetUiState()
-        setUiState({ mainMenuActiveItem: "/company-bell-desk" })
-        break
-      case "/my-bell-desk":
-        resetUiState()
-        setUiState({ mainMenuActiveItem: "/my-bell-desk" })
-        break
-    }
+    route2ui(location.pathname)
   }, [location.pathname])
 
   if (loading) return <>Loading...</>
   return (
     <div className="p-0 m-0 theme-bell max-w-screen-2xl min-w-500">
       <MainMenu className="md-8" />
+      <pre>{JSON.stringify(uiState, null, 4)}</pre>
       <div className="relative">
-        {data?.uiState?.mainMenuActiveItem === "/lobby" && <Lobby />}
-        {data?.uiState?.mainMenuActiveItem === "/company-bell-desk" && (
+        {uiState?.mainMenuActiveItem === "/lobby" && <Lobby />}
+        {uiState?.mainMenuActiveItem === "/company-bell-desk" && (
           <CompanyBellDesk />
         )}
-        {data?.uiState?.mainMenuActiveItem === "/my-bell-desk" && (
-          <MyBellDesk />
-        )}
-        {data?.uiState?.currentBellId && (
+        {uiState?.mainMenuActiveItem === "/my-bell-desk" && <MyBellDesk />}
+        {uiState?.currentBellId && (
           <GoalNavigator className="w-screen h-screen bg-default" />
         )}
-        {data?.uiState.showNotification && (
-          <GoalNotification className="w-screen h-screen lef-0 bg-default" />
-        )}
-        {data?.uiState?.runningBellId && (
-          <Bell className="w-screen h-screen lef-0 bg-default" />
+        {!uiState?.mainMenuActiveItem && (
+          <>
+            <GoalNotification className="w-screen h-screen lef-0 bg-default" />
+            <Bell className="w-screen h-screen lef-0 bg-default" type="Def" />
+            <Bell className="w-screen h-screen lef-0 bg-default" type="Ins" />
+          </>
         )}
       </div>
     </div>

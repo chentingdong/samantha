@@ -76,7 +76,7 @@ export interface UiState {
   editorMode?: EditMode
   editingTypename?: Typename
   currentBellhopId?: string
-  currentBellId?: string
+  currentBellDefId?: string
   currentBlockId?: string
   runningBellId?: string
   showNotification?: boolean

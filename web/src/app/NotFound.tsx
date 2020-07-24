@@ -9,11 +9,13 @@ const NotFound = () => {
 
   return (
     <div className="h-screen">
-      <img
-        className={"logo bell m-3 h-8"}
-        src={getLogoByTheme("bell")}
-        alt="Bellhop"
-      />
+      <a href="/lobby">
+        <img
+          className={"logo bell m-3 h-8"}
+          src={getLogoByTheme("bell")}
+          alt="Bellhop"
+        />
+      </a>
       <h3 className="mt-64 text-center">Sorry, page not found!</h3>
     </div>
   )

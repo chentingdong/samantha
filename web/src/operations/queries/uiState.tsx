@@ -9,7 +9,7 @@ export const UI_STATE = gql`
       draftBlock
       showBellEditor
       currentBellhopId
-      currentBellId
+      currentBellDefId
       runningBellId
       currentBlockId
       showNotification

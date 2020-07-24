@@ -18,7 +18,7 @@ const setUiState = (incoming: any, reset = false) => {
 const resetUiState = () => {
   const states = {
     currentBellhopId: null,
-    currentBellId: null,
+    currentBellDefId: null,
     currentBlockId: null,
     runningBellId: null,
     showNotification: null,

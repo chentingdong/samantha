@@ -28,10 +28,10 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
   const [bell, setBell] = useState(initialBell)
 
   useEffect(() => {
-    if (uiState.currentBellId) {
-      getData({ variables: { id: uiState.currentBellId } })
+    if (uiState.currentBellDefId) {
+      getData({ variables: { id: uiState.currentBellDefId } })
     }
-  }, [uiState.currentBellId])
+  }, [uiState.currentBellDefId])
 
   useEffect(() => {
     setBell(data?.bells[0])
@@ -40,8 +40,8 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
     setBell(testingBell)
   }, [data])
 
-  const clearCurrentBellId = () => {
-    setUiState({ currentBellId: null })
+  const clearcurrentBellDefId = () => {
+    setUiState({ currentBellDefId: null })
   }
 
   return (
@@ -52,7 +52,7 @@ export const GoalNavigator: React.FC<GoalNavigatorProps> = ({
             <Button
               className="fill"
               color="primary"
-              onClick={clearCurrentBellId}
+              onClick={clearcurrentBellDefId}
             >
               <Icon icon="left" /> {bell.bellhop_owner_id || "Facilities"}
             </Button>

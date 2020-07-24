@@ -32,7 +32,7 @@ export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   editingTypename: Typename.blocks,
   draftBlock: initialBlock,
   currentBellhopId: null,
-  currentBellId: null,
+  currentBellDefId: null,
   currentBlockId: null,
   runningBellId: null,
   showNotification: false,
