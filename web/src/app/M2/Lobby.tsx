@@ -51,7 +51,7 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
   if (!bellsMine || !bellsOthers || !authUserResult) return <></>
 
   return (
-    <div className="container m-auto">
+    <div className="container mx-auto">
       <PanelGroup accordion>
         <Panel
           header={<h4 className="border-b">Needs Your Attention</h4>}

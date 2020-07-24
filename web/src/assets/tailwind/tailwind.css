@@ -170,7 +170,7 @@ textarea:focus {
 /* van gogh's pallette */
 .bg-bell,
 .bg-bell-0 {
-  background: rgb(238, 226, 114);
+  background: rgb(248, 229, 98);
 }
 .bg-bell-1 {
   background: rgb(248, 196, 91);
@@ -182,22 +182,22 @@ textarea:focus {
   background: rgb(185, 237, 2);
 }
 .bg-bell-4 {
-  background: rgb(90, 126, 65);
+  background: rgb(0, 211, 213);
 }
 .bg-bell-5 {
-  background: rgb(25, 116, 65);
+  background: rgba(25, 116, 65, 0.8);
 }
 .bg-bell-6 {
-  background: rgb(190, 125, 45);
+  background: rgb(247, 121, 96);
 }
 .bg-bell-7 {
   background: rgba(231, 90, 14, 0.7);
 }
 .bg-bell-8 {
-  background: rgb(0, 211, 213);
+  background: rgba(86, 75, 135, 0.7);
 }
 .bg-bell-9 {
-  background: rgba(49, 69, 219, 0.7);
+  background: rgb(133, 164, 214);
 }
 
 /* asana.com colors */

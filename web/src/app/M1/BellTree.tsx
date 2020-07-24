@@ -13,7 +13,7 @@ import styled from "styled-components"
 import { dateFormat } from "utils/common"
 
 const BellTreeRaw = ({ bell }) => {
-  const rootBlockId = bell.block.id
+  const rootBlockId = bell?.block?.id
   const { data, loading } = useSubscription(GET_BLOCK, {
     variables: { id: rootBlockId },
   })
@@ -35,8 +35,8 @@ const BellTreeRaw = ({ bell }) => {
 
   const getTreeData = (block: BlockOrDef) => {
     return {
-      blockId: block.id,
-      name: block.name,
+      blockId: block?.id,
+      name: block?.name,
       createdAt: block.created_at,
       state: block.state,
       responders: block?.responders
@@ -45,8 +45,8 @@ const BellTreeRaw = ({ bell }) => {
         })
         .toString(),
       icon: getIconClassByType(block.type),
-      children: Array.isArray(block.children)
-        ? block.children.map?.(({ child }) => getTreeData(child))
+      children: Array.isArray(block?.children)
+        ? block?.children.map?.(({ child }) => getTreeData(child))
         : [],
     }
   }

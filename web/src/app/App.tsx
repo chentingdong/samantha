@@ -12,6 +12,8 @@ import { injectRsuiteStyle } from "utils/styles"
 
 const App = (any) => {
   const [upsertUser] = useMutation(UPSERT_USER)
+  injectRsuiteStyle("bell")
+
   Amplify.configure(config)
 
   async function checkLogin() {
@@ -67,8 +69,6 @@ const App = (any) => {
       }
     })
   }, [])
-
-  injectRsuiteStyle("bell")
 
   return (
     <div className="h-full font-sans">
