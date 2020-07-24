@@ -1,9 +1,10 @@
 import React from "react";
 import { Create, SimpleForm, TextInput, BooleanInput } from "react-admin";
+import { nanoid } from "nanoid";
 
 export const BellCreate = (props) => (
   <Create title="Create New Bell" {...props}>
-    <SimpleForm>
+    <SimpleForm initialValues={{ id: nanoid() }}>
       <TextInput source="id" />
       <TextInput source="name" />
       <TextInput source="goal_name" />
