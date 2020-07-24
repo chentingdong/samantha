@@ -1,15 +1,39 @@
 import React from "react";
-import { Create, SimpleForm, TextInput, BooleanInput } from "react-admin";
+import {
+  Create,
+  SimpleForm,
+  TextInput,
+  BooleanInput,
+  ReferenceInput,
+  SelectInput,
+} from "react-admin";
 import { nanoid } from "nanoid";
+import BlockSelectField from "../blocks/BlockSelectField";
 
 export const BellCreate = (props) => (
   <Create title="Create New Bell" {...props}>
-    <SimpleForm initialValues={{ id: nanoid() }}>
+    <SimpleForm
+      initialValues={{
+        id: nanoid(),
+        state: "Draft",
+        is_definition: true,
+      }}
+    >
       <TextInput source="id" />
       <TextInput source="name" />
       <TextInput source="goal_name" />
       <BooleanInput source="is_definition" />
       <BooleanInput source="acts_as_main_bell" />
+      <ReferenceInput label="State" source="state" reference="m2_block_state">
+        <SelectInput optionText="id" optionValue="id" />
+      </ReferenceInput>
+      <ReferenceInput
+        label="Root Block"
+        source="root_block_id"
+        reference="m2_blocks"
+      >
+        <SelectInput optionText={<BlockSelectField />} optionValue="id" />
+      </ReferenceInput>
     </SimpleForm>
   </Create>
 );

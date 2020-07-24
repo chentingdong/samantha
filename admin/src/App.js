@@ -20,6 +20,8 @@ const link = new HttpLink({
 const apolloClient = buildApolloClient({ link });
 
 const knownResources = [
+  "m2_block_type",
+  "m2_block_state",
   "m2_form_tasks",
   "m2_goal_executors",
   "m2_membership_roles",

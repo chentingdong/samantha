@@ -9,6 +9,7 @@ import {
   ReferenceManyField,
   ShowButton,
   ReferenceField,
+  UrlField,
 } from "react-admin";
 import UserTitle from "./UserTitle";
 import AddBellhopMembershipButton from "./AddBellhopMembershipButton";
@@ -20,7 +21,7 @@ const UserShow = (props) => (
         <TextField source="name" />
         <TextField source="family_name" />
         <TextField source="given_name" />
-        <TextField source="picture" />
+        <UrlField source="picture" />
         <ImageField source="picture" label="" />
       </Tab>
       <Tab label="Bellhops" path="bellhops">
