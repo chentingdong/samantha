@@ -10,16 +10,16 @@ const styles = {
   },
 };
 
-const AddBellhopParticipationButton = ({ classes, record }) => (
+const AddBellParticipationButton = ({ classes, record }) => (
   <Button
     className={classes.button}
     component={Link}
-    to={`/m2_bellhop_bell_participations/create?bell_id=${record.id}`}
-    label="Involve a Bellhop"
-    title="Involve a Bellhop"
+    to={`/m2_bellhop_bell_participations/create?bellhop_id=${record.id}`}
+    label="Join a Bell"
+    title="Join a Bell"
   >
     <Add />
   </Button>
 );
 
-export default withStyles(styles)(AddBellhopParticipationButton);
+export default withStyles(styles)(AddBellParticipationButton);

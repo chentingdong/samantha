@@ -50,6 +50,27 @@ const BellShow = (props) => (
           <TextField source="id" />
         </ReferenceField>
       </Tab>
+      <Tab label="Bellhops" path="bellhops">
+        <ReferenceManyField
+          addLabel={false}
+          reference="m2_bellhop_bell_participations"
+          target="bell_id"
+        >
+          <Datagrid>
+            <ReferenceField
+              label="Bellhops"
+              source="bellhop_id"
+              reference="m2_bellhops"
+              link="show"
+            >
+              <TextField source="name" />
+            </ReferenceField>
+            <TextField source="role" />
+            <ShowButton />
+          </Datagrid>
+        </ReferenceManyField>
+        <AddBellhopParticipationButton />
+      </Tab>
     </TabbedShowLayout>
   </Show>
 );
