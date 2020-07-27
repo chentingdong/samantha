@@ -103,7 +103,8 @@
           "awslogs-region": "us-east-1",
           "awslogs-stream-prefix": "ecs"
         }
-      }
+      },
+      "pseudoTerminal": true
     },
     {
       "command": ["yarn", "-s", "start:prod"],
