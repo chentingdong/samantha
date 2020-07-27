@@ -81,6 +81,23 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=web_image::$ECR_REGISTRY/$ECR_WEB_REPOSITORY:$IMAGE_TAG"
 
+      - name: Build, tag, and push web image to Amazon ECR
+        id: build-admin-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_ADMIN_REPOSITORY: samantha-admin
+          IMAGE_TAG: ${{ github.sha }}
+          SENTRY_RELEAES: ${{ steps.sentry.outputs.SENTRY_RELEASE }}
+        run: |
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          echo $GITHUB_WORKSPACE
+          cd $GITHUB_WORKSPACE/admin
+          docker build -t $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG --build-arg sentry_release=${SENTRY_RELEASE} .
+          docker push $ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG
+          echo "::set-output name=admin_image::$ECR_REGISTRY/$ECR_ADMIN_REPOSITORY:$IMAGE_TAG"
+
       - name: Fill in the new samantha-server image ID in the Amazon ECS task definition
         id: task-def-server
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -97,10 +114,18 @@ jobs:
           container-name: web
           image: ${{ steps.build-web-image.outputs.web_image }}
 
+      - name: Fill in the new samantha-admin image ID in the Amazon ECS task definition
+        id: task-def-admin
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-server.outputs.task-definition }}
+          container-name: admin
+          image: ${{ steps.build-admin-image.outputs.admin_image }}
+
       - name: Deploy Amazon ECS task definition
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-web.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-admin.outputs.task-definition }}
           service: samantha_service
           cluster: samantha
           wait-for-service-stability: true

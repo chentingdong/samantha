@@ -1,0 +1,46 @@
+{
+  "name": "admin",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "apollo-client-preset": "^1.0.8",
+    "graphql": "^15.3.0",
+    "graphql-ast-types-browser": "^1.0.2",
+    "lodash": "^4.17.19",
+    "nanoid": "^3.1.10",
+    "pluralize": "^8.0.0",
+    "ra-core": "^3.7.1",
+    "ra-data-graphql": "^3.6.1",
+    "ra-data-hasura-graphql": "^0.1.12",
+    "react": "^16.13.1",
+    "react-admin": "^3.7.1",
+    "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "PORT=3030 react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

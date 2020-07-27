@@ -59,5 +59,20 @@ services:
       - "3000:3000"
     command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn start"
 
+  admin:
+    image: samantha-admin:${IMAGE_TAG:-local}
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: samantha-admin
+    restart: always
+    depends_on:
+      - postgres
+      - hasura
+    ports:
+      - 3030:3030
+    stdin_open: true
+    command: yarn start
+
 volumes:
   postgres_data:

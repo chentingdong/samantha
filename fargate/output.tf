@@ -14,6 +14,10 @@ output "server_url" {
   value = "https://${aws_route53_record.poc.fqdn}:${var.server_port}"
 }
 
+output "admin_url" {
+  value = "https://${aws_route53_record.poc.fqdn}:${var.admin_port}"
+}
+
 output "web_url" {
   value = "https://${aws_route53_record.poc.fqdn}"
 }
