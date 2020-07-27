@@ -87,6 +87,11 @@ resource "aws_ecs_cluster" "samantha" {
 #     container_port   = var.server_port # Specifying the container port
 #   }
 #   load_balancer {
+#     target_group_arn = aws_lb_target_group.target_group_server.arn # Referencing our target group
+#     container_name   = "admin"
+#     container_port   = var.admin_port # Specifying the container port
+#   }
+#   load_balancer {
 #     target_group_arn = aws_lb_target_group.target_group_hasura.arn # Referencing our target group
 #     container_name   = "hasura"
 #     container_port   = var.hasura_port # Specifying the container port

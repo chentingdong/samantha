@@ -118,7 +118,7 @@ jobs:
         id: task-def-admin
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.task-def-server.outputs.task-definition }}
+          task-definition: ${{ steps.task-def-web.outputs.task-definition }}
           container-name: admin
           image: ${{ steps.build-admin-image.outputs.admin_image }}
 
