@@ -19,7 +19,7 @@ const theme = createMuiTheme({
 });
 
 const link = new HttpLink({
-  uri: "http://localhost:8080/v1/graphql",
+  uri: `${window.location.protocol}//${window.location.hostname}:8080/v1/graphql`,
   headers: {
     "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
   },
