@@ -6,7 +6,7 @@ import { setUiState } from "../../operations/mutations/setUiState"
 import { GET_BELL } from "../../operations/subscriptions/getBell"
 import { BellTree } from "./BellTree"
 import { EditBlock } from "./EditBlock"
-import { initialBell } from "../../../data/bell"
+import { initialBell } from "../../../data/bell.m1"
 
 const BellEditor = (props) => {
   const [bell, setBell] = useState(initialBell)

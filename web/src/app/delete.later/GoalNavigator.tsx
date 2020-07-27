@@ -11,7 +11,7 @@ import { TODO } from "components/TODO"
 import { initialBell, testingBell } from "../../../data/bell"
 import { Button } from "components/Button"
 import { setUiState } from "../../operations/mutations/setUiState"
-import { Goal } from "./Goal"
+import { Goal } from "../M2/Goal"
 
 interface GoalNavigatorProps {
   className?: string

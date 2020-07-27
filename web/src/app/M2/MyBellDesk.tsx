@@ -40,12 +40,8 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
       {uiState?.currentBellhopId && (
         <>
           <BellhopHeader listTitle={listTitle} />
-          <BellCatalogList className="container m-auto" />
-          <BellListCard
-            className="container m-auto"
-            listTitle={listTitle}
-            bells={bells}
-          />
+          <BellCatalogList className="m-4" />
+          <BellListCard className="m-4" listTitle={listTitle} bells={bells} />
         </>
       )}
     </div>

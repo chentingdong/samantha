@@ -22,7 +22,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
 
   return (
     <div {...props}>
-      <div className="container m-auto">
+      <div>
         <Button
           color="primary"
           className="mb-8 fill"

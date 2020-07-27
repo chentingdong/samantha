@@ -3,23 +3,21 @@ import { MutationType, EditMode, Typename } from "./enum"
 export interface Bell {
   id: string
   name: string
-  description?: string
-  bellhop_owner_id: string
-  bellhop_initiator_id: string
-  user_initiator_id: string
+  description: string
   context: unknown
-  inputs: string
-  outputs: string
+  inputs: unknown
+  outputs: unknown
   state: string
   is_definition: boolean
-  private: boolean
-  menu_order: number
-  can_act_as_subbell: boolean
   created_at: Date
   last_updated: Date
   started_at: Date
   root_block_id: string
-  blocks: Block[]
+  goal_name: string
+  goal_order: number
+  acts_as_main_bell: true
+  main_bell_id: string
+  success_conditions: unknown
 }
 
 export interface Bellhop {
