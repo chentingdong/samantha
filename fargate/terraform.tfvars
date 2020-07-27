@@ -1,2 +1,3 @@
-server_image_tag = "0.6"
-web_image_tag    = "0.4"
+server_image_tag = "local"
+web_image_tag    = "local"
+admin_image_tag    = "local"
