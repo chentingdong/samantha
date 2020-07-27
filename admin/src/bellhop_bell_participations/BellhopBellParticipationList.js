@@ -1,14 +1,5 @@
 import React from "react";
-import {
-  Datagrid,
-  List,
-  TextField,
-  ReferenceArrayField,
-  ArrayField,
-  SingleFieldList,
-  ChipField,
-  ReferenceField,
-} from "react-admin";
+import { Datagrid, List, TextField, ReferenceField } from "react-admin";
 
 const BellhopBellParticipationList = (props) => (
   <List {...props}>

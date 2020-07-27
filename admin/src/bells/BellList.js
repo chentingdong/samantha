@@ -3,10 +3,7 @@ import {
   Datagrid,
   List,
   TextField,
-  SingleFieldList,
-  ChipField,
   ShowButton,
-  ReferenceManyField,
   ReferenceField,
   BooleanField,
 } from "react-admin";
@@ -15,19 +12,9 @@ const BellList = (props) => (
   <List {...props} sort={{ field: "name", order: "ASC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
-      <TextField source="goal_name" />
       <BooleanField source="is_definition" />
       <BooleanField source="acts_as_main_bell" />
       <TextField source="state" />
-      <ReferenceManyField
-        reference="m2_bells"
-        target="main_bell_id"
-        label="Goals"
-      >
-        <SingleFieldList linkType="show">
-          <ChipField source="goal_name" />
-        </SingleFieldList>
-      </ReferenceManyField>
       <ReferenceField
         label="Main Bell"
         source="main_bell_id"

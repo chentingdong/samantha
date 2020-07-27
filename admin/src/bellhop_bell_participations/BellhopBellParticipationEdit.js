@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Edit,
-  SimpleForm,
-  TextInput,
-  ReferenceInput,
-  SelectInput,
-} from "react-admin";
+import { Edit, SimpleForm, ReferenceInput, SelectInput } from "react-admin";
 
 const BellhopBellParticipationEdit = (props) => (
   <Edit {...props}>

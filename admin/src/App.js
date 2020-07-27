@@ -10,13 +10,6 @@ import bellhop_bell_participations from "./bellhop_bell_participations";
 import { HttpLink } from "apollo-client-preset";
 import buildApolloClient from "./ra-data-graphql/buildApolloClient";
 import Dashboard from "./Dashboard";
-import { createMuiTheme } from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  palette: {
-    type: "light",
-  },
-});
 
 const link = new HttpLink({
   uri: `${window.location.protocol}//${window.location.hostname}:8080/v1/graphql`,

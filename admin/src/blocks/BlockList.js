@@ -3,10 +3,7 @@ import {
   Datagrid,
   List,
   TextField,
-  SingleFieldList,
-  ChipField,
   ShowButton,
-  ReferenceManyField,
   ReferenceField,
   BooleanField,
 } from "react-admin";

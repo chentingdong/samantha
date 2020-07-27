@@ -9,8 +9,6 @@ import {
   ShowButton,
   ReferenceField,
   BooleanField,
-  SingleFieldList,
-  ChipField,
 } from "react-admin";
 import BellTitle from "./BellTitle";
 import AddBellhopParticipationButton from "./AddBellhopParticipationButton";
@@ -20,19 +18,9 @@ const BellShow = (props) => (
     <TabbedShowLayout>
       <Tab label="Summary">
         <TextField source="name" />
-        <TextField source="goal_name" />
         <BooleanField source="is_definition" />
         <BooleanField source="acts_as_main_bell" />
         <TextField source="state" />
-        <ReferenceManyField
-          reference="m2_bells"
-          target="main_bell_id"
-          label="Goals"
-        >
-          <SingleFieldList linkType="show">
-            <ChipField source="goal_name" />
-          </SingleFieldList>
-        </ReferenceManyField>
         <ReferenceField
           label="Main Bell"
           source="main_bell_id"

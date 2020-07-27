@@ -6,12 +6,10 @@ import {
   Show,
   TabbedShowLayout,
   ReferenceManyField,
-  ShowButton,
   ReferenceField,
   BooleanField,
 } from "react-admin";
 import BlockTitle from "./BlockTitle";
-import AddUserParticipationButton from "./AddUserParticipationButton";
 
 const BlockShow = (props) => (
   <Show title={<BlockTitle />} {...props}>

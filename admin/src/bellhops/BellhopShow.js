@@ -64,14 +64,6 @@ const BellhopShow = (props) => (
             >
               <BooleanField source="acts_as_main_bell" />
             </ReferenceField>
-            <ReferenceField
-              label="Goal Name"
-              source="bell_id"
-              reference="m2_bells"
-              link="show"
-            >
-              <TextField source="goal_name" />
-            </ReferenceField>
             <TextField source="role" />
             <ShowButton />
           </Datagrid>
