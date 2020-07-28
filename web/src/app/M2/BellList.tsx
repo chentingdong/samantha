@@ -23,7 +23,7 @@ const BellListCard: React.FC<BellListProps> = ({
   return (
     bells && (
       <div {...props}>
-        <h4 className="my-4 border-b">{listTitle}</h4>
+        {listTitle && <h4 className="my-4 border-b">{listTitle}</h4>}
         {bells.length > numberItems && (
           <ViewMore showMore={showMore} setShowMore={setShowMore} />
         )}
@@ -47,7 +47,7 @@ const BellListRow: React.FC<BellListProps> = ({
   const numberItems = showMore ? bells.length : initialCounts
   return (
     <div className="container m-auto" {...props}>
-      <h3 className="pt-4">Start a Bell</h3>
+      <h4 className="pt-4">Start a Bell</h4>
       {bells.length > numberItems && (
         <ViewMore showMore={showMore} setShowMore={setShowMore} />
       )}
