@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react"
 import { Icon } from "rsuite"
-import styled from "styled-components"
-import { User } from "../models/interface"
+import { User } from "models/interface"
 import tw from "tailwind.macro"
-import ChevronDown from "../assets/img/chevron-down.svg"
+import ChevronDown from "assets/img/chevron-down.svg"
+import styled from "styled-components"
 
-type TagPickerType = {
+interface ParticipantsPickerProps {
   value: User[]
   data: User[]
   className?: string
   onInsertTag?: (tag: User) => void
   onDeleteTag?: (tag: User) => void
 }
-const TagPickerRaw: React.FC<TagPickerType> = ({
+const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   value,
   data,
   className,
@@ -24,8 +24,6 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
   useEffect(() => {
     setTags(value)
   }, [value])
-
-  console.log(JSON.stringify(value))
 
   const pickTags = (e, tag) => {
     console.log(tag)
@@ -128,12 +126,12 @@ const Styles = styled.div.attrs({})`
   }
 `
 
-const TagPicker: React.FC<TagPickerType> = (props) => {
+const ParticipantsPicker: React.FC<ParticipantsPickerProps> = (props) => {
   return (
     <Styles>
-      <TagPickerRaw {...props} />
+      <ParticipantsPickerRaw {...props} />
     </Styles>
   )
 }
 
-export { TagPicker }
+export { ParticipantsPicker }

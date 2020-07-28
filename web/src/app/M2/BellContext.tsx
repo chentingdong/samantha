@@ -51,13 +51,13 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
           Content
         </Nav.Item>
       </Nav>
-      <div className="flex flex-col justify-between tabs-content">
+      <div className="tabs-content">
         {activeTab === "activities" && <Activities />}
         {activeTab === "participants" && (
-          <>
-            <Participants className="mb-4 overflow-auto border-b participants" />
-            <Chat />
-          </>
+          <div className="h-full">
+            <Participants className="participants" />
+            <Chat className="chat" />
+          </div>
         )}
         {activeTab === "artifacts" && <Artifacts />}
       </div>
@@ -67,16 +67,21 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
 
 const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   .rs-nav-item-active {
-    ${tw`bg-gray-300`}
+    ${tw`bg-gray-100`}
     >.rs-nav-item-content {
       border-bottom-color: transparent !important;
     }
   }
   .tabs-content {
-    ${tw`bg-gray-300 overflow-hidden px-4 pt-4`}
-    height: calc(100vh - 210px);
+    ${tw`bg-gray-100 h-screen relative`}
+    max-height: calc(100vh - 210px);
     .participants {
+      ${tw`absolute top-0 mb-4 w-full p-4 border-b bg-gray-300`}
       max-height: 10em;
+    }
+    .chat {
+      ${tw`h-full overflow-auto p-4`}
+      overflow: auto;
     }
   }
 `

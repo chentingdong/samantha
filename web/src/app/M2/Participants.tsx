@@ -5,6 +5,7 @@ import { GET_USERS } from "operations/queries/getUsers"
 import { useQuery } from "@apollo/client"
 import { UserAvatar } from "components/UserAvatar"
 import { Loading, Error } from "components/Misc"
+import { ParticipantsPicker } from "./ParticipantsPicker"
 
 interface ParticipantsProps {
   className?: string
@@ -16,6 +17,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
 }) => {
   const { data, loading, error } = useQuery(GET_USERS)
   const users = data?.users
+  const participants = data?.users?.slice(0, 2)
 
   return (
     <div className={className}>
@@ -27,6 +29,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
           <UserAvatar user={user} key={user.id} className="w-8 h-8 m-2" />
         ))}
       </div>
+      <ParticipantsPicker value={participants} data={users} />
     </div>
   )
 }

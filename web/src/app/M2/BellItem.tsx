@@ -31,7 +31,7 @@ const BellCardRaw: React.FC<BellRawProps> = ({
     >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
-          {bell.name || <Placeholder.Paragraph rows={1} />}
+          {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </h5>
         <div>{moment(bell.createdAt).format(dateFormat)}</div>
         <div>Started by [bell.started_by]</div>
@@ -39,7 +39,7 @@ const BellCardRaw: React.FC<BellRawProps> = ({
       {whose === "mine" && (
         <div className="relative w-auto m-6 bg-white border bg-none border-light rounded-md h-36">
           <h6 className="p-2 m-6 overflow-hidden text-center truncate">
-            {bell.name || <Placeholder.Paragraph rows={1} />}
+            {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
           </h6>
           <div className="m-2 text-sm text-right right-6">
             Requested by: {usersToString(bell)}
@@ -72,10 +72,12 @@ const BellRow: React.FC<BellRowProps> = ({ bell }) => {
     bell && (
       <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
         <li className="self-center break-all col-span-2">
-          {bell.name || <Placeholder.Paragraph rows={1} />}
+          {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </li>
         <li className="self-center break-all col-span-4">
-          {bell.description || <Placeholder.Paragraph rows={1} />}
+          {bell.description || (
+            <Placeholder.Paragraph rows={1} rowHeight={14} />
+          )}
         </li>
         <li className="flex flex-row-reverse self-center col-span-1">
           <Link to={`/bells/${bell.id}`}>
