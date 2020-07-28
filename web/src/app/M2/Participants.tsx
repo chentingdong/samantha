@@ -4,8 +4,7 @@ import React from "react"
 import { GET_USERS } from "operations/queries/getUsers"
 import { useQuery } from "@apollo/client"
 import { UserAvatar } from "components/UserAvatar"
-import { Loader } from "rsuite"
-import { Error } from "components/Misc"
+import { Loading, Error } from "components/Misc"
 
 interface ParticipantsProps {
   className?: string
@@ -21,7 +20,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
   return (
     <div className={className}>
       <h4>Participants</h4>
-      {loading && <Loader speed="fast" content="Loading..." />}
+      {loading && <Loading speed="fast" content="Loading..." />}
       {error && <Error message={error.message} />}
       <div className="flex">
         {users?.map((user) => (

@@ -1,6 +1,6 @@
 // Artifacts.tsx. appears in single bell view, right side tabs
 
-import * as React from "react"
+import React from "react"
 
 interface ArtifactsProps {}
 

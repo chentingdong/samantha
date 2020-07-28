@@ -2,8 +2,7 @@ import React from "react"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { CircleImage } from "components/CircleImage"
 import { Button } from "components/Button"
-import { Error } from "../../components/Misc"
-import { Loader, Icon } from "rsuite"
+import { Icon } from "rsuite"
 
 interface BellhopHeaderProps {
   listTitle: string

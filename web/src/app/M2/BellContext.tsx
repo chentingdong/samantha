@@ -1,5 +1,5 @@
 // Goals.tsx in Bells
-import React, { useState, useEffect } from "react"
+import React, { useState } from "react"
 import { Participants } from "./Participants"
 import { Chat } from "./Chat"
 import { Activities } from "./Activities"

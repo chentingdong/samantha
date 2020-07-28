@@ -1,6 +1,6 @@
 // Activities.tsx. appears in single page right side tabs
 
-import * as React from "react"
+import React from "react"
 
 interface ActivitiesProps {}
 
