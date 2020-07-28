@@ -1,6 +1,6 @@
 import React from "react"
 import { FlexboxGrid, Dropdown } from "rsuite"
-import { getLogoByTheme } from "../../utils/styles"
+import { getLogoByTheme, setActiveMenu } from "../../utils/styles"
 import styled from "styled-components"
 import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
@@ -23,16 +23,11 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   onSelect,
   ...props
 }) => {
-  const location = useLocation()
   const {
     data: { authUser },
   } = useQuery(AUTH_USER)
 
-  console.log(props)
-
-  const styleActive = (menuItem: string) => {
-    return location.pathname === menuItem ? "active" : ""
-  }
+  const location = useLocation()
 
   return (
     <div className={`${className} z-30 show-grid`} {...props}>
@@ -44,21 +39,30 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
         />
         <div className="m-4 bg-default">
           <Link
-            className={`menu-item ${styleActive("/lobby")}`}
+            className={`menu-item ${setActiveMenu(
+              location.pathname,
+              "/lobby"
+            )}`}
             onClick={resetUiState}
             to="/lobby"
           >
             Lobby
           </Link>
           <Link
-            className={`menu-item ${styleActive("/company-bell-desk")}`}
+            className={`menu-item ${setActiveMenu(
+              location.pathname,
+              "/company-bell-desk"
+            )}`}
             onClick={resetUiState}
             to="/company-bell-desk"
           >
             Company Bell Desk
           </Link>
           <Link
-            className={`menu-item ${styleActive("/my-bell-desk")}`}
+            className={`menu-item ${setActiveMenu(
+              location.pathname,
+              "/my-bell-desk"
+            )}`}
             onClick={resetUiState}
             to="/my-bell-desk"
           >

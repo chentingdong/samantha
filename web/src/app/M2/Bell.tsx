@@ -1,41 +1,44 @@
 import React from "react"
 import { UI_STATE } from "operations/queries/uiState"
 import { useQuery } from "@apollo/client"
-import { Goals } from "./Goals"
-import { MyStatus } from "./MyStatus"
+import { BellContext } from "./BellContext"
+import { GoalList } from "./GoalList"
+import { Tasks } from "./Tasks"
 import { MainMenu } from "./MainMenu"
-import { setUiState, resetUiState } from "operations/mutations/setUiState"
-import { Link, useLocation } from "react-router-dom"
+import { setUiState } from "operations/mutations/setUiState"
+import styled from "styled-components"
 
 interface BellProps {}
 
-export const Bell: React.FC<BellProps> = (props) => {
+const BellRaw: React.FC<BellProps> = (props) => {
   const {
     data: { uiState },
   } = useQuery(UI_STATE)
 
-  setUiState({ runningBellId: props?.computedMatch?.params.id })
+  const bellId = props?.computedMatch?.params.id
+  setUiState({ runningBellId: bellId })
 
   return (
-    <div className="flex flex-col min-h-screen md:h-auto">
+    <div>
       <MainMenu className="flex-none" />
-      <div className="container flex-grow mx-auto">
-        <div className="flex flex-col ">
-          <h6 className="flex-none m-4">
-            [Facilities Purchase Request][Facilities] {uiState.runningBellId}
-          </h6>
-          <div className="flex-none p-4">
-            <Link to={`/bells/${props?.computedMatch?.params.id}/my-status`}>
-              My Status
-            </Link>
-            <Link to={`/bells/${props?.computedMatch?.params.id}/goals`}>
-              Goals
-            </Link>
-            <Goals />
-            <MyStatus />
-          </div>
+      <h6 className="m-4">
+        [Facilities Purchase Request][Facilities] {uiState.runningBellId}
+      </h6>
+      <div className="bell-context grid grid-cols-3">
+        <div className="mx-4 col-span-2">
+          <GoalList />
+          <Tasks />
+        </div>
+        <div className="col-span-1">
+          <BellContext bell={{ id: bellId }} {...props} />
         </div>
       </div>
     </div>
   )
 }
+
+const Bell = styled(BellRaw)`
+  &.bell-content {
+  }
+`
+export { Bell }

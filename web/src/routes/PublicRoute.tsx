@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { Route, Redirect } from "react-router-dom"
 import { AUTH_USER } from "../operations/queries/authUser"
 import { useQuery } from "@apollo/client"

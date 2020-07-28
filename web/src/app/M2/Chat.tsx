@@ -1,9 +1,14 @@
-import * as React from "react"
+import React from "react"
 
-interface ChatProps {
-  className: string
-}
+interface ChatProps {}
 
-export const Chat: React.FC<ChatProps> = ({ className, ...props }) => {
-  return <div className={className}>Chat...</div>
+export const Chat: React.FC<ChatProps> = (props) => {
+  return (
+    <div {...props}>
+      <div className="">messages list...</div>
+      <div className="">
+        <input type="text" className="w-full" placeholder="type here..." />
+      </div>
+    </div>
+  )
 }

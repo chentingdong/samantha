@@ -1,5 +1,5 @@
 // connect a word like "todo" as keyboard magic sequence.
-import * as React from "react"
+import React from "react"
 import KeyboardEventHandler from "react-keyboard-event-handler"
 
 interface MagicWordProps {

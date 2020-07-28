@@ -164,6 +164,16 @@ textarea:focus {
   outline: none;
 }
 
+/* Menu */
+.menu-item {
+  text-decoration: none;
+  color: theme("colors.gray.700");
+}
+.menu-item.active {
+  text-decoration: none;
+  color: theme("colors.black");
+  font-weight: bold;
+}
 /* Bells */
 /* van gogh's pallette */
 .bg-bell,

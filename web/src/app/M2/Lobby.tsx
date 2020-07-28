@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { useQuery, useSubscription } from "@apollo/client"
 import { AUTH_USER } from "operations/queries/authUser"
 import { REQUESTS_RECEIVED } from "operations/subscriptions/requestsReceived"

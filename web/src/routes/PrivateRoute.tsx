@@ -15,6 +15,6 @@ export default function PrivateRoute({ component: Component, ...props }) {
         <Component {...props} />
       </Route>
     )
-  if (loading) return <>Loading...</>
+  else if (loading) return <>Loading...</>
   else return <Redirect to={`/login?redirect=${redirect}`} delay={3000} />
 }

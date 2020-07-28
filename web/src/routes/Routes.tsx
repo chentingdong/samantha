@@ -32,16 +32,12 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/bells/:id/my-status",
+    path: "/bells/:id/:context",
     component: Bell,
     tag: PrivateRoute,
   },
   {
-    path: "/bells/:id/goals",
-    component: Bell,
-    tag: PrivateRoute,
-  },
-  {
+    comment: "this path not used yet",
     path: "/bellhops/:id",
     component: Bell,
     tag: PrivateRoute,

@@ -1,7 +1,7 @@
 /**
  * customized 404 not found page.
  */
-import * as React from "react"
+import React from "react"
 import { injectRsuiteStyle, getLogoByTheme } from "../utils/styles"
 
 const NotFound = () => {

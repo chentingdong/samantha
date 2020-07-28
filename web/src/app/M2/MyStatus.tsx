@@ -1,5 +1,5 @@
 // MyStatus.tsx in Bells page
-import * as React from "react"
+import React from "react"
 
 interface MyStatusProps {}
 
