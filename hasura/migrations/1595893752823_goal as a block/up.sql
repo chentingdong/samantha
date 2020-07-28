@@ -1,3 +1,4 @@
+DROP SCHEMA m2 CASCADE;
 CREATE SCHEMA m2;
 CREATE TABLE m2.bell_executors (
     id text NOT NULL,
