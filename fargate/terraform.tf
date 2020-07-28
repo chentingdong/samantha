@@ -7,6 +7,10 @@ data "aws_ecr_repository" "samantha-server" {
   name = "samantha-server"
 }
 
+data "aws_ecr_repository" "samantha-admin" {
+  name = "samantha-admin"
+}
+
 data "aws_ecr_repository" "samantha-web" {
   name = "samantha-web"
 }
@@ -44,55 +48,67 @@ resource "aws_ecs_cluster" "samantha" {
   }
 }
 
-# data "template_file" "container_definitions" {
-#   template = "${file("${path.module}/container-definitions.json")}"
+data "template_file" "container_definitions" {
+  template = "${file("${path.module}/container-definitions.json")}"
 
-#   vars = {
-#     server_image = "${data.aws_ecr_repository.samantha-server.repository_url}:${var.server_image_tag}"
-#     web_image    = "${data.aws_ecr_repository.samantha-web.repository_url}:${var.web_image_tag}"
-#     DATABASE_URL = "${file("${path.module}/.env")}"
-#   }
-# }
+  vars = {
+    server_image = "${data.aws_ecr_repository.samantha-server.repository_url}:${var.server_image_tag}"
+    web_image    = "${data.aws_ecr_repository.samantha-web.repository_url}:${var.web_image_tag}"
+    DATABASE_URL = "${file("${path.module}/.env")}"
+  }
+}
 
-# # # ecs task created from `ecs-cli compose create`
-# resource "aws_ecs_task_definition" "samantha" {
-#   container_definitions    = data.template_file.container_definitions.rendered
-#   family                   = "samantha"
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode             = "awsvpc"
-#   cpu                      = 2048
-#   memory                   = 4096
-#   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
-# }
+# # ecs task created from `ecs-cli compose create`
+resource "aws_ecs_task_definition" "samantha" {
+  container_definitions    = data.template_file.container_definitions.rendered
+  family                   = "samantha"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = 2048
+  memory                   = 4096
+  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
+}
 
-# resource "aws_ecs_service" "samantha_service" {
-#   name            = "samantha_service"                   # Naming our first service
-#   cluster         = aws_ecs_cluster.samantha.id          # Referencing our created Cluster
-#   task_definition = aws_ecs_task_definition.samantha.arn # Referencing the task our service will spin up
-#   launch_type     = "FARGATE"
-#   desired_count   = 1
+# Data block to find the latest ACTIVE revision in that family
+data "aws_ecs_task_definition" "samantha" {
+  task_definition = "${aws_ecs_task_definition.samantha.family}"
+}
 
-#   load_balancer {
-#     target_group_arn = aws_lb_target_group.target_group_web.arn # Referencing our target group
-#     container_name   = "web"
-#     container_port   = var.web_port # Specifying the container port
-#   }
-#   load_balancer {
-#     target_group_arn = aws_lb_target_group.target_group_server.arn # Referencing our target group
-#     container_name   = "server"
-#     container_port   = var.server_port # Specifying the container port
-#   }
-#   load_balancer {
-#     target_group_arn = aws_lb_target_group.target_group_hasura.arn # Referencing our target group
-#     container_name   = "hasura"
-#     container_port   = var.hasura_port # Specifying the container port
-#   }
-#   network_configuration {
-#     subnets          = data.aws_subnet_ids.public.ids
-#     assign_public_ip = true # Providing our containers with public IPs
-#     security_groups  = [aws_security_group.service_security_group.id]
-#   }
-# }
+resource "aws_ecs_service" "samantha_service" {
+  name            = "samantha_service"                   # Naming our first service
+  cluster         = aws_ecs_cluster.samantha.id          # Referencing our created Cluster
+  task_definition = "${aws_ecs_task_definition.samantha.family}:${max("${aws_ecs_task_definition.samantha.revision}", "${data.aws_ecs_task_definition.samantha.revision}")}"
+
+  launch_type     = "FARGATE"
+  desired_count   = 1
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.target_group_web.arn # Referencing our target group
+    container_name   = "web"
+    container_port   = var.web_port # Specifying the container port
+  }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.target_group_server.arn # Referencing our target group
+    container_name   = "server"
+    container_port   = var.server_port # Specifying the container port
+  }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.target_group_admin.arn # Referencing our target group
+    container_name   = "admin"
+    container_port   = var.admin_port # Specifying the container port
+  }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.target_group_hasura.arn # Referencing our target group
+    container_name   = "hasura"
+    container_port   = var.hasura_port # Specifying the container port
+  }
+  network_configuration {
+    subnets          = data.aws_subnet_ids.public.ids
+    assign_public_ip = true # Providing our containers with public IPs
+    security_groups  = [aws_security_group.service_security_group.id]
+  }
+}
+
 
 # iam role
 resource "aws_iam_role" "ecsTaskExecutionRole" {
@@ -164,6 +180,13 @@ resource "aws_security_group" "load_balancer_security_group" {
     security_groups = ["sg-e25dbbb4"]
   }
   ingress {
+    from_port       = var.admin_port # Allowing traffic in from port 80
+    to_port         = var.admin_port
+    protocol        = "tcp"
+    cidr_blocks     = var.whitelist_cidrs # Allowing traffic in from all sources
+    security_groups = ["sg-e25dbbb4"]
+  }
+  ingress {
     from_port       = var.hasura_port # Allowing traffic in from port 80
     to_port         = var.hasura_port
     protocol        = "tcp"
@@ -196,6 +219,15 @@ resource "aws_lb_target_group" "target_group_server" {
   deregistration_delay = 120
 }
 
+resource "aws_lb_target_group" "target_group_admin" {
+  name        = "samantha-target-group-admin"
+  port        = var.admin_port
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
+  deregistration_delay = 120
+}
+
 resource "aws_lb_target_group" "target_group_hasura" {
   name        = "samantha-target-group-hasura"
   port        = var.hasura_port
@@ -218,6 +250,19 @@ resource "aws_lb_listener" "web_listener" {
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group_web.arn # Referencing our tagrte group
+  }
+}
+
+resource "aws_lb_listener" "admin_listener" {
+  load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
+  port              = var.admin_port
+  protocol          = "HTTPS"
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = "arn:aws:acm:us-east-1:079056339674:certificate/26c59fef-a5e1-4f24-90e8-a94cda70d1f3"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group_admin.arn # Referencing our tagrte group
   }
 }
 
@@ -254,6 +299,10 @@ resource "aws_cloudwatch_log_group" "samantha-web" {
 
 resource "aws_cloudwatch_log_group" "samantha-server" {
   name = "samantha-server"
+}
+
+resource "aws_cloudwatch_log_group" "samantha-admin" {
+  name = "samantha-admin"
 }
 
 resource "aws_cloudwatch_log_group" "samantha-hasura" {

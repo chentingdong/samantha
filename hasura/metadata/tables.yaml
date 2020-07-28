@@ -1,5 +1,21 @@
 - table:
     schema: m2
+    name: bell_executors
+  object_relationships:
+  - name: bell
+    using:
+      foreign_key_constraint_on: bell_id
+  - name: block
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: blocks
+        column_mapping:
+          id: id
+          type: type
+- table:
+    schema: m2
     name: bellhop_bell_participations
   object_relationships:
   - name: bell
@@ -62,15 +78,14 @@
   - name: root_block
     using:
       foreign_key_constraint_on: root_block_id
-  - name: secondary_goal_executor
-    using:
-      manual_configuration:
-        remote_table:
-          schema: m2
-          name: goal_executors
-        column_mapping:
-          id: goal_id
   array_relationships:
+  - name: bell_executors
+    using:
+      foreign_key_constraint_on:
+        column: bell_id
+        table:
+          schema: m2
+          name: bell_executors
   - name: bellhop_participations
     using:
       foreign_key_constraint_on:
@@ -145,6 +160,15 @@
           name: bells
         column_mapping:
           id: root_block_id
+  - name: bell_executor
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: bell_executors
+        column_mapping:
+          id: id
+          type: type
   - name: block_state
     using:
       foreign_key_constraint_on: state
@@ -160,12 +184,12 @@
         column_mapping:
           id: id
           type: type
-  - name: goal_executor
+  - name: goal
     using:
       manual_configuration:
         remote_table:
           schema: m2
-          name: goal_executors
+          name: goals
         column_mapping:
           id: id
           type: type
@@ -203,7 +227,7 @@
           name: user_task_participations
 - table:
     schema: m2
-    name: goal_executors
+    name: goals
   object_relationships:
   - name: block
     using:
@@ -214,9 +238,6 @@
         column_mapping:
           id: id
           type: type
-  - name: goal
-    using:
-      foreign_key_constraint_on: goal_id
 - table:
     schema: m2
     name: membership_roles

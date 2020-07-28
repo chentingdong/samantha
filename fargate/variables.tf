@@ -3,6 +3,11 @@ variable "server_image_tag" {
   type        = string
 }
 
+variable "admin_image_tag" {
+  description = "The samantha-admin image tag to deploy."
+  type        = string
+}
+
 variable "web_image_tag" {
   description = "The samantha-web image tag to deploy."
   type        = string
@@ -18,6 +23,12 @@ variable "server_port" {
   description = "The server port."
   type        = number
   default     = 3000
+}
+
+variable "admin_port" {
+  description = "The admin port."
+  type        = number
+  default     = 3030
 }
 
 variable "hasura_port" {

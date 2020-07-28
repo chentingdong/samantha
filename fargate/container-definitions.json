@@ -2,7 +2,7 @@
   {
     "command": ["graphql-engine", "serve"],
     "essential": true,
-    "image": "hasura/graphql-engine:v1.2.2",
+    "image": "hasura/graphql-engine:v1.3.0",
     "name": "hasura",
     "cpu": 512,
     "memory": 1024,
@@ -43,7 +43,7 @@
       "yarn hasura:migrate && yarn hasura:metadata && yarn start"
     ],
     "essential": true,
-    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:13c97c269cf4bb643ed4a6e3b34b633543235a2a",
+    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
     "name": "server",
     "cpu": 512,
     "memory": 1024,
@@ -82,9 +82,32 @@
     }
   },
   {
+    "command": ["yarn", "-s", "start"],
+    "essential": true,
+    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-admin:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
+    "name": "admin",
+    "cpu": 512,
+    "memory": 1024,
+    "portMappings": [
+      {
+        "containerPort": 3030,
+        "hostPort": 3030,
+        "protocol": "tcp"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "samantha-admin",
+        "awslogs-region": "us-east-1",
+        "awslogs-stream-prefix": "ecs"
+      }
+    }
+  },
+  {
     "command": ["yarn", "-s", "start:prod"],
     "essential": true,
-    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-web:13c97c269cf4bb643ed4a6e3b34b633543235a2a",
+    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-web:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
     "name": "web",
     "cpu": 512,
     "memory": 1024,

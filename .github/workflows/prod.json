@@ -83,6 +83,30 @@
       }
     },
     {
+      "command": ["yarn", "-s", "start"],
+      "essential": true,
+      "image": "${ADMIN_IMAGE}",
+      "name": "admin",
+      "cpu": 512,
+      "memory": 1024,
+      "portMappings": [
+        {
+          "containerPort": 3030,
+          "hostPort": 3030,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "samantha-admin",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "pseudoTerminal": true
+    },
+    {
       "command": ["yarn", "-s", "start:prod"],
       "essential": true,
       "image": "${WEB_IMAGE}",
