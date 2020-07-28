@@ -4,7 +4,7 @@ import { bellFragment } from "operations/fragments/bell"
 
 export const BELL_CATALOG = gql`
   subscription bellsCatalog {
-    bells(order_by: { last_updated: desc }) {
+    m2_bells(order_by: { updated_at: desc }) {
       ...bellFragment
     }
   }

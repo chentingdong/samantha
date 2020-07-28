@@ -27,7 +27,7 @@ const BellListCard: React.FC<BellListProps> = ({
   return (
     bells && (
       <div {...props}>
-        {listTitle && <h3 className="py-2 my-4 border-b">{listTitle}</h3>}
+        <h4 className="my-4 border-b">{listTitle}</h4>
         <ViewMore showMore={showMore} setShowMore={setShowMore} />
         <div className="h-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {bells?.slice(0, numberItems).map((bell) => {

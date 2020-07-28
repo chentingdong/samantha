@@ -12,7 +12,7 @@ import { MainMenu } from "./MainMenu"
 export interface LobbyProps {}
 
 const LobbyRaw: React.FC<LobbyProps> = () => {
-  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
+  const { data: authUserResult } = useQuery(AUTH_USER)
 
   const {
     data: bellsMine,
@@ -34,17 +34,8 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
     <div>
       <MainMenu className="md-8" />
       <div className="container mx-auto">
-        {(loadingUser || loadingMine || loadingOthers) && (
-          <Loading className="text-center" />
-        )}
-        {(errorMine || errorOthers) && (
-          <Error
-            message={`
-              my bells error: ${errorMine.message},
-              other beels error: ${errorOthers.message}
-            `}
-          />
-        )}
+        {loadingMine && <Loading />}
+        {errorMine && <Error message={errorMine.message} />}
         {bellsMine && (
           <PanelGroup accordion>
             <Panel
@@ -55,6 +46,8 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
             </Panel>
           </PanelGroup>
         )}
+        {loadingOthers && <Loading />}
+        {errorOthers && <Error message={errorOthers.message} />}
         {bellsOthers && (
           <PanelGroup accordion>
             <Panel

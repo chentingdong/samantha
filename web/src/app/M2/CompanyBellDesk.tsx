@@ -1,32 +1,30 @@
 // CompanyBellDesk.tsx
 import React from "react"
-import { testingBellhopList } from "../../../data/bellhop"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellhopHeader } from "./BellhopHeader"
-import { useQuery } from "@apollo/client"
-import { UI_STATE } from "operations/queries/uiState"
-import { Loading, Error } from "components/Misc"
+import { useQuery, useSubscription } from "@apollo/client"
 import { BellCatalogList } from "./BellCatalogList"
-import { TODO } from "components/TODO"
 import { MainMenu } from "./MainMenu"
+import { Loading, Error } from "components/Misc"
+import { BELLHOP_LIST } from "operations/subscriptions/bellhopList"
+import { UI_STATE } from "operations/queries/uiState"
 
 interface CompanyBellDeskProps {}
 
 const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
-  // const { loading, error, data } = useQuery(Bellhop)
-  // const [bellhops, setBellhops] = useState(testingBellhopList)
-  const bellhops = testingBellhopList
-  const listTitle = "All Bellhops"
+  const { data, loading, error } = useSubscription(BELLHOP_LIST, {})
+
   const {
     data: { uiState },
-    loading,
-    error,
   } = useQuery(UI_STATE)
 
+  const listTitle = "All Bellhops"
+
+  if (loading) return <Loading />
+  const bellhops = data.m2_bellhops
   return (
     <div className="">
       <MainMenu className="md-8" />
-      {loading && <Loading />}
       {error && <Error message={error.message} />}
       {!uiState.currentBellhopId && (
         <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
@@ -34,11 +32,7 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
       {uiState.currentBellhopId && (
         <>
           <BellhopHeader listTitle={listTitle} />
-          <TODO>
-            load bell is_definition=true on current bellhop id:
-            <i>{uiState.currentBellhopId}</i>
-          </TODO>
-          <BellCatalogList className="m-4" />
+          <BellCatalogList className="container mx-auto" />
         </>
       )}
     </div>

@@ -4,7 +4,6 @@ import { CircleImage } from "components/CircleImage"
 import { Button } from "components/Button"
 import { Error } from "../../components/Misc"
 import { Loader, Icon } from "rsuite"
-import { TODO } from "components/TODO"
 
 interface BellhopHeaderProps {
   listTitle: string
@@ -22,10 +21,10 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
 
   return (
     <div {...props}>
-      <div>
+      <div className="container mx-auto ">
         <Button
           color="primary"
-          className="mb-8 fill"
+          className="mb-4 ml-0 fill"
           onClick={unsetCurrentBellhop}
         >
           <Icon icon="left" />
@@ -35,8 +34,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
       <div className="w-full p-4 bg-gray-300">
         <div className="container flex m-auto">
           <div className="flex-1 m-auto">
-            <h3>Engineers</h3>
-            <TODO>bellhop need description field</TODO>
+            <h4>Engineers</h4>
             <div className="p-4">Building cool product!</div>
           </div>
           <div className="flex-none mr-4">

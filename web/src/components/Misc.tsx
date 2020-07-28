@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Spinner, Alert } from "react-bootstrap"
 import { Loader } from "rsuite"
 
-const Loading = ({ className }) => (
+const Loading = ({ className = "text-center" }) => (
   <Loader
     className={className}
     speed="fast"

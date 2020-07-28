@@ -36,33 +36,21 @@ const bellFragmentM1 = gql`
 `
 
 const bellFragment = gql`
-  fragment bellFragment on bells {
+  fragment bellFragment on m2_bells {
     id
     name
     description
-    state
     context
+    inputs
+    outputs
+    state
+    is_definition
     created_at
-    last_updated
-    last_updated
+    updated_at
+    started_at
     root_block_id
-    block {
-      id
-      name
-      description
-      requestors {
-        user {
-          id
-          name
-        }
-      }
-      responders {
-        user {
-          id
-          name
-        }
-      }
-    }
+    acts_as_main_bell
+    main_bell_id
   }
 `
 
