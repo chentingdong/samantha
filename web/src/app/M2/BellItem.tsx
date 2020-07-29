@@ -53,6 +53,9 @@ const BellCardRaw: React.FC<BellRawProps> = ({
 const BellCard = styled(BellCardRaw)`
   & {
     ${tw`bg-gray-200 overflow-hidden cursor-pointer`}
+    &:hover {
+      ${tw`hover:bg-gray-300 active:bg-gray-100`}
+    }
     .card-header,
     .card-body,
     .card-footer {

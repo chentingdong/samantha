@@ -11,7 +11,7 @@ import { MainMenu } from "./MainMenu"
 
 export interface LobbyProps {}
 
-const LobbyRaw: React.FC<LobbyProps> = () => {
+const LobbyRaw: React.FC<LobbyProps> = (props) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
 
   const {
@@ -31,7 +31,7 @@ const LobbyRaw: React.FC<LobbyProps> = () => {
   })
 
   return (
-    <div>
+    <div {...props}>
       <MainMenu className="md-8" />
       <div className="container mx-auto">
         {loadingMine && <Loading />}
