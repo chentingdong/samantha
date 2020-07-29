@@ -61,8 +61,6 @@ const BellCard = styled(BellCardRaw)`
     .card-footer {
       ${tw`p-4`}
     }
-    .card-header {
-    }
   }
 `
 

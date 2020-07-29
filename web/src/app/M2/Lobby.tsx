@@ -63,12 +63,5 @@ const LobbyRaw: React.FC<LobbyProps> = (props) => {
   )
 }
 
-const Lobby = styled(LobbyRaw)`
-  .rs-panel-collapsible > .rs-panel-heading {
-    ${tw`border-b border-gray-300 px-0`}
-  }
-  .rs-panel-group .rs-panel::before,
-    border: none !important
-  }
-`
+const Lobby = styled(LobbyRaw)``
 export { Lobby }
