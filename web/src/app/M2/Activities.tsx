@@ -39,19 +39,25 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
         {activitiesRunning?.map((activity) => (
           <div className="activity" key={activity.id}>
             <StateIcon state={activity.state} />
-            <div className="text-gray-500">
+            <div className="font-bold text-gray-800">
               Started: <a href="#">{activity.name}</a>
             </div>
           </div>
         ))}
-        <hr />
+        <div className="ddd">...</div>
         {activitiesFuture?.map((activity) => (
-          <div className="activity" key={activity.id}>
+          <div className="hidden activity" key={activity.id}>
             <StateIcon state={activity.state} />
-            {activity.state}
-            <div>{activity.name}</div>
+            <div>
+              <span className="capitalize">{activity.state}: </span>
+              {activity.name}
+            </div>
           </div>
         ))}
+        <div className="text-gray-500 activity">
+          <StateIcon state="Created" />
+          <span>Complete </span> <i>[Facilities Purchase Request]</i>
+        </div>
       </div>
     </div>
   )
@@ -59,21 +65,24 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
 
 const Activities: React.FC<ActivitiesProps> = styled(ActivitiesRaw)`
   .inner {
-    ${tw`border-gray-800 border-l-2 m-4`}
+    ${tw`border-gray-800 border-l-2 m-4 pb-1`}
   }
   .activity {
     ${tw`my-8 flex items-center`}
-    margin-left: 25px;
+    margin-left: 32px;
     .rs-icon {
       ${tw`bg-white`}
       font-size: 20px;
-      margin-left: -34px;
+      margin-left: -41px;
       margin-right: 15px;
       z-index: 10;
     }
   }
   hr {
-    ${tw`w-2/3 mx-auto border-gray-800 border-dashed`}
+    ${tw`w-2/3 mx-auto border-gray-800 border-dashed border-gray-500`}
+  }
+  .ddd {
+    ${tw`mx-auto my-8 text-3xl font-bold text-center text-gray-500`}
   }
 `
 
