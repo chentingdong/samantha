@@ -100,7 +100,7 @@
         table:
           schema: m2
           name: blocks
-  - name: goals
+  - name: sub_bells
     using:
       foreign_key_constraint_on:
         column: main_bell_id
@@ -175,15 +175,6 @@
   - name: block_type
     using:
       foreign_key_constraint_on: type
-  - name: form_task
-    using:
-      manual_configuration:
-        remote_table:
-          schema: m2
-          name: form_tasks
-        column_mapping:
-          id: id
-          type: type
   - name: goal
     using:
       manual_configuration:
@@ -196,6 +187,15 @@
   - name: parent
     using:
       foreign_key_constraint_on: parent_id
+  - name: task
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: tasks
+        column_mapping:
+          id: id
+          type: type
   array_relationships:
   - name: children
     using:
@@ -204,27 +204,13 @@
         table:
           schema: m2
           name: blocks
-- table:
-    schema: m2
-    name: form_tasks
-  object_relationships:
-  - name: block
-    using:
-      manual_configuration:
-        remote_table:
-          schema: m2
-          name: blocks
-        column_mapping:
-          id: id
-          type: type
-  array_relationships:
   - name: user_participations
     using:
       foreign_key_constraint_on:
-        column: task_id
+        column: block_id
         table:
           schema: m2
-          name: user_task_participations
+          name: user_block_participations
 - table:
     schema: m2
     name: goals
@@ -269,13 +255,26 @@
         table:
           schema: m2
           name: user_bell_participations
-  - name: user_task_participations
+  - name: user_block_participations
     using:
       foreign_key_constraint_on:
         column: role
         table:
           schema: m2
-          name: user_task_participations
+          name: user_block_participations
+- table:
+    schema: m2
+    name: tasks
+  object_relationships:
+  - name: block
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: blocks
+        column_mapping:
+          id: id
+          type: type
 - table:
     schema: m2
     name: user_bell_participations
@@ -294,14 +293,14 @@
       foreign_key_constraint_on: user_id
 - table:
     schema: m2
-    name: user_task_participations
+    name: user_block_participations
   object_relationships:
+  - name: block
+    using:
+      foreign_key_constraint_on: block_id
   - name: participation_role
     using:
       foreign_key_constraint_on: role
-  - name: task
-    using:
-      foreign_key_constraint_on: task_id
   - name: user
     using:
       foreign_key_constraint_on: user_id
@@ -323,13 +322,13 @@
         table:
           schema: m2
           name: user_bell_participations
-  - name: task_participations
+  - name: block_participations
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: m2
-          name: user_task_participations
+          name: user_block_participations
 - table:
     schema: public
     name: bells
