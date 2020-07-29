@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react"
+import ClickOutHandler from "react-onclickout"
 import { Icon } from "rsuite"
 import { User } from "models/interface"
-import tw from "tailwind.macro"
 import { userInitials } from "utils/user"
-import ClickOutHandler from "react-onclickout"
-import styled from "styled-components"
 import { Button } from "components/Button"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 
 interface ParticipantsPickerProps {
   participants: User[]
@@ -59,8 +59,8 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   }
 
   return (
-    <ClickOutHandler className={`${className}`} onClickOut={onClickOut}>
-      <div className="flex toggle-select">
+    <ClickOutHandler onClickOut={onClickOut}>
+      <div className={`${className} flex`}>
         {tags?.length === 0 && <div className="p-1">click to select...</div>}
         {tags?.map((tag, index) => {
           return (
