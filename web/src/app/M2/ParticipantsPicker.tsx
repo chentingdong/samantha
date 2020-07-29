@@ -2,19 +2,21 @@ import React, { useState, useEffect } from "react"
 import { Icon } from "rsuite"
 import { User } from "models/interface"
 import tw from "tailwind.macro"
-import ChevronDown from "assets/img/chevron-down.svg"
+import { userInitials } from "utils/user"
+import ClickOutHandler from "react-onclickout"
 import styled from "styled-components"
+import { Button } from "components/Button"
 
 interface ParticipantsPickerProps {
-  value: User[]
-  data: User[]
+  participants: User[]
+  users: User[]
   className?: string
   onInsertTag?: (tag: User) => void
   onDeleteTag?: (tag: User) => void
 }
 const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
-  value,
-  data,
+  participants,
+  users,
   className,
   onInsertTag,
   onDeleteTag,
@@ -22,11 +24,10 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   const [tags, setTags] = useState([])
   const [showSelect, setShowSelect] = useState(false)
   useEffect(() => {
-    setTags(value)
-  }, [value])
+    setTags(participants)
+  }, [participants])
 
   const pickTags = (e, tag) => {
-    console.log(tag)
     let newTags = [...tags, tag]
     if (e.target.checked && !objInArr(tag, tags)) {
       newTags = [...tags, tag]
@@ -47,7 +48,10 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
 
   const toggleSelect = (e) => {
     setShowSelect(!showSelect)
-    console.log(showSelect)
+  }
+
+  const onClickOut = (e) => {
+    setShowSelect(false)
   }
 
   const objInArr = (obj, arr) => {
@@ -55,29 +59,35 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   }
 
   return (
-    <div className={`${className} rounded p-1`}>
-      <div className="toggle-select" onClick={toggleSelect}>
+    <ClickOutHandler className={`${className}`} onClickOut={onClickOut}>
+      <div className="flex toggle-select">
         {tags?.length === 0 && <div className="p-1">click to select...</div>}
         {tags?.map((tag, index) => {
           return (
-            <span key={index} className="inline-block w-auto p-1 rounded tag">
-              <span className="m-1">{tag.name}</span>
-              <Icon
-                className="text-sm cursor-pointer"
-                icon="close"
-                onClick={(e) => deleteTag(e, tag)}
-              />
-            </span>
+            <div key={index} className="tag">
+              <div className="inner">
+                <span className="m-1">{userInitials(tag)}</span>
+                <Icon
+                  className="close"
+                  icon="close"
+                  onClick={(e) => deleteTag(e, tag)}
+                />
+              </div>
+            </div>
           )
         })}
-        <div className="p-2 toggle">
-          <Icon icon={ChevronDown} size="lg" />
-        </div>
+        <Button
+          className="w-8 h-8 add-tag circle"
+          color="primary"
+          onClick={toggleSelect}
+        >
+          <Icon icon="plus" />
+        </Button>
       </div>
-      <div>
-        {data?.map((tag) => {
-          return (
-            showSelect && (
+      {showSelect && (
+        <div className="users">
+          {users?.map((tag) => {
+            return (
               <div key={tag.id}>
                 <input
                   type="checkbox"
@@ -92,46 +102,49 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
                 </label>
               </div>
             )
-          )
-        })}
-      </div>
-    </div>
+          })}
+        </div>
+      )}
+    </ClickOutHandler>
   )
 }
 
-const Styles = styled.div.attrs({})`
-  ${tw`px-3`}
-  border-radius: 20px;
-  line-height: 1.5rem;
-  position: relative;
-  border: 1px solid;
-  color: var(--color-text-default);
-  background: var(--color-bg-default);
-  padding-right: 2em;
+const ParticipantsPicker = styled(ParticipantsPickerRaw)`
+  ${tw`relative my-2`}
+  line-height: 2rem;
   .tag {
-    color: var(--color-text-success);
-    background-color: var(--color-bg-success);
-    .close {
+    ${tw`relative mx-1 cursor-pointer font-bold`}
+    font-size: 1rem;
+    .inner {
+      ${tw`m-1 w-8 h-8 content-center text-center`}
+      ${tw`text-white bg-purple-500 rounded-full`}
+      .close {
+        ${tw`absolute top-0 right-0 w-4 h-4 p-1 `}
+        ${tw`content-center text-center font-bold text-purple-800`}
+        ${tw`cursor-pointer bg-gray-500 shadow rounded-full`}
+        font-size: 0.5rem;
+        display: None;
+      }
+      :hover .close {
+        display: block;
+      }
     }
   }
-  .toggle {
-    position: absolute;
-    z-index: 50;
-    right: 0.5em;
-    top: 0.2em;
-    cursor: pointer;
-    .rs-icon {
-      color: var(--color-bg-primary);
+  .add-tag {
+    &, &:hover {
+      ${tw`mx-2 my-1`}
+      .rs-icon {
+        font-size: 1rem;
+      }
     }
+    &:active {
+      opacity: 0.5;
+      transition: opacity 0.5 liner;
+    }
+  }
+  .users {
+    ${tw`bg-white shadow-lg w-full p-4`}
   }
 `
-
-const ParticipantsPicker: React.FC<ParticipantsPickerProps> = (props) => {
-  return (
-    <Styles>
-      <ParticipantsPickerRaw {...props} />
-    </Styles>
-  )
-}
 
 export { ParticipantsPicker }

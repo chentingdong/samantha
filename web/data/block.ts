@@ -1,4 +1,4 @@
-import { BlockOrDef } from "../src/models/interface"
+import { Block, BlockOrDef } from "../src/models/interface"
 import { nanoid } from "nanoid"
 
 // used by cache.tsx and setUiState.tsx

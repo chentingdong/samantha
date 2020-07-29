@@ -80,4 +80,4 @@ const testingBellList: Bell[] = [
     success_conditions: {},
   },
 ]
-export { initialBell, testingBell, testingBellList }
+export { initialBell, testingBellList }

@@ -31,6 +31,7 @@ export interface Bellhop {
 
 export interface Block {
   id: string
+  name: string
   local_id: string
   bell_id: string
   state: string
@@ -40,6 +41,8 @@ export interface Block {
   created_at: Date
   last_updated: Date
   started_at: Date
+  parent_id: string
+  sibling_order: string
   __mutation_type__?: MutationType
   __typename?: string
 }

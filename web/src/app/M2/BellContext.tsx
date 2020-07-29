@@ -52,20 +52,26 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
         </Nav.Item>
       </Nav>
       <div className="tabs-content">
-        {activeTab === "activities" && <Activities />}
+        {activeTab === "activities" && <Activities className="activities" />}
         {activeTab === "participants" && (
           <div className="h-full">
             <Participants className="participants" />
             <Chat className="chat" />
           </div>
         )}
-        {activeTab === "artifacts" && <Artifacts />}
+        {activeTab === "artifacts" && <Artifacts className="artifacts" />}
       </div>
     </div>
   )
 }
 
 const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
+  .rs-nav-tabs ul {
+    // ${tw`flex justify-between`}
+  }
+  .rs-nav-item {
+    ${tw`mx-4 border border-b-0 rounded-t-md`}
+  }
   .rs-nav-item-active {
     ${tw`bg-gray-100`}
     >.rs-nav-item-content {
@@ -75,8 +81,13 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   .tabs-content {
     ${tw`bg-gray-100 h-screen relative`}
     max-height: calc(100vh - 210px);
+    .activities,
+    .participants,
+    .artifacts {
+      ${tw`p-4`}
+    }
     .participants {
-      ${tw`absolute top-0 mb-4 w-full p-4 border-b bg-gray-300`}
+      ${tw`absolute top-0 mb-4 w-full border-b bg-gray-300`}
       max-height: 10em;
     }
     .chat {

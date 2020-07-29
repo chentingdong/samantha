@@ -25,10 +25,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
     setTags(value)
   }, [value])
 
-  console.log(JSON.stringify(value))
-
   const pickTags = (e, tag) => {
-    console.log(tag)
     let newTags = [...tags, tag]
     if (e.target.checked && !objInArr(tag, tags)) {
       newTags = [...tags, tag]
@@ -49,7 +46,6 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
 
   const toggleSelect = (e) => {
     setShowSelect(!showSelect)
-    console.log(showSelect)
   }
 
   const objInArr = (obj, arr) => {

@@ -13,13 +13,11 @@ const Logout: React.SFC<LogoutProps> = (props) => {
   }
 
   const logout = async () => {
-    console.log("cancel")
     await Auth.signOut()
     notify("success")
   }
 
   const cancel = () => {
-    console.log("cancel")
     setShowConfirm(false)
   }
 

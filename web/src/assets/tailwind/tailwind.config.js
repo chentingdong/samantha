@@ -44,7 +44,6 @@ module.exports = {
       body: ["Avenir", "Varela", "Arial", "sans"],
     },
     fontSize: {
-      "2xs": "0.5rem",
       xs: "0.64rem",
       sm: "0.8rem",
       base: "1rem",
@@ -88,6 +87,10 @@ module.exports = {
       transitionProperty: {
         height: "height",
         spacing: "margin, padding",
+      },
+      fontSize: {
+        "2xs": "0.5rem",
+        "3xs": "0.3rem",
       },
     },
   },
