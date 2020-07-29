@@ -15,9 +15,11 @@
     "ra-core": "^3.7.1",
     "ra-data-graphql": "^3.6.1",
     "ra-data-hasura-graphql": "^0.1.12",
+    "ra-input-rich-text": "^3.7.1",
     "react": "^16.13.1",
     "react-admin": "^3.7.1",
     "react-dom": "^16.13.1",
+    "react-highlight.js": "^1.0.7",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"

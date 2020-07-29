@@ -9,9 +9,11 @@ import {
   ShowButton,
   ReferenceField,
   BooleanField,
+  RichTextField,
 } from "react-admin";
 import BellTitle from "./BellTitle";
 import AddBellhopParticipationButton from "./AddBellhopParticipationButton";
+import JSONField from "../components/JSONField";
 
 const BellShow = (props) => (
   <Show title={<BellTitle />} {...props}>
@@ -21,6 +23,7 @@ const BellShow = (props) => (
         <BooleanField source="is_definition" />
         <BooleanField source="acts_as_main_bell" />
         <TextField source="state" />
+        <JSONField source="context" />
         <ReferenceField
           label="Main Bell"
           source="main_bell_id"
