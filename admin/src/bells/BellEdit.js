@@ -10,7 +10,7 @@ import {
 import BellTitle from "./BellTitle";
 import BlockSelectField from "../blocks/BlockSelectField";
 import BellSelectField from "./BellSelectField";
-import RichTextInput from "ra-input-rich-text";
+import JSONInput from "../components/JSONInput";
 
 const BellEdit = (props) => (
   <Edit title={<BellTitle />} {...props}>
@@ -21,7 +21,7 @@ const BellEdit = (props) => (
       <ReferenceInput label="State" source="state" reference="m2_block_state">
         <SelectInput optionText="id" optionValue="id" />
       </ReferenceInput>
-      <TextInput source="context" />
+      <JSONInput source="context" />
       <ReferenceInput
         label="Main Bell"
         source="main_bell_id"
