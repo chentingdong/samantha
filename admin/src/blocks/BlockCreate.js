@@ -16,6 +16,7 @@ export const BlockCreate = (props) => (
     <SimpleForm
       initialValues={{
         id: nanoid(),
+        local_id: nanoid(),
         state: "Draft",
         is_definition: true,
       }}

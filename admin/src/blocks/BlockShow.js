@@ -10,7 +10,7 @@ import {
   BooleanField,
 } from "react-admin";
 import BlockTitle from "./BlockTitle";
-
+import JSONField from "../components/JSONField";
 const BlockShow = (props) => (
   <Show title={<BlockTitle />} {...props}>
     <TabbedShowLayout>
@@ -19,6 +19,7 @@ const BlockShow = (props) => (
         <TextField source="name" />
         <TextField source="type" />
         <TextField source="state" />
+        <JSONField source="configs" />
         <ReferenceField
           label="Parent"
           source="parent_id"
