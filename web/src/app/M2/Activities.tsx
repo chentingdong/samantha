@@ -39,7 +39,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
         {activitiesRunning?.map((activity) => (
           <div className="activity" key={activity.id}>
             <StateIcon state={activity.state} />
-            <div className="font-bold text-gray-800">
+            <div className="text-lg text-gray-800">
               Started: <a href="#">{activity.name}</a>
             </div>
           </div>
@@ -56,7 +56,9 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
         ))}
         <div className="text-gray-500 activity">
           <StateIcon state="Created" />
-          <span>Complete </span> <i>[Facilities Purchase Request]</i>
+          <div>
+            <span>Complete </span> <i>[Facilities Purchase Request]</i>
+          </div>
         </div>
       </div>
     </div>

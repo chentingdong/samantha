@@ -15,7 +15,7 @@ export interface BellRawProps {
   className?: string
 }
 
-const BellCardRaw: React.FC<BellRawProps> = ({
+const BellItemCardRaw: React.FC<BellRawProps> = ({
   bell,
   whose,
   className,
@@ -50,7 +50,7 @@ const BellCardRaw: React.FC<BellRawProps> = ({
     </Link>
   )
 }
-const BellCard = styled(BellCardRaw)`
+const BellItemCard = styled(BellItemCardRaw)`
   & {
     ${tw`bg-gray-200 overflow-hidden cursor-pointer`}
     &:hover {
@@ -64,11 +64,11 @@ const BellCard = styled(BellCardRaw)`
   }
 `
 
-export interface BellRowProps {
+export interface BellItemRowProps {
   bell: Bell
 }
 
-const BellRow: React.FC<BellRowProps> = ({ bell }) => {
+const BellItemRow: React.FC<BellItemRowProps> = ({ bell }) => {
   return (
     bell && (
       <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
@@ -92,4 +92,4 @@ const BellRow: React.FC<BellRowProps> = ({ bell }) => {
   )
 }
 
-export { BellCard, BellRow }
+export { BellItemCard, BellItemRow }
