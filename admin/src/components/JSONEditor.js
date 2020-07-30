@@ -21,7 +21,9 @@ const jsonParser = (text) => {
 };
 
 const JSONEditor = (props) => {
-  const [value, setValue] = useState(jsonFormatter(props.record[props.source]));
+  const [value, setValue] = useState(
+    jsonFormatter(props.record[props.source] || {})
+  );
 
   const {
     input: { onChange },
@@ -38,12 +40,12 @@ const JSONEditor = (props) => {
         setValue(value);
         onChange(value);
       }}
-      highlight={(value) => highlight(value, languages.js)}
-      padding={0}
-      style={{
-        fontFamily: '"Fira code", "Fira Mono", monospace',
-        fontSize: 12,
+      highlight={(value) => {
+        try {
+          return highlight(value, languages.json);
+        } catch (e) {}
       }}
+      padding={10}
     />
   );
 };

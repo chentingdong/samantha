@@ -40,7 +40,7 @@ export const BellCreate = (props) => (
         fullWidth
       >
         <SelectInput optionText={<BellSelectField />} optionValue="id" />
-      </ReferenceInput>{" "}
+      </ReferenceInput>
       <ReferenceInput
         label="Root Block"
         source="root_block_id"
