@@ -4,7 +4,11 @@ import { nanoid } from "nanoid";
 
 export const BellhopCreate = (props) => (
   <Create title="Create New Bellhop" {...props}>
-    <SimpleForm initialValues={{ id: nanoid() }}>
+    <SimpleForm
+      variant="outlined"
+      redirect="show"
+      initialValues={{ id: nanoid() }}
+    >
       <TextInput source="id" />
       <TextInput source="name" />
     </SimpleForm>

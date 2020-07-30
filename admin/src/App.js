@@ -23,12 +23,13 @@ const apolloClient = buildApolloClient({ link });
 const knownResources = [
   "m2_block_type",
   "m2_block_state",
-  "m2_form_tasks",
+  "m2_tasks",
+  "m2_goals",
   "m2_goal_executors",
   "m2_membership_roles",
   "m2_participation_roles",
   "m2_user_bell_participations",
-  "m2_user_task_participations",
+  "m2_user_block_participations",
 ];
 
 const dataProviderDecorator = (requestHandler) => (type, resource, params) => {

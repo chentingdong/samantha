@@ -3,7 +3,7 @@ import { Edit, SimpleForm, ReferenceInput, SelectInput } from "react-admin";
 
 const BellhopMembershipEdit = (props) => (
   <Edit {...props}>
-    <SimpleForm>
+    <SimpleForm variant="outlined" redirect="show">
       <ReferenceInput
         label="Bellhop"
         source="bellhop_id"

@@ -15,6 +15,7 @@ export const BellhopBellParticipationCreate = (props) => {
   return (
     <Create {...props}>
       <SimpleForm
+        variant="outlined"
         initialValues={{ bellhop_id, bell_id }}
         redirect={bell_redirect || bellhop_redirect}
       >
