@@ -25,7 +25,6 @@ export const BellCreate = (props) => (
       }}
     >
       <TextInput source="id" />
-      <TextInput source="local_id" />
       <TextInput source="name" fullWidth />
       <BooleanInput source="is_definition" />
       <BooleanInput source="acts_as_main_bell" />
