@@ -13,7 +13,7 @@ import {
 } from "react-admin";
 
 const UserList = (props) => (
-  <List {...props} sort={{ field: "name", order: "ASC" }}>
+  <List {...props} perPage={25} sort={{ field: "name", order: "ASC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
       <ImageField source="picture" />

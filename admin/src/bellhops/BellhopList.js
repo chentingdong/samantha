@@ -11,7 +11,7 @@ import {
 } from "react-admin";
 
 const BellhopList = (props) => (
-  <List {...props} sort={{ field: "name", order: "ASC" }}>
+  <List {...props} perPage={25} sort={{ field: "name", order: "ASC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
       <ReferenceManyField

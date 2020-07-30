@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 
 const BlockList = (props) => (
-  <List {...props} sort={{ field: "created_at", order: "DESC" }}>
+  <List {...props} perPage={25} sort={{ field: "created_at", order: "DESC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
       <BooleanField source="is_definition" />
