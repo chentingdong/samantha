@@ -13,7 +13,7 @@ export const TaskCreate = (props) => {
     <Create {...props}>
       <SimpleForm
         variant="outlined"
-        initialValues={{ id: block_id, type: "Goal" }}
+        initialValues={{ id: block_id, type: "Task" }}
         redirect={redirect}
       >
         <TextInput source="title" fullWidth />
