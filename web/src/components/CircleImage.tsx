@@ -10,7 +10,11 @@ const CircleImageRaw: React.FC<CircleImageProps> = ({
   src = null,
   ...props
 }) => {
-  return <figure {...props}>{src && <img src={src} alt="" />}</figure>
+  return (
+    <div {...props}>
+      <img src={src} alt="" />
+    </div>
+  )
 }
 
 const CircleImage = styled(CircleImageRaw)`
@@ -19,7 +23,7 @@ const CircleImage = styled(CircleImageRaw)`
   min-width: 0;
   overflow: hidden;
   img {
-    ${tw`h-full w-auto`}
+    ${tw`h-full w-auto bg-transparent`}
     object-fit: cover;
   }
 `

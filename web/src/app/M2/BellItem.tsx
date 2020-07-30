@@ -42,7 +42,7 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
             {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
           </h6>
           <div className="m-2 text-sm text-right right-6">
-            Requested by: {usersToString(bell)}
+            Requested by: [bell.created_by]
           </div>
         </div>
       )}

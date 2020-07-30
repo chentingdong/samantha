@@ -13,33 +13,57 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
   tasks = testingTasks,
   ...props
 }) => {
+  const state2ViewMap = {
+    Completed: "display",
+    Running: "edit",
+  }
+
+  const todoTaskCount = tasks.filter((task) => {
+    return state2ViewMap[task.state] === undefined
+  })
+
   return (
     <div {...props}>
-      {tasks?.map((task) => {
-        const view = task.state === "Completed" ? "display" : "edit"
-
-        return (
-          <div key={task?.id} className="task">
-            <div className="request">{task?.task?.title}</div>
-            <TaskResponseFields
-              className="response"
-              view={view}
-              fields={task.task.fields}
-            />
+      <h4 className="border-b">Bellhop Counter</h4>
+      <div className="tasks">
+        {tasks?.map((task) => {
+          const view = state2ViewMap[task.state]
+          return (
+            <div key={task?.id} className="task">
+              <div className="request">{task?.task?.title}</div>
+              {view && (
+                <TaskResponseFields
+                  className="response"
+                  view={view}
+                  fields={task.task.fields}
+                />
+              )}
+            </div>
+          )
+        })}
+        {todoTaskCount.length === 0 && (
+          <div className="m-4 text-lg italic">
+            All good for now! Come back for updates.
           </div>
-        )
-      })}
+        )}
+      </div>
     </div>
   )
 }
 
 const TaskList = styled(TaskListRaw)`
-  ${tw`border m-2 p-4 rounded-lg`}
-  .request {
-    ${tw`text-left`}
-  }
-  .response {
-    ${tw`text-right`}
+  ${tw`mt-8`}
+  .tasks {
+    ${tw`border p-4 rounded-lg border-b`}
+    .task {
+      ${tw`my-8`}
+      .request {
+        ${tw`text-left my-4`}
+      }
+      .response {
+        ${tw`text-right my-4`}
+      }
+    }
   }
 `
 

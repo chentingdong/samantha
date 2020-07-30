@@ -40,7 +40,10 @@ const bellFragment = gql`
     id
     name
     description
+    state
     created_at
+    updated_at
+    started_at
     context
     inputs
     main_bell_id
@@ -52,6 +55,17 @@ const bellFragment = gql`
         picture
         given_name
         family_name
+      }
+    }
+    bellhop_participations {
+      role
+      bellhop {
+        name
+        bell_participations_by_users {
+          user {
+            name
+          }
+        }
       }
     }
     blocks {

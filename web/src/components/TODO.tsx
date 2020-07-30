@@ -2,16 +2,18 @@ import React, { useState } from "react"
 import { MagicWord } from "./MagicWord"
 
 interface TODOProps {
+  show?: boolean
   className?: string
   position?: "left" | "right"
 }
 
 const TODO: React.FC<TODOProps> = ({
+  show = false,
   className,
   position = "left",
   ...props
 }) => {
-  const [show, setShow] = useState(false)
+  const [showTodo, setShowTodo] = useState(show)
   return (
     <div
       className={`${className} relative ${
@@ -25,7 +27,7 @@ const TODO: React.FC<TODOProps> = ({
         showWord="todo"
         hideWord="done"
         show={show}
-        setShow={setShow}
+        setShow={showTodo}
       ></MagicWord>
     </div>
   )
