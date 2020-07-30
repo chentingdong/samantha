@@ -63,7 +63,7 @@ const BlockShow = (props) => (
                 label="Title"
                 source="id"
                 reference="m2_tasks"
-                link="show"
+                link="edit"
               >
                 <TextField source="title" />
               </ReferenceField>
@@ -71,7 +71,7 @@ const BlockShow = (props) => (
                 label="Fields"
                 source="id"
                 reference="m2_tasks"
-                link="show"
+                link="edit"
               >
                 <JSONField source="fields" />
               </ReferenceField>
@@ -84,7 +84,7 @@ const BlockShow = (props) => (
                 label="Goal Name"
                 source="id"
                 reference="m2_goals"
-                link="show"
+                link="edit"
               >
                 <TextField source="goal_name" />
               </ReferenceField>
@@ -92,7 +92,7 @@ const BlockShow = (props) => (
                 label="Success Conditions"
                 source="id"
                 reference="m2_goals"
-                link="show"
+                link="edit"
               >
                 <JSONField source="success_conditions" />
               </ReferenceField>
@@ -106,13 +106,13 @@ const BlockShow = (props) => (
                   label="Bell"
                   source="id"
                   reference="m2_goals"
-                  link="show"
+                  link="edit"
                 >
                   <ReferenceField
                     label="Bell"
                     source="bell_id"
                     reference="m2_bells"
-                    link="show"
+                    link="edit"
                   >
                     <TextField source="id" />
                   </ReferenceField>

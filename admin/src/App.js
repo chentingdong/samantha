@@ -5,6 +5,9 @@ import users from "./users";
 import bellhops from "./bellhops";
 import bells from "./bells";
 import blocks from "./blocks";
+import tasks from "./tasks";
+import goals from "./goals";
+import bell_executors from "./bell_executors";
 import bellhop_memberships from "./bellhop_memberships";
 import bellhop_bell_participations from "./bellhop_bell_participations";
 import { HttpLink } from "apollo-client-preset";
@@ -23,7 +26,6 @@ const apolloClient = buildApolloClient({ link });
 const knownResources = [
   "m2_block_type",
   "m2_block_state",
-  "m2_tasks",
   "m2_goals",
   "m2_goal_executors",
   "m2_membership_roles",
@@ -73,6 +75,13 @@ class App extends Component {
         />
         <Resource name="m2_bells" options={{ label: "Bells" }} {...bells} />
         <Resource name="m2_blocks" options={{ label: "Blocks" }} {...blocks} />
+        <Resource name="m2_tasks" options={{ label: "Tasks" }} {...tasks} />
+        <Resource name="m2_goals" options={{ label: "Goals" }} {...goals} />
+        <Resource
+          name="m2_bell_executors"
+          options={{ label: "Bell Executors" }}
+          {...bell_executors}
+        />
         <Resource
           name="m2_bellhop_bell_participations"
           options={{ label: "Bellhop Bell Participations" }}
