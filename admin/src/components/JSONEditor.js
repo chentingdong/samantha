@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { useField } from "react-final-form";
 import { useInput, required } from "react-admin";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
+import "prismjs/components/prism-clike";
+import "prismjs/components/prism-javascript";
 import "prismjs/components/prism-json";
 
 const jsonFormatter = (json) => {
@@ -18,7 +20,9 @@ const jsonParser = (text) => {
   } catch (e) {}
 };
 
-const JSONInput = (props) => {
+const JSONEditor = (props) => {
+  const [value, setValue] = useState(jsonFormatter(props.record[props.source]));
+
   const {
     input: { onChange },
   } = useInput({
@@ -28,20 +32,24 @@ const JSONInput = (props) => {
     ...props,
   });
   return (
-    <TextField
-      multiline={true}
-      rowsMax={25}
-      fullWidth={true}
-      variant="outlined"
-      defaultValue={jsonFormatter(props.record[props.source])}
-      onChange={onChange}
-      label={props.label}
+    <Editor
+      value={value}
+      onValueChange={(value) => {
+        setValue(value);
+        onChange(value);
+      }}
+      highlight={(value) => highlight(value, languages.js)}
+      padding={0}
+      style={{
+        fontFamily: '"Fira code", "Fira Mono", monospace',
+        fontSize: 12,
+      }}
     />
   );
 };
 
-JSONInput.defaultProps = {
+JSONEditor.defaultProps = {
   addLabel: true,
 };
 
-export default JSONInput;
+export default JSONEditor;

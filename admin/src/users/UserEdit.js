@@ -3,8 +3,8 @@ import { Edit, SimpleForm, TextInput, ImageField } from "react-admin";
 import UserTitle from "./UserTitle";
 
 const UserEdit = (props) => (
-  <Edit title={<UserTitle/>} {...props}>
-    <SimpleForm>
+  <Edit title={<UserTitle />} {...props}>
+    <SimpleForm variant="outlined" redirect="show">
       <TextInput source="name" />
       <TextInput source="email" />
       <TextInput source="given_name" />
