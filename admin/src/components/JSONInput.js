@@ -1,10 +1,6 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { useField } from "react-final-form";
-import { useInput, required } from "react-admin";
-import Editor from "react-simple-code-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
-import "prismjs/components/prism-json";
+import { useInput } from "react-admin";
 
 const jsonFormatter = (json) => {
   try {

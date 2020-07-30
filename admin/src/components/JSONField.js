@@ -1,5 +1,4 @@
 import * as React from "react";
-import { TextField } from "react-admin";
 import Highlight from "react-highlight.js";
 
 const JSONField = ({ source, record = {} }) => {

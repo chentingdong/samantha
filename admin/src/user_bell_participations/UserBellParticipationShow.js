@@ -1,13 +1,13 @@
 import React from "react";
-import { Datagrid, List, TextField, ReferenceField } from "react-admin";
+import { Show, TextField, ReferenceField, SimpleShowLayout } from "react-admin";
 
-const BellhopBellParticipationList = (props) => (
-  <List {...props}>
-    <Datagrid rowClick="show">
+const UserBellParticipationShow = (props) => (
+  <Show {...props}>
+    <SimpleShowLayout>
       <ReferenceField
-        label="Bellhop"
-        source="bellhop_id"
-        reference="m2_bellhops"
+        label="User"
+        source="user_id"
+        reference="m2_users"
         link="show"
       >
         <TextField source="name" />
@@ -21,8 +21,8 @@ const BellhopBellParticipationList = (props) => (
         <TextField source="name" />
       </ReferenceField>
       <TextField source="role" />
-    </Datagrid>
-  </List>
+    </SimpleShowLayout>
+  </Show>
 );
 
-export default BellhopBellParticipationList;
+export default UserBellParticipationShow;

@@ -19,13 +19,11 @@ export const BellCreate = (props) => (
       redirect="show"
       initialValues={{
         id: nanoid(),
-        local_id: nanoid(),
         state: "Draft",
         is_definition: true,
       }}
     >
       <TextInput source="id" />
-      <TextInput source="local_id" />
       <TextInput source="name" fullWidth />
       <BooleanInput source="is_definition" />
       <BooleanInput source="acts_as_main_bell" />
@@ -40,7 +38,7 @@ export const BellCreate = (props) => (
         fullWidth
       >
         <SelectInput optionText={<BellSelectField />} optionValue="id" />
-      </ReferenceInput>{" "}
+      </ReferenceInput>
       <ReferenceInput
         label="Root Block"
         source="root_block_id"

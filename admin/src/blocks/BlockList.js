@@ -11,8 +11,8 @@ import {
 const BlockList = (props) => (
   <List {...props} sort={{ field: "id", order: "ASC" }}>
     <Datagrid rowClick="show">
-      <BooleanField source="is_definition" />
       <TextField source="name" />
+      <BooleanField source="is_definition" />
       <TextField source="type" />
       <TextField source="state" />
       <ReferenceField

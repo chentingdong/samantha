@@ -14,7 +14,7 @@ const AddUserParticipationButton = ({ classes, record }) => (
   <Button
     className={classes.button}
     component={Link}
-    to={`/m2_user_bell_participations/create?bellhop_id=${record.id}`}
+    to={`/m2_user_bell_participations/create?bell_id=${record.id}`}
     label="Invite a User"
     title="Invite a User"
   >

@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import { useField } from "react-final-form";
-import { useInput, required } from "react-admin";
+import { useInput } from "react-admin";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -21,7 +19,9 @@ const jsonParser = (text) => {
 };
 
 const JSONEditor = (props) => {
-  const [value, setValue] = useState(jsonFormatter(props.record[props.source]));
+  const [value, setValue] = useState(
+    jsonFormatter(props.record[props.source] || {})
+  );
 
   const {
     input: { onChange },
@@ -38,12 +38,12 @@ const JSONEditor = (props) => {
         setValue(value);
         onChange(value);
       }}
-      highlight={(value) => highlight(value, languages.js)}
-      padding={0}
-      style={{
-        fontFamily: '"Fira code", "Fira Mono", monospace',
-        fontSize: 12,
+      highlight={(value) => {
+        try {
+          return highlight(value, languages.json);
+        } catch (e) {}
       }}
+      padding={10}
     />
   );
 };
