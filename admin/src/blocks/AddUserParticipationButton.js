@@ -14,7 +14,7 @@ const AddUserParticipationButton = ({ classes, record }) => (
   <Button
     className={classes.button}
     component={Link}
-    to={`/m2_user_task_participations/create?task_id=${record.id}`}
+    to={`/m2_user_block_participations/create?block_id=${record.id}`}
     label="Invite a User"
     title="Invite a User"
   >

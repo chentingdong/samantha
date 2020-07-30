@@ -13,14 +13,18 @@ import {
 } from "react-admin";
 import BlockTitle from "./BlockTitle";
 import JSONField from "../components/JSONField";
+import AddTaskDetailButton from "./AddTaskDetailButton";
+import AddGoalDetailButton from "./AddGoalDetailButton";
+import AddBellExecutorDetailButton from "./AddBellExecutorDetailButton";
+
 const BlockShow = (props) => (
   <ShowController title={<BlockTitle />} {...props}>
     {(controllerProps) => (
       <ShowView {...props} {...controllerProps}>
         <TabbedShowLayout>
           <Tab label="Summary">
-            <BooleanField source="is_definition" />
             <TextField source="name" />
+            <BooleanField source="is_definition" />
             <TextField source="type" />
             <TextField source="state" />
             <JSONField source="configs" />
@@ -54,7 +58,7 @@ const BlockShow = (props) => (
             </ReferenceField>
           </Tab>
           {controllerProps.record && controllerProps.record.type === "Task" && (
-            <Tab label="Task">
+            <Tab label="Task Detail">
               <ReferenceField
                 label="Title"
                 source="id"
@@ -71,10 +75,11 @@ const BlockShow = (props) => (
               >
                 <JSONField source="fields" />
               </ReferenceField>
+              <AddTaskDetailButton />
             </Tab>
           )}
           {controllerProps.record && controllerProps.record.type === "Goal" && (
-            <Tab label="Goal">
+            <Tab label="Goal Detail">
               <ReferenceField
                 label="Goal Name"
                 source="id"
@@ -91,11 +96,12 @@ const BlockShow = (props) => (
               >
                 <JSONField source="success_conditions" />
               </ReferenceField>
+              <AddGoalDetailButton />
             </Tab>
           )}
           {controllerProps.record &&
             controllerProps.record.type === "BellExecutor" && (
-              <Tab label="Bell Executor">
+              <Tab label="Bell Executor Detail">
                 <ReferenceField
                   label="Bell"
                   source="id"
@@ -111,6 +117,7 @@ const BlockShow = (props) => (
                     <TextField source="id" />
                   </ReferenceField>
                 </ReferenceField>
+                <AddBellExecutorDetailButton />
               </Tab>
             )}
         </TabbedShowLayout>
