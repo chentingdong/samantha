@@ -44,12 +44,14 @@ const BlockShow = (props) => (
               reference="m2_blocks"
               target="parent_id"
               label="Children"
+              sort={{ field: "sibling_order", order: "ASC" }}
             >
               <Datagrid rowClick="show">
                 <TextField source="id" />
                 <TextField source="name" />
                 <TextField source="type" />
                 <TextField source="state" />
+                <NumberField source="sibling_order" />
               </Datagrid>
             </ReferenceManyField>
             <ReferenceField
