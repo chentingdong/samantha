@@ -6,6 +6,7 @@ import {
   BooleanInput,
   ReferenceInput,
   SelectInput,
+  NumberInput,
 } from "react-admin";
 import BlockTitle from "./BlockTitle";
 import BlockSelectField from "./BlockSelectField";
@@ -32,6 +33,7 @@ const BlockEdit = (props) => (
       >
         <SelectInput optionText={<BlockSelectField />} optionValue="id" />
       </ReferenceInput>
+      <NumberInput source="sibling_order" min={0} />
       <ReferenceInput
         label="Bell"
         source="bell_id"

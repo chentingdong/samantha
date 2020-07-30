@@ -9,7 +9,9 @@ import {
   ReferenceManyField,
   ReferenceField,
   BooleanField,
+  NumberField,
   ShowButton,
+  DateField,
 } from "react-admin";
 import BlockTitle from "./BlockTitle";
 import JSONField from "../components/JSONField";
@@ -37,6 +39,7 @@ const BlockShow = (props) => (
             >
               <TextField source="id" />
             </ReferenceField>
+            <NumberField source="sibling_order" />
             <ReferenceManyField
               reference="m2_blocks"
               target="parent_id"
@@ -57,6 +60,10 @@ const BlockShow = (props) => (
             >
               <TextField source="id" />
             </ReferenceField>
+            <DateField source="created_at" showTime />
+            <DateField source="updated_at" showTime />
+            <DateField source="started_at" showTime />
+            <DateField source="ended_at" showTime />
           </Tab>
           <Tab label="Users" path="users">
             <ReferenceManyField

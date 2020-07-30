@@ -6,10 +6,11 @@ import {
   ShowButton,
   ReferenceField,
   BooleanField,
+  DateField,
 } from "react-admin";
 
 const BlockList = (props) => (
-  <List {...props} sort={{ field: "id", order: "ASC" }}>
+  <List {...props} sort={{ field: "created_at", order: "DESC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
       <BooleanField source="is_definition" />
@@ -31,6 +32,8 @@ const BlockList = (props) => (
       >
         <TextField source="id" />
       </ReferenceField>
+      <DateField source="created_at" showTime />
+      <DateField source="updated_at" showTime />
       <ShowButton />
     </Datagrid>
   </List>

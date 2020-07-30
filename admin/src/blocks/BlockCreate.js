@@ -6,6 +6,7 @@ import {
   BooleanInput,
   ReferenceInput,
   SelectInput,
+  NumberInput,
 } from "react-admin";
 import { nanoid } from "nanoid";
 import BlockSelectField from "./BlockSelectField";
@@ -43,6 +44,7 @@ export const BlockCreate = (props) => (
       >
         <SelectInput optionText={<BlockSelectField />} optionValue="id" />
       </ReferenceInput>
+      <NumberInput source="sibling_order" min={0} />
       <ReferenceInput
         label="Bell"
         source="bell_id"

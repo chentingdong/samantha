@@ -9,6 +9,7 @@ import {
   ShowButton,
   ReferenceField,
   BooleanField,
+  DateField,
 } from "react-admin";
 import BellTitle from "./BellTitle";
 import AddBellhopParticipationButton from "./AddBellhopParticipationButton";
@@ -40,6 +41,10 @@ const BellShow = (props) => (
         >
           <TextField source="id" />
         </ReferenceField>
+        <DateField source="created_at" showTime />
+        <DateField source="updated_at" showTime />
+        <DateField source="started_at" showTime />
+        <DateField source="ended_at" showTime />
       </Tab>
       <Tab label="Bellhops" path="bellhops">
         <ReferenceManyField
