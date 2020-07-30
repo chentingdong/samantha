@@ -5,7 +5,6 @@ import {
   Datagrid,
   TextField,
   Tab,
-  Show,
   TabbedShowLayout,
   ReferenceManyField,
   ReferenceField,

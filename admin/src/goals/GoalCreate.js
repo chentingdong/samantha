@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-  ReferenceInput,
-  SelectInput,
-} from "react-admin";
+import { Create, SimpleForm, TextInput } from "react-admin";
 import { useLocation } from "react-router";
 import { parse } from "query-string";
 import JSONEditor from "../components/JSONEditor";

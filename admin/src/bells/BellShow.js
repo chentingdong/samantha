@@ -9,7 +9,6 @@ import {
   ShowButton,
   ReferenceField,
   BooleanField,
-  RichTextField,
 } from "react-admin";
 import BellTitle from "./BellTitle";
 import AddBellhopParticipationButton from "./AddBellhopParticipationButton";

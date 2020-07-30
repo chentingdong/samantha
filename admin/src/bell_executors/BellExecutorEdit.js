@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Edit,
-  SimpleForm,
-  TextInput,
-  ReferenceInput,
-  SelectInput,
-} from "react-admin";
-import JSONEditor from "../components/JSONEditor";
+import { Edit, SimpleForm, ReferenceInput, SelectInput } from "react-admin";
 
 const BellExecutorEdit = (props) => (
   <Edit {...props}>

@@ -1,6 +1,5 @@
 import React from "react";
 import { Show, TextField, ReferenceField, SimpleShowLayout } from "react-admin";
-import JSONField from "../components/JSONField";
 
 const BellExecutorShow = (props) => (
   <Show {...props}>

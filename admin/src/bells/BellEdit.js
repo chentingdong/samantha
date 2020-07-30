@@ -10,12 +10,11 @@ import {
 import BellTitle from "./BellTitle";
 import BlockSelectField from "../blocks/BlockSelectField";
 import BellSelectField from "./BellSelectField";
-import JSONInput from "../components/JSONInput";
 import JSONEditor from "../components/JSONEditor";
 
 const BellEdit = (props) => (
   <Edit title={<BellTitle />} {...props}>
-    <SimpleForm variant="outlined" redirect="show" variant="outlined">
+    <SimpleForm variant="outlined" redirect="show">
       <TextInput source="name" fullWidth />
       <BooleanInput source="is_definition" />
       <BooleanInput source="acts_as_main_bell" />
