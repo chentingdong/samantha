@@ -19,7 +19,6 @@ export const BellCreate = (props) => (
       redirect="show"
       initialValues={{
         id: nanoid(),
-        local_id: nanoid(),
         state: "Draft",
         is_definition: true,
       }}
