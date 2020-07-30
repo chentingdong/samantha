@@ -29,6 +29,8 @@ export interface Bellhop {
   updated_at: Date
 }
 
+export interface Task {}
+
 export interface Block {
   id: string
   name: string

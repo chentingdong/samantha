@@ -12,7 +12,7 @@ import Inverter from "./decorators/Inverter"
 import Repeat from "./decorators/Repeat"
 import ReTry from "./decorators/ReTry"
 
-const Control: React.FC<unkonwn> = () => {
+const Control: React.FC<any> = () => {
   const components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,

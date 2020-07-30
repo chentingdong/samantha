@@ -19,23 +19,6 @@ const LobbyRaw: React.FC<LobbyProps> = (props) => {
   const bellsMine = bellsResult?.m2_bells
   const bellsOthers = bellsResult?.m2_bells
 
-  console.log(bellsResult?.m2_bells)
-  // const {
-  //   data: bellsMine,
-  //   loading: loadingMine,
-  //   error: errorMine,
-  // } = useSubscription(BELL_LIST, {
-  //   variables: { userId: authUserResult?.authUser?.id },
-  // })
-
-  // const {
-  //   data: bellsOthers,
-  //   loading: loadingOthers,
-  //   error: errorOthers,
-  // } = useSubscription(BELL_LIST, {
-  //   variables: { userId: authUserResult?.authUser?.id },
-  // })
-
   return (
     <div>
       <MainMenu className="md-8" />

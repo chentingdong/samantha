@@ -4,7 +4,7 @@ import { GET_BELL } from "operations/subscriptions/getBell"
 import { useQuery, useSubscription } from "@apollo/client"
 import { BellContext } from "./BellContext"
 import { GoalList } from "./GoalList"
-import { Tasks } from "./Tasks"
+import { TaskList } from "./TaskList"
 import { MainMenu } from "./MainMenu"
 import { setUiState } from "operations/mutations/setUiState"
 import { Loading, Error } from "components/Misc"
@@ -19,7 +19,6 @@ const BellRaw: React.FC<BellProps> = (props) => {
 
   const bellId = props?.computedMatch?.params.id
   setUiState({ runningBellId: bellId })
-  console.log(bellId)
 
   const { data: bellData, loading, error } = useSubscription(GET_BELL, {
     variables: { id: bellId },
@@ -39,7 +38,7 @@ const BellRaw: React.FC<BellProps> = (props) => {
       <div className="bell-context grid grid-cols-3">
         <div className="mx-4 col-span-2">
           <GoalList />
-          <Tasks />
+          <TaskList />
         </div>
         <div className="col-span-1">
           <BellContext bell={{ id: bellId }} {...props} />

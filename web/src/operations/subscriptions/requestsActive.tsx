@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { blockFullFragment } from "../fragments/block"
+import { blockFullFragmentM1 } from "../fragments/block"
 
 export const REQUESTS_ACTIVE = gql`
   subscription requestsActive($userId: String) {
@@ -18,8 +18,8 @@ export const REQUESTS_ACTIVE = gql`
         ]
       }
     ) {
-      ...blockFullFragment
+      ...blockFullFragmentM1
     }
   }
-  ${blockFullFragment}
+  ${blockFullFragmentM1}
 `

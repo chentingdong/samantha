@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client"
 
-const blockFullFragment = gql`
-  fragment blockFullFragment on blocks {
+const blockFullFragmentM1 = gql`
+  fragment blockFullFragmentM1 on blocks {
     id
     name
     description
@@ -258,4 +258,4 @@ const blockFullFragment = gql`
   }
 `
 
-export { blockFullFragment }
+export { blockFullFragmentM1 }

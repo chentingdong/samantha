@@ -1,11 +1,11 @@
 import { gql } from "@apollo/client"
-import { blockFullFragment } from "../fragments/block"
+import { blockFullFragmentM1 } from "../fragments/block"
 
 export const GET_BLOCK = gql`
   subscription blocks_by_pk($id: String!) {
     blocks_by_pk(id: $id) {
-      ...blockFullFragment
+      ...blockFullFragmentM1
     }
   }
-  ${blockFullFragment}
+  ${blockFullFragmentM1}
 `
