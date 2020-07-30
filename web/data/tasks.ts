@@ -76,7 +76,7 @@ export const tasks = [
     id: "4",
     type: "Task",
     task: {
-      title: "How much do you need to budget in dollars?",
+      title: "Capture legal requirements",
       fields: [
         {
           response: {

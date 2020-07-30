@@ -4,12 +4,14 @@ import { MultiSelect } from "app/templates/MultiSelect"
 import { ExternalLink } from "app/templates/ExternalLink"
 import { AskForApproval } from "app/templates/AskForApproval"
 
-export interface TaskResponseFieldProps {
+export interface ResponseFieldProps {
   field: any
+  view: "display" | "edit"
 }
 
-const ResponseField: React.FC<TaskResponseFieldProps> = ({
+const ResponseField: React.FC<ResponseFieldProps> = ({
   field,
+  view = "display",
   ...props
 }) => {
   const templates = {
@@ -19,21 +21,25 @@ const ResponseField: React.FC<TaskResponseFieldProps> = ({
     AskForApproval: AskForApproval,
   }
   const Template = templates[field.response_type]
-  return <Template field={field} {...props} />
+  return <Template field={field} view={view} {...props} />
 }
 
-interface TaskTaskResponseFieldProps {
-  fields: any
+interface TaskTaskResponseFieldsProps {
+  fields: any[]
+  view: "display" | "edit"
 }
 
-export const TaskResponseFields: React.FC<TaskTaskResponseFieldProps> = ({
+export const TaskResponseFields: React.FC<TaskTaskResponseFieldsProps> = ({
   fields,
+  view = "display",
   ...props
 }) => {
   return (
     <div {...props}>
       {fields?.map((field) => {
-        return <ResponseField key={field.response_type} field={field} />
+        return (
+          <ResponseField view={view} field={field} key={field.response_type} />
+        )
       })}
     </div>
   )

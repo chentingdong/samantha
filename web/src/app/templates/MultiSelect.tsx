@@ -1,6 +1,6 @@
 import * as React from "react"
-import { TaskResponseFieldProps } from "app/templates/TaskResponseFieldProps"
+import { ResponseFieldProps } from "app/templates/ResponseFieldProps"
 
-export const MultiSelect: React.FC<TaskResponseFieldProps> = (props) => {
-  return <div>multi select</div>
+export const MultiSelect: React.FC<ResponseFieldProps> = (props) => {
+  return <div>[multi select]</div>
 }

@@ -16,11 +16,14 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
   return (
     <div {...props}>
       {tasks?.map((task) => {
+        const view = task.state === "Completed" ? "display" : "edit"
+
         return (
           <div key={task?.id} className="task">
             <div className="request">{task?.task?.title}</div>
             <TaskResponseFields
               className="response"
+              view={view}
               fields={task.task.fields}
             />
           </div>
