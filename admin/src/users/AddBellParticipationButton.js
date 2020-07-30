@@ -10,16 +10,16 @@ const styles = {
   },
 };
 
-const AddUserParticipationButton = ({ classes, record }) => (
+const AddBellParticipationButton = ({ classes, record }) => (
   <Button
     className={classes.button}
     component={Link}
-    to={`/m2_user_bell_participations/create?bell_id=${record.id}`}
-    label="Invite a User"
-    title="Invite a User"
+    to={`/m2_user_bell_participations/create?user_id=${record.id}`}
+    label="Join a Bell"
+    title="Join a Bell"
   >
     <Add />
   </Button>
 );
 
-export default withStyles(styles)(AddUserParticipationButton);
+export default withStyles(styles)(AddBellParticipationButton);

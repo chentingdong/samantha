@@ -9,9 +9,11 @@ import {
   ReferenceManyField,
   ReferenceField,
   BooleanField,
+  ShowButton,
 } from "react-admin";
 import BlockTitle from "./BlockTitle";
 import JSONField from "../components/JSONField";
+import AddUserParticipationButton from "./AddUserParticipationButton";
 import AddTaskDetailButton from "./AddTaskDetailButton";
 import AddGoalDetailButton from "./AddGoalDetailButton";
 import AddBellExecutorDetailButton from "./AddBellExecutorDetailButton";
@@ -55,6 +57,27 @@ const BlockShow = (props) => (
             >
               <TextField source="id" />
             </ReferenceField>
+          </Tab>
+          <Tab label="Users" path="users">
+            <ReferenceManyField
+              addLabel={false}
+              reference="m2_user_block_participations"
+              target="block_id"
+            >
+              <Datagrid>
+                <ReferenceField
+                  label="Users"
+                  source="user_id"
+                  reference="m2_users"
+                  link="show"
+                >
+                  <TextField source="name" />
+                </ReferenceField>
+                <TextField source="role" />
+                <ShowButton />
+              </Datagrid>
+            </ReferenceManyField>
+            <AddUserParticipationButton />
           </Tab>
           {controllerProps.record && controllerProps.record.type === "Task" && (
             <Tab label="Task Detail">

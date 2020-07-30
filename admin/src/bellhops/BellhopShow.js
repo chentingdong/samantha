@@ -57,6 +57,14 @@ const BellhopShow = (props) => (
               <TextField source="name" />
             </ReferenceField>
             <ReferenceField
+              label="Is Definition?"
+              source="bell_id"
+              reference="m2_bells"
+              link={false}
+            >
+              <BooleanField source="is_definition" />
+            </ReferenceField>
+            <ReferenceField
               label="Acts as Main Bell"
               source="bell_id"
               reference="m2_bells"

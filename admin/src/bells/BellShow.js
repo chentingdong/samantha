@@ -12,6 +12,7 @@ import {
 } from "react-admin";
 import BellTitle from "./BellTitle";
 import AddBellhopParticipationButton from "./AddBellhopParticipationButton";
+import AddUserParticipationButton from "./AddUserParticipationButton";
 import JSONField from "../components/JSONField";
 
 const BellShow = (props) => (
@@ -60,6 +61,27 @@ const BellShow = (props) => (
           </Datagrid>
         </ReferenceManyField>
         <AddBellhopParticipationButton />
+      </Tab>
+      <Tab label="Users" path="users">
+        <ReferenceManyField
+          addLabel={false}
+          reference="m2_user_bell_participations"
+          target="bell_id"
+        >
+          <Datagrid>
+            <ReferenceField
+              label="Users"
+              source="user_id"
+              reference="m2_users"
+              link="show"
+            >
+              <TextField source="name" />
+            </ReferenceField>
+            <TextField source="role" />
+            <ShowButton />
+          </Datagrid>
+        </ReferenceManyField>
+        <AddUserParticipationButton />
       </Tab>
     </TabbedShowLayout>
   </Show>
