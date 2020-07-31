@@ -37,6 +37,7 @@ export const BellhopBellParticipationCreate = (props) => {
           label="Role"
           source="role"
           reference="m2_participation_roles"
+          filter={{ id: ["bell_initiator", "bell_owner", "bell_follower"] }}
         >
           <SelectInput optionText="id" optionValue="id" />
         </ReferenceInput>

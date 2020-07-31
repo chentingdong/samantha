@@ -31,6 +31,15 @@ export const UserBlockParticipationCreate = (props) => {
           label="Role"
           source="role"
           reference="m2_participation_roles"
+          filter={{
+            id: [
+              "goal_assignee",
+              "goal_follower",
+              "task_assignee",
+              "task_follower",
+              "task_requestor",
+            ],
+          }}
         >
           <SelectInput optionText="id" optionValue="id" />
         </ReferenceInput>
