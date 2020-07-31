@@ -21,8 +21,8 @@ export const BlockCreate = (props) => (
       initialValues={{
         id: nanoid(),
         local_id: nanoid(),
-        state: "Draft",
-        is_definition: true,
+        state: "Created",
+        is_definition: false,
       }}
     >
       <TextInput source="id" />

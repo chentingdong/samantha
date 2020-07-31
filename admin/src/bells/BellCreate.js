@@ -19,8 +19,8 @@ export const BellCreate = (props) => (
       redirect="show"
       initialValues={{
         id: nanoid(),
-        state: "Draft",
-        is_definition: true,
+        state: "Created",
+        is_definition: false,
       }}
     >
       <TextInput source="id" />
