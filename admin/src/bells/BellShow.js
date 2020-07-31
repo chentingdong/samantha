@@ -46,6 +46,40 @@ const BellShow = (props) => (
         <DateField source="started_at" showTime />
         <DateField source="ended_at" showTime />
       </Tab>
+      <Tab label="Blocks">
+        <ReferenceManyField
+          target="bell_id"
+          reference="m2_blocks"
+          label="Blocks"
+          sort={{ field: "created_at", order: "DESC" }}
+        >
+          <Datagrid rowClick="show">
+            <TextField source="name" />
+            <BooleanField source="is_definition" />
+            <TextField source="type" />
+            <TextField source="state" />
+            <ReferenceField
+              label="Parent"
+              source="parent_id"
+              reference="m2_blocks"
+              link="show"
+            >
+              <TextField source="id" />
+            </ReferenceField>
+            <ReferenceField
+              label="Bell"
+              source="bell_id"
+              reference="m2_bells"
+              link="show"
+            >
+              <TextField source="id" />
+            </ReferenceField>
+            <DateField source="created_at" showTime />
+            <DateField source="updated_at" showTime />
+            <ShowButton />
+          </Datagrid>
+        </ReferenceManyField>
+      </Tab>
       <Tab label="Bellhops" path="bellhops">
         <ReferenceManyField
           addLabel={false}
