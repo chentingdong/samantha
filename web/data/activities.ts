@@ -35,6 +35,7 @@ export const activities = [
     name: "What is your employment status?",
     source: "task",
     state: "Running",
+    ended_at: null,
     requestor: {
       id: "Google_115419186368884878540",
       name: "Tingdong Chen",

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ResponseFieldProps } from "app/templates/ResponseFieldProps"
+import { TaskItemProps } from "app/templates/TaskItemProps"
 import { Button } from "components/Button"
 
 interface ExternalLinkProps {
@@ -37,7 +37,7 @@ const ExternalLinkEdit: React.FC<ExternalLinkProps> = ({
   )
 }
 
-export const ExternalLink: React.FC<ResponseFieldProps> = ({
+export const ExternalLink: React.FC<TaskItemProps> = ({
   field,
   view,
   ...props

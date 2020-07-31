@@ -54,9 +54,9 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
             </div>
           </div>
         ))}
-        <div className="text-gray-500 activity">
+        <div className="activity">
           <StateIcon state="Created" />
-          <div>
+          <div className="text-gray-500">
             <span>Complete </span> <i>[Facilities Purchase Request]</i>
           </div>
         </div>

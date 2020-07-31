@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ResponseFieldProps } from "app/templates/ResponseFieldProps"
+import { TaskItemProps } from "app/templates/TaskItemProps"
 import { SelectPicker } from "rsuite"
 
 export const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
@@ -17,8 +17,9 @@ export const MultiSelectEdit: React.FC<{
       role: "",
     }
   })
+
   const updateField = (value) => {
-    console.log("TODO:mutation to finish task:" + value)
+    console.log("TODO: mutation to finish task:" + value)
   }
 
   //TODO: useForm hook for form submit and validation
@@ -32,11 +33,12 @@ export const MultiSelectEdit: React.FC<{
   )
 }
 
-export const MultiSelect: React.FC<ResponseFieldProps> = ({
+export const MultiSelect: React.FC<TaskItemProps> = ({
   field,
   view,
   ...props
 }) => {
+  console.log(props)
   return (
     <>
       {view === "display" && (

@@ -30,7 +30,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   const location = useLocation()
 
   return (
-    <div className={`${className} z-30 show-grid`} {...props}>
+    <div className={`${className} z-30 show-grid mb-8`} {...props}>
       <FlexboxGrid justify="space-between">
         <img
           className={"logo bell m-3 h-8"}

@@ -1,18 +1,20 @@
 version: "3"
 services:
   postgres:
-    image: postgres
-    container_name: my_postgres
-    volumes:
-      - my_dbdata:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=g+CzXRVFufp7YfFgJbgmpVCb
-      - POSTGRES_DB=hasura
+    image: postgres:latest
+    container_name: samantha-postgres
+    restart: always
+    env_file:
+      - database.env
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   hasura:
-    image: hasura/graphql-engine:v1.2.2
-    container_name: my_hasura
+    image: hasura/graphql-engine:v1.3.0
+    container_name: samantha-hasura
+    restart: always
     depends_on:
       - postgres
     environment:
@@ -21,19 +23,41 @@ services:
       - HASURA_GRAPHQL_ADMIN_SECRET=qcA.wmEfFzDpfzZZoepJs7gw
     ports:
       - "8080:8080"
+    command: graphql-engine serve
+
   server:
-    image: samantha-server:latest
-    container_name: my_server
+    image: samantha-server:${IMAGE_TAG:-local}
+    build:
+      context: ./hasura
+      dockerfile: Dockerfile
+    container_name: samantha-server
+    restart: always
     depends_on:
       - postgres
       - hasura
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=production
+      - HASURA_GRAPHQL_ENDPOINT=http://hasura:8080
+      - HASURA_GRAPHQL_CLI_ENVIRONMENT=default
+      - HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
     ports:
       - "3000:3000"
-    volumes:
-      - ./:/app
-    command: yarn dev
+    command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn start"
+
+  admin:
+    image: samantha-admin:${IMAGE_TAG:-local}
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+    container_name: samantha-admin
+    restart: always
+    depends_on:
+      - postgres
+      - hasura
+    ports:
+      - 3030:3030
+    stdin_open: true
+    command: yarn start
 
 volumes:
-  my_dbdata:
+  postgres_data:

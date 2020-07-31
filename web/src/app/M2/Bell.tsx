@@ -60,20 +60,19 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   if (error) return <Error message={error.message} />
 
   const bell = bellData.m2_bells_by_pk
-  console.log(bell)
 
   return (
     <div>
       <MainMenu className="flex-none" />
 
       <div className="bell-context grid grid-cols-3">
-        <div className="mx-4 my-8 col-span-2">
+        <div className="mx-4 mb-8 col-span-2">
           <BellHeader bell={bell} />
           <TODO show position="right">
             goallist/tasklist show/hide based on current user
           </TODO>
           <GoalList />
-          <TaskList />
+          <TaskList bell={bell} />
         </div>
         <div className="col-span-1">
           <BellContext bell={{ id: bellId }} {...props} />

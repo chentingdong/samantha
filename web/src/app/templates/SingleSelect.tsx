@@ -1,16 +1,16 @@
 import * as React from "react"
-import { ResponseFieldProps } from "app/templates/ResponseFieldProps"
+import { TaskItemProps } from "app/templates/TaskItemProps"
 import { Button } from "components/Button"
 
-interface AskForApprovalProps {
+interface SingleSelectProps {
   approved?: boolean
 }
 
-const AskForApprovalDisplay: React.FC<AskForApprovalProps> = ({ approved }) => {
+const SingleSelectDisplay: React.FC<SingleSelectProps> = ({ approved }) => {
   return <div>Your request was {approved ? "approved" : "rejected"}</div>
 }
 
-const AskForApprovalEdit: React.FC<AskForApprovalProps> = ({ approved }) => {
+const SingleSelectEdit: React.FC<SingleSelectProps> = ({ approved }) => {
   const updateField = (approve) => {
     console.log("TODO: mutation to update task, approve: " + approve)
   }
@@ -34,17 +34,15 @@ const AskForApprovalEdit: React.FC<AskForApprovalProps> = ({ approved }) => {
   )
 }
 
-export const AskForApproval: React.FC<ResponseFieldProps> = ({
+export const SingleSelect: React.FC<TaskItemProps> = ({
   field,
   view,
   ...props
 }) => {
   return (
     <>
-      {view === "display" && (
-        <AskForApprovalDisplay approved={field?.response} />
-      )}
-      {view === "edit" && <AskForApprovalEdit approved={field?.response} />}
+      {view === "display" && <SingleSelectDisplay approved={field?.response} />}
+      {view === "edit" && <SingleSelectEdit approved={field?.response} />}
     </>
   )
 }

@@ -49,6 +49,7 @@ const bellFragment = gql`
     main_bell_id
     outputs
     user_participations {
+      role
       user {
         id
         name
@@ -68,7 +69,8 @@ const bellFragment = gql`
         }
       }
     }
-    blocks {
+    blocks(order_by: { ended_at: asc_nulls_last }) {
+      id
       bell_id
       configs
       created_at
@@ -77,16 +79,21 @@ const bellFragment = gql`
       is_definition
       sibling_order
       started_at
+      ended_at
       state
       type
       updated_at
+      task {
+        id
+        title
+        fields
+      }
       goal {
         goal_name
         id
         success_conditions
         type
       }
-      id
     }
   }
 `

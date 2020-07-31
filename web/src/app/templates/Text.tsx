@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ResponseFieldProps } from "app/templates/ResponseFieldProps"
+import { TaskItemProps } from "app/templates/TaskItemProps"
 import { useForm } from "react-hook-form"
 
 const TextDisplay: React.FC<{ text: string }> = ({ text }) => {
@@ -20,11 +20,7 @@ const TextEdit: React.FC<{ text: string }> = ({ text }) => {
   )
 }
 
-export const Text: React.FC<ResponseFieldProps> = ({
-  field,
-  view,
-  ...props
-}) => {
+export const Text: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
   return (
     <>
       {view === "display" && <TextDisplay text={field.response} {...props} />}
