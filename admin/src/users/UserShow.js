@@ -85,7 +85,7 @@ const UserShow = (props) => (
         </ReferenceManyField>
         <AddBellParticipationButton />
       </Tab>
-      <Tab label="Block" path="blocks">
+      <Tab label="Blocks" path="blocks">
         <ReferenceManyField
           addLabel={false}
           reference="m2_user_block_participations"
