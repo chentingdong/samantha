@@ -8,9 +8,15 @@ import {
   BooleanField,
   DateField,
 } from "react-admin";
+import BlockFilter from "./BlockFilter";
 
 const BlockList = (props) => (
-  <List {...props} perPage={25} sort={{ field: "created_at", order: "DESC" }}>
+  <List
+    {...props}
+    perPage={25}
+    sort={{ field: "created_at", order: "DESC" }}
+    filters={<BlockFilter />}
+  >
     <Datagrid rowClick="show">
       <TextField source="name" />
       <BooleanField source="is_definition" />
