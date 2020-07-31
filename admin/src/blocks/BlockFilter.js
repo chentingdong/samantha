@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  Filter,
-  ReferenceInput,
-  SelectInput,
-  BooleanInput,
-  TextInput,
-} from "react-admin";
+import { Filter, ReferenceInput, SelectInput, BooleanInput } from "react-admin";
 
 const BlockFilter = (props) => (
   <Filter {...props}>

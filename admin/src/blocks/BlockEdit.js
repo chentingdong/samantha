@@ -14,7 +14,7 @@ import BellSelectField from "../bells/BellSelectField";
 import JSONEditor from "../components/JSONEditor";
 
 const BlockEdit = (props) => (
-  <Edit title={<BlockTitle />} {...props}>
+  <Edit undoable={false} title={<BlockTitle />} {...props}>
     <SimpleForm variant="outlined" redirect="show">
       <BooleanInput source="is_definition" />
       <TextInput source="name" fullWidth />
