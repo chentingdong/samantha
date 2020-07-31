@@ -113,11 +113,10 @@ const ParticipantsPicker = styled(ParticipantsPickerRaw)`
   ${tw`relative my-2`}
   line-height: 2rem;
   .tag {
-    ${tw`relative mx-1 cursor-pointer font-bold`}
-    font-size: 1rem;
+    ${tw`relative mx-1 cursor-pointer`}
     .inner {
       ${tw`m-1 w-8 h-8 content-center text-center`}
-      ${tw`text-white bg-purple-500 rounded-full`}
+      ${tw`text-white bg-purple-500 text-sm rounded-full`}
       .close {
         ${tw`absolute top-0 right-0 w-4 h-4 p-1 `}
         ${tw`content-center text-center font-bold text-purple-800`}

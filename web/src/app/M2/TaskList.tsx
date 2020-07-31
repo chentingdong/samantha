@@ -30,6 +30,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({ bell, ...props }) => {
       <div className="tasks">
         {tasks?.map((task) => {
           const view = state2ViewMap[task.state]
+          console.log(task)
           return (
             <TaskItem
               className="task"
@@ -54,7 +55,7 @@ const TaskList = styled(TaskListRaw)`
   .tasks {
     ${tw`border p-4 rounded-lg mt-4`}
     .task {
-      ${tw`my-8`}
+      ${tw`my-8 border-b border-gray-100`}
     }
   }
 `

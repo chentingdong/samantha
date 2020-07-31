@@ -1,15 +1,16 @@
 import * as React from "react"
 import { TaskItemProps } from "app/templates/TaskItemProps"
 import { MultiCascader } from "rsuite"
+import styled from "styled-components"
 
-export const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
+const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
   return <div>{value}</div>
 }
 
-export const MultiSelectEdit: React.FC<{
+const MultiSelectEditRaw: React.FC<{
   value: string
   options: string[]
-}> = ({ value, options }) => {
+}> = ({ value, options, ...props }) => {
   const select_options = options.map((option) => {
     return {
       label: option,
@@ -29,16 +30,22 @@ export const MultiSelectEdit: React.FC<{
       placeholder={value}
       data={select_options}
       onChange={updateField}
+      {...props}
     />
   )
 }
+
+const MultiSelectEdit = styled(MultiSelectEditRaw)`
+  .rs-picker-value-count {
+    display: none;
+  }
+`
 
 export const MultiSelect: React.FC<TaskItemProps> = ({
   field,
   view,
   ...props
 }) => {
-  console.log(props)
   return (
     <>
       {view === "display" && (
@@ -46,6 +53,7 @@ export const MultiSelect: React.FC<TaskItemProps> = ({
       )}
       {view === "edit" && (
         <MultiSelectEdit
+          countable={false}
           value={field.response}
           options={field.select_options}
           {...props}

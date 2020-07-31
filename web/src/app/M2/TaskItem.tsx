@@ -18,7 +18,7 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
 }) => {
   const templates = {
     Text: Text,
-    Dicimal: Text,
+    Decimal: Text,
     SingleSelect: SingleSelect,
     MultiSelect: MultiSelect,
     ExternalLink: ExternalLink,
