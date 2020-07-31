@@ -11,6 +11,7 @@ export const BellhopCreate = (props) => (
     >
       <TextInput source="id" />
       <TextInput source="name" />
+      <TextInput source="profile_image_url" label="Profile Image" />
     </SimpleForm>
   </Create>
 );

@@ -9,6 +9,7 @@ import {
   ShowButton,
   ReferenceField,
   BooleanField,
+  ImageField,
 } from "react-admin";
 import BellhopTitle from "./BellhopTitle";
 import AddBellhopMembershipButton from "./AddBellhopMembershipButton";
@@ -19,6 +20,7 @@ const BellhopShow = (props) => (
     <TabbedShowLayout>
       <Tab label="Summary">
         <TextField source="name" />
+        <ImageField source="profile_image_url" label="Profile Image" />
       </Tab>
       <Tab label="Members" path="users">
         <ReferenceManyField
