@@ -3,6 +3,7 @@ import {
   Edit,
   SimpleForm,
   TextInput,
+  CloneButton,
   BooleanInput,
   ReferenceInput,
   SelectInput,
@@ -38,6 +39,7 @@ const BellEdit = (props) => (
       >
         <SelectInput optionText={<BlockSelectField />} optionValue="id" />
       </ReferenceInput>
+      <CloneButton />
     </SimpleForm>
   </Edit>
 );
