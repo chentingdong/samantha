@@ -37,7 +37,7 @@ const BlockShow = (props) => (
               reference="m2_blocks"
               link="show"
             >
-              <TextField source="id" />
+              <TextField source="name" />
             </ReferenceField>
             <NumberField source="sibling_order" />
             <ReferenceManyField
@@ -60,7 +60,7 @@ const BlockShow = (props) => (
               reference="m2_bells"
               link="show"
             >
-              <TextField source="id" />
+              <TextField source="name" />
             </ReferenceField>
             <DateField source="created_at" showTime />
             <DateField source="updated_at" showTime />

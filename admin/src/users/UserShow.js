@@ -9,7 +9,6 @@ import {
   ReferenceManyField,
   ShowButton,
   ReferenceField,
-  UrlField,
   BooleanField,
   EmailField,
 } from "react-admin";

@@ -28,7 +28,7 @@ const BlockList = (props) => (
         reference="m2_blocks"
         link="show"
       >
-        <TextField source="id" />
+        <TextField source="name" />
       </ReferenceField>
       <ReferenceField
         label="Bell"
@@ -36,7 +36,7 @@ const BlockList = (props) => (
         reference="m2_bells"
         link="show"
       >
-        <TextField source="id" />
+        <TextField source="name" />
       </ReferenceField>
       <DateField source="created_at" showTime />
       <DateField source="updated_at" showTime />
