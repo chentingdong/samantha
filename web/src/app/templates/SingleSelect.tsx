@@ -7,7 +7,7 @@ interface SingleSelectProps {
 }
 
 const SingleSelectDisplay: React.FC<SingleSelectProps> = ({ approved }) => {
-  return <div>Your request was {approved ? "approved" : "rejected"}</div>
+  return <div>{approved}</div>
 }
 
 const SingleSelectEdit: React.FC<SingleSelectProps> = ({ approved }) => {

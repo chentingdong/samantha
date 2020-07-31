@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TaskItemProps } from "app/templates/TaskItemProps"
-import { SelectPicker } from "rsuite"
+import { MultiCascader } from "rsuite"
 
 export const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
   return <div>{value}</div>
@@ -24,7 +24,7 @@ export const MultiSelectEdit: React.FC<{
 
   //TODO: useForm hook for form submit and validation
   return (
-    <SelectPicker
+    <MultiCascader
       placement="bottomEnd"
       placeholder={value}
       data={select_options}
