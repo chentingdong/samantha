@@ -32,7 +32,7 @@ const BlockFilter = (props) => (
       <SelectInput optionText="id" optionValue="id" />
     </ReferenceInput>
     <ReferenceInput label="Bell" source="bell_id" reference="m2_bells" alwaysOn>
-      <SelectInput optionText="id" optionValue="id" />
+      <SelectInput optionText="name" optionValue="name" />
     </ReferenceInput>
   </Filter>
 );

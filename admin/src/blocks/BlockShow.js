@@ -21,9 +21,9 @@ import AddGoalDetailButton from "./AddGoalDetailButton";
 import AddBellExecutorDetailButton from "./AddBellExecutorDetailButton";
 
 const BlockShow = (props) => (
-  <ShowController title={<BlockTitle />} {...props}>
+  <ShowController {...props}>
     {(controllerProps) => (
-      <ShowView {...props} {...controllerProps}>
+      <ShowView title={<BlockTitle />} {...props} {...controllerProps}>
         <TabbedShowLayout>
           <Tab label="Summary">
             <TextField source="name" />
