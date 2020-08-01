@@ -31,6 +31,7 @@ export const UserBlockParticipationCreate = (props) => {
           label="Role"
           source="role"
           reference="m2_participation_roles"
+          filter={{ "id@_nilike": "bell" }}
         >
           <SelectInput optionText="id" optionValue="id" />
         </ReferenceInput>

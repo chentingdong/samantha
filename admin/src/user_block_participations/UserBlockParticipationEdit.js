@@ -2,7 +2,7 @@ import React from "react";
 import { Edit, SimpleForm, ReferenceInput, SelectInput } from "react-admin";
 
 const UserBlockParticipationEdit = (props) => (
-  <Edit {...props}>
+  <Edit undoable={false} {...props}>
     <SimpleForm variant="outlined" redirect="show">
       <ReferenceInput label="User" source="user_id" reference="m2_users">
         <SelectInput optionText="name" />

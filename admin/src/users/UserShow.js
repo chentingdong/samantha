@@ -9,8 +9,8 @@ import {
   ReferenceManyField,
   ShowButton,
   ReferenceField,
-  UrlField,
   BooleanField,
+  EmailField,
 } from "react-admin";
 import UserTitle from "./UserTitle";
 import AddBellhopMembershipButton from "./AddBellhopMembershipButton";
@@ -24,7 +24,7 @@ const UserShow = (props) => (
         <TextField source="name" />
         <TextField source="family_name" />
         <TextField source="given_name" />
-        <UrlField source="picture" />
+        <EmailField source="email" />
         <ImageField source="picture" label="" />
       </Tab>
       <Tab label="Bellhops" path="bellhops">
@@ -85,7 +85,7 @@ const UserShow = (props) => (
         </ReferenceManyField>
         <AddBellParticipationButton />
       </Tab>
-      <Tab label="Block" path="blocks">
+      <Tab label="Blocks" path="blocks">
         <ReferenceManyField
           addLabel={false}
           reference="m2_user_block_participations"

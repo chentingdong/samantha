@@ -31,7 +31,7 @@ const BellShow = (props) => (
           reference="m2_bells"
           link="show"
         >
-          <TextField source="id" />
+          <TextField source="name" />
         </ReferenceField>
         <ReferenceField
           label="Root Block"
@@ -39,7 +39,7 @@ const BellShow = (props) => (
           reference="m2_blocks"
           link="show"
         >
-          <TextField source="id" />
+          <TextField source="name" />
         </ReferenceField>
         <DateField source="created_at" showTime />
         <DateField source="updated_at" showTime />
@@ -73,6 +73,40 @@ const BellShow = (props) => (
               link="show"
             >
               <TextField source="id" />
+            </ReferenceField>
+            <DateField source="created_at" showTime />
+            <DateField source="updated_at" showTime />
+            <ShowButton />
+          </Datagrid>
+        </ReferenceManyField>
+      </Tab>
+      <Tab label="Sub Bells">
+        <ReferenceManyField
+          target="main_bell_id"
+          reference="m2_bells"
+          label="Sub Bells"
+          sort={{ field: "created_at", order: "DESC" }}
+        >
+          <Datagrid rowClick="show">
+            <TextField source="name" />
+            <BooleanField source="is_definition" />
+            <BooleanField source="acts_as_main_bell" />
+            <TextField source="state" />
+            <ReferenceField
+              label="Main Bell"
+              source="main_bell_id"
+              reference="m2_bells"
+              link="show"
+            >
+              <TextField source="name" />
+            </ReferenceField>
+            <ReferenceField
+              label="Root Block"
+              source="root_block_id"
+              reference="m2_blocks"
+              link="show"
+            >
+              <TextField source="name" />
             </ReferenceField>
             <DateField source="created_at" showTime />
             <DateField source="updated_at" showTime />

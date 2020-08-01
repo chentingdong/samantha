@@ -8,12 +8,14 @@ import {
   ShowButton,
   ReferenceManyField,
   ReferenceField,
+  ImageField,
 } from "react-admin";
 
 const BellhopList = (props) => (
   <List {...props} perPage={25} sort={{ field: "name", order: "ASC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
+      <ImageField source="profile_image_url" label="Profile Image" />
       <ReferenceManyField
         reference="m2_bellhop_memberships"
         target="bellhop_id"

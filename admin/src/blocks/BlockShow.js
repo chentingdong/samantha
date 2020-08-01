@@ -21,9 +21,9 @@ import AddGoalDetailButton from "./AddGoalDetailButton";
 import AddBellExecutorDetailButton from "./AddBellExecutorDetailButton";
 
 const BlockShow = (props) => (
-  <ShowController title={<BlockTitle />} {...props}>
+  <ShowController {...props}>
     {(controllerProps) => (
-      <ShowView {...props} {...controllerProps}>
+      <ShowView title={<BlockTitle />} {...props} {...controllerProps}>
         <TabbedShowLayout>
           <Tab label="Summary">
             <TextField source="name" />
@@ -37,7 +37,7 @@ const BlockShow = (props) => (
               reference="m2_blocks"
               link="show"
             >
-              <TextField source="id" />
+              <TextField source="name" />
             </ReferenceField>
             <NumberField source="sibling_order" />
             <ReferenceManyField
@@ -60,7 +60,7 @@ const BlockShow = (props) => (
               reference="m2_bells"
               link="show"
             >
-              <TextField source="id" />
+              <TextField source="name" />
             </ReferenceField>
             <DateField source="created_at" showTime />
             <DateField source="updated_at" showTime />
