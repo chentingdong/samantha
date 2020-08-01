@@ -3,7 +3,7 @@
 module.exports = {
   important: true,
   theme: {
-    // overrite default tailwind pallete
+    // overrite default tailwind variables
     colors: {
       black: "#212121",
       white: "#FFFFFF",
@@ -81,6 +81,7 @@ module.exports = {
       "1/2": "50%",
       "3/4": "75%",
     },
+    // extend variables
     extend: {
       margin: {
         "96": "24rem",

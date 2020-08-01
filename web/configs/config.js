@@ -5,12 +5,13 @@ const graphQLPath = "/v1alpha1/graphql"
 const graphQLUri =
   process.env.NODE_ENV === "production"
     ? `${window.location.protocol}//${window.location.hostname}:${apiPort}${graphQLPath}`
-    : `http://localhost:${apiPort}${graphQLPath}`
+    : `https://poc.dev.bellhop.io:${apiPort}${graphQLPath}`
+
 const webSocketUri =
   process.env.NODE_ENV === "production" &&
   window.location.hostname !== "localhost"
     ? `wss://${window.location.hostname}:${apiPort}${graphQLPath}`
-    : `ws://localhost:${apiPort}${graphQLPath}`
+    : `wss://poc.dev.bellhop.io:${apiPort}${graphQLPath}`
 
 const config = {
   Auth: {

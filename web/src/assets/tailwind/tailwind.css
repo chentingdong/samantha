@@ -21,10 +21,10 @@
 }
 
 * {
-  --color-text-primary: theme("colors.white");
+  --color-text-primary: theme("colors.gray.100");
   --color-bg-primary: theme("colors.purple.500");
 
-  --color-text-secondary: theme("colors.white");
+  --color-text-secondary: theme("colors.gray.100");
   --color-bg-secondary: theme("colors.purple.300");
 
   --color-text-light: theme("colors.black");

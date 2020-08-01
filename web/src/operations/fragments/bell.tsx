@@ -83,6 +83,7 @@ const bellFragment = gql`
       state
       type
       updated_at
+      parent_id
       task {
         id
         title

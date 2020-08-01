@@ -3,13 +3,15 @@ import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { TaskItem } from "app/M2/TaskItem"
-import { Bell } from "models/interface"
+import { Block } from "models/interface"
 interface TaskListRawProps {
-  bell: Bell
-  tasks?: any
+  tasks?: Block[]
 }
 
-export const TaskListRaw: React.FC<TaskListRawProps> = ({ bell, ...props }) => {
+export const TaskListRaw: React.FC<TaskListRawProps> = ({
+  tasks,
+  ...props
+}) => {
   const state2ViewMap = {
     Success: "display",
     Failure: "display",
@@ -17,8 +19,6 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({ bell, ...props }) => {
     Draft: "hidden",
     Created: "hidden",
   }
-
-  const tasks = bell.blocks.filter((block) => block.type === "Task")
 
   const todoTasks = tasks.filter((task) => {
     return state2ViewMap[task.state] === "hidden"
@@ -30,7 +30,6 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({ bell, ...props }) => {
       <div className="tasks">
         {tasks?.map((task) => {
           const view = state2ViewMap[task.state]
-          console.log(task)
           return (
             <TaskItem
               className="task"
