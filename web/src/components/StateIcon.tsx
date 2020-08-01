@@ -4,16 +4,16 @@ import { Icon } from "rsuite"
 interface StateIconProps {
   state?: string
 }
-export const StateIcon: React.FC<StateIconProps> = (state) => {
-  switch (state?.state) {
+export const StateIcon: React.FC<StateIconProps> = ({ state, ...props }) => {
+  switch (state) {
     case "Started":
     case "Completed":
-      return <Icon icon="circle" />
+      return <Icon icon="circle" {...props} />
     case "Running":
-      return <Icon icon="play-circle-o" />
+      return <Icon icon="play-circle-o" {...props} />
     case "Created":
-      return <Icon icon="circle-o" />
+      return <Icon icon="circle-o" {...props} />
     default:
-      return <Icon icon="circle" />
+      return <Icon icon="circle" {...props} />
   }
 }

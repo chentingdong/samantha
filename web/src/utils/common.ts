@@ -11,6 +11,7 @@ const dateFormat = "MMM DD, YYYY h:mm a"
 const dateFormatShort = "h:mm a"
 
 /* list to tree */
+
 const listToTree = (list: Array<any>) => {
   const map = {}
   let node

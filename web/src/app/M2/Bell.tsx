@@ -15,7 +15,7 @@ import runningIcon from "assets/img/running.png"
 import styled from "styled-components"
 import { dateFormat } from "utils/common"
 import { usersToString } from "utils/user"
-import { CircleImage } from "components/CircleImage"
+import { CircleImage } from "components/Circle"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   const bellhop =

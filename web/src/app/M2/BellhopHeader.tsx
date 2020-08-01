@@ -1,6 +1,6 @@
 import React from "react"
 import { setUiState } from "../../operations/mutations/setUiState"
-import { CircleImage } from "components/CircleImage"
+import { CircleImage } from "components/Circle"
 import { Button } from "components/Button"
 import { Icon } from "rsuite"
 
@@ -38,7 +38,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
           </div>
           <div className="flex-none mr-4">
             <CircleImage
-              className="mr-4 border-2"
+              className="mr-4 bg-white"
               alt="image"
               src="https://samantha-assets.s3.amazonaws.com/images/eng.png"
             />

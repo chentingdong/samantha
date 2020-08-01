@@ -3,7 +3,7 @@ import { User } from "models/interface"
 import { userInitials } from "utils/user"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { CircleImage } from "components/CircleImage"
+import { CircleImage } from "components/Circle"
 
 interface UserAvatarProps {
   user: User

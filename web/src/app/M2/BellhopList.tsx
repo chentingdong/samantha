@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { Bellhop } from "models/interface"
 import { BellhopThumbnail } from "./BellhopItem"
-import { TODO } from "components/TODO"
+import { TODO } from "components/Todo"
 
 export interface BellhopThumbnailListProps {
   listTitle: string
