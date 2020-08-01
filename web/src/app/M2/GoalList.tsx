@@ -42,10 +42,10 @@ const GoalListRaw: React.FC<GoalListProps> = ({ goals, ...props }) => {
 
 const GoalList = styled(GoalListRaw)`
   ol li {
-    ${tw`my-8 ml-4 mr-0 list-decimal`}
+    ${tw`my-4 ml-4 mr-0 list-decimal`}
   }
   ul li {
-    ${tw`my-8 ml-8 mr-0 list-disc`}
+    ${tw`my-4 ml-8 mr-0 list-disc`}
   }
 `
 
