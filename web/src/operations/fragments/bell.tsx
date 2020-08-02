@@ -69,7 +69,7 @@ const bellFragment = gql`
         }
       }
     }
-    blocks(order_by: { ended_at: asc_nulls_last }) {
+    blocks(order_by: { ended_at: asc }) {
       id
       bell_id
       configs
@@ -84,6 +84,9 @@ const bellFragment = gql`
       type
       updated_at
       parent_id
+      parent {
+        parent_id
+      }
       task {
         id
         title

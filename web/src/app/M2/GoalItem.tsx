@@ -8,9 +8,16 @@ import { Icon } from "rsuite"
 
 interface GoalItemProps {
   goal: Block
+  countCompletedTasks: number
+  countNotifications: number
 }
 
-const GoalItemRaw: React.FC<GoalItemProps> = ({ goal, ...props }) => {
+const GoalItemRaw: React.FC<GoalItemProps> = ({
+  goal,
+  countCompletedTasks,
+  countNotifications,
+  ...props
+}) => {
   return (
     <div {...props}>
       <div className="flex justify-between">
@@ -19,13 +26,17 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({ goal, ...props }) => {
             {goal.name}: {goal.className}
           </div>
           <div>Ended at: {goal.ended_at}</div>
+          <div>Started at: {goal.started_at}</div>
+          <div>Updated at: {goal.updated_at}</div>
           <div>Assigned to: [Tingdong Chen]</div>
-          <div className="mt-4 text-sm text-gray-500">{2} Tasks Completed</div>
+          <div className="mt-4 text-sm text-gray-500">
+            {countCompletedTasks} Tasks Completed
+          </div>
         </main>
         <aside>
           <div className="flex icons gap-2">
             <CircleIcon icon="attachment" />
-            <CircleNumber number={goal?.notifications?.length || 0} />
+            <CircleNumber number={countNotifications} />
             <StateIcon className="icon" state={goal.state} />
           </div>
           <div className="flex justify-end mt-2">

@@ -1,19 +1,45 @@
 // GoalList.tsx. appears in responder view, single bell page
 import React from "react"
 import { Block } from "models/interface"
-import { listTree2Level } from "utils/common"
+import { listToTree } from "utils/common"
 import { GoalItem } from "./GoalItem"
-import { StateIcon } from "components/StateIcon"
 
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
 interface GoalListProps {
   goals: Block[]
+  tasks: Block[]
+  notifications: Block[]
 }
 
-const GoalListRaw: React.FC<GoalListProps> = ({ goals, ...props }) => {
-  const goalTree = listTree2Level(goals)
+const GoalListRaw: React.FC<GoalListProps> = ({
+  goals,
+  tasks,
+  notifications,
+  ...props
+}) => {
+  const blocks = goals.concat(tasks)
+  const goalTree = listToTree(blocks)
+
+  const countCompletedTasks = (goal) => {
+    const completed = tasks
+      .filter((task) => task.state === "Success")
+      .filter(
+        (task) =>
+          task.parent_id === goal.id ||
+          task.parent?.parent_id === goal.id ||
+          task.parent?.parent?.parent_id === goal.id
+      )
+    return completed.length
+  }
+
+  const countNotifications = (goal) => {
+    const goalNotifications = notifications.filter(
+      (notif) => notif.parent_id === goal.id
+    )
+    return goalNotifications.length
+  }
 
   return (
     <div {...props}>
@@ -22,12 +48,22 @@ const GoalListRaw: React.FC<GoalListProps> = ({ goals, ...props }) => {
         {goalTree.map((root) => {
           return (
             <li key={root.id}>
-              <GoalItem goal={root}></GoalItem>
+              <GoalItem
+                goal={root}
+                countCompletedTasks={countCompletedTasks(root)}
+                countNotifications={countNotifications(root)}
+              ></GoalItem>
               {root.children.length > 0 && (
                 <ul>
                   {root.children.map((child) => (
                     <li key={child.id}>
-                      <GoalItem goal={child} key={child.id} {...props} />
+                      <GoalItem
+                        key={child.id}
+                        goal={child}
+                        countCompletedTasks={countCompletedTasks(child)}
+                        countNotifications={countNotifications(child)}
+                        {...props}
+                      />
                     </li>
                   ))}
                 </ul>

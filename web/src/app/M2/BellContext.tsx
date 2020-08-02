@@ -59,7 +59,12 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
             <Chat className="chat" />
           </div>
         )}
-        {activeTab === "artifacts" && <Artifacts className="artifacts" />}
+        {activeTab === "artifacts" && (
+          <Artifacts
+            artifacts={bell.context?.artifacts}
+            className="artifacts"
+          />
+        )}
       </div>
     </div>
   )

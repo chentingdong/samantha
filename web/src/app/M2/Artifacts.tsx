@@ -1,13 +1,17 @@
 // Artifacts.tsx. appears in single bell view, right side tabs
 
 import React from "react"
-import { artifacts } from "../../../data/artifacts"
 
 interface ArtifactsProps {
+  artifacts: any
   className?: string
 }
 
-export const Artifacts: React.FC<ArtifactsProps> = (props) => {
+export const Artifacts: React.FC<ArtifactsProps> = ({
+  artifacts,
+  ...props
+}) => {
+  console.log(artifacts)
   return (
     <div {...props}>
       <h4>Artifacts</h4>

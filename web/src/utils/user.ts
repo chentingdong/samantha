@@ -21,4 +21,12 @@ const userInitials = (user: User): string => {
   return initials.toUpperCase()
 }
 
-export { usersToString, userInitials }
+const iAmInitiator = (authUser, users) => {
+  const userIds = users
+    .filter((user) => user.roal === "bell_initiator")
+    .map((user) => user.user.id)
+
+  return userIds.includes(authUser.id)
+}
+
+export { usersToString, userInitials, iAmInitiator }

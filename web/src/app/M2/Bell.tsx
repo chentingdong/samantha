@@ -14,8 +14,9 @@ import { Loading, Error } from "components/Misc"
 import runningIcon from "assets/img/running.png"
 import styled from "styled-components"
 import { dateFormat } from "utils/common"
-import { usersToString } from "utils/user"
+import { usersToString, iAmInitiator } from "utils/user"
 import { CircleImage } from "components/Circle"
+import { AUTH_USER } from "operations/queries/authUser"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   const bellhop =
@@ -48,22 +49,33 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
     data: { uiState },
   } = useQuery(UI_STATE)
 
-  const bellId = props?.computedMatch?.params.id
-  setUiState({ runningBellId: bellId })
+  const { data: authUserResult } = useQuery(AUTH_USER)
+  const authUser = authUserResult.authUser
 
-  const { data: bellData, loading, error } = useSubscription(GET_BELL, {
-    variables: { id: bellId },
+  const bellId = props?.computedMatch?.params.id
+  setUiState({
+    runningBellId: bellId,
   })
 
-  if (loading) return <Loading />
-  if (error) return <Error message={error.message} />
+  const { data: bellData, loading, error } = useSubscription(GET_BELL, {
+    variables: {
+      id: bellId,
+    },
+  })
+
+  if (loading) return <Loading className="text-center" />
+  if (error) return <Error className="text-center" message={error.message} />
 
   const bell = bellData.m2_bells_by_pk
   const tasks = bell.blocks.filter((block) => block.type === "Task")
   const goals = bell.blocks.filter(
     (block) => block.type === "Goal" || block.type === "Executor"
   )
-  console.log(bell)
+  const notifications = bell.blocks.filter(
+    (block) => block.type === "Notification"
+  )
+  const participants = bell.user_participations
+  const asInitiator = iAmInitiator(authUser, participants)
 
   return (
     <div>
@@ -72,11 +84,17 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
       <div className="bell-context grid grid-cols-3">
         <div className="mx-4 mb-8 col-span-2">
           <BellHeader bell={bell} />
-          <GoalList goals={goals} />
-          <TaskList tasks={tasks} />
+          {asInitiator && <TaskList tasks={tasks} />}
+          {!asInitiator && (
+            <GoalList
+              goals={goals}
+              tasks={tasks}
+              notifications={notifications}
+            />
+          )}
         </div>
         <div className="col-span-1">
-          <BellContext bell={{ id: bellId }} {...props} />
+          <BellContext bell={bell} {...props} />
         </div>
       </div>
     </div>
