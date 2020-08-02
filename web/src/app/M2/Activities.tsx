@@ -4,14 +4,15 @@ import { activities } from "../../../data/activities"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { StateIcon } from "components/StateIcon"
-import moment from "moment"
-import { dateFormat } from "utils/common"
+import { displayDate } from "utils/common"
+import { Bell } from "models/interface"
 
 interface ActivitiesProps {
+  bell: Bell
   className?: string
 }
 
-const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
+const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
   const activitiesCompleted = activities.filter((a) => {
     return (
       a.state === "Completed" || (a.source === "bell" && a.state === "Started")
@@ -19,6 +20,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
   })
   const activitiesRunning = activities.filter((a) => a.state === "Running")
   const activitiesFuture = activities.filter((a) => a.state === "Created")
+
   return (
     <div {...props}>
       <div className="inner">
@@ -26,7 +28,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = (props) => {
           <div className="activity" key={activity.id}>
             <StateIcon state={activity.state} />
             <div>
-              <div>{moment(activity.ended_at).format(dateFormat)}</div>
+              <div>{displayDate(activity.ended_at)}</div>
               <div className="text-gray-500">
                 <span className="capitalize">{activity.source} </span>
                 <span>{activity.state.toLowerCase()}: </span>

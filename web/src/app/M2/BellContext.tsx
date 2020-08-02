@@ -52,7 +52,9 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
         </Nav.Item>
       </Nav>
       <div className="tabs-content">
-        {activeTab === "activities" && <Activities className="activities" />}
+        {activeTab === "activities" && (
+          <Activities bell={bell} className="activities" />
+        )}
         {activeTab === "participants" && (
           <div className="h-full">
             <Participants className="participants" />

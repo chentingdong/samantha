@@ -1,6 +1,5 @@
 import React from "react"
 import { Icon } from "rsuite"
-import moment from "moment"
 import { UI_STATE } from "operations/queries/uiState"
 import { GET_BELL } from "operations/subscriptions/getBell"
 import { useQuery, useSubscription } from "@apollo/client"
@@ -13,8 +12,8 @@ import { setUiState } from "operations/mutations/setUiState"
 import { Loading, Error } from "components/Misc"
 import runningIcon from "assets/img/running.png"
 import styled from "styled-components"
-import { dateFormat } from "utils/common"
-import { usersToString, iAmInitiator } from "utils/user"
+import { displayDate } from "utils/common"
+import { displayUsers, iAmInitiator } from "utils/user"
 import { CircleImage } from "components/Circle"
 import { AUTH_USER } from "operations/queries/authUser"
 
@@ -32,8 +31,8 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
       </div>
       <div className="flex flex-row justify-between my-4">
         <div className="text-sm">
-          <div>Started at {moment(bell?.updated_at).format(dateFormat)}</div>
-          <div>Started by {usersToString(bell?.user_participations)}</div>
+          <div>Started at {displayDate(bell?.updated_at)}</div>
+          <div>Started by {displayUsers(bell?.user_participations)}</div>
           <div className="my-4">{bell?.description}</div>
         </div>
         <CircleImage src={runningIcon} className="w-12 h-12 p-2 bg-green-400" />

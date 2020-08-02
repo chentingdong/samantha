@@ -1,12 +1,10 @@
 import React from "react"
-import moment from "moment"
 import { Bell } from "models/interface"
 import { Link } from "react-router-dom"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { stringHashBucket, dateFormat } from "utils/common"
+import { stringHashBucket, displayDate } from "utils/common"
 import { Placeholder } from "rsuite"
-import { usersToString } from "utils/user"
 import { Button } from "components/Button"
 
 export interface BellRawProps {
@@ -33,7 +31,7 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
         <h5 className="mb-2 overflow-hidden truncate">
           {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </h5>
-        <div>{moment(bell.createdAt).format(dateFormat)}</div>
+        <div>{displayDate(bell.createdAt)}</div>
         <div>Started by [bell.started_by]</div>
       </div>
       {whose === "mine" && (

@@ -78,11 +78,11 @@ const bellFragment = gql`
       local_id
       is_definition
       sibling_order
-      started_at
-      ended_at
       state
       type
+      created_at
       updated_at
+      ended_at
       parent_id
       parent {
         parent_id
@@ -97,6 +97,16 @@ const bellFragment = gql`
         id
         success_conditions
         type
+      }
+      user_participations {
+        role
+        user {
+          id
+          name
+          picture
+          given_name
+          family_name
+        }
       }
     }
   }

@@ -1,14 +1,7 @@
-const usersToString = (users: any[]) => {
-  return users?.map((user) => "@" + user.user.name).join(", ")
-}
+import { User } from "models/interface"
 
-export interface User {
-  id: string
-  name: string
-  email: string
-  given_name?: string
-  family_name?: string
-  picture?: string
+const displayUsers = (users: any[]) => {
+  return users?.map((user) => "@" + user.user.name).join(", ")
 }
 
 const userInitials = (user: User): string => {
@@ -29,4 +22,4 @@ const iAmInitiator = (authUser, users) => {
   return userIds.includes(authUser.id)
 }
 
-export { usersToString, userInitials, iAmInitiator }
+export { displayUsers, userInitials, iAmInitiator }
