@@ -5,7 +5,7 @@ import { Chat } from "./Chat"
 import { Activities } from "./Activities"
 import { Artifacts } from "./Artifacts"
 import { Nav } from "rsuite"
-import { useHistory } from "react-router-dom"
+import { useHistory, useLocation, matchPath } from "react-router-dom"
 import { Bell } from "models/interface"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -19,10 +19,18 @@ interface BellContextProps {
 const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const history = useHistory()
   const [activeTab, setActiveTab] = useState("activities")
+  const location = useLocation()
+
+  const match = matchPath(location.pathname, {
+    path: "/bells/:bellId/:goalId/:context",
+  })
 
   const activateTab = (tab) => {
     setActiveTab(tab)
-    history.push(`/bells/${bell.id}/${tab}`)
+    const path = match
+      ? `/bells/${match.params?.bellId}/${match?.params.goalId}/${tab}`
+      : `/bells/${bell.id}/all/${tab}`
+    history.push(path)
   }
 
   const styleActive = (tab) => {

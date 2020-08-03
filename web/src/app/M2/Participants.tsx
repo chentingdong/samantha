@@ -15,7 +15,6 @@ interface ParticipantsProps {
 
 export const Participants: React.FC<ParticipantsProps> = ({
   bell,
-  className,
   ...props
 }) => {
   const { data, loading, error } = useQuery(GET_USERS)
@@ -34,7 +33,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
   }
 
   return (
-    <div className={className}>
+    <div {...props}>
       <span>Participants</span>
       <div className="flex">
         {users?.map((user) => (

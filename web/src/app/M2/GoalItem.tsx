@@ -7,10 +7,8 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 import { displayUsers } from "utils/user"
 import { displayDate } from "utils/common"
-import { ParticipantsPicker } from "./ParticipantsPicker"
-import { Loading, Error } from "components/Misc"
-import { useQuery } from "@apollo/client"
-import { GET_USERS } from "operations/queries/getUsers"
+import { Link, useLocation } from "react-router-dom"
+import { matchPath } from "react-router"
 
 interface GoalItemProps {
   goal: Block
@@ -24,13 +22,11 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   countNotifications,
   ...props
 }) => {
-  console.log(goal)
-
-  const { data, loading, error } = useQuery(GET_USERS)
-  const users = data?.users
-  if (loading)
-    return <Loading speed="fast" content="Loading..." className="text-center" />
-  if (error) return <Error message={error.message} />
+  const location = useLocation()
+  const match =
+    matchPath(location.pathname, {
+      path: "/bells/:bellId/:goalId/:context",
+    }) || matchPath(location.pathname, { path: "/bells/:belId" })
 
   return (
     <div {...props}>
@@ -63,10 +59,13 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           </div>
           <div className="flex justify-end mt-2">
             <Icon className="p-1 text-lg" icon="angle-right" />
-            <div className="ml-2 text-sm underline cursor-pointer">
+            <Link
+              to={`/bells/${match.params.bellId}/${goal.id}/${match.params.context}`}
+              className="ml-2 text-sm underline cursor-pointer"
+            >
               Goal Details <br />
               Tasks
-            </div>
+            </Link>
           </div>
         </aside>
       </div>

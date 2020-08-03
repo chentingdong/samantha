@@ -27,12 +27,12 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/bells/:id",
+    path: "/bells/:bellId",
     component: Bell,
     tag: PrivateRoute,
   },
   {
-    path: "/bells/:id/:context",
+    path: "/bells/:bellId/:goalId/:context",
     component: Bell,
     tag: PrivateRoute,
   },
@@ -72,6 +72,7 @@ const Routes = () => {
           const TagName = route.tag
           return (
             <TagName
+              exact
               path={route.path}
               component={route.component}
               key={index}

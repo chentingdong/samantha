@@ -6,6 +6,7 @@ import { GoalItem } from "./GoalItem"
 
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { useLocation, matchPath } from "react-router-dom"
 
 interface GoalListProps {
   goals: Block[]
@@ -21,6 +22,10 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 }) => {
   const blocks = goals.concat(tasks)
   const goalTree = listToTree(blocks)
+  const location = useLocation()
+  const match = matchPath(location.pathname, {
+    path: "/bells/:bellId/:goalId/:context",
+  })
 
   const countCompletedTasks = (goal) => {
     const completed = tasks
@@ -34,6 +39,9 @@ const GoalListRaw: React.FC<GoalListProps> = ({
     return completed.length
   }
 
+  const activeClassName = (goal) => {
+    return goal.id === match?.params?.goalId ? "active" : ""
+  }
   const countNotifications = (goal) => {
     const goalNotifications = notifications.filter(
       (notif) => notif.parent_id === goal.id
@@ -47,7 +55,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
       <ol>
         {goalTree.map((root) => {
           return (
-            <li key={root.id}>
+            <li key={root.id} className={activeClassName(root)}>
               <GoalItem
                 goal={root}
                 countCompletedTasks={countCompletedTasks(root)}
@@ -56,7 +64,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
               {root.children.length > 0 && (
                 <ul>
                   {root.children.map((child) => (
-                    <li key={child.id}>
+                    <li key={child.id} className={activeClassName(child)}>
                       <GoalItem
                         key={child.id}
                         goal={child}

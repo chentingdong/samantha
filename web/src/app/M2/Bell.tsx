@@ -8,7 +8,6 @@ import { GoalList } from "./GoalList"
 import { Bell as BellProps } from "operations/interface/Bell"
 import { TaskList } from "./TaskList"
 import { MainMenu } from "./MainMenu"
-import { setUiState } from "operations/mutations/setUiState"
 import { Loading, Error } from "components/Misc"
 import runningIcon from "assets/img/running.png"
 import styled from "styled-components"
@@ -44,17 +43,9 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
 interface BellRawProps {}
 
 const BellRaw: React.FC<BellRawProps> = (props) => {
-  const {
-    data: { uiState },
-  } = useQuery(UI_STATE)
-
   const { data: authUserResult } = useQuery(AUTH_USER)
   const authUser = authUserResult.authUser
-
-  const bellId = props?.computedMatch?.params.id
-  setUiState({
-    runningBellId: bellId,
-  })
+  const bellId = props?.computedMatch?.params.bellId
 
   const { data: bellData, loading, error } = useSubscription(GET_BELL, {
     variables: {
