@@ -8,4 +8,5 @@ UPDATE m2.bellhops SET profile_image_url='https://samantha-assets.s3.amazonaws.c
 WHERE name='Legal';
 UPDATE m2.bellhops SET profile_image_url='https://samantha-assets.s3.amazonaws.com/images/purchasing.png'
 WHERE name='Purchasing';
-INSERT INTO m2.bellhops (id, name, profile_image_url) values ('PG4zNBGpm_MNfVU0tMNwt', 'Engineering & Product', 'https://samantha-assets.s3.amazonaws.com/images/eng.png');
+UPDATE m2.bellhops SET profile_image_url='https://samantha-assets.s3.amazonaws.com/images/eng.png'
+WHERE name='Engineering & Product';
