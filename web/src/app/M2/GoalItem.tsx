@@ -35,9 +35,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
     <div {...props}>
       <div className="flex justify-between">
         <main>
-          <div>
-            {goal.name}: {goal.className}
-          </div>
+          <div>{goal.name}</div>
           {goal.state === "Success" && (
             <div>Ended at: {displayDate(goal.ended_at)}</div>
           )}

@@ -48,7 +48,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 
   const activeClassName = (goal) => {
     const bellColor = `bg-bell-${stringHashBucket(bellId, 10)}` || "bg-bell"
-    return goal.id === match?.params?.goalId ? `active ${bellColor}` : ""
+    return goal.id === goalId ? `active ${bellColor}` : ""
   }
   const countNotifications = (goal) => {
     const goalNotifications = notifications.filter(
@@ -78,21 +78,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
                 goal={root}
                 countCompletedTasks={countCompletedTasks(root)}
                 countNotifications={countNotifications(root)}
-              ></GoalItem>
-              {/* {root.children?.length > 0 && (
-                <ul>
-                  {root.children.map((child) => (
-                    <li key={child.id} className={activeClassName(child)}>
-                      <GoalItem
-                        goal={child}
-                        countCompletedTasks={countCompletedTasks(child)}
-                        countNotifications={countNotifications(child)}
-                        {...props}
-                      />
-                    </li>
-                  ))}
-                </ul>
-              )} */}
+              />
             </li>
           )
         })}
