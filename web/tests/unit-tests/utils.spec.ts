@@ -1,4 +1,4 @@
-import { listTree2Level } from "../../src/utils/common"
+import { listTree2Level } from "../../src/utils/bell"
 
 describe("listTree2Level", () => {
   let testCase, expected
@@ -9,14 +9,9 @@ describe("listTree2Level", () => {
       { id: "c", parent_id: null },
     ]
     expected = [
-      {
-        id: "c",
-        parent_id: null,
-        children: [
-          { id: "a", parent_id: "c" },
-          { id: "b", parent_id: "c" },
-        ],
-      },
+      { id: "c", parent_id: null },
+      { id: "a", parent_id: "c", className: "generation-2" },
+      { id: "b", parent_id: "c", className: "generation-2" },
     ]
   })
 

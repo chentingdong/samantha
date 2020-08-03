@@ -85,7 +85,8 @@ const bellFragment = gql`
       ended_at
       parent_id
       parent {
-        parent_id
+        id
+        type
       }
       task {
         id

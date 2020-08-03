@@ -22,7 +22,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const location = useLocation()
 
   const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId/:context",
+    path: "/bells/:bellId/:goalId?/:context?",
   })
 
   const activateTab = (tab) => {

@@ -23,13 +23,12 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   ...props
 }) => {
   const location = useLocation()
-  const match =
-    matchPath(location.pathname, {
-      path: "/bells/:bellId/:goalId/:context",
-    }) || matchPath(location.pathname, { path: "/bells/:bellId" })
+  const match = matchPath(location.pathname, {
+    path: "/bells/:bellId/:goalId?/:context?",
+  })
 
   const bellId = match.params.bellId
-  const context = match.params.context
+  const context = match.params.context || "activity"
 
   return (
     <div {...props}>

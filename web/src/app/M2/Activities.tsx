@@ -5,7 +5,7 @@ import tw from "tailwind.macro"
 import { StateIcon } from "components/StateIcon"
 import { displayDate } from "utils/common"
 import { Bell } from "models/interface"
-import { useLocation, matchPath } from "react-router-dom"
+import { useLocation, matchPath, Link } from "react-router-dom"
 
 interface ActivitiesProps {
   bell: Bell
@@ -16,10 +16,11 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
   const location = useLocation()
 
   const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId/:context",
+    path: "/bells/:bellId/:goalId?/:context?",
   })
-
+  const bellId = bell.id
   const goalId = match?.params.goalId || "all"
+  const context = match?.params.context || "activities"
 
   const activities =
     goalId === "all"
@@ -48,14 +49,27 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
           </div>
         ))}
         <hr />
-        {activitiesRunning?.map((activity) => (
-          <div className="activity" key={activity.id}>
-            <StateIcon state={activity.state} />
-            <div className="text-lg text-gray-800">
-              Started: <a href="#">{activity.name}</a>
+        {activitiesRunning?.map((activity) => {
+          const isTask = activity.type === "Task"
+          const taskGoalId =
+            activity.parent.type === "Goal" ? activity.parent.id : goalId
+          return (
+            <div className="activity" key={activity.id}>
+              <StateIcon state={activity.state} />
+              <span className="pr-2">Started:</span>
+              <div className="text-lg text-gray-800">
+                {isTask && (
+                  <Link
+                    to={`/bells/${bellId}/${taskGoalId}/${context}/details`}
+                  >
+                    {activity.name}
+                  </Link>
+                )}
+                {!isTask && <span>{activity.name}</span>}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
         <div className="ddd">...</div>
         {activitiesFuture?.map((activity) => (
           <div className="hidden activity" key={activity.id}>

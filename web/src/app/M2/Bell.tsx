@@ -5,6 +5,7 @@ import { BellContext } from "./BellContext"
 import { GoalList } from "./GoalList"
 import { Bell as BellProps } from "operations/interface/Bell"
 import { TaskList } from "./TaskList"
+import { GoalTaskList } from "./GoalTaskList"
 import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
 import runningIcon from "assets/img/running.png"
@@ -44,6 +45,7 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
   const authUser = authUserResult.authUser
   const bellId = props?.computedMatch?.params.bellId
+  const details = props?.computedMatch?.params.details
 
   const { data: bellData, loading, error } = useSubscription(GET_BELL, {
     variables: {
@@ -73,12 +75,15 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
         <div className="mx-4 mb-8 col-span-2">
           <BellHeader bell={bell} />
           {asInitiator && <TaskList tasks={tasks} />}
-          {!asInitiator && (
+          {!asInitiator && !details && (
             <GoalList
               goals={goals}
               tasks={tasks}
               notifications={notifications}
             />
+          )}
+          {!asInitiator && details && (
+            <GoalTaskList goals={goals} tasks={tasks} />
           )}
         </div>
         <div className="col-span-1">

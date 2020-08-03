@@ -1,13 +1,13 @@
 // GoalList.tsx. appears in responder view, single bell page
 import React from "react"
 import { Block } from "models/interface"
-import { listTree2Level, stringHashBucket } from "utils/common"
+import { stringHashBucket } from "utils/common"
+import { listTree2Level } from "utils/bell"
 import { GoalItem } from "./GoalItem"
-
+import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { useLocation, matchPath, Link } from "react-router-dom"
-import { Button } from "components/Button"
+import { useLocation, matchPath } from "react-router-dom"
 
 interface GoalListProps {
   goals: Block[]
@@ -23,12 +23,11 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 }) => {
   const blocks = goals.concat(tasks)
   const goalTree = listTree2Level(blocks)
-  const location = useLocation()
 
-  const match =
-    matchPath(location.pathname, {
-      path: "/bells/:bellId/:goalId/:context",
-    }) || matchPath(location.pathname, { path: "/bells/:bellId" })
+  const location = useLocation()
+  const match = matchPath(location.pathname, {
+    path: "/bells/:bellId/:goalId?/:context?",
+  })
 
   const bellId = match?.params.bellId
   const goalId = match?.params.goalId || "all"
@@ -59,14 +58,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 
   return (
     <div {...props}>
-      <div className="flex justify-between w-full border-b">
-        <h4 className="">Goals</h4>
-        <Link to={`/bells/${bellId}/all/${context}`}>
-          <Button className="p-2 fill" color="secondary">
-            View All Goals
-          </Button>
-        </Link>
-      </div>
+      <GoalListHeader link={`/bells/${bellId}/all/${context}`} />
       <ol>
         {goalTree.map((root) => {
           return (
