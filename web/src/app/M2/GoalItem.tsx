@@ -26,7 +26,10 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   const match =
     matchPath(location.pathname, {
       path: "/bells/:bellId/:goalId/:context",
-    }) || matchPath(location.pathname, { path: "/bells/:belId" })
+    }) || matchPath(location.pathname, { path: "/bells/:bellId" })
+
+  const bellId = match.params.bellId
+  const context = match.params.context
 
   return (
     <div {...props}>
@@ -60,7 +63,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           <div className="flex justify-end mt-2">
             <Icon className="p-1 text-lg" icon="angle-right" />
             <Link
-              to={`/bells/${match.params.bellId}/${goal.id}/${match.params.context}`}
+              to={`/bells/${bellId}/${goal.id}/${context}`}
               className="ml-2 text-sm underline cursor-pointer"
             >
               Goal Details <br />
@@ -74,9 +77,10 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
 }
 
 const GoalItem = styled(GoalItemRaw)`
-  ${tw`border-gray-100 border p-4`}
+  ${tw`border-gray-200 border p-4`}
+
   &:hover {
-    ${tw`bg-gray-100`}
+    ${tw`bg-gray-200`}
   }
   aside {
     .icons {

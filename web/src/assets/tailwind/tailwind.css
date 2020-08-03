@@ -179,33 +179,43 @@ textarea:focus {
 .bg-bell,
 .bg-bell-0 {
   background: rgb(248, 229, 98);
+  border-color: rgb(248, 229, 98);
 }
 .bg-bell-1 {
   background: rgb(248, 196, 91);
+  border-color: rgb(248, 196, 91);
 }
 .bg-bell-2 {
   background: rgb(247, 124, 7);
+  border-color: rgb(247, 124, 7);
 }
 .bg-bell-3 {
   background: rgb(185, 237, 2);
+  border-color: rgb(185, 237, 2);
 }
 .bg-bell-4 {
   background: rgb(0, 211, 213);
+  border-color: rgb(0, 211, 213);
 }
 .bg-bell-5 {
   background: rgba(25, 116, 65, 0.8);
+  border-color: rgba(25, 116, 65, 0.8);
 }
 .bg-bell-6 {
   background: rgb(247, 121, 96);
+  border-color: rgb(247, 121, 96);
 }
 .bg-bell-7 {
   background: rgba(231, 90, 14, 0.7);
+  border-color: rgba(231, 90, 14, 0.7);
 }
 .bg-bell-8 {
   background: rgba(86, 75, 135, 0.7);
+  border-color: rgba(86, 75, 135, 0.7);
 }
 .bg-bell-9 {
   background: rgb(133, 164, 214);
+  border-color: rgb(133, 164, 214);
 }
 
 /* asana.com colors */

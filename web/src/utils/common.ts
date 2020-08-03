@@ -56,14 +56,16 @@ const listTree2Level = (list: Array<any>) => {
   const result = []
 
   roots.forEach((root) => {
+    result.push(root)
     root.children = []
 
     children.forEach((child) => {
       if (child.parent_id === root.id) {
-        root.children.push(child)
+        // root.children.push(child)
+        child.className = "generation-2"
+        result.push(child)
       }
     })
-    result.push(root)
   })
 
   return result

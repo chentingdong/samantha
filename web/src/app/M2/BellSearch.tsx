@@ -46,7 +46,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
       />
       <img src={IconBell} className="absolute top-0 right-0 h-4 mx-8 my-5" />
       {show && (
-        <div className="absolute z-10 w-full p-4 bg-gray-100 border border-gray-100 rounded-lg shadow-xl menu">
+        <div className="absolute z-10 w-full p-4 bg-gray-200 border border-gray-200 rounded-lg shadow-xl menu">
           <div className="p-2 border-b-2 grid grid-cols-3">
             <div className="col-span-1">Bellhops</div>
             <div className="col-span-2">

@@ -65,7 +65,10 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
         )}
         {activeTab === "participants" && (
           <div className="h-full">
-            <Participants className="participants" />
+            <Participants
+              bell={bell}
+              className="border-b border-gray-500 participants"
+            />
             <Chat className="chat" />
           </div>
         )}
@@ -88,13 +91,13 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
     ${tw`mx-4 border border-b-0 rounded-t-md`}
   }
   .rs-nav-item-active {
-    ${tw`bg-gray-100`}
+    ${tw`bg-gray-200`}
     >.rs-nav-item-content {
       border-bottom-color: transparent !important;
     }
   }
   .tabs-content {
-    ${tw`bg-gray-100 h-screen relative`}
+    ${tw`bg-gray-200 h-screen relative`}
     max-height: calc(100vh - 210px);
     .activities,
     .participants,

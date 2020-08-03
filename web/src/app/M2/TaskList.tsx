@@ -54,7 +54,7 @@ const TaskList = styled(TaskListRaw)`
   .tasks {
     ${tw`border p-4 rounded-lg mt-4`}
     .task {
-      ${tw`my-8 border-b border-gray-100`}
+      ${tw`my-8 border-b border-gray-200`}
     }
   }
 `

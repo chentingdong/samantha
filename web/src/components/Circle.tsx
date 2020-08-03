@@ -4,7 +4,7 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 
 const CircleStyle = styled.div`
-  ${tw`m-0 p-0 w-24 h-24 bg-gray-100 flex content-center flex-wrap`}
+  ${tw`m-0 p-0 w-24 h-24 bg-gray-200 flex content-center flex-wrap`}
   border-radius: 50%;
   min-width: 0;
   overflow: hidden;

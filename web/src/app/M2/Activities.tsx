@@ -19,7 +19,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
     path: "/bells/:bellId/:goalId/:context",
   })
 
-  const goalId = match?.params.goalId
+  const goalId = match?.params.goalId || "all"
 
   const activities =
     goalId === "all"

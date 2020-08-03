@@ -55,14 +55,14 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   if (error) return <Error className="text-center" message={error.message} />
 
   const bell = bellData.m2_bells_by_pk
-  const tasks = bell.blocks.filter((block) => block.type === "Task")
-  const goals = bell.blocks.filter(
+  const tasks = bell?.blocks.filter((block) => block.type === "Task")
+  const goals = bell?.blocks.filter(
     (block) => block.type === "Goal" || block.type === "Executor"
   )
-  const notifications = bell.blocks.filter(
+  const notifications = bell?.blocks.filter(
     (block) => block.type === "Notification"
   )
-  const participants = bell.user_participations
+  const participants = bell?.user_participations
   const asInitiator = iAmInitiator(authUser, participants)
 
   return (

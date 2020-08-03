@@ -17,9 +17,9 @@ interface ParticipantsPickerProps {
 const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   participants,
   users,
-  className,
   onInsertTag,
   onDeleteTag,
+  ...props
 }) => {
   const [tags, setTags] = useState([])
   const [showSelect, setShowSelect] = useState(false)
@@ -60,51 +60,53 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
 
   return (
     <ClickOutHandler onClickOut={onClickOut}>
-      <div className={`${className} flex`}>
-        {tags?.length === 0 && <div className="p-1">click to select...</div>}
-        {tags?.map((tag, index) => {
-          return (
-            <div key={index} className="tag">
-              <div className="inner">
-                <span className="m-1">{userInitials(tag)}</span>
-                <Icon
-                  className="close"
-                  icon="close"
-                  onClick={(e) => deleteTag(e, tag)}
-                />
-              </div>
-            </div>
-          )
-        })}
-        <Button
-          className="w-8 h-8 add-tag circle"
-          color="primary"
-          onClick={toggleSelect}
-        >
-          <Icon icon="plus" />
-        </Button>
-      </div>
-      {showSelect && (
-        <div className="users">
-          {users?.map((tag) => {
+      <div {...props}>
+        <div className="flex">
+          {tags?.length === 0 && <div className="p-1">click to select...</div>}
+          {tags?.map((tag, index) => {
             return (
-              <div key={tag.id}>
-                <input
-                  type="checkbox"
-                  className="inline-block cursor-pointer"
-                  name={tag.name}
-                  value={tag.id}
-                  checked={objInArr(tag, tags)}
-                  onChange={(e) => pickTags(e, tag)}
-                />
-                <label htmlFor={tag.name} className="inline-block m-1">
-                  {tag.name}
-                </label>
+              <div key={index} className="tag">
+                <div className="inner">
+                  <span className="m-1">{userInitials(tag)}</span>
+                  <Icon
+                    className="close"
+                    icon="close"
+                    onClick={(e) => deleteTag(e, tag)}
+                  />
+                </div>
               </div>
             )
           })}
+          <Button
+            className="w-8 h-8 add-tag circle"
+            color="primary"
+            onClick={toggleSelect}
+          >
+            <Icon icon="plus" />
+          </Button>
         </div>
-      )}
+        {showSelect && (
+          <div className="users">
+            {users?.map((tag) => {
+              return (
+                <div key={tag.id}>
+                  <input
+                    type="checkbox"
+                    className="inline-block cursor-pointer"
+                    name={tag.name}
+                    value={tag.id}
+                    checked={objInArr(tag, tags)}
+                    onChange={(e) => pickTags(e, tag)}
+                  />
+                  <label htmlFor={tag.name} className="inline-block m-1">
+                    {tag.name}
+                  </label>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
     </ClickOutHandler>
   )
 }
@@ -142,7 +144,7 @@ const ParticipantsPicker = styled(ParticipantsPickerRaw)`
     }
   }
   .users {
-    ${tw`bg-white shadow-lg w-full p-4`}
+    ${tw`bg-white shadow-lg w-full p-2`}
   }
 `
 

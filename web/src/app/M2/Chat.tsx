@@ -27,12 +27,7 @@ const ChatRaw: React.FC<ChatProps> = (props) => {
       >
         {placeholders.map((placeholder) => {
           return (
-            <Placeholder.Paragraph
-              key={placeholder}
-              graph="circle"
-              rows={2}
-              active={true}
-            />
+            <Placeholder.Paragraph key={placeholder} graph="circle" rows={2} />
           )
         })}
         <div className="">
@@ -44,7 +39,7 @@ const ChatRaw: React.FC<ChatProps> = (props) => {
 }
 
 const Chat = styled(ChatRaw)`
-  ${tw`h-full overflow-auto p-4`}
+  ${tw`h-full overflow-auto p-4 bg-gray-300`}
   .rs-placeholder-paragraph {
     margin-top: 20px;
     p {

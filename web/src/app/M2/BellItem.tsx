@@ -52,7 +52,7 @@ const BellItemCard = styled(BellItemCardRaw)`
   & {
     ${tw`bg-gray-200 overflow-hidden cursor-pointer`}
     &:hover {
-      ${tw`hover:bg-gray-300 active:bg-gray-100`}
+      ${tw`hover:bg-gray-300 active:bg-gray-200`}
     }
     .card-header,
     .card-body,
