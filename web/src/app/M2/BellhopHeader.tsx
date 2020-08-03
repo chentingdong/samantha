@@ -3,31 +3,26 @@ import { setUiState } from "../../operations/mutations/setUiState"
 import { CircleImage } from "components/Circle"
 import { Button } from "components/Button"
 import { Icon } from "rsuite"
+import { Link } from "react-router-dom"
 
 interface BellhopHeaderProps {
   listTitle: string
+  backTo: string
 }
 
 const BellhopHeader: React.FC<BellhopHeaderProps> = ({
   listTitle = "",
+  backTo,
   ...props
 }) => {
-  const unsetCurrentBellhop = () => {
-    setUiState({
-      currentBellhopId: null,
-    })
-  }
-
   return (
     <div {...props}>
       <div className="container mx-auto ">
-        <Button
-          color="primary"
-          className="mb-4 ml-0 fill"
-          onClick={unsetCurrentBellhop}
-        >
-          <Icon icon="left" />
-          <span className="ml-2">{listTitle}</span>
+        <Button color="primary" className="mb-4 ml-0 fill">
+          <Link to={backTo}>
+            <Icon icon="left" />
+            <span className="ml-2">{listTitle}</span>
+          </Link>
         </Button>
       </div>
       <div className="w-full p-4 bg-gray-300">

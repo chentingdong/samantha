@@ -7,16 +7,11 @@ import { BellCatalogList } from "./BellCatalogList"
 import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
 import { BELLHOP_LIST } from "operations/subscriptions/bellhopList"
-import { UI_STATE } from "operations/queries/uiState"
 
 interface CompanyBellDeskProps {}
 
 const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
   const { data, loading, error } = useSubscription(BELLHOP_LIST, {})
-
-  const {
-    data: { uiState },
-  } = useQuery(UI_STATE)
 
   const listTitle = "All Bellhops"
 
@@ -26,12 +21,16 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
     <div className="">
       <MainMenu className="md-8" />
       {error && <Error message={error.message} />}
-      {!uiState.currentBellhopId && (
-        <BellhopThumbnailList bellhops={bellhops} listTitle={listTitle} />
+      {!props.computedMatch?.params.bellhopId && (
+        <BellhopThumbnailList
+          bellhops={bellhops}
+          listTitle={listTitle}
+          backTo="/company-bell-desk"
+        />
       )}
-      {uiState.currentBellhopId && (
+      {props.computedMatch?.params.bellhopId && (
         <>
-          <BellhopHeader listTitle={listTitle} />
+          <BellhopHeader listTitle={listTitle} backTo="/company-bell-desk" />
           <BellCatalogList className="container mx-auto" />
         </>
       )}

@@ -9,6 +9,7 @@ import { Lobby } from "app/M2/Lobby"
 import { CompanyBellDesk } from "app/M2/CompanyBellDesk"
 import { MyBellDesk } from "app/M2/MyBellDesk"
 import { Bell } from "app/M2/Bell"
+import { BellhopList } from "app/M2/BellhopList"
 
 const routes = [
   {
@@ -22,7 +23,17 @@ const routes = [
     tag: PrivateRoute,
   },
   {
+    path: "/company-bell-desk/bellhops/:bellhopId",
+    component: CompanyBellDesk,
+    tag: PrivateRoute,
+  },
+  {
     path: "/my-bell-desk",
+    component: MyBellDesk,
+    tag: PrivateRoute,
+  },
+  {
+    path: "/my-bell-desk/bellhops/:bellhopId",
     component: MyBellDesk,
     tag: PrivateRoute,
   },
@@ -36,12 +47,7 @@ const routes = [
     component: Bell,
     tag: PrivateRoute,
   },
-  {
-    comment: "this path not used yet",
-    path: "/bellhops/:id",
-    component: Bell,
-    tag: PrivateRoute,
-  },
+
   {
     path: "/m1",
     component: DemoM1,

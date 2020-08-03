@@ -1,6 +1,4 @@
 import React from "react"
-import { Icon } from "rsuite"
-import { UI_STATE } from "operations/queries/uiState"
 import { GET_BELL } from "operations/subscriptions/getBell"
 import { useQuery, useSubscription } from "@apollo/client"
 import { BellContext } from "./BellContext"
