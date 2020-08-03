@@ -1,11 +1,11 @@
 // Activities.tsx. appears in single page right side tabs
 import React from "react"
-import { activities } from "../../../data/activities"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { StateIcon } from "components/StateIcon"
 import { displayDate } from "utils/common"
 import { Bell } from "models/interface"
+import { useLocation, matchPath } from "react-router-dom"
 
 interface ActivitiesProps {
   bell: Bell
@@ -13,11 +13,22 @@ interface ActivitiesProps {
 }
 
 const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
-  const activitiesCompleted = activities.filter((a) => {
-    return (
-      a.state === "Completed" || (a.source === "bell" && a.state === "Started")
-    )
+  const location = useLocation()
+
+  const match = matchPath(location.pathname, {
+    path: "/bells/:bellId/:goalId/:context",
   })
+
+  const goalId = match?.params.goalId
+
+  const activities =
+    goalId === "all"
+      ? bell.blocks
+      : bell.blocks.filter(
+          (block) => block.id === goalId || block.parent_id === goalId
+        )
+
+  const activitiesCompleted = activities.filter((a) => a.state === "Success")
   const activitiesRunning = activities.filter((a) => a.state === "Running")
   const activitiesFuture = activities.filter((a) => a.state === "Created")
 
@@ -28,10 +39,9 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
           <div className="activity" key={activity.id}>
             <StateIcon state={activity.state} />
             <div>
-              <div>{displayDate(activity.ended_at)}</div>
+              <div>{displayDate(activity.ended_at || activity.started_at)}</div>
               <div className="text-gray-500">
-                <span className="capitalize">{activity.source} </span>
-                <span>{activity.state.toLowerCase()}: </span>
+                <span className="capitalize">{activity.type} Completed: </span>
                 <i>{activity.name}</i>
               </div>
             </div>

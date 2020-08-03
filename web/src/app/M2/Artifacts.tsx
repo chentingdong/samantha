@@ -1,5 +1,4 @@
 // Artifacts.tsx. appears in single bell view, right side tabs
-
 import React from "react"
 
 interface ArtifactsProps {

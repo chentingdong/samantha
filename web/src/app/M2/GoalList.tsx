@@ -6,7 +6,8 @@ import { GoalItem } from "./GoalItem"
 
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { useLocation, matchPath } from "react-router-dom"
+import { useLocation, matchPath, Link } from "react-router-dom"
+import { Button } from "components/Button"
 
 interface GoalListProps {
   goals: Block[]
@@ -26,7 +27,6 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   const match = matchPath(location.pathname, {
     path: "/bells/:bellId/:goalId/:context",
   })
-
   const countCompletedTasks = (goal) => {
     const completed = tasks
       .filter((task) => task.state === "Success")
@@ -51,7 +51,14 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 
   return (
     <div {...props}>
-      <h4 className="border-b">Goals</h4>
+      <div className="flex justify-between w-full border-b">
+        <h4 className="">Goals</h4>
+        <Link to={`/bells/${match.params.bellId}/all/${match.params.context}`}>
+          <Button className="p-2 fill" color="primary">
+            All Goals
+          </Button>
+        </Link>
+      </div>
       <ol>
         {goalTree.map((root) => {
           return (
