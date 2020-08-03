@@ -83,7 +83,7 @@
       }
     },
     {
-      "command": ["yarn", "-s", "start"],
+      "command": ["yarn", "-s", "prod"],
       "essential": true,
       "image": "${ADMIN_IMAGE}",
       "name": "admin",

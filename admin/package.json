@@ -25,9 +25,12 @@
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
-    "react-simple-code-editor": "^0.11.0"
+    "react-simple-code-editor": "^0.11.0",
+    "serve": "^11.3.2"
   },
   "scripts": {
+    "prod": "yarn run build && yarn run serve",
+    "serve": "serve -s build -l 3030",
     "start": "PORT=3030 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

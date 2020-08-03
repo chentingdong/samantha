@@ -82,7 +82,7 @@
     }
   },
   {
-    "command": ["yarn", "-s", "start"],
+    "command": ["yarn", "-s", "prod"],
     "essential": true,
     "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-admin:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
     "name": "admin",
