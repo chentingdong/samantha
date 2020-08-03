@@ -1,5 +1,4 @@
 import React from "react"
-import { setUiState } from "../../operations/mutations/setUiState"
 import { CircleImage } from "components/Circle"
 import { Button } from "components/Button"
 import { Icon } from "rsuite"

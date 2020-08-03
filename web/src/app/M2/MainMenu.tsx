@@ -9,7 +9,6 @@ import { UserAvatar } from "components/UserAvatar"
 import { Link, useLocation } from "react-router-dom"
 import { useQuery } from "@apollo/client"
 import tw from "tailwind.macro"
-import { resetUiState } from "operations/mutations/setUiState"
 
 export interface MainMenuProps {
   active?: string
@@ -43,7 +42,6 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
               location.pathname,
               "/lobby"
             )}`}
-            onClick={resetUiState}
             to="/lobby"
           >
             Lobby
@@ -53,7 +51,6 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
               location.pathname,
               "/company-bell-desk"
             )}`}
-            onClick={resetUiState}
             to="/company-bell-desk"
           >
             Company Bell Desk
@@ -63,7 +60,6 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
               location.pathname,
               "/my-bell-desk"
             )}`}
-            onClick={resetUiState}
             to="/my-bell-desk"
           >
             My Bell Desk
