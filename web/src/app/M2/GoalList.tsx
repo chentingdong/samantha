@@ -2,12 +2,12 @@
 import React from "react"
 import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
-import { listTree2Level } from "utils/bell"
+import { listTree2Level, getBellLocationParams } from "utils/bell"
 import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { useLocation, matchPath } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
 interface GoalListProps {
   goals: Block[]
@@ -25,13 +25,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   const goalTree = listTree2Level(blocks)
 
   const location = useLocation()
-  const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId?/:context?",
-  })
-
-  const bellId = match?.params.bellId
-  const goalId = match?.params.goalId || "all"
-  const context = match?.params.context || "activities"
+  const params = getBellLocationParams(location)
 
   const countCompletedTasks = (goal) => {
     const completed = tasks
@@ -46,8 +40,9 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   }
 
   const activeClassName = (goal) => {
-    const bellColor = `bg-bell-${stringHashBucket(bellId, 10)}` || "bg-bell"
-    return goal.id === goalId ? `active ${bellColor}` : ""
+    const bellColor =
+      `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
+    return goal.id === params.goalId ? `active ${bellColor}` : ""
   }
   const countNotifications = (goal) => {
     const goalNotifications = notifications.filter(
@@ -58,7 +53,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 
   return (
     <div {...props}>
-      <GoalListHeader link={`/bells/${bellId}/all/${context}`} />
+      <GoalListHeader link={`/bells/${params.bellId}/all/${params.context}`} />
       <ol>
         {goalTree.map((root) => {
           return (

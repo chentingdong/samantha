@@ -6,6 +6,7 @@ import { StateIcon } from "components/StateIcon"
 import { displayDate } from "utils/common"
 import { Bell } from "models/interface"
 import { useLocation, matchPath, Link } from "react-router-dom"
+import { getBellLocationParams } from "utils/bell"
 
 interface ActivitiesProps {
   bell: Bell
@@ -14,22 +15,17 @@ interface ActivitiesProps {
 
 const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
   const location = useLocation()
-
-  const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId?/:context?",
-  })
-  const bellId = bell.id
-  const goalId = match?.params.goalId || "all"
-  const context = match?.params.context || "activities"
+  const params = getBellLocationParams(location)
 
   const activities =
-    goalId === "all"
+    params.goalId === "all"
       ? bell.blocks
       : bell.blocks.filter(
-          (block) => block.id === goalId || block.parent_id === goalId
+          (block) =>
+            block.id === params.goalId || block.parent_id === params.goalId
         )
 
-  const goal = bell.blocks.filter((block) => block.id === goalId)[0]
+  const goal = bell.blocks.filter((block) => block.id === params.goalId)[0]
   const activitiesCompleted = activities.filter((a) => a.state === "Success")
   const activitiesRunning = activities.filter((a) => a.state === "Running")
   const activitiesFuture = activities.filter((a) => a.state === "Created")
@@ -63,7 +59,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         {activitiesRunning?.map((activity) => {
           const isTask = activity.type === "Task"
           const taskGoalId =
-            activity.parent.type === "Goal" ? activity.parent.id : goalId
+            activity.parent.type === "Goal" ? activity.parent.id : params.goalId
           return (
             <div className="activity" key={activity.id}>
               <StateIcon state={activity.state} />
@@ -71,7 +67,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
               <div className="text-lg text-gray-800">
                 {isTask && (
                   <Link
-                    to={`/bells/${bellId}/${taskGoalId}/${context}/details`}
+                    to={`/bells/${params.bellId}/${taskGoalId}/${params.context}/details`}
                   >
                     {activity.name}
                   </Link>
@@ -94,8 +90,10 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         <div className="activity">
           <StateIcon state="Created" />
           <div className="text-gray-500">
-            <span>{goal.state === "Success" ? "Completed" : "Complete"}: </span>
-            <i>{goal.name}</i>
+            <span>
+              {goal?.state === "Success" ? "Completed" : "Complete"}:{" "}
+            </span>
+            <i>{goal?.name}</i>
           </div>
         </div>
       </div>

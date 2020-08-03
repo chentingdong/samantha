@@ -1,3 +1,5 @@
+import { matchPath } from "react-router-dom"
+
 /* list to tree */
 
 const listToTree = (list: Array<any>) => {
@@ -46,4 +48,23 @@ const listTree2Level = (list: Array<any>) => {
   return result
 }
 
-export { listToTree, listTree2Level }
+/**
+ * Extract single bell page router parameters
+ * For fragment pages, we use location rather than props.computedMatch.
+ * React fragment doesn't get params from route match in router.
+ * @param location: the url location
+ */
+
+const getBellLocationParams = (location: Location) => {
+  const match = matchPath(location.pathname, {
+    path: "/bells/:bellId/:goalId?/:context?/:details?",
+  })
+  const bellId = match?.params.bellId
+  const goalId = match?.params.goalId || "all"
+  const context = match?.params.context || "activities"
+  const details = match?.params.details
+
+  return { bellId: bellId, goalId: goalId, context: context, details: details }
+}
+
+export { listToTree, listTree2Level, getBellLocationParams }

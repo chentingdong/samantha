@@ -8,7 +8,7 @@ import { Icon } from "rsuite"
 import { displayUsers } from "utils/user"
 import { displayDate } from "utils/common"
 import { Link, useLocation } from "react-router-dom"
-import { matchPath } from "react-router"
+import { getBellLocationParams } from "utils/bell"
 
 interface GoalItemProps {
   goal: Block
@@ -23,12 +23,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   ...props
 }) => {
   const location = useLocation()
-  const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId?/:context?",
-  })
-
-  const bellId = match.params.bellId
-  const context = match.params.context || "activity"
+  const params = getBellLocationParams(location)
 
   return (
     <div {...props}>
@@ -60,7 +55,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           <div className="flex justify-end mt-2">
             <Icon className="p-1 text-lg" icon="angle-right" />
             <Link
-              to={`/bells/${bellId}/${goal.id}/${context}`}
+              to={`/bells/${params.bellId}/${goal.id}/${params.context}`}
               className="ml-2 text-sm underline cursor-pointer"
             >
               Goal Details <br />
