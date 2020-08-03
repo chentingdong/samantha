@@ -29,6 +29,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
           (block) => block.id === goalId || block.parent_id === goalId
         )
 
+  const goal = bell.blocks.filter((block) => block.id === goalId)[0]
   const activitiesCompleted = activities.filter((a) => a.state === "Success")
   const activitiesRunning = activities.filter((a) => a.state === "Running")
   const activitiesFuture = activities.filter((a) => a.state === "Created")
@@ -36,6 +37,16 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
   return (
     <div {...props}>
       <div className="inner">
+        <div className="activity">
+          <StateIcon state="Success" />
+          <div>
+            <div>{displayDate(bell.started_at)}</div>
+            <div className="text-gray-500">
+              <span className="capitalize">Bell Started: </span>
+              <i>{bell.name}</i>
+            </div>
+          </div>
+        </div>
         {activitiesCompleted?.map((activity) => (
           <div className="activity" key={activity.id}>
             <StateIcon state={activity.state} />
@@ -83,7 +94,8 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         <div className="activity">
           <StateIcon state="Created" />
           <div className="text-gray-500">
-            <span>Complete </span> <i>goal</i>
+            <span>{goal.state === "Success" ? "Completed" : "Complete"}: </span>
+            <i>{goal.name}</i>
           </div>
         </div>
       </div>
