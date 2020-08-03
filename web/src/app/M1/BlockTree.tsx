@@ -3,10 +3,9 @@ import { getIconClassByType } from "../../utils/styles"
 import { BlockOrDef } from "../../models/interface"
 import Tree from "react-d3-tree"
 import { Card } from "../../components/Card"
-import moment from "moment"
 import { Icon } from "rsuite"
 import { setUiState } from "../../operations/mutations/setUiState"
-import { dateFormat } from "utils/common"
+import { displayDate } from "utils/common"
 
 function BlockTree({ data }) {
   const treeContainer = useRef()
@@ -62,7 +61,7 @@ function BlockTree({ data }) {
           {nodeData.name}
         </div>
         <div className="card-body">
-          <div>Created at: {moment(nodeData.createdAt).format(dateFormat)}</div>
+          <div>Created at: {displayDate(nodeData.createdAt)}</div>
           <div>Responders: {nodeData.responders}</div>
           <div>State: {nodeData.state}</div>
         </div>

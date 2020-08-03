@@ -3,14 +3,13 @@ import { getIconClassByType } from "../../utils/styles"
 import { BlockOrDef } from "../../models/interface"
 import Tree from "react-d3-tree"
 import { Card } from "../../components/Card"
-import moment from "moment"
+import { displayDate } from "utils/common"
 import { Icon } from "rsuite"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { useSubscription } from "@apollo/client"
 import { GET_BLOCK } from "../../operations/subscriptions/getBlock"
 import { statusMap } from "components/StateBar"
 import styled from "styled-components"
-import { dateFormat } from "utils/common"
 
 const BellTreeRaw = ({ bell }) => {
   const rootBlockId = bell?.block?.id
@@ -73,7 +72,7 @@ const BellTreeRaw = ({ bell }) => {
           {nodeData.name}
         </div>
         <div className="card-body">
-          <div>Created at: {moment(nodeData.createdAt).format(dateFormat)}</div>
+          <div>Created at: {displayDate(nodeData.createdAt)}</div>
           <div>Responders: {nodeData.responders}</div>
           <div>State: {nodeData.state}</div>
         </div>

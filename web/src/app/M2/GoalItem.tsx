@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Block } from "models/interface"
 import { StateIcon } from "components/StateIcon"
-import { CircleIcon, CircleImage, CircleNumber } from "components/Circle"
+import { CircleIcon, CircleNumber } from "components/Circle"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { Icon } from "rsuite"

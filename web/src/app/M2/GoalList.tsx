@@ -2,7 +2,12 @@
 import React from "react"
 import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
-import { listTree2Level, getBellLocationParams } from "utils/bell"
+import {
+  listTree2Level,
+  getBellLocationParams,
+  countCompletedTasks,
+  countNotifications,
+} from "utils/bell"
 import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"
@@ -23,32 +28,12 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 }) => {
   const blocks = goals.concat(tasks)
   const goalTree = listTree2Level(blocks)
-
   const location = useLocation()
   const params = getBellLocationParams(location)
-
-  const countCompletedTasks = (goal) => {
-    const completed = tasks
-      .filter((task) => task.state === "Success")
-      .filter(
-        (task) =>
-          task.parent_id === goal.id ||
-          task.parent?.parent_id === goal.id ||
-          task.parent?.parent?.parent_id === goal.id
-      )
-    return completed.length
-  }
-
   const activeClassName = (goal) => {
     const bellColor =
       `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
     return goal.id === params.goalId ? `active ${bellColor}` : ""
-  }
-  const countNotifications = (goal) => {
-    const goalNotifications = notifications.filter(
-      (notif) => notif.parent_id === goal.id
-    )
-    return goalNotifications.length
   }
 
   return (
@@ -63,8 +48,8 @@ const GoalListRaw: React.FC<GoalListProps> = ({
             >
               <GoalItem
                 goal={root}
-                countCompletedTasks={countCompletedTasks(root)}
-                countNotifications={countNotifications(root)}
+                countCompletedTasks={countCompletedTasks(root, tasks)}
+                countNotifications={countNotifications(root, notifications)}
               />
             </li>
           )

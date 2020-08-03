@@ -67,4 +67,33 @@ const getBellLocationParams = (location: Location) => {
   return { bellId: bellId, goalId: goalId, context: context, details: details }
 }
 
-export { listToTree, listTree2Level, getBellLocationParams }
+/**
+ * In a goal, count notifications and finished tasks
+ * @param goal
+ */
+
+const countCompletedTasks = (goal, tasks) => {
+  const completed = tasks
+    .filter((task) => task.state === "Success")
+    .filter(
+      (task) =>
+        task.parent_id === goal.id ||
+        task.parent?.parent_id === goal.id ||
+        task.parent?.parent?.parent_id === goal.id
+    )
+  return completed.length
+}
+const countNotifications = (goal, notifications) => {
+  const goalNotifications = notifications.filter(
+    (notif) => notif.parent_id === goal.id
+  )
+  return goalNotifications.length
+}
+
+export {
+  listToTree,
+  listTree2Level,
+  getBellLocationParams,
+  countCompletedTasks,
+  countNotifications,
+}
