@@ -10,7 +10,6 @@ export const Artifacts: React.FC<ArtifactsProps> = ({
   artifacts,
   ...props
 }) => {
-  console.log(artifacts)
   return (
     <div {...props}>
       <h4>Artifacts</h4>

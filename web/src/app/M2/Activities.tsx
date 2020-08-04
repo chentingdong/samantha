@@ -2,7 +2,7 @@
 import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { StateIcon } from "components/StateIcon"
+import { BellStateIcon } from "components/BellStateIcon"
 import { displayDate } from "utils/common"
 import { Bell } from "models/interface"
 import { useLocation, matchPath, Link } from "react-router-dom"
@@ -34,7 +34,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
     <div {...props}>
       <div className="inner">
         <div className="activity">
-          <StateIcon state="Success" />
+          <BellStateIcon state="Success" />
           <div>
             <div>{displayDate(bell.started_at)}</div>
             <div className="text-gray-500">
@@ -45,7 +45,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         </div>
         {activitiesCompleted?.map((activity) => (
           <div className="activity" key={activity.id}>
-            <StateIcon state={activity.state} />
+            <BellStateIcon state={activity.state} />
             <div>
               <div>{displayDate(activity.ended_at || activity.started_at)}</div>
               <div className="text-gray-500">
@@ -62,7 +62,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
             activity.parent.type === "Goal" ? activity.parent.id : params.goalId
           return (
             <div className="activity" key={activity.id}>
-              <StateIcon state={activity.state} />
+              <BellStateIcon state={activity.state} />
               <div className="text-lg text-gray-800">
                 <span className="pr-2">Started:</span>
                 {isTask && (
@@ -80,7 +80,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         <div className="ddd">...</div>
         {activitiesFuture?.map((activity) => (
           <div className="hidden activity" key={activity.id}>
-            <StateIcon state={activity.state} />
+            <BellStateIcon state={activity.state} />
             <div>
               <span className="capitalize">{activity.state}: </span>
               {activity.name}
@@ -88,7 +88,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
           </div>
         ))}
         <div className="activity">
-          <StateIcon state="Created" />
+          <BellStateIcon state="Created" />
           <div className="text-gray-500">
             <span>
               {goal?.state === "Success" ? "Completed" : "Complete"}:{" "}

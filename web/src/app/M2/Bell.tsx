@@ -8,19 +8,14 @@ import { TaskList } from "./TaskList"
 import { GoalTaskList } from "./GoalTaskList"
 import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
-import runningIcon from "assets/img/running.png"
 import styled from "styled-components"
 import { displayDate } from "utils/common"
 import { displayUsers, iAmInitiator } from "utils/user"
-import { CircleImage } from "components/Circle"
+import { BellStateImage } from "components/BellStateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
-  const bellhop =
-    bell?.bellhop_participations.length > 0
-      ? bell?.bellhop_participations[0].bellhop
-      : { name: "Missing Bellhop info here" }
-
+  const bellhop = bell?.bellhop_participations[0].bellhop
   return (
     <div className="mb-8 header">
       <div className="flex flex-row justify-between pb-1 border-b">
@@ -33,7 +28,10 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
           <div>Started by {displayUsers(bell?.user_participations)}</div>
           <div className="my-4">{bell?.description}</div>
         </div>
-        <CircleImage src={runningIcon} className="w-12 h-12 p-2 bg-green-400" />
+        <BellStateImage
+          state={bell?.state}
+          className="w-12 h-12 p-2 bg-green-400"
+        />
       </div>
     </div>
   )

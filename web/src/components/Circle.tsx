@@ -22,6 +22,8 @@ const CircleImage: React.FC<{
   alt?: string
   className?: string
 }> = ({ src, alt = "", className = "bg-blue-500", ...props }) => {
+  console.log(src)
+
   return (
     <CircleStyle className={className} {...props}>
       <img src={src} alt="" />
