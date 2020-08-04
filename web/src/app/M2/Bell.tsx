@@ -30,7 +30,7 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
         </div>
         <BellStateImage
           state={bell?.state}
-          className="w-12 h-12 p-2 bg-green-400"
+          className="flex-none w-12 h-12 p-2 bg-green-400"
         />
       </div>
     </div>
@@ -69,8 +69,8 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
     <div>
       <MainMenu className="flex-none" />
 
-      <div className="bell-context grid grid-cols-3">
-        <div className="mx-4 mb-8 col-span-2">
+      <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
+        <div className="mx-4 mb-8 col-span-1 lg:col-span-2">
           <BellHeader bell={bell} />
           {asInitiator && <TaskList tasks={tasks} />}
           {!asInitiator && !details && (

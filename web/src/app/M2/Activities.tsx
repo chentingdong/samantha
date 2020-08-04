@@ -109,8 +109,10 @@ const Activities: React.FC<ActivitiesProps> = styled(ActivitiesRaw)`
     ${tw`my-8 flex items-center`}
     margin-left: 32px;
     .rs-icon {
-      ${tw`bg-white`}
+      ${tw`rounded-full`}
+      box-shadow: 0 0 10px rgba(255,255,255,1);
       font-size: 20px;
+      line-height: 0.5em;
       margin-left: -41px;
       margin-right: 15px;
       z-index: 10;

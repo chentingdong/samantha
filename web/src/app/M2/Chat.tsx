@@ -8,7 +8,7 @@ interface ChatProps {
 }
 
 const ChatRaw: React.FC<ChatProps> = (props) => {
-  const placeholders = Array.from(Array(41).keys())
+  const placeholders = Array.from(Array(5).keys())
   const messagesEndRef = useRef(null)
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const ChatRaw: React.FC<ChatProps> = (props) => {
             <Placeholder.Paragraph key={placeholder} graph="circle" rows={2} />
           )
         })}
-        <div className="">
+        <div className="mt-4">
           <input type="text" className="w-full" placeholder="type here..." />
         </div>
       </div>
@@ -39,15 +39,17 @@ const ChatRaw: React.FC<ChatProps> = (props) => {
 }
 
 const Chat = styled(ChatRaw)`
-  ${tw`h-full overflow-auto p-4 bg-gray-300`}
+  ${tw`h-full overflow-auto p-4 bg-gray-200`}
   .rs-placeholder-paragraph {
     margin-top: 20px;
     p {
       margin-top: 5px !important;
+      ${tw`bg-gray-500`}
     }
     .rs-placeholder-paragraph-graph {
       height: 30px;
       width: 30px;
+      ${tw`bg-gray-500`}
     }
   }
 `

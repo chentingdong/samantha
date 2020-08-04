@@ -40,7 +40,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
         <Nav.Item eventKey="participants">Participants</Nav.Item>
         <Nav.Item eventKey="artifacts">Content</Nav.Item>
       </Nav>
-      <div className="tabs-content">
+      <div className="overflow-y-auto tabs-content">
         {activeTab === "activities" && (
           <Activities bell={bell} className="activities" />
         )}
@@ -79,14 +79,14 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   }
   .tabs-content {
     ${tw`bg-gray-200 h-screen relative`}
-    max-height: calc(100vh - 210px);
+    max-height: calc(100vh - 190px);
     .activities,
     .participants,
     .artifacts {
       ${tw`p-4`}
     }
     .participants {
-      ${tw`absolute top-0 mb-4 w-full border-b bg-gray-300`}
+      ${tw`absolute top-0 mb-4 w-full border-b bg-gray-200`}
       max-height: 10em;
     }
     .chat {

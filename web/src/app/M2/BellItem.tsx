@@ -52,7 +52,7 @@ const BellItemCard = styled(BellItemCardRaw)`
   & {
     ${tw`bg-gray-200 overflow-hidden cursor-pointer`}
     &:hover {
-      ${tw`hover:bg-gray-300 active:bg-gray-200`}
+      ${tw`hover:bg-gray-200 active:bg-gray-200`}
     }
     .card-header,
     .card-body,
@@ -69,7 +69,7 @@ export interface BellItemRowProps {
 const BellItemRow: React.FC<BellItemRowProps> = ({ bell }) => {
   return (
     bell && (
-      <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-300">
+      <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-3200">
         <li className="self-center break-all col-span-2">
           {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </li>

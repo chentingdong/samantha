@@ -24,7 +24,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
           </Link>
         </Button>
       </div>
-      <div className="w-full p-4 bg-gray-300">
+      <div className="w-full p-4 bg-gray-200">
         <div className="container flex m-auto">
           <div className="flex-1 m-auto">
             <h4>Engineers</h4>

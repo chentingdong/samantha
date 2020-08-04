@@ -4,7 +4,9 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 
 const CircleStyle = styled.div`
-  ${tw`m-0 p-0 w-24 h-24 bg-gray-200 flex content-center flex-wrap`}
+  ${tw`m-0 p-0 bg-gray-200 flex content-center flex-wrap`}
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   min-width: 0;
   overflow: hidden;
@@ -21,11 +23,9 @@ const CircleImage: React.FC<{
   src: string
   alt?: string
   className?: string
-}> = ({ src, alt = "", className = "bg-blue-500", ...props }) => {
-  console.log(src)
-
+}> = ({ src, alt = "", ...props }) => {
   return (
-    <CircleStyle className={className} {...props}>
+    <CircleStyle {...props}>
       <img src={src} alt="" />
     </CircleStyle>
   )
