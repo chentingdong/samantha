@@ -63,8 +63,8 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
           return (
             <div className="activity" key={activity.id}>
               <StateIcon state={activity.state} />
-              <span className="pr-2">Started:</span>
               <div className="text-lg text-gray-800">
+                <span className="pr-2">Started:</span>
                 {isTask && (
                   <Link
                     to={`/bells/${params.bellId}/${taskGoalId}/${params.context}/details`}
