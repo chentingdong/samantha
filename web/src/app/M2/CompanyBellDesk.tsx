@@ -2,7 +2,7 @@
 import React from "react"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellhopHeader } from "./BellhopHeader"
-import { useQuery, useSubscription } from "@apollo/client"
+import { useSubscription } from "@apollo/client"
 import { BellCatalogList } from "./BellCatalogList"
 import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
@@ -11,7 +11,7 @@ import { BELLHOP_LIST } from "operations/subscriptions/bellhopList"
 interface CompanyBellDeskProps {}
 
 const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
-  const { data, loading, error } = useSubscription(BELLHOP_LIST, {})
+  const { data, loading, error } = useSubscription(BELLHOP_LIST)
 
   const listTitle = "All Bellhops"
 

@@ -84,7 +84,7 @@ const GoalItem = styled(GoalItemRaw)`
       }
       & > .icon {
         font-size: 38px;
-        line-height: 34px;
+        line-height: 31px;
       }
     }
   }

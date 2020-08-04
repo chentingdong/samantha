@@ -46,10 +46,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
         )}
         {activeTab === "participants" && (
           <div className="h-full">
-            <Participants
-              bell={bell}
-              className="border-b border-gray-500 participants"
-            />
+            <Participants bell={bell} className="participants" />
             <Chat className="chat" />
           </div>
         )}
@@ -86,7 +83,7 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
       ${tw`p-4`}
     }
     .participants {
-      ${tw`absolute top-0 mb-4 w-full border-b bg-gray-200`}
+      ${tw`absolute top-0 mb-4 w-full border-b border-gray-500`}
       max-height: 10em;
     }
     .chat {
