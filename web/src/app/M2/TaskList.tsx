@@ -20,9 +20,12 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
     Created: "hidden",
   }
 
-  const todoTasks = tasks.filter((task) => {
-    return state2ViewMap[task.state] === "hidden"
-  })
+  const runningTasks = tasks.filter(
+    (task) => state2ViewMap[task.state] === "edit"
+  )
+  const todoTasks = tasks.filter(
+    (task) => state2ViewMap[task.state] === "hidden"
+  )
 
   return (
     <div {...props}>
@@ -39,7 +42,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
             />
           )
         })}
-        {todoTasks.length === 0 && (
+        {todoTasks.length === 0 && runningTasks.length === 0 && (
           <div className="m-4 text-lg italic">
             All good for now! Come back for updates.
           </div>

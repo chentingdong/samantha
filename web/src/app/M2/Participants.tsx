@@ -27,6 +27,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     return <Loading speed="fast" content="Loading..." className="text-center" />
   if (error) return <Error message={error.message} />
 
+  // Add participants in ordered roles, skip if exists in previous role.
   const getUserParticipations = (roles: string[]) => {
     let goals = bell.blocks.filter((block) => block.type === "Goal")
     if (params.goalId !== "all")
