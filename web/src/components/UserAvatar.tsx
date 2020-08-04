@@ -6,17 +6,22 @@ import tw from "tailwind.macro"
 import { CircleImage } from "components/Circle"
 
 interface UserAvatarProps {
-  user: User
+  user?: User
+  avatar?: "picture" | "initials" | "none"
   className?: string
 }
 
-const UserAvatarRaw: React.FC<UserAvatarProps> = ({ user, ...props }) => {
+const UserAvatarRaw: React.FC<UserAvatarProps> = ({
+  user,
+  avatar = "initials",
+  ...props
+}) => {
   return (
     <div {...props}>
-      {user?.picture && (
+      {avatar === "picture" && user?.picture && (
         <CircleImage className="h-full" src={user.picture} alt="" />
       )}
-      {!user?.picture && (
+      {avatar === "initials" && (
         <div className="text-sm font-bold">{userInitials(user)}</div>
       )}
     </div>

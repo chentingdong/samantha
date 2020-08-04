@@ -25,6 +25,9 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   const location = useLocation()
   const params = getBellLocationParams(location)
 
+  const goalAssignees = goal.user_participations.filter(
+    (participant) => participant.role === "goal_asignee"
+  )
   return (
     <div {...props}>
       <div className="flex justify-between">
@@ -40,7 +43,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             <div>Created at: {displayDate(goal.created_at)}</div>
           )}
           {goal.user_participations.length > 0 && (
-            <div>Assigned to: {displayUsers(goal.user_participations)}</div>
+            <div>Assigned to: {displayUsers(goalAssignees)}</div>
           )}
           <div className="mt-4 text-sm text-gray-500">
             {countCompletedTasks} Tasks Completed

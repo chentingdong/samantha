@@ -19,43 +19,26 @@ interface BellContextProps {
 
 const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const history = useHistory()
-  const [activeTab, setActiveTab] = useState("activities")
   const location = useLocation()
   const params = getBellLocationParams(location)
 
+  const [activeTab, setActiveTab] = useState(params.context)
   const activateTab = (tab) => {
     setActiveTab(tab)
-    const path = params
-      ? `/bells/${params.bellId}/${params.goalId}/${tab}`
-      : `/bells/${bell.id}/all/${tab}`
+    const path = `/bells/${params.bellId}/${params.goalId}/${tab}`
     history.push(path)
-  }
-
-  const styleActive = (tab) => {
-    return tab === activeTab ? "rs-nav-item-active" : ""
   }
 
   return (
     <div className={props.className}>
-      <Nav appearance="tabs">
-        <Nav.Item
-          className={styleActive("activities")}
-          onClick={(e) => activateTab("activities")}
-        >
-          Activities
-        </Nav.Item>
-        <Nav.Item
-          className={styleActive("participants")}
-          onClick={(e) => activateTab("participants")}
-        >
-          Participants
-        </Nav.Item>
-        <Nav.Item
-          className={styleActive("artifacts")}
-          onClick={(e) => activateTab("artifacts")}
-        >
-          Content
-        </Nav.Item>
+      <Nav
+        appearance="tabs"
+        activeKey={activeTab}
+        onSelect={(activeKey) => activateTab(activeKey)}
+      >
+        <Nav.Item eventKey="activities">Activities</Nav.Item>
+        <Nav.Item eventKey="participants">Participants</Nav.Item>
+        <Nav.Item eventKey="artifacts">Content</Nav.Item>
       </Nav>
       <div className="tabs-content">
         {activeTab === "activities" && (
@@ -83,10 +66,10 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
 
 const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   .rs-nav-tabs ul {
-    // ${tw`flex justify-between`}
+    /* ${tw`flex justify-between`} */
   }
   .rs-nav-item {
-    ${tw`mx-4 border border-b-0 rounded-t-md`}
+    ${tw`mx-1 border border-b-0 rounded-t-md`}
   }
   .rs-nav-item-active {
     ${tw`bg-gray-200`}

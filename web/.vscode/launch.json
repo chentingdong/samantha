@@ -38,7 +38,7 @@
       "type": "chrome",
       "request": "launch",
       "port": 2622,
-      "url": "http://localhost:2000/bells/hFLJznk0hv9hiRGihEGET",
+      "url": "http://localhost:2000",
       "webRoot": "${workspaceRoot}/src",
       "sourceMaps": true
     }

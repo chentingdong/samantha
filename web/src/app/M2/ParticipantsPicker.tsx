@@ -21,13 +21,14 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   onDeleteTag,
   ...props
 }) => {
-  const [tags, setTags] = useState([])
+  const [tags, setTags] = useState(participants)
   const [showSelect, setShowSelect] = useState(false)
   useEffect(() => {
     setTags(participants)
   }, [participants])
 
   const pickTags = (e, tag) => {
+    console.log(tag)
     let newTags = [...tags, tag]
     if (e.target.checked && !objInArr(tag, tags)) {
       newTags = [...tags, tag]
@@ -62,7 +63,6 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
     <ClickOutHandler onClickOut={onClickOut}>
       <div {...props}>
         <div className="flex">
-          {tags?.length === 0 && <div className="p-1">click to select...</div>}
           {tags?.map((tag, index) => {
             return (
               <div key={index} className="tag">
@@ -112,7 +112,7 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
 }
 
 const ParticipantsPicker = styled(ParticipantsPickerRaw)`
-  ${tw`relative my-2`}
+  ${tw`relative`}
   line-height: 2rem;
   .tag {
     ${tw`relative mx-1 cursor-pointer`}

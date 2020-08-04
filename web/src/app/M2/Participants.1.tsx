@@ -28,45 +28,41 @@ export const Participants: React.FC<ParticipantsProps> = ({
   if (error) return <Error message={error.message} />
 
   const getUserParticipations = (roles: string[]) => {
-    let goals = bell.blocks.filter((block) => block.type === "Goal")
-    if (params.goalId !== "all")
-      goals = goals.filter(
-        (goal) => goal.id === params.goalId || goal.parent?.id === params.goalId
-      )
+    let ups = []
 
-    const ups = []
-    const userIds = []
-
-    goals.forEach((goal) => {
-      goal.user_participations.forEach((participant) => {
-        const userParticipated = userIds.indexOf(participant.user.id) > -1
-        const isRole = roles.indexOf(participant.role) > -1
-        if (!userParticipated && isRole) {
-          userIds.push(participant.user.id)
-          ups.push(participant.user)
+    if (params.goalId === "all" || params.goalId === "") {
+      bell.blocks.forEach((block) => {
+        ups = ups.concat(block.user_participations)
+      })
+    } else {
+      bell.blocks.forEach((block) => {
+        if (block.parent_id === params.goalId) {
+          ups = ups.concat(block.user_participations)
         }
       })
-    })
+    }
 
-    return ups
+    const userParticipations = ups?.filter(
+      (user_participant) => roles.indexOf(user_participant.role) > -1
+    )
+    return userParticipations
   }
 
+  const owners = getUserParticipations(["bell_initiator", "bell_owner"])
   const participants = getUserParticipations([
-    "bell_initiator",
-    "bell_owner",
     "goal_assignee",
     "task_assignee",
     "task_requestor",
   ])
   const followers = getUserParticipations(["bell_follower", "goal_follower"])
 
-  console.log(participants, followers)
+  console.log(owners, participants, followers)
 
   const addFollower = (user) => {
-    console.log(`add ${user} to goal`)
+    console.log(`add ${user} to bell`)
   }
   const removeFollower = (user) => {
-    console.log(`remove ${user} from goal`)
+    console.log(`remove ${user} from bell`)
   }
 
   return (
@@ -77,12 +73,11 @@ export const Participants: React.FC<ParticipantsProps> = ({
           <UserAvatar
             avatar="initials"
             user={participant}
-            key={participant.id + index}
-            className="w-8 h-8 mx-1 my-2"
+            key={participant.user.id + index}
+            className="w-8 h-8 m-2"
           />
         ))}
         <ParticipantsPicker
-          className="m-1"
           participants={followers}
           users={poolUsers}
           onInsertTag={addFollower}
