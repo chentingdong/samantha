@@ -23,6 +23,7 @@ export interface Bell {
 export interface Bellhop {
   id: string
   name: string
+  description: string
   metadata?: string
   profile_image_url: string
   created_at: Date
