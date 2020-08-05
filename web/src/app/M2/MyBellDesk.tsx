@@ -3,12 +3,13 @@ import React from "react"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellListCard } from "./BellList"
 import { BellhopHeader } from "./BellhopHeader"
-import { useSubscription } from "@apollo/client"
+import { useSubscription, useQuery } from "@apollo/client"
 import { BELLHOP_LIST } from "operations/subscriptions/bellhopList"
 import { BELL_LIST } from "operations/subscriptions/bellList"
 import { Loading, Error } from "components/Misc"
 import { BellCatalogList } from "./BellCatalogList"
 import { MainMenu } from "./MainMenu"
+import { AUTH_USER } from "operations/queries/authUser"
 
 interface MyBellDeskProps {}
 
@@ -18,7 +19,15 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
     loading: loadingBellhopList,
     error: errorBellhopList,
   } = useSubscription(BELLHOP_LIST)
+  const { data: authUserResult } = useQuery(AUTH_USER)
+  const { authUser } = authUserResult
+  const bellhops = dataBellhopList?.m2_bellhops
+  const myBellhops = bellhops?.filter(
+    (bellhop) =>
+      bellhop.memberships.map((user) => user.user_id).indexOf(authUser.id) > -1
+  )
 
+  console.log(bellhops)
   const {
     data: dataBellList,
     loading: loadingBellList,
@@ -31,15 +40,15 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
       {errorBellhopList && <Error message={errorBellhopList.message} />}
       {!props.computedMatch?.params?.bellhopId && (
         <BellhopThumbnailList
-          bellhops={dataBellhopList?.m2_bellhops}
+          bellhops={myBellhops}
           listTitle="My Bellhops"
-          backTo="/my-bell-desk"
+          backTo="/my-bellhops"
         />
       )}
       {props.computedMatch?.params?.bellhopId && (
         <>
-          <BellhopHeader listTitle="My Bellhops" backTo="/my-bell-desk" />
-          <BellCatalogList className="container mx-auto" />
+          <BellhopHeader listTitle="My Bellhops" backTo="/my-bellhops" />
+          <BellCatalogList className="container mx-auto" whose="mine" />
           {loadingBellList && <Loading />}
           {errorBellList && <Error message={errorBellList.message} />}
           <BellListCard

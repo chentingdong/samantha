@@ -21,7 +21,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
     <div {...props}>
       <div className="container mx-auto ">
         <Button color="primary" className="mb-4 ml-0 fill">
-          <Link to={backTo}>
+          <Link to={backTo} className="no-underline">
             <Icon icon="left" />
             <span className="ml-2">{listTitle}</span>
           </Link>
@@ -30,12 +30,12 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
       <div className="w-full p-4 bg-gray-200">
         <div className="container flex m-auto">
           <div className="flex-1 m-auto">
-            <h4>{bellhop.name}</h4>
-            <div className="p-4">{bellhop.description}</div>
+            <h4>{bellhop?.name}</h4>
+            <div className="p-4">{bellhop?.description}</div>
           </div>
           <div className="flex-none mr-4">
             <CircleImage
-              className="mr-4 bg-white"
+              className="w-24 h-24 mr-4 bg-white"
               alt="image"
               src="https://samantha-assets.s3.amazonaws.com/images/eng.png"
             />

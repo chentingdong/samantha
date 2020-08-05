@@ -10,7 +10,7 @@ import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
 import styled from "styled-components"
 import { displayDate } from "utils/common"
-import { displayUsers, iAmInitiator } from "utils/user"
+import { displayParticipants, iAmInitiator } from "utils/user"
 import { BellStateIcon } from "components/StateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
 
@@ -24,13 +24,15 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
       </div>
       <div className="flex flex-row justify-between my-4">
         <div className="text-sm">
-          <div>Started at {displayDate(bell?.updated_at)}</div>
-          <div>Started by {displayUsers(bell?.user_participations)}</div>
+          <div>Started at: {displayDate(bell?.updated_at)}</div>
+          <div>
+            Started by: <i>{displayParticipants(bell?.user_participations)}</i>
+          </div>
           <div className="my-4">{bell?.description}</div>
         </div>
         <BellStateIcon
           state={bell?.state}
-          className="flex-none w-12 h-12 p-2 bg-green-400"
+          className="flex-none w-12 h-12 p-2"
         />
       </div>
     </div>
@@ -93,7 +95,11 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
 }
 
 const Bell = styled(BellRaw)`
-  &.bell-content {
+  &.header {
+    > div {
+      height: calc(100vh - 110px);
+      overflow: scroll;
+    }
   }
 `
 export { Bell }

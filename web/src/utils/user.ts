@@ -1,7 +1,7 @@
 import { User } from "models/interface"
 
-const displayUsers = (users: any[]) => {
-  return users?.map((user) => "@" + user.user.name).join(", ")
+const displayParticipants = (participants: any[]) => {
+  return participants?.map((participant) => participant.user.name).join(", ")
 }
 
 const userInitials = (user: User): string => {
@@ -22,4 +22,4 @@ const iAmInitiator = (authUser, users) => {
   return userIds.includes(authUser.id)
 }
 
-export { displayUsers, userInitials, iAmInitiator }
+export { displayParticipants, userInitials, iAmInitiator }

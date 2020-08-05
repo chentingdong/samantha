@@ -7,13 +7,13 @@ export interface BellListProps {
   bells?: Bell[]
   listTitle?: string
   className?: string
-  whose?: string
+  whose?: "all" | "mine"
 }
 
 const BellListCard: React.FC<BellListProps> = ({
   bells,
   listTitle = "",
-  whose = "company",
+  whose = "all",
   ...props
 }) => {
   const initialCounts = 4
@@ -45,15 +45,24 @@ const BellListRow: React.FC<BellListProps> = ({
   const numberItems = showMore ? bells.length : initialCounts
   return (
     <div className="container m-auto" {...props}>
-      <h4 className="pt-4">Start a Bell</h4>
-      {bells.length > numberItems && (
-        <ViewMore showMore={showMore} setShowMore={setShowMore} />
+      <h4 className="pt-4 border-b">Start a Bell</h4>
+      {bells.length > 0 && (
+        <>
+          {bells.length > numberItems && (
+            <ViewMore showMore={showMore} setShowMore={setShowMore} />
+          )}
+          <div className="h-auto transition-height duration-500 ease-in-out">
+            {bells.slice(0, numberItems).map((bell: Bell) => {
+              return <BellItemRow bell={bell} key={bell.id} />
+            })}
+          </div>
+        </>
       )}
-      <div className="h-auto transition-height duration-500 ease-in-out">
-        {bells.slice(0, numberItems).map((bell: Bell) => {
-          return <BellItemRow bell={bell} key={bell.id} />
-        })}
-      </div>
+      {bells.length === 0 && (
+        <div className="my-4 text-lg text-center text-gray-500">
+          No catalog bells found for you.
+        </div>
+      )}
     </div>
   )
 }

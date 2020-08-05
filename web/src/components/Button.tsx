@@ -64,7 +64,8 @@ const Button = styled(ButtonRaw)`
   max-width: 20em;
   padding: 0.7em 1em;
   text-overflow: ellipsis;
-  transition: background 0.3s;
+  transition: background 0.3s linear;
+  transition: color 0.1s linear;
 `
 
 export { Button }

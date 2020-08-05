@@ -5,7 +5,7 @@ import { CircleIcon, CircleNumber } from "components/Circle"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { Icon } from "rsuite"
-import { displayUsers } from "utils/user"
+import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
 import { Link, useLocation } from "react-router-dom"
 import { getBellLocationParams } from "utils/bell"
@@ -43,7 +43,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             <div>Created at: {displayDate(goal.created_at)}</div>
           )}
           {goal.user_participations.length > 0 && (
-            <div>Assigned to: {displayUsers(goalAssignees)}</div>
+            <div>Assigned to: {displayParticipants(goalAssignees)}</div>
           )}
           <div className="mt-4 text-sm text-gray-500">
             {countCompletedTasks} Tasks Completed

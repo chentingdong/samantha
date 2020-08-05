@@ -8,6 +8,7 @@ import tw from "tailwind.macro"
 import { CircleImage } from "./Circle"
 
 interface StateIconProps {
+  className?: string
   state?: string
 }
 export const ActivityStateIcon: React.FC<StateIconProps> = ({
@@ -27,15 +28,25 @@ export const ActivityStateIcon: React.FC<StateIconProps> = ({
   }
 }
 
-const BellStateIconRaw: React.FC<StateIconProps> = ({ state, ...props }) => {
+const BellStateIconRaw: React.FC<StateIconProps> = ({
+  state,
+  className,
+  ...props
+}) => {
   console.log(state)
   switch (state) {
     case "Success":
-      return <Icon icon="check" alt="" {...props} />
+      return <Icon icon="check" alt="" className={`${className} bg-blue-500`} />
     case "Failure":
-      return <Icon icon="close" alt="" {...props} />
+      return <Icon icon="close" alt="" className={`${className} bg-red-500`} />
     case "Running":
-      return <Icon icon="fighter-jet" alt="" {...props} />
+      return (
+        <Icon
+          icon="fighter-jet"
+          alt=""
+          className={`${className} bg-green-500`}
+        />
+      )
     case "Started":
     case "Created":
     default:

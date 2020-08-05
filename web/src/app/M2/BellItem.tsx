@@ -6,6 +6,7 @@ import tw from "tailwind.macro"
 import { stringHashBucket, displayDate } from "utils/common"
 import { Placeholder } from "rsuite"
 import { Button } from "components/Button"
+import { displayParticipants } from "utils/user"
 
 export interface BellRawProps {
   bell: Bell
@@ -20,7 +21,9 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
   ...props
 }) => {
   const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}` || "bg-bell"
-
+  const initiators = bell.user_participations.filter(
+    (participant) => participant.role === "bell_initiator"
+  )
   return (
     <Link
       className={`${className} rounded-lg text-sm van-gogh`}
@@ -32,7 +35,9 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
           {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </h5>
         <div>{displayDate(bell.createdAt)}</div>
-        <div>Started by [bell.started_by]</div>
+        <div>
+          Started by <i>{displayParticipants(initiators)}</i>
+        </div>
       </div>
       {whose === "mine" && (
         <div className="relative w-auto m-6 bg-white border bg-none border-light rounded-md h-36">
@@ -40,7 +45,7 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
             {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
           </h6>
           <div className="m-2 text-sm text-right right-6">
-            Requested by: [bell.created_by]
+            Requested by: <i>{displayParticipants(initiators)}</i>
           </div>
         </div>
       )}
@@ -50,9 +55,9 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
 }
 const BellItemCard = styled(BellItemCardRaw)`
   & {
-    ${tw`bg-gray-200 overflow-hidden cursor-pointer`}
+    ${tw`bg-gray-200 overflow-hidden cursor-pointer no-underline`}
     &:hover {
-      ${tw`hover:bg-gray-200 active:bg-gray-200`}
+      ${tw`hover:bg-gray-200 active:bg-gray-200 no-underline`}
     }
     .card-header,
     .card-body,

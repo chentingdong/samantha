@@ -27,7 +27,7 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
         <BellhopThumbnailList
           bellhops={bellhops}
           listTitle={listTitle}
-          backTo="/company-bell-desk"
+          backTo="/all-bellhops"
         />
       )}
       {bellhop && (
@@ -35,7 +35,7 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
           <BellhopHeader
             listTitle={listTitle}
             bellhop={bellhop}
-            backTo="/company-bell-desk"
+            backTo="/all-bellhops"
           />
           <BellCatalogList className="container mx-auto" />
         </>

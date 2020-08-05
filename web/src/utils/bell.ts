@@ -67,6 +67,18 @@ const getBellLocationParams = (location: Location) => {
   return { bellId: bellId, goalId: goalId, context: context, details: details }
 }
 
+const getBellhopLocationParams = (location: Location) => {
+  const match = matchPath(location.pathname, {
+    path: "/:menuItem/bellhops/:bellhopId?",
+  })
+  const menuItem = match?.params.menuItem
+  const bellhopId = match?.params.bellhopId
+
+  return {
+    menuItem: menuItem,
+    bellhopId: bellhopId,
+  }
+}
 /**
  * In a goal, count notifications and finished tasks
  * @param goal
@@ -94,6 +106,7 @@ export {
   listToTree,
   listTree2Level,
   getBellLocationParams,
+  getBellhopLocationParams,
   countCompletedTasks,
   countNotifications,
 }

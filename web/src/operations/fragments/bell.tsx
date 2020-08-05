@@ -61,6 +61,7 @@ const bellFragment = gql`
     bellhop_participations {
       role
       bellhop {
+        id
         name
         bell_participations_by_users {
           user {

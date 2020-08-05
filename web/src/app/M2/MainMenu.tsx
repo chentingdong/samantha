@@ -49,20 +49,20 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           <Link
             className={`menu-item ${setActiveMenu(
               location.pathname,
-              "/company-bell-desk"
+              "/all-bellhops"
             )}`}
-            to="/company-bell-desk"
+            to="/all-bellhops"
           >
-            Company Bell Desk
+            All Bellhops
           </Link>
           <Link
             className={`menu-item ${setActiveMenu(
               location.pathname,
-              "/my-bell-desk"
+              "/my-bellhops"
             )}`}
-            to="/my-bell-desk"
+            to="/my-bellhops"
           >
-            My Bell Desk
+            My Bellhops
           </Link>
         </div>
         <div>

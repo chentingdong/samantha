@@ -41,7 +41,7 @@ const LobbyRaw: React.FC<LobbyProps> = (props) => {
               header={<h4 className="border-b">Your Other Active Bells</h4>}
               defaultExpanded
             >
-              <BellListCard bells={bellsOthers} whose="company" />
+              <BellListCard bells={bellsOthers} whose="all" />
             </Panel>
           </PanelGroup>
         )}

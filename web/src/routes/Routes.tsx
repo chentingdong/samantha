@@ -17,22 +17,22 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/company-bell-desk",
+    path: "/all-bellhops",
     component: CompanyBellDesk,
     tag: PrivateRoute,
   },
   {
-    path: "/company-bell-desk/bellhops/:bellhopId",
+    path: "/all-bellhops/bellhops/:bellhopId",
     component: CompanyBellDesk,
     tag: PrivateRoute,
   },
   {
-    path: "/my-bell-desk",
+    path: "/my-bellhops",
     component: MyBellDesk,
     tag: PrivateRoute,
   },
   {
-    path: "/my-bell-desk/bellhops/:bellhopId",
+    path: "/my-bellhops/bellhops/:bellhopId",
     component: MyBellDesk,
     tag: PrivateRoute,
   },
