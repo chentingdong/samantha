@@ -1,6 +1,6 @@
 import * as React from "react"
 import { Block } from "models/interface"
-import { BellStateIcon } from "components/BellStateIcon"
+import { ActivityStateIcon } from "components/StateIcon"
 import { CircleIcon, CircleNumber } from "components/Circle"
 import styled from "styled-components"
 import tw from "tailwind.macro"
@@ -53,7 +53,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           <div className="flex icons gap-2">
             <CircleIcon icon="attachment" />
             <CircleNumber number={countNotifications} />
-            <BellStateIcon className="icon" state={goal.state} />
+            <ActivityStateIcon className="icon" state={goal.state} />
           </div>
           <div className="flex justify-end mt-2">
             <Icon className="p-1 text-lg" icon="angle-right" />

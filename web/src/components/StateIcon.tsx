@@ -3,13 +3,14 @@ import { Icon } from "rsuite"
 import completedImage from "assets/img/completed.png"
 import runningImage from "assets/img/running.png"
 import todoImage from "assets/img/todo.png"
-
+import styled from "styled-components"
+import tw from "tailwind.macro"
 import { CircleImage } from "./Circle"
 
-interface BellStateIconProps {
+interface StateIconProps {
   state?: string
 }
-export const BellStateIcon: React.FC<BellStateIconProps> = ({
+export const ActivityStateIcon: React.FC<StateIconProps> = ({
   state,
   ...props
 }) => {
@@ -26,18 +27,29 @@ export const BellStateIcon: React.FC<BellStateIconProps> = ({
   }
 }
 
-export const BellStateImage: React.FC<BellStateIconProps> = ({
-  state,
-  ...props
-}) => {
+const BellStateIconRaw: React.FC<StateIconProps> = ({ state, ...props }) => {
+  console.log(state)
   switch (state) {
-    case "Completed":
-      return <CircleImage src={completedImage} alt="" {...props} />
+    case "Success":
+      return <Icon icon="check" alt="" {...props} />
+    case "Failure":
+      return <Icon icon="close" alt="" {...props} />
     case "Running":
-      return <CircleImage src={runningImage} alt="" {...props} />
+      return <Icon icon="fighter-jet" alt="" {...props} />
     case "Started":
     case "Created":
     default:
-      return <CircleImage src={todoImage} alt="" {...props} />
+      return <></>
   }
 }
+
+const BellStateIcon = styled(BellStateIconRaw)`
+  &.rs-icon {
+    ${tw`text-2xl flex content-center flex-wrap rounded-full`}
+    &::before {
+      ${tw`mx-auto mb-1 ml-1`}
+    }
+  }
+`
+
+export { BellStateIcon }

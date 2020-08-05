@@ -11,7 +11,7 @@ import { Loading, Error } from "components/Misc"
 import styled from "styled-components"
 import { displayDate } from "utils/common"
 import { displayUsers, iAmInitiator } from "utils/user"
-import { BellStateImage } from "components/BellStateIcon"
+import { BellStateIcon } from "components/StateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
@@ -28,7 +28,7 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
           <div>Started by {displayUsers(bell?.user_participations)}</div>
           <div className="my-4">{bell?.description}</div>
         </div>
-        <BellStateImage
+        <BellStateIcon
           state={bell?.state}
           className="flex-none w-12 h-12 p-2 bg-green-400"
         />
