@@ -55,7 +55,6 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
             </div>
           </div>
         ))}
-        <hr />
         {activitiesRunning?.map((activity) => {
           const isTask = activity.type === "Task"
           const taskGoalId =
@@ -107,19 +106,15 @@ const Activities: React.FC<ActivitiesProps> = styled(ActivitiesRaw)`
   }
   .activity {
     ${tw`my-8 flex items-center`}
-    margin-left: 32px;
+    margin-left: 31.5px;
     .rs-icon {
-      ${tw`rounded-full`}
-      box-shadow: 0 0 10px rgba(255,255,255,1);
+      ${tw`rounded-full bg-gray-300`}
       font-size: 20px;
-      line-height: 0.5em;
+      line-height: 16px;
       margin-left: -41px;
-      margin-right: 15px;
+      margin-right: 16px;
       z-index: 10;
     }
-  }
-  hr {
-    ${tw`w-2/3 mx-auto border-gray-800 border-dashed border-gray-500`}
   }
   .ddd {
     ${tw`mx-auto my-8 text-3xl font-bold text-center text-gray-500`}
