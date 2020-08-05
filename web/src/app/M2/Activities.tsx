@@ -92,7 +92,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
             <span>
               {goal?.state === "Success" ? "Completed" : "Complete"}:{" "}
             </span>
-            <i>{goal?.name}</i>
+            <i>{goal?.name || bell?.name}</i>
           </div>
         </div>
       </div>

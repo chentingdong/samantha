@@ -13,6 +13,7 @@ import { displayDate } from "utils/common"
 import { displayParticipants, iAmInitiator } from "utils/user"
 import { BellStateIcon } from "components/StateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
+import tw from "tailwind.macro"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   const bellhop = bell?.bellhop_participations[0].bellhop
@@ -68,11 +69,10 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   const asInitiator = iAmInitiator(authUser, participants)
 
   return (
-    <div>
+    <div {...props}>
       <MainMenu className="flex-none" />
-
       <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
-        <div className="mx-4 mb-8 col-span-1 lg:col-span-2">
+        <div className="mx-4 overflow-auto col-span-1 lg:col-span-2">
           <BellHeader bell={bell} />
           {asInitiator && <TaskList tasks={tasks} />}
           {!asInitiator && !details && (
@@ -86,20 +86,18 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
             <GoalTaskList goals={goals} tasks={tasks} />
           )}
         </div>
-        <div className="col-span-1">
-          <BellContext bell={bell} {...props} />
-        </div>
+        <BellContext className="col-span-1" bell={bell} />
       </div>
     </div>
   )
 }
 
 const Bell = styled(BellRaw)`
-  &.header {
-    > div {
-      height: calc(100vh - 110px);
-      overflow: scroll;
-    }
+  .header {
+  }
+  .bell-context {
+    height: calc(100vh - 150px);
+    overflow: auto;
   }
 `
 export { Bell }

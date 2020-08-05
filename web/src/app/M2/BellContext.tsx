@@ -76,7 +76,7 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   }
   .tabs-content {
     ${tw`bg-gray-200 h-screen relative`}
-    max-height: calc(100vh - 190px);
+    height: calc(100% - 37px);
     .activities,
     .participants,
     .artifacts {
