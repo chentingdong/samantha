@@ -1,20 +1,18 @@
 type Mutation {
-  MakeABell (
-    data: MakeABellInput!
-  ): MakeABellOutput
+  clone_m2_bells_by_pk (
+    pk_columns: clone_m2_bells_pk_columns_input!
+    is_definition: Boolean
+  ): clone_m2_bells_pk_columns_output
 }
 
 
 
 
-input MakeABellInput {
+input clone_m2_bells_pk_columns_input {
   id : String!
-  name : String!
-  description : String!
-  roob_block_id : String!
 }
 
-type MakeABellOutput {
-  message : String!
+type clone_m2_bells_pk_columns_output {
+  new_id : String!
 }
 
