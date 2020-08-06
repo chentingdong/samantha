@@ -3,7 +3,7 @@ import React from "react"
 import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
 import {
-  listTree2Level,
+  listTree23Level,
   getBellLocationParams,
   countCompletedTasks,
   countNotifications,
@@ -28,7 +28,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   ...props
 }) => {
   const blocks = goals.concat(tasks)
-  const goalTree = listTree2Level(blocks)
+  const goalTree = listTree23Level(goals)
   const location = useLocation()
   const params = getBellLocationParams(location)
   const activeClassName = (goal) => {
@@ -41,21 +41,21 @@ const GoalListRaw: React.FC<GoalListProps> = ({
     <div {...props}>
       <GoalListHeader link={`/bells/${params.bellId}/all/${params.context}`} />
       <ol>
-        {goalTree.map((root) => {
+        {goalTree.map((goal) => {
           return (
             <li
-              key={root.id}
-              className={`${activeClassName(root)} ${root.className}`}
+              key={goal.id}
+              className={`${activeClassName(goal)} ${goal.className}`}
             >
               <Link
-                to={`/bells/${params.bellId}/${root.id}/${params.context}`}
+                to={`/bells/${params.bellId}/${goal.id}/${params.context}/${params.details}`}
                 className="block no-underline cursor-pointer"
               >
                 <GoalItem
-                  active={root.id === params.goalId}
-                  goal={root}
-                  countCompletedTasks={countCompletedTasks(root, tasks)}
-                  countNotifications={countNotifications(root, notifications)}
+                  active={goal.id === params.goalId}
+                  goal={goal}
+                  countCompletedTasks={countCompletedTasks(goal, tasks)}
+                  countNotifications={countNotifications(goal, notifications)}
                 />
               </Link>
             </li>
@@ -81,7 +81,12 @@ const GoalList = styled(GoalListRaw)`
     ${tw`bg-gray-200 border-l-8 pr-8`}
     margin-right: -1rem;
   }
+  .generation-1 {
+    display: none;
+  }
   .generation-2 {
+  }
+  .generation-3 {
     ${tw`ml-12`}
   }
 `

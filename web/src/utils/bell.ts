@@ -26,25 +26,22 @@ const listToTree = (list: Array<any>) => {
 
 /**
  * input: list of items with parent_id references
- * output: tree with 2 levels depth, skip all sub level items
+ * output: tree with only level 2 & 3, skip root (1) and combine 3 and 3+ to 3.
  */
-const listTree2Level = (list: Array<any>) => {
-  const roots = list.filter((item) => item.parent_id === null)
-  const children = list.filter((item) => item.parent_id !== null)
+const listTree23Level = (list: Array<any>) => {
+  const roots = listToTree(list)
   const result = []
+  const traverse = (roots, generation) => {
+    roots?.forEach((root) => {
+      root.className = "generation-" + generation
+      result.push(root)
+      const children = root.children
+      delete root.children
 
-  roots.forEach((root) => {
-    result.push(root)
-
-    children.forEach((child) => {
-      if (child.parent_id === root.id) {
-        // root.children.push(child)
-        child.className = "generation-2"
-        result.push(child)
-      }
+      traverse(children, generation + 1)
     })
-  })
-
+  }
+  traverse(roots, 1)
   return result
 }
 
@@ -62,7 +59,7 @@ const getBellLocationParams = (location: Location) => {
   const bellId = match?.params.bellId
   const goalId = match?.params.goalId || "all"
   const context = match?.params.context || "activities"
-  const details = match?.params.details
+  const details = match?.params.details || ""
 
   return { bellId: bellId, goalId: goalId, context: context, details: details }
 }
@@ -85,6 +82,7 @@ const getBellhopLocationParams = (location: Location) => {
  */
 
 const countCompletedTasks = (goal, tasks) => {
+  if (!goal || !tasks) return 0
   const completed = tasks
     .filter((task) => task.state === "Success")
     .filter(
@@ -104,7 +102,7 @@ const countNotifications = (goal, notifications) => {
 
 export {
   listToTree,
-  listTree2Level,
+  listTree23Level,
   getBellLocationParams,
   getBellhopLocationParams,
   countCompletedTasks,

@@ -21,7 +21,6 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const history = useHistory()
   const location = useLocation()
   const params = getBellLocationParams(location)
-
   const [activeTab, setActiveTab] = useState(params.context)
   const activateTab = (tab) => {
     setActiveTab(tab)

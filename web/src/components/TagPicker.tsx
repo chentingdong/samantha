@@ -3,7 +3,6 @@ import { Icon } from "rsuite"
 import styled from "styled-components"
 import { User } from "../models/interface"
 import tw from "tailwind.macro"
-import ChevronDown from "../assets/img/chevron-down.svg"
 
 type TagPickerType = {
   value: User[]
@@ -69,7 +68,7 @@ const TagPickerRaw: React.FC<TagPickerType> = ({
           )
         })}
         <div className="p-2 toggle">
-          <Icon icon={ChevronDown} size="lg" />
+          <Icon icon="chevron-down" size="lg" />
         </div>
       </div>
       <div>

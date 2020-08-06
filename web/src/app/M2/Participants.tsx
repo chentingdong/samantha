@@ -61,8 +61,6 @@ export const Participants: React.FC<ParticipantsProps> = ({
   ])
   const followers = getUserParticipations(["bell_follower", "goal_follower"])
 
-  console.log(participants, followers)
-
   const addFollower = (user) => {
     console.log(`add ${user} to goal`)
   }
