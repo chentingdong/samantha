@@ -29,7 +29,6 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
       task.parent.id === params.goalId ||
       task.parent?.parent?.id === params.goalId
   )
-  console.log(goal, goalTasks)
   return (
     <div {...props}>
       <GoalListHeader link={`/bells/${params.bellId}/all/${params.context}`} />

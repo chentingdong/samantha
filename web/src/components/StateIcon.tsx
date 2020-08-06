@@ -28,12 +28,7 @@ export const ActivityStateIcon: React.FC<StateIconProps> = ({
   }
 }
 
-const BellStateIconRaw: React.FC<StateIconProps> = ({
-  state,
-  className,
-  ...props
-}) => {
-  console.log(state)
+const BellStateIconRaw: React.FC<StateIconProps> = ({ state, className }) => {
   switch (state) {
     case "Success":
       return <Icon icon="check" alt="" className={`${className} bg-blue-500`} />
@@ -56,7 +51,7 @@ const BellStateIconRaw: React.FC<StateIconProps> = ({
 
 const BellStateIcon = styled(BellStateIconRaw)`
   &.rs-icon {
-    ${tw`text-2xl flex content-center flex-wrap rounded-full`}
+    ${tw`text-2xl flex content-center flex-wrap rounded-full text-white`}
     &::before {
       ${tw`mx-auto mb-1 ml-1`}
     }

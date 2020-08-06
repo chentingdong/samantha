@@ -75,7 +75,7 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   )
 
   return (
-    <div>
+    <div className={props.className}>
       <MainMenu className="flex-none" />
       <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
         <div className="ml-4 overflow-y-auto col-span-1 lg:col-span-2">
