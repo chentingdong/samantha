@@ -6,6 +6,7 @@ import { TaskItem } from "app/M2/TaskItem"
 import { Block } from "models/interface"
 interface TaskListRawProps {
   tasks?: Block[]
+  className?: string
 }
 
 export const TaskListRaw: React.FC<TaskListRawProps> = ({
@@ -57,7 +58,7 @@ const TaskList = styled(TaskListRaw)`
   .tasks {
     ${tw`border p-4 rounded-lg mt-4`}
     .task {
-      ${tw`my-8 border-b border-gray-200`}
+      ${tw`border-b border-gray-200`}
     }
   }
 `

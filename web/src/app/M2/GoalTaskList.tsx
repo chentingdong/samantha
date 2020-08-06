@@ -41,7 +41,7 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
           countNotifications={null}
         />
       </div>
-      <TaskList tasks={goalTasks} />
+      <TaskList className="mr-4" tasks={goalTasks} />
     </div>
   )
 }
