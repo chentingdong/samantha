@@ -136,16 +136,16 @@ const BlockShow = (props) => (
                 <ReferenceField
                   label="Bell"
                   source="id"
-                  reference="m2_goals"
+                  reference="m2_bell_executors"
                   link="edit"
                 >
                   <ReferenceField
                     label="Bell"
                     source="bell_id"
                     reference="m2_bells"
-                    link="edit"
+                    link={false}
                   >
-                    <TextField source="id" />
+                    <TextField source="name" />
                   </ReferenceField>
                 </ReferenceField>
                 <AddBellExecutorDetailButton />

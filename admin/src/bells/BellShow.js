@@ -7,6 +7,7 @@ import {
   TabbedShowLayout,
   ReferenceManyField,
   ShowButton,
+  CloneButton,
   ReferenceField,
   BooleanField,
   DateField,

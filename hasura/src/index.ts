@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
 import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
+import cloneM2BellsByPkHandler from "./actions/cloneBellsByPk"
 import * as Sentry from "@sentry/node"
 
 const app = express()
@@ -34,6 +35,8 @@ app.get("/", async (_req, res, _next) => {
 })
 
 app.post("/block_state_update", blockStateUpdateHandler)
+
+app.post("/clone_m2_bells_by_pk", cloneM2BellsByPkHandler)
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler())

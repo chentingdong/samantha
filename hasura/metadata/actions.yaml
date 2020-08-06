@@ -1,12 +1,21 @@
 actions:
-- name: MakeABell
+- name: clone_m2_bells_by_pk
   definition:
-    kind: synchronous
-    handler: http://host.docker.internal:3010
+    kind: asynchronous
+    handler: http://host.docker.internal:3000/clone_m2_bells_by_pk
+    forward_client_headers: true
 custom_types:
   enums: []
   input_objects:
-  - name: MakeABellInput
+  - name: clone_m2_bells_pk_columns_input
   objects:
-  - name: MakeABellOutput
+  - name: clone_m2_bells_pk_columns_output
+    relationships:
+    - remote_table:
+        schema: m2
+        name: bells
+      name: new_bell
+      type: object
+      field_mapping:
+        new_id: id
   scalars: []
