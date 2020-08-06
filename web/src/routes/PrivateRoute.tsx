@@ -8,11 +8,10 @@ export default function PrivateRoute({ component: Component, ...props }) {
   const { data, loading } = useQuery(AUTH_USER)
 
   const redirect = props.location.pathname + props.location.search
-
   if (data?.authUser?.isAuthenticated)
     return (
       <Route exact {...props}>
-        <Component {...props} />
+        <Component {...props} {...props.params} />
       </Route>
     )
   else if (loading) return <>Loading...</>

@@ -8,40 +8,49 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { BellListCard } from "./BellList"
 import { MainMenu } from "./MainMenu"
+import { iPlayRoles } from "utils/user"
 
 export interface LobbyProps {}
 
 const LobbyRaw: React.FC<LobbyProps> = (props) => {
-  const { data: authUserResult } = useQuery(AUTH_USER)
+  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
+  const { data: bellsResult, loading: loadingBell } = useSubscription(BELL_LIST)
+  if (loadingUser || loadingBell) return <Loading />
 
-  const { data: bellsResult, loading, error } = useSubscription(BELL_LIST)
+  const authUser = authUserResult.authUser
+  const bells = bellsResult?.m2_bells
+  const bellsIntiated = bells?.filter((bell) =>
+    iPlayRoles(authUser, bell.user_participations, ["bell_initiator"])
+  )
 
-  const bellsMine = bellsResult?.m2_bells
-  const bellsOthers = bellsResult?.m2_bells
+  const bellsParticipated = bells?.filter((bell) =>
+    iPlayRoles(authUser, bell.user_participations, [
+      "bell_participant",
+      "bell_follower",
+    ])
+  )
 
   return (
     <div>
       <MainMenu className="md-8" />
       <div className="container mx-auto">
-        {loading && <Loading />}
-        {error && <Error message={error.message} />}
-        {bellsMine && (
+        {bellsIntiated && (
           <PanelGroup accordion>
             <Panel
               header={<h4 className="border-b">Needs Your Attention</h4>}
               defaultExpanded
             >
-              <BellListCard bells={bellsMine} whose="mine" />
+              <BellListCard bells={bellsIntiated} whose="mine" />
             </Panel>
           </PanelGroup>
         )}
-        {bellsOthers && (
+        {bellsParticipated && (
           <PanelGroup accordion>
             <Panel
               header={<h4 className="border-b">Your Other Active Bells</h4>}
               defaultExpanded
             >
-              <BellListCard bells={bellsOthers} whose="all" />
+              <BellListCard bells={bellsParticipated} whose="all" />
             </Panel>
           </PanelGroup>
         )}

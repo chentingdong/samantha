@@ -113,6 +113,11 @@ export interface User {
   isAuthenticated?: boolean
 }
 
+export interface Participant {
+  role: string
+  user: User
+}
+
 export interface CognitoUser {
   id?: string
   attributes?: {

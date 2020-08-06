@@ -1,5 +1,5 @@
 import React from "react"
-import { BrowserRouter, Switch } from "react-router-dom"
+import { BrowserRouter, Switch, Redirect } from "react-router-dom"
 import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"
 import Login from "../app/Login"
@@ -59,8 +59,9 @@ const routes = [
   },
   {
     path: "/",
-    component: Lobby,
+    component: Redirect,
     tag: PrivateRoute,
+    params: { to: "/lobby" },
   },
   {
     path: "*",
@@ -80,6 +81,7 @@ const Routes = () => {
               exact
               path={route.path}
               component={route.component}
+              params={route.params}
               key={index}
               className="vh-100"
             />

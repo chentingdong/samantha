@@ -10,7 +10,7 @@ import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
 import styled from "styled-components"
 import { displayDate } from "utils/common"
-import { displayParticipants, iAmInitiator } from "utils/user"
+import { displayParticipants, iPlayRoles } from "utils/user"
 import { BellStateIcon } from "components/StateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
 import tw from "tailwind.macro"
@@ -43,18 +43,20 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
 interface BellRawProps {}
 
 const BellRaw: React.FC<BellRawProps> = (props) => {
-  const { data: authUserResult } = useQuery(AUTH_USER)
-  const authUser = authUserResult.authUser
   const bellId = props?.computedMatch?.params.bellId
   const details = props?.computedMatch?.params.details
 
-  const { data: bellData, loading, error } = useSubscription(GET_BELL, {
-    variables: {
-      id: bellId,
-    },
-  })
+  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
+  const { data: bellData, loading: loadingBell, error } = useSubscription(
+    GET_BELL,
+    {
+      variables: {
+        id: bellId,
+      },
+    }
+  )
 
-  if (loading) return <Loading className="text-center" />
+  if (loadingUser || loadingBell) return <Loading className="text-center" />
   if (error) return <Error className="text-center" message={error.message} />
 
   const bell = bellData.m2_bells_by_pk
@@ -65,11 +67,15 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   const notifications = bell?.blocks.filter(
     (block) => block.type === "Notification"
   )
-  const participants = bell?.user_participations
-  const asInitiator = iAmInitiator(authUser, participants)
+
+  const asInitiator = iPlayRoles(
+    authUserResult.authUser,
+    bell.user_participations,
+    ["bell_initiator"]
+  )
 
   return (
-    <div {...props}>
+    <div>
       <MainMenu className="flex-none" />
       <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
         <div className="mx-4 overflow-auto col-span-1 lg:col-span-2">

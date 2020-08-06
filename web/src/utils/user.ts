@@ -1,4 +1,4 @@
-import { User } from "models/interface"
+import { Participant, User } from "models/interface"
 
 const displayParticipants = (participants: any[]) => {
   return participants?.map((participant) => participant.user.name).join(", ")
@@ -14,12 +14,17 @@ const userInitials = (user: User): string => {
   return initials.toUpperCase()
 }
 
-const iAmInitiator = (authUser, users) => {
-  const userIds = users
-    .filter((user) => user.roal === "bell_initiator")
-    .map((user) => user.user.id)
+const iPlayRoles = (
+  authUser: User,
+  participants: Participant[],
+  roles: string[]
+): boolean => {
+  if (!participants) return false
+  const userIds = participants
+    .filter((participant) => roles.indexOf(participant.role) > -1)
+    .map((participant) => participant.user.id)
 
-  return userIds.includes(authUser.id)
+  return userIds.indexOf(authUser.id) > -1
 }
 
-export { displayParticipants, userInitials, iAmInitiator }
+export { displayParticipants, userInitials, iPlayRoles }
