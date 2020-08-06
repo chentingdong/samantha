@@ -12,12 +12,13 @@ import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 
 interface GoalListProps {
   goals: Block[]
   tasks: Block[]
   notifications: Block[]
+  className?: string
 }
 
 const GoalListRaw: React.FC<GoalListProps> = ({
@@ -46,11 +47,16 @@ const GoalListRaw: React.FC<GoalListProps> = ({
               key={root.id}
               className={`${activeClassName(root)} ${root.className}`}
             >
-              <GoalItem
-                goal={root}
-                countCompletedTasks={countCompletedTasks(root, tasks)}
-                countNotifications={countNotifications(root, notifications)}
-              />
+              <Link
+                to={`/bells/${params.bellId}/${root.id}/${params.context}`}
+                className="block no-underline cursor-pointer"
+              >
+                <GoalItem
+                  goal={root}
+                  countCompletedTasks={countCompletedTasks(root, tasks)}
+                  countNotifications={countNotifications(root, notifications)}
+                />
+              </Link>
             </li>
           )
         })}
@@ -62,16 +68,16 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 const GoalList = styled(GoalListRaw)`
   ol {
     li {
-      ${tw`my-4 ml-4 mr-0`}
+      ${tw`my-4 mr-4`}
     }
   }
   ul {
     li {
-      ${tw`my-4 ml-8 mr-0`}
+      ${tw`my-4 ml-4`}
     }
   }
   .active {
-    ${tw`bg-gray-200 border-l-8 pr-4`}
+    ${tw`bg-gray-200 border-l-8 pr-8`}
     margin-right: -1rem;
   }
   .generation-2 {

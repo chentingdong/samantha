@@ -7,7 +7,7 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
-import { Link, useLocation } from "react-router-dom"
+import { useLocation } from "react-router-dom"
 import { getBellLocationParams } from "utils/bell"
 
 interface GoalItemProps {
@@ -51,9 +51,6 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
               Assigned to: {displayParticipants(goalAssignees)}
             </div>
           )}
-          <div className="mt-4 text-sm text-gray-500">
-            {countCompletedTasks} Tasks Completed
-          </div>
         </main>
         <aside>
           <div className="flex icons gap-2">
@@ -61,18 +58,14 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             <CircleNumber number={countNotifications} />
             <ActivityStateIcon className="icon" state={goal.state} />
           </div>
-          <div className="flex justify-end mt-2">
-            <Icon className="p-1 text-lg" icon="angle-right" />
-            <Link
-              to={`/bells/${params.bellId}/${goal.id}/${params.context}`}
-              className="ml-2 text-sm underline cursor-pointer"
-            >
-              Goal Details <br />
-              Tasks
-            </Link>
-          </div>
         </aside>
       </div>
+      <footer className="flex justify-between w-full mt-4 text-sm text-gray-500">
+        <div>{countCompletedTasks} Tasks Completed</div>
+        <div className="flex-none">
+          Goal Details <Icon icon="hand-o-right" />
+        </div>
+      </footer>
     </div>
   )
 }

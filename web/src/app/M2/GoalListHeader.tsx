@@ -11,7 +11,7 @@ export const GoalListHeader: React.FC<GoalListHeaderProps> = ({
   ...props
 }) => {
   return (
-    <div {...props} className="flex justify-between pb-2 mb-4 border-b">
+    <div className="flex justify-between pb-2 mb-4 mr-4 border-b">
       <h4 className="">Goal</h4>
       <Link to={link} {...props}>
         <Button className="p-2 m-0 fill" color="secondary">
