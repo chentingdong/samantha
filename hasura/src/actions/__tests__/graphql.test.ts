@@ -9,7 +9,7 @@ describe("GraphQL", () => {
       expect(result.sub_bells.length).toBeGreaterThanOrEqual(0)
       expect(result.user_participations.length).toBeGreaterThanOrEqual(0)
       expect(result.bellhop_participations.length).toBeGreaterThanOrEqual(0)
-      expect(result.bell_executors.length).toBeGreaterThanOrEqual(0)
+      expect(result.blocks.length).toBeGreaterThanOrEqual(0)
     })
     it("should return single block by pk", async () => {
       // this is a Goal
@@ -20,7 +20,6 @@ describe("GraphQL", () => {
       expect(result.type).toBeDefined()
       expect(result.user_participations.length).toBeGreaterThanOrEqual(0)
       expect(result.goal).toBeDefined()
-      expect(result.goal.id).toBeDefined()
       expect(result.task).toBeNull()
       expect(result.bell_executor).toBeNull()
       expect(result.children.length).toBeGreaterThanOrEqual(0)
