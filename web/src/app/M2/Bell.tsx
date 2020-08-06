@@ -80,7 +80,7 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
       <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
         <div className="ml-4 overflow-y-auto col-span-1 lg:col-span-2">
           <BellHeader bell={bell} />
-          {asInitiator && <TaskList tasks={tasks} />}
+          {asInitiator && <TaskList className="mr-4" tasks={tasks} />}
           {!asInitiator && !details && (
             <GoalList
               goals={goals}
