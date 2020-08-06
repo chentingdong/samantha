@@ -52,6 +52,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
                 className="block no-underline cursor-pointer"
               >
                 <GoalItem
+                  active={root.id === params.goalId}
                   goal={root}
                   countCompletedTasks={countCompletedTasks(root, tasks)}
                   countNotifications={countNotifications(root, notifications)}

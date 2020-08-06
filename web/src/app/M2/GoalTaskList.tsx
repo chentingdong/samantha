@@ -36,6 +36,7 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
       <div className={`${bellColor} active`}>
         <GoalItem
           goal={goal}
+          active={true}
           countCompletedTasks={countCompletedTasks(goal, tasks)}
           countNotifications={null}
         />

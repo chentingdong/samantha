@@ -12,12 +12,14 @@ import { getBellLocationParams } from "utils/bell"
 
 interface GoalItemProps {
   goal: Block
+  active: boolean
   countCompletedTasks: number
   countNotifications: number
 }
 
 const GoalItemRaw: React.FC<GoalItemProps> = ({
   goal,
+  active = false,
   countCompletedTasks,
   countNotifications,
   ...props
@@ -38,7 +40,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           )}
           {goal.state === "Running" && (
             <div className="text-sm">
-              Updated at: {displayDate(goal.updated_at)}
+              Started at: {displayDate(goal.started_at)}
             </div>
           )}
           {goal.state === "Created" && (
@@ -62,9 +64,11 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
       </div>
       <footer className="flex justify-between w-full mt-4 text-sm text-gray-500">
         <div>{countCompletedTasks} Tasks Completed</div>
-        <div className="flex-none">
-          Goal Details <Icon icon="hand-o-right" />
-        </div>
+        {!active && (
+          <div className="flex-none">
+            Goal Details <Icon icon="hand-o-right" />
+          </div>
+        )}
       </footer>
     </div>
   )
