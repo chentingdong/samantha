@@ -25,7 +25,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const [activeTab, setActiveTab] = useState(params.context)
   const activateTab = (tab) => {
     setActiveTab(tab)
-    const path = `/bells/${params.bellId}/${params.goalId}/${tab}`
+    const path = `/bells/${params.bellId}/${params.goalId}/${tab}/${params.details}`
     history.push(path)
   }
 

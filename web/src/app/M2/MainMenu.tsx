@@ -1,6 +1,6 @@
 import React from "react"
 import { FlexboxGrid, Dropdown } from "rsuite"
-import { getLogoByTheme, setActiveMenu } from "../../utils/styles"
+import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
 import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
@@ -17,7 +17,7 @@ export interface MainMenuProps {
 }
 
 const MainMenuRaw: React.FC<MainMenuProps> = ({
-  active,
+  active = "/lobby",
   className,
   onSelect,
   ...props
@@ -27,6 +27,11 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   } = useQuery(AUTH_USER)
 
   const location = useLocation()
+
+  const setActiveMenu = (pathname: string, menuItem: string): string => {
+    if (pathname === "/") return menuItem === "/lobby" ? "active" : ""
+    return pathname?.includes(menuItem) ? "active" : ""
+  }
 
   return (
     <div className={`${className} z-30 show-grid mb-8`} {...props}>

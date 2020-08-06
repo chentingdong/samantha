@@ -1,10 +1,6 @@
 import logoDark from "../assets/img/bellhop-dark.svg"
 import logoWhite from "../assets/img/brand-1.svg"
 
-const setActiveMenu = (pathname: string, menuItem: string): string => {
-  return pathname?.includes(menuItem) ? "active" : ""
-}
-
 const getLogoByTheme = (theme) => {
   return theme === "bell" ? logoWhite : logoDark
 }
@@ -67,7 +63,6 @@ const injectRsuiteStyle = (theme) => {
 }
 
 export {
-  setActiveMenu,
   getLogoByTheme,
   getIconByType,
   getIconClassByType,

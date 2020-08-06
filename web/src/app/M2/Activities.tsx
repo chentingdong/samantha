@@ -49,7 +49,9 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
             <div>
               <div>{displayDate(activity.ended_at || activity.started_at)}</div>
               <div className="text-gray-500">
-                <span className="capitalize">{activity.type} Completed: </span>
+                <span className="capitalize">{activity.type}</span>
+                {activity.type !== "Notification" && <span> Completed</span>}
+                <span>: </span>
                 <i>{activity.name}</i>
               </div>
             </div>
@@ -63,6 +65,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
             <div className="activity" key={activity.id}>
               <ActivityStateIcon state={activity.state} />
               <div className="text-lg text-gray-800">
+                <span className="capitalize">{activity.type} </span>
                 <span className="pr-2">Started:</span>
                 {isTask && (
                   <Link
@@ -90,7 +93,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
           <ActivityStateIcon state="Created" />
           <div className="text-gray-500">
             <span>
-              {goal?.state === "Success" ? "Completed" : "Complete"}:{" "}
+              {goal?.state === "Success" ? "Completed: " : "Complete: "}
             </span>
             <i>{goal?.name || bell?.name}</i>
           </div>

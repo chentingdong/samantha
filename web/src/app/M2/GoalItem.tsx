@@ -37,13 +37,19 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             <div>Ended at: {displayDate(goal.ended_at)}</div>
           )}
           {goal.state === "Running" && (
-            <div>Updated at: {displayDate(goal.updated_at)}</div>
+            <div className="text-sm">
+              Updated at: {displayDate(goal.updated_at)}
+            </div>
           )}
           {goal.state === "Created" && (
-            <div>Created at: {displayDate(goal.created_at)}</div>
+            <div className="text-sm">
+              Created at: {displayDate(goal.created_at)}
+            </div>
           )}
           {goal.user_participations.length > 0 && (
-            <div>Assigned to: {displayParticipants(goalAssignees)}</div>
+            <div className="text-sm">
+              Assigned to: {displayParticipants(goalAssignees)}
+            </div>
           )}
           <div className="mt-4 text-sm text-gray-500">
             {countCompletedTasks} Tasks Completed
