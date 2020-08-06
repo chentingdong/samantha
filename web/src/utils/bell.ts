@@ -26,7 +26,7 @@ const listToTree = (list: Array<any>) => {
 
 /**
  * input: list of items with parent_id references
- * output: tree with only level 2 & 3, skip root (1) and combine 3 and 3+ to 3.
+ * output: list with children generations for html display.
  */
 const listTree23Level = (list: Array<any>) => {
   const roots = listToTree(list)
