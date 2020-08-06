@@ -2,7 +2,7 @@ actions:
 - name: clone_m2_bells_by_pk
   definition:
     kind: asynchronous
-    handler: http://host.docker.internal:3000/clone_m2_bells_by_pk
+    handler: '{{ACTION_BASE_URL}}/clone_m2_bells_by_pk'
     forward_client_headers: true
 custom_types:
   enums: []
