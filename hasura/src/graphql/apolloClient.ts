@@ -12,9 +12,12 @@ const errorLink = onError(({ operation, graphQLErrors, networkError }) => {
   if (networkError) console.info(`[Network error]: ${networkError}`)
 })
 
-const httpHost = process.env.NODE_ENV === "development" ? "hasura" : "localhost"
+const hasuraGraphqlEndpoint =
+  process.env.NODE_ENV === "development"
+    ? "http://hasura:8080"
+    : process.env.HASURA_GRAPHQL_ENDPOINT
 const httpLink = new HttpLink({
-  uri: `http://${httpHost}:8080/v1/graphql`,
+  uri: `${hasuraGraphqlEndpoint}/v1/graphql`,
   headers: {
     "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
   },

@@ -36,6 +36,7 @@ services:
       - HASURA_GRAPHQL_DATABASE_URL=postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/hasura
       - HASURA_GRAPHQL_ENABLE_CONSOLE=true
       - HASURA_GRAPHQL_ADMIN_SECRET=qcA.wmEfFzDpfzZZoepJs7gw
+      - ACTION_BASE_URL=http://server:3000
     ports:
       - "8080:8080"
     command: graphql-engine serve
@@ -51,7 +52,7 @@ services:
       - postgres
       - hasura
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
       - HASURA_GRAPHQL_ENDPOINT=http://hasura:8080
       - HASURA_GRAPHQL_CLI_ENVIRONMENT=default
       - HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false

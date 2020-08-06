@@ -7,7 +7,6 @@ import {
   TabbedShowLayout,
   ReferenceManyField,
   ShowButton,
-  CloneButton,
   ReferenceField,
   BooleanField,
   DateField,
@@ -16,6 +15,7 @@ import BellTitle from "./BellTitle";
 import AddBellhopParticipationButton from "./AddBellhopParticipationButton";
 import AddUserParticipationButton from "./AddUserParticipationButton";
 import JSONField from "../components/JSONField";
+import CloneBellButton from "./CloneBellButton";
 
 const BellShow = (props) => (
   <Show title={<BellTitle />} {...props}>
@@ -46,6 +46,7 @@ const BellShow = (props) => (
         <DateField source="updated_at" showTime />
         <DateField source="started_at" showTime />
         <DateField source="ended_at" showTime />
+        <CloneBellButton />
       </Tab>
       <Tab label="Blocks">
         <ReferenceManyField

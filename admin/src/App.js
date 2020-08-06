@@ -12,24 +12,15 @@ import bellhop_memberships from "./bellhop_memberships";
 import bellhop_bell_participations from "./bellhop_bell_participations";
 import user_bell_participations from "./user_bell_participations";
 import user_block_participations from "./user_block_participations";
-import { HttpLink } from "apollo-client-preset";
-import buildApolloClient from "./ra-data-graphql/buildApolloClient";
 import Dashboard from "./Dashboard";
-
-const link = new HttpLink({
-  uri: `${window.location.protocol}//${window.location.hostname}:8080/v1/graphql`,
-  headers: {
-    "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
-  },
-});
-
-const apolloClient = buildApolloClient({ link });
+import apolloClient from "./ApolloClient";
 
 const knownResources = [
   "m2_block_type",
   "m2_block_state",
   "m2_membership_roles",
   "m2_participation_roles",
+  "clone_m2_bells_by_pk",
 ];
 
 const dataProviderDecorator = (requestHandler) => (type, resource, params) => {

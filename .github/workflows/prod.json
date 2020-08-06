@@ -26,6 +26,10 @@
         {
           "name": "HASURA_GRAPHQL_ADMIN_SECRET",
           "value": "qcA.wmEfFzDpfzZZoepJs7gw"
+        },
+        {
+          "name": "ACITON_BASE_URL",
+          "value": "https://poc.dev.bellhop.io:3000"
         }
       ],
       "logConfiguration": {
@@ -62,7 +66,7 @@
         },
         {
           "name": "HASURA_GRAPHQL_ENDPOINT",
-          "value": "http://localhost:8080"
+          "value": "https://poc.dev.bellhop.io:8080"
         },
         {
           "name": "HASURA_GRAPHQL_CLI_ENVIRONMENT",
