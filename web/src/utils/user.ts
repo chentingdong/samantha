@@ -1,7 +1,15 @@
 import { Participant, User } from "models/interface"
 
 const displayParticipants = (participants: any[]) => {
-  return participants?.map((participant) => participant.user.name).join(", ")
+  if (participants.length === 0) return ""
+  if (participants[0].user)
+    return participants
+      ?.map((participant) => participant?.user?.name)
+      .join(", ")
+  else if (participants[0].bellhop)
+    return participants
+      ?.map((participant) => participant?.bellhop?.name)
+      .join(", ")
 }
 
 const userInitials = (user: User): string => {

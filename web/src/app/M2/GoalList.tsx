@@ -27,7 +27,6 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   notifications,
   ...props
 }) => {
-  const blocks = goals.concat(tasks)
   const goalTree = listTree23Level(goals)
   const location = useLocation()
   const params = getBellLocationParams(location)
@@ -81,10 +80,11 @@ const GoalList = styled(GoalListRaw)`
     ${tw`bg-gray-200 border-l-8 pr-8`}
     margin-right: -1rem;
   }
-  .generation-1 {
-    display: none;
-  }
+  // .generation-1 {
+  //   display: none;
+  // }
   .generation-2 {
+    ${tw`ml-4`}
   }
   .generation-3,
   .generation-4,

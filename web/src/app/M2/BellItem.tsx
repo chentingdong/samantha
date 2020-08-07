@@ -24,6 +24,7 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
   const initiators = bell.user_participations.filter(
     (participant) => participant.role === "bell_initiator"
   )
+  const bellhops = bell.bellhop_participations
   return (
     <Link
       className={`${className} rounded-lg text-sm van-gogh`}
@@ -49,7 +50,9 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
           </div>
         </div>
       )}
-      <div className="m-2 text-lg card-footer">Facilities</div>
+      <div className="m-2 text-lg card-footer">
+        {displayParticipants(bellhops)}
+      </div>
     </Link>
   )
 }

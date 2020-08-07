@@ -60,7 +60,9 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         {activitiesRunning?.map((activity) => {
           const isTask = activity.type === "Task"
           const taskGoalId =
-            activity.parent.type === "Goal" ? activity.parent.id : params.goalId
+            activity.parent?.type === "Goal"
+              ? activity.parent.id
+              : params.goalId
           return (
             <div className="activity" key={activity.id}>
               <ActivityStateIcon state={activity.state} />

@@ -26,7 +26,7 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
   const Template = templates[task?.fields[0].response_type]
   return (
     <div {...props}>
-      {task && Template && (
+      {task && Template && view !== "hidden" && (
         <>
           <div className="request">{task?.fields[0]?.question}</div>
           <div className="response">
