@@ -29,7 +29,7 @@
         },
         {
           "name": "ACTION_BASE_URL",
-          "value": "https://poc.dev.bellhop.io:3000"
+          "value": "http://localhost:3000"
         }
       ],
       "logConfiguration": {

@@ -254,6 +254,7 @@ async function cloneM2BellsByPk(
 const cloneM2BellsByPkHandler = async (req: Request, res: Response) => {
   try {
     const params: clone_m2_bells_by_pk_args = req.body.input
+    console.log("cloneM2BellsByPkHandler getting requests", params)
     const result = await cloneM2BellsByPk(params)
     console.log("cloneM2BellsByPk result", result)
     // success

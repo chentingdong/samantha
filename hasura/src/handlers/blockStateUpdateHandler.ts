@@ -3,6 +3,7 @@ import { getBlockByPk } from "../graphql/m1/queries/getBlockByPk"
 import invariant from "invariant"
 import { onRun, onChildStateChange } from "../BTEngine"
 import { BlockState, Block } from "../BTEngine/interfaces"
+
 export const blockStateUpdateHandler = async (req: Request, res: Response) => {
   let statusCode, body
   try {
@@ -10,6 +11,8 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
       table: { name },
       event: { op, data },
     } = req.body
+
+    console.log("blockStateUpdateHandler getting requests", name, op, data)
 
     invariant(
       name === "blocks" && op === "UPDATE",

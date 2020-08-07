@@ -56,9 +56,11 @@ services:
       - HASURA_GRAPHQL_ENDPOINT=http://hasura:8080
       - HASURA_GRAPHQL_CLI_ENVIRONMENT=default
       - HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
+    volumes:
+      - ./hasura:/app
     ports:
       - "3000:3000"
-    command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn start"
+    command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
 
   admin:
     image: samantha-admin:${IMAGE_TAG:-local}
@@ -73,6 +75,8 @@ services:
     ports:
       - 3030:3030
     stdin_open: true
+    volumes:
+      - ./admin:/app
     command: yarn start
 
 volumes:
