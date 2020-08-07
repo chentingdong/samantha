@@ -81,15 +81,17 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
             </div>
           )
         })}
-        <div className="ddd">...</div>
         {activitiesFuture?.map((activity) => (
-          <div className="hidden activity" key={activity.id}>
-            <ActivityStateIcon state={activity.state} />
-            <div>
-              <span className="capitalize">{activity.state}: </span>
-              {activity.name}
+          <>
+            <div className="ddd">...</div>
+            <div className="hidden activity" key={activity.id}>
+              <ActivityStateIcon state={activity.state} />
+              <div>
+                <span className="capitalize">{activity.state}: </span>
+                {activity.name}
+              </div>
             </div>
-          </div>
+          </>
         ))}
         <div className="activity">
           <ActivityStateIcon state="Created" />

@@ -91,7 +91,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
             </div>
           </div>
           <div className="mt-4 text-lg text-center underline">
-            <NavLink to="/all-bellhops">Company Bell Desk</NavLink>
+            <NavLink to="/all-bellhops">All Bellhops</NavLink>
           </div>
         </div>
       )}

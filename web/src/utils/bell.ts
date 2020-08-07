@@ -1,7 +1,6 @@
 import { matchPath } from "react-router-dom"
 
-/* list to tree */
-
+/* list to tree. node has parent_id field.*/
 const listToTree = (list: Array<any>) => {
   const map = {}
   let node
@@ -28,7 +27,7 @@ const listToTree = (list: Array<any>) => {
  * input: list of items with parent_id references
  * output: list with children generations for html display.
  */
-const listTree23Level = (list: Array<any>) => {
+const listTreeGenerations = (list: Array<any>) => {
   const roots = listToTree(list)
   const result = []
   const traverse = (roots, generation) => {
@@ -102,7 +101,7 @@ const countNotifications = (goal, notifications) => {
 
 export {
   listToTree,
-  listTree23Level,
+  listTreeGenerations,
   getBellLocationParams,
   getBellhopLocationParams,
   countCompletedTasks,

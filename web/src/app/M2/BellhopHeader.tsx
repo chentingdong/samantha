@@ -37,7 +37,7 @@ const BellhopHeader: React.FC<BellhopHeaderProps> = ({
             <CircleImage
               className="w-24 h-24 mr-4 bg-white"
               alt="image"
-              src="https://samantha-assets.s3.amazonaws.com/images/eng.png"
+              src={bellhop?.profile_image_url}
             />
           </div>
         </div>

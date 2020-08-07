@@ -24,6 +24,7 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
   const bellColor =
     `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
   const goal = goals.filter((goal) => goal.id === params.goalId)[0]
+
   const goalTasks = tasks.filter(
     (task) =>
       task.parent.id === params.goalId ||

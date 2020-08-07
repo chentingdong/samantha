@@ -3,33 +3,30 @@ import { TaskItemProps } from "app/templates/TaskItemProps"
 import { Button } from "components/Button"
 
 interface SingleSelectProps {
-  approved?: boolean
+  value: string
+  options?: string[]
 }
 
-const SingleSelectDisplay: React.FC<SingleSelectProps> = ({ approved }) => {
-  return <div>{approved}</div>
+const SingleSelectDisplay: React.FC<SingleSelectProps> = ({ value }) => {
+  return <div>{value}</div>
 }
 
-const SingleSelectEdit: React.FC<SingleSelectProps> = ({ approved }) => {
-  const updateField = (approve) => {
-    console.log("TODO: mutation to update task, approve: " + approve)
+const SingleSelectEdit: React.FC<SingleSelectProps> = ({ value, options }) => {
+  const updateField = (value) => {
+    console.log("TODO: mutation to update task, choosed value: " + value)
   }
   return (
     <div>
-      <Button
-        color="secondary"
-        className="p-1 text-sm fill"
-        onClick={(e) => updateField(true)}
-      >
-        Yes
-      </Button>
-      <Button
-        color="secondary"
-        className="p-1 mr-0 text-sm"
-        onClick={(e) => updateField(false)}
-      >
-        No
-      </Button>
+      {options.map((option) => (
+        <Button
+          key={option}
+          color="secondary"
+          className="px-4 py-1 text-sm fill"
+          onClick={(e) => updateField(option)}
+        >
+          {option}
+        </Button>
+      ))}
     </div>
   )
 }
@@ -41,8 +38,16 @@ export const SingleSelect: React.FC<TaskItemProps> = ({
 }) => {
   return (
     <>
-      {view === "display" && <SingleSelectDisplay approved={field?.response} />}
-      {view === "edit" && <SingleSelectEdit approved={field?.response} />}
+      {view === "display" && (
+        <SingleSelectDisplay value={field?.response} {...props} />
+      )}
+      {view === "edit" && (
+        <SingleSelectEdit
+          value={field?.response}
+          options={field.select_options}
+          {...props}
+        />
+      )}
     </>
   )
 }

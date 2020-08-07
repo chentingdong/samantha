@@ -63,6 +63,7 @@ const bellFragment = gql`
       bellhop {
         id
         name
+        profile_image_url
         bell_participations_by_users {
           user {
             name

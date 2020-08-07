@@ -1,4 +1,4 @@
-import { listTree23Level } from "../../src/utils/bell"
+import { listTreeGenerations } from "../../src/utils/bell"
 
 describe("listTree2Level", () => {
   let testCase, expected
@@ -24,7 +24,7 @@ describe("listTree2Level", () => {
       { id: "g", parent_id: "c", className: "generation-3" },
       { id: "h", parent_id: "g", className: "generation-4" },
     ]
-    const result = listTree23Level(testCase)
+    const result = listTreeGenerations(testCase)
     console.log(result)
     expect(result).toEqual(expected)
   })

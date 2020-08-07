@@ -56,7 +56,7 @@ const TaskList = styled(TaskListRaw)`
   .tasks {
     ${tw`border p-4 rounded-lg mt-4`}
     .task {
-      ${tw`p-2`}
+      ${tw`p-2 my-1`}
       box-sizing: border-box;
       &.edit {
         ${tw`bg-green-100`}

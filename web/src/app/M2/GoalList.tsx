@@ -3,7 +3,7 @@ import React from "react"
 import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
 import {
-  listTree23Level,
+  listTreeGenerations,
   getBellLocationParams,
   countCompletedTasks,
   countNotifications,
@@ -27,7 +27,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   notifications,
   ...props
 }) => {
-  const goalTree = listTree23Level(goals)
+  const goalTree = listTreeGenerations(goals)
   const location = useLocation()
   const params = getBellLocationParams(location)
   const activeClassName = (goal) => {

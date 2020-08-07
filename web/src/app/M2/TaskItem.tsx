@@ -30,6 +30,11 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
       {task && Template && (
         <>
           <div className="request">{task?.fields[0]?.question}</div>
+          {task?.fields[0]?.description && (
+            <div className="description">
+              Notes: {task?.fields[0]?.description.toString()}
+            </div>
+          )}
           <div className="response">
             <Template field={task?.fields[0]} view={view} {...props} />
           </div>
@@ -42,6 +47,9 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
 const TaskItem = styled(TaskItemRaw)`
   .request {
     ${tw`text-left m-2`}
+  }
+  .description {
+    ${tw`text-xs m-2 text-gray-500`}
   }
   .response {
     ${tw`text-right m-2`}
