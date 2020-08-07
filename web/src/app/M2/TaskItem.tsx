@@ -8,6 +8,7 @@ import tw from "tailwind.macro"
 
 export interface TaskItemProps {
   task: any
+  className: string
   view: "display" | "edit" | "hidden"
 }
 
@@ -26,7 +27,7 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
   const Template = templates[task?.fields[0].response_type]
   return (
     <div {...props}>
-      {task && Template && view !== "hidden" && (
+      {task && Template && (
         <>
           <div className="request">{task?.fields[0]?.question}</div>
           <div className="response">
@@ -40,10 +41,10 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
 
 const TaskItem = styled(TaskItemRaw)`
   .request {
-    ${tw`text-left my-4`}
+    ${tw`text-left m-2`}
   }
   .response {
-    ${tw`text-right my-4`}
+    ${tw`text-right m-2`}
   }
 `
 

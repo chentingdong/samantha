@@ -18,14 +18,14 @@ const SingleSelectEdit: React.FC<SingleSelectProps> = ({ approved }) => {
     <div>
       <Button
         color="secondary"
-        className="text-sm fill"
+        className="p-1 text-sm fill"
         onClick={(e) => updateField(true)}
       >
         Yes
       </Button>
       <Button
         color="secondary"
-        className="mr-0 text-sm"
+        className="p-1 mr-0 text-sm"
         onClick={(e) => updateField(false)}
       >
         No

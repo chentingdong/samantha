@@ -40,7 +40,9 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   )
 }
 
-interface BellRawProps {}
+interface BellRawProps {
+  className?: string
+}
 
 const BellRaw: React.FC<BellRawProps> = (props) => {
   const bellId = props?.computedMatch?.params.bellId

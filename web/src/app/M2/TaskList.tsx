@@ -21,11 +21,9 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
     Created: "hidden",
   }
 
-  const runningTasks = tasks.filter(
-    (task) => state2ViewMap[task.state] === "edit"
-  )
+  const runningTasks = tasks.filter((task) => task.state === "Running")
   const todoTasks = tasks.filter(
-    (task) => state2ViewMap[task.state] === "hidden"
+    (task) => task.state === "Draft" || task.state === "Created"
   )
 
   return (
@@ -36,7 +34,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
           const view = state2ViewMap[task.state]
           return (
             <TaskItem
-              className="task"
+              className={`task ${view}`}
               view={view}
               task={task.task}
               key={task.id}
@@ -44,7 +42,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
           )
         })}
         {todoTasks.length === 0 && runningTasks.length === 0 && (
-          <div className="m-4 text-lg italic">
+          <div className="m-2 text-lg italic">
             All good for now! Come back for updates.
           </div>
         )}
@@ -58,7 +56,11 @@ const TaskList = styled(TaskListRaw)`
   .tasks {
     ${tw`border p-4 rounded-lg mt-4`}
     .task {
-      ${tw`border-b border-gray-200`}
+      ${tw`p-2`}
+      box-sizing: border-box;
+      &.edit {
+        ${tw`bg-green-100`}
+      }
     }
   }
 `
