@@ -23,9 +23,6 @@ describe("GraphQL", () => {
         await deleteBellByPk({ id: secondaryBell.id })
         await deleteBellByPk({ id: mainBell.id })
       })
-
-
-
-
+    })
   })
 })
