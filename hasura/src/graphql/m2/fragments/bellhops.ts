@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client"
 
-export const bellhopFragment = gql`
-  fragment bellhopFragment on m2_bellhops {
+export const m2BellhopFragment = gql`
+  fragment m2BellhopFragment on m2_bellhops {
     id
     name
     memberships {

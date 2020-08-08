@@ -1,16 +1,16 @@
 import apolloClient from "../../apolloClient"
 import { gql } from "@apollo/client"
-import { blockFragment } from "../fragments/blocks"
+import { m2BlockFragment } from "../fragments/blocks"
 
 export const getBlocks = async () => {
   const { data, errors } = await apolloClient.query({
     query: gql`
       query blocks {
         m2_blocks(order_by: { created_at: asc }) {
-          ...blockFragment
+          ...m2BlockFragment
         }
       }
-      ${blockFragment}
+      ${m2BlockFragment}
     `,
   })
   if (errors) return undefined

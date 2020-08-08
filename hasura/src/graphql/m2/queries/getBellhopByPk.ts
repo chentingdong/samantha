@@ -1,16 +1,16 @@
 import apolloClient from "../../apolloClient"
 import { gql } from "@apollo/client"
-import { bellhopFragment } from "../fragments/bellhops"
+import { m2BellhopFragment } from "../fragments/bellhops"
 
 export const getBellhopByPk = async (id: String) => {
   const { data, errors } = await apolloClient.query({
     query: gql`
       query bellhops_by_pk($id: String!) {
         m2_bellhops_by_pk(id: $id) {
-          ...bellhopFragment
+          ...m2BellhopFragment
         }
       }
-      ${bellhopFragment}
+      ${m2BellhopFragment}
     `,
     variables: { id },
   })

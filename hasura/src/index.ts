@@ -1,6 +1,7 @@
 import express from "express"
 import bodyParser from "body-parser"
 import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
+import { m2BlockStateUpdateHandler } from "./handlers/m2BlockStateUpdateHandler"
 import cloneM2BellsByPkHandler from "./actions/cloneBellsByPk"
 import * as Sentry from "@sentry/node"
 
@@ -35,6 +36,8 @@ app.get("/", async (_req, res, _next) => {
 })
 
 app.post("/block_state_update", blockStateUpdateHandler)
+
+app.post("/m2_block_state_update", m2BlockStateUpdateHandler)
 
 app.post("/clone_m2_bells_by_pk", cloneM2BellsByPkHandler)
 

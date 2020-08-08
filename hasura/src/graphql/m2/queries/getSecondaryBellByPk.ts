@@ -1,16 +1,16 @@
 import apolloClient from "../../apolloClient"
 import { gql } from "@apollo/client"
-import { secondaryBellFragment } from "../fragments/secondaryBells"
+import { m2SecondaryBellFragment } from "../fragments/secondaryBells"
 
 export const getSecondaryBellByPk = async (id: String) => {
   const { data, errors } = await apolloClient.query({
     query: gql`
       query secondaryBells_by_pk($id: String!) {
         m2_bells_by_pk(id: $id) {
-          ...secondaryBellFragment
+          ...m2SecondaryBellFragment
         }
       }
-      ${secondaryBellFragment}
+      ${m2SecondaryBellFragment}
     `,
     variables: { id },
   })
