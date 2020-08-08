@@ -3,7 +3,7 @@ import { Block, BellContextFacts } from "../../../types"
 import context from "./BellContextFacts.mock"
 import { getBlockByPk } from "../../../graphql/m2/queries/getBlockByPk"
 
-const bellContextFacts = { context }
+const bellContextFacts = context
 
 describe("Pre Conditions", () => {
   describe("Number", () => {
@@ -111,12 +111,12 @@ describe("Pre Conditions", () => {
     })
   })
   describe("Block", () => {
-    it.only("should match", async () => {
+    it("should match", async () => {
       const block = await getBlockByPk("WWazDMHYOxCXCgTyND2js")
       const result = await evalBlockPreConditions(block)
-      expect(result).toBe(true)
+      expect(result).toBe(false)
     })
-    it.only("should not match", async () => {
+    it("should not match", async () => {
       const block = await getBlockByPk("0vNN_nHW0jc87jo-s8XPd")
       const result = await evalBlockPreConditions(block)
       expect(result).toBe(false)
