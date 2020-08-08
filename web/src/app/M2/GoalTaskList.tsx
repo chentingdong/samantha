@@ -34,7 +34,9 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
 
   return (
     <div {...props}>
-      <GoalListHeader link={buildRouterUrl({ ...params, goalId: "all" })} />
+      <GoalListHeader
+        link={buildRouterUrl({ ...params, goalId: "all", taskId: "all" })}
+      />
       <div className={`${bellColor} active`}>
         <GoalItem
           goal={goal}
