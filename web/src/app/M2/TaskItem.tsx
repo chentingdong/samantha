@@ -24,13 +24,15 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
     MultiSelect: MultiSelect,
     ExternalLink: ExternalLink,
   }
+  console.log(task)
+
   const Template = templates[task?.fields[0].response_type]
   return (
     <div {...props}>
       {task && Template && (
         <>
           <div className="request">{task?.fields[0]?.question}</div>
-          {task?.fields[0]?.description && (
+          {task?.fields && task.fields[0]?.description && (
             <div className="description">
               Notes: {task?.fields[0]?.description.toString()}
             </div>

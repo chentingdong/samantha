@@ -4,9 +4,10 @@ import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
 import {
   listTreeGenerations,
-  getBellLocationParams,
+  getRouteParams,
   countCompletedTasks,
   countNotifications,
+  buildRouterUrl,
 } from "utils/bell"
 import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
@@ -27,18 +28,19 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   notifications,
   ...props
 }) => {
+  console.log(goals, tasks)
   const goalTree = listTreeGenerations(goals)
   const location = useLocation()
-  const params = getBellLocationParams(location)
+  const params = getRouteParams(location)
   const activeClassName = (goal) => {
     const bellColor =
       `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
     return goal.id === params.goalId ? `active ${bellColor}` : ""
   }
-
+  const headerLink = buildRouterUrl({ ...params, goalId: "all", taskId: "all" })
   return (
     <div {...props}>
-      <GoalListHeader link={`/bells/${params.bellId}/all/${params.context}`} />
+      <GoalListHeader link={headerLink} />
       <ol>
         {goalTree.map((goal) => {
           return (
@@ -47,7 +49,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
               className={`${activeClassName(goal)} ${goal.className}`}
             >
               <Link
-                to={`/bells/${params.bellId}/${goal.id}/${params.context}/${params.details}`}
+                to={buildRouterUrl({ ...params, goalId: goal.id })}
                 className="block no-underline cursor-pointer"
               >
                 <GoalItem
@@ -66,31 +68,30 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 }
 
 const GoalList = styled(GoalListRaw)`
-  ol {
-    li {
-      ${tw`my-4 mr-4`}
+  & {
+    ol {
+      li {
+        ${tw`my-4 mr-4`}
+      }
     }
-  }
-  ul {
-    li {
-      ${tw`my-4 ml-4`}
+    ul {
+      li {
+        ${tw`my-4 ml-4`}
+      }
     }
-  }
-  .active {
-    ${tw`bg-gray-200 border-l-8 pr-8`}
-    margin-right: -1rem;
-  }
-  // .generation-1 {
-  //   display: none;
-  // }
-  .generation-2 {
-    ${tw`ml-4`}
-  }
-  .generation-3,
-  .generation-4,
-  .generation-5,
-  .generation-6 {
-    ${tw`ml-12`}
+    .active {
+      ${tw`bg-gray-200 border-l-8 pr-8`}
+      margin-right: -1rem;
+    }
+    .generation-2 {
+      ${tw`ml-4`}
+    }
+    .generation-3,
+    .generation-4,
+    .generation-5,
+    .generation-6 {
+      ${tw`ml-12`}
+    }
   }
 `
 

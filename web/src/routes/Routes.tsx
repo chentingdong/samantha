@@ -37,12 +37,7 @@ const routes = [
     tag: PrivateRoute,
   },
   {
-    path: "/bells/:bellId",
-    component: Bell,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/bells/:bellId/:goalId?/:context?/:details?",
+    path: "/bells/:bellId/:goalId?/:context?/:taskId?",
     component: Bell,
     tag: PrivateRoute,
   },

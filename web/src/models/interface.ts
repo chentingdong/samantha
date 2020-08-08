@@ -1,5 +1,12 @@
 import { MutationType, EditMode, Typename } from "./enum"
 
+export interface RouterUrlProps {
+  bellId: string
+  goalId: string
+  context: string
+  taskId: string
+}
+
 export interface Bell {
   id: string
   name: string

@@ -8,7 +8,7 @@ import { Icon } from "rsuite"
 import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
 import { useLocation } from "react-router-dom"
-import { getBellLocationParams } from "utils/bell"
+import { getRouteParams } from "utils/bell"
 
 interface GoalItemProps {
   goal: Block
@@ -25,30 +25,31 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   ...props
 }) => {
   const location = useLocation()
-  const params = getBellLocationParams(location)
+  const params = getRouteParams(location)
 
-  const goalAssignees = goal.user_participations.filter(
+  const goalAssignees = goal?.user_participations.filter(
     (participant) => participant.role === "goal_asignee"
   )
+
   return (
     <div {...props}>
       <div className="flex justify-between">
         <main>
-          <div>{goal.name}</div>
-          {goal.state === "Success" && (
+          <div>{goal?.name}</div>
+          {goal?.state === "Success" && (
             <div>Ended at: {displayDate(goal.ended_at)}</div>
           )}
-          {goal.state === "Running" && (
+          {goal?.state === "Running" && (
             <div className="text-sm">
               Started at: {displayDate(goal.started_at)}
             </div>
           )}
-          {goal.state === "Created" && (
+          {goal?.state === "Created" && (
             <div className="text-sm">
               Created at: {displayDate(goal.created_at)}
             </div>
           )}
-          {goal.user_participations.length > 0 && (
+          {goal?.user_participations.length > 0 && (
             <div className="text-sm">
               Assigned to: {displayParticipants(goalAssignees)}
             </div>
@@ -58,7 +59,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           <div className="flex icons gap-2">
             <CircleIcon icon="attachment" />
             <CircleNumber number={countNotifications} />
-            <ActivityStateIcon className="icon" state={goal.state} />
+            <ActivityStateIcon className="icon" state={goal?.state} />
           </div>
         </aside>
       </div>
@@ -66,7 +67,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         <div>{countCompletedTasks} Tasks Completed</div>
         {!active && (
           <div className="flex-none">
-            Goal Details <Icon icon="hand-o-right" />
+            Goal taskId <Icon icon="hand-o-right" />
           </div>
         )}
       </footer>

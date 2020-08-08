@@ -7,7 +7,7 @@ import { Bell } from "models/interface"
 import { Loading, Error } from "components/Misc"
 import { useQuery } from "@apollo/client"
 import { GET_USERS } from "operations/queries/getUsers"
-import { getBellLocationParams } from "utils/bell"
+import { getRouteParams } from "utils/bell"
 
 interface ParticipantsProps {
   bell: Bell
@@ -18,7 +18,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
   bell,
   ...props
 }) => {
-  const params = getBellLocationParams(location)
+  const params = getRouteParams(location)
 
   const { data, loading, error } = useQuery(GET_USERS)
   const poolUsers = data?.users

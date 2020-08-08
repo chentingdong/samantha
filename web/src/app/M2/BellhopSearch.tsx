@@ -10,7 +10,7 @@ export interface BellSearchProps {}
 
 const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
   const [show, setShow] = useState(false)
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState()
 
   const [suggestions, setSuggestions] = useState({ bellhops: [], bells: [] })
   const [getBellhopData, { data: dataBellhops }] = useLazyQuery(

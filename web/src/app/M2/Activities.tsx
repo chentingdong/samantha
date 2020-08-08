@@ -6,7 +6,7 @@ import { ActivityStateIcon } from "components/StateIcon"
 import { displayDate } from "utils/common"
 import { Bell } from "models/interface"
 import { useLocation, matchPath, Link } from "react-router-dom"
-import { getBellLocationParams } from "utils/bell"
+import { getRouteParams, buildRouterUrl } from "utils/bell"
 
 interface ActivitiesProps {
   bell: Bell
@@ -15,14 +15,14 @@ interface ActivitiesProps {
 
 const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
   const location = useLocation()
-  const params = getBellLocationParams(location)
+  const params = getRouteParams(location)
 
   const activities =
     params.goalId === "all"
       ? bell.blocks
       : bell.blocks.filter(
           (block) =>
-            block.id === params.goalId || block.parent_id === params.goalId
+            block.id === params.goalId || block.parent?.id === params.goalId
         )
 
   const goal = bell.blocks.filter((block) => block.id === params.goalId)[0]
@@ -59,10 +59,12 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
         ))}
         {activitiesRunning?.map((activity) => {
           const isTask = activity.type === "Task"
-          const taskGoalId =
+          params.goalId =
             activity.parent?.type === "Goal"
               ? activity.parent.id
               : params.goalId
+          params.taskId = activity.id
+
           return (
             <div className="activity" key={activity.id}>
               <ActivityStateIcon state={activity.state} />
@@ -70,28 +72,22 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
                 <span className="capitalize">{activity.type} </span>
                 <span className="pr-2">Started:</span>
                 {isTask && (
-                  <Link
-                    to={`/bells/${params.bellId}/${taskGoalId}/${params.context}/details`}
-                  >
-                    {activity.name}
-                  </Link>
+                  <Link to={buildRouterUrl(params)}>{activity.name}</Link>
                 )}
                 {!isTask && <span>{activity.name}</span>}
               </div>
             </div>
           )
         })}
+        {activitiesFuture.length > 0 && <div className="ddd">...</div>}
         {activitiesFuture?.map((activity) => (
-          <>
-            <div className="ddd">...</div>
-            <div className="hidden activity" key={activity.id}>
-              <ActivityStateIcon state={activity.state} />
-              <div>
-                <span className="capitalize">{activity.state}: </span>
-                {activity.name}
-              </div>
+          <div className="hidden activity" key={activity.id}>
+            <ActivityStateIcon state={activity.state} />
+            <div>
+              <span className="capitalize">{activity.state}: </span>
+              {activity.name}
             </div>
-          </>
+          </div>
         ))}
         <div className="activity">
           <ActivityStateIcon state="Created" />

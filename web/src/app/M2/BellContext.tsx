@@ -9,7 +9,7 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Bell } from "models/interface"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { getBellLocationParams } from "utils/bell"
+import { getRouteParams, buildRouterUrl } from "utils/bell"
 
 interface BellContextProps {
   className?: string
@@ -20,11 +20,12 @@ interface BellContextProps {
 const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const history = useHistory()
   const location = useLocation()
-  const params = getBellLocationParams(location)
+  const params = getRouteParams(location)
   const [activeTab, setActiveTab] = useState(params.context)
   const activateTab = (tab) => {
     setActiveTab(tab)
-    const path = `/bells/${params.bellId}/${params.goalId}/${tab}/${params.details}`
+    params.context = tab
+    const path = buildRouterUrl(params)
     history.push(path)
   }
 

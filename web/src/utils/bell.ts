@@ -1,4 +1,5 @@
 import { matchPath } from "react-router-dom"
+import { Block, RouterUrlProps } from "models/interface"
 
 /* list to tree. node has parent_id field.*/
 const listToTree = (list: Array<any>) => {
@@ -51,16 +52,16 @@ const listTreeGenerations = (list: Array<any>) => {
  * @param location: the url location
  */
 
-const getBellLocationParams = (location: Location) => {
+const getRouteParams = (location: Location): RouterUrlProps => {
   const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId?/:context?/:details?",
+    path: "/bells/:bellId/:goalId?/:context?/:taskId?",
   })
   const bellId = match?.params.bellId
   const goalId = match?.params.goalId || "all"
   const context = match?.params.context || "activities"
-  const details = match?.params.details || ""
+  const taskId = match?.params.taskId || "all"
 
-  return { bellId: bellId, goalId: goalId, context: context, details: details }
+  return { bellId: bellId, goalId: goalId, context: context, taskId: taskId }
 }
 
 const getBellhopLocationParams = (location: Location) => {
@@ -75,12 +76,20 @@ const getBellhopLocationParams = (location: Location) => {
     bellhopId: bellhopId,
   }
 }
+
+const buildRouterUrl = (params: RouterUrlProps): string => {
+  const { bellId, goalId, context, taskId } = params
+  console.log(goalId, context, taskId)
+  const url = `/bells/${bellId}/${goalId}/${context}/${taskId}`
+  return url
+}
+
 /**
  * In a goal, count notifications and finished tasks
  * @param goal
  */
 
-const countCompletedTasks = (goal, tasks) => {
+const countCompletedTasks = (goal: Block, tasks: Block[]): number => {
   if (!goal || !tasks) return 0
   const completed = tasks
     .filter((task) => task.state === "Success")
@@ -92,7 +101,7 @@ const countCompletedTasks = (goal, tasks) => {
     )
   return completed.length
 }
-const countNotifications = (goal, notifications) => {
+const countNotifications = (goal: Block, notifications: Block): number => {
   const goalNotifications = notifications.filter(
     (notif) => notif.parent_id === goal.id
   )
@@ -102,8 +111,9 @@ const countNotifications = (goal, notifications) => {
 export {
   listToTree,
   listTreeGenerations,
-  getBellLocationParams,
+  getRouteParams,
   getBellhopLocationParams,
+  buildRouterUrl,
   countCompletedTasks,
   countNotifications,
 }

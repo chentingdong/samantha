@@ -14,6 +14,8 @@ import { displayParticipants, iPlayRoles } from "utils/user"
 import { BellStateIcon } from "components/StateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
 import tw from "tailwind.macro"
+import { getRouteParams } from "utils/bell"
+import { useLocation } from "react-router-dom"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   const bellhop = bell?.bellhop_participations[0].bellhop
@@ -45,15 +47,15 @@ interface BellRawProps {
 }
 
 const BellRaw: React.FC<BellRawProps> = (props) => {
-  const bellId = props?.computedMatch?.params.bellId
-  const details = props?.computedMatch?.params.details
+  const location = useLocation()
+  const params = getRouteParams(location)
 
   const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
   const { data: bellData, loading: loadingBell, error } = useSubscription(
     GET_BELL,
     {
       variables: {
-        id: bellId,
+        id: params.bellId,
       },
     }
   )
@@ -83,14 +85,14 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
         <div className="ml-4 overflow-y-auto col-span-1 lg:col-span-2">
           <BellHeader bell={bell} />
           {asInitiator && <TaskList className="mr-4" tasks={tasks} />}
-          {!asInitiator && !details && (
+          {!asInitiator && params.taskId === "all" && (
             <GoalList
               goals={goals}
               tasks={tasks}
               notifications={notifications}
             />
           )}
-          {!asInitiator && details && (
+          {!asInitiator && params.taskId !== "all" && (
             <GoalTaskList goals={goals} tasks={tasks} />
           )}
         </div>
