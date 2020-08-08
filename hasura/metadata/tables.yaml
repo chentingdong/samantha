@@ -211,6 +211,19 @@
         table:
           schema: m2
           name: user_block_participations
+  event_triggers:
+  - name: m2_block_state_update
+    definition:
+      enable_manual: true
+      update:
+        columns:
+        - local_id
+        - state
+    retry_conf:
+      num_retries: 0
+      interval_sec: 10
+      timeout_sec: 60
+    webhook: http://server:3000/m2_block_state_update
 - table:
     schema: m2
     name: goals

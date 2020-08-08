@@ -15,21 +15,21 @@ export const createRandomBellhopInput = () => {
   return { id, name }
 }
 
-export const createRandomSequenceDefInput = () => {
+export const createRandomGoalDefInput = () => {
   const id = nanoid()
   const rand = Math.floor(Math.random() * 10)
   const local_id = id
-  const type = "Sequence"
+  const type = "Goal"
   const state = "Draft"
   const is_definition = true
   return { block: { id, local_id, type, state, is_definition } }
 }
 
-export const createRandomFormTaskDefInput = () => {
+export const createRandomTaskDefInput = () => {
   const id = nanoid()
   const rand = Math.floor(Math.random() * 10)
   const local_id = id
-  const type = "FormTask"
+  const type = "Task"
   const state = "Draft"
   const is_definition = true
   const title = "Form Title " + rand
@@ -39,11 +39,11 @@ export const createRandomFormTaskDefInput = () => {
   }
 }
 
-export const createRandomGoalExecutorDefInput = (goal_id: string) => {
+export const createRandomBellExecutorDefInput = (goal_id: string) => {
   const id = nanoid()
   const rand = Math.floor(Math.random() * 10)
   const local_id = id
-  const type = "GoalExecutor"
+  const type = "BellExecutor"
   const state = "Draft"
   const is_definition = true
   return {

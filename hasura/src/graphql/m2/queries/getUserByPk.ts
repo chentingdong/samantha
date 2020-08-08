@@ -1,16 +1,16 @@
 import apolloClient from "../../apolloClient"
 import { gql } from "@apollo/client"
-import { userFragment } from "../fragments/users"
+import { m2UserFragment } from "../fragments/users"
 
 export const getUserByPk = async (id: String) => {
   const { data, errors } = await apolloClient.query({
     query: gql`
       query users_by_pk($id: String!) {
         m2_users_by_pk(id: $id) {
-          ...userFragment
+          ...m2UserFragment
         }
       }
-      ${userFragment}
+      ${m2UserFragment}
     `,
     variables: { id },
   })

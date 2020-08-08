@@ -1,6 +1,6 @@
 import apolloClient from "../../apolloClient"
 import { gql } from "@apollo/client"
-import { secondaryBellFragment } from "../fragments/secondaryBells"
+import { m2SecondaryBellFragment } from "../fragments/secondaryBells"
 
 export const getSecondaryBells = async () => {
   const { data, errors } = await apolloClient.query({
@@ -10,10 +10,10 @@ export const getSecondaryBells = async () => {
           order_by: { created_at: asc }
           where: { acts_as_main_bell: { _eq: true } }
         ) {
-          ...secondaryBellFragment
+          ...m2SecondaryBellFragment
         }
       }
-      ${secondaryBellFragment}
+      ${m2SecondaryBellFragment}
     `,
   })
   if (errors) return undefined
