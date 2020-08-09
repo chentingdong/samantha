@@ -11,9 +11,11 @@ services:
       - postgres
       - server
       - hasura
+    volumes:
+      - ./web:/app
     ports:
       - 2000:2000
-    command: yarn -s start:prod
+    command: yarn -s start:dev
 
   postgres:
     image: postgres:latest

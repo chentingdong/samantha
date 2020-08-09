@@ -16,6 +16,7 @@ const BellEdit = (props) => (
   <Edit undoable={false} title={<BellTitle />} {...props}>
     <SimpleForm variant="outlined" redirect="show">
       <TextInput source="name" fullWidth />
+      <TextInput source="description" fullWidth />
       <BooleanInput source="is_definition" />
       <BooleanInput source="acts_as_main_bell" />
       <ReferenceInput label="State" source="state" reference="m2_block_state">

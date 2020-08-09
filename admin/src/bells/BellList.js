@@ -13,6 +13,7 @@ const BellList = (props) => (
   <List {...props} perPage={25} sort={{ field: "created_at", order: "DESC" }}>
     <Datagrid rowClick="show">
       <TextField source="name" />
+      <TextField source="description" />
       <BooleanField source="is_definition" />
       <BooleanField source="acts_as_main_bell" />
       <TextField source="state" />
