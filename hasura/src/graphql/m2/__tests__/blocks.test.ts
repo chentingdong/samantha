@@ -2,11 +2,11 @@ import { getBlocks } from "../queries/getBlocks"
 import { getBlockByPk } from "../queries/getBlockByPk"
 import { insertBlock } from "../mutations/insertBlock"
 import { deleteBlockByPk } from "../mutations/deleteBlockByPk"
-import { createRandomSequenceDefInput } from "./utils"
+import { createRandomGoalDefInput } from "./utils"
 
 describe("GraphQL", () => {
   describe("blocks", () => {
-    const { block } = createRandomSequenceDefInput()
+    const { block } = createRandomGoalDefInput()
     describe("Query", () => {
       beforeAll(async () => {
         await insertBlock({ data: block })

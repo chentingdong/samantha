@@ -1,16 +1,16 @@
 import apolloClient from "../../apolloClient"
 import { gql } from "@apollo/client"
-import { bellhopFragment } from "../fragments/bellhops"
+import { m2BellhopFragment } from "../fragments/bellhops"
 
 export const getBellhops = async () => {
   const { data, errors } = await apolloClient.query({
     query: gql`
       query bellhops {
         m2_bellhops(order_by: { name: desc_nulls_first }) {
-          ...bellhopFragment
+          ...m2BellhopFragment
         }
       }
-      ${bellhopFragment}
+      ${m2BellhopFragment}
     `,
   })
   if (errors) return undefined
