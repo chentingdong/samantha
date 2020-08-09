@@ -8,43 +8,42 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 
 interface ParticipantsPickerProps {
-  participants: User[]
+  pickedUsers: User[]
   users: User[]
   className?: string
-  onInsertTag?: (tag: User) => void
-  onDeleteTag?: (tag: User) => void
+  onInsertUser?: (user: User) => void
+  onDeleteUser?: (user: User) => void
 }
 const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
-  participants,
+  pickedUsers,
   users,
-  onInsertTag,
-  onDeleteTag,
+  onInsertUser,
+  onDeleteUser,
   ...props
 }) => {
-  const [tags, setTags] = useState(participants)
   const [showSelect, setShowSelect] = useState(false)
-  useEffect(() => {
-    setTags(participants)
-  }, [participants])
+  const [selections, setSelections] = useState(pickedUsers)
 
-  const pickTags = (e, tag) => {
-    console.log(tag)
-    let newTags = [...tags, tag]
-    if (e.target.checked && !objInArr(tag, tags)) {
-      newTags = [...tags, tag]
-      setTags(newTags)
-      onInsertTag(tag)
-    } else if (!e.target.checked && objInArr(tag, tags)) {
-      deleteTag(e, tag)
+  const selectUser = (e, user) => {
+    if (e.target.checked && !objInArr(user, selections)) {
+      addUser(user)
+    } else if (!e.target.checked && objInArr(user, selections)) {
+      removeUser(e, user)
     }
   }
 
-  const deleteTag = (e, tag) => {
-    e.stopPropagation()
-    const tmp = [...tags]
-    tmp.splice(tags.indexOf(tag), 1)
-    onDeleteTag(tag)
-    setTags(tmp)
+  const addUser = (user) => {
+    const updatedSelections = [...selections, user]
+    setSelections(updatedSelections)
+    onInsertUser(selections)
+  }
+
+  const removeUser = (e, user) => {
+    const idx = selections.indexOf(user)
+    const updatedSelections = [...selections]
+    updatedSelections.splice(idx, 1)
+    setSelections(updatedSelections)
+    onDeleteUser(user)
   }
 
   const toggleSelect = (e) => {
@@ -63,22 +62,22 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
     <ClickOutHandler onClickOut={onClickOut}>
       <div {...props}>
         <div className="flex">
-          {tags?.map((tag, index) => {
+          {selections?.map((user, index) => {
             return (
-              <div key={index} className="tag">
-                <div className="inner">
-                  <span className="m-1">{userInitials(tag)}</span>
+              <div key={index} className="user">
+                <div className="inner bg-secondary">
+                  <span className="m-1">{userInitials(user)}</span>
                   <Icon
                     className="close"
                     icon="close"
-                    onClick={(e) => deleteTag(e, tag)}
+                    onClick={(e) => removeUser(e, user)}
                   />
                 </div>
               </div>
             )
           })}
           <Button
-            className="w-8 h-8 add-tag circle"
+            className="w-8 h-8 add-user circle"
             color="primary"
             onClick={toggleSelect}
           >
@@ -87,19 +86,19 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
         </div>
         {showSelect && (
           <div className="users">
-            {users?.map((tag) => {
+            {users?.map((user) => {
               return (
-                <div key={tag.id}>
+                <div key={user.id}>
                   <input
                     type="checkbox"
                     className="inline-block cursor-pointer"
-                    name={tag.name}
-                    value={tag.id}
-                    checked={objInArr(tag, tags)}
-                    onChange={(e) => pickTags(e, tag)}
+                    name={user.name}
+                    value={user.id}
+                    checked={objInArr(user, selections)}
+                    onChange={(e) => selectUser(e, user)}
                   />
-                  <label htmlFor={tag.name} className="inline-block m-1">
-                    {tag.name}
+                  <label htmlFor={user.name} className="inline-block m-1">
+                    {user.name}
                   </label>
                 </div>
               )
@@ -114,13 +113,13 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
 const ParticipantsPicker = styled(ParticipantsPickerRaw)`
   ${tw`relative`}
   line-height: 2rem;
-  .tag {
+  .user {
     ${tw`relative mx-1 cursor-pointer`}
     .inner {
       ${tw`m-1 w-8 h-8 content-center text-center`}
-      ${tw`text-white bg-purple-500 text-sm rounded-full`}
+      ${tw`text-white text-sm rounded-full`}
       .close {
-        ${tw`absolute top-0 right-0 w-4 h-4 p-1 `}
+        ${tw`absolute top-0 right-0 w-4 h-4 p-2`}
         ${tw`content-center text-center font-bold text-purple-800`}
         ${tw`cursor-pointer bg-gray-500 shadow rounded-full`}
         font-size: 0.5rem;
@@ -131,7 +130,7 @@ const ParticipantsPicker = styled(ParticipantsPickerRaw)`
       }
     }
   }
-  .add-tag {
+  .add-user {
     &, &:hover {
       ${tw`mx-2 my-1`}
       .rs-icon {

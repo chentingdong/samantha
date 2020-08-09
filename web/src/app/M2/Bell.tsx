@@ -6,7 +6,6 @@ import { GoalList } from "./GoalList"
 import { Bell as BellProps } from "operations/interface"
 import { TaskList } from "./TaskList"
 import { GoalTaskList } from "./GoalTaskList"
-import { MainMenu } from "./MainMenu"
 import { Loading, Error } from "components/Misc"
 import styled from "styled-components"
 import { displayDate } from "utils/common"
@@ -19,6 +18,14 @@ import { useLocation } from "react-router-dom"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   const bellhop = bell?.bellhop_participations[0].bellhop
+  const userInitiators = bell?.user_participations.filter(
+    (participant) => participant.role === "bell_initiator"
+  )
+
+  const bellhopInitiators = bell?.bellhop_participations.filter(
+    (participant) => participant.role === "bell_initiator"
+  )
+
   return (
     <div {...props} className="mb-8 mr-4 header">
       <div className="flex flex-row justify-between pb-1 border-b">
@@ -29,7 +36,14 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
         <div className="text-sm">
           <div>Started at: {displayDate(bell?.updated_at)}</div>
           <div>
-            Started by: <i>{displayParticipants(bell?.user_participations)}</i>
+            <span>Started by: </span>
+            {userInitiators && (
+              <i>
+                {displayParticipants(userInitiators)} (
+                {displayParticipants(bellhopInitiators)})
+              </i>
+            )}
+            {!userInitiators && <i>{displayParticipants(bellhopInitiators)}</i>}
           </div>
           <div className="my-4">{bell?.description}</div>
         </div>

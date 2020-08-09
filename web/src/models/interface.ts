@@ -37,8 +37,6 @@ export interface Bellhop {
   updated_at: Date
 }
 
-export interface Task {}
-
 export interface Block {
   id: string
   name: string
@@ -57,6 +55,29 @@ export interface Block {
   __typename?: string
 }
 
+export interface Artifact {
+  url: string
+  title: string
+  filename: string
+  created_at: Date
+}
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  family_name?: string
+  given_name?: string
+  picture?: string
+  isAuthenticated?: boolean
+}
+
+export interface Participant {
+  role: string
+  user: User
+}
+
+/* below are for M1, deprecated */
 export interface BlockDef {
   id: string
   name: string
@@ -108,21 +129,6 @@ export interface ParentChild {
   parent?: BlockOrDef
   child?: BlockOrDef
   sibling_order?: number
-}
-
-export interface User {
-  id: string
-  name: string
-  email: string
-  family_name?: string
-  given_name?: string
-  picture?: string
-  isAuthenticated?: boolean
-}
-
-export interface Participant {
-  role: string
-  user: User
 }
 
 export interface CognitoUser {

@@ -21,7 +21,6 @@ export const Participants: React.FC<ParticipantsProps> = ({
   const params = getRouteParams(location)
 
   const { data, loading, error } = useQuery(GET_USERS)
-  const poolUsers = data?.users
 
   if (loading)
     return <Loading speed="fast" content="Loading..." className="text-center" />
@@ -60,12 +59,15 @@ export const Participants: React.FC<ParticipantsProps> = ({
     "task_requestor",
   ])
   const followers = getUserParticipations(["bell_follower", "goal_follower"])
+  const poolUsers = data?.users.filter(
+    (user) => participants.map((p) => p.id).indexOf(user.id) === -1
+  )
 
   const addFollower = (user) => {
     console.log(`add ${user} to goal`)
   }
   const removeFollower = (user) => {
-    console.log(`remove ${user} from goal`)
+    console.log(`remove ${JSON.stringify(user, null, 4)} from goal`)
   }
 
   return (
@@ -82,10 +84,10 @@ export const Participants: React.FC<ParticipantsProps> = ({
         ))}
         <ParticipantsPicker
           className="m-1"
-          participants={followers}
+          pickedUsers={followers}
           users={poolUsers}
-          onInsertTag={addFollower}
-          onDeleteTag={removeFollower}
+          onInsertUser={addFollower}
+          onDeleteUser={removeFollower}
         />
       </div>
     </div>

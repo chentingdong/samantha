@@ -17,7 +17,7 @@ const UserAvatarRaw: React.FC<UserAvatarProps> = ({
   ...props
 }) => {
   return (
-    <div {...props}>
+    <div className={`${props.className} bg-primary`}>
       {avatar === "picture" && user?.picture && (
         <CircleImage className="h-full" src={user.picture} alt="" />
       )}
@@ -29,9 +29,8 @@ const UserAvatarRaw: React.FC<UserAvatarProps> = ({
 }
 
 const UserAvatar = styled(UserAvatarRaw)`
-  ${tw`flex self-start mx-auto items-center justify-center text-white`}
-  ${tw`m-0 p-0 h-10 w-10 bg-purple-800`}
-  border-radius: 50%;
+  ${tw`flex self-start mx-auto items-center justify-center rounded-full`}
+  ${tw`m-0 p-0 h-10 w-10 font-bold text-white`}
   min-width: 0;
   overflow: hidden;
   object-fit: cover;

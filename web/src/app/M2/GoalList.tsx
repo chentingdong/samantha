@@ -27,7 +27,6 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   notifications,
   ...props
 }) => {
-  console.log(goals, tasks)
   const goalTree = listTreeGenerations(goals)
   const location = useLocation()
   const params = getRouteParams(location)

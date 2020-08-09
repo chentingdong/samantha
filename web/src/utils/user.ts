@@ -13,7 +13,7 @@ const displayParticipants = (participants: any[]) => {
 }
 
 const userInitials = (user: User): string => {
-  let initials = "N/A"
+  let initials = "NA"
   if (user?.given_name && user?.family_name)
     initials =
       user.given_name.substring(0, 1) + user.family_name.substring(0, 1)

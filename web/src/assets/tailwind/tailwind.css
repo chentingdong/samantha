@@ -50,16 +50,16 @@
   background-color: var(--color-bg-default);
 }
 .text-primary {
-  color: var(--color-text-primary);
+  color: #3a0751;
 }
 .bg-primary {
-  background-color: var(--color-bg-primary);
+  background-color: #3a0751;
 }
 .text-secondary {
-  color: var(--color-text-secondary);
+  color: #a13670;
 }
 .bg-secondary {
-  background-color: var(--color-bg-primary);
+  background-color: #a13670;
 }
 .text-success {
   background-color: var(--color-text-success);

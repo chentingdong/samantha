@@ -1,8 +1,10 @@
 // Artifacts.tsx. appears in single bell view, right side tabs
 import React from "react"
+import { displayDate } from "utils/common"
+import { Artifact } from "models/interface"
 
 interface ArtifactsProps {
-  artifacts: any
+  artifacts: Artifact[]
   className?: string
 }
 
@@ -24,6 +26,9 @@ export const Artifacts: React.FC<ArtifactsProps> = ({
             {artifact.filename}
           </a>
           <div className="italic text-gray-500">{artifact.title}</div>
+          <div className="text-sm text-gray-500">
+            Created at: {displayDate(artifact.created_at)}
+          </div>
         </div>
       ))}
       <h4 className="mt-8">Advanced</h4>
