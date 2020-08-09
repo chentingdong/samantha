@@ -3,12 +3,12 @@ import { Loading, Error } from "components/Misc"
 import { useSubscription } from "@apollo/client"
 import { BELL_CATALOG } from "operations/subscriptions/bellCatalog"
 import { BellListRow, BellListProps } from "./BellList"
-import { getBellhopLocationParams } from "utils/bell"
 import { useLocation } from "react-router-dom"
+import { getRouteParams } from "utils/router"
 
 const BellCatalogList: React.FC<BellListProps> = ({ whose, ...props }) => {
   const location = useLocation()
-  const params = getBellhopLocationParams(location)
+  const params = getRouteParams(location)
 
   const { loading, error, data } = useSubscription(BELL_CATALOG, {})
   if (loading) return <Loading />

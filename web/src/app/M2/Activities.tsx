@@ -5,8 +5,8 @@ import tw from "tailwind.macro"
 import { ActivityStateIcon } from "components/StateIcon"
 import { displayDate } from "utils/common"
 import { Bell } from "models/interface"
-import { useLocation, matchPath, Link } from "react-router-dom"
-import { getRouteParams, buildRouterUrl } from "utils/bell"
+import { useLocation, Link } from "react-router-dom"
+import { getRouteParams, buildRouterUrl } from "utils/router"
 
 interface ActivitiesProps {
   bell: Bell

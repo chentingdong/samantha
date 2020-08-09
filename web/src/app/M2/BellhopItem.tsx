@@ -18,7 +18,7 @@ const BellhopThumbnailRaw: React.FC<BellhopProps> = ({
   return (
     <div {...props}>
       <img src={bellhop.profile_image_url} alt="" />
-      <Link className="" to={`${backTo}/bellhops/${bellhop.id}`}>
+      <Link className="" to={`${backTo}/${bellhop.id}`}>
         <Button className="fill" color="primary">
           {bellhop.name}
         </Button>

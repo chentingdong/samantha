@@ -32,7 +32,6 @@ const LobbyRaw: React.FC<LobbyProps> = (props) => {
 
   return (
     <div>
-      <MainMenu className="md-8" />
       <div className="container mx-auto">
         {bellsIntiated && (
           <PanelGroup accordion>

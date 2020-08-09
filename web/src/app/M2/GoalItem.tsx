@@ -8,7 +8,7 @@ import { Icon } from "rsuite"
 import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
 import { useLocation } from "react-router-dom"
-import { getRouteParams } from "utils/bell"
+import { getRouteParams } from "utils/router"
 
 interface GoalItemProps {
   goal: Block

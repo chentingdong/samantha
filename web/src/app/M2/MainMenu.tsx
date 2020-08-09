@@ -1,4 +1,6 @@
 import React from "react"
+import { useLocation, Link } from "react-router-dom"
+import { getRouteParams } from "utils/router"
 import { FlexboxGrid, Dropdown } from "rsuite"
 import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
@@ -6,7 +8,7 @@ import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
 import { BellSearch } from "./BellhopSearch"
 import { UserAvatar } from "components/UserAvatar"
-import { Link, useLocation } from "react-router-dom"
+
 import { useQuery } from "@apollo/client"
 import tw from "tailwind.macro"
 
@@ -27,10 +29,10 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   } = useQuery(AUTH_USER)
 
   const location = useLocation()
+  const params = getRouteParams(location)
 
-  const setActiveMenu = (pathname: string, menuItem: string): string => {
-    if (pathname === "/") return menuItem === "/lobby" ? "active" : ""
-    return pathname?.includes(menuItem) ? "active" : ""
+  const setActiveMenu = (menu: string, desk?: string): string => {
+    return params.menu === menu && params.desk === desk ? "active" : ""
   }
 
   return (
@@ -42,30 +44,18 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           alt="Bellhop"
         />
         <div className="m-4 bg-default">
-          <Link
-            className={`menu-item ${setActiveMenu(
-              location.pathname,
-              "/lobby"
-            )}`}
-            to="/lobby"
-          >
+          <Link className={`menu-item ${setActiveMenu("lobby")}`} to="/lobby">
             Lobby
           </Link>
           <Link
-            className={`menu-item ${setActiveMenu(
-              location.pathname,
-              "/all-bellhops"
-            )}`}
-            to="/all-bellhops"
+            className={`menu-item ${setActiveMenu("bellhops", "all")}`}
+            to="/bellhops/all"
           >
             All Bellhops
           </Link>
           <Link
-            className={`menu-item ${setActiveMenu(
-              location.pathname,
-              "/my-bellhops"
-            )}`}
-            to="/my-bellhops"
+            className={`menu-item ${setActiveMenu("bellhops", "mine")}`}
+            to="/bellhops/mine"
           >
             My Bellhops
           </Link>

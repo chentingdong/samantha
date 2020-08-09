@@ -1,5 +1,7 @@
 // MyBellDesk.tsx
 import React from "react"
+import { useLocation } from "react-router-dom"
+import { getRouteParams } from "utils/router"
 import { BellhopThumbnailList } from "./BellhopList"
 import { BellListCard } from "./BellList"
 import { BellhopHeader } from "./BellhopHeader"
@@ -20,14 +22,19 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
     error: errorBellhopList,
   } = useSubscription(BELLHOP_LIST)
   const { data: authUserResult } = useQuery(AUTH_USER)
+  const location = useLocation()
+  const params = getRouteParams(location)
   const { authUser } = authUserResult
   const bellhops = dataBellhopList?.m2_bellhops
   const myBellhops = bellhops?.filter(
     (bellhop) =>
       bellhop.memberships.map((user) => user.user_id).indexOf(authUser.id) > -1
   )
+  console.log(params)
+  const bellhop = bellhops?.filter(
+    (bellhop) => bellhop.id === params.bellhopId
+  )[0]
 
-  console.log(bellhops)
   const {
     data: dataBellList,
     loading: loadingBellList,
@@ -35,19 +42,22 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
   } = useSubscription(BELL_LIST, {})
   return (
     <div className="">
-      <MainMenu className="md-8" />
       {loadingBellhopList && <Loading />}
       {errorBellhopList && <Error message={errorBellhopList.message} />}
-      {!props.computedMatch?.params?.bellhopId && (
+      {!params?.bellhopId && (
         <BellhopThumbnailList
           bellhops={myBellhops}
           listTitle="My Bellhops"
-          backTo="/my-bellhops"
+          backTo="/bellhops/mine"
         />
       )}
-      {props.computedMatch?.params?.bellhopId && (
+      {params?.bellhopId && (
         <>
-          <BellhopHeader listTitle="My Bellhops" backTo="/my-bellhops" />
+          <BellhopHeader
+            listTitle="My Bellhops"
+            bellhop={bellhop}
+            backTo="/bellhops/mine"
+          />
           <BellCatalogList className="container mx-auto" whose="mine" />
           {loadingBellList && <Loading />}
           {errorBellList && <Error message={errorBellList.message} />}

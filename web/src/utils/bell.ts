@@ -1,5 +1,4 @@
-import { matchPath } from "react-router-dom"
-import { Block, RouterUrlProps } from "models/interface"
+import { Block } from "models/interface"
 
 /* list to tree. node has parent_id field.*/
 const listToTree = (list: Array<any>) => {
@@ -46,45 +45,6 @@ const listTreeGenerations = (list: Array<any>) => {
 }
 
 /**
- * Extract single bell page router parameters
- * For fragment pages, we use location rather than props.computedMatch.
- * React fragment doesn't get params from route match in router.
- * @param location: the url location
- */
-
-const getRouteParams = (location: Location): RouterUrlProps => {
-  const match = matchPath(location.pathname, {
-    path: "/bells/:bellId/:goalId?/:context?/:taskId?",
-  })
-  const bellId = match?.params.bellId
-  const goalId = match?.params.goalId || "all"
-  const context = match?.params.context || "activities"
-  const taskId = match?.params.taskId || "all"
-
-  return { bellId: bellId, goalId: goalId, context: context, taskId: taskId }
-}
-
-const getBellhopLocationParams = (location: Location) => {
-  const match = matchPath(location.pathname, {
-    path: "/:menuItem/bellhops/:bellhopId?",
-  })
-  const menuItem = match?.params.menuItem
-  const bellhopId = match?.params.bellhopId
-
-  return {
-    menuItem: menuItem,
-    bellhopId: bellhopId,
-  }
-}
-
-const buildRouterUrl = (params: RouterUrlProps): string => {
-  const { bellId, goalId, context, taskId } = params
-  console.log(goalId, context, taskId)
-  const url = `/bells/${bellId}/${goalId}/${context}/${taskId}`
-  return url
-}
-
-/**
  * In a goal, count notifications and finished tasks
  * @param goal
  */
@@ -111,9 +71,6 @@ const countNotifications = (goal: Block, notifications: Block): number => {
 export {
   listToTree,
   listTreeGenerations,
-  getRouteParams,
-  getBellhopLocationParams,
-  buildRouterUrl,
   countCompletedTasks,
   countNotifications,
 }

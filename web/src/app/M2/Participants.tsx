@@ -7,7 +7,7 @@ import { Bell } from "models/interface"
 import { Loading, Error } from "components/Misc"
 import { useQuery } from "@apollo/client"
 import { GET_USERS } from "operations/queries/getUsers"
-import { getRouteParams } from "utils/bell"
+import { getRouteParams } from "utils/router"
 
 interface ParticipantsProps {
   bell: Bell

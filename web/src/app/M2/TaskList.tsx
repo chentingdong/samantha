@@ -5,7 +5,7 @@ import tw from "tailwind.macro"
 import { TaskItem } from "app/M2/TaskItem"
 import { Block } from "models/interface"
 import { useLocation } from "react-router-dom"
-import { getRouteParams } from "utils/bell"
+import { getRouteParams } from "utils/router"
 
 const stateToView = {
   Success: "display",

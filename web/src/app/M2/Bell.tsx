@@ -14,7 +14,7 @@ import { displayParticipants, iPlayRoles } from "utils/user"
 import { BellStateIcon } from "components/StateIcon"
 import { AUTH_USER } from "operations/queries/authUser"
 import tw from "tailwind.macro"
-import { getRouteParams } from "utils/bell"
+import { getRouteParams } from "utils/router"
 import { useLocation } from "react-router-dom"
 
 const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
@@ -80,7 +80,6 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
 
   return (
     <div className={props.className}>
-      <MainMenu className="flex-none" />
       <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
         <div className="ml-4 overflow-y-auto col-span-1 lg:col-span-2">
           <BellHeader bell={bell} />

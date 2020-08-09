@@ -9,11 +9,10 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Bell } from "models/interface"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { getRouteParams, buildRouterUrl } from "utils/bell"
+import { getRouteParams, buildRouterUrl } from "utils/router"
 
 interface BellContextProps {
   className?: string
-  computedMatch?: { params?: { context?: string } }
   bell: Bell
 }
 

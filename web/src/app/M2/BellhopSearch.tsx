@@ -66,10 +66,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bellhops?.map((bellhop) => {
                 return (
-                  <Link
-                    to={`/all-bellhops/bellhops/${bellhop.id}`}
-                    key={bellhop.id}
-                  >
+                  <Link to={`/bellhops/all/${bellhop.id}`} key={bellhop.id}>
                     {bellhop.name}
                   </Link>
                 )
@@ -91,7 +88,7 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
             </div>
           </div>
           <div className="mt-4 text-lg text-center underline">
-            <NavLink to="/all-bellhops">All Bellhops</NavLink>
+            <NavLink to="/bellhops/all">All Bellhops</NavLink>
           </div>
         </div>
       )}

@@ -4,11 +4,10 @@ import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
 import {
   listTreeGenerations,
-  getRouteParams,
   countCompletedTasks,
   countNotifications,
-  buildRouterUrl,
 } from "utils/bell"
+import { getRouteParams, buildRouterUrl } from "utils/router"
 import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"

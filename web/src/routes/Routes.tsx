@@ -4,44 +4,25 @@ import PublicRoute from "./PublicRoute"
 import PrivateRoute from "./PrivateRoute"
 import Login from "../app/Login"
 import NotFound from "../app/NotFound"
+import { Demo } from "../app/M2/Demo"
 import { Demo as DemoM1 } from "../app/M1/Demo"
-import { Lobby } from "app/M2/Lobby"
-import { CompanyBellDesk } from "app/M2/CompanyBellDesk"
-import { MyBellDesk } from "app/M2/MyBellDesk"
-import { Bell } from "app/M2/Bell"
 
 const routes = [
   {
     path: "/lobby",
-    component: Lobby,
+    component: Demo,
     tag: PrivateRoute,
   },
   {
-    path: "/all-bellhops",
-    component: CompanyBellDesk,
+    path: "/bellhops/:desk?/:bellhopId?",
+    component: Demo,
     tag: PrivateRoute,
   },
   {
-    path: "/all-bellhops/bellhops/:bellhopId",
-    component: CompanyBellDesk,
+    path: "/bells/:bellId?/:goalId?/:context?/:taskId?",
+    component: Demo,
     tag: PrivateRoute,
   },
-  {
-    path: "/my-bellhops",
-    component: MyBellDesk,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/my-bellhops/bellhops/:bellhopId",
-    component: MyBellDesk,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/bells/:bellId/:goalId?/:context?/:taskId?",
-    component: Bell,
-    tag: PrivateRoute,
-  },
-
   {
     path: "/m1",
     component: DemoM1,
@@ -73,7 +54,6 @@ const Routes = () => {
           const TagName = route.tag
           return (
             <TagName
-              exact
               path={route.path}
               component={route.component}
               params={route.params}
