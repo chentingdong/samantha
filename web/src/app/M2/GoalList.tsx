@@ -45,7 +45,8 @@ const GoalListRaw: React.FC<GoalListProps> = ({
       <ol>
         {goalTree.map((goal) => {
           const goalTasks = tasks.filter(
-            (task) => task.parent.id === params.goalId
+            (task) =>
+              task.parent.id === goal.id || task.parent.parent?.id === goal.id
           )
           return (
             <li

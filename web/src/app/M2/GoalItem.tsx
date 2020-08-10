@@ -7,7 +7,7 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom"
 import { getRouteParams, buildRouterUrl } from "utils/router"
 import { countGoalTasks, countGoalNotifications } from "utils/bell"
 import { TODO } from "components/Todo"
@@ -27,6 +27,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   ...props
 }) => {
   const location = useLocation()
+  const history = useHistory()
   const params = getRouteParams(location)
 
   const goalAssignees = goal?.user_participations.filter(
@@ -39,6 +40,26 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
     "Failure",
   ])
   const notificationsCount = countGoalNotifications(goal, notifications)
+  const linkToActivities = (e) => {
+    e.stopPropagation()
+    history.push(
+      buildRouterUrl({
+        ...params,
+        context: "activities",
+        goalId: goal.id,
+      })
+    )
+  }
+  const linkToArtifacts = (e) => {
+    e.stopPropagation()
+    history.push(
+      buildRouterUrl({
+        ...params,
+        context: "artifacts",
+        goalId: goal.id,
+      })
+    )
+  }
   return (
     <div {...props}>
       <div className="flex justify-between">
@@ -66,24 +87,26 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         <aside>
           <div className="flex icons gap-2">
             {runningTasksCount > 0 && (
-              <CircleNumber
-                number={runningTasksCount}
-                className="bg-green-500"
-              />
-            )}
-            <CircleIcon icon="attachment" />
-            {notificationsCount > 0 && (
-              <Link
+              <div
                 className="no-underline"
-                to={buildRouterUrl({
-                  ...params,
-                  context: "activities",
-                  goalId: goal.id,
-                })}
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => linkToActivities(e)}
+              >
+                <CircleNumber
+                  number={runningTasksCount}
+                  className="bg-green-500"
+                />
+              </div>
+            )}
+            <div className="no-underline" onClick={linkToArtifacts}>
+              <CircleIcon icon="attachment" />
+            </div>
+            {notificationsCount > 0 && (
+              <div
+                className="no-underline"
+                onClick={(e) => linkToActivities(e)}
               >
                 <CircleNumber number={notificationsCount} />
-              </Link>
+              </div>
             )}
             <ActivityStateIcon className="icon" state={goal?.state} />
           </div>
