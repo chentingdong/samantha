@@ -87,7 +87,7 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
 
   const asInitiator = iPlayRoles(
     authUserResult.authUser,
-    bell.user_participations,
+    bell?.user_participations,
     ["bell_initiator"]
   )
 

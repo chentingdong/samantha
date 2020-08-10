@@ -29,8 +29,8 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const activateTab = (tab) => {
     setActiveTab(tab)
     params.context = tab
-    const path = buildRouterUrl(params)
-    console.log(params.context, tab)
+    const goalId = tab.parent?.id || params.goalId
+    const path = buildRouterUrl({ ...params, context: tab, goalId: goalId })
     history.push(path)
   }
 

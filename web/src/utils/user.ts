@@ -1,7 +1,7 @@
 import { Participant, User } from "models/interface"
 
 const displayParticipants = (participants: any[]) => {
-  if (participants.length === 0) return ""
+  if (!participants || participants?.length === 0) return ""
   if (participants[0].user)
     return participants
       ?.map((participant) => participant?.user?.name)

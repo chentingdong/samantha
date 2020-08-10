@@ -75,7 +75,11 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             {notificationsCount > 0 && (
               <Link
                 className="no-underline"
-                to={buildRouterUrl({ ...params, context: "activities" })}
+                to={buildRouterUrl({
+                  ...params,
+                  context: "activities",
+                  goalId: goal.id,
+                })}
                 onClick={(e) => e.stopPropagation()}
               >
                 <CircleNumber number={notificationsCount} />
