@@ -35,8 +35,9 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   }
 
   return (
-    <div className={props.className}>
+    <div {...props}>
       <Nav
+        className="tabs-header"
         appearance="tabs"
         activeKey={activeTab}
         onSelect={(activeKey) => activateTab(activeKey)}
@@ -45,13 +46,13 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
         <Nav.Item eventKey="participants">Participants</Nav.Item>
         <Nav.Item eventKey="artifacts">Content</Nav.Item>
       </Nav>
-      <div className="overflow-y-auto tabs-content">
+      <div className="tabs-content">
         {activeTab === "activities" && (
           <Activities bell={bell} className="activities" />
         )}
         {activeTab === "participants" && (
           <div className="h-full">
-            <Participants bell={bell} className="participants" />
+            <Participants bell={bell} className="bg-gray-200 participants" />
             <Chat className="chat" />
           </div>
         )}
@@ -67,21 +68,27 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
 }
 
 const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
-  .rs-nav-tabs ul {
-    /* ${tw`flex justify-between`} */
-  }
-  .rs-nav-item {
-    ${tw`mx-1 border border-b-0 rounded-t-md`}
-  }
-  .rs-nav-item-active {
-    ${tw`bg-gray-200`}
-    >.rs-nav-item-content {
-      border-bottom-color: transparent !important;
+  .tabs-header {
+    height: 37px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    .rs-nav-item {
+      ${tw`mx-1 border border-b-0 rounded-t-md`}
+    }
+    .rs-nav-item-active {
+      ${tw`bg-gray-200`}
+      >.rs-nav-item-content {
+        border-bottom-color: transparent !important;
+      }
     }
   }
   .tabs-content {
-    ${tw`bg-gray-200 h-screen relative`}
-    height: calc(100% - 37px);
+    ${tw`bg-gray-200 h-full relative`}
+    height: calc(100vh - 167px);
+    overflow-y: auto;
+    scrollbar-width: none;
+
+    scrollbar-width: none;
     .activities,
     .participants,
     .artifacts {
@@ -92,8 +99,10 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
       max-height: 10em;
     }
     .chat {
-      ${tw`h-full overflow-auto p-4`}
-      overflow: auto;
+      ${tw`p-4`}
+      height: calc(100%);
+      overflow-y: auto;
+      scrollbar-width: none;
     }
   }
 `

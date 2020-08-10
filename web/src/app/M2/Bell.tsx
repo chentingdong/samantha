@@ -16,7 +16,10 @@ import tw from "tailwind.macro"
 import { getRouteParams } from "utils/router"
 import { useLocation } from "react-router-dom"
 
-const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
+const BellHeader: React.FC<{ bell: BellProps; className?: string }> = ({
+  bell,
+  ...props
+}) => {
   const bellhop = bell?.bellhop_participations[0].bellhop
   const userInitiators = bell?.user_participations.filter(
     (participant) => participant.role === "bell_initiator"
@@ -27,7 +30,7 @@ const BellHeader: React.FC<{ bell: BellProps }> = ({ bell, ...props }) => {
   )
 
   return (
-    <div {...props} className="mb-8 mr-4 header">
+    <div {...props}>
       <div className="flex flex-row justify-between pb-1 border-b">
         <h4 className="">{bell?.name}</h4>
         <div className="py-2 italic align-baseline">{bellhop?.name}</div>
@@ -60,7 +63,7 @@ interface BellRawProps {
   className?: string
 }
 
-const BellRaw: React.FC<BellRawProps> = (props) => {
+const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
   const location = useLocation()
   const params = getRouteParams(location)
 
@@ -92,38 +95,45 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   )
 
   return (
-    <div className={props.className}>
-      <div className="bell-context grid grid-cols-1 lg:grid-cols-3 gap-0">
-        <div className="ml-4 overflow-y-auto col-span-1 lg:col-span-2">
-          <BellHeader bell={bell} />
-          {asInitiator && <TaskList className="mr-4" tasks={tasks} />}
-          {!asInitiator && params.taskId === "all" && (
-            <GoalList
-              goals={goals}
-              tasks={tasks}
-              notifications={notifications}
-            />
-          )}
-          {!asInitiator && params.taskId !== "all" && (
-            <GoalTaskList
-              goals={goals}
-              tasks={tasks}
-              notifications={notifications}
-            />
-          )}
+    <div
+      className={`${className} grid grid-cols-1 lg:grid-cols-3 gap-0 h-full`}
+    >
+      <div className="h-full ml-4 col-span-1 lg:col-span-2">
+        <div className="h-full">
+          <BellHeader bell={bell} className="header" />
+          <div className="goal-list">
+            {asInitiator && <TaskList className="mr-4" tasks={tasks} />}
+            {!asInitiator && params.taskId === "all" && (
+              <GoalList
+                goals={goals}
+                tasks={tasks}
+                notifications={notifications}
+              />
+            )}
+            {!asInitiator && params.taskId !== "all" && (
+              <GoalTaskList
+                goals={goals}
+                tasks={tasks}
+                notifications={notifications}
+              />
+            )}
+          </div>
         </div>
-        <BellContext className="col-span-1" bell={bell} />
       </div>
+      <BellContext className="h-full col-span-1" bell={bell} />
     </div>
   )
 }
 
 const Bell = styled(BellRaw)`
   .header {
+    height: 120px;
+    ${tw`mb-8 mr-4`}
   }
-  .bell-context {
-    height: calc(100vh - 150px);
-    overflow: auto;
+  .goal-list {
+    height: calc(100vh - 250px) !important;
+    overflow-y: auto;
+    scrollbar-width: none;
   }
 `
 export { Bell }

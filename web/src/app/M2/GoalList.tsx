@@ -42,7 +42,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   return (
     <div {...props}>
       <GoalListHeader link={headerLink} />
-      <ol>
+      <ol className="overflow-y-auto">
         {goalTree.map((goal) => {
           const goalTasks = tasks.filter(
             (task) =>

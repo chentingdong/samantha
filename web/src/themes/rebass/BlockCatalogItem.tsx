@@ -64,7 +64,6 @@ const BlockCatalogItem = styled(({ ...props }) => (
       color: ${(props) => props.theme.colors.lightgray};
       background: ${(props) => props.theme.colors.blue};
       .title {
-        max-width: calc(100% - 2em);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

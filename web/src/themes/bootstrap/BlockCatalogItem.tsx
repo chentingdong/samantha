@@ -90,7 +90,6 @@ const Styles = styled.div.attrs({})`
       color: ${(props) => props.theme.fg};
       background: ${(props) => props.theme.bgLeaf};
       .title {
-        max-width: calc(100% - 2em);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;

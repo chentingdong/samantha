@@ -10,9 +10,11 @@ import { BellListCard } from "./BellList"
 import { MainMenu } from "./MainMenu"
 import { iPlayRoles } from "utils/user"
 
-export interface LobbyProps {}
+export interface LobbyProps {
+  className?: string
+}
 
-const LobbyRaw: React.FC<LobbyProps> = (props) => {
+const LobbyRaw: React.FC<LobbyProps> = ({ className, ...props }) => {
   const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
   const { data: bellsResult, loading: loadingBell } = useSubscription(BELL_LIST)
   if (loadingUser || loadingBell) return <Loading />
@@ -32,7 +34,7 @@ const LobbyRaw: React.FC<LobbyProps> = (props) => {
 
   return (
     <div>
-      <div className="container mx-auto">
+      <div className={`${className} container mx-auto`}>
         {bellsIntiated && (
           <PanelGroup accordion>
             <Panel

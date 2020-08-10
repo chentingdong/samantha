@@ -4,7 +4,9 @@ import { getRouteParams } from "utils/router"
 import { CompanyBellDesk } from "./CompanyBellDesk"
 import { MyBellDesk } from "./MyBellDesk"
 
-interface BellhopDeskProps {}
+interface BellhopDeskProps {
+  className?: string
+}
 
 export const BellhopDesk: React.FC<BellhopDeskProps> = (props) => {
   const location = useLocation()

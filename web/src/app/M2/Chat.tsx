@@ -39,7 +39,6 @@ const ChatRaw: React.FC<ChatProps> = (props) => {
 }
 
 const Chat = styled(ChatRaw)`
-  ${tw`h-full overflow-auto p-4 bg-gray-200`}
   .rs-placeholder-paragraph {
     margin-top: 20px;
     p {

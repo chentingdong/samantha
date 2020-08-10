@@ -164,6 +164,10 @@ textarea:focus {
   outline: none;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+}
+
 /* Menu */
 .menu-item {
   text-decoration: none;

@@ -5,18 +5,32 @@ import { MainMenu } from "./MainMenu"
 import { Bell } from "./Bell"
 import { Lobby } from "./Lobby"
 import { BellhopDesk } from "./BellhopDesk"
+import styled from "styled-components"
 
 interface DemoProps {}
 
-export const Demo: React.FC<DemoProps> = (props) => {
+export const DemoRaw: React.FC<DemoProps> = (props) => {
   const location = useLocation()
   const params = getRouteParams(location)
   return (
-    <div>
-      <MainMenu className="flex-none" />
-      {params.menu === "lobby" && <Lobby />}
-      {params.menu === "bellhops" && <BellhopDesk />}
-      {params.menu === "bells" && <Bell />}
+    <div {...props}>
+      <MainMenu className="main-menu" />
+      <div className="content">
+        {params.menu === "lobby" && <Lobby />}
+        {params.menu === "bellhops" && <BellhopDesk />}
+        {params.menu === "bells" && <Bell />}
+      </div>
     </div>
   )
 }
+
+const Demo = styled(DemoRaw)`
+  .main-menu {
+    height: 130px;
+  }
+  .content {
+    height: calc(100vh - 130px);
+    overflow: hidden;
+  }
+`
+export { Demo }
