@@ -24,7 +24,6 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({
     MultiSelect: MultiSelect,
     ExternalLink: ExternalLink,
   }
-  console.log(task)
 
   const Template = templates[task?.fields[0].response_type]
   return (

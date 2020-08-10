@@ -9,7 +9,6 @@ interface BellhopDeskProps {}
 export const BellhopDesk: React.FC<BellhopDeskProps> = (props) => {
   const location = useLocation()
   const params = getRouteParams(location)
-  console.log(params)
   return (
     <div {...props}>
       {params.desk === "all" && <CompanyBellDesk />}

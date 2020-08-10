@@ -15,7 +15,7 @@ describe("Button", () => {
     const component = renderer.create(
       <Button className="primary">Bellhop</Button>
     )
-    let tree = component.toJSON()
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
@@ -27,7 +27,7 @@ describe("Drawer", () => {
         Drawer content...
       </Drawer>
     )
-    let tree = component.toJSON()
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
@@ -37,7 +37,7 @@ describe("Card", () => {
     const component = renderer.create(
       <Card colors="primary">Drawer content...</Card>
     )
-    let tree = component.toJSON()
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
@@ -49,7 +49,7 @@ describe("Confirm", () => {
         Drawer content...
       </Confirm>
     )
-    let tree = component.toJSON()
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
@@ -61,7 +61,7 @@ describe("FormValidationMessage", () => {
         Drawer content...
       </FormValidationMessage>
     )
-    let tree = component.toJSON()
+    const tree = component.toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

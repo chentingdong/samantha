@@ -8,7 +8,7 @@ import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { useLocation, Link, useHistory } from "react-router-dom"
+import { useLocation, useHistory } from "react-router-dom"
 
 interface GoalListProps {
   goals: Block[]

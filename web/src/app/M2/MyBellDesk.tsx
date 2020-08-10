@@ -30,7 +30,6 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
     (bellhop) =>
       bellhop.memberships.map((user) => user.user_id).indexOf(authUser.id) > -1
   )
-  console.log(params)
   const bellhop = bellhops?.filter(
     (bellhop) => bellhop.id === params.bellhopId
   )[0]

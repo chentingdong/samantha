@@ -25,7 +25,6 @@ describe("listTree2Level", () => {
       { id: "h", parent_id: "g", className: "generation-4" },
     ]
     const result = listTreeGenerations(testCase)
-    console.log(result)
     expect(result).toEqual(expected)
   })
 })
