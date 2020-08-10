@@ -40,26 +40,18 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
     "Failure",
   ])
   const notificationsCount = countGoalNotifications(goal, notifications)
-  const linkToActivities = (e) => {
+  const linkToContext = (e, context) => {
+    // click context circles should not click dom parent goal
     e.stopPropagation()
     history.push(
       buildRouterUrl({
         ...params,
-        context: "activities",
+        context: context,
         goalId: goal.id,
       })
     )
   }
-  const linkToArtifacts = (e) => {
-    e.stopPropagation()
-    history.push(
-      buildRouterUrl({
-        ...params,
-        context: "artifacts",
-        goalId: goal.id,
-      })
-    )
-  }
+
   return (
     <div {...props}>
       <div className="flex justify-between">
@@ -89,7 +81,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             {runningTasksCount > 0 && (
               <div
                 className="no-underline"
-                onClick={(e) => linkToActivities(e)}
+                onClick={(e) => linkToContext(e, "activities")}
               >
                 <CircleNumber
                   number={runningTasksCount}
@@ -97,13 +89,16 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
                 />
               </div>
             )}
-            <div className="no-underline" onClick={linkToArtifacts}>
+            <div
+              className="no-underline"
+              onClick={(e) => linkToContext(e, "artifacts")}
+            >
               <CircleIcon icon="attachment" />
             </div>
             {notificationsCount > 0 && (
               <div
                 className="no-underline"
-                onClick={(e) => linkToActivities(e)}
+                onClick={(e) => linkToContext(e, "activities")}
               >
                 <CircleNumber number={notificationsCount} />
               </div>
