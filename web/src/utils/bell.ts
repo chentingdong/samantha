@@ -55,7 +55,6 @@ const countGoalTasks = (
   states = ["Success", "Failure"]
 ): number => {
   if (!goal || !tasks) return 0
-  console.log(goal, tasks)
 
   const filteredTasks = tasks
     .filter(

@@ -1,5 +1,5 @@
 // Goals.tsx in Bells
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Participants } from "./Participants"
 import { Chat } from "./Chat"
 import { Activities } from "./Activities"
@@ -21,10 +21,16 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   const location = useLocation()
   const params = getRouteParams(location)
   const [activeTab, setActiveTab] = useState(params.context)
+
+  useEffect(() => {
+    setActiveTab(params.context)
+  }, [params])
+
   const activateTab = (tab) => {
     setActiveTab(tab)
     params.context = tab
     const path = buildRouterUrl(params)
+    console.log(params.context, tab)
     history.push(path)
   }
 

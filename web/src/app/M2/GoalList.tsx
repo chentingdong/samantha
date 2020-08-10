@@ -8,7 +8,7 @@ import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { useLocation, Link } from "react-router-dom"
+import { useLocation, Link, useHistory } from "react-router-dom"
 
 interface GoalListProps {
   goals: Block[]
@@ -25,6 +25,8 @@ const GoalListRaw: React.FC<GoalListProps> = ({
 }) => {
   const goalTree = listTreeGenerations(goals)
   const location = useLocation()
+  const history = useHistory()
+
   const params = getRouteParams(location)
   const activeClassName = (goal) => {
     const bellColor =
@@ -32,7 +34,11 @@ const GoalListRaw: React.FC<GoalListProps> = ({
     return goal.id === params.goalId ? `active ${bellColor}` : ""
   }
   const headerLink = buildRouterUrl({ ...params, goalId: "all", taskId: "all" })
-
+  // Use div onClick to go to the goal, as <a> inside <a> is not allowed
+  const linkToGoal = (goal) => {
+    const path = buildRouterUrl({ ...params, goalId: goal.id })
+    history.push(path)
+  }
   return (
     <div {...props}>
       <GoalListHeader link={headerLink} />
@@ -46,8 +52,8 @@ const GoalListRaw: React.FC<GoalListProps> = ({
               key={goal.id}
               className={`${activeClassName(goal)} ${goal.className}`}
             >
-              <Link
-                to={buildRouterUrl({ ...params, goalId: goal.id })}
+              <div
+                onClick={(e) => linkToGoal(goal)}
                 className="block no-underline cursor-pointer"
               >
                 <GoalItem
@@ -56,7 +62,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
                   tasks={goalTasks}
                   notifications={notifications}
                 />
-              </Link>
+              </div>
             </li>
           )
         })}

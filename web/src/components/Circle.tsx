@@ -34,13 +34,9 @@ const CircleImage: React.FC<{
 const CircleNumber: React.FC<{ number: string; className: string }> = ({
   number,
   className,
-  ...props
 }) => {
   return (
-    <CircleStyle
-      className={`text-lg text-white bg-red-500 ${className}`}
-      {...props}
-    >
+    <CircleStyle className={`text-lg text-white bg-red-500 ${className}`}>
       <div>{number}</div>
     </CircleStyle>
   )

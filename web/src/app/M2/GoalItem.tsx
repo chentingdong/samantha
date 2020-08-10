@@ -7,8 +7,8 @@ import tw from "tailwind.macro"
 import { Icon } from "rsuite"
 import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
-import { useLocation } from "react-router-dom"
-import { getRouteParams } from "utils/router"
+import { useLocation, Link } from "react-router-dom"
+import { getRouteParams, buildRouterUrl } from "utils/router"
 import { countGoalTasks, countGoalNotifications } from "utils/bell"
 import { TODO } from "components/Todo"
 
@@ -73,7 +73,13 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             )}
             <CircleIcon icon="attachment" />
             {notificationsCount > 0 && (
-              <CircleNumber number={notificationsCount} />
+              <Link
+                className="no-underline"
+                to={buildRouterUrl({ ...params, context: "activities" })}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <CircleNumber number={notificationsCount} />
+              </Link>
             )}
             <ActivityStateIcon className="icon" state={goal?.state} />
           </div>

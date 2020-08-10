@@ -79,11 +79,11 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
 
   const bell = bellData.m2_bells_by_pk
   const blocks = bell?.blocks
-  const tasks = blocks.filter((block) => block.type === "Task")
-  const goals = blocks.filter(
+  const tasks = blocks?.filter((block) => block.type === "Task")
+  const goals = blocks?.filter(
     (block) => block.type === "Goal" || block.type === "Executor"
   )
-  const notifications = blocks.filter((block) => block.type === "Notification")
+  const notifications = blocks?.filter((block) => block.type === "Notification")
 
   const asInitiator = iPlayRoles(
     authUserResult.authUser,
