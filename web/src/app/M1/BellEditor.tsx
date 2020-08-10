@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { Drawer } from "../../components/Drawer"
 import { UI_STATE } from "../../operations/queries/uiState"
-import { useQuery, useSubscription } from "@apollo/client"
+import { useQuery } from "@apollo/client"
 import { setUiState } from "../../operations/mutations/setUiState"
-import { GET_BELL } from "../../operations/subscriptions/getBell"
+import { BELLS_BY_PK } from "../../operations/queries/bellByPk"
 import { BellTree } from "./BellTree"
 import { EditBlock } from "./EditBlock"
 import { initialBell } from "../../../data/bell.m1"
@@ -11,12 +11,14 @@ import { initialBell } from "../../../data/bell.m1"
 const BellEditor = (props) => {
   const [bell, setBell] = useState(initialBell)
   const { data, loading } = useQuery(UI_STATE)
-  const { data: bellResult, loading: loadingBell } = useSubscription(GET_BELL, {
-    variables: { id: data?.uiState.currentBellId },
+  const { data: bellResult, loading: loadingBell } = useQuery(BELLS_BY_PK, {
+    variables: { id: data?.uiState.runningBellId },
   })
 
   useEffect(() => {
-    if (bellResult?.bells_by_pk) setBell(bellResult.bells_by_pk)
+    if (bellResult?.bells) setBell(bellResult.bells)
+    setUiState({ runningBellId: bellResult?.bells[0].id })
+    setBell(bellResult?.bells[0])
   }, [bellResult])
 
   if (loading) return <>Loading...</>
@@ -29,7 +31,7 @@ const BellEditor = (props) => {
   return (
     <div className="editor">
       <Drawer show={data?.uiState?.showBellEditor} close={close}>
-        {data?.uiState.currentBellId && (
+        {data?.uiState.runningBellId && (
           <>
             <div className="container mx-auto">
               <h2>Editing Bell</h2>

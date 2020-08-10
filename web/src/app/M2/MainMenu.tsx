@@ -6,7 +6,7 @@ import { getLogoByTheme } from "../../utils/styles"
 import styled from "styled-components"
 import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
-import { BellSearch } from "./BellhopSearch"
+import { QuickStartSearchh } from "./QuickStartSearch"
 import { UserAvatar } from "components/UserAvatar"
 
 import { useQuery } from "@apollo/client"
@@ -78,7 +78,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
           </Dropdown>
         </div>
       </FlexboxGrid>
-      <BellSearch />
+      <QuickStartSearchh />
     </div>
   )
 }

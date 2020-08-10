@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { bellFragment } from "../fragments/bell"
+import { bellFragmentM1 } from "../fragments/bell"
 
 export const BELLS_BY_PK = gql`
   query bells_by_pk($id: String) {
@@ -10,5 +10,5 @@ export const BELLS_BY_PK = gql`
       ...bellFragment
     }
   }
-  ${bellFragment}
+  ${bellFragmentM1}
 `

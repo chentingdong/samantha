@@ -6,9 +6,11 @@ import { BELLHOP_SEARCH } from "operations/queries/bellhopSearch"
 import { BELL_SEARCH } from "operations/queries/bellSearch"
 import { useLazyQuery } from "@apollo/client"
 
-export interface BellSearchProps {}
+export interface QuickStartSearchhProps {}
 
-const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
+const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
+  ...props
+}) => {
   const [show, setShow] = useState(false)
   const [value, setValue] = useState()
 
@@ -96,6 +98,6 @@ const BellSearchRaw: React.FC<BellSearchProps> = ({ ...props }) => {
   )
 }
 
-const BellSearch = styled(BellSearchRaw)``
+const QuickStartSearchh = styled(QuickStartSearchhRaw)``
 
-export { BellSearch }
+export { QuickStartSearchh }
