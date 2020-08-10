@@ -95,10 +95,8 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
   )
 
   return (
-    <div
-      className={`${className} grid grid-cols-1 lg:grid-cols-3 gap-0 h-full`}
-    >
-      <div className="h-full ml-4 col-span-1 lg:col-span-2">
+    <div className={`${className} grid grid-cols-3 gap-0`}>
+      <div className="ml-4 col-span-2">
         <div className="h-full">
           <BellHeader bell={bell} className="header" />
           <div className="goal-list">
@@ -127,13 +125,9 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
 
 const Bell = styled(BellRaw)`
   .header {
-    height: 120px;
-    ${tw`mb-8 mr-4`}
+    ${tw`mb-8 mr-4 bg-white z-10`}
   }
   .goal-list {
-    height: calc(100vh - 250px) !important;
-    overflow-y: auto;
-    scrollbar-width: none;
   }
 `
 export { Bell }

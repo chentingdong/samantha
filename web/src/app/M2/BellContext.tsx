@@ -51,8 +51,11 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
           <Activities bell={bell} className="activities" />
         )}
         {activeTab === "participants" && (
-          <div className="h-full">
-            <Participants bell={bell} className="bg-gray-200 participants" />
+          <div className="flex flex-col justify-between">
+            <Participants
+              bell={bell}
+              className="flex-none bg-gray-200 participants"
+            />
             <Chat className="chat" />
           </div>
         )}
@@ -69,9 +72,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
 
 const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   .tabs-header {
-    height: 37px;
-    overflow-y: auto;
-    scrollbar-width: none;
+    ${tw`w-full`}
     .rs-nav-item {
       ${tw`mx-1 border border-b-0 rounded-t-md`}
     }
@@ -84,11 +85,6 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   }
   .tabs-content {
     ${tw`bg-gray-200 h-full relative`}
-    height: calc(100vh - 167px);
-    overflow-y: auto;
-    scrollbar-width: none;
-
-    scrollbar-width: none;
     .activities,
     .participants,
     .artifacts {
@@ -100,9 +96,6 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
     }
     .chat {
       ${tw`p-4`}
-      height: calc(100%);
-      overflow-y: auto;
-      scrollbar-width: none;
     }
   }
 `

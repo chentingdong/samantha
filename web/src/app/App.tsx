@@ -74,7 +74,7 @@ const App = (any) => {
   }, [])
 
   return (
-    <div className="h-full font-sans">
+    <div className="w-screen h-screen font-sans">
       <Routes />
     </div>
   )

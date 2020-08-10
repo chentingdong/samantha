@@ -41,7 +41,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   ])
   const notificationsCount = countGoalNotifications(goal, notifications)
   const linkToContext = (e, context) => {
-    // click context circles should not click dom parent goal
+    // click context circles should not propagate click DOM parent element (the goal)
     e.stopPropagation()
     history.push(
       buildRouterUrl({
