@@ -2,11 +2,7 @@
 import React from "react"
 import { Block } from "models/interface"
 import { stringHashBucket } from "utils/common"
-import {
-  listTreeGenerations,
-  countCompletedTasks,
-  countNotifications,
-} from "utils/bell"
+import { listTreeGenerations } from "utils/bell"
 import { getRouteParams, buildRouterUrl } from "utils/router"
 import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
@@ -36,11 +32,15 @@ const GoalListRaw: React.FC<GoalListProps> = ({
     return goal.id === params.goalId ? `active ${bellColor}` : ""
   }
   const headerLink = buildRouterUrl({ ...params, goalId: "all", taskId: "all" })
+
   return (
     <div {...props}>
       <GoalListHeader link={headerLink} />
       <ol>
         {goalTree.map((goal) => {
+          const goalTasks = tasks.filter(
+            (task) => task.parent.id === params.goalId
+          )
           return (
             <li
               key={goal.id}
@@ -53,8 +53,8 @@ const GoalListRaw: React.FC<GoalListProps> = ({
                 <GoalItem
                   active={goal.id === params.goalId}
                   goal={goal}
-                  countCompletedTasks={countCompletedTasks(goal, tasks)}
-                  countNotifications={countNotifications(goal, notifications)}
+                  tasks={goalTasks}
+                  notifications={notifications}
                 />
               </Link>
             </li>

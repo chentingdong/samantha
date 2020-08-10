@@ -2,7 +2,6 @@ import React from "react"
 import { Block } from "models/interface"
 import { GoalListHeader } from "./GoalListHeader"
 import { useLocation } from "react-router-dom"
-import { countCompletedTasks } from "utils/bell"
 import { getRouteParams, buildRouterUrl } from "utils/router"
 import { stringHashBucket } from "utils/common"
 import { GoalItem } from "./GoalItem"
@@ -13,11 +12,13 @@ import { TaskList } from "./TaskList"
 interface GoalTaskListProps {
   goals: Block[]
   tasks: Block[]
+  notifications: Block[]
 }
 
 const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
   goals,
   tasks,
+  notifications,
   ...props
 }) => {
   const location = useLocation()
@@ -26,11 +27,10 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
   const bellColor =
     `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
   const goal = goals.filter((goal) => goal.id === params.goalId)[0]
-
   const goalTasks = tasks.filter(
     (task) =>
       task.parent.id === params.goalId ||
-      task.parent?.parent?.id === params.goalId
+      task.parent.parent?.id === params.goalId
   )
 
   return (
@@ -41,9 +41,9 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
       <div className={`${bellColor} active`}>
         <GoalItem
           goal={goal}
+          tasks={goalTasks}
+          notifications={notifications}
           active={true}
-          countCompletedTasks={countCompletedTasks(goal, tasks)}
-          countNotifications={null}
         />
       </div>
       <TaskList className="mr-4" tasks={goalTasks} />

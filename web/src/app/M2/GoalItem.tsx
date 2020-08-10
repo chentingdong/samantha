@@ -9,19 +9,21 @@ import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
 import { useLocation } from "react-router-dom"
 import { getRouteParams } from "utils/router"
+import { countGoalTasks, countGoalNotifications } from "utils/bell"
+import { TODO } from "components/Todo"
 
 interface GoalItemProps {
   goal: Block
+  tasks: Block[]
+  notifications: Block[]
   active: boolean
-  countCompletedTasks: number
-  countNotifications: number
 }
 
 const GoalItemRaw: React.FC<GoalItemProps> = ({
   goal,
+  tasks,
+  notifications,
   active = false,
-  countCompletedTasks,
-  countNotifications,
   ...props
 }) => {
   const location = useLocation()
@@ -31,6 +33,12 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
     (participant) => participant.role === "goal_asignee"
   )
 
+  const runningTasksCount = countGoalTasks(goal, tasks, ["Running"])
+  const completedTasksCount = countGoalTasks(goal, tasks, [
+    "Success",
+    "Failure",
+  ])
+  const notificationsCount = countGoalNotifications(goal, notifications)
   return (
     <div {...props}>
       <div className="flex justify-between">
@@ -57,14 +65,25 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         </main>
         <aside>
           <div className="flex icons gap-2">
+            {runningTasksCount > 0 && (
+              <CircleNumber
+                number={runningTasksCount}
+                className="bg-green-500"
+              />
+            )}
             <CircleIcon icon="attachment" />
-            <CircleNumber number={countNotifications} />
+            {notificationsCount > 0 && (
+              <CircleNumber number={notificationsCount} />
+            )}
             <ActivityStateIcon className="icon" state={goal?.state} />
           </div>
         </aside>
       </div>
+      <TODO show={false} className="w-full">
+        confirm with team of adding a context field to block
+      </TODO>
       <footer className="flex justify-between w-full mt-4 text-sm text-gray-500">
-        <div>{countCompletedTasks} Tasks Completed</div>
+        <div>{completedTasksCount} Tasks Completed</div>
         {!active && (
           <div className="flex-none">
             Goal taskId <Icon icon="hand-o-right" />

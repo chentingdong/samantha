@@ -39,7 +39,6 @@ const getRouteParams = (location: Location): RouterUrlProps => {
 
 const buildRouterUrl = (params: RouterUrlProps): string => {
   const { bellId, goalId, context, taskId } = params
-  console.log(goalId, context, taskId)
   const url = `/bells/${bellId}/${goalId}/${context}/${taskId}`
   return url
 }

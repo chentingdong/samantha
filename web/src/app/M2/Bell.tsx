@@ -78,13 +78,12 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
   if (error) return <Error className="text-center" message={error.message} />
 
   const bell = bellData.m2_bells_by_pk
-  const tasks = bell?.blocks.filter((block) => block.type === "Task")
-  const goals = bell?.blocks.filter(
+  const blocks = bell?.blocks
+  const tasks = blocks.filter((block) => block.type === "Task")
+  const goals = blocks.filter(
     (block) => block.type === "Goal" || block.type === "Executor"
   )
-  const notifications = bell?.blocks.filter(
-    (block) => block.type === "Notification"
-  )
+  const notifications = blocks.filter((block) => block.type === "Notification")
 
   const asInitiator = iPlayRoles(
     authUserResult.authUser,
@@ -106,7 +105,11 @@ const BellRaw: React.FC<BellRawProps> = (props) => {
             />
           )}
           {!asInitiator && params.taskId !== "all" && (
-            <GoalTaskList goals={goals} tasks={tasks} />
+            <GoalTaskList
+              goals={goals}
+              tasks={tasks}
+              notifications={notifications}
+            />
           )}
         </div>
         <BellContext className="col-span-1" bell={bell} />

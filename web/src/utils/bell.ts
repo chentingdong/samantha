@@ -49,19 +49,26 @@ const listTreeGenerations = (list: Array<any>) => {
  * @param goal
  */
 
-const countCompletedTasks = (goal: Block, tasks: Block[]): number => {
+const countGoalTasks = (
+  goal: Block,
+  tasks: Block[],
+  states = ["Success", "Failure"]
+): number => {
   if (!goal || !tasks) return 0
-  const completed = tasks
-    .filter((task) => task.state === "Success")
+  console.log(goal, tasks)
+
+  const filteredTasks = tasks
     .filter(
       (task) =>
         task.parent_id === goal.id ||
         task.parent?.parent_id === goal.id ||
         task.parent?.parent?.parent_id === goal.id
     )
-  return completed.length
+    .filter((task) => states.indexOf(task.state) > -1)
+
+  return filteredTasks.length
 }
-const countNotifications = (goal: Block, notifications: Block): number => {
+const countGoalNotifications = (goal: Block, notifications: Block): number => {
   const goalNotifications = notifications.filter(
     (notif) => notif.parent_id === goal.id
   )
@@ -71,6 +78,6 @@ const countNotifications = (goal: Block, notifications: Block): number => {
 export {
   listToTree,
   listTreeGenerations,
-  countCompletedTasks,
-  countNotifications,
+  countGoalTasks,
+  countGoalNotifications,
 }
