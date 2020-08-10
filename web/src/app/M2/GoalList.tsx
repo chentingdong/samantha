@@ -24,6 +24,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   ...props
 }) => {
   const goalTree = listTreeGenerations(goals)
+  console.log(goals)
   const location = useLocation()
   const history = useHistory()
 

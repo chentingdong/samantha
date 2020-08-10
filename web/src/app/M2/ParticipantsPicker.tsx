@@ -65,7 +65,7 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
           {selections?.map((user, index) => {
             return (
               <div key={index} className="user">
-                <div className="inner bg-secondary">
+                <div className="circle bg-secondary">
                   <span className="m-1">{userInitials(user)}</span>
                   <Icon
                     className="close"
@@ -115,7 +115,7 @@ const ParticipantsPicker = styled(ParticipantsPickerRaw)`
   line-height: 2rem;
   .user {
     ${tw`relative mx-1 cursor-pointer`}
-    .inner {
+    .circle {
       ${tw`m-1 w-8 h-8 content-center text-center`}
       ${tw`text-white text-sm rounded-full`}
       .close {

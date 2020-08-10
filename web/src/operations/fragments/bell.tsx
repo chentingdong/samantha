@@ -71,7 +71,9 @@ const bellFragment = gql`
         }
       }
     }
-    blocks(order_by: { created_at: asc_nulls_last }) {
+    blocks(
+      order_by: { sibling_order: asc_nulls_last, started_at: asc_nulls_last }
+    ) {
       id
       bell_id
       configs

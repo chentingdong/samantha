@@ -16,7 +16,11 @@ interface BellContextProps {
   bell: Bell
 }
 
-const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
+const BellContextRaw: React.FC<BellContextProps> = ({
+  bell,
+  className,
+  ...props
+}) => {
   const history = useHistory()
   const location = useLocation()
   const params = getRouteParams(location)
@@ -35,7 +39,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
   }
 
   return (
-    <div {...props}>
+    <div className={`${className} flex flex-col justify-between`}>
       <Nav
         className="tabs-header"
         appearance="tabs"
@@ -51,12 +55,12 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
           <Activities bell={bell} className="activities" />
         )}
         {activeTab === "participants" && (
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between h-full">
             <Participants
               bell={bell}
               className="flex-none bg-gray-200 participants"
             />
-            <Chat className="chat" />
+            <Chat className="flex-grow chat" />
           </div>
         )}
         {activeTab === "artifacts" && (
@@ -72,7 +76,6 @@ const BellContextRaw: React.FC<BellContextProps> = ({ bell, ...props }) => {
 
 const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   .tabs-header {
-    ${tw`w-full`}
     .rs-nav-item {
       ${tw`mx-1 border border-b-0 rounded-t-md`}
     }
@@ -84,15 +87,14 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
     }
   }
   .tabs-content {
-    ${tw`bg-gray-200 h-full relative`}
+    ${tw`bg-gray-200 relative`}
     .activities,
     .participants,
     .artifacts {
       ${tw`p-4`}
     }
     .participants {
-      ${tw`absolute top-0 mb-4 w-full border-b border-gray-500`}
-      max-height: 10em;
+      ${tw`border-b border-gray-500`}
     }
     .chat {
       ${tw`p-4`}

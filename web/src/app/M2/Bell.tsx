@@ -95,8 +95,8 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
   )
 
   return (
-    <div className={`${className} grid grid-cols-3 gap-0`}>
-      <div className="ml-4 col-span-2">
+    <div className={`${className} grid grid-cols-3 gap-0 h-full`}>
+      <div className="h-full ml-4 col-span-2">
         <div className="h-full">
           <BellHeader bell={bell} className="header" />
           <div className="goal-list">

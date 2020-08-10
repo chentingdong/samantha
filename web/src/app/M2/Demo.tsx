@@ -12,9 +12,9 @@ export const Demo: React.FC<DemoProps> = (props) => {
   const location = useLocation()
   const params = getRouteParams(location)
   return (
-    <div className="flex flex-col justify-between w-full">
+    <div className="flex flex-col justify-between w-full h-screen gap-8">
       <MainMenu className="flex-none main-menu" />
-      <div className="flex-grow content">
+      <div className="flex-grow overflow-y-auto content">
         {params.menu === "lobby" && <Lobby />}
         {params.menu === "bellhops" && <BellhopDesk />}
         {params.menu === "bells" && <Bell />}
