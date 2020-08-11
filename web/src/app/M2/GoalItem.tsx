@@ -10,7 +10,7 @@ import { displayDate } from "utils/common"
 import { useLocation, useHistory } from "react-router-dom"
 import { getRouteParams, buildRouterUrl } from "utils/router"
 import { countGoalTasks, countGoalNotifications } from "utils/bell"
-import { TODO } from "components/Todo"
+import { TODO } from "components/TODO"
 
 interface GoalItemProps {
   goal: Block

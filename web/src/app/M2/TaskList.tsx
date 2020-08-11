@@ -6,7 +6,7 @@ import { TaskItem } from "app/M2/TaskItem"
 import { Block } from "models/interface"
 import { useLocation, useHistory } from "react-router-dom"
 import { getRouteParams, buildRouterUrl } from "utils/router"
-import { TODO } from "components/Todo"
+import { TODO } from "components/TODO"
 
 interface TaskListRawProps {
   tasks?: Block[]
