@@ -31,7 +31,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   const activeClassName = (goal) => {
     const bellColor =
       `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
-    return goal.id === params.goalId ? `active ${bellColor}` : ""
+    return goal.id === params.goalId ? `active-goal ${bellColor}` : ""
   }
   const headerLink = buildRouterUrl({ ...params, goalId: "all", taskId: "all" })
   // Use div onClick to go to the goal, as <a> inside <a> is not allowed
@@ -84,7 +84,7 @@ const GoalList = styled(GoalListRaw)`
         ${tw`my-4 ml-4`}
       }
     }
-    .active {
+    .active-goal {
       ${tw`bg-gray-200 border-l-8 pr-8`}
       margin-right: -1rem;
     }

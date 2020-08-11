@@ -4,16 +4,9 @@ import styled from "styled-components"
 import tw from "tailwind.macro"
 import { TaskItem } from "app/M2/TaskItem"
 import { Block } from "models/interface"
-import { useLocation } from "react-router-dom"
-import { getRouteParams } from "utils/router"
-
-const stateToView = {
-  Success: "display",
-  Failure: "display",
-  Running: "edit",
-  Draft: "display",
-  Created: "display",
-}
+import { useLocation, useHistory } from "react-router-dom"
+import { getRouteParams, buildRouterUrl } from "utils/router"
+import { TODO } from "components/Todo"
 
 interface TaskListRawProps {
   tasks?: Block[]
@@ -25,26 +18,32 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
   ...props
 }) => {
   const location = useLocation()
+  const history = useHistory()
   const params = getRouteParams(location)
+  /* Engine decide task Running state. */
   const runningTasks = tasks.filter((task) => task.state === "Running")
   const nextTasks = tasks.filter(
     (task) => task.state === "Draft" || task.state === "Created"
   )
+  const linkToTask = (task) => {
+    const path = buildRouterUrl({ ...params, taskId: task.id })
+    history.push(path)
+  }
 
   return (
     <div {...props}>
       <h4 className="border-b">Tasks</h4>
       <div className="tasks">
+        <TODO show={true}>
+          use runningTasks rather than all tasks here, check if engine sets
+          state correctly
+        </TODO>
         {tasks?.map((task) => {
-          const view = stateToView[task.state]
-          const active = params.taskId === task.id ? "active" : ""
+          const active = params.taskId === task.id ? "active-task" : ""
           return (
-            <TaskItem
-              className={`task ${view} ${active}`}
-              view={view}
-              task={task.task}
-              key={task.id}
-            />
+            <div onClick={(e) => linkToTask(task)} key={task.id}>
+              <TaskItem className={`task ${active}`} task={task} />
+            </div>
           )
         })}
         {nextTasks.length === 0 && runningTasks.length === 0 && (
@@ -65,7 +64,7 @@ const TaskList = styled(TaskListRaw)`
       .task {
         ${tw`p-2 my-1`}
         box-sizing: border-box;
-        &.edit.active {
+        &.active-task {
           ${tw`bg-green-100 mr-0`}
           border-left: none;
         }

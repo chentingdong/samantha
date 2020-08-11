@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { TaskItemProps } from "app/templates/TaskItemProps"
 import { useForm } from "react-hook-form"
 
@@ -13,7 +13,8 @@ const TextEdit: React.FC<{ text: string }> = ({ text }) => {
   //TODO: useForm hook here for form submit and validation
   return (
     <input
-      className="p-2 border rounded-full"
+      type="text"
+      className="w-auto px-2 py-1 border rounded-full"
       value={text}
       onChange={onChange}
     />

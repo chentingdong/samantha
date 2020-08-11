@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { Block } from "models/interface"
 import { ActivityStateIcon } from "components/StateIcon"
 import { CircleIcon, CircleNumber } from "components/Circle"

@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { useLocation } from "react-router-dom"
 import { getRouteParams } from "utils/router"
 import { MainMenu } from "./MainMenu"

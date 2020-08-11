@@ -1,7 +1,8 @@
-import * as React from "react"
+import React from "react"
 import { TaskItemProps } from "app/templates/TaskItemProps"
 import { MultiCascader } from "rsuite"
 import styled from "styled-components"
+import tw from "tailwind.macro"
 
 const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
   return <div>{value}</div>
@@ -36,8 +37,12 @@ const MultiSelectEditRaw: React.FC<{
 }
 
 const MultiSelectEdit = styled(MultiSelectEditRaw)`
-  .rs-picker-value-count {
-    display: none;
+  .rs-picker-toggle,
+  .rs-picker-toggle.active {
+    border-left-width: 1px;
+  }
+  .rs-picker-toggle.active {
+    ${tw`mr-4`}
   }
 `
 

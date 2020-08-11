@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { TaskItemProps } from "app/templates/TaskItemProps"
 import { Button } from "components/Button"
 

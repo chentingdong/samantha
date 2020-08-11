@@ -1,46 +1,36 @@
 import React, { Component } from "react"
-import { Text } from "app/templates/Text"
-import { MultiSelect } from "app/templates/MultiSelect"
-import { ExternalLink } from "app/templates/ExternalLink"
-import { SingleSelect } from "app/templates/SingleSelect"
+import { FieldTemplate } from "app/templates/FieldTemplate"
+
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { Block } from "models/interface"
 
 export interface TaskItemProps {
-  task: any
+  task: Block
   className: string
-  view: "display" | "edit" | "hidden"
 }
 
-const TaskItemRaw: React.FC<TaskItemProps> = ({
-  task,
-  view = "display",
-  ...props
-}) => {
-  const templates = {
-    Text: Text,
-    Decimal: Text,
-    SingleSelect: SingleSelect,
-    MultiSelect: MultiSelect,
-    ExternalLink: ExternalLink,
+const TaskItemRaw: React.FC<TaskItemProps> = ({ task, ...props }) => {
+  const stateToView = {
+    Success: "display",
+    Failure: "display",
+    Running: "edit",
+    Draft: "edit",
+    Created: "edit",
   }
+  const view = stateToView[task.state]
 
-  const Template = templates[task?.fields[0].response_type]
   return (
     <div {...props}>
-      {task && Template && (
-        <>
-          <div className="request">{task?.fields[0]?.question}</div>
-          {task?.fields && task.fields[0]?.description && (
-            <div className="description">
-              Notes: {task?.fields[0]?.description.toString()}
-            </div>
-          )}
-          <div className="response">
-            <Template field={task?.fields[0]} view={view} {...props} />
-          </div>
-        </>
+      <div className="request">{task?.task?.fields[0]?.question}</div>
+      {task?.task?.fields && task.task.fields[0]?.description && (
+        <div className="description">
+          Notes: {task?.task?.fields[0]?.description.toString()}
+        </div>
       )}
+      <div className="response">
+        <FieldTemplate field={task?.task?.fields[0]} view={view} {...props} />
+      </div>
     </div>
   )
 }
