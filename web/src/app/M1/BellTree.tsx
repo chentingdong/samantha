@@ -7,13 +7,13 @@ import { displayDate } from "utils/common"
 import { Icon } from "rsuite"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { useSubscription } from "@apollo/client"
-import { GET_BLOCK } from "../../operations/subscriptions/getBlock"
+import { GET_BLOCK_M1 } from "../../operations/subscriptions/getBlock"
 import { statusMap } from "components/StateBar"
 import styled from "styled-components"
 
 const BellTreeRaw = ({ bell }) => {
   const rootBlockId = bell?.block?.id
-  const { data, loading } = useSubscription(GET_BLOCK, {
+  const { data, loading } = useSubscription(GET_BLOCK_M1, {
     variables: { id: rootBlockId },
   })
 
@@ -64,7 +64,7 @@ const BellTreeRaw = ({ bell }) => {
     return (
       <Card
         className="shadow card"
-        style={{ width: "180px", height: "120px" }}
+        style={{ width: "180px", height: "130px" }}
         onClick={() => onClick(nodeData)}
       >
         <div className={`card-header bg-${color}`}>
@@ -88,7 +88,7 @@ const BellTreeRaw = ({ bell }) => {
           translate={translate}
           collapsible={false}
           nodeSvgShape={{ shape: "none" }}
-          nodeSize={{ x: 250, y: 150 }}
+          nodeSize={{ x: 250, y: 170 }}
           styles={{ links: { stroke: "blue" } }}
           zoomable={true}
           orientation="vertical"

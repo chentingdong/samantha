@@ -93,7 +93,6 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
     bell?.user_participations,
     ["bell_initiator"]
   )
-
   return (
     <div className={`${className} grid grid-cols-3 gap-0 h-full`}>
       <div className="h-full ml-4 col-span-2">

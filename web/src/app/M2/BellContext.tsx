@@ -41,7 +41,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
   return (
     <div className={`${className} flex flex-col justify-between`}>
       <Nav
-        className="tabs-header"
+        className="flex-none tabs-header"
         appearance="tabs"
         activeKey={activeTab}
         onSelect={(activeKey) => activateTab(activeKey)}
@@ -50,7 +50,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
         <Nav.Item eventKey="participants">Participants</Nav.Item>
         <Nav.Item eventKey="artifacts">Content</Nav.Item>
       </Nav>
-      <div className="tabs-content">
+      <div className="flex-grow tabs-content">
         {activeTab === "activities" && (
           <Activities bell={bell} className="activities" />
         )}
@@ -66,6 +66,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
         {activeTab === "artifacts" && (
           <Artifacts
             artifacts={bell.context?.artifacts}
+            bell={bell}
             className="artifacts"
           />
         )}
@@ -87,7 +88,7 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
     }
   }
   .tabs-content {
-    ${tw`bg-gray-200 relative`}
+    ${tw`bg-gray-200`}
     .activities,
     .participants,
     .artifacts {

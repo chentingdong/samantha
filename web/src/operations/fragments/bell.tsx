@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { blockFullFragment } from "operations/fragments/block"
 
 const bellFragmentM1 = gql`
   fragment bellFragment on bells {
@@ -74,47 +75,10 @@ const bellFragment = gql`
     blocks(
       order_by: { sibling_order: asc_nulls_last, started_at: asc_nulls_last }
     ) {
-      id
-      bell_id
-      configs
-      created_at
-      name
-      local_id
-      is_definition
-      sibling_order
-      state
-      type
-      created_at
-      updated_at
-      ended_at
-      parent_id
-      parent {
-        id
-        type
-      }
-      task {
-        id
-        title
-        fields
-      }
-      goal {
-        goal_name
-        id
-        success_conditions
-        type
-      }
-      user_participations {
-        role
-        user {
-          id
-          name
-          picture
-          given_name
-          family_name
-        }
-      }
+      ...blockFullFragment
     }
   }
+  ${blockFullFragment}
 `
 
 export { bellFragmentM1, bellFragment }

@@ -50,12 +50,16 @@ export interface Block {
   last_updated: Date
   started_at: Date
   parent_id: string
+  parent: Block
   sibling_order: string
   __mutation_type__?: MutationType
   __typename?: string
 }
 
 export interface Artifact {
+  source: string
+  bell_id?: string
+  block_id?: string
   url: string
   title: string
   filename: string

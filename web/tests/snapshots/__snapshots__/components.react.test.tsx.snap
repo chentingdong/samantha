@@ -12,7 +12,7 @@ exports[`Button renders correctly 1`] = `
 
 exports[`Card renders correctly 1`] = `
 <div
-  className="sc-AxirZ dvOvHc card"
+  className="sc-AxirZ kHZVHh card"
   color="secondary"
   colors="primary"
 >

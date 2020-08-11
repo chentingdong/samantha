@@ -37,7 +37,7 @@ import { INSERT_BLOCK_REQUESTOR } from "../../operations/mutations/insertBlockRe
 import { DELETE_BLOCK_REQUESTOR } from "../../operations/mutations/deleteBlockRequestor"
 import { INSERT_BLOCK_RESPONDER } from "../../operations/mutations/insertBlockResponder"
 import { DELETE_BLOCK_RESPONDER } from "../../operations/mutations/deleteBlockResponder"
-import { GET_BLOCK } from "../../operations/subscriptions/getBlock"
+import { GET_BLOCK_M1 } from "../../operations/subscriptions/getBlock"
 import { deleteOneBlock } from "../../operations/blockOperations"
 
 const EditorRaw = () => {
@@ -52,7 +52,7 @@ const EditorRaw = () => {
   const [deleteBlockRequestor] = useMutation(DELETE_BLOCK_REQUESTOR)
   const [insertBlockResponder] = useMutation(INSERT_BLOCK_RESPONDER)
   const [deleteBlockResponder] = useMutation(DELETE_BLOCK_RESPONDER)
-  const { data: blockResult } = useSubscription(GET_BLOCK, {
+  const { data: blockResult } = useSubscription(GET_BLOCK_M1, {
     variables: { id: data?.uiState?.draftBlock?.id },
   })
 

@@ -1,21 +1,44 @@
 // Artifacts.tsx. appears in single bell view, right side tabs
 import React from "react"
 import { displayDate } from "utils/common"
-import { Artifact } from "models/interface"
+import { Artifact, Bell } from "models/interface"
+import { useLocation } from "react-router-dom"
+import { getRouteParams } from "utils/router"
 
 interface ArtifactsProps {
   artifacts: Artifact[]
+  bell: Bell
   className?: string
 }
 
 export const Artifacts: React.FC<ArtifactsProps> = ({
   artifacts,
+  bell,
   ...props
 }) => {
+  const location = useLocation()
+  const params = getRouteParams(location)
+  let goals = bell.blocks
+  if (params.goalId !== "all")
+    goals = goals.filter(
+      (block) =>
+        block.id === params.goalId ||
+        block.parent?.id === params.goalId ||
+        block?.parent?.parent?.id === params.goalId
+    )
+  const goalArtifacts = artifacts.filter((artifact) => {
+    if (artifact.source === "bell") return artifact.bell_id === params.bellId
+    else if (artifact.source === "block") {
+      return goals.filter((goal) => goal?.id === artifact.block_id).length > 0
+    } else {
+      return false
+    }
+  })
+
   return (
     <div {...props}>
       <h4>Artifacts</h4>
-      {artifacts?.map((artifact) => (
+      {goalArtifacts?.map((artifact) => (
         <div className="m-4" key={artifact.url}>
           <a
             target="_blank"

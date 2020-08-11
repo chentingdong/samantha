@@ -38,9 +38,7 @@ const Card = styled(CardRaw)`
       ${tw`p-2 w-full`}
     }
     .card-header {
-      ${tw`p-2`};
-      color: ${(props) => `var(--color-text-${props.color})`};
-      background-color: ${(props) => `var(--color-bg-${props.color})`};
+      ${tw`p-2 text-white bg-purple-800 rounded-t-lg`};
       display: block;
       cursor: pointer;
       white-space: nowrap;
