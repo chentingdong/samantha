@@ -101,10 +101,11 @@ export interface TemplateFieldDecimal {
   question: string
   response: number
   min_value: number
+  max_value: number
   response_type: string
 }
 
-export interface TemplateFieldMultiSelect {
+export interface TemplateFieldSelect {
   optional: boolean
   question: string
   response: number

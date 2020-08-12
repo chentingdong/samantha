@@ -1,14 +1,14 @@
 import React from "react"
-import { Block, Artifact } from "models/interface"
-import { ActivityStateIcon } from "components/StateIcon"
-import { CircleIcon, CircleNumber } from "components/Circle"
+import {Block, Artifact} from "models/interface"
+import {ActivityStateIcon} from "components/StateIcon"
+import {CircleIcon, CircleNumber} from "components/Circle"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { Icon } from "rsuite"
-import { displayParticipants } from "utils/user"
-import { displayDate } from "utils/common"
-import { useLocation, useHistory } from "react-router-dom"
-import { getRouteParams, buildRouterUrl } from "utils/router"
+import {Icon} from "rsuite"
+import {displayParticipants} from "utils/user"
+import {displayDate} from "utils/common"
+import {useLocation, useHistory} from "react-router-dom"
+import {getRouteParams, buildRouterUrl} from "utils/router"
 import {
   filterGoalTasks,
   filterGoalNotifications,
@@ -84,7 +84,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         </main>
         <aside>
           <div className="flex icons gap-2">
-            {runningTasks.length > 0 && (
+            {runningTasks?.length > 0 && (
               <div
                 className="no-underline"
                 onClick={(e) => linkToContext(e, "activities")}
@@ -95,7 +95,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
                 />
               </div>
             )}
-            {goalArtifacts.length > 0 && (
+            {goalArtifacts?.length > 0 && (
               <div
                 className="no-underline"
                 onClick={(e) => linkToContext(e, "artifacts")}
@@ -103,7 +103,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
                 <CircleIcon icon="attachment" />
               </div>
             )}
-            {goalNotifications.length > 0 && (
+            {goalNotifications?.length > 0 && (
               <div
                 className="no-underline"
                 onClick={(e) => linkToContext(e, "activities")}
@@ -116,7 +116,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         </aside>
       </div>
       <footer className="flex justify-between w-full mt-4 text-sm text-gray-500">
-        <div>{completedTasks.length} Tasks Completed</div>
+        <div>{completedTasks?.length} Tasks Completed</div>
         {!active && (
           <div className="flex-none">
             Goal taskId <Icon icon="hand-o-right" />
@@ -145,4 +145,4 @@ const GoalItem = styled(GoalItemRaw)`
     }
   }
 `
-export { GoalItem }
+export {GoalItem}

@@ -1,13 +1,14 @@
-import React, { useState } from "react"
-import { Text } from "app/templates/Text"
-import { MultiSelect } from "app/templates/MultiSelect"
-import { ExternalLink } from "app/templates/ExternalLink"
-import { SingleSelect } from "app/templates/SingleSelect"
-import { Block } from "models/interface"
-import { UPDATE_TASK_DETAIL } from "operations/mutations/updateTaskDetail"
-import { COMPLETE_TASK } from "operations/mutations/updateOneBlock"
-import { useMutation } from "@apollo/client"
-import { Confirm } from "components/Confirm"
+import React, {useState} from "react"
+import {Text} from "app/templates/Text"
+import {Decimal} from "app/templates/Decimal"
+import {MultiSelect} from "app/templates/MultiSelect"
+import {ExternalLink} from "app/templates/ExternalLink"
+import {SingleSelect} from "app/templates/SingleSelect"
+import {Block} from "models/interface"
+import {UPDATE_TASK_DETAIL} from "operations/mutations/updateTaskDetail"
+import {COMPLETE_TASK} from "operations/mutations/updateOneBlock"
+import {useMutation} from "@apollo/client"
+import {Confirm} from "components/Confirm"
 
 interface FieldsTemplateProps {
   task: Block
@@ -21,7 +22,7 @@ export const FieldsTemplate: React.FC<FieldsTemplateProps> = ({
 }) => {
   const templates = {
     Text: Text,
-    Decimal: Text,
+    Decimal: Decimal,
     SingleSelect: SingleSelect,
     MultiSelect: MultiSelect,
     ExternalLink: ExternalLink,
@@ -35,10 +36,10 @@ export const FieldsTemplate: React.FC<FieldsTemplateProps> = ({
 
   const save = async () => {
     await updateTaskDetail({
-      variables: { id: task?.id, fields: [field] },
+      variables: {id: task?.id, fields: [field]},
     })
     await completeTask({
-      variables: { id: task.id },
+      variables: {id: task.id},
     })
   }
 

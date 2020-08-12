@@ -31,7 +31,7 @@ const TextEdit: React.FC<TextEditProps> = ({field, onSubmit, ...props}) => {
         className="w-auto px-2 py-1 border rounded-full"
         onBlur={submit}
         ref={register({
-          required: true,
+          required: !field.optional,
           minLength: field.min_field_size,
           maxLength: field.max_field_size,
         })}
