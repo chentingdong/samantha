@@ -1,32 +1,32 @@
 import React from "react"
-import { useQuery, useSubscription } from "@apollo/client"
-import { AUTH_USER } from "operations/queries/authUser"
-import { BELL_LIST } from "operations/subscriptions/bellList"
-import { PanelGroup, Panel } from "rsuite"
-import { Loading, Error } from "components/Misc"
+import {useQuery, useSubscription} from "@apollo/client"
+import {AUTH_USER} from "operations/queries/authUser"
+import {BELL_LIST} from "operations/subscriptions/bellList"
+import {PanelGroup, Panel} from "rsuite"
+import {Loading, Error} from "components/Misc"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { BellListCard } from "./BellList"
-import { MainMenu } from "./MainMenu"
-import { iPlayRoles } from "utils/user"
+import {BellListCard} from "./BellList"
+import {MainMenu} from "./MainMenu"
+import {iPlayRoles} from "utils/user"
 
 export interface LobbyProps {
   className?: string
 }
 
-const LobbyRaw: React.FC<LobbyProps> = ({ className, ...props }) => {
-  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
-  const { data: bellsResult, loading: loadingBell } = useSubscription(BELL_LIST)
+const LobbyRaw: React.FC<LobbyProps> = ({className, ...props}) => {
+  const {data: authUserResult, loading: loadingUser} = useQuery(AUTH_USER)
+  const {data: bellsResult, loading: loadingBell} = useSubscription(BELL_LIST)
   if (loadingUser || loadingBell) return <Loading />
 
   const authUser = authUserResult.authUser
   const bells = bellsResult?.m2_bells
   const bellsIntiated = bells?.filter((bell) =>
-    iPlayRoles(authUser, bell.user_participations, ["bell_initiator"])
+    iPlayRoles(authUser, bell?.user_participations, ["bell_initiator"])
   )
 
   const bellsParticipated = bells?.filter((bell) =>
-    iPlayRoles(authUser, bell.user_participations, [
+    iPlayRoles(authUser, bell?.user_participations, [
       "bell_participant",
       "bell_follower",
     ])
@@ -61,4 +61,4 @@ const LobbyRaw: React.FC<LobbyProps> = ({ className, ...props }) => {
 }
 
 const Lobby: React.FC<LobbyProps> = styled(LobbyRaw)``
-export { Lobby }
+export {Lobby}

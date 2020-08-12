@@ -54,7 +54,7 @@ export const FieldsTemplate: React.FC<FieldsTemplateProps> = ({
 
   return (
     <div {...props}>
-      <Template field={field} onSubmit={onSubmit} view={view} />
+      {field && <Template field={field} onSubmit={onSubmit} view={view} />}
       <Confirm
         className="text-2xs"
         show={showConfirm}

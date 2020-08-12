@@ -82,8 +82,8 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bells?.map((bell) => {
                 return (
-                  <Link to={`/bells/${bell.id}`} key={bell.id}>
-                    {bell.name}
+                  <Link to={`/bells/${bell?.id}`} key={bell?.id}>
+                    {bell?.name}
                   </Link>
                 )
               })}

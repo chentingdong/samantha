@@ -1,12 +1,16 @@
 import React from "react"
-import { Bell } from "models/interface"
-import { Link } from "react-router-dom"
+import {Bell} from "models/interface"
+import {Link, useLocation, useHistory} from "react-router-dom"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { stringHashBucket, displayDate } from "utils/common"
-import { Placeholder } from "rsuite"
-import { Button } from "components/Button"
-import { displayParticipants } from "utils/user"
+import {stringHashBucket, displayDate} from "utils/common"
+import {Placeholder} from "rsuite"
+import {Button} from "components/Button"
+import {displayParticipants} from "utils/user"
+import {useMutation} from "@apollo/client"
+import {CLONE_BELL_BY_PK} from "operations/mutations/cloneBellByPk"
+import {getRouteParams, buildRouterUrl} from "utils/router"
+
 
 export interface BellRawProps {
   bell: Bell
@@ -20,22 +24,22 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
   className,
   ...props
 }) => {
-  const bellColor = `bg-bell-${stringHashBucket(bell.id, 10)}` || "bg-bell"
-  const initiators = bell.user_participations.filter(
+  const bellColor = `bg-bell-${stringHashBucket(bell?.id, 10)}` || "bg-bell"
+  const initiators = bell?.user_participations.filter(
     (participant) => participant.role === "bell_initiator"
   )
-  const bellhops = bell.bellhop_participations
+  const bellhops = bell?.bellhop_participations
   return (
     <Link
       className={`${className} rounded-lg text-sm van-gogh`}
       {...props}
-      to={`/bells/${bell.id}`}
+      to={`/bells/${bell?.id}`}
     >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
-          {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
+          {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </h5>
-        <div>{displayDate(bell.createdAt)}</div>
+        <div>{displayDate(bell?.createdAt)}</div>
         <div>
           Started by <i>{displayParticipants(initiators)}</i>
         </div>
@@ -43,7 +47,7 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
       {whose === "mine" && (
         <div className="relative w-auto m-6 bg-white border bg-none border-light rounded-md h-36">
           <h6 className="p-2 m-6 overflow-hidden text-center truncate">
-            {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
+            {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
           </h6>
           <div className="m-2 text-sm text-right right-6">
             Requested by: <i>{displayParticipants(initiators)}</i>
@@ -74,28 +78,37 @@ export interface BellItemRowProps {
   bell: Bell
 }
 
-const BellItemRow: React.FC<BellItemRowProps> = ({ bell }) => {
+const BellItemRow: React.FC<BellItemRowProps> = ({bell}) => {
+  const location = useLocation()
+  const params = getRouteParams(location)
+  const history = useHistory()
+
+  const [cloneBellByPk] = useMutation(CLONE_BELL_BY_PK)
+  const startABell = async () => {
+    const newBell = await cloneBellByPk({variables: {id: bell.id}})
+    const newBellUrl = buildRouterUrl({...params, menu: 'bells', bellId: newBell.data.action})
+    console.log(newBellUrl)
+    history.push(newBellUrl)
+  }
   return (
     bell && (
       <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-3200">
         <li className="self-center break-all col-span-2">
-          {bell.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
+          {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </li>
         <li className="self-center break-all col-span-4">
-          {bell.description || (
+          {bell?.description || (
             <Placeholder.Paragraph rows={1} rowHeight={14} />
           )}
         </li>
         <li className="flex flex-row-reverse self-center col-span-1">
-          <Link to={`/bells/${bell.id}`}>
-            <Button color="primary" className="fill">
-              Start
-            </Button>
-          </Link>
+          <Button color="primary" className="fill" onClick={startABell}>
+            Start
+          </Button>
         </li>
       </ul>
     )
   )
 }
 
-export { BellItemCard, BellItemRow }
+export {BellItemCard, BellItemRow}

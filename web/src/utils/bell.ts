@@ -2,6 +2,7 @@ import { Block, Artifact } from "models/interface"
 
 /* list to tree. node has parent_id field.*/
 const listToTree = (list: Array<unknown>): Array<unknown> => {
+  if (!list) return []
   const map = {}
   let node
   const roots = []

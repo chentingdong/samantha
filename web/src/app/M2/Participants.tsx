@@ -1,13 +1,13 @@
 // Participants.tsx
 // Participants of a goal
 import React from "react"
-import { UserAvatar } from "components/UserAvatar"
-import { ParticipantsPicker } from "./ParticipantsPicker"
-import { Bell } from "models/interface"
-import { Loading, Error } from "components/Misc"
-import { useQuery } from "@apollo/client"
-import { GET_USERS } from "operations/queries/getUsers"
-import { getRouteParams } from "utils/router"
+import {UserAvatar} from "components/UserAvatar"
+import {ParticipantsPicker} from "./ParticipantsPicker"
+import {Bell} from "models/interface"
+import {Loading, Error} from "components/Misc"
+import {useQuery} from "@apollo/client"
+import {GET_USERS} from "operations/queries/getUsers"
+import {getRouteParams} from "utils/router"
 
 interface ParticipantsProps {
   bell: Bell
@@ -20,7 +20,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
 }) => {
   const params = getRouteParams(location)
 
-  const { data, loading, error } = useQuery(GET_USERS)
+  const {data, loading, error} = useQuery(GET_USERS)
 
   if (loading)
     return <Loading speed="fast" content="Loading..." className="text-center" />
@@ -28,7 +28,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
 
   // Add participants in ordered roles, skip if exists in previous role.
   const getUserParticipations = (roles: string[]) => {
-    let goals = bell.blocks.filter((block) => block.type === "Goal")
+    let goals = bell?.blocks.filter((block) => block.type === "Goal")
     if (params.goalId !== "all")
       goals = goals.filter(
         (goal) => goal.id === params.goalId || goal.parent?.id === params.goalId
@@ -37,7 +37,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     const ups = []
     const userIds = []
 
-    goals.forEach((goal) => {
+    goals?.forEach((goal) => {
       goal.user_participations.forEach((participant) => {
         const userParticipated = userIds.indexOf(participant.user.id) > -1
         const isRole = roles.indexOf(participant.role) > -1

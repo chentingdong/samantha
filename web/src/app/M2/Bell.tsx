@@ -1,22 +1,22 @@
 import React from "react"
-import { GET_BELL } from "operations/subscriptions/getBell"
-import { useQuery, useSubscription } from "@apollo/client"
-import { BellContext } from "./BellContext"
-import { GoalList } from "./GoalList"
-import { Bell as BellProps } from "operations/interface"
-import { TaskList } from "./TaskList"
-import { GoalTaskList } from "./GoalTaskList"
-import { Loading, Error } from "components/Misc"
+import {GET_BELL} from "operations/subscriptions/getBell"
+import {useQuery, useSubscription} from "@apollo/client"
+import {BellContext} from "./BellContext"
+import {GoalList} from "./GoalList"
+import {Bell as BellProps} from "operations/interface"
+import {TaskList} from "./TaskList"
+import {GoalTaskList} from "./GoalTaskList"
+import {Loading, Error} from "components/Misc"
 import styled from "styled-components"
-import { displayDate } from "utils/common"
-import { displayParticipants, iPlayRoles } from "utils/user"
-import { BellStateIcon } from "components/StateIcon"
-import { AUTH_USER } from "operations/queries/authUser"
+import {displayDate} from "utils/common"
+import {displayParticipants, iPlayRoles} from "utils/user"
+import {BellStateIcon} from "components/StateIcon"
+import {AUTH_USER} from "operations/queries/authUser"
 import tw from "tailwind.macro"
-import { getRouteParams } from "utils/router"
-import { useLocation } from "react-router-dom"
+import {getRouteParams} from "utils/router"
+import {useLocation} from "react-router-dom"
 
-const BellHeader: React.FC<{ bell: BellProps; className?: string }> = ({
+const BellHeader: React.FC<{bell: BellProps; className?: string}> = ({
   bell,
   ...props
 }) => {
@@ -63,12 +63,12 @@ interface BellRawProps {
   className?: string
 }
 
-const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
+const BellRaw: React.FC<BellRawProps> = ({className, ...props}) => {
   const location = useLocation()
   const params = getRouteParams(location)
 
-  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
-  const { data: bellData, loading: loadingBell, error } = useSubscription(
+  const {data: authUserResult, loading: loadingUser} = useQuery(AUTH_USER)
+  const {data: bellData, loading: loadingBell, error} = useSubscription(
     GET_BELL,
     {
       variables: {
@@ -89,7 +89,7 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
 
   const notifications = blocks?.filter((block) => block.type === "Notification")
 
-  const artifacts = bell.context?.artifacts
+  const artifacts = bell?.context?.artifacts
   const asInitiator = iPlayRoles(
     authUserResult.authUser,
     bell?.user_participations,
@@ -133,4 +133,4 @@ const Bell = styled(BellRaw)`
   .goal-list {
   }
 `
-export { Bell }
+export {Bell}

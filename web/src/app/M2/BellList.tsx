@@ -1,7 +1,7 @@
-import React, { useState } from "react"
-import { BellItemCard, BellItemRow } from "./BellItem"
-import { Bell } from "models/interface"
-import { ViewMore } from "components/ViewMore"
+import React, {useState} from "react"
+import {BellItemCard, BellItemRow} from "./BellItem"
+import {Bell} from "models/interface"
+import {ViewMore} from "components/ViewMore"
 
 export interface BellListProps {
   bells?: Bell[]
@@ -28,7 +28,7 @@ const BellListCard: React.FC<BellListProps> = ({
       )}
       <div className="h-auto px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {bells?.slice(0, numberItems).map((bell) => {
-          return <BellItemCard bell={bell} key={bell.id} whose={whose} />
+          return <BellItemCard bell={bell} key={bell?.id} whose={whose} />
         })}
       </div>
     </div>
@@ -53,7 +53,7 @@ const BellListRow: React.FC<BellListProps> = ({
           )}
           <div className="h-auto transition-height duration-500 ease-in-out">
             {bells.slice(0, numberItems).map((bell: Bell) => {
-              return <BellItemRow bell={bell} key={bell.id} />
+              return <BellItemRow bell={bell} key={bell?.id} />
             })}
           </div>
         </>
@@ -67,4 +67,4 @@ const BellListRow: React.FC<BellListProps> = ({
   )
 }
 
-export { BellListCard, BellListRow }
+export {BellListCard, BellListRow}

@@ -1,15 +1,15 @@
 // Goals.tsx in Bells
-import React, { useState, useEffect } from "react"
-import { Participants } from "./Participants"
-import { Chat } from "./Chat"
-import { Activities } from "./Activities"
-import { Artifacts } from "./Artifacts"
-import { Nav } from "rsuite"
-import { useHistory, useLocation } from "react-router-dom"
-import { Bell } from "models/interface"
+import React, {useState, useEffect} from "react"
+import {Participants} from "./Participants"
+import {Chat} from "./Chat"
+import {Activities} from "./Activities"
+import {Artifacts} from "./Artifacts"
+import {Nav} from "rsuite"
+import {useHistory, useLocation} from "react-router-dom"
+import {Bell} from "models/interface"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { getRouteParams, buildRouterUrl } from "utils/router"
+import {getRouteParams, buildRouterUrl} from "utils/router"
 
 interface BellContextProps {
   className?: string
@@ -34,7 +34,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
     setActiveTab(tab)
     params.context = tab
     const goalId = tab.parent?.id || params.goalId
-    const path = buildRouterUrl({ ...params, context: tab, goalId: goalId })
+    const path = buildRouterUrl({...params, context: tab, goalId: goalId})
     history.push(path)
   }
 
@@ -65,7 +65,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
         )}
         {activeTab === "artifacts" && (
           <Artifacts
-            artifacts={bell.context?.artifacts}
+            artifacts={bell?.context?.artifacts}
             bell={bell}
             className="artifacts"
           />
@@ -103,4 +103,4 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   }
 `
 
-export { BellContext }
+export {BellContext}

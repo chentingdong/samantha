@@ -1,7 +1,7 @@
-import React, { Component } from "react"
-import { useQuery, useMutation } from "@apollo/client"
-import { UI_STATE } from "../operations/queries/uiState"
-import { useBlockMutations } from "../operations/mutations"
+import React, {Component} from "react"
+import {useQuery, useMutation} from "@apollo/client"
+import {UI_STATE} from "../operations/queries/uiState"
+import {useBlockMutations} from "../operations/mutations"
 
 // TODO: import all forms and decorators reflectively
 import SpendRequest from "./forms/spendRequest"
@@ -10,15 +10,15 @@ import Conditional from "./decorators/Conditional"
 import Inverter from "./decorators/Inverter"
 import Repeat from "./decorators/Repeat"
 import ReTry from "./decorators/ReTry"
-import { Block } from "../models/interface"
-import { setUiState } from "../operations/mutations/setUiState"
-import { UPDATE_ONE_BELL } from "../operations/mutations/updateOneBell"
+import {Block} from "../models/interface"
+import {setUiState} from "../operations/mutations/setUiState"
+import {UPDATE_ONE_BELL} from "../operations/mutations/updateOneBell"
 
 type ActionType = {
   block: Block
   setBlock: (block: Block) => void
 }
-const Action: React.FC<ActionType> = ({ block, setBlock }) => {
+const Action: React.FC<ActionType> = ({block, setBlock}) => {
   const components = {
     SpendRequest: SpendRequest,
     SpendRequestApproval: SpendRequestApproval,
@@ -28,7 +28,7 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
     ReTry: ReTry,
   }
 
-  const { data, loading, error } = useQuery(UI_STATE)
+  const {data, loading, error} = useQuery(UI_STATE)
   const [updateBell] = useMutation(UPDATE_ONE_BELL)
 
   // TODO: list of forms?
@@ -41,14 +41,14 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   // TODO: debounce happen here
   const submit = (form) => {
     const updatedContext = {
-      ...bell.context,
+      ...bell?.context,
     }
     updatedContext[template] = form
 
     updateBell({
       variables: {
-        data: { context: updatedContext },
-        id: bell.id,
+        data: {context: updatedContext},
+        id: bell?.id,
       },
     })
   }
@@ -61,7 +61,7 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
 
     updateFn({
       variables: {
-        data: { state: "Success" },
+        data: {state: "Success"},
         id: data?.uiState?.currentBlockId,
       },
     })
@@ -76,7 +76,7 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
 
     updateFn({
       variables: {
-        data: { state: "Failure" },
+        data: {state: "Failure"},
         id: data?.uiState?.currentBlockId,
       },
     })
@@ -91,4 +91,4 @@ const Action: React.FC<ActionType> = ({ block, setBlock }) => {
   )
 }
 
-export { Action }
+export {Action}

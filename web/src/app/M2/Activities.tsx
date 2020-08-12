@@ -19,18 +19,18 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
 
   const activities =
     params.goalId === "all"
-      ? bell.blocks
-      : bell.blocks.filter(
+      ? bell?.blocks
+      : bell?.blocks.filter(
         (block) =>
           block.id === params.goalId ||
           block.parent?.id === params.goalId ||
           block.parent?.parent?.id === params.goalId
       )
 
-  const goal = bell.blocks.filter((block) => block.id === params.goalId)?.[0]
-  const activitiesCompleted = activities.filter((a) => a.state === "Success")
-  const activitiesRunning = activities.filter((a) => a.state === "Running")
-  const activitiesFuture = activities.filter((a) => a.state === "Created")
+  const goal = bell?.blocks.filter((block) => block.id === params.goalId)?.[0]
+  const activitiesCompleted = activities?.filter((a) => a.state === "Success")
+  const activitiesRunning = activities?.filter((a) => a.state === "Running")
+  const activitiesFuture = activities?.filter((a) => a.state === "Created")
 
   return (
     <div {...props}>
@@ -38,10 +38,10 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
         <div className="activity">
           <ActivityStateIcon state="Success" />
           <div>
-            <div>{displayDate(bell.started_at)}</div>
+            <div>{displayDate(bell?.started_at)}</div>
             <div className="text-gray-500">
               <span className="capitalize">Bell Started: </span>
-              <i>{bell.name}</i>
+              <i>{bell?.name}</i>
             </div>
           </div>
         </div>
@@ -81,7 +81,7 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
             </div>
           )
         })}
-        {activitiesFuture.length > 0 && <div className="ddd">...</div>}
+        {activitiesFuture?.length > 0 && <div className="ddd">...</div>}
         {activitiesFuture?.map((activity) => (
           <div className="hidden activity" key={activity.id}>
             <ActivityStateIcon state={activity.state} />
