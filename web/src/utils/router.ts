@@ -40,11 +40,10 @@ const getRouteParams = (location: Location): RouterUrlProps => {
 const buildRouterUrl = (params: RouterUrlProps): string => {
   if (params?.bellId) {
     const { bellId, goalId, context, taskId } = params
-    const url = `/bells/${bellId}/${goalId}/${context}/${taskId}`
-    return url
+    return `/bells/${bellId}/${goalId}/${context}/${taskId}`
   } else if (params.desk) {
     const { desk, bellhopId } = params
-    const url = `/bellhops/${desk}/${bellhopId}`
+    return `/bellhops/${desk}/${bellhopId}`
   } else return "/lobby"
 }
 

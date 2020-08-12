@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react"
+import React, {useState, useEffect} from "react"
 import styled from "styled-components"
 import IconBell from "../../assets/img/bell.svg"
-import { NavLink, Link } from "react-router-dom"
-import { BELLHOP_SEARCH } from "operations/queries/bellhopSearch"
-import { BELL_SEARCH } from "operations/queries/bellSearch"
-import { useLazyQuery } from "@apollo/client"
+import {NavLink, Link} from "react-router-dom"
+import {BELLHOP_SEARCH} from "operations/queries/bellhopSearch"
+import {BELL_SEARCH} from "operations/queries/bellSearch"
+import {useLazyQuery} from "@apollo/client"
+import {buildRouterUrl} from "utils/router"
 
 export interface QuickStartSearchhProps {}
 
@@ -14,15 +15,15 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
   const [show, setShow] = useState(false)
   const [value, setValue] = useState()
 
-  const [suggestions, setSuggestions] = useState({ bellhops: [], bells: [] })
-  const [getBellhopData, { data: dataBellhops }] = useLazyQuery(
+  const [suggestions, setSuggestions] = useState({bellhops: [], bells: []})
+  const [getBellhopData, {data: dataBellhops}] = useLazyQuery(
     BELLHOP_SEARCH,
     {
       fetchPolicy: "network-only",
     }
   )
 
-  const [getBellData, { data: dataBells }] = useLazyQuery(BELL_SEARCH, {
+  const [getBellData, {data: dataBells}] = useLazyQuery(BELL_SEARCH, {
     fetchPolicy: "network-only",
   })
 
@@ -35,7 +36,7 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
   }, [dataBellhops, dataBells])
 
   const suggest = async (text) => {
-    const variables = { variables: { search: `%${text}%` } }
+    const variables = {variables: {search: `%${text}%`}}
     await getBellhopData(variables)
     await getBellData(variables)
   }
@@ -68,7 +69,7 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bellhops?.map((bellhop) => {
                 return (
-                  <Link to={`/bellhops/all/${bellhop.id}`} key={bellhop.id}>
+                  <Link to={buildRouterUrl({desk: 'all', bellhopId: bellhop.id})} key={bellhop.id}>
                     {bellhop.name}
                   </Link>
                 )
@@ -100,4 +101,4 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
 
 const QuickStartSearchh = styled(QuickStartSearchhRaw)``
 
-export { QuickStartSearchh }
+export {QuickStartSearchh}
