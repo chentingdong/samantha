@@ -27,7 +27,14 @@ const ButtonRaw: React.FC<ButtonType> = ({
 }
 
 const Button = styled(ButtonRaw)`
-  ${tw`rounded-full py-2 px-4 items-baseline m-2 shadow`}
+  ${tw`rounded-full items-baseline m-2 shadow overflow-hidden cursor-pointer`}
+  padding: 0.5em 1em;
+  white-space: nowrap;
+  min-width: 5em;
+  max-width: 20em;
+  text-overflow: ellipsis;
+  transition: background 0.2s linear;
+  transition: color 0.2s linear;
   border: 1px solid ${(props) => `var(--color-bg-${props.color})`};
   background: ${(props) => `var(--color-text-${props.color})`};
   &:focus {
@@ -57,15 +64,6 @@ const Button = styled(ButtonRaw)`
     background: ${(props) => `var(--color-text-${props.color})`};
     border-color: ${(props) => `var(--color-bg-${props.color})`};
   }
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  min-width: 5em;
-  max-width: 20em;
-  padding: 0.7em 1em;
-  text-overflow: ellipsis;
-  transition: background 0.3s linear;
-  transition: color 0.1s linear;
 `
 
 export { Button }

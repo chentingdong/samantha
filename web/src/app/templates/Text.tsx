@@ -1,8 +1,8 @@
 import React from "react"
-import { useForm } from "react-hook-form"
-import { TemplateFieldText } from "models/interface"
+import {useForm} from "react-hook-form"
+import {TemplateFieldText} from "models/interface"
 
-const TextDisplay: React.FC<{ text: string }> = ({ text }) => {
+const TextDisplay: React.FC<{text: string}> = ({text}) => {
   return <span>{text}</span>
 }
 
@@ -10,8 +10,8 @@ interface TextEditProps {
   field: TemplateFieldText
   onSubmit: (field: TemplateFieldText) => void
 }
-const TextEdit: React.FC<TextEditProps> = ({ field, onSubmit, ...props }) => {
-  const { register, errors, getValues, reset } = useForm({
+const TextEdit: React.FC<TextEditProps> = ({field, onSubmit, ...props}) => {
+  const {register, errors, getValues, reset} = useForm({
     defaultValues: field,
     mode: "onChange",
     reValidateMode: "onChange",
@@ -20,7 +20,7 @@ const TextEdit: React.FC<TextEditProps> = ({ field, onSubmit, ...props }) => {
   const submit = () => {
     if (errors.response) return
     const formData = getValues()
-    onSubmit({ ...field, ...formData })
+    onSubmit({...field, ...formData})
   }
 
   return (
@@ -36,7 +36,7 @@ const TextEdit: React.FC<TextEditProps> = ({ field, onSubmit, ...props }) => {
           maxLength: field.max_field_size,
         })}
       />
-      <div className="p-2 text-error">
+      <div className="text-error">
         {errors.response?.type === "required" && "Field is required"}
         {errors.response?.type === "maxLength" &&
           "Maximum characters of this field is " + field.max_field_size}
@@ -53,7 +53,7 @@ interface TextProps {
   onSubmit: (field: TemplateFieldText) => void
 }
 
-const Text: React.FC<TextProps> = ({ field, view, onSubmit, ...props }) => {
+const Text: React.FC<TextProps> = ({field, view, onSubmit, ...props}) => {
   return (
     <>
       {view === "display" && <TextDisplay text={field.response} {...props} />}
@@ -64,4 +64,4 @@ const Text: React.FC<TextProps> = ({ field, view, onSubmit, ...props }) => {
   )
 }
 
-export { Text }
+export {Text}

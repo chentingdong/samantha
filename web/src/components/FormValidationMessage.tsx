@@ -1,5 +1,5 @@
 import React from "react"
-import { ErrorMessage } from "@hookform/error-message"
+import {ErrorMessage} from "@hookform/error-message"
 import styled from "styled-components"
 
 type FormValidationMessageType = {
@@ -16,8 +16,8 @@ const FormValidationMessage: React.FC<FormValidationMessageType> = ({
         <ErrorMessage
           errors={errors}
           name={name}
-          render={({ message }) => (
-            <div className="p-2 text-error">{message}</div>
+          render={({message}) => (
+            <div className="text-error">{message}</div>
           )}
         />
       )}
@@ -25,4 +25,4 @@ const FormValidationMessage: React.FC<FormValidationMessageType> = ({
   )
 }
 
-export { FormValidationMessage }
+export {FormValidationMessage}

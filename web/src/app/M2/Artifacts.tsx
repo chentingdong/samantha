@@ -4,6 +4,7 @@ import { displayDate } from "utils/common"
 import { Artifact, Bell } from "models/interface"
 import { useLocation } from "react-router-dom"
 import { getRouteParams } from "utils/router"
+import { filterGoalArtifacts } from "utils/bell"
 
 interface ArtifactsProps {
   artifacts: Artifact[]
@@ -18,23 +19,16 @@ export const Artifacts: React.FC<ArtifactsProps> = ({
 }) => {
   const location = useLocation()
   const params = getRouteParams(location)
-  let goals = bell.blocks
+  let goals = bell.blocks.filter((block) => block.type === "Goal")
   if (params.goalId !== "all")
     goals = goals.filter(
-      (block) =>
-        block.id === params.goalId ||
-        block.parent?.id === params.goalId ||
-        block?.parent?.parent?.id === params.goalId
+      (goal) =>
+        goal.id === params.goalId ||
+        goal.parent?.id === params.goalId ||
+        goal?.parent?.parent?.id === params.goalId
     )
-  const goalArtifacts = artifacts.filter((artifact) => {
-    if (artifact.source === "bell") return artifact.bell_id === params.bellId
-    else if (artifact.source === "block") {
-      return goals.filter((goal) => goal?.id === artifact.block_id).length > 0
-    } else {
-      return false
-    }
-  })
 
+  const goalArtifacts = filterGoalArtifacts(params.bellId, goals, artifacts)
   return (
     <div {...props}>
       <h4>Artifacts</h4>

@@ -86,8 +86,10 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
   const goals = blocks?.filter(
     (block) => block.type === "Goal" || block.type === "Executor"
   )
+
   const notifications = blocks?.filter((block) => block.type === "Notification")
 
+  const artifacts = bell.context?.artifacts
   const asInitiator = iPlayRoles(
     authUserResult.authUser,
     bell?.user_participations,
@@ -105,6 +107,7 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
                 goals={goals}
                 tasks={tasks}
                 notifications={notifications}
+                artifacts={artifacts}
               />
             )}
             {!asInitiator && params.taskId !== "all" && (
@@ -112,6 +115,7 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
                 goals={goals}
                 tasks={tasks}
                 notifications={notifications}
+                artifacts={artifacts}
               />
             )}
           </div>

@@ -20,6 +20,16 @@ const blockFullFragment = gql`
       id
       name
       type
+      parent {
+        id
+        name
+        type
+        parent {
+          id
+          name
+          type
+        }
+      }
     }
     task {
       id

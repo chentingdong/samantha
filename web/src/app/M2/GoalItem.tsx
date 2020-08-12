@@ -1,5 +1,5 @@
 import React from "react"
-import { Block } from "models/interface"
+import { Block, Artifact } from "models/interface"
 import { ActivityStateIcon } from "components/StateIcon"
 import { CircleIcon, CircleNumber } from "components/Circle"
 import styled from "styled-components"
@@ -9,20 +9,27 @@ import { displayParticipants } from "utils/user"
 import { displayDate } from "utils/common"
 import { useLocation, useHistory } from "react-router-dom"
 import { getRouteParams, buildRouterUrl } from "utils/router"
-import { countGoalTasks, countGoalNotifications } from "utils/bell"
-import { TODO } from "components/TODO"
+import {
+  filterGoalTasks,
+  filterGoalNotifications,
+  filterGoalArtifacts,
+} from "utils/bell"
 
 interface GoalItemProps {
   goal: Block
+  subGoals: Block[]
   tasks: Block[]
   notifications: Block[]
+  artifacts: Artifact[]
   active: boolean
 }
 
 const GoalItemRaw: React.FC<GoalItemProps> = ({
   goal,
+  subGoals,
   tasks,
   notifications,
+  artifacts,
   active = false,
   ...props
 }) => {
@@ -34,14 +41,11 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
     (participant) => participant.role === "goal_asignee"
   )
 
-  const runningTasksCount = countGoalTasks(goal, tasks, ["Running"])
-  const completedTasksCount = countGoalTasks(goal, tasks, [
-    "Success",
-    "Failure",
-  ])
-  const notificationsCount = countGoalNotifications(goal, notifications)
+  const runningTasks = filterGoalTasks(goal, tasks, ["Running"])
+  const completedTasks = filterGoalTasks(goal, tasks, ["Success", "Failure"])
+
   const linkToContext = (e, context) => {
-    // click context circles should not propagate click DOM parent element (the goal)
+    // click context circles should not propagate click to goal
     e.stopPropagation()
     history.push(
       buildRouterUrl({
@@ -52,6 +56,8 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
     )
   }
 
+  const goalArtifacts = filterGoalArtifacts(params.bellId, subGoals, artifacts)
+  const goalNotifications = filterGoalNotifications(subGoals, notifications)
   return (
     <div {...props}>
       <div className="flex justify-between">
@@ -78,29 +84,31 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         </main>
         <aside>
           <div className="flex icons gap-2">
-            {runningTasksCount > 0 && (
+            {runningTasks.length > 0 && (
               <div
                 className="no-underline"
                 onClick={(e) => linkToContext(e, "activities")}
               >
                 <CircleNumber
-                  number={runningTasksCount}
+                  number={runningTasks.length}
                   className="bg-green-500"
                 />
               </div>
             )}
-            <div
-              className="no-underline"
-              onClick={(e) => linkToContext(e, "artifacts")}
-            >
-              <CircleIcon icon="attachment" />
-            </div>
-            {notificationsCount > 0 && (
+            {goalArtifacts.length > 0 && (
+              <div
+                className="no-underline"
+                onClick={(e) => linkToContext(e, "artifacts")}
+              >
+                <CircleIcon icon="attachment" />
+              </div>
+            )}
+            {goalNotifications.length > 0 && (
               <div
                 className="no-underline"
                 onClick={(e) => linkToContext(e, "activities")}
               >
-                <CircleNumber number={notificationsCount} />
+                <CircleNumber number={goalNotifications.length} />
               </div>
             )}
             <ActivityStateIcon className="icon" state={goal?.state} />
@@ -108,7 +116,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
         </aside>
       </div>
       <footer className="flex justify-between w-full mt-4 text-sm text-gray-500">
-        <div>{completedTasksCount} Tasks Completed</div>
+        <div>{completedTasks.length} Tasks Completed</div>
         {!active && (
           <div className="flex-none">
             Goal taskId <Icon icon="hand-o-right" />

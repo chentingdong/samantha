@@ -1,8 +1,8 @@
 // GoalList.tsx. appears in responder view, single bell page
 import React from "react"
-import { Block } from "models/interface"
+import { Block, Artifact } from "models/interface"
 import { stringHashBucket } from "utils/common"
-import { listTreeGenerations } from "utils/bell"
+import { listTreeGenerations, findSubGoals } from "utils/bell"
 import { getRouteParams, buildRouterUrl } from "utils/router"
 import { GoalItem } from "./GoalItem"
 import { GoalListHeader } from "./GoalListHeader"
@@ -14,6 +14,7 @@ interface GoalListProps {
   goals: Block[]
   tasks: Block[]
   notifications: Block[]
+  artifacts: Artifact[]
   className?: string
 }
 
@@ -21,6 +22,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
   goals,
   tasks,
   notifications,
+  artifacts,
   ...props
 }) => {
   const goalTree = listTreeGenerations(goals)
@@ -39,6 +41,7 @@ const GoalListRaw: React.FC<GoalListProps> = ({
     const path = buildRouterUrl({ ...params, goalId: goal.id })
     history.push(path)
   }
+
   return (
     <div {...props}>
       <GoalListHeader link={headerLink} />
@@ -60,8 +63,10 @@ const GoalListRaw: React.FC<GoalListProps> = ({
                 <GoalItem
                   active={goal.id === params.goalId}
                   goal={goal}
+                  subGoals={findSubGoals(goal.id, goals)}
                   tasks={goalTasks}
                   notifications={notifications}
+                  artifacts={artifacts}
                 />
               </div>
             </li>

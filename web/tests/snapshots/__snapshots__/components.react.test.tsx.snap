@@ -2,7 +2,7 @@
 
 exports[`Button renders correctly 1`] = `
 <button
-  className="sc-AxjAm bsRKoC primary"
+  className="sc-AxjAm cBvctU primary"
 >
   <span>
     Bellhop
@@ -20,7 +20,7 @@ exports[`Card renders correctly 1`] = `
 </div>
 `;
 
-exports[`Confirm renders correctly 1`] = `null`;
+exports[`Confirm renders correctly 1`] = `<div />`;
 
 exports[`Drawer renders correctly 1`] = `null`;
 

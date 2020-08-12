@@ -7,6 +7,9 @@ type ConfirmTypes = {
   setShow: Dispatch<SetStateAction<boolean>>
   onYes: () => void
   onNo: () => void
+  style?: "lightbox" | "inline"
+  yesText?: string
+  noText?: string
 }
 
 const Confirm: FC<ConfirmTypes> = ({
@@ -14,6 +17,9 @@ const Confirm: FC<ConfirmTypes> = ({
   setShow,
   onYes,
   onNo,
+  style = "lightbox",
+  yesText = "Ok",
+  noText = "Cancel",
   ...props
 }) => {
   const close = () => {
@@ -29,7 +35,7 @@ const Confirm: FC<ConfirmTypes> = ({
     close()
   }
 
-  return (
+  const DisplayInModal = (props) => (
     <Modal show={show} onHide={close} {...props}>
       <Modal.Header>
         <Modal.Title>Confirm</Modal.Title>
@@ -37,15 +43,37 @@ const Confirm: FC<ConfirmTypes> = ({
       <Modal.Body className="text-sm">
         <p>Please confirm</p>
       </Modal.Body>
-      <Modal.Footer className="flex absolute bottom-0 right-0">
+      <Modal.Footer className="absolute bottom-0 right-0 flex">
         <Button className="fill" onClick={handleYes} color="primary">
-          Ok
+          {yesText}
         </Button>
         <Button className="" onClick={handleNo} color="warning">
-          Cancel
+          {noText}
         </Button>
       </Modal.Footer>
     </Modal>
+  )
+
+  const DisplayInline = (props) => (
+    <div {...props}>
+      {show && (
+        <>
+          <Button className="fill" onClick={handleYes} color="secondary">
+            {yesText}
+          </Button>
+          <Button className="" onClick={handleNo} color="warning">
+            {noText}
+          </Button>
+        </>
+      )}
+    </div>
+  )
+
+  return (
+    <div {...props}>
+      {style === "lightbox" && <DisplayInModal {...props} />}
+      {style === "inline" && <DisplayInline {...props} />}
+    </div>
   )
 }
 

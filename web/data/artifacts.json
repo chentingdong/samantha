@@ -1,14 +1,28 @@
 {
   "artifacts": [
     {
+      "url": "https://samantha-assets.s3.amazonaws.com/artifacts/HVAC+Permit.pdf",
       "title": "Submission of city for HVAC approval",
+      "source": "bell",
+      "bell_id": "s4Uq5-3xUX5bljHUIJMLW",
       "filename": "HVAC Permit.pdf",
-      "url": "https://samantha-assets.s3.amazonaws.com/artifacts/HVAC+Permit.pdf"
+      "created_at": "2020-07-30T08:41:13.975206+00:00"
     },
     {
-      "title": "HVAC system",
+      "url": "https://www.standardheating.com/wp-cms/wp-content/uploads/2015/09/HVACdiagram2-1024x634.png",
+      "title": "HVAC system diagram 1",
+      "source": "block",
+      "block_id": "bVeXuHvMlUVpbM2e4zMy9",
       "filename": "HVAC system diagram.png",
-      "url": "https://www.standardheating.com/wp-cms/wp-content/uploads/2015/09/HVACdiagram2-1024x634.png"
+      "created_at": "2020-07-30T08:41:13.975206+00:00"
+    },
+    {
+      "url": "https://www.evaporativehumidifiers.com/wp-content/uploads/2020/01/hvac-system-working.jpg",
+      "title": "HVAC system diagram 2",
+      "source": "block",
+      "block_id": "790hOnMXtRMBWhiZetAIK",
+      "filename": "hvac-system-working.jpg",
+      "created_at": "2020-07-30T08:41:13.975206+00:00"
     }
   ]
 }

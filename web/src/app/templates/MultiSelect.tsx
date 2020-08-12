@@ -1,38 +1,46 @@
-import React from "react"
-import { TaskItemProps } from "app/templates/TaskItemProps"
-import { MultiCascader } from "rsuite"
+import React, {useState} from "react"
+import {CheckPicker} from "rsuite"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import {TemplateFieldMultiSelect} from "models/interface"
 
-const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
-  return <div>{value}</div>
+const MultiSelectDisplay: React.FC<{value: string[]}> = ({value}) => {
+  return <div>{value.join(', ')}</div>
 }
 
-export const MultiSelectEditRaw: React.FC<{
-  value: string
-  options: string[]
-}> = ({ value, options, ...props }) => {
-  const select_options = options.map((option) => {
+interface MultiSelectEditProps {
+  field: TemplateFieldMultiSelect
+  onSubmit: (field: TemplateFieldMultiSelect) => void
+}
+
+export const MultiSelectEditRaw: React.FC<MultiSelectEditProps> = ({field, onSubmit, ...props}) => {
+  const [selected, setSelected] = useState(field.response)
+  const select_options = field.select_options.map((option) => {
     return {
       label: option,
       value: option,
       role: "",
     }
   })
-
-  const updateField = (value) => {
-    console.log("TODO: mutation to finish task:" + value)
+  const submit = () => {
+    onSubmit({...field, response: selected})
   }
-
-  //TODO: useForm hook for form submit and validation
+  const onChange = (selections) => {
+    setSelected(selections)
+  }
   return (
-    <MultiCascader
-      placement="bottomEnd"
-      placeholder={value}
-      data={select_options}
-      onChange={updateField}
-      {...props}
-    />
+    <>
+      <CheckPicker
+        value={selected}
+        data={select_options}
+        onChange={onChange}
+        countable={false}
+        placement="bottomEnd"
+        onExit={submit}
+        {...props}
+      />
+      {selected.length === 0 && <div className="text-error">You must select at least one option</div>}
+    </>
   )
 }
 
@@ -46,7 +54,13 @@ const MultiSelectEdit = styled(MultiSelectEditRaw)`
   }
 `
 
-const MultiSelect: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
+interface MultiSelectProps {
+  field: TemplateFieldMultiSelect
+  view: string
+  onSubmit: (field: TemplateFieldMultiSelect) => void
+}
+
+const MultiSelect: React.FC<MultiSelectProps> = ({field, view, onSubmit, ...props}) => {
   return (
     <>
       {view === "display" && (
@@ -54,9 +68,8 @@ const MultiSelect: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
       )}
       {view === "edit" && (
         <MultiSelectEdit
-          countable={false}
-          value={field.response}
-          options={field.select_options}
+          field={field}
+          onSubmit={onSubmit}
           {...props}
         />
       )}
@@ -64,4 +77,4 @@ const MultiSelect: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
   )
 }
 
-export { MultiSelectDisplay, MultiSelectEdit, MultiSelect }
+export {MultiSelectDisplay, MultiSelectEdit, MultiSelect}

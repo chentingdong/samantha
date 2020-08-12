@@ -12,6 +12,9 @@ export const UPDATE_ONE_BLOCK_M1 = gql`
 `
 export const COMPLETE_TASK = gql`
   mutation update_blocks_by_pk($id: String!) {
-    update_m2_blocks_by_pk(pk_columns: { id: $id }, _set: { state: Success })
+    update_m2_blocks_by_pk(pk_columns: { id: $id }, _set: { state: Success }) {
+      id
+      state
+    }
   }
 `

@@ -2,18 +2,18 @@
 import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { ActivityStateIcon } from "components/StateIcon"
-import { displayDate } from "utils/common"
-import { Bell } from "models/interface"
-import { useLocation, Link } from "react-router-dom"
-import { getRouteParams, buildRouterUrl } from "utils/router"
+import {ActivityStateIcon} from "components/StateIcon"
+import {displayDate} from "utils/common"
+import {Bell} from "models/interface"
+import {useLocation, Link} from "react-router-dom"
+import {getRouteParams, buildRouterUrl} from "utils/router"
 
 interface ActivitiesProps {
   bell: Bell
   className?: string
 }
 
-const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
+const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
   const location = useLocation()
   const params = getRouteParams(location)
 
@@ -21,9 +21,11 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
     params.goalId === "all"
       ? bell.blocks
       : bell.blocks.filter(
-          (block) =>
-            block.id === params.goalId || block.parent?.id === params.goalId
-        )
+        (block) =>
+          block.id === params.goalId ||
+          block.parent?.id === params.goalId ||
+          block.parent?.parent?.id === params.goalId
+      )
 
   const goal = bell.blocks.filter((block) => block.id === params.goalId)?.[0]
   const activitiesCompleted = activities.filter((a) => a.state === "Success")
@@ -124,4 +126,4 @@ const Activities: React.FC<ActivitiesProps> = styled(ActivitiesRaw)`
   }
 `
 
-export { Activities }
+export {Activities}

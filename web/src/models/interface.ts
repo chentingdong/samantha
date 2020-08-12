@@ -104,6 +104,14 @@ export interface TemplateFieldDecimal {
   response_type: string
 }
 
+export interface TemplateFieldMultiSelect {
+  optional: boolean
+  question: string
+  response: number
+  response_type: string
+  select_options: string[]
+}
+
 /* below are for M1, deprecated */
 export interface BlockDef {
   id: string

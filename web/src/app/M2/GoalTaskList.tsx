@@ -8,17 +8,20 @@ import { GoalItem } from "./GoalItem"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { TaskList } from "./TaskList"
+import { findSubGoals } from "utils/bell"
 
 interface GoalTaskListProps {
   goals: Block[]
   tasks: Block[]
   notifications: Block[]
+  artifacts: Artifact[]
 }
 
 const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
   goals,
   tasks,
   notifications,
+  artifacts,
   ...props
 }) => {
   const location = useLocation()
@@ -33,6 +36,7 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
       task.parent.parent?.id === params.goalId
   )
 
+  const subGoals = findSubGoals(goal.id, goals)
   return (
     <div {...props}>
       <GoalListHeader
@@ -41,8 +45,10 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
       <div className={`${bellColor} active`}>
         <GoalItem
           goal={goal}
+          subGoals={subGoals}
           tasks={goalTasks}
           notifications={notifications}
+          artifacts={artifacts}
           active={true}
         />
       </div>

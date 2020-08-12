@@ -1,15 +1,15 @@
-import React, { Component } from "react"
-import { FieldsTemplate } from "app/templates/FieldsTemplate"
+import React, {Component} from "react"
+import {FieldsTemplate} from "app/templates/FieldsTemplate"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { Block } from "models/interface"
+import {Block} from "models/interface"
 
-export interface TaskItemProps {
+interface TaskItemProps {
   task: Block
   className: string
 }
 
-const TaskItemRaw: React.FC<TaskItemProps> = ({ task, ...props }) => {
+const TaskItemRaw: React.FC<TaskItemProps> = ({task, ...props}) => {
   const stateToView = {
     Success: "display",
     Failure: "display",
@@ -47,4 +47,4 @@ const TaskItem = styled(TaskItemRaw)`
   }
 `
 
-export { TaskItem }
+export {TaskItem}
