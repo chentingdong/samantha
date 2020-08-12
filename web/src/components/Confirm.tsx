@@ -1,6 +1,6 @@
-import React, { FC, useState, useEffect, Dispatch, SetStateAction } from "react"
-import { Modal } from "rsuite"
-import { Button } from "../components/Button"
+import React, {FC, useState, useEffect, Dispatch, SetStateAction} from "react"
+import {Modal} from "rsuite"
+import {Button} from "../components/Button"
 
 type ConfirmTypes = {
   show: boolean
@@ -58,7 +58,7 @@ const Confirm: FC<ConfirmTypes> = ({
     <div {...props}>
       {show && (
         <>
-          <Button className="fill" onClick={handleYes} color="secondary">
+          <Button className="fill" onClick={handleYes} color="success">
             {yesText}
           </Button>
           <Button className="" onClick={handleNo} color="warning">
@@ -77,4 +77,4 @@ const Confirm: FC<ConfirmTypes> = ({
   )
 }
 
-export { Confirm }
+export {Confirm}
