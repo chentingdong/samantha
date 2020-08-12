@@ -38,9 +38,14 @@ const getRouteParams = (location: Location): RouterUrlProps => {
 }
 
 const buildRouterUrl = (params: RouterUrlProps): string => {
-  const { bellId, goalId, context, taskId } = params
-  const url = `/bells/${bellId}/${goalId}/${context}/${taskId}`
-  return url
+  if (params?.bellId) {
+    const { bellId, goalId, context, taskId } = params
+    const url = `/bells/${bellId}/${goalId}/${context}/${taskId}`
+    return url
+  } else if (params.desk) {
+    const { desk, bellhopId } = params
+    const url = `/bellhops/${desk}/${bellhopId}`
+  } else return "/lobby"
 }
 
 export { getRouteParams, buildRouterUrl }

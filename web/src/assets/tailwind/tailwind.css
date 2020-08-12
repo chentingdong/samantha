@@ -39,7 +39,7 @@
   --color-text-warning: theme("colors.white");
   --color-bg-warning: theme("colors.orange.500");
 
-  --color-text-error: theme("colors.gray.300");
+  --color-text-error: theme("colors.red.300");
   --color-bg-error: theme("colors.red.500");
 }
 

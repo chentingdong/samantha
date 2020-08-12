@@ -81,6 +81,29 @@ export interface Participant {
   user: User
 }
 
+export interface TaskDetail {
+  id: string
+  title: string
+  fields: unknown
+}
+
+export interface TemplateFieldText {
+  optional: boolean
+  question: string
+  response: number
+  response_type: string
+  max_field_size: number
+  min_field_size: number
+}
+
+export interface TemplateFieldDecimal {
+  optional: boolean
+  question: string
+  response: number
+  min_value: number
+  response_type: string
+}
+
 /* below are for M1, deprecated */
 export interface BlockDef {
   id: string

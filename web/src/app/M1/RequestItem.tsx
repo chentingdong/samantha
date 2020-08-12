@@ -9,7 +9,7 @@ import tw from "tailwind.macro"
 import { setUiState } from "../../operations/mutations/setUiState"
 import { createBlock } from "../../operations/blockOperations"
 import cloneDeep from "lodash/cloneDeep"
-import { UPDATE_ONE_BLOCK } from "../../operations/mutations/updateOneBlock"
+import { UPDATE_ONE_BLOCK_M1 } from "../../operations/mutations/updateOneBlock"
 import moment from "moment"
 import { Button } from "../../components/Button"
 
@@ -26,7 +26,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 }) => {
   const { data: authUserResult } = useQuery(AUTH_USER)
   const { data } = useQuery(UI_STATE)
-  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK_M1)
 
   // update draftBlock if remote block has changed. used for co-editing demo. may not be efficient
   useEffect(() => {
@@ -113,7 +113,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
 
   return (
     <div className={className}>
-      <div className="w-full grid sm:grid-cols-3 lg:grid-cols-4 p-2">
+      <div className="w-full p-2 grid sm:grid-cols-3 lg:grid-cols-4">
         <div className="col-span-2 lg:col-span-3">
           {itemOrigin !== ItemOrigin.Catalog && (
             <div>
@@ -172,7 +172,7 @@ const RequestItemRaw: React.FC<RequestItemType> = ({
             <Button
               color="primary"
               icon="bell-o"
-              className="make-a-bell w-3/4 mx-auto"
+              className="w-3/4 mx-auto make-a-bell"
               onClick={makeBell}
             >
               Make a Bell

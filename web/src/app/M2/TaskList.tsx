@@ -34,7 +34,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
     <div {...props}>
       <h4 className="border-b">Tasks</h4>
       <div className="tasks">
-        <TODO show={true}>
+        <TODO>
           use runningTasks rather than all tasks here, check if engine sets
           state correctly
         </TODO>

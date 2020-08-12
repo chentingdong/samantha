@@ -31,11 +31,7 @@ const SingleSelectEdit: React.FC<SingleSelectProps> = ({ value, options }) => {
   )
 }
 
-export const SingleSelect: React.FC<TaskItemProps> = ({
-  field,
-  view,
-  ...props
-}) => {
+const SingleSelect: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
   return (
     <>
       {view === "display" && (
@@ -51,3 +47,5 @@ export const SingleSelect: React.FC<TaskItemProps> = ({
     </>
   )
 }
+
+export { SingleSelectDisplay, SingleSelectEdit, SingleSelect }

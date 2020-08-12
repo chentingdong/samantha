@@ -17,7 +17,7 @@ const FormValidationMessage: React.FC<FormValidationMessageType> = ({
           errors={errors}
           name={name}
           render={({ message }) => (
-            <div className="text-error p-2">{message}</div>
+            <div className="p-2 text-error">{message}</div>
           )}
         />
       )}

@@ -37,11 +37,7 @@ const ExternalLinkEdit: React.FC<ExternalLinkProps> = ({
   )
 }
 
-export const ExternalLink: React.FC<TaskItemProps> = ({
-  field,
-  view,
-  ...props
-}) => {
+const ExternalLink: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
   return (
     <>
       {view === "display" && (
@@ -61,3 +57,5 @@ export const ExternalLink: React.FC<TaskItemProps> = ({
     </>
   )
 }
+
+export { ExternalLinkDisplay, ExternalLinkEdit, ExternalLink }

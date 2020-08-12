@@ -1,6 +1,5 @@
 import React, { Component } from "react"
-import { FieldTemplate } from "app/templates/FieldTemplate"
-
+import { FieldsTemplate } from "app/templates/FieldsTemplate"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { Block } from "models/interface"
@@ -19,17 +18,18 @@ const TaskItemRaw: React.FC<TaskItemProps> = ({ task, ...props }) => {
     Created: "edit",
   }
   const view = stateToView[task.state]
+  const field = task?.task?.fields?.[0]
 
   return (
     <div {...props}>
-      <div className="request">{task?.task?.fields[0]?.question}</div>
-      {task?.task?.fields && task.task.fields[0]?.description && (
+      <div className="request">{field?.question}</div>
+      {field?.description && (
         <div className="description">
-          Notes: {task?.task?.fields[0]?.description.toString()}
+          Notes: {field?.description.toString()}
         </div>
       )}
       <div className="response">
-        <FieldTemplate field={task?.task?.fields[0]} view={view} {...props} />
+        <FieldsTemplate task={task} view={view} {...props} />
       </div>
     </div>
   )

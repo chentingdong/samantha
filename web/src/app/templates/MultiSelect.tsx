@@ -8,7 +8,7 @@ const MultiSelectDisplay: React.FC<{ value: string }> = ({ value }) => {
   return <div>{value}</div>
 }
 
-const MultiSelectEditRaw: React.FC<{
+export const MultiSelectEditRaw: React.FC<{
   value: string
   options: string[]
 }> = ({ value, options, ...props }) => {
@@ -46,11 +46,7 @@ const MultiSelectEdit = styled(MultiSelectEditRaw)`
   }
 `
 
-export const MultiSelect: React.FC<TaskItemProps> = ({
-  field,
-  view,
-  ...props
-}) => {
+const MultiSelect: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
   return (
     <>
       {view === "display" && (
@@ -67,3 +63,5 @@ export const MultiSelect: React.FC<TaskItemProps> = ({
     </>
   )
 }
+
+export { MultiSelectDisplay, MultiSelectEdit, MultiSelect }

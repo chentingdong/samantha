@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useLazyQuery, useMutation } from "@apollo/client"
 import { BLOCKS_BY_PK_M1 } from "../../operations/queries/blockByPk"
 import { useForm } from "react-hook-form"
-import { UPDATE_ONE_BLOCK } from "../../operations/mutations/updateOneBlock"
+import { UPDATE_ONE_BLOCK_M1 } from "../../operations/mutations/updateOneBlock"
 import { Action } from "../../controls/Action"
 import { initialBlock } from "../../../data/block"
 import { Assignment } from "./Assignment"
@@ -11,7 +11,7 @@ import { FormValidationMessage } from "components/FormValidationMessage"
 function EditBlock({ blockId }) {
   const [block, setBlock] = useState(initialBlock)
   const [getData, { data }] = useLazyQuery(BLOCKS_BY_PK_M1)
-  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK)
+  const [updateOneBlock] = useMutation(UPDATE_ONE_BLOCK_M1)
 
   const { register, errors, getValues, reset } = useForm({
     mode: "onBlur",

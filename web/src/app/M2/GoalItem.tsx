@@ -107,9 +107,6 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           </div>
         </aside>
       </div>
-      <TODO show={false} className="w-full">
-        confirm with team of adding a context field to block
-      </TODO>
       <footer className="flex justify-between w-full mt-4 text-sm text-gray-500">
         <div>{completedTasksCount} Tasks Completed</div>
         {!active && (
