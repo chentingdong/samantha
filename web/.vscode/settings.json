@@ -9,5 +9,6 @@
   "eslint.options": { "configFile": ".eslintrc.js" },
   "eslint.workingDirectories": ["./src/**/*", "./tests/**/*"],
   "eslint.lintTask.enable": true,
-  "eslint.format.enable": true
+  "eslint.format.enable": true,
+  "apollographql.trace.server": "messages"
 }

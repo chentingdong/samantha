@@ -15,7 +15,13 @@ const getRouteParams = (location: Location): RouterUrlProps => {
   const menu = matchMenu?.params["menu"]
   switch (menu) {
     case "lobby":
-      return { menu: "lobby" }
+      return {
+        menu: "lobby",
+        bellId: "all",
+        goalId: "all",
+        context: "activities",
+        taskId: "all",
+      }
     case "bells":
       let path = "/bells/:bellId/:goalId?/:context?/:taskId?"
       let match = matchPath(location.pathname, { path: path })

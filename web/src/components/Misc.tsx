@@ -1,8 +1,9 @@
-import React, { useState } from "react"
-import { Spinner, Alert } from "react-bootstrap"
-import { Loader } from "rsuite"
+import React, {useState} from "react"
 
-const Loading = ({ className = "text-center" }) => (
+import {Alert} from "react-bootstrap"
+import {Loader} from "rsuite"
+
+const Loading = ({className = "text-center"}) => (
   <Loader
     className={className}
     speed="fast"
@@ -12,13 +13,22 @@ const Loading = ({ className = "text-center" }) => (
   />
 )
 
-const Error = ({ message, initShow = true }) => {
+const Error: React.FC<{
+  message: string
+  className?: string
+  initShow?: boolean
+}> = ({message = "", className = "", initShow = true}) => {
   const [show, setShow] = useState(initShow)
 
   return (
     <>
       {show && (
-        <Alert variant="danger" onClose={() => setShow(false)} dismissible>
+        <Alert
+          variant="danger"
+          className={className}
+          onClose={() => setShow(false)}
+          dismissible
+        >
           {message}
         </Alert>
       )}
@@ -26,4 +36,4 @@ const Error = ({ message, initShow = true }) => {
   )
 }
 
-export { Loading, Error }
+export {Loading, Error}

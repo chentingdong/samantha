@@ -1,10 +1,13 @@
 import { EditMode, MutationType, Typename } from "./enum"
 
 export interface RouterUrlProps {
-  bellId: string
-  goalId: string
-  context: string
-  taskId: string
+  menu: string
+  bellId?: string
+  goalId?: string
+  context?: string
+  taskId?: string
+  desk?: string
+  bellhopId?: string
 }
 
 export interface Bell {
@@ -21,6 +24,7 @@ export interface Bell {
   started_at: Date
   updated_at: Date
   root_block_id: string
+  blocks: Block[]
   goal_name: string
   goal_order: number
   acts_as_main_bell: true
@@ -55,6 +59,7 @@ export interface Block {
   parent_id: string
   parent: Block
   sibling_order: string
+  user_participations: Participant[]
   __mutation_type__?: MutationType
   __typename?: string
 }

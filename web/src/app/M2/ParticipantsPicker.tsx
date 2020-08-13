@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from "react"
+import { Participant, User } from "models/interface"
+import React, { useEffect, useState } from "react"
+
+import { Button } from "components/Button"
 import ClickOutHandler from "react-onclickout"
 import { Icon } from "rsuite"
-import { User } from "models/interface"
-import { userInitials } from "utils/user"
-import { Button } from "components/Button"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { userInitials } from "utils/user"
 
 interface ParticipantsPickerProps {
-  pickedUsers: User[]
+  pickedParticipants: Participant[]
   users: User[]
   className?: string
   onInsertUser?: (user: User) => void
   onDeleteUser?: (user: User) => void
 }
 const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
-  pickedUsers,
+  pickedParticipants = [],
   users,
   onInsertUser,
   onDeleteUser,
   ...props
 }) => {
+  const pickedUsers = pickedParticipants.map((p) => p.user)
   const [showSelect, setShowSelect] = useState(false)
   const [selections, setSelections] = useState(pickedUsers)
 
@@ -35,7 +37,7 @@ const ParticipantsPickerRaw: React.FC<ParticipantsPickerProps> = ({
   const addUser = (user) => {
     const updatedSelections = [...selections, user]
     setSelections(updatedSelections)
-    onInsertUser(selections)
+    onInsertUser(user)
   }
 
   const removeUser = (e, user) => {
