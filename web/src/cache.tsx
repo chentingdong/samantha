@@ -1,6 +1,7 @@
-import { InMemoryCache, ReactiveVar } from "@apollo/client"
-import { User, UiState, BlockOrDef } from "./models/interface"
+import { BlockOrDef, UiState, User } from "./models/interface"
 import { EditMode, Typename } from "./models/enum"
+import { InMemoryCache, ReactiveVar } from "@apollo/client"
+
 import { initialBlock } from "../data/block"
 import { initialUser } from "../data/user"
 
@@ -16,6 +17,11 @@ export const cache: InMemoryCache = new InMemoryCache({
         uiState: {
           read() {
             return uiStateVar()
+          },
+        },
+        m2_user_block_participations: {
+          merge(existing, incoming) {
+            return incoming
           },
         },
       },

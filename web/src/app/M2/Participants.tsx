@@ -1,12 +1,18 @@
-import { Error, Loading } from "components/Misc"
+import {
+  ADD_BELL_PARTICIPATION,
+  ADD_GOAL_PARTICIPATION,
+  DELETE_BELL_PARTICIPATION,
+  DELETE_GOAL_PARTICIPATION,
+} from "operations/mutations/userParticipations"
 import {
   USER_BELL_GOALS_PARTICIPATIONS,
   USER_BELL_PARTICIPATIONS,
 } from "operations/subscriptions/userParticipations"
-import { useQuery, useSubscription } from "@apollo/client"
+import { useMutation, useQuery, useSubscription } from "@apollo/client"
 
 import { Bell } from "models/interface"
 import { GET_USERS } from "operations/queries/getUsers"
+import { Loading } from "components/Misc"
 import { ParticipantsPicker } from "./ParticipantsPicker"
 import React from "react"
 import { UserAvatar } from "components/UserAvatar"
@@ -22,10 +28,11 @@ export const Participants: React.FC<ParticipantsProps> = ({
   ...props
 }) => {
   const params = getRouteParams(location)
-
   const { data: usersResult, loading: loadingUser } = useQuery(GET_USERS)
+
+  // subscriptions
   const {
-    data: userBellParticipans,
+    data: dataBellParticipant,
     loading: loadingBellParticipants,
   } = useSubscription(USER_BELL_PARTICIPATIONS, {
     variables: {
@@ -34,7 +41,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     },
   })
   const {
-    data: userBellFollowers,
+    data: dataBellFollowers,
     loading: loadingBellFollowers,
   } = useSubscription(USER_BELL_PARTICIPATIONS, {
     variables: {
@@ -43,7 +50,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     },
   })
   const {
-    data: userGoalParticipans,
+    data: dataGoalParticipant,
     loading: loadingGoalParticipants,
   } = useSubscription(USER_BELL_GOALS_PARTICIPATIONS, {
     variables: {
@@ -52,7 +59,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     },
   })
   const {
-    data: userGoalFollowers,
+    data: dataGoalFollowers,
     loading: loadingGoalFollowers,
   } = useSubscription(USER_BELL_GOALS_PARTICIPATIONS, {
     variables: {
@@ -60,6 +67,12 @@ export const Participants: React.FC<ParticipantsProps> = ({
       roles: ["goal_follower"],
     },
   })
+
+  // mutations
+  const [insertBellParticipant] = useMutation(ADD_BELL_PARTICIPATION)
+  const [deleteBellParticipant] = useMutation(DELETE_BELL_PARTICIPATION)
+  const [insertGoalParticipant] = useMutation(ADD_GOAL_PARTICIPATION)
+  const [deleteGoalParticipant] = useMutation(DELETE_GOAL_PARTICIPATION)
 
   if (
     loadingUser ||
@@ -70,27 +83,55 @@ export const Participants: React.FC<ParticipantsProps> = ({
   )
     return <Loading />
 
+  //transform to html display
   const participants =
     params.goalId === "all"
-      ? userBellParticipans?.m2_user_bell_participations
-      : userGoalParticipans?.m2_user_block_participations
+      ? dataBellParticipant?.m2_user_bell_participations
+      : dataGoalParticipant?.m2_user_block_participations
   const followers =
     params.goalId === "all"
-      ? userBellFollowers?.m2_user_bell_participations
-      : userGoalFollowers?.m2_user_block_participations
+      ? dataBellFollowers?.m2_user_bell_participations
+      : dataGoalFollowers?.m2_user_block_participations
   const poolUsers = usersResult?.m2_users?.filter(
     (user) => participants?.map((p) => p.user.id).indexOf(user.id) === -1
   )
 
-  console.log(followers, usersResult)
+  // event handlers
   const addFollower = (user) => {
-    if (params.goalId === "all") console.log(`add ${user} to bell ${bell.id}`)
-    else console.log(`add ${user} to goal ${params.goalId}`)
+    if (params.goalId === "all")
+      insertBellParticipant({
+        variables: {
+          bellId: bell.id,
+          userId: user.id,
+          role: "bell_follower",
+        },
+      })
+    else
+      insertGoalParticipant({
+        variables: {
+          goalId: params.goalId,
+          userId: user.id,
+          role: "goal_follower",
+        },
+      })
   }
   const removeFollower = (user) => {
     if (params.goalId === "all")
-      console.log(`remove ${JSON.stringify(user, null, 4)} from bell`)
-    else console.log(`remove ${JSON.stringify(user, null, 4)} from goal`)
+      deleteBellParticipant({
+        variables: {
+          bellId: params.bellId,
+          userId: user.id,
+          role: "bell_follower",
+        },
+      })
+    else
+      deleteGoalParticipant({
+        variables: {
+          goalId: params.goalId,
+          userId: user.id,
+          role: "goal_follower",
+        },
+      })
   }
 
   return (
