@@ -21,7 +21,7 @@ const BellHeader: React.FC<{bell: BellProps; className?: string}> = ({
   bell,
   ...props
 }) => {
-  const bellhop = bell?.bellhop_participations[0].bellhop
+  const bellhop = bell?.bellhop_participations?.[0].bellhop
   const userInitiators = bell?.user_participations?.filter(
     (participant) => participant.role === "bell_initiator"
   )

@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
-import Amplify, { Auth } from "aws-amplify"
+import Amplify, {Auth} from "aws-amplify"
+import React, {useEffect, useState} from "react"
+import {getLogoByTheme, injectRsuiteStyle} from "../utils/styles"
+
+import {Button} from "../components/Button"
+import {CognitoHostedUIIdentityProvider} from "@aws-amplify/auth/lib/types"
+import {Icon} from "rsuite"
 import config from "../../configs/config.js"
-import { Button } from "../components/Button"
-import { Icon } from "rsuite"
-import { CognitoHostedUIIdentityProvider } from "@aws-amplify/auth/lib/types"
-import { injectRsuiteStyle, getLogoByTheme } from "../utils/styles"
 
 const Login = () => {
   const theme = "bell"
@@ -23,9 +24,9 @@ const Login = () => {
         alt="Bellhop"
       />
       <div className="text-center">
-        <div className="m-auto my-64 inner col-span-1 md:col-start-2 lg:col-start-3">
+        <div className="m-auto my-64 w-64">
           <Button
-            className="w-full h-10 p-0 rounded-full"
+            className="w-full h-10 p-0 rounded-full block"
             onClick={() =>
               Auth.federatedSignIn({
                 provider: CognitoHostedUIIdentityProvider.Google,
@@ -41,7 +42,7 @@ const Login = () => {
             </div>
           </Button>
           <Button
-            className="hidden w-full h-10 p-0 rounded-full"
+            className="w-full h-10 p-0 rounded-full block"
             onClick={() => Auth.federatedSignIn()}
           >
             <Icon

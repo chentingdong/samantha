@@ -1,14 +1,14 @@
-import React, {useEffect} from "react"
 import Amplify, {Auth, Hub} from "aws-amplify"
+import React, {useEffect} from "react"
 
-import {hot} from "react-hot-loader/root"
+import LogRocket from "logrocket"
 import Routes from "../routes/Routes"
 import {UPSERT_USER} from "../operations/mutations/upsertUser"
-import {useMutation} from "@apollo/client"
-import {setAuthUser} from "../operations/mutations/setAuthUser"
 import config from "../../configs/config"
-import LogRocket from "logrocket"
+import {hot} from "react-hot-loader/root"
 import {injectRsuiteStyle} from "utils/styles"
+import {setAuthUser} from "../operations/mutations/setAuthUser"
+import {useMutation} from "@apollo/client"
 
 const App = (any) => {
   useEffect(() => {
@@ -58,6 +58,7 @@ const App = (any) => {
           if (authUser) {
             // upsert cognito user to backend
             const {isAuthenticated, ...user} = authUser
+            console.log(user)
             upsertUser({variables: {object: user}})
           }
           break

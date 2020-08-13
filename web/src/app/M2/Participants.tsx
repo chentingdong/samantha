@@ -1,13 +1,14 @@
+import {Error, Loading} from "components/Misc"
+
+import {Bell} from "models/interface"
+import {GET_USERS} from "operations/queries/getUsers"
+import {ParticipantsPicker} from "./ParticipantsPicker"
 // Participants.tsx
 // Participants of a goal
 import React from "react"
 import {UserAvatar} from "components/UserAvatar"
-import {ParticipantsPicker} from "./ParticipantsPicker"
-import {Bell} from "models/interface"
-import {Loading, Error} from "components/Misc"
-import {useQuery} from "@apollo/client"
-import {GET_USERS} from "operations/queries/getUsers"
 import {getRouteParams} from "utils/router"
+import {useQuery} from "@apollo/client"
 
 interface ParticipantsProps {
   bell: Bell
@@ -65,6 +66,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
 
   const addFollower = (user) => {
     console.log(`add ${user} to goal`)
+
   }
   const removeFollower = (user) => {
     console.log(`remove ${JSON.stringify(user, null, 4)} from goal`)

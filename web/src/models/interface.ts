@@ -1,4 +1,4 @@
-import { MutationType, EditMode, Typename } from "./enum"
+import { EditMode, MutationType, Typename } from "./enum"
 
 export interface RouterUrlProps {
   bellId: string
@@ -19,12 +19,15 @@ export interface Bell {
   created_at: Date
   last_updated: Date
   started_at: Date
+  updated_at: Date
   root_block_id: string
   goal_name: string
   goal_order: number
   acts_as_main_bell: true
   main_bell_id: string
   success_conditions: unknown
+  bellhop_participations: Participant[]
+  user_participations: Participant[]
 }
 
 export interface Bellhop {
@@ -79,6 +82,7 @@ export interface User {
 export interface Participant {
   role: string
   user: User
+  bellhop: Bellhop
 }
 
 export interface TaskDetail {

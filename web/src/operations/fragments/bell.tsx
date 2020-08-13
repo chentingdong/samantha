@@ -1,5 +1,5 @@
-import {gql} from "@apollo/client"
 import {blockFullFragment} from "operations/fragments/block"
+import {gql} from "@apollo/client"
 
 const bellFragmentM1 = gql`
   fragment bellFragment on bells {
@@ -73,7 +73,7 @@ const bellFragment = gql`
         }
       }
     }
-    blocks(
+    blocks (
       order_by: { sibling_order: asc_nulls_last, started_at: asc_nulls_last }
     ) {
       ...blockFullFragment
