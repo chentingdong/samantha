@@ -14,11 +14,11 @@
     "esModuleInterop": true,
     "lib": ["es6", "dom"],
     "resolveJsonModule": true,
-    "baseUrl": "./src",
     "inlineSources": true,
     "sourceRoot": "/",
+    "baseUrl": "./",
     "paths": {
-      "*": ["src/*", "tests/*"]
+      "*": ["src/*", "tests/*", "data/*"]
     },
     "allowSyntheticDefaultImports": true
   },

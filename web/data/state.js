@@ -9,7 +9,6 @@ export const state = {
     name: "",
     description: "",
     type: "",
-    control: "",
     state: "Draft",
     control: {},
     context: {},

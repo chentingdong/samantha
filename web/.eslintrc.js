@@ -46,6 +46,7 @@ module.exports = exports = {
     "react-hooks",
     "@typescript-eslint",
     "eslint-plugin-import",
+    "import",
   ],
   extends: [
     "plugin:@typescript-eslint/recommended",
@@ -62,9 +63,15 @@ module.exports = exports = {
     react: {
       version: "detect",
     },
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"],
+    },
     "import/resolver": {
       // this loads <rootdir>/tsconfig.json to eslint
-      typescript: {},
+      typescript: {
+        alwaysTryTypes: true, // always try to resolve types under `<root>@types` directory even it doesn't contain any source code, like `@types/unist`
+        project: "tsconfig.json",
+      },
       // If webpack pass, eslint should pass
       webpack: {
         config: resolve(__dirname, "configs/webpack/common.js"),

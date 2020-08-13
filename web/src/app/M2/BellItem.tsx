@@ -25,7 +25,7 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
   ...props
 }) => {
   const bellColor = `bg-bell-${stringHashBucket(bell?.id, 10)}` || "bg-bell"
-  const initiators = bell?.user_participations.filter(
+  const initiators = bell?.user_participations?.filter(
     (participant) => participant.role === "bell_initiator"
   )
   const bellhops = bell?.bellhop_participations

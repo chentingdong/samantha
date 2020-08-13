@@ -19,9 +19,9 @@ export const Artifacts: React.FC<ArtifactsProps> = ({
 }) => {
   const location = useLocation()
   const params = getRouteParams(location)
-  let goals = bell?.blocks.filter((block) => block.type === "Goal")
+  let goals = bell?.blocks?.filter((block) => block.type === "Goal")
   if (params.goalId !== "all")
-    goals = goals.filter(
+    goals = goals?.filter(
       (goal) =>
         goal.id === params.goalId ||
         goal.parent?.id === params.goalId ||

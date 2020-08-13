@@ -1,9 +1,9 @@
 import React from "react"
-import { BlockOrDef } from "../../models/interface"
-import { MutationType } from "../../models/enum"
-import { DndSourceBox } from "../../components/DndSourceBox"
-import { BlockCatalogItem } from "./BlockCatalogItem"
-import { Row, Col } from "antd"
+import {BlockOrDef} from "../../models/interface"
+import {MutationType} from "../../models/enum"
+import {DndSourceBox} from "../../components/DndSourceBox"
+import {BlockCatalogItem} from "./BlockCatalogItem"
+import {Row, Col} from "antd"
 import styled from "styled-components"
 
 type BlockChildrenListType = {
@@ -19,7 +19,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
     <Row gutter={2}>
       {blocks &&
         blocks
-          .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+          ?.filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             return (
@@ -40,4 +40,4 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
 
 const BlockChildrenList = styled(BlockChildrenListRaw)``
 
-export { BlockChildrenList }
+export {BlockChildrenList}

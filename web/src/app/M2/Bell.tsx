@@ -1,19 +1,20 @@
-import React from "react"
-import {GET_BELL} from "operations/subscriptions/getBell"
-import {useQuery, useSubscription} from "@apollo/client"
-import {BellContext} from "./BellContext"
-import {GoalList} from "./GoalList"
-import {Bell as BellProps} from "operations/interface"
-import {TaskList} from "./TaskList"
-import {GoalTaskList} from "./GoalTaskList"
-import {Loading, Error} from "components/Misc"
-import styled from "styled-components"
-import {displayDate} from "utils/common"
+import {Error, Loading} from "components/Misc"
 import {displayParticipants, iPlayRoles} from "utils/user"
-import {BellStateIcon} from "components/StateIcon"
+import {useQuery, useSubscription} from "@apollo/client"
+
 import {AUTH_USER} from "operations/queries/authUser"
-import tw from "tailwind.macro"
+import {BellContext} from "./BellContext"
+import {Bell as BellProps} from "models/interface"
+import {BellStateIcon} from "components/StateIcon"
+import {GET_BELL} from "operations/subscriptions/getBell"
+import {GoalList} from "./GoalList"
+import {GoalTaskList} from "./GoalTaskList"
+import React from "react"
+import {TaskList} from "./TaskList"
+import {displayDate} from "utils/common"
 import {getRouteParams} from "utils/router"
+import styled from "styled-components"
+import tw from "tailwind.macro"
 import {useLocation} from "react-router-dom"
 
 const BellHeader: React.FC<{bell: BellProps; className?: string}> = ({
@@ -21,11 +22,11 @@ const BellHeader: React.FC<{bell: BellProps; className?: string}> = ({
   ...props
 }) => {
   const bellhop = bell?.bellhop_participations[0].bellhop
-  const userInitiators = bell?.user_participations.filter(
+  const userInitiators = bell?.user_participations?.filter(
     (participant) => participant.role === "bell_initiator"
   )
 
-  const bellhopInitiators = bell?.bellhop_participations.filter(
+  const bellhopInitiators = bell?.bellhop_participations?.filter(
     (participant) => participant.role === "bell_initiator"
   )
 

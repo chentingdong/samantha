@@ -1,5 +1,5 @@
-import { gql } from "@apollo/client"
-import { blockFullFragment } from "operations/fragments/block"
+import {gql} from "@apollo/client"
+import {blockFullFragment} from "operations/fragments/block"
 
 const bellFragmentM1 = gql`
   fragment bellFragment on bells {
@@ -41,6 +41,7 @@ const bellFragment = gql`
     id
     name
     description
+    is_definition
     state
     created_at
     updated_at
@@ -81,4 +82,4 @@ const bellFragment = gql`
   ${blockFullFragment}
 `
 
-export { bellFragmentM1, bellFragment }
+export {bellFragmentM1, bellFragment}

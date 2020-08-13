@@ -1,6 +1,6 @@
-import React from "react"
-import {TaskItemProps} from "app/templates/TaskItemProps"
 import {Button} from "components/Button"
+import React from "react"
+import {TaskItemProps} from "app/M2/TaskItem"
 import {TemplateFieldSelect} from "models/interface"
 
 export interface SelectProps {

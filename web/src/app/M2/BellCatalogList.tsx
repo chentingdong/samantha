@@ -17,7 +17,7 @@ const BellCatalogList: React.FC<BellListProps> = ({whose, ...props}) => {
   let bells = data?.m2_bells
   // TODO: add this filter for my-bellhops page bell catalog list
   if (params.bellhopId && whose === "mine")
-    bells = bells.filter(
+    bells = bells?.filter(
       (bell) => bell?.bellhop_participations?.bellhop?.id === params.bellhopId
     )
 

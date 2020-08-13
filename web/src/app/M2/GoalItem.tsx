@@ -37,7 +37,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   const history = useHistory()
   const params = getRouteParams(location)
 
-  const goalAssignees = goal?.user_participations.filter(
+  const goalAssignees = goal?.user_participations?.filter(
     (participant) => participant.role === "goal_asignee"
   )
 

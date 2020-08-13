@@ -1,10 +1,11 @@
 import React, {Component} from "react"
+
+import {Block} from "models/interface"
 import {FieldsTemplate} from "app/templates/FieldsTemplate"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {Block} from "models/interface"
 
-interface TaskItemProps {
+export interface TaskItemProps {
   task: Block
   className: string
 }

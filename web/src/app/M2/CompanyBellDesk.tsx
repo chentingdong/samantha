@@ -1,13 +1,13 @@
 // CompanyBellDesk.tsx
 import React from "react"
-import { BellhopThumbnailList } from "./BellhopList"
-import { BellhopHeader } from "./BellhopHeader"
-import { useSubscription } from "@apollo/client"
-import { BellCatalogList } from "./BellCatalogList"
-import { Loading, Error } from "components/Misc"
-import { BELLHOP_LIST } from "operations/subscriptions/bellhopList"
-import { useLocation } from "react-router-dom"
-import { getRouteParams } from "utils/router"
+import {BellhopThumbnailList} from "./BellhopList"
+import {BellhopHeader} from "./BellhopHeader"
+import {useSubscription} from "@apollo/client"
+import {BellCatalogList} from "./BellCatalogList"
+import {Loading, Error} from "components/Misc"
+import {BELLHOP_LIST} from "operations/subscriptions/bellhopList"
+import {useLocation} from "react-router-dom"
+import {getRouteParams} from "utils/router"
 
 interface CompanyBellDeskProps {}
 
@@ -16,7 +16,7 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
   const location = useLocation()
   const params = getRouteParams(location)
   console.log(params)
-  const { data, loading, error } = useSubscription(BELLHOP_LIST)
+  const {data, loading, error} = useSubscription(BELLHOP_LIST)
   if (loading) return <Loading />
 
   const bellhops = data?.m2_bellhops
@@ -47,4 +47,4 @@ const CompanyBellDesk: React.FC<CompanyBellDeskProps> = (props) => {
   )
 }
 
-export { CompanyBellDesk }
+export {CompanyBellDesk}

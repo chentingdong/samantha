@@ -28,9 +28,9 @@ export const Participants: React.FC<ParticipantsProps> = ({
 
   // Add participants in ordered roles, skip if exists in previous role.
   const getUserParticipations = (roles: string[]) => {
-    let goals = bell?.blocks.filter((block) => block.type === "Goal")
+    let goals = bell?.blocks?.filter((block) => block.type === "Goal")
     if (params.goalId !== "all")
-      goals = goals.filter(
+      goals = goals?.filter(
         (goal) => goal.id === params.goalId || goal.parent?.id === params.goalId
       )
 
@@ -59,7 +59,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     "task_requestor",
   ])
   const followers = getUserParticipations(["bell_follower", "goal_follower"])
-  const poolUsers = data?.users.filter(
+  const poolUsers = data?.users?.filter(
     (user) => participants.map((p) => p.id).indexOf(user.id) === -1
   )
 

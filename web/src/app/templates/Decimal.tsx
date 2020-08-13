@@ -23,6 +23,7 @@ const DecimalEdit: React.FC<DecimalEditProps> = ({field, onSubmit, ...props}) =>
     onSubmit({...field, ...formData})
   }
 
+  console.log(field)
   return (
     <form onSubmit={submit} {...props}>
       <input

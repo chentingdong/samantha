@@ -20,14 +20,14 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
   const activities =
     params.goalId === "all"
       ? bell?.blocks
-      : bell?.blocks.filter(
+      : bell?.blocks?.filter(
         (block) =>
           block.id === params.goalId ||
           block.parent?.id === params.goalId ||
           block.parent?.parent?.id === params.goalId
       )
 
-  const goal = bell?.blocks.filter((block) => block.id === params.goalId)?.[0]
+  const goal = bell?.blocks?.filter((block) => block.id === params.goalId)?.[0]
   const activitiesCompleted = activities?.filter((a) => a.state === "Success")
   const activitiesRunning = activities?.filter((a) => a.state === "Running")
   const activitiesFuture = activities?.filter((a) => a.state === "Created")

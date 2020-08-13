@@ -30,6 +30,7 @@ const TextEdit: React.FC<TextEditProps> = ({field, onSubmit, ...props}) => {
         type="text"
         className="w-auto px-2 py-1 border rounded-full"
         onBlur={submit}
+        autoComplete="off"
         ref={register({
           required: !field.optional,
           minLength: field.min_field_size,

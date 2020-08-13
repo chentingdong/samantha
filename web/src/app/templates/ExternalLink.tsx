@@ -1,13 +1,13 @@
+import {Button} from "components/Button"
 import React from "react"
-import { TaskItemProps } from "app/templates/TaskItemProps"
-import { Button } from "components/Button"
+import {TaskItemProps} from "app/M2/TaskItem"
 
 interface ExternalLinkProps {
   title: string
   url: string
 }
 
-const ExternalLinkDisplay: React.FC<ExternalLinkProps> = ({ title, url }) => {
+const ExternalLinkDisplay: React.FC<ExternalLinkProps> = ({title, url}) => {
   console.log(title, url)
   return (
     <a href={url} target="_blank" rel="noopener noreferrer">
@@ -37,7 +37,7 @@ const ExternalLinkEdit: React.FC<ExternalLinkProps> = ({
   )
 }
 
-const ExternalLink: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
+const ExternalLink: React.FC<TaskItemProps> = ({field, view, ...props}) => {
   return (
     <>
       {view === "display" && (
@@ -58,4 +58,4 @@ const ExternalLink: React.FC<TaskItemProps> = ({ field, view, ...props }) => {
   )
 }
 
-export { ExternalLinkDisplay, ExternalLinkEdit, ExternalLink }
+export {ExternalLinkDisplay, ExternalLinkEdit, ExternalLink}

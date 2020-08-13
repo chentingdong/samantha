@@ -57,13 +57,13 @@ const filterGoalTasks = (
 ): Block[] => {
   if (!goal || !tasks) tasks
   return tasks
-    .filter(
+    ?.filter(
       (task) =>
         task.parent_id === goal.id ||
         task.parent?.parent_id === goal.id ||
         task.parent?.parent?.parent_id === goal.id
     )
-    .filter((task) => states.indexOf(task.state) > -1)
+    ?.filter((task) => states.indexOf(task.state) > -1)
 }
 
 const filterGoalNotifications = (
@@ -72,7 +72,7 @@ const filterGoalNotifications = (
 ): Block[] =>
   notifications?.filter(
     (notification) =>
-      goals.filter((goal) => goal?.id === notification.parent?.id).length > 0
+      goals?.filter((goal) => goal?.id === notification.parent?.id).length > 0
   )
 
 const filterGoalArtifacts = (
@@ -83,7 +83,7 @@ const filterGoalArtifacts = (
   artifacts?.filter((artifact) => {
     if (artifact.source === "bell") return artifact.bell_id === bellId
     else if (artifact.source === "block") {
-      return goals.filter((goal) => goal?.id === artifact.block_id).length > 0
+      return goals?.filter((goal) => goal?.id === artifact.block_id).length > 0
     } else {
       return false
     }
@@ -92,7 +92,7 @@ const filterGoalArtifacts = (
 const findSubGoals = (goalId: string, goals: Block[]): Block[] => {
   if (goalId === "all") return goals
   else
-    return goals.filter(
+    return goals?.filter(
       (goal) =>
         goal.id === goalId ||
         goal.parent?.id === goalId ||

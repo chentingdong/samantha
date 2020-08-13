@@ -1,15 +1,16 @@
 // Goals.tsx in Bells
-import React, {useState, useEffect} from "react"
-import {Participants} from "./Participants"
-import {Chat} from "./Chat"
+import React, {useEffect, useState} from "react"
+import {buildRouterUrl, getRouteParams} from "utils/router"
+import {useHistory, useLocation} from "react-router-dom"
+
 import {Activities} from "./Activities"
 import {Artifacts} from "./Artifacts"
-import {Nav} from "rsuite"
-import {useHistory, useLocation} from "react-router-dom"
 import {Bell} from "models/interface"
+import {Chat} from "./Chat"
+import {Nav} from "rsuite"
+import {Participants} from "./Participants"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {getRouteParams, buildRouterUrl} from "utils/router"
 
 interface BellContextProps {
   className?: string

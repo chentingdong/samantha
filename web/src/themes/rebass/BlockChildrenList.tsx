@@ -1,10 +1,10 @@
 import React from "react"
-import { BlockOrDef } from "../../models/interface"
-import { MutationType } from "../../models/enum"
-import { DndSourceBox } from "../../components/DndSourceBox"
-import { BlockCatalogItem } from "./BlockCatalogItem"
+import {BlockOrDef} from "../../models/interface"
+import {MutationType} from "../../models/enum"
+import {DndSourceBox} from "../../components/DndSourceBox"
+import {BlockCatalogItem} from "./BlockCatalogItem"
 import styled from "styled-components"
-import { Box, Flex, Image, Heading, Text } from "rebass"
+import {Box, Flex, Image, Heading, Text} from "rebass"
 
 type BlockChildrenListType = {
   blocks: BlockOrDef[]
@@ -19,7 +19,7 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
     <Flex mx={-2}>
       {blocks &&
         blocks
-          .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+          ?.filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
             return (
@@ -42,8 +42,8 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   )
 }
 
-const BlockChildrenList: any = styled(({ ...props }) => (
+const BlockChildrenList: any = styled(({...props}) => (
   <BlockChildrenListRaw {...props} />
 ))``
 
-export { BlockChildrenList }
+export {BlockChildrenList}

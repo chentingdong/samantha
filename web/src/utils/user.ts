@@ -29,7 +29,7 @@ const iPlayRoles = (
 ): boolean => {
   if (!participants) return false
   const userIds = participants
-    .filter((participant) => roles.indexOf(participant.role) > -1)
+    ?.filter((participant) => roles.indexOf(participant.role) > -1)
     .map((participant) => participant.user.id)
 
   return userIds.indexOf(authUser.id) > -1

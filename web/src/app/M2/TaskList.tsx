@@ -2,11 +2,11 @@
 import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { TaskItem } from "app/M2/TaskItem"
-import { Block } from "models/interface"
-import { useLocation, useHistory } from "react-router-dom"
-import { getRouteParams, buildRouterUrl } from "utils/router"
-import { TODO } from "components/TODO"
+import {TaskItem} from "app/M2/TaskItem"
+import {Block} from "models/interface"
+import {useLocation, useHistory} from "react-router-dom"
+import {getRouteParams, buildRouterUrl} from "utils/router"
+import {TODO} from "components/TODO"
 
 interface TaskListRawProps {
   tasks?: Block[]
@@ -21,12 +21,12 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
   const history = useHistory()
   const params = getRouteParams(location)
   /* Engine decide task Running state. */
-  const runningTasks = tasks.filter((task) => task.state === "Running")
-  const nextTasks = tasks.filter(
+  const runningTasks = tasks?.filter((task) => task.state === "Running")
+  const nextTasks = tasks?.filter(
     (task) => task.state === "Draft" || task.state === "Created"
   )
   const linkToTask = (task) => {
-    const path = buildRouterUrl({ ...params, taskId: task.id })
+    const path = buildRouterUrl({...params, taskId: task.id})
     history.push(path)
   }
 
@@ -38,7 +38,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
           use runningTasks rather than all tasks here, check if engine sets
           state correctly
         </TODO>
-        {tasks?.map((task) => {
+        {runningTasks?.map((task) => {
           const active = params.taskId === task.id ? "active-task" : ""
           return (
             <div onClick={(e) => linkToTask(task)} key={task.id}>
@@ -46,7 +46,7 @@ export const TaskListRaw: React.FC<TaskListRawProps> = ({
             </div>
           )
         })}
-        {nextTasks.length === 0 && runningTasks.length === 0 && (
+        {nextTasks?.length === 0 && runningTasks?.length === 0 && (
           <div className="m-2 text-lg italic">
             All good for now! Come back for updates.
           </div>
@@ -73,4 +73,4 @@ const TaskList = styled(TaskListRaw)`
   }
 `
 
-export { TaskList }
+export {TaskList}

@@ -1,8 +1,8 @@
 import React from "react"
-import { BlockOrDef } from "../../models/interface"
-import { MutationType } from "../../models/enum"
-import { DndSourceBox } from "../../components/DndSourceBox"
-import { BlockCatalogItem } from "./BlockCatalogItem"
+import {BlockOrDef} from "../../models/interface"
+import {MutationType} from "../../models/enum"
+import {DndSourceBox} from "../../components/DndSourceBox"
+import {BlockCatalogItem} from "./BlockCatalogItem"
 import styled from "styled-components"
 
 type BlockChildrenListType = {
@@ -15,10 +15,10 @@ const BlockChildrenListRaw: React.FC<BlockChildrenListType> = ({
   onDelete,
 }) => {
   return (
-    <div className="row p-1">
+    <div className="p-1 row">
       {blocks &&
         blocks
-          .filter((block) => block.__mutation_type__ !== MutationType.Delete)
+          ?.filter((block) => block.__mutation_type__ !== MutationType.Delete)
           .map((block: BlockOrDef, index: number) => {
             const isLeaf = block.type.includes("LEAF_")
 
@@ -51,7 +51,7 @@ const Styles = styled.div.attrs({})`
   }
 `
 
-const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
+const BlockChildrenList: React.FC<BlockChildrenListType> = ({...props}) => {
   return (
     <Styles>
       <BlockChildrenListRaw {...props} />
@@ -59,4 +59,4 @@ const BlockChildrenList: React.FC<BlockChildrenListType> = ({ ...props }) => {
   )
 }
 
-export { BlockChildrenList }
+export {BlockChildrenList}
