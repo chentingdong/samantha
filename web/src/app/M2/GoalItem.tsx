@@ -39,7 +39,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
   const params = getRouteParams(location.pathname)
 
   const goalAssignees = goal?.user_participations?.filter(
-    (participant) => participant.role === "goal_asignee"
+    (participant) => participant.role === "goal_assignee"
   )
 
   const runningTasks = filterGoalTasks(goal, tasks, ["Running"])

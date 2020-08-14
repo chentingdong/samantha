@@ -62,7 +62,7 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
           {loadingBellList && <Loading />}
           {errorBellList && <Error message={errorBellList.message} />}
           <BellListCard
-            className="container mx-auto"
+            className="container mx-auto px-1"
             listTitle="Running Bells"
             bells={dataBellList?.m2_bells}
           />

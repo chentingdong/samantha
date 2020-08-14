@@ -26,7 +26,6 @@ const LobbyRaw: React.FC<LobbyProps> = ({ className }) => {
 
   const bellsParticipated = bells?.filter((bell) =>
     iPlayRoles(authUser, bell?.user_participations, [
-      "bell_initiator",
       "bell_assignee",
       "bell_follower",
     ])

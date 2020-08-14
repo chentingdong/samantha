@@ -85,31 +85,39 @@ const BellItemRow: React.FC<BellItemRowProps> = ({ bell }) => {
 
   const [cloneBellByPk] = useMutation(CLONE_BELL_BY_PK)
   const startABell = async () => {
-    const newBell = await cloneBellByPk({ variables: { id: bell.id } })
+    const newBell = await cloneBellByPk({
+      variables: {
+        id: bell.id,
+        is_definition: false,
+        start_on_create: true,
+      },
+    })
     const newBellUrl = buildRouterUrl({
       menu: "bells",
       bellId: newBell.data.action,
     })
-    console.log(newBellUrl)
-    history.push(newBellUrl)
+    console.log(newBell)
+    // history.push(newBellUrl)
   }
   return (
     bell && (
-      <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-3200">
-        <li className="self-center break-all col-span-2">
-          {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
-        </li>
-        <li className="self-center break-all col-span-4">
-          {bell?.description || (
-            <Placeholder.Paragraph rows={1} rowHeight={14} />
-          )}
-        </li>
-        <li className="flex flex-row-reverse self-center col-span-1">
+      <div className="px-4 py-2 rounded-full cursor-pointer flex justify-between hover:bg-gray-200 align-middle">
+        <div className="align-middle">
+          <div className="py-1">
+            {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
+          </div>
+          <div className="text-sm ">
+            {bell?.description || (
+              <Placeholder.Paragraph rows={1} rowHeight={14} />
+            )}
+          </div>
+        </div>
+        <div className="flex-none">
           <Button color="primary" className="fill" onClick={startABell}>
             Start
           </Button>
-        </li>
-      </ul>
+        </div>
+      </div>
     )
   )
 }

@@ -16,7 +16,6 @@ const BellCatalogList: React.FC<BellListProps> = ({ whose, ...props }) => {
   if (error) return <Error message={error.message} />
 
   let bells = data?.m2_bells
-  // TODO: add this filter for my-bellhops page bell catalog list
   if (params.bellhopId && whose === "mine")
     bells = bells?.filter(
       (bell) =>
@@ -24,7 +23,6 @@ const BellCatalogList: React.FC<BellListProps> = ({ whose, ...props }) => {
           ?.map((p) => p.bellhop.id)
           .indexOf(params.bellhopId) > -1
     )
-  console.log(bells, params.bellhopId)
 
   return <BellListRow bells={bells} {...props} />
 }
