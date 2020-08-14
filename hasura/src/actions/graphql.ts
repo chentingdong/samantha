@@ -20,6 +20,7 @@ export const getBellByPk = async function (id: string): Promise<Bell> {
           name
           description
           root_block_id
+          acts_as_main_bell
           sub_bells {
             id
           }

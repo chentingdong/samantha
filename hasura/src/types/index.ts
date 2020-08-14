@@ -7,6 +7,7 @@ type clone_m2_bells_pk_columns_input = {
 export type clone_m2_bells_by_pk_args = {
   pk_columns: clone_m2_bells_pk_columns_input
   is_definition: boolean
+  start_on_create: boolean
 }
 
 export type clone_m2_bells_pk_columns_output = {
@@ -88,6 +89,7 @@ export type Bell = {
   bellhop_participations?: BellhopBellParticipation[]
   blocks?: Block[]
   context?: object
+  acts_as_main_bell?: boolean
 }
 
 export type Field = {
