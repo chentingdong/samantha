@@ -121,9 +121,9 @@ const ParticipantsPicker = styled(ParticipantsPickerRaw)`
       ${tw`m-1 w-8 h-8 content-center text-center`}
       ${tw`text-white text-sm rounded-full`}
       .close {
-        ${tw`absolute top-0 right-0 w-4 h-4 p-2`}
-        ${tw`content-center text-center font-bold text-purple-800`}
-        ${tw`cursor-pointer bg-gray-500 shadow rounded-full`}
+        ${tw`absolute top-0 right-0 w-4 h-4 p-1`}
+        ${tw`content-center text-center font-bold text-white`}
+        ${tw`cursor-pointer bg-red-500 shadow rounded-full`}
         font-size: 0.5rem;
         display: None;
       }

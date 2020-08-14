@@ -19,6 +19,7 @@ import {
 } from "./graphql"
 import { nanoid } from "nanoid"
 import { Field } from "../types"
+import { updateBlockByPk } from "../graphql/m2/mutations/updateBlockByPk"
 
 function clearResponses(fields: Field[]) {
   return fields.map((field) => ({ ...field, response: null }))
@@ -28,7 +29,8 @@ async function cloneBlock(
   id: string,
   parent_id: string,
   bell_id: string,
-  is_definition: boolean
+  is_definition: boolean,
+  start_on_create: boolean = false
 ): Promise<string> {
   // query old block by id
   const {
@@ -126,13 +128,17 @@ async function cloneBlock(
     await cloneBlock(child.id, block_id, bell_id, is_definition)
   }
 
+  if (start_on_create) {
+    updateBlockByPk({ id: block_id, data: { state: "Running" } })
+  }
   return block_id
 }
 
 async function cloneBell(
   id: string,
   is_definition: boolean,
-  main_bell_id: string = null
+  main_bell_id: string = null,
+  start_on_create: boolean = false
 ): Promise<string> {
   // query old bell by id
 
@@ -144,11 +150,12 @@ async function cloneBell(
     user_participations,
     bellhop_participations,
     blocks,
+    acts_as_main_bell,
   } = await getBellByPk(id)
 
   // generate new id
   const bell_id = nanoid()
-  const state = "Created"
+  const state = start_on_create ? "Running" : "Created"
   // clear context
   const context = {}
 
@@ -161,6 +168,7 @@ async function cloneBell(
       state,
       is_definition,
       main_bell_id,
+      acts_as_main_bell,
       context,
     },
   })
@@ -192,7 +200,8 @@ async function cloneBell(
     root_block_id,
     null,
     bell_id,
-    is_definition
+    is_definition,
+    start_on_create
   )
 
   await updateBellById({
@@ -245,7 +254,15 @@ async function cloneBell(
 async function cloneM2BellsByPk(
   args: clone_m2_bells_by_pk_args
 ): Promise<clone_m2_bells_pk_columns_output> {
-  const bell_id = await cloneBell(args.pk_columns.id, args.is_definition)
+  const main_bell_id: string = null
+  const start_on_create: boolean = true
+
+  const bell_id = await cloneBell(
+    args.pk_columns.id,
+    args.is_definition,
+    main_bell_id,
+    start_on_create
+  )
 
   return { new_id: bell_id }
 }

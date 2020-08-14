@@ -2,6 +2,7 @@ type Mutation {
   clone_m2_bells_by_pk (
     pk_columns: clone_m2_bells_pk_columns_input!
     is_definition: Boolean
+    start_on_create: Boolean
   ): clone_m2_bells_pk_columns_output
 }
 
