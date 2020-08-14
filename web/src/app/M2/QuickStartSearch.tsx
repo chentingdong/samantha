@@ -70,16 +70,17 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bellhops?.map((bellhop) => {
                 return (
-                  <Link
-                    to={buildRouterUrl({
-                      menu: "bellhops",
-                      desk: "all",
-                      bellhopId: bellhop.id,
-                    })}
-                    key={bellhop.id}
-                  >
-                    {bellhop.name}
-                  </Link>
+                  <div key={bellhop.id}>
+                    <Link
+                      to={buildRouterUrl({
+                        menu: "bellhops",
+                        desk: "all",
+                        bellhopId: bellhop.id,
+                      })}
+                    >
+                      {bellhop.name}
+                    </Link>
+                  </div>
                 )
               })}
               {suggestions.bellhops?.length === 0 && <i>Nothing found</i>}
@@ -90,12 +91,13 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bells?.map((bell) => {
                 return (
-                  <Link
-                    to={buildRouterUrl({ menu: "bells", bellId: bell.id })}
-                    key={bell?.id}
-                  >
-                    {bell?.name}
-                  </Link>
+                  <div key={bell?.id}>
+                    <Link
+                      to={buildRouterUrl({ menu: "bells", bellId: bell.id })}
+                    >
+                      {bell?.name}
+                    </Link>
+                  </div>
                 )
               })}
               {suggestions.bells?.length === 0 && <i>Nothing found</i>}
