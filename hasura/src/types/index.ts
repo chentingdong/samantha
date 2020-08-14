@@ -43,19 +43,22 @@ export type UserBellParticipation = {
 export type Block = {
   id: string
   name?: string
-  local_id: string
-  type: string
-  state: string
+  local_id?: string
+  type?: string
+  state?: string
   configs?: BlockConfigs
   parent_id?: string
   sibling_order?: number
   user_participations?: UserBlockParticipation[]
+  users?: UserBlockParticipation[]
   goal?: Goal
   task?: Task
   bell_executor?: BellExecutor
   children?: Block[]
   bell?: Bell
   bell_id?: string
+  started_at?: string | null
+  ended_at?: string | null
 }
 
 export type BlockConfigs = {
@@ -74,8 +77,9 @@ export type Task = {
 }
 
 export type BellExecutor = {
-  bell_id: string
-  block: Block
+  bell_id?: string
+  block?: Block
+  context?: object
 }
 
 export type Bell = {
@@ -104,14 +108,22 @@ export type Field = {
 
 export type BellWithContext = {
   blocks: Block[]
+  root_block_id: string
+  context: object
+  started_at: string | null
+  ended_at: string | null
+  users?: UserBellParticipation[]
+  bellhops?: BellhopBellParticipation[]
+}
+
+export type Tasks = {
+  [local_id: string]: {
+    fields: Field[]
+  }
 }
 
 export type BellContextFacts = {
   context: {
-    task: {
-      [local_id: string]: {
-        fields: Field[]
-      }
-    }
+    task: Tasks
   }
 }
