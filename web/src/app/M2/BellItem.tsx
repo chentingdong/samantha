@@ -1,16 +1,16 @@
+import { Link, useHistory, useLocation } from "react-router-dom"
+import { buildRouterUrl, getRouteParams } from "utils/router"
+import { displayDate, stringHashBucket } from "utils/common"
+
+import { Bell } from "models/interface"
+import { Button } from "components/Button"
+import { CLONE_BELL_BY_PK } from "operations/mutations/cloneBellByPk"
+import { Placeholder } from "rsuite"
 import React from "react"
-import {Bell} from "models/interface"
-import {Link, useLocation, useHistory} from "react-router-dom"
+import { displayParticipants } from "utils/user"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {stringHashBucket, displayDate} from "utils/common"
-import {Placeholder} from "rsuite"
-import {Button} from "components/Button"
-import {displayParticipants} from "utils/user"
-import {useMutation} from "@apollo/client"
-import {CLONE_BELL_BY_PK} from "operations/mutations/cloneBellByPk"
-import {getRouteParams, buildRouterUrl} from "utils/router"
-
+import { useMutation } from "@apollo/client"
 
 export interface BellRawProps {
   bell: Bell
@@ -33,13 +33,13 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
     <Link
       className={`${className} rounded-lg text-sm van-gogh`}
       {...props}
-      to={`/bells/${bell?.id}`}
+      to={buildRouterUrl({ menu: "bells", bellId: bell.id })}
     >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
           {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </h5>
-        <div>{displayDate(bell?.createdAt)}</div>
+        <div>{displayDate(bell?.created_at)}</div>
         <div>
           Started by <i>{displayParticipants(initiators)}</i>
         </div>
@@ -78,15 +78,18 @@ export interface BellItemRowProps {
   bell: Bell
 }
 
-const BellItemRow: React.FC<BellItemRowProps> = ({bell}) => {
+const BellItemRow: React.FC<BellItemRowProps> = ({ bell }) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
   const history = useHistory()
 
   const [cloneBellByPk] = useMutation(CLONE_BELL_BY_PK)
   const startABell = async () => {
-    const newBell = await cloneBellByPk({variables: {id: bell.id}})
-    const newBellUrl = buildRouterUrl({...params, menu: 'bells', bellId: newBell.data.action})
+    const newBell = await cloneBellByPk({ variables: { id: bell.id } })
+    const newBellUrl = buildRouterUrl({
+      menu: "bells",
+      bellId: newBell.data.action,
+    })
     console.log(newBellUrl)
     history.push(newBellUrl)
   }
@@ -111,4 +114,4 @@ const BellItemRow: React.FC<BellItemRowProps> = ({bell}) => {
   )
 }
 
-export {BellItemCard, BellItemRow}
+export { BellItemCard, BellItemRow }

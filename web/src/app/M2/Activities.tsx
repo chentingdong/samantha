@@ -1,36 +1,37 @@
+import { Link, useLocation } from "react-router-dom"
+import { buildRouterUrl, getRouteParams } from "utils/router"
+
+import { ActivityStateIcon } from "components/StateIcon"
+import { Bell } from "models/interface"
 // Activities.tsx. appears in single page right side tabs
 import React from "react"
+import { displayDate } from "utils/common"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {ActivityStateIcon} from "components/StateIcon"
-import {displayDate} from "utils/common"
-import {Bell} from "models/interface"
-import {useLocation, Link} from "react-router-dom"
-import {getRouteParams, buildRouterUrl} from "utils/router"
 
 interface ActivitiesProps {
   bell: Bell
   className?: string
 }
 
-const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
+const ActivitiesRaw: React.FC<ActivitiesProps> = ({ bell, ...props }) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
 
   const activities =
     params.goalId === "all"
       ? bell?.blocks
       : bell?.blocks?.filter(
-        (block) =>
-          block.id === params.goalId ||
-          block.parent?.id === params.goalId ||
-          block.parent?.parent?.id === params.goalId
-      )
+          (block) =>
+            block.id === params.goalId ||
+            block.parent?.id === params.goalId ||
+            block.parent?.parent?.id === params.goalId
+        )
 
   const goal = bell?.blocks?.filter((block) => block.id === params.goalId)?.[0]
   const activitiesCompleted = activities?.filter((a) => a.state === "Success")
   const activitiesRunning = activities?.filter((a) => a.state === "Running")
-  const activitiesFuture = activities?.filter((a) => a.state === "Created")
+  const activitiesNext = activities?.filter((a) => a.state === "Created")
 
   return (
     <div {...props}>
@@ -81,8 +82,8 @@ const ActivitiesRaw: React.FC<ActivitiesProps> = ({bell, ...props}) => {
             </div>
           )
         })}
-        {activitiesFuture?.length > 0 && <div className="ddd">...</div>}
-        {activitiesFuture?.map((activity) => (
+        {activitiesNext?.length > 0 && <div className="ddd">...</div>}
+        {activitiesNext?.map((activity) => (
           <div className="hidden activity" key={activity.id}>
             <ActivityStateIcon state={activity.state} />
             <div>
@@ -126,4 +127,4 @@ const Activities: React.FC<ActivitiesProps> = styled(ActivitiesRaw)`
   }
 `
 
-export {Activities}
+export { Activities }

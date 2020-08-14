@@ -8,8 +8,8 @@
 import { RouterUrlProps } from "models/interface"
 import { matchPath } from "react-router-dom"
 
-const getRouteParams = (location: Location): RouterUrlProps => {
-  const matchMenu = matchPath(location.pathname, {
+const getRouteParams = (pathname: string): RouterUrlProps => {
+  const matchMenu = matchPath(pathname, {
     path: "/:menu",
   })
   const menu = matchMenu?.params["menu"]
@@ -24,7 +24,7 @@ const getRouteParams = (location: Location): RouterUrlProps => {
       }
     case "bells":
       let path = "/bells/:bellId/:goalId?/:context?/:taskId?"
-      let match = matchPath(location.pathname, { path: path })
+      let match = matchPath(pathname, { path: path })
       return {
         menu: "bells",
         bellId: match?.params["bellId"] || "all",
@@ -34,7 +34,7 @@ const getRouteParams = (location: Location): RouterUrlProps => {
       }
     case "bellhops":
       path = "/bellhops/:desk?/:bellhopId?"
-      match = matchPath(location.pathname, { path: path })
+      match = matchPath(pathname, { path: path })
       return {
         menu: "bellhops",
         desk: match?.params["desk"],

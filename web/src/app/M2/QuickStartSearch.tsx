@@ -1,11 +1,12 @@
-import React, {useState, useEffect} from "react"
-import styled from "styled-components"
+import { Link, NavLink } from "react-router-dom"
+import React, { useEffect, useState } from "react"
+
+import { BELLHOP_SEARCH } from "operations/queries/bellhopSearch"
+import { BELL_SEARCH } from "operations/queries/bellSearch"
 import IconBell from "../../assets/img/bell.svg"
-import {NavLink, Link} from "react-router-dom"
-import {BELLHOP_SEARCH} from "operations/queries/bellhopSearch"
-import {BELL_SEARCH} from "operations/queries/bellSearch"
-import {useLazyQuery} from "@apollo/client"
-import {buildRouterUrl} from "utils/router"
+import { buildRouterUrl } from "utils/router"
+import styled from "styled-components"
+import { useLazyQuery } from "@apollo/client"
 
 export interface QuickStartSearchhProps {}
 
@@ -15,15 +16,15 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
   const [show, setShow] = useState(false)
   const [value, setValue] = useState()
 
-  const [suggestions, setSuggestions] = useState({bellhops: [], bells: []})
-  const [getBellhopData, {data: dataBellhops}] = useLazyQuery(
+  const [suggestions, setSuggestions] = useState({ bellhops: [], bells: [] })
+  const [getBellhopData, { data: dataBellhops }] = useLazyQuery(
     BELLHOP_SEARCH,
     {
       fetchPolicy: "network-only",
     }
   )
 
-  const [getBellData, {data: dataBells}] = useLazyQuery(BELL_SEARCH, {
+  const [getBellData, { data: dataBells }] = useLazyQuery(BELL_SEARCH, {
     fetchPolicy: "network-only",
   })
 
@@ -36,7 +37,7 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
   }, [dataBellhops, dataBells])
 
   const suggest = async (text) => {
-    const variables = {variables: {search: `%${text}%`}}
+    const variables = { variables: { search: `%${text}%` } }
     await getBellhopData(variables)
     await getBellData(variables)
   }
@@ -69,7 +70,14 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bellhops?.map((bellhop) => {
                 return (
-                  <Link to={buildRouterUrl({desk: 'all', bellhopId: bellhop.id})} key={bellhop.id}>
+                  <Link
+                    to={buildRouterUrl({
+                      menu: "bellhops",
+                      desk: "all",
+                      bellhopId: bellhop.id,
+                    })}
+                    key={bellhop.id}
+                  >
                     {bellhop.name}
                   </Link>
                 )
@@ -82,7 +90,10 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
             <div className="pl-4 border-l border-gray-500 col-span-2">
               {suggestions.bells?.map((bell) => {
                 return (
-                  <Link to={`/bells/${bell?.id}`} key={bell?.id}>
+                  <Link
+                    to={buildRouterUrl({ menu: "bells", bellId: bell.id })}
+                    key={bell?.id}
+                  >
                     {bell?.name}
                   </Link>
                 )
@@ -101,4 +112,4 @@ const QuickStartSearchhRaw: React.FC<QuickStartSearchhProps> = ({
 
 const QuickStartSearchh = styled(QuickStartSearchhRaw)``
 
-export {QuickStartSearchh}
+export { QuickStartSearchh }

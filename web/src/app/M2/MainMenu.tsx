@@ -1,16 +1,16 @@
-import React from "react"
-import { useLocation, Link } from "react-router-dom"
-import { getRouteParams } from "utils/router"
-import { FlexboxGrid, Dropdown } from "rsuite"
-import { getLogoByTheme } from "../../utils/styles"
-import styled from "styled-components"
+import { Dropdown, FlexboxGrid } from "rsuite"
+import { Link, useLocation } from "react-router-dom"
+
 import { AUTH_USER } from "../../operations/queries/authUser"
 import { Logout } from "components/Logout"
 import { QuickStartSearchh } from "./QuickStartSearch"
+import React from "react"
 import { UserAvatar } from "components/UserAvatar"
-
-import { useQuery } from "@apollo/client"
+import { getLogoByTheme } from "../../utils/styles"
+import { getRouteParams } from "utils/router"
+import styled from "styled-components"
 import tw from "tailwind.macro"
+import { useQuery } from "@apollo/client"
 
 export interface MainMenuProps {
   active?: string
@@ -29,7 +29,7 @@ const MainMenuRaw: React.FC<MainMenuProps> = ({
   } = useQuery(AUTH_USER)
 
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
 
   const setActiveMenu = (menu: string, desk?: string): string => {
     return params.menu === menu && params.desk === desk ? "active" : ""

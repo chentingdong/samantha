@@ -1,14 +1,14 @@
 // Goals.tsx in Bells
-import React, {useEffect, useState} from "react"
-import {buildRouterUrl, getRouteParams} from "utils/router"
-import {useHistory, useLocation} from "react-router-dom"
+import React, { useEffect, useState } from "react"
+import { buildRouterUrl, getRouteParams } from "utils/router"
+import { useHistory, useLocation } from "react-router-dom"
 
-import {Activities} from "./Activities"
-import {Artifacts} from "./Artifacts"
-import {Bell} from "models/interface"
-import {Chat} from "./Chat"
-import {Nav} from "rsuite"
-import {Participants} from "./Participants"
+import { Activities } from "./Activities"
+import { Artifacts } from "./Artifacts"
+import { Bell } from "models/interface"
+import { Chat } from "./Chat"
+import { Nav } from "rsuite"
+import { Participants } from "./Participants"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
@@ -24,7 +24,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
 }) => {
   const history = useHistory()
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
   const [activeTab, setActiveTab] = useState(params.context)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
     setActiveTab(tab)
     params.context = tab
     const goalId = tab.parent?.id || params.goalId
-    const path = buildRouterUrl({...params, context: tab, goalId: goalId})
+    const path = buildRouterUrl({ ...params, context: tab, goalId: goalId })
     history.push(path)
   }
 
@@ -104,4 +104,4 @@ const BellContext: React.FC<BellContextProps> = styled(BellContextRaw)`
   }
 `
 
-export {BellContext}
+export { BellContext }
