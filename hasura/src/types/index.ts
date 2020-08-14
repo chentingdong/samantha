@@ -88,6 +88,7 @@ export type Bell = {
   bellhop_participations?: BellhopBellParticipation[]
   blocks?: Block[]
   context?: object
+  acts_as_main_bell?: boolean
 }
 
 export type Field = {

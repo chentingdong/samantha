@@ -3,12 +3,14 @@ import Goal from "./Goal"
 import Task from "./Task"
 import BellExecutor from "./BellExecutor"
 import APIExecutor from "./APIExecutor"
+import Notification from "./Notification"
 
 const blockTypeMap: BlockTypeMap = {
   Goal,
   Task,
   BellExecutor,
   APIExecutor,
+  Notification,
 }
 
 export const onRun = async (block: Block) => {
