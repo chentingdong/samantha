@@ -1,11 +1,11 @@
-import React from "react"
-import { BrowserRouter, Switch, Redirect } from "react-router-dom"
-import PublicRoute from "./PublicRoute"
-import PrivateRoute from "./PrivateRoute"
+import { BrowserRouter, Redirect, Switch } from "react-router-dom"
+
+import { Demo } from "../app/M2/Demo"
 import Login from "../app/Login"
 import NotFound from "../app/NotFound"
-import { Demo } from "../app/M2/Demo"
-import { Demo as DemoM1 } from "../app/M1/Demo"
+import PrivateRoute from "./PrivateRoute"
+import PublicRoute from "./PublicRoute"
+import React from "react"
 
 const routes = [
   {
@@ -21,11 +21,6 @@ const routes = [
   {
     path: "/bells/:bellId?/:goalId?/:context?/:taskId?",
     component: Demo,
-    tag: PrivateRoute,
-  },
-  {
-    path: "/m1",
-    component: DemoM1,
     tag: PrivateRoute,
   },
   {

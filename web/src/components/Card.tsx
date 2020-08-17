@@ -51,7 +51,7 @@ const Card = styled(CardRaw)`
     .card-footer {
     }
     &.composite {
-      display: block;
+      display: block; t
     }
     &.leaf {
       ${tw`m-1`}
