@@ -1,0 +1,313 @@
+/* App Themes global variables, keep lean. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+.theme-bell {
+  --color-text-default: theme("colors.black");
+  --color-bg-default: theme("colors.white");
+
+  --color-text-disabled: theme("colors.gray.500");
+  --color-bg-disabled: theme("colors.gray.800");
+}
+
+.theme-dark {
+  --color-text-default: theme("colors.white");
+  --color-bg-default: theme("colors.black");
+
+  --color-text-disabled: theme("colors.purple.500");
+  --color-bg-disabled: theme("colors.gray.300");
+}
+
+* {
+  --color-text-primary: theme("colors.gray.100");
+  --color-bg-primary: theme("colors.purple.500");
+
+  --color-text-secondary: theme("colors.gray.100");
+  --color-bg-secondary: theme("colors.purple.300");
+
+  --color-text-light: theme("colors.black");
+  --color-bg-light: theme("colors.gray.300");
+
+  --color-text-dark: theme("colors.gray.300");
+  --color-bg-dark: theme("colors.gray.800");
+
+  --color-text-success: theme("colors.white");
+  --color-bg-success: theme("colors.green.500");
+
+  --color-text-warning: theme("colors.white");
+  --color-bg-warning: theme("colors.orange.500");
+
+  --color-text-error: theme("colors.red.300");
+  --color-bg-error: theme("colors.red.500");
+}
+
+.text-default {
+  color: var(--color-text-default);
+}
+.bg-default {
+  background-color: var(--color-bg-default);
+}
+.text-primary {
+  color: #3a0751;
+}
+.bg-primary {
+  background-color: #3a0751;
+}
+.text-secondary {
+  color: #a13670;
+}
+.bg-secondary {
+  background-color: #a13670;
+}
+.text-success {
+  background-color: var(--color-text-success);
+}
+.bg-success {
+  background-color: var(--color-bg-success);
+}
+.text-warning {
+  color: var(--color-text-warning);
+}
+.bg-warning {
+  background-color: var(--color-bg-warning);
+}
+.text-error {
+  color: var(--color-text-error);
+  @apply p-2;
+}
+.bg-error {
+  background-color: var(--color-bg-error);
+}
+.TODO {
+  color: theme("colors.orange.500");
+}
+
+/* element theming */
+* {
+  transition: background-color 0.3s ease;
+  transition: height width 0.3s ease;
+}
+
+body {
+  font-family: theme("fontFamily.sans");
+  font-size: 16px;
+  font-weight: 500;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-style: normal;
+  font-weight: 800;
+  align-items: center;
+  line-height: 1.5em;
+}
+
+h1 {
+  font-size: 2.48rem;
+}
+
+h2 {
+  font-size: 1.95rem;
+}
+
+h3 {
+  font-size: 1.56rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.1rem;
+}
+
+h6 {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+label {
+  font-weight: 500;
+}
+
+a {
+  text-decoration: underline;
+}
+.quote {
+  font-family: theme("fontFamily.serif");
+  font-style: normal;
+  font-weight: bold;
+  font-size: 39.06px;
+  font-size: 2.48rem;
+  line-height: 133%;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+  border-radius: 1.6875em;
+  line-height: 1.6875em;
+  @apply px-4;
+  @apply py-2;
+  @apply w-full;
+  @apply my-2;
+}
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+  outline: none;
+  border-radius: 1.6875em;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+}
+
+/* Menu */
+.menu-item {
+  text-decoration: none;
+  color: theme("colors.gray.700");
+}
+.menu-item.active {
+  text-decoration: none;
+  color: theme("colors.black");
+  font-weight: bold;
+}
+/* Bells */
+/* van gogh's pallette */
+.bg-bell,
+.bg-bell-0 {
+  background: rgb(248, 229, 98);
+  border-color: rgb(248, 229, 98);
+}
+.bg-bell-1 {
+  background: rgb(248, 196, 91);
+  border-color: rgb(248, 196, 91);
+}
+.bg-bell-2 {
+  background: rgb(247, 124, 7);
+  border-color: rgb(247, 124, 7);
+}
+.bg-bell-3 {
+  background: rgb(185, 237, 2);
+  border-color: rgb(185, 237, 2);
+}
+.bg-bell-4 {
+  background: rgb(0, 211, 213);
+  border-color: rgb(0, 211, 213);
+}
+.bg-bell-5 {
+  background: rgba(25, 116, 65, 0.8);
+  border-color: rgba(25, 116, 65, 0.8);
+}
+.bg-bell-6 {
+  background: rgb(247, 121, 96);
+  border-color: rgb(247, 121, 96);
+}
+.bg-bell-7 {
+  background: rgba(231, 90, 14, 0.7);
+  border-color: rgba(231, 90, 14, 0.7);
+}
+.bg-bell-8 {
+  background: rgba(86, 75, 135, 0.7);
+  border-color: rgba(86, 75, 135, 0.7);
+}
+.bg-bell-9 {
+  background: rgb(133, 164, 214);
+  border-color: rgb(133, 164, 214);
+}
+
+/* asana.com colors */
+
+/* .bg-bell,
+.bg-bell-0 {
+  background: #ecc94b;
+}
+.bg-bell-1 {
+  background: #a4cf30;
+}
+.bg-bell-2 {
+  background: #62d26f;
+}
+.bg-bell-3 {
+  background: #37c5ab;
+}
+.bg-bell-4 {
+  background: #20aaea;
+}
+.bg-bell-5 {
+  background: #7a6ff0;
+}
+.bg-bell-6 {
+  background: #7a6ff0;
+}
+.bg-bell-7 {
+  background: #aa62e3;
+}
+.bg-bell-8 {
+  background: #ea4e9d;
+}
+.bg-bell-9 {
+  background: #fc91ad;
+} */
+
+/********************/
+/* Storybook themes */
+/********************/
+.theme-light {
+  --color-text-primary: #333;
+  --color-text-secondary: #555;
+  --color-text-default: #444;
+  --color-text-disabled: #222;
+
+  --color-bg-primary: #aaa;
+  --color-bg-secondary: #7e9292;
+  --color-bg-default: #bbb;
+  --color-bg-disabled: #ccc;
+}
+
+.theme-startup {
+  --color-bg-primary: #ff73b3;
+  --color-bg-secondary: #6f72b9;
+  --color-bg-default: #fff;
+  --color-bg-disabled: #5255ac;
+
+  --color-text-primary: #fff;
+  --color-text-secondary: #44467b;
+  --color-text-default: #fff;
+  --color-text-default-soft: #6a6a6a;
+  --color-text-disabled: #fff;
+}
+
+.theme-boring {
+  --color-bg-primary: #0252cc;
+  --color-bg-secondary: #ffc402;
+  --color-bg-default: #fff;
+  --color-bg-disabled: #fff;
+
+  --color-text-primary: #fff;
+  --color-text-secondary: #755f17;
+  --color-text-default: #444;
+  --color-text-default-soft: #999;
+  --color-text-disabled: #444;
+}
+
+.theme-elegant {
+  --color-bg-primary: #c0b283;
+  --color-bg-secondary: #dcd0c0;
+  --color-bg-default: #f4f4f4;
+  --color-bg-disabled: #373737;
+
+  --color-text-primary: #fff;
+  --color-text-secondary: #927e7e;
+  --color-text-default: #373737;
+  --color-text-default-soft: #6a6a6a;
+  --color-text-disabled: #fff;
+}

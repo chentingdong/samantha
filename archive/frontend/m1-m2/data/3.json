@@ -1,0 +1,10 @@
+[
+  {
+    "optional": false,
+    "question": "What are you purchasing",
+    "response": "A new HVAC machine",
+    "response_type": "Text",
+    "max_field_size": 128,
+    "min_field_size": 4
+  }
+]

@@ -1,0 +1,99 @@
+// Shared styles in dark/light mode to override rsuite style.
+@font-family-base: "Avenir", "Varela", "Arial", "Sans";
+@font-family-display: "kepler-std", "Varela", "serif";
+@font-size-base: 16px;
+@font-color: #212121;
+@input-bg: #eeeeee;
+@secondary-bg-color: #eeeeee;
+@info-color: #979797;
+@success-color: #2f6c30;
+@warning-color: #f2c85b;
+@error-color: #ae3a34;
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: @font-family-base;
+  font-weight: 600;
+  color: inherit;
+  margin: 0;
+}
+
+/* nav */
+.rs-navbar.rs-navbar-default {
+  background: none;
+}
+.rs-navbar::before,
+.rs-navbar::after {
+  content: none;
+}
+.rs-nav-default,
+.rs-nav-default .rs-nav-item > .rs-nav-item-content {
+  color: @font-color;
+  font-weight: 500;
+}
+
+.rs-nav-item.rs-nav-item-active > a.rs-nav-item-content {
+  font-weight: 800;
+}
+/* modal */
+.rs-modal {
+  margin-top: 30%;
+  .rs-modal-header .rs-modal-title {
+    font-family: @font-family-base;
+  }
+  .rs-modal-content {
+    border-radius: 0;
+    padding: 1rem;
+  }
+}
+.rs-picker-toggle,
+.rs-picker-toggle.active {
+  border-radius: 1.8675em;
+}
+/* dropdown */
+.rs-dropdown-no-caret .rs-dropdown-toggle {
+}
+/* Notification */
+.rs-notification-item-content {
+  padding: 1rem;
+  border-radius: 0;
+  &.active {
+    font-weight: 800;
+  }
+}
+.rs-notification-item-close {
+  top: 1rem;
+  right: 1rem;
+  font-weight: 800;
+}
+.rs-notification-success {
+  border: 1px solid @success-color;
+  .rs-notification-item-content .rs-icon {
+    color: @success-color;
+  }
+}
+.rs-notification-info {
+  border: 1px solid @info-color;
+  .rs-notification-item-content .rs-icon {
+    color: @info-color;
+  }
+}
+.rs-notification-warning {
+  border: 1px solid @warning-color;
+  .rs-notification-item-content .rs-icon {
+    color: @warning-color;
+  }
+}
+.rs-notification-failure {
+  border: 1px solid @error-color;
+  .rs-notification-item-content .rs-icon {
+    color: @error-color;
+  }
+}
+input[type="text"] {
+  border-radius: 20px;
+}
