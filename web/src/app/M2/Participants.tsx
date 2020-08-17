@@ -27,7 +27,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
   bell,
   ...props
 }) => {
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
   const { data: usersResult, loading: loadingUser } = useQuery(GET_USERS)
 
   // subscriptions
@@ -36,7 +36,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     loading: loadingBellParticipants,
   } = useSubscription(USER_BELL_PARTICIPATIONS, {
     variables: {
-      bellId: bell.id,
+      bellId: bell?.id,
       roles: ["bell_initiator", "bell_owner"],
     },
   })

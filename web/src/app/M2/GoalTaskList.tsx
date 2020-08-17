@@ -1,14 +1,15 @@
+import { buildRouterUrl, getRouteParams } from "utils/router"
+
+import { Block } from "models/interface"
+import { GoalItem } from "./GoalItem"
+import { GoalListHeader } from "./GoalListHeader"
 import React from "react"
-import {Block} from "models/interface"
-import {GoalListHeader} from "./GoalListHeader"
-import {useLocation} from "react-router-dom"
-import {getRouteParams, buildRouterUrl} from "utils/router"
-import {stringHashBucket} from "utils/common"
-import {GoalItem} from "./GoalItem"
+import { TaskList } from "./TaskList"
+import { findSubGoals } from "utils/bell"
+import { stringHashBucket } from "utils/common"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {TaskList} from "./TaskList"
-import {findSubGoals} from "utils/bell"
+import { useLocation } from "react-router-dom"
 
 interface GoalTaskListProps {
   goals: Block[]
@@ -25,7 +26,7 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
   ...props
 }) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
 
   const bellColor =
     `bg-bell-${stringHashBucket(params.bellId, 10)}` || "bg-bell"
@@ -40,7 +41,7 @@ const GoalTaskListRaw: React.FC<GoalTaskListProps> = ({
   return (
     <div {...props}>
       <GoalListHeader
-        link={buildRouterUrl({...params, goalId: "all", taskId: "all"})}
+        link={buildRouterUrl({ ...params, goalId: "all", taskId: "all" })}
       />
       <div className={`${bellColor} active`}>
         <GoalItem
@@ -63,4 +64,4 @@ const GoalTaskList = styled(GoalTaskListRaw)`
     margin-right: -1rem;
   }
 `
-export {GoalTaskList}
+export { GoalTaskList }

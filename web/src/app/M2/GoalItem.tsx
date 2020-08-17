@@ -1,19 +1,20 @@
+import { Artifact, Block } from "models/interface"
+import { CircleIcon, CircleNumber } from "components/Circle"
+import { buildRouterUrl, getRouteParams } from "utils/router"
+import {
+  filterGoalArtifacts,
+  filterGoalNotifications,
+  filterGoalTasks,
+} from "utils/bell"
+import { useHistory, useLocation } from "react-router-dom"
+
+import { ActivityStateIcon } from "components/StateIcon"
+import { Icon } from "rsuite"
 import React from "react"
-import {Block, Artifact} from "models/interface"
-import {ActivityStateIcon} from "components/StateIcon"
-import {CircleIcon, CircleNumber} from "components/Circle"
+import { displayDate } from "utils/common"
+import { displayParticipants } from "utils/user"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {Icon} from "rsuite"
-import {displayParticipants} from "utils/user"
-import {displayDate} from "utils/common"
-import {useLocation, useHistory} from "react-router-dom"
-import {getRouteParams, buildRouterUrl} from "utils/router"
-import {
-  filterGoalTasks,
-  filterGoalNotifications,
-  filterGoalArtifacts,
-} from "utils/bell"
 
 interface GoalItemProps {
   goal: Block
@@ -35,10 +36,10 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
 }) => {
   const location = useLocation()
   const history = useHistory()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
 
   const goalAssignees = goal?.user_participations?.filter(
-    (participant) => participant.role === "goal_asignee"
+    (participant) => participant.role === "goal_assignee"
   )
 
   const runningTasks = filterGoalTasks(goal, tasks, ["Running"])
@@ -86,7 +87,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
           <div className="flex icons gap-2">
             {runningTasks?.length > 0 && (
               <div
-                className="no-underline"
+                className="no-underline cursor-pointer"
                 onClick={(e) => linkToContext(e, "activities")}
               >
                 <CircleNumber
@@ -97,7 +98,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             )}
             {goalArtifacts?.length > 0 && (
               <div
-                className="no-underline"
+                className="no-underline cursor-pointer"
                 onClick={(e) => linkToContext(e, "artifacts")}
               >
                 <CircleIcon icon="attachment" />
@@ -105,7 +106,7 @@ const GoalItemRaw: React.FC<GoalItemProps> = ({
             )}
             {goalNotifications?.length > 0 && (
               <div
-                className="no-underline"
+                className="no-underline cursor-pointer"
                 onClick={(e) => linkToContext(e, "activities")}
               >
                 <CircleNumber number={goalNotifications.length} />
@@ -145,4 +146,4 @@ const GoalItem = styled(GoalItemRaw)`
     }
   }
 `
-export {GoalItem}
+export { GoalItem }

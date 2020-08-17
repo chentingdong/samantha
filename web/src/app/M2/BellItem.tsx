@@ -1,16 +1,16 @@
+import { Link, useHistory, useLocation } from "react-router-dom"
+import { buildRouterUrl, getRouteParams } from "utils/router"
+import { displayDate, stringHashBucket } from "utils/common"
+
+import { Bell } from "models/interface"
+import { Button } from "components/Button"
+import { CLONE_BELL_BY_PK } from "operations/mutations/cloneBellByPk"
+import { Placeholder } from "rsuite"
 import React from "react"
-import {Bell} from "models/interface"
-import {Link, useLocation, useHistory} from "react-router-dom"
+import { displayParticipants } from "utils/user"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {stringHashBucket, displayDate} from "utils/common"
-import {Placeholder} from "rsuite"
-import {Button} from "components/Button"
-import {displayParticipants} from "utils/user"
-import {useMutation} from "@apollo/client"
-import {CLONE_BELL_BY_PK} from "operations/mutations/cloneBellByPk"
-import {getRouteParams, buildRouterUrl} from "utils/router"
-
+import { useMutation } from "@apollo/client"
 
 export interface BellRawProps {
   bell: Bell
@@ -33,13 +33,13 @@ const BellItemCardRaw: React.FC<BellRawProps> = ({
     <Link
       className={`${className} rounded-lg text-sm van-gogh`}
       {...props}
-      to={`/bells/${bell?.id}`}
+      to={buildRouterUrl({ menu: "bells", bellId: bell.id })}
     >
       <div className={`${bellColor} card-header`}>
         <h5 className="mb-2 overflow-hidden truncate">
           {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
         </h5>
-        <div>{displayDate(bell?.createdAt)}</div>
+        <div>{displayDate(bell?.created_at)}</div>
         <div>
           Started by <i>{displayParticipants(initiators)}</i>
         </div>
@@ -78,37 +78,48 @@ export interface BellItemRowProps {
   bell: Bell
 }
 
-const BellItemRow: React.FC<BellItemRowProps> = ({bell}) => {
+const BellItemRow: React.FC<BellItemRowProps> = ({ bell }) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
   const history = useHistory()
 
   const [cloneBellByPk] = useMutation(CLONE_BELL_BY_PK)
   const startABell = async () => {
-    const newBell = await cloneBellByPk({variables: {id: bell.id}})
-    const newBellUrl = buildRouterUrl({...params, menu: 'bells', bellId: newBell.data.action})
-    console.log(newBellUrl)
-    history.push(newBellUrl)
+    const newBell = await cloneBellByPk({
+      variables: {
+        id: bell.id,
+        is_definition: false,
+        start_on_create: true,
+      },
+    })
+    const newBellUrl = buildRouterUrl({
+      menu: "bells",
+      bellId: newBell.data.action,
+    })
+    console.log(newBell)
+    // history.push(newBellUrl)
   }
   return (
     bell && (
-      <ul className="px-8 py-0 rounded-full cursor-pointer grid grid-cols-7 hover:bg-gray-3200">
-        <li className="self-center break-all col-span-2">
-          {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
-        </li>
-        <li className="self-center break-all col-span-4">
-          {bell?.description || (
-            <Placeholder.Paragraph rows={1} rowHeight={14} />
-          )}
-        </li>
-        <li className="flex flex-row-reverse self-center col-span-1">
+      <div className="px-4 py-2 rounded-full cursor-pointer flex justify-between hover:bg-gray-200 align-middle">
+        <div className="align-middle">
+          <div className="py-1">
+            {bell?.name || <Placeholder.Paragraph rows={1} rowHeight={20} />}
+          </div>
+          <div className="text-sm ">
+            {bell?.description || (
+              <Placeholder.Paragraph rows={1} rowHeight={14} />
+            )}
+          </div>
+        </div>
+        <div className="flex-none">
           <Button color="primary" className="fill" onClick={startABell}>
             Start
           </Button>
-        </li>
-      </ul>
+        </div>
+      </div>
     )
   )
 }
 
-export {BellItemCard, BellItemRow}
+export { BellItemCard, BellItemRow }

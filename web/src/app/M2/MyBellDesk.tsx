@@ -1,17 +1,18 @@
+import { Error, Loading } from "components/Misc"
+import { useQuery, useSubscription } from "@apollo/client"
+
+import { AUTH_USER } from "operations/queries/authUser"
+import { BELLHOP_LIST } from "operations/subscriptions/bellhopList"
+import { BELL_LIST } from "operations/subscriptions/bellList"
+import { BellCatalogList } from "./BellCatalogList"
+import { BellListCard } from "./BellList"
+import { BellhopHeader } from "./BellhopHeader"
+import { BellhopThumbnailList } from "./BellhopList"
+import { MainMenu } from "./MainMenu"
 // MyBellDesk.tsx
 import React from "react"
-import {useLocation} from "react-router-dom"
-import {getRouteParams} from "utils/router"
-import {BellhopThumbnailList} from "./BellhopList"
-import {BellListCard} from "./BellList"
-import {BellhopHeader} from "./BellhopHeader"
-import {useSubscription, useQuery} from "@apollo/client"
-import {BELLHOP_LIST} from "operations/subscriptions/bellhopList"
-import {BELL_LIST} from "operations/subscriptions/bellList"
-import {Loading, Error} from "components/Misc"
-import {BellCatalogList} from "./BellCatalogList"
-import {MainMenu} from "./MainMenu"
-import {AUTH_USER} from "operations/queries/authUser"
+import { getRouteParams } from "utils/router"
+import { useLocation } from "react-router-dom"
 
 interface MyBellDeskProps {}
 
@@ -21,10 +22,10 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
     loading: loadingBellhopList,
     error: errorBellhopList,
   } = useSubscription(BELLHOP_LIST)
-  const {data: authUserResult} = useQuery(AUTH_USER)
+  const { data: authUserResult } = useQuery(AUTH_USER)
   const location = useLocation()
-  const params = getRouteParams(location)
-  const {authUser} = authUserResult
+  const params = getRouteParams(location.pathname)
+  const { authUser } = authUserResult
   const bellhops = dataBellhopList?.m2_bellhops
   const myBellhops = bellhops?.filter(
     (bellhop) =>
@@ -61,7 +62,7 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
           {loadingBellList && <Loading />}
           {errorBellList && <Error message={errorBellList.message} />}
           <BellListCard
-            className="container mx-auto"
+            className="container mx-auto px-1"
             listTitle="Running Bells"
             bells={dataBellList?.m2_bells}
           />
@@ -71,4 +72,4 @@ const MyBellDesk: React.FC<MyBellDeskProps> = (props) => {
   )
 }
 
-export {MyBellDesk}
+export { MyBellDesk }

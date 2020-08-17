@@ -1,7 +1,8 @@
-import React, {useState} from "react"
-import {BellItemCard, BellItemRow} from "./BellItem"
-import {Bell} from "models/interface"
-import {ViewMore} from "components/ViewMore"
+import { BellItemCard, BellItemRow } from "./BellItem"
+import React, { useState } from "react"
+
+import { Bell } from "models/interface"
+import { ViewMore } from "components/ViewMore"
 
 export interface BellListProps {
   bells?: Bell[]
@@ -45,7 +46,7 @@ const BellListRow: React.FC<BellListProps> = ({
   const numberItems = showMore ? bells.length : initialCounts
   return (
     <div className="container m-auto" {...props}>
-      <h4 className="pt-4 border-b">Start a Bell</h4>
+      <h4 className="mx-1 pt-4 border-b">Start a Bell</h4>
       {bells.length > 0 && (
         <>
           {bells.length > numberItems && (
@@ -67,4 +68,4 @@ const BellListRow: React.FC<BellListProps> = ({
   )
 }
 
-export {BellListCard, BellListRow}
+export { BellListCard, BellListRow }

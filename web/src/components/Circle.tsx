@@ -1,7 +1,7 @@
+import { Icon } from "rsuite"
 import React from "react"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { Icon } from "rsuite"
 
 const CircleStyle = styled.div`
   ${tw`m-0 p-0 bg-gray-200 flex content-center flex-wrap`}
@@ -31,7 +31,7 @@ const CircleImage: React.FC<{
   )
 }
 
-const CircleNumber: React.FC<{ number: string; className: string }> = ({
+const CircleNumber: React.FC<{ number: number; className?: string }> = ({
   number,
   className,
 }) => {

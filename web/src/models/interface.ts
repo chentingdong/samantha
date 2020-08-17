@@ -56,6 +56,7 @@ export interface Block {
   created_at: Date
   last_updated: Date
   started_at: Date
+  ended_at: Date
   parent_id: string
   parent: Block
   sibling_order: string

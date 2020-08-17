@@ -1,8 +1,8 @@
 import React from "react"
-import {useForm} from "react-hook-form"
-import {TemplateFieldText} from "models/interface"
+import { TemplateFieldText } from "models/interface"
+import { useForm } from "react-hook-form"
 
-const TextDisplay: React.FC<{text: string}> = ({text}) => {
+const TextDisplay: React.FC<{ text: string | number }> = ({ text }) => {
   return <span>{text}</span>
 }
 
@@ -10,8 +10,8 @@ interface TextEditProps {
   field: TemplateFieldText
   onSubmit: (field: TemplateFieldText) => void
 }
-const TextEdit: React.FC<TextEditProps> = ({field, onSubmit, ...props}) => {
-  const {register, errors, getValues, reset} = useForm({
+const TextEdit: React.FC<TextEditProps> = ({ field, onSubmit, ...props }) => {
+  const { register, errors, getValues, reset } = useForm({
     defaultValues: field,
     mode: "onChange",
     reValidateMode: "onChange",
@@ -20,7 +20,7 @@ const TextEdit: React.FC<TextEditProps> = ({field, onSubmit, ...props}) => {
   const submit = () => {
     if (errors.response) return
     const formData = getValues()
-    onSubmit({...field, ...formData})
+    onSubmit({ ...field, ...formData })
   }
 
   return (
@@ -54,7 +54,7 @@ interface TextProps {
   onSubmit: (field: TemplateFieldText) => void
 }
 
-const Text: React.FC<TextProps> = ({field, view, onSubmit, ...props}) => {
+const Text: React.FC<TextProps> = ({ field, view, onSubmit, ...props }) => {
   return (
     <>
       {view === "display" && <TextDisplay text={field.response} {...props} />}
@@ -65,4 +65,4 @@ const Text: React.FC<TextProps> = ({field, view, onSubmit, ...props}) => {
   )
 }
 
-export {Text}
+export { Text }

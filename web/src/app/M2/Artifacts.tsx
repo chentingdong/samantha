@@ -1,10 +1,11 @@
+import { Artifact, Bell } from "models/interface"
+
 // Artifacts.tsx. appears in single bell view, right side tabs
 import React from "react"
-import {displayDate} from "utils/common"
-import {Artifact, Bell} from "models/interface"
-import {useLocation} from "react-router-dom"
-import {getRouteParams} from "utils/router"
-import {filterGoalArtifacts} from "utils/bell"
+import { displayDate } from "utils/common"
+import { filterGoalArtifacts } from "utils/bell"
+import { getRouteParams } from "utils/router"
+import { useLocation } from "react-router-dom"
 
 interface ArtifactsProps {
   artifacts: Artifact[]
@@ -18,7 +19,7 @@ export const Artifacts: React.FC<ArtifactsProps> = ({
   ...props
 }) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
   let goals = bell?.blocks?.filter((block) => block.type === "Goal")
   if (params.goalId !== "all")
     goals = goals?.filter(

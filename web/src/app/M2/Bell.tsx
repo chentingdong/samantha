@@ -1,23 +1,23 @@
-import {Error, Loading} from "components/Misc"
-import {displayParticipants, iPlayRoles} from "utils/user"
-import {useQuery, useSubscription} from "@apollo/client"
+import { Error, Loading } from "components/Misc"
+import { displayParticipants, iPlayRoles } from "utils/user"
+import { useQuery, useSubscription } from "@apollo/client"
 
-import {AUTH_USER} from "operations/queries/authUser"
-import {BellContext} from "./BellContext"
-import {Bell as BellProps} from "models/interface"
-import {BellStateIcon} from "components/StateIcon"
-import {GET_BELL} from "operations/subscriptions/getBell"
-import {GoalList} from "./GoalList"
-import {GoalTaskList} from "./GoalTaskList"
+import { AUTH_USER } from "operations/queries/authUser"
+import { BellContext } from "./BellContext"
+import { Bell as BellProps } from "models/interface"
+import { BellStateIcon } from "components/StateIcon"
+import { GET_BELL } from "operations/subscriptions/getBell"
+import { GoalList } from "./GoalList"
+import { GoalTaskList } from "./GoalTaskList"
 import React from "react"
-import {TaskList} from "./TaskList"
-import {displayDate} from "utils/common"
-import {getRouteParams} from "utils/router"
+import { TaskList } from "./TaskList"
+import { displayDate } from "utils/common"
+import { getRouteParams } from "utils/router"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import {useLocation} from "react-router-dom"
+import { useLocation } from "react-router-dom"
 
-const BellHeader: React.FC<{bell: BellProps; className?: string}> = ({
+const BellHeader: React.FC<{ bell: BellProps; className?: string }> = ({
   bell,
   ...props
 }) => {
@@ -64,12 +64,12 @@ interface BellRawProps {
   className?: string
 }
 
-const BellRaw: React.FC<BellRawProps> = ({className, ...props}) => {
+const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
 
-  const {data: authUserResult, loading: loadingUser} = useQuery(AUTH_USER)
-  const {data: bellData, loading: loadingBell, error} = useSubscription(
+  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
+  const { data: bellData, loading: loadingBell, error } = useSubscription(
     GET_BELL,
     {
       variables: {
@@ -80,7 +80,6 @@ const BellRaw: React.FC<BellRawProps> = ({className, ...props}) => {
 
   if (loadingUser || loadingBell) return <Loading className="text-center" />
   if (error) return <Error className="text-center" message={error.message} />
-
   const bell = bellData.m2_bells_by_pk
   const blocks = bell?.blocks
   const tasks = blocks?.filter((block) => block.type === "Task")
@@ -96,6 +95,7 @@ const BellRaw: React.FC<BellRawProps> = ({className, ...props}) => {
     bell?.user_participations,
     ["bell_initiator"]
   )
+  console.log(bell)
   return (
     <div className={`${className} grid grid-cols-3 gap-0 h-full`}>
       <div className="h-full ml-4 col-span-2">
@@ -134,4 +134,4 @@ const Bell = styled(BellRaw)`
   .goal-list {
   }
 `
-export {Bell}
+export { Bell }

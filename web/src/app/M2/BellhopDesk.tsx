@@ -1,8 +1,8 @@
-import React from "react"
-import { useLocation } from "react-router-dom"
-import { getRouteParams } from "utils/router"
 import { CompanyBellDesk } from "./CompanyBellDesk"
 import { MyBellDesk } from "./MyBellDesk"
+import React from "react"
+import { getRouteParams } from "utils/router"
+import { useLocation } from "react-router-dom"
 
 interface BellhopDeskProps {
   className?: string
@@ -10,7 +10,7 @@ interface BellhopDeskProps {
 
 export const BellhopDesk: React.FC<BellhopDeskProps> = (props) => {
   const location = useLocation()
-  const params = getRouteParams(location)
+  const params = getRouteParams(location.pathname)
   return (
     <div {...props}>
       {params.desk === "all" && <CompanyBellDesk />}
