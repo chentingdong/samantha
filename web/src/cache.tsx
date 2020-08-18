@@ -2,9 +2,6 @@ import { BlockOrDef, UiState, User } from "./models/interface"
 import { EditMode, Typename } from "./models/enum"
 import { InMemoryCache, ReactiveVar } from "@apollo/client"
 
-import { initialBlock } from "../data/block"
-import { initialUser } from "../data/user"
-
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -29,14 +26,13 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 })
 
-export const authUserVar: ReactiveVar<User> = cache.makeVar<User>(initialUser)
+export const authUserVar: ReactiveVar<User> = cache.makeVar<User>({})
 
 export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   showEditor: false,
   showBellEditor: false,
   editorMode: EditMode.Create,
   editingTypename: Typename.blocks,
-  draftBlock: initialBlock,
   currentBellhopId: null,
   currentBellDefId: null,
   currentBlockId: null,

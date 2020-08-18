@@ -1,14 +1,16 @@
-import Amplify, {Auth, Hub} from "aws-amplify"
-import React, {useEffect} from "react"
+import "../../dist/tailwind/tailwind.generated.css"
+
+import Amplify, { Auth, Hub } from "aws-amplify"
+import React, { useEffect } from "react"
 
 import LogRocket from "logrocket"
 import Routes from "../routes/Routes"
-import {UPSERT_USER} from "../operations/mutations/upsertUser"
+import { UPSERT_USER } from "../operations/mutations/upsertUser"
 import config from "../../configs/config"
-import {hot} from "react-hot-loader/root"
-import {injectRsuiteStyle} from "utils/styles"
-import {setAuthUser} from "../operations/mutations/setAuthUser"
-import {useMutation} from "@apollo/client"
+import { hot } from "react-hot-loader/root"
+import { injectRsuiteStyle } from "utils/styles"
+import { setAuthUser } from "../operations/mutations/setAuthUser"
+import { useMutation } from "@apollo/client"
 
 const App = (any) => {
   useEffect(() => {
@@ -19,12 +21,12 @@ const App = (any) => {
 
   Amplify.configure(config)
 
-  async function checkLogin () {
+  async function checkLogin() {
     let poolUser
     try {
-      poolUser = await Auth.currentUserPoolUser({bypassCache: true})
+      poolUser = await Auth.currentUserPoolUser({ bypassCache: true })
     } catch (error) {
-      // do nothing
+      console.error(error)
     }
     let authUser
     if (poolUser) {
@@ -37,7 +39,7 @@ const App = (any) => {
         picture: poolUser?.attributes?.picture,
         isAuthenticated: true,
       }
-      setAuthUser({...authUser})
+      setAuthUser({ ...authUser })
       LogRocket.identify(authUser.id, {
         name: authUser.name,
         email: authUser.email,
@@ -51,19 +53,18 @@ const App = (any) => {
   }, [])
 
   useEffect(() => {
-    Hub.listen("auth", async ({payload: {event}}) => {
+    Hub.listen("auth", async ({ payload: { event } }) => {
       switch (event) {
         case "signIn":
           const authUser = await checkLogin()
           if (authUser) {
             // upsert cognito user to backend
-            const {isAuthenticated, ...user} = authUser
-            console.log(user)
-            upsertUser({variables: {object: user}})
+            const { isAuthenticated, ...user } = authUser
+            upsertUser({ variables: { object: user } })
           }
           break
         case "signOut":
-          setAuthUser({isAuthenticated: false})
+          setAuthUser({ isAuthenticated: false })
           break
         case "signIn_failure":
           console.error("user sign in failed")
@@ -81,5 +82,5 @@ const App = (any) => {
   )
 }
 
-export {App}
+export { App }
 export default hot(App)

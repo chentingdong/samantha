@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button renders correctly 1`] = `
+<button
+  className="sc-AxjAm cBvctU primary"
+>
+  <span>
+    Bellhop
+  </span>
+</button>
+`;
+
+exports[`Card renders correctly 1`] = `
+<div
+  className="sc-AxirZ kHZVHh card"
+  color="secondary"
+  colors="primary"
+>
+  Drawer content...
+</div>
+`;
+
+exports[`Confirm renders correctly 1`] = `<div />`;
+
+exports[`Drawer renders correctly 1`] = `null`;
+
+exports[`FormValidationMessage renders correctly 1`] = `null`;
