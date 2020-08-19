@@ -1,7 +1,9 @@
 // tailwind.config.js
 
 module.exports = {
+  prefix: "",
   important: true,
+  separator: ":",
   theme: {
     // overrite default tailwind variables
     colors: {

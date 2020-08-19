@@ -123,6 +123,42 @@ export interface TemplateFieldSelect {
   select_options: string[]
 }
 
+export interface Conversation {
+  id: string
+  type: string
+  block_id: string
+  block: Block
+  user_participations: Participant[]
+  created_at: Date
+  updated_at: Date
+  ended_at: Date
+}
+
+export interface Message {
+  id: string
+  conversation_id: string
+  type: string
+  content: string
+  from_user_id: string
+  from_user: User
+  to_user_id: string
+  to_user: User
+  created_at: Date
+  updated_at: Date
+  attachments_ids: string[]
+  attachments: Attachment[]
+  read_ids: string[]
+  delivered_ids: string[]
+}
+
+export interface Attachment {
+  id: string
+  type: string
+  url: string
+  created_at: Date
+  updated_at: Date
+}
+
 /* below are for M1, deprecated */
 export interface BlockDef {
   id: string
