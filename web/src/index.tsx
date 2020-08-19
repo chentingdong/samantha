@@ -1,16 +1,18 @@
-import React from "react"
-import { render } from "react-dom"
+import * as Sentry from "@sentry/browser"
+
+import { ApolloClient, ApolloProvider, HttpLink, split } from "@apollo/client"
+
 import App from "./app/App"
 import { DndProvider } from "react-dnd"
-import Backend from "react-dnd-html5-backend"
-import config from "../configs/config"
-import { cache } from "./cache"
-import { ApolloClient, ApolloProvider, HttpLink, split } from "@apollo/client"
-import { onError } from "@apollo/link-error"
+import { HTML5Backend } from "react-dnd-html5-backend"
 import LogRocket from "logrocket"
-import * as Sentry from "@sentry/browser"
-import { getMainDefinition } from "@apollo/client/utilities"
+import React from "react"
 import { WebSocketLink } from "@apollo/link-ws"
+import { cache } from "./cache"
+import config from "../configs/config"
+import { getMainDefinition } from "@apollo/client/utilities"
+import { onError } from "@apollo/link-error"
+import { render } from "react-dom"
 
 if (process.env.NODE_ENV === "production") {
   Sentry.init({
@@ -71,7 +73,7 @@ const rootEl = document.getElementById("root")
 
 render(
   <ApolloProvider client={apolloClient}>
-    <DndProvider backend={Backend}>
+    <DndProvider backend={HTML5Backend}>
       <App />
     </DndProvider>
   </ApolloProvider>,
