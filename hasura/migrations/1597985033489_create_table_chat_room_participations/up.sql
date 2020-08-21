@@ -1,1 +1,0 @@
-CREATE TABLE "chat"."room_participations"("room_id" text NOT NULL, "user_id" text NOT NULL, "id" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("room_id") REFERENCES "chat"."rooms"("id") ON UPDATE cascade ON DELETE cascade, FOREIGN KEY ("user_id") REFERENCES "m2"."users"("id") ON UPDATE cascade ON DELETE cascade);

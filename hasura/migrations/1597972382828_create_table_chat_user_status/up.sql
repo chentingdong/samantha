@@ -1,1 +1,0 @@
-CREATE TABLE "chat"."user_status"("user_id" text NOT NULL, "push_token" Text, "last_seen" timestamp NOT NULL DEFAULT now(), "last_typed" timestamp NOT NULL DEFAULT now(), "login_time" timestamp NOT NULL DEFAULT now(), PRIMARY KEY ("user_id") , FOREIGN KEY ("user_id") REFERENCES "m2"."users"("id") ON UPDATE cascade ON DELETE cascade);
