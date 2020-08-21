@@ -1,11 +1,11 @@
 version: "3"
 services:
   web:
+    container_name: samantha-web
     image: samantha-web:${IMAGE_TAG:-local}
     build:
       context: ./web
       dockerfile: Dockerfile
-    container_name: samantha-web
     restart: always
     depends_on:
       - postgres
@@ -29,11 +29,13 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   hasura:
-    image: hasura/graphql-engine:v1.3.0
     container_name: samantha-hasura
+    image: hasura/graphql-engine:v1.3.0
     restart: always
     depends_on:
       - postgres
+    env_file:
+      - database.env
     environment:
       - HASURA_GRAPHQL_DATABASE_URL=postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/hasura
       - HASURA_GRAPHQL_ENABLE_CONSOLE=true
@@ -44,11 +46,11 @@ services:
     command: graphql-engine serve
 
   server:
+    container_name: samantha-server
     image: samantha-server:${IMAGE_TAG:-local}
     build:
       context: ./hasura
       dockerfile: Dockerfile
-    container_name: samantha-server
     restart: always
     depends_on:
       - postgres
@@ -65,21 +67,43 @@ services:
     command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
 
   admin:
+    container_name: samantha-admin
     image: samantha-admin:${IMAGE_TAG:-local}
     build:
       context: ./admin
       dockerfile: Dockerfile
-    container_name: samantha-admin
     restart: always
     depends_on:
       - postgres
       - hasura
     ports:
-      - 3030:3030
+      - "3030:3030"
     stdin_open: true
     volumes:
       - ./admin:/app
     command: yarn start
+
+  # mattermost:
+  #   container_name: samantha-chat-server
+  #   build:
+  #     context: ./mattermost/app
+  #     dockerfile: Dockerfile
+  #     args:
+  #       - edition=team
+  #   depends_on:
+  #     - postgres
+  #   environment:
+  #     - MM_SQLSETTINGS_DATASOURCE=postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/mattermost?sslmode=disable&connect_timeout=20
+  #     - MM_SERVICESETTINGS_SITEURL=http://localhost:4000
+  #   restart: unless-stopped
+  #   ports:
+  #     - "4000:8000"
+  #   volumes:
+  #     - ./volumes/app/mattermost/config:/mattermost/config:rw
+  #     - ./volumes/app/mattermost/data:/mattermost/data:rw
+  #     - ./volumes/app/mattermost/logs:/mattermost/logs:rw
+  #     - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
+  #     - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
 
 volumes:
   postgres_data:
