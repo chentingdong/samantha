@@ -9,11 +9,40 @@ export const getBellWithContext = async (
     query: gql`
       query bell_with_context($bell_id: String!) {
         bell: m2_bells_by_pk(id: $bell_id) {
-          blocks(where: { type: { _eq: Task } }) {
+          blocks {
+            id
             local_id
+            type
+            state
+            started_at
+            ended_at
+            parent_id
+            children {
+              id
+            }
+            sibling_order
             task {
               fields
             }
+            bell_executor {
+              context
+            }
+            users: user_participations {
+              user_id
+              role
+            }
+          }
+          root_block_id
+          context
+          started_at
+          ended_at
+          users: user_participations {
+            user_id
+            role
+          }
+          bellhops: bellhop_participations {
+            bellhop_id
+            role
           }
         }
       }
