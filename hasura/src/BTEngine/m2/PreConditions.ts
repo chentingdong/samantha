@@ -2,8 +2,8 @@ import { Block, Bell } from "../../types"
 import { updateBlockState } from "./utils"
 import { Engine } from "json-rules-engine"
 import { TopLevelCondition } from "json-rules-engine/types"
-import { BellWithContext, BellContextFacts } from "../../types"
 import { getBellWithContext } from "../../graphql/m2/queries/getBellWithContext"
+import { createBellContextFacts } from "./BellContext"
 
 export const evalConditions = async (
   conditions: TopLevelCondition,
@@ -17,18 +17,6 @@ export const evalConditions = async (
   return events.length > 0
 }
 
-export const createBellContextFacts = (
-  bell: BellWithContext
-): BellContextFacts => {
-  const result: BellContextFacts = { context: { task: {} } }
-  for (const block of bell.blocks) {
-    const local_id = block.local_id
-    const fields = block.task.fields
-    result.context.task[local_id] = { fields }
-  }
-  return result
-}
-
 // use in onRun event handler: block.state changed from Created to Running
 export const evalBlockPreConditions = async (
   block: Block
@@ -36,7 +24,7 @@ export const evalBlockPreConditions = async (
   const conditions = block.configs.pre_conditions
   if (conditions) {
     const bell = await getBellWithContext(block.bell_id)
-    const bellContextFacts = createBellContextFacts(bell)
+    const bellContextFacts = createBellContextFacts(bell, block)
     const result = await evalConditions(conditions, bellContextFacts)
 
     // if (result === true) conditions matched, safe to change block state to Running

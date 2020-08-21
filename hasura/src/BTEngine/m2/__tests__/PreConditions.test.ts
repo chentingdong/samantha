@@ -64,6 +64,64 @@ describe("Pre Conditions", () => {
       expect(result).toBe(true)
     })
   })
+  describe("Number in the next task", () => {
+    it("should not match", async () => {
+      const conditions = {
+        all: [
+          {
+            fact: "context",
+            path: "$.task.next.fields[0].response",
+            value: 10000,
+            operator: "greaterThan",
+          },
+        ],
+      }
+      const result = await evalConditions(conditions, bellContextFacts)
+      expect(result).toBe(false)
+    })
+    it("should match", async () => {
+      const conditions = {
+        all: [
+          {
+            fact: "context",
+            path: "$.task.next.fields[0].response",
+            value: 1000,
+            operator: "greaterThan",
+          },
+        ],
+      }
+      const result = await evalConditions(conditions, bellContextFacts)
+      expect(result).toBe(true)
+    })
+    it("equal", async () => {
+      const conditions = {
+        all: [
+          {
+            fact: "context",
+            path: "$.task.next.fields[0].response",
+            value: 1234,
+            operator: "equal",
+          },
+        ],
+      }
+      const result = await evalConditions(conditions, bellContextFacts)
+      expect(result).toBe(true)
+    })
+    it("notEqual", async () => {
+      const conditions = {
+        all: [
+          {
+            fact: "context",
+            path: "$.task.next.fields[0].response",
+            value: 1235,
+            operator: "notEqual",
+          },
+        ],
+      }
+      const result = await evalConditions(conditions, bellContextFacts)
+      expect(result).toBe(true)
+    })
+  })
   describe("Text", () => {
     it("should not match", async () => {
       const conditions = {
@@ -87,6 +145,36 @@ describe("Pre Conditions", () => {
             path: "$.task.ZKinThbIS7TwdHA49RpZp.fields[0].response",
             operator: "equal",
             value: "No",
+          },
+        ],
+      }
+      const result = await evalConditions(conditions, bellContextFacts)
+      expect(result).toBe(true)
+    })
+  })
+  describe("Text in the previous task", () => {
+    it("should not match", async () => {
+      const conditions = {
+        all: [
+          {
+            fact: "context",
+            path: "$.task.prev.fields[0].response",
+            operator: "notEqual",
+            value: "A old HVAC machine",
+          },
+        ],
+      }
+      const result = await evalConditions(conditions, bellContextFacts)
+      expect(result).toBe(true)
+    })
+    it("should match", async () => {
+      const conditions = {
+        all: [
+          {
+            fact: "context",
+            path: "$.task.prev.fields[0].response",
+            operator: "equal",
+            value: "A new HVAC machine",
           },
         ],
       }

@@ -9,7 +9,7 @@ export const getBlockByPk = async (
   const { data, errors } = await apolloClient.query({
     query: gql`
       query blocks_by_pk($id: String!) {
-        m2_blocks_by_pk(id: $id) {
+        block: m2_blocks_by_pk(id: $id) {
           ...m2BlockFragment
         }
       }
@@ -19,5 +19,5 @@ export const getBlockByPk = async (
     fetchPolicy,
   })
   if (errors) return undefined
-  return data.m2_blocks_by_pk
+  return data.block
 }

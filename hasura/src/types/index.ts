@@ -44,19 +44,24 @@ export type UserBellParticipation = {
 export type Block = {
   id: string
   name?: string
-  local_id: string
-  type: string
-  state: string
+  local_id?: string
+  is_definition?: boolean
+  type?: string
+  state?: string
   configs?: BlockConfigs
   parent_id?: string
   sibling_order?: number
   user_participations?: UserBlockParticipation[]
+  users?: UserBlockParticipation[] // alias
   goal?: Goal
   task?: Task
   bell_executor?: BellExecutor
   children?: Block[]
   bell?: Bell
   bell_id?: string
+  started_at?: string | null
+  ended_at?: string | null
+  updated_at?: string | null
 }
 
 export type BlockConfigs = {
@@ -75,8 +80,9 @@ export type Task = {
 }
 
 export type BellExecutor = {
-  bell_id: string
-  block: Block
+  bell_id?: string
+  block?: Block
+  context?: object
 }
 
 export type Bell = {
@@ -87,9 +93,13 @@ export type Bell = {
   sub_bells?: Bell[]
   user_participations?: UserBellParticipation[]
   bellhop_participations?: BellhopBellParticipation[]
+  users?: UserBellParticipation[] // alias
+  bellhops?: BellhopBellParticipation[] // alias
   blocks?: Block[]
   context?: object
   acts_as_main_bell?: boolean
+  started_at: string | null
+  ended_at: string | null
 }
 
 export type Field = {
@@ -106,14 +116,55 @@ export type Field = {
 
 export type BellWithContext = {
   blocks: Block[]
+  root_block_id: string
+  context: object
+  started_at: string | null
+  ended_at: string | null
+  users?: UserBellParticipation[]
+  bellhops?: BellhopBellParticipation[]
+}
+
+export type Blocks = {
+  [local_id: string]: {
+    id?: string
+    local_id?: string
+    state: string | null
+    started_at?: string | null
+    ended_at?: string | null
+  }
+}
+
+export type Tasks = {
+  [local_id: string]: {
+    id?: string
+    local_id?: string
+    fields: Field[]
+  }
+}
+
+export type APIExecutors = {
+  [local_id: string]: {
+    id?: string
+    local_id?: string
+    response: object
+  }
+}
+
+export type BellExecutors = {
+  [local_id: string]: {
+    id?: string
+    local_id?: string
+    context: object
+  }
 }
 
 export type BellContextFacts = {
   context: {
-    task: {
-      [local_id: string]: {
-        fields: Field[]
-      }
-    }
+    block?: Blocks
+    task?: Tasks
+    bell_executor?: BellExecutors
+    api_executor?: APIExecutors
+    bell?: Bell
+    users?: UserBlockParticipation[]
   }
 }
