@@ -24,7 +24,7 @@ export const evalBlockPreConditions = async (
   const conditions = block.configs.pre_conditions
   if (conditions) {
     const bell = await getBellWithContext(block.bell_id)
-    const bellContextFacts = createBellContextFacts(bell)
+    const bellContextFacts = createBellContextFacts(bell, block)
     const result = await evalConditions(conditions, bellContextFacts)
 
     // if (result === true) conditions matched, safe to change block state to Running

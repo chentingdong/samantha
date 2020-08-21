@@ -111,7 +111,7 @@ const bell: BellWithContext = {
       ended_at: "2020-08-04T07:56:09.051986+00:00",
       parent_id: "bVeXuHvMlUVpbM2e4zMy9",
       children: [],
-      sibling_order: null,
+      sibling_order: 0,
       task: {
         fields: [
           {
