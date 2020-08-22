@@ -36,22 +36,26 @@ const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
   useEffect(() => {
     const roomId = nanoid()
     const roomSource = params?.goalId === "all" ? "bell" : "block"
-    const now = new Date()
 
     if (roomSource === "bell") {
-      const user_room_participations = bell.user_participations.map((p) => ({
+      const user_room_participants = bell.user_participations.map((p) => ({
         user_id: p.user.id,
         role: p.role,
-        joined_at: now,
+        joined_at: new Date(),
       }))
+
+      const bell_room_bookings = [
+        {
+          bell_id: bell.id,
+        },
+      ]
+
       bookABellRoom({
         variables: {
-          object: {
-            id: roomId,
-            created_at: now,
-            name: bell.name,
-            user_room_participations: user_room_participations,
-          },
+          id: roomId,
+          name: bell.name,
+          user_room_participations: user_room_participants,
+          bell_room_bookings: bell_room_bookings,
         },
       })
     }

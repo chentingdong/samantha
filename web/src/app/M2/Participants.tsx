@@ -45,7 +45,7 @@ export const Participants: React.FC<ParticipantsProps> = ({
     loading: loadingBellFollowers,
   } = useSubscription(USER_BELL_PARTICIPATIONS, {
     variables: {
-      bellId: bell.id,
+      bellId: bell?.id,
       roles: ["bell_follower"],
     },
   })

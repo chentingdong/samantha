@@ -1,11 +1,11 @@
 import {
-  Blocks,
-  Tasks,
   APIExecutors,
+  BellContextFacts,
   BellExecutors,
   BellWithContext,
-  BellContextFacts,
   Block,
+  Blocks,
+  Tasks,
 } from "../../types"
 
 export const createBellContextFacts = (
@@ -57,7 +57,7 @@ export const createBellContextFacts = (
     .filter((block) => block.type === "Task")
     .reduce((tasks: Tasks, block) => {
       const tmp_task = {
-        id: block.id,
+        id: block?.id,
         local_id: block.local_id,
         fields: block.task.fields,
       }
