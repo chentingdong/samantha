@@ -1,4 +1,4 @@
-mutation BOOK_A_BELL_ROOM(
+mutation BOOK_A_BELL_ROOM_1(
   $user_room_participations: chat_user_room_participations_arr_rel_insert_input = {
     data: {
       user_id: "Google_115419186368884878540"
@@ -42,6 +42,58 @@ mutation BOOK_A_BELL_ROOM(
       room_id
       bell_id
       created_at
+    }
+  }
+}
+
+mutation BOOK_A_BELL_ROOM {
+  insert_chat_bell_room_bookings_one(
+    on_conflict: {
+      constraint: bell_room_bookings_pkey
+      update_columns: created_at
+    }
+    object: {
+      room: {
+        data: {
+          name: "test"
+          type: "chat"
+          user_room_participations: {
+            data: {
+              user_id: "Google_115419186368884878540"
+              role: bell_initiator
+            }
+            on_conflict: {
+              constraint: user_room_participations_pkey
+              update_columns: last_seen_at
+            }
+          }
+          id: "1"
+        }
+        on_conflict: { constraint: rooms_pkey, update_columns: last_visited_at }
+      }
+      bell_id: "s4Uq5-3xUX5bljHUIJMLW"
+      id: 1
+    }
+  ) {
+    room_id
+    bell_id
+    created_at
+    id
+    room {
+      type
+      name
+      id
+      created_at
+      last_post_at
+      ended_at
+      last_visited_at
+      user_room_participations {
+        id
+        joined_at
+        last_seen_at
+        role
+        user_id
+      }
     }
   }
 }
