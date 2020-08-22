@@ -1,0 +1,2 @@
+pg_dump: error: too many command-line arguments (first is "chat")
+Try "pg_dump --help" for more information.

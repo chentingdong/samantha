@@ -1,0 +1,8 @@
+# create room from room
+  insert_chat_rooms_one(object: {id: "1", type: "chat", room_bookings: {data: {id: "2", name: "test", source: "bell", source_id: "uKCjhrV-wGSxofiIRi5il"}}, user_room_participations: {data: {id: "test", user_id: "Google_115419186368884878540"}}}) {
+    id
+    type
+    created_at
+  }
+
+# create room from room_booking

@@ -77,27 +77,5 @@ services:
     stdin_open: true
     command: yarn start
 
-  # mattermost:
-  #   container_name: samantha-chat-server
-  #   build:
-  #     context: ./mattermost/app
-  #     dockerfile: Dockerfile
-  #     args:
-  #       - edition=team
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     - MM_SQLSETTINGS_DATASOURCE=postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/mattermost?sslmode=disable&connect_timeout=20
-  #     - MM_SERVICESETTINGS_SITEURL=http://localhost:4000
-  #   restart: unless-stopped
-  #   ports:
-  #     - "4000:8000"
-  #   volumes:
-  #     - ./volumes/app/mattermost/config:/mattermost/config:rw
-  #     - ./volumes/app/mattermost/data:/mattermost/data:rw
-  #     - ./volumes/app/mattermost/logs:/mattermost/logs:rw
-  #     - ./volumes/app/mattermost/plugins:/mattermost/plugins:rw
-  #     - ./volumes/app/mattermost/client-plugins:/mattermost/client/plugins:rw
-
 volumes:
   postgres_data:

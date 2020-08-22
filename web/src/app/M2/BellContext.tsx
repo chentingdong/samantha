@@ -6,7 +6,7 @@ import { useHistory, useLocation } from "react-router-dom"
 import { Activities } from "./Activities"
 import { Artifacts } from "./Artifacts"
 import { Bell } from "models/interface"
-import { Chat } from "./Chat"
+import { Chat } from "app/chat/Chat"
 import { Nav } from "rsuite"
 import { Participants } from "./Participants"
 import styled from "styled-components"
@@ -61,12 +61,12 @@ const BellContextRaw: React.FC<BellContextProps> = ({
               bell={bell}
               className="flex-none bg-gray-200 participants"
             />
-            <Chat className="flex-grow chat" />
+            <Chat bell={bell} className="flex-grow chat" />
           </div>
         )}
         {activeTab === "artifacts" && (
           <Artifacts
-            artifacts={bell?.context?.artifacts}
+            artifacts={bell?.context["artifacts"]}
             bell={bell}
             className="artifacts"
           />

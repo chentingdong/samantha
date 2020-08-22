@@ -1,0 +1,4022 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3 (Debian 12.3-1.pgdg100+1)
+-- Dumped by pg_dump version 12.3 (Debian 12.3-1.pgdg100+1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: chat; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA chat;
+
+
+ALTER SCHEMA chat OWNER TO postgres;
+
+--
+-- Name: hdb_catalog; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA hdb_catalog;
+
+
+ALTER SCHEMA hdb_catalog OWNER TO postgres;
+
+--
+-- Name: hdb_views; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA hdb_views;
+
+
+ALTER SCHEMA hdb_views OWNER TO postgres;
+
+--
+-- Name: m2; Type: SCHEMA; Schema: -; Owner: postgres
+--
+
+CREATE SCHEMA m2;
+
+
+ALTER SCHEMA m2 OWNER TO postgres;
+
+--
+-- Name: pgcrypto; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION pgcrypto; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION pgcrypto IS 'cryptographic functions';
+
+
+--
+-- Name: check_violation(text); Type: FUNCTION; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE FUNCTION hdb_catalog.check_violation(msg text) RETURNS boolean
+    LANGUAGE plpgsql
+    AS $$
+  BEGIN
+    RAISE check_violation USING message=msg;
+  END;
+$$;
+
+
+ALTER FUNCTION hdb_catalog.check_violation(msg text) OWNER TO postgres;
+
+--
+-- Name: hdb_schema_update_event_notifier(); Type: FUNCTION; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE FUNCTION hdb_catalog.hdb_schema_update_event_notifier() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  DECLARE
+    instance_id uuid;
+    occurred_at timestamptz;
+    invalidations json;
+    curr_rec record;
+  BEGIN
+    instance_id = NEW.instance_id;
+    occurred_at = NEW.occurred_at;
+    invalidations = NEW.invalidations;
+    PERFORM pg_notify('hasura_schema_update', json_build_object(
+      'instance_id', instance_id,
+      'occurred_at', occurred_at,
+      'invalidations', invalidations
+      )::text);
+    RETURN curr_rec;
+  END;
+$$;
+
+
+ALTER FUNCTION hdb_catalog.hdb_schema_update_event_notifier() OWNER TO postgres;
+
+--
+-- Name: inject_table_defaults(text, text, text, text); Type: FUNCTION; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE FUNCTION hdb_catalog.inject_table_defaults(view_schema text, view_name text, tab_schema text, tab_name text) RETURNS void
+    LANGUAGE plpgsql
+    AS $$
+    DECLARE
+        r RECORD;
+    BEGIN
+      FOR r IN SELECT column_name, column_default FROM information_schema.columns WHERE table_schema = tab_schema AND table_name = tab_name AND column_default IS NOT NULL LOOP
+          EXECUTE format('ALTER VIEW %I.%I ALTER COLUMN %I SET DEFAULT %s;', view_schema, view_name, r.column_name, r.column_default);
+      END LOOP;
+    END;
+$$;
+
+
+ALTER FUNCTION hdb_catalog.inject_table_defaults(view_schema text, view_name text, tab_schema text, tab_name text) OWNER TO postgres;
+
+--
+-- Name: insert_event_log(text, text, text, text, json); Type: FUNCTION; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE FUNCTION hdb_catalog.insert_event_log(schema_name text, table_name text, trigger_name text, op text, row_data json) RETURNS text
+    LANGUAGE plpgsql
+    AS $$
+  DECLARE
+    id text;
+    payload json;
+    session_variables json;
+    server_version_num int;
+  BEGIN
+    id := gen_random_uuid();
+    server_version_num := current_setting('server_version_num');
+    IF server_version_num >= 90600 THEN
+      session_variables := current_setting('hasura.user', 't');
+    ELSE
+      BEGIN
+        session_variables := current_setting('hasura.user');
+      EXCEPTION WHEN OTHERS THEN
+                  session_variables := NULL;
+      END;
+    END IF;
+    payload := json_build_object(
+      'op', op,
+      'data', row_data,
+      'session_variables', session_variables
+    );
+    INSERT INTO hdb_catalog.event_log
+                (id, schema_name, table_name, trigger_name, payload)
+    VALUES
+    (id, schema_name, table_name, trigger_name, payload);
+    RETURN id;
+  END;
+$$;
+
+
+ALTER FUNCTION hdb_catalog.insert_event_log(schema_name text, table_name text, trigger_name text, op text, row_data json) OWNER TO postgres;
+
+--
+-- Name: notify_hasura_block_state_update_UPDATE(); Type: FUNCTION; Schema: hdb_views; Owner: postgres
+--
+
+CREATE FUNCTION hdb_views."notify_hasura_block_state_update_UPDATE"() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  DECLARE
+    _old record;
+    _new record;
+    _data json;
+  BEGIN
+    IF TG_OP = 'UPDATE' THEN
+      _old := row((SELECT  "e"  FROM  (SELECT  OLD."state"        ) AS "e"      ) );
+      _new := row((SELECT  "e"  FROM  (SELECT  NEW."state"        ) AS "e"      ) );
+    ELSE
+    /* initialize _old and _new with dummy values for INSERT and UPDATE events*/
+      _old := row((select 1));
+      _new := row((select 1));
+    END IF;
+    _data := json_build_object(
+      'old', row_to_json(OLD ),
+      'new', row_to_json(NEW )
+    );
+    BEGIN
+      IF (TG_OP <> 'UPDATE') OR (_old <> _new) THEN
+        PERFORM hdb_catalog.insert_event_log(CAST(TG_TABLE_SCHEMA AS text), CAST(TG_TABLE_NAME AS text), CAST('block_state_update' AS text), TG_OP, _data);
+      END IF;
+      EXCEPTION WHEN undefined_function THEN
+        IF (TG_OP <> 'UPDATE') OR (_old *<> _new) THEN
+          PERFORM hdb_catalog.insert_event_log(CAST(TG_TABLE_SCHEMA AS text), CAST(TG_TABLE_NAME AS text), CAST('block_state_update' AS text), TG_OP, _data);
+        END IF;
+    END;
+
+    RETURN NULL;
+  END;
+$$;
+
+
+ALTER FUNCTION hdb_views."notify_hasura_block_state_update_UPDATE"() OWNER TO postgres;
+
+--
+-- Name: notify_hasura_m2_block_state_update_UPDATE(); Type: FUNCTION; Schema: hdb_views; Owner: postgres
+--
+
+CREATE FUNCTION hdb_views."notify_hasura_m2_block_state_update_UPDATE"() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+  DECLARE
+    _old record;
+    _new record;
+    _data json;
+  BEGIN
+    IF TG_OP = 'UPDATE' THEN
+      _old := row((SELECT  "e"  FROM  (SELECT  OLD."state" , OLD."local_id"        ) AS "e"      ) );
+      _new := row((SELECT  "e"  FROM  (SELECT  NEW."state" , NEW."local_id"        ) AS "e"      ) );
+    ELSE
+    /* initialize _old and _new with dummy values for INSERT and UPDATE events*/
+      _old := row((select 1));
+      _new := row((select 1));
+    END IF;
+    _data := json_build_object(
+      'old', row_to_json(OLD ),
+      'new', row_to_json(NEW )
+    );
+    BEGIN
+      IF (TG_OP <> 'UPDATE') OR (_old <> _new) THEN
+        PERFORM hdb_catalog.insert_event_log(CAST(TG_TABLE_SCHEMA AS text), CAST(TG_TABLE_NAME AS text), CAST('m2_block_state_update' AS text), TG_OP, _data);
+      END IF;
+      EXCEPTION WHEN undefined_function THEN
+        IF (TG_OP <> 'UPDATE') OR (_old *<> _new) THEN
+          PERFORM hdb_catalog.insert_event_log(CAST(TG_TABLE_SCHEMA AS text), CAST(TG_TABLE_NAME AS text), CAST('m2_block_state_update' AS text), TG_OP, _data);
+        END IF;
+    END;
+
+    RETURN NULL;
+  END;
+$$;
+
+
+ALTER FUNCTION hdb_views."notify_hasura_m2_block_state_update_UPDATE"() OWNER TO postgres;
+
+--
+-- Name: update_ended_at(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_ended_at() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.ended_at = now();
+    RETURN NEW; 
+END;
+$$;
+
+
+ALTER FUNCTION public.update_ended_at() OWNER TO postgres;
+
+--
+-- Name: update_started_at(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.update_started_at() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+    NEW.started_at = now();
+    RETURN NEW; 
+END;
+$$;
+
+
+ALTER FUNCTION public.update_started_at() OWNER TO postgres;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: attachments; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.attachments (
+    id text NOT NULL,
+    type text,
+    url text NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    message_id text NOT NULL,
+    name text NOT NULL,
+    title text NOT NULL,
+    description text NOT NULL
+);
+
+
+ALTER TABLE chat.attachments OWNER TO postgres;
+
+--
+-- Name: bell_room_bookings; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.bell_room_bookings (
+    id text NOT NULL,
+    bell_id text NOT NULL,
+    room_id text NOT NULL,
+    created_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE chat.bell_room_bookings OWNER TO postgres;
+
+--
+-- Name: block_room_bookings; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.block_room_bookings (
+    id text NOT NULL,
+    block_id text NOT NULL,
+    room_id text NOT NULL,
+    created_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE chat.block_room_bookings OWNER TO postgres;
+
+--
+-- Name: message_attachments; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.message_attachments (
+    id text NOT NULL,
+    message_id text NOT NULL,
+    attachment_id text NOT NULL
+);
+
+
+ALTER TABLE chat.message_attachments OWNER TO postgres;
+
+--
+-- Name: messages; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.messages (
+    id text NOT NULL,
+    type text DEFAULT 'chat'::text,
+    room_id text NOT NULL,
+    content text NOT NULL,
+    from_user_id text NOT NULL,
+    to_user_id text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE chat.messages OWNER TO postgres;
+
+--
+-- Name: TABLE messages; Type: COMMENT; Schema: chat; Owner: postgres
+--
+
+COMMENT ON TABLE chat.messages IS 'chat messages';
+
+
+--
+-- Name: rooms; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.rooms (
+    id text NOT NULL,
+    type text DEFAULT 'chat'::text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    source_id text,
+    name text,
+    last_post_at timestamp without time zone,
+    ended_at timestamp with time zone DEFAULT now()
+);
+
+
+ALTER TABLE chat.rooms OWNER TO postgres;
+
+--
+-- Name: TABLE rooms; Type: COMMENT; Schema: chat; Owner: postgres
+--
+
+COMMENT ON TABLE chat.rooms IS 'chat conversations';
+
+
+--
+-- Name: user_room_participations; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.user_room_participations (
+    user_id text NOT NULL,
+    last_seen_at timestamp with time zone DEFAULT now() NOT NULL,
+    last_typed_at timestamp with time zone DEFAULT now() NOT NULL,
+    room_id text NOT NULL,
+    id text NOT NULL,
+    joined_at timestamp with time zone DEFAULT now() NOT NULL
+);
+
+
+ALTER TABLE chat.user_room_participations OWNER TO postgres;
+
+--
+-- Name: event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.event_invocation_logs (
+    id text DEFAULT public.gen_random_uuid() NOT NULL,
+    event_id text,
+    status integer,
+    request json,
+    response json,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE hdb_catalog.event_invocation_logs OWNER TO postgres;
+
+--
+-- Name: event_log; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.event_log (
+    id text DEFAULT public.gen_random_uuid() NOT NULL,
+    schema_name text NOT NULL,
+    table_name text NOT NULL,
+    trigger_name text NOT NULL,
+    payload jsonb NOT NULL,
+    delivered boolean DEFAULT false NOT NULL,
+    error boolean DEFAULT false NOT NULL,
+    tries integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone DEFAULT now(),
+    locked boolean DEFAULT false NOT NULL,
+    next_retry_at timestamp without time zone,
+    archived boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.event_log OWNER TO postgres;
+
+--
+-- Name: event_triggers; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.event_triggers (
+    name text NOT NULL,
+    type text NOT NULL,
+    schema_name text NOT NULL,
+    table_name text NOT NULL,
+    configuration json,
+    comment text
+);
+
+
+ALTER TABLE hdb_catalog.event_triggers OWNER TO postgres;
+
+--
+-- Name: hdb_action; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_action (
+    action_name text NOT NULL,
+    action_defn jsonb NOT NULL,
+    comment text,
+    is_system_defined boolean DEFAULT false
+);
+
+
+ALTER TABLE hdb_catalog.hdb_action OWNER TO postgres;
+
+--
+-- Name: hdb_action_log; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_action_log (
+    id uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    action_name text,
+    input_payload jsonb NOT NULL,
+    request_headers jsonb NOT NULL,
+    session_variables jsonb NOT NULL,
+    response_payload jsonb,
+    errors jsonb,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    response_received_at timestamp with time zone,
+    status text NOT NULL,
+    CONSTRAINT hdb_action_log_status_check CHECK ((status = ANY (ARRAY['created'::text, 'processing'::text, 'completed'::text, 'error'::text])))
+);
+
+
+ALTER TABLE hdb_catalog.hdb_action_log OWNER TO postgres;
+
+--
+-- Name: hdb_action_permission; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_action_permission (
+    action_name text NOT NULL,
+    role_name text NOT NULL,
+    definition jsonb DEFAULT '{}'::jsonb NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE hdb_catalog.hdb_action_permission OWNER TO postgres;
+
+--
+-- Name: hdb_allowlist; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_allowlist (
+    collection_name text
+);
+
+
+ALTER TABLE hdb_catalog.hdb_allowlist OWNER TO postgres;
+
+--
+-- Name: hdb_check_constraint; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_check_constraint AS
+ SELECT (n.nspname)::text AS table_schema,
+    (ct.relname)::text AS table_name,
+    (r.conname)::text AS constraint_name,
+    pg_get_constraintdef(r.oid, true) AS "check"
+   FROM ((pg_constraint r
+     JOIN pg_class ct ON ((r.conrelid = ct.oid)))
+     JOIN pg_namespace n ON ((ct.relnamespace = n.oid)))
+  WHERE (r.contype = 'c'::"char");
+
+
+ALTER TABLE hdb_catalog.hdb_check_constraint OWNER TO postgres;
+
+--
+-- Name: hdb_computed_field; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_computed_field (
+    table_schema text NOT NULL,
+    table_name text NOT NULL,
+    computed_field_name text NOT NULL,
+    definition jsonb NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE hdb_catalog.hdb_computed_field OWNER TO postgres;
+
+--
+-- Name: hdb_computed_field_function; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_computed_field_function AS
+ SELECT hdb_computed_field.table_schema,
+    hdb_computed_field.table_name,
+    hdb_computed_field.computed_field_name,
+        CASE
+            WHEN (((hdb_computed_field.definition -> 'function'::text) ->> 'name'::text) IS NULL) THEN (hdb_computed_field.definition ->> 'function'::text)
+            ELSE ((hdb_computed_field.definition -> 'function'::text) ->> 'name'::text)
+        END AS function_name,
+        CASE
+            WHEN (((hdb_computed_field.definition -> 'function'::text) ->> 'schema'::text) IS NULL) THEN 'public'::text
+            ELSE ((hdb_computed_field.definition -> 'function'::text) ->> 'schema'::text)
+        END AS function_schema
+   FROM hdb_catalog.hdb_computed_field;
+
+
+ALTER TABLE hdb_catalog.hdb_computed_field_function OWNER TO postgres;
+
+--
+-- Name: hdb_cron_event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_cron_event_invocation_logs (
+    id text DEFAULT public.gen_random_uuid() NOT NULL,
+    event_id text,
+    status integer,
+    request json,
+    response json,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE hdb_catalog.hdb_cron_event_invocation_logs OWNER TO postgres;
+
+--
+-- Name: hdb_cron_events; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_cron_events (
+    id text DEFAULT public.gen_random_uuid() NOT NULL,
+    trigger_name text NOT NULL,
+    scheduled_time timestamp with time zone NOT NULL,
+    status text DEFAULT 'scheduled'::text NOT NULL,
+    tries integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone DEFAULT now(),
+    next_retry_at timestamp with time zone,
+    CONSTRAINT valid_status CHECK ((status = ANY (ARRAY['scheduled'::text, 'locked'::text, 'delivered'::text, 'error'::text, 'dead'::text])))
+);
+
+
+ALTER TABLE hdb_catalog.hdb_cron_events OWNER TO postgres;
+
+--
+-- Name: hdb_cron_triggers; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_cron_triggers (
+    name text NOT NULL,
+    webhook_conf json NOT NULL,
+    cron_schedule text NOT NULL,
+    payload json,
+    retry_conf json,
+    header_conf json,
+    include_in_metadata boolean DEFAULT false NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE hdb_catalog.hdb_cron_triggers OWNER TO postgres;
+
+--
+-- Name: hdb_cron_events_stats; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_cron_events_stats AS
+ SELECT ct.name,
+    COALESCE(ce.upcoming_events_count, (0)::bigint) AS upcoming_events_count,
+    COALESCE(ce.max_scheduled_time, now()) AS max_scheduled_time
+   FROM (hdb_catalog.hdb_cron_triggers ct
+     LEFT JOIN ( SELECT hdb_cron_events.trigger_name,
+            count(*) AS upcoming_events_count,
+            max(hdb_cron_events.scheduled_time) AS max_scheduled_time
+           FROM hdb_catalog.hdb_cron_events
+          WHERE ((hdb_cron_events.tries = 0) AND (hdb_cron_events.status = 'scheduled'::text))
+          GROUP BY hdb_cron_events.trigger_name) ce ON ((ct.name = ce.trigger_name)));
+
+
+ALTER TABLE hdb_catalog.hdb_cron_events_stats OWNER TO postgres;
+
+--
+-- Name: hdb_custom_types; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_custom_types (
+    custom_types jsonb NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.hdb_custom_types OWNER TO postgres;
+
+--
+-- Name: hdb_foreign_key_constraint; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_foreign_key_constraint AS
+ SELECT (q.table_schema)::text AS table_schema,
+    (q.table_name)::text AS table_name,
+    (q.constraint_name)::text AS constraint_name,
+    (min(q.constraint_oid))::integer AS constraint_oid,
+    min((q.ref_table_table_schema)::text) AS ref_table_table_schema,
+    min((q.ref_table)::text) AS ref_table,
+    json_object_agg(ac.attname, afc.attname) AS column_mapping,
+    min((q.confupdtype)::text) AS on_update,
+    min((q.confdeltype)::text) AS on_delete,
+    json_agg(ac.attname) AS columns,
+    json_agg(afc.attname) AS ref_columns
+   FROM ((( SELECT ctn.nspname AS table_schema,
+            ct.relname AS table_name,
+            r.conrelid AS table_id,
+            r.conname AS constraint_name,
+            r.oid AS constraint_oid,
+            cftn.nspname AS ref_table_table_schema,
+            cft.relname AS ref_table,
+            r.confrelid AS ref_table_id,
+            r.confupdtype,
+            r.confdeltype,
+            unnest(r.conkey) AS column_id,
+            unnest(r.confkey) AS ref_column_id
+           FROM ((((pg_constraint r
+             JOIN pg_class ct ON ((r.conrelid = ct.oid)))
+             JOIN pg_namespace ctn ON ((ct.relnamespace = ctn.oid)))
+             JOIN pg_class cft ON ((r.confrelid = cft.oid)))
+             JOIN pg_namespace cftn ON ((cft.relnamespace = cftn.oid)))
+          WHERE (r.contype = 'f'::"char")) q
+     JOIN pg_attribute ac ON (((q.column_id = ac.attnum) AND (q.table_id = ac.attrelid))))
+     JOIN pg_attribute afc ON (((q.ref_column_id = afc.attnum) AND (q.ref_table_id = afc.attrelid))))
+  GROUP BY q.table_schema, q.table_name, q.constraint_name;
+
+
+ALTER TABLE hdb_catalog.hdb_foreign_key_constraint OWNER TO postgres;
+
+--
+-- Name: hdb_function; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_function (
+    function_schema text NOT NULL,
+    function_name text NOT NULL,
+    configuration jsonb DEFAULT '{}'::jsonb NOT NULL,
+    is_system_defined boolean DEFAULT false
+);
+
+
+ALTER TABLE hdb_catalog.hdb_function OWNER TO postgres;
+
+--
+-- Name: hdb_function_agg; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_function_agg AS
+ SELECT (p.proname)::text AS function_name,
+    (pn.nspname)::text AS function_schema,
+    pd.description,
+        CASE
+            WHEN (p.provariadic = (0)::oid) THEN false
+            ELSE true
+        END AS has_variadic,
+        CASE
+            WHEN ((p.provolatile)::text = ('i'::character(1))::text) THEN 'IMMUTABLE'::text
+            WHEN ((p.provolatile)::text = ('s'::character(1))::text) THEN 'STABLE'::text
+            WHEN ((p.provolatile)::text = ('v'::character(1))::text) THEN 'VOLATILE'::text
+            ELSE NULL::text
+        END AS function_type,
+    pg_get_functiondef(p.oid) AS function_definition,
+    (rtn.nspname)::text AS return_type_schema,
+    (rt.typname)::text AS return_type_name,
+    (rt.typtype)::text AS return_type_type,
+    p.proretset AS returns_set,
+    ( SELECT COALESCE(json_agg(json_build_object('schema', q.schema, 'name', q.name, 'type', q.type)), '[]'::json) AS "coalesce"
+           FROM ( SELECT pt.typname AS name,
+                    pns.nspname AS schema,
+                    pt.typtype AS type,
+                    pat.ordinality
+                   FROM ((unnest(COALESCE(p.proallargtypes, (p.proargtypes)::oid[])) WITH ORDINALITY pat(oid, ordinality)
+                     LEFT JOIN pg_type pt ON ((pt.oid = pat.oid)))
+                     LEFT JOIN pg_namespace pns ON ((pt.typnamespace = pns.oid)))
+                  ORDER BY pat.ordinality) q) AS input_arg_types,
+    to_json(COALESCE(p.proargnames, ARRAY[]::text[])) AS input_arg_names,
+    p.pronargdefaults AS default_args,
+    (p.oid)::integer AS function_oid
+   FROM ((((pg_proc p
+     JOIN pg_namespace pn ON ((pn.oid = p.pronamespace)))
+     JOIN pg_type rt ON ((rt.oid = p.prorettype)))
+     JOIN pg_namespace rtn ON ((rtn.oid = rt.typnamespace)))
+     LEFT JOIN pg_description pd ON ((p.oid = pd.objoid)))
+  WHERE (((pn.nspname)::text !~~ 'pg_%'::text) AND ((pn.nspname)::text <> ALL (ARRAY['information_schema'::text, 'hdb_catalog'::text, 'hdb_views'::text])) AND (NOT (EXISTS ( SELECT 1
+           FROM pg_aggregate
+          WHERE ((pg_aggregate.aggfnoid)::oid = p.oid)))));
+
+
+ALTER TABLE hdb_catalog.hdb_function_agg OWNER TO postgres;
+
+--
+-- Name: hdb_function_info_agg; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_function_info_agg AS
+ SELECT hdb_function_agg.function_name,
+    hdb_function_agg.function_schema,
+    row_to_json(( SELECT e.*::record AS e
+           FROM ( SELECT hdb_function_agg.description,
+                    hdb_function_agg.has_variadic,
+                    hdb_function_agg.function_type,
+                    hdb_function_agg.return_type_schema,
+                    hdb_function_agg.return_type_name,
+                    hdb_function_agg.return_type_type,
+                    hdb_function_agg.returns_set,
+                    hdb_function_agg.input_arg_types,
+                    hdb_function_agg.input_arg_names,
+                    hdb_function_agg.default_args,
+                    (EXISTS ( SELECT 1
+                           FROM information_schema.tables
+                          WHERE (((tables.table_schema)::name = hdb_function_agg.return_type_schema) AND ((tables.table_name)::name = hdb_function_agg.return_type_name)))) AS returns_table) e)) AS function_info
+   FROM hdb_catalog.hdb_function_agg;
+
+
+ALTER TABLE hdb_catalog.hdb_function_info_agg OWNER TO postgres;
+
+--
+-- Name: hdb_permission; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_permission (
+    table_schema name NOT NULL,
+    table_name name NOT NULL,
+    role_name text NOT NULL,
+    perm_type text NOT NULL,
+    perm_def jsonb NOT NULL,
+    comment text,
+    is_system_defined boolean DEFAULT false,
+    CONSTRAINT hdb_permission_perm_type_check CHECK ((perm_type = ANY (ARRAY['insert'::text, 'select'::text, 'update'::text, 'delete'::text])))
+);
+
+
+ALTER TABLE hdb_catalog.hdb_permission OWNER TO postgres;
+
+--
+-- Name: hdb_permission_agg; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_permission_agg AS
+ SELECT hdb_permission.table_schema,
+    hdb_permission.table_name,
+    hdb_permission.role_name,
+    json_object_agg(hdb_permission.perm_type, hdb_permission.perm_def) AS permissions
+   FROM hdb_catalog.hdb_permission
+  GROUP BY hdb_permission.table_schema, hdb_permission.table_name, hdb_permission.role_name;
+
+
+ALTER TABLE hdb_catalog.hdb_permission_agg OWNER TO postgres;
+
+--
+-- Name: hdb_primary_key; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_primary_key AS
+ SELECT tc.table_schema,
+    tc.table_name,
+    tc.constraint_name,
+    json_agg(constraint_column_usage.column_name) AS columns
+   FROM (information_schema.table_constraints tc
+     JOIN ( SELECT x.tblschema AS table_schema,
+            x.tblname AS table_name,
+            x.colname AS column_name,
+            x.cstrname AS constraint_name
+           FROM ( SELECT DISTINCT nr.nspname,
+                    r.relname,
+                    a.attname,
+                    c.conname
+                   FROM pg_namespace nr,
+                    pg_class r,
+                    pg_attribute a,
+                    pg_depend d,
+                    pg_namespace nc,
+                    pg_constraint c
+                  WHERE ((nr.oid = r.relnamespace) AND (r.oid = a.attrelid) AND (d.refclassid = ('pg_class'::regclass)::oid) AND (d.refobjid = r.oid) AND (d.refobjsubid = a.attnum) AND (d.classid = ('pg_constraint'::regclass)::oid) AND (d.objid = c.oid) AND (c.connamespace = nc.oid) AND (c.contype = 'c'::"char") AND (r.relkind = ANY (ARRAY['r'::"char", 'p'::"char"])) AND (NOT a.attisdropped))
+                UNION ALL
+                 SELECT nr.nspname,
+                    r.relname,
+                    a.attname,
+                    c.conname
+                   FROM pg_namespace nr,
+                    pg_class r,
+                    pg_attribute a,
+                    pg_namespace nc,
+                    pg_constraint c
+                  WHERE ((nr.oid = r.relnamespace) AND (r.oid = a.attrelid) AND (nc.oid = c.connamespace) AND (r.oid =
+                        CASE c.contype
+                            WHEN 'f'::"char" THEN c.confrelid
+                            ELSE c.conrelid
+                        END) AND (a.attnum = ANY (
+                        CASE c.contype
+                            WHEN 'f'::"char" THEN c.confkey
+                            ELSE c.conkey
+                        END)) AND (NOT a.attisdropped) AND (c.contype = ANY (ARRAY['p'::"char", 'u'::"char", 'f'::"char"])) AND (r.relkind = ANY (ARRAY['r'::"char", 'p'::"char"])))) x(tblschema, tblname, colname, cstrname)) constraint_column_usage ON ((((tc.constraint_name)::text = (constraint_column_usage.constraint_name)::text) AND ((tc.table_schema)::text = (constraint_column_usage.table_schema)::text) AND ((tc.table_name)::text = (constraint_column_usage.table_name)::text))))
+  WHERE ((tc.constraint_type)::text = 'PRIMARY KEY'::text)
+  GROUP BY tc.table_schema, tc.table_name, tc.constraint_name;
+
+
+ALTER TABLE hdb_catalog.hdb_primary_key OWNER TO postgres;
+
+--
+-- Name: hdb_query_collection; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_query_collection (
+    collection_name text NOT NULL,
+    collection_defn jsonb NOT NULL,
+    comment text,
+    is_system_defined boolean DEFAULT false
+);
+
+
+ALTER TABLE hdb_catalog.hdb_query_collection OWNER TO postgres;
+
+--
+-- Name: hdb_relationship; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_relationship (
+    table_schema name NOT NULL,
+    table_name name NOT NULL,
+    rel_name text NOT NULL,
+    rel_type text,
+    rel_def jsonb NOT NULL,
+    comment text,
+    is_system_defined boolean DEFAULT false,
+    CONSTRAINT hdb_relationship_rel_type_check CHECK ((rel_type = ANY (ARRAY['object'::text, 'array'::text])))
+);
+
+
+ALTER TABLE hdb_catalog.hdb_relationship OWNER TO postgres;
+
+--
+-- Name: hdb_remote_relationship; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_remote_relationship (
+    remote_relationship_name text NOT NULL,
+    table_schema name NOT NULL,
+    table_name name NOT NULL,
+    definition jsonb NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.hdb_remote_relationship OWNER TO postgres;
+
+--
+-- Name: hdb_role; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_role AS
+ SELECT DISTINCT q.role_name
+   FROM ( SELECT hdb_permission.role_name
+           FROM hdb_catalog.hdb_permission
+        UNION ALL
+         SELECT hdb_action_permission.role_name
+           FROM hdb_catalog.hdb_action_permission) q;
+
+
+ALTER TABLE hdb_catalog.hdb_role OWNER TO postgres;
+
+--
+-- Name: hdb_scheduled_event_invocation_logs; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_scheduled_event_invocation_logs (
+    id text DEFAULT public.gen_random_uuid() NOT NULL,
+    event_id text,
+    status integer,
+    request json,
+    response json,
+    created_at timestamp without time zone DEFAULT now()
+);
+
+
+ALTER TABLE hdb_catalog.hdb_scheduled_event_invocation_logs OWNER TO postgres;
+
+--
+-- Name: hdb_scheduled_events; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_scheduled_events (
+    id text DEFAULT public.gen_random_uuid() NOT NULL,
+    webhook_conf json NOT NULL,
+    scheduled_time timestamp with time zone NOT NULL,
+    retry_conf json,
+    payload json,
+    header_conf json,
+    status text DEFAULT 'scheduled'::text NOT NULL,
+    tries integer DEFAULT 0 NOT NULL,
+    created_at timestamp without time zone DEFAULT now(),
+    next_retry_at timestamp with time zone,
+    comment text,
+    CONSTRAINT valid_status CHECK ((status = ANY (ARRAY['scheduled'::text, 'locked'::text, 'delivered'::text, 'error'::text, 'dead'::text])))
+);
+
+
+ALTER TABLE hdb_catalog.hdb_scheduled_events OWNER TO postgres;
+
+--
+-- Name: hdb_schema_update_event; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_schema_update_event (
+    instance_id uuid NOT NULL,
+    occurred_at timestamp with time zone DEFAULT now() NOT NULL,
+    invalidations json NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.hdb_schema_update_event OWNER TO postgres;
+
+--
+-- Name: hdb_table; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_table (
+    table_schema name NOT NULL,
+    table_name name NOT NULL,
+    configuration jsonb,
+    is_system_defined boolean DEFAULT false,
+    is_enum boolean DEFAULT false NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.hdb_table OWNER TO postgres;
+
+--
+-- Name: hdb_table_info_agg; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_table_info_agg AS
+ SELECT schema.nspname AS table_schema,
+    "table".relname AS table_name,
+    jsonb_build_object('oid', ("table".oid)::integer, 'columns', COALESCE(columns.info, '[]'::jsonb), 'primary_key', primary_key.info, 'unique_constraints', COALESCE(unique_constraints.info, '[]'::jsonb), 'foreign_keys', COALESCE(foreign_key_constraints.info, '[]'::jsonb), 'view_info',
+        CASE "table".relkind
+            WHEN 'v'::"char" THEN jsonb_build_object('is_updatable', ((pg_relation_is_updatable(("table".oid)::regclass, true) & 4) = 4), 'is_insertable', ((pg_relation_is_updatable(("table".oid)::regclass, true) & 8) = 8), 'is_deletable', ((pg_relation_is_updatable(("table".oid)::regclass, true) & 16) = 16))
+            ELSE NULL::jsonb
+        END, 'description', description.description) AS info
+   FROM ((((((pg_class "table"
+     JOIN pg_namespace schema ON ((schema.oid = "table".relnamespace)))
+     LEFT JOIN pg_description description ON (((description.classoid = ('pg_class'::regclass)::oid) AND (description.objoid = "table".oid) AND (description.objsubid = 0))))
+     LEFT JOIN LATERAL ( SELECT jsonb_agg(jsonb_build_object('name', "column".attname, 'position', "column".attnum, 'type', COALESCE(base_type.typname, type.typname), 'is_nullable', (NOT "column".attnotnull), 'description', col_description("table".oid, ("column".attnum)::integer))) AS info
+           FROM ((pg_attribute "column"
+             LEFT JOIN pg_type type ON ((type.oid = "column".atttypid)))
+             LEFT JOIN pg_type base_type ON (((type.typtype = 'd'::"char") AND (base_type.oid = type.typbasetype))))
+          WHERE (("column".attrelid = "table".oid) AND ("column".attnum > 0) AND (NOT "column".attisdropped))) columns ON (true))
+     LEFT JOIN LATERAL ( SELECT jsonb_build_object('constraint', jsonb_build_object('name', class.relname, 'oid', (class.oid)::integer), 'columns', COALESCE(columns_1.info, '[]'::jsonb)) AS info
+           FROM ((pg_index index
+             JOIN pg_class class ON ((class.oid = index.indexrelid)))
+             LEFT JOIN LATERAL ( SELECT jsonb_agg("column".attname) AS info
+                   FROM pg_attribute "column"
+                  WHERE (("column".attrelid = "table".oid) AND ("column".attnum = ANY ((index.indkey)::smallint[])))) columns_1 ON (true))
+          WHERE ((index.indrelid = "table".oid) AND index.indisprimary)) primary_key ON (true))
+     LEFT JOIN LATERAL ( SELECT jsonb_agg(jsonb_build_object('name', class.relname, 'oid', (class.oid)::integer)) AS info
+           FROM (pg_index index
+             JOIN pg_class class ON ((class.oid = index.indexrelid)))
+          WHERE ((index.indrelid = "table".oid) AND index.indisunique AND (NOT index.indisprimary))) unique_constraints ON (true))
+     LEFT JOIN LATERAL ( SELECT jsonb_agg(jsonb_build_object('constraint', jsonb_build_object('name', foreign_key.constraint_name, 'oid', foreign_key.constraint_oid), 'columns', foreign_key.columns, 'foreign_table', jsonb_build_object('schema', foreign_key.ref_table_table_schema, 'name', foreign_key.ref_table), 'foreign_columns', foreign_key.ref_columns)) AS info
+           FROM hdb_catalog.hdb_foreign_key_constraint foreign_key
+          WHERE ((foreign_key.table_schema = schema.nspname) AND (foreign_key.table_name = "table".relname))) foreign_key_constraints ON (true))
+  WHERE ("table".relkind = ANY (ARRAY['r'::"char", 't'::"char", 'v'::"char", 'm'::"char", 'f'::"char", 'p'::"char"]));
+
+
+ALTER TABLE hdb_catalog.hdb_table_info_agg OWNER TO postgres;
+
+--
+-- Name: hdb_unique_constraint; Type: VIEW; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE VIEW hdb_catalog.hdb_unique_constraint AS
+ SELECT tc.table_name,
+    tc.constraint_schema AS table_schema,
+    tc.constraint_name,
+    json_agg(kcu.column_name) AS columns
+   FROM (information_schema.table_constraints tc
+     JOIN information_schema.key_column_usage kcu USING (constraint_schema, constraint_name))
+  WHERE ((tc.constraint_type)::text = 'UNIQUE'::text)
+  GROUP BY tc.table_name, tc.constraint_schema, tc.constraint_name;
+
+
+ALTER TABLE hdb_catalog.hdb_unique_constraint OWNER TO postgres;
+
+--
+-- Name: hdb_version; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.hdb_version (
+    hasura_uuid uuid DEFAULT public.gen_random_uuid() NOT NULL,
+    version text NOT NULL,
+    upgraded_on timestamp with time zone NOT NULL,
+    cli_state jsonb DEFAULT '{}'::jsonb NOT NULL,
+    console_state jsonb DEFAULT '{}'::jsonb NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.hdb_version OWNER TO postgres;
+
+--
+-- Name: migration_settings; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.migration_settings (
+    setting text NOT NULL,
+    value text NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.migration_settings OWNER TO postgres;
+
+--
+-- Name: remote_schemas; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.remote_schemas (
+    id bigint NOT NULL,
+    name text,
+    definition json,
+    comment text
+);
+
+
+ALTER TABLE hdb_catalog.remote_schemas OWNER TO postgres;
+
+--
+-- Name: remote_schemas_id_seq; Type: SEQUENCE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE SEQUENCE hdb_catalog.remote_schemas_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE hdb_catalog.remote_schemas_id_seq OWNER TO postgres;
+
+--
+-- Name: remote_schemas_id_seq; Type: SEQUENCE OWNED BY; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER SEQUENCE hdb_catalog.remote_schemas_id_seq OWNED BY hdb_catalog.remote_schemas.id;
+
+
+--
+-- Name: schema_migrations; Type: TABLE; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TABLE hdb_catalog.schema_migrations (
+    version bigint NOT NULL,
+    dirty boolean NOT NULL
+);
+
+
+ALTER TABLE hdb_catalog.schema_migrations OWNER TO postgres;
+
+--
+-- Name: artifacts; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.artifacts (
+    id text NOT NULL,
+    name text,
+    title text NOT NULL,
+    url text NOT NULL,
+    created_at timestamp without time zone DEFAULT now() NOT NULL,
+    updated_at timestamp without time zone DEFAULT now() NOT NULL,
+    source text DEFAULT 'block'::text NOT NULL,
+    bell_id text,
+    block_id text,
+    created_by text
+);
+
+
+ALTER TABLE m2.artifacts OWNER TO postgres;
+
+--
+-- Name: bell_executors; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.bell_executors (
+    id text NOT NULL,
+    type text NOT NULL,
+    bell_id text,
+    CONSTRAINT block_type CHECK ((type = 'BellExecutor'::text))
+);
+
+
+ALTER TABLE m2.bell_executors OWNER TO postgres;
+
+--
+-- Name: bellhop_bell_participations; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.bellhop_bell_participations (
+    bellhop_id text NOT NULL,
+    bell_id text NOT NULL,
+    role text NOT NULL,
+    id integer NOT NULL,
+    CONSTRAINT bellhop_bell_role CHECK (((role = 'bell_owner'::text) OR (role = 'bell_initiator'::text)))
+);
+
+
+ALTER TABLE m2.bellhop_bell_participations OWNER TO postgres;
+
+--
+-- Name: bellhop_bell_participations_id_seq; Type: SEQUENCE; Schema: m2; Owner: postgres
+--
+
+CREATE SEQUENCE m2.bellhop_bell_participations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE m2.bellhop_bell_participations_id_seq OWNER TO postgres;
+
+--
+-- Name: bellhop_bell_participations_id_seq; Type: SEQUENCE OWNED BY; Schema: m2; Owner: postgres
+--
+
+ALTER SEQUENCE m2.bellhop_bell_participations_id_seq OWNED BY m2.bellhop_bell_participations.id;
+
+
+--
+-- Name: bellhop_memberships; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.bellhop_memberships (
+    bellhop_id text NOT NULL,
+    user_id text NOT NULL,
+    role text NOT NULL,
+    joined_at timestamp with time zone DEFAULT now() NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE m2.bellhop_memberships OWNER TO postgres;
+
+--
+-- Name: bellhop_memberships_id_seq; Type: SEQUENCE; Schema: m2; Owner: postgres
+--
+
+CREATE SEQUENCE m2.bellhop_memberships_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE m2.bellhop_memberships_id_seq OWNER TO postgres;
+
+--
+-- Name: bellhop_memberships_id_seq; Type: SEQUENCE OWNED BY; Schema: m2; Owner: postgres
+--
+
+ALTER SEQUENCE m2.bellhop_memberships_id_seq OWNED BY m2.bellhop_memberships.id;
+
+
+--
+-- Name: bellhops; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.bellhops (
+    id text NOT NULL,
+    name text NOT NULL,
+    metadata jsonb DEFAULT '{}'::jsonb NOT NULL,
+    profile_image_url text,
+    created_at text DEFAULT now() NOT NULL,
+    updated_at text DEFAULT now() NOT NULL,
+    description text
+);
+
+
+ALTER TABLE m2.bellhops OWNER TO postgres;
+
+--
+-- Name: bells; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.bells (
+    id text NOT NULL,
+    name text NOT NULL,
+    description text,
+    context jsonb DEFAULT '{}'::jsonb NOT NULL,
+    inputs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    outputs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    state text DEFAULT 'Draft'::text NOT NULL,
+    is_definition boolean DEFAULT false NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    started_at timestamp with time zone,
+    root_block_id text,
+    acts_as_main_bell boolean DEFAULT true NOT NULL,
+    main_bell_id text,
+    ended_at timestamp with time zone
+);
+
+
+ALTER TABLE m2.bells OWNER TO postgres;
+
+--
+-- Name: block_state; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.block_state (
+    id text NOT NULL,
+    attribute text
+);
+
+
+ALTER TABLE m2.block_state OWNER TO postgres;
+
+--
+-- Name: block_type; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.block_type (
+    id text NOT NULL,
+    category text NOT NULL
+);
+
+
+ALTER TABLE m2.block_type OWNER TO postgres;
+
+--
+-- Name: blocks; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.blocks (
+    id text NOT NULL,
+    local_id text NOT NULL,
+    bell_id text,
+    state text DEFAULT 'Draft'::text NOT NULL,
+    type text NOT NULL,
+    is_definition boolean DEFAULT false NOT NULL,
+    configs jsonb DEFAULT '{}'::jsonb NOT NULL,
+    parent_id text,
+    sibling_order integer,
+    name text,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
+    started_at timestamp with time zone,
+    ended_at timestamp with time zone
+);
+
+
+ALTER TABLE m2.blocks OWNER TO postgres;
+
+--
+-- Name: goals; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.goals (
+    id text NOT NULL,
+    type text NOT NULL,
+    goal_name text,
+    success_conditions jsonb DEFAULT '{}'::jsonb NOT NULL,
+    CONSTRAINT block_type CHECK ((type = 'Goal'::text))
+);
+
+
+ALTER TABLE m2.goals OWNER TO postgres;
+
+--
+-- Name: membership_roles; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.membership_roles (
+    id text NOT NULL,
+    attribute text
+);
+
+
+ALTER TABLE m2.membership_roles OWNER TO postgres;
+
+--
+-- Name: participation_roles; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.participation_roles (
+    id text NOT NULL,
+    attribute text
+);
+
+
+ALTER TABLE m2.participation_roles OWNER TO postgres;
+
+--
+-- Name: tasks; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.tasks (
+    id text NOT NULL,
+    type text NOT NULL,
+    title text,
+    fields jsonb DEFAULT '{}'::jsonb NOT NULL,
+    CONSTRAINT block_type CHECK ((type = 'Task'::text))
+);
+
+
+ALTER TABLE m2.tasks OWNER TO postgres;
+
+--
+-- Name: user_bell_participations; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.user_bell_participations (
+    user_id text NOT NULL,
+    represented_bellhop_id text,
+    bell_id text NOT NULL,
+    role text NOT NULL,
+    id integer NOT NULL,
+    CONSTRAINT user_bell_role CHECK (((role = 'bell_initiator'::text) OR (role = 'bell_follower'::text)))
+);
+
+
+ALTER TABLE m2.user_bell_participations OWNER TO postgres;
+
+--
+-- Name: user_bell_participations_id_seq; Type: SEQUENCE; Schema: m2; Owner: postgres
+--
+
+CREATE SEQUENCE m2.user_bell_participations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE m2.user_bell_participations_id_seq OWNER TO postgres;
+
+--
+-- Name: user_bell_participations_id_seq; Type: SEQUENCE OWNED BY; Schema: m2; Owner: postgres
+--
+
+ALTER SEQUENCE m2.user_bell_participations_id_seq OWNED BY m2.user_bell_participations.id;
+
+
+--
+-- Name: user_block_participations; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.user_block_participations (
+    user_id text NOT NULL,
+    block_id text NOT NULL,
+    role text NOT NULL,
+    id integer NOT NULL
+);
+
+
+ALTER TABLE m2.user_block_participations OWNER TO postgres;
+
+--
+-- Name: user_block_participations_id_seq; Type: SEQUENCE; Schema: m2; Owner: postgres
+--
+
+CREATE SEQUENCE m2.user_block_participations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE m2.user_block_participations_id_seq OWNER TO postgres;
+
+--
+-- Name: user_block_participations_id_seq; Type: SEQUENCE OWNED BY; Schema: m2; Owner: postgres
+--
+
+ALTER SEQUENCE m2.user_block_participations_id_seq OWNED BY m2.user_block_participations.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: m2; Owner: postgres
+--
+
+CREATE TABLE m2.users (
+    id text NOT NULL,
+    name text NOT NULL,
+    email text,
+    family_name text,
+    given_name text,
+    picture text
+);
+
+
+ALTER TABLE m2.users OWNER TO postgres;
+
+--
+-- Name: bells; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.bells (
+    id text NOT NULL,
+    name text NOT NULL,
+    description text,
+    state text NOT NULL,
+    context jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    last_updated timestamp with time zone DEFAULT now() NOT NULL,
+    started_at timestamp with time zone DEFAULT now() NOT NULL,
+    root_block_id text
+);
+
+
+ALTER TABLE public.bells OWNER TO postgres;
+
+--
+-- Name: blockDefState; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockDefState" (
+    value text NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE public."blockDefState" OWNER TO postgres;
+
+--
+-- Name: blockDef_parent_child; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockDef_parent_child" (
+    parent_id text NOT NULL,
+    child_id text NOT NULL,
+    sibling_order integer NOT NULL
+);
+
+
+ALTER TABLE public."blockDef_parent_child" OWNER TO postgres;
+
+--
+-- Name: blockDef_parent_child_sibling_order_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public."blockDef_parent_child_sibling_order_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public."blockDef_parent_child_sibling_order_seq" OWNER TO postgres;
+
+--
+-- Name: blockDef_parent_child_sibling_order_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public."blockDef_parent_child_sibling_order_seq" OWNED BY public."blockDef_parent_child".sibling_order;
+
+
+--
+-- Name: blockDef_requestor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockDef_requestor" (
+    "blockDef_id" text NOT NULL,
+    user_id text NOT NULL
+);
+
+
+ALTER TABLE public."blockDef_requestor" OWNER TO postgres;
+
+--
+-- Name: blockDef_responder; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockDef_responder" (
+    "blockDef_id" text NOT NULL,
+    user_id text NOT NULL
+);
+
+
+ALTER TABLE public."blockDef_responder" OWNER TO postgres;
+
+--
+-- Name: blockDefs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockDefs" (
+    id text NOT NULL,
+    name text NOT NULL,
+    description text,
+    type text NOT NULL,
+    state text NOT NULL,
+    props jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    last_updated timestamp with time zone DEFAULT now() NOT NULL,
+    control jsonb DEFAULT '{}'::jsonb NOT NULL,
+    root_id text
+);
+
+
+ALTER TABLE public."blockDefs" OWNER TO postgres;
+
+--
+-- Name: blockState; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockState" (
+    value text NOT NULL,
+    comment text
+);
+
+
+ALTER TABLE public."blockState" OWNER TO postgres;
+
+--
+-- Name: blockType; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public."blockType" (
+    value text NOT NULL,
+    category text
+);
+
+
+ALTER TABLE public."blockType" OWNER TO postgres;
+
+--
+-- Name: block_parent_child; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.block_parent_child (
+    parent_id text NOT NULL,
+    child_id text NOT NULL,
+    sibling_order integer NOT NULL
+);
+
+
+ALTER TABLE public.block_parent_child OWNER TO postgres;
+
+--
+-- Name: block_parent_child_sibling_order_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.block_parent_child_sibling_order_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.block_parent_child_sibling_order_seq OWNER TO postgres;
+
+--
+-- Name: block_parent_child_sibling_order_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.block_parent_child_sibling_order_seq OWNED BY public.block_parent_child.sibling_order;
+
+
+--
+-- Name: block_requestor; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.block_requestor (
+    block_id text NOT NULL,
+    user_id text NOT NULL
+);
+
+
+ALTER TABLE public.block_requestor OWNER TO postgres;
+
+--
+-- Name: block_responder; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.block_responder (
+    block_id text NOT NULL,
+    user_id text NOT NULL
+);
+
+
+ALTER TABLE public.block_responder OWNER TO postgres;
+
+--
+-- Name: blocks; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.blocks (
+    id text NOT NULL,
+    name text NOT NULL,
+    description text,
+    type text NOT NULL,
+    state text NOT NULL,
+    context jsonb DEFAULT '{}'::jsonb NOT NULL,
+    props jsonb DEFAULT '{}'::jsonb NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    last_updated timestamp with time zone DEFAULT now() NOT NULL,
+    control jsonb DEFAULT '{}'::jsonb NOT NULL,
+    root_id text
+);
+
+
+ALTER TABLE public.blocks OWNER TO postgres;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.users (
+    id text NOT NULL,
+    name text NOT NULL,
+    email text NOT NULL,
+    family_name text,
+    given_name text,
+    picture text
+);
+
+
+ALTER TABLE public.users OWNER TO postgres;
+
+--
+-- Name: remote_schemas id; Type: DEFAULT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.remote_schemas ALTER COLUMN id SET DEFAULT nextval('hdb_catalog.remote_schemas_id_seq'::regclass);
+
+
+--
+-- Name: bellhop_bell_participations id; Type: DEFAULT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_bell_participations ALTER COLUMN id SET DEFAULT nextval('m2.bellhop_bell_participations_id_seq'::regclass);
+
+
+--
+-- Name: bellhop_memberships id; Type: DEFAULT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_memberships ALTER COLUMN id SET DEFAULT nextval('m2.bellhop_memberships_id_seq'::regclass);
+
+
+--
+-- Name: user_bell_participations id; Type: DEFAULT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_bell_participations ALTER COLUMN id SET DEFAULT nextval('m2.user_bell_participations_id_seq'::regclass);
+
+
+--
+-- Name: user_block_participations id; Type: DEFAULT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_block_participations ALTER COLUMN id SET DEFAULT nextval('m2.user_block_participations_id_seq'::regclass);
+
+
+--
+-- Name: blockDef_parent_child sibling_order; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_parent_child" ALTER COLUMN sibling_order SET DEFAULT nextval('public."blockDef_parent_child_sibling_order_seq"'::regclass);
+
+
+--
+-- Name: block_parent_child sibling_order; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_parent_child ALTER COLUMN sibling_order SET DEFAULT nextval('public.block_parent_child_sibling_order_seq'::regclass);
+
+
+--
+-- Data for Name: attachments; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.attachments (id, type, url, created_at, updated_at, message_id, name, title, description) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bell_room_bookings; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.bell_room_bookings (id, bell_id, room_id, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: block_room_bookings; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.block_room_bookings (id, block_id, room_id, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: message_attachments; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.message_attachments (id, message_id, attachment_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: messages; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.messages (id, type, room_id, content, from_user_id, to_user_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: rooms; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.rooms (id, type, created_at, source_id, name, last_post_at, ended_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: user_room_participations; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.user_room_participations (user_id, last_seen_at, last_typed_at, room_id, id, joined_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: event_invocation_logs; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.event_invocation_logs (id, event_id, status, request, response, created_at) FROM stdin;
+f995fb1c-07f5-46dd-a08b-7596483c8665	dbb3086c-b948-4992-a583-d71f75b5ec2a	1000	{"payload":{"event":{"session_variables":{"x-hasura-role":"admin"},"op":"UPDATE","data":{"old":{"control":{},"state":"Created","context":{},"last_updated":"2020-08-19T03:04:12.598529+00:00","props":{},"root_id":null,"name":"Block 5","created_at":"2020-08-19T03:04:12.598529+00:00","id":"MiyJP0KigIxWQR1EZeFLl","type":"Form","description":null},"new":{"control":{},"state":"Success","context":{},"last_updated":"2020-08-19T03:04:12.679+00:00","props":{},"root_id":null,"name":"Block 5","created_at":"2020-08-19T03:04:12.598529+00:00","id":"MiyJP0KigIxWQR1EZeFLl","type":"Form","description":null}}},"created_at":"2020-08-19T03:04:12.805379Z","id":"dbb3086c-b948-4992-a583-d71f75b5ec2a","delivery_info":{"max_retries":0,"current_retry":0},"trigger":{"name":"block_state_update"},"table":{"schema":"public","name":"blocks"}},"headers":[{"value":"application/json","name":"Content-Type"},{"value":"hasura-graphql-engine/v1.3.0","name":"User-Agent"}],"version":"2"}	{"data":{"message":"\\"HttpExceptionRequest Request {\\\\n  host                 = \\\\\\"server\\\\\\"\\\\n  port                 = 3000\\\\n  secure               = False\\\\n  requestHeaders       = [(\\\\\\"Content-Type\\\\\\",\\\\\\"application/json\\\\\\"),(\\\\\\"User-Agent\\\\\\",\\\\\\"hasura-graphql-engine/v1.3.0\\\\\\")]\\\\n  path                 = \\\\\\"/block_state_update\\\\\\"\\\\n  queryString          = \\\\\\"\\\\\\"\\\\n  method               = \\\\\\"POST\\\\\\"\\\\n  proxy                = Nothing\\\\n  rawBody              = False\\\\n  redirectCount        = 10\\\\n  responseTimeout      = ResponseTimeoutMicro 60000000\\\\n  requestVersion       = HTTP/1.1\\\\n}\\\\n (ConnectionFailure Network.Socket.getAddrInfo (called with preferred socket type/protocol: AddrInfo {addrFlags = [AI_ADDRCONFIG], addrFamily = AF_UNSPEC, addrSocketType = Stream, addrProtocol = 0, addrAddress = <assumed to be undefined>, addrCanonName = <assumed to be undefined>}, host name: Just \\\\\\"server\\\\\\", service name: Just \\\\\\"3000\\\\\\"): does not exist (Name or service not known))\\""},"version":"2","type":"client_error"}	2020-08-19 03:04:13.706938
+\.
+
+
+--
+-- Data for Name: event_log; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.event_log (id, schema_name, table_name, trigger_name, payload, delivered, error, tries, created_at, locked, next_retry_at, archived) FROM stdin;
+dbb3086c-b948-4992-a583-d71f75b5ec2a	public	blocks	block_state_update	{"op": "UPDATE", "data": {"new": {"id": "MiyJP0KigIxWQR1EZeFLl", "name": "Block 5", "type": "Form", "props": {}, "state": "Success", "context": {}, "control": {}, "root_id": null, "created_at": "2020-08-19T03:04:12.598529+00:00", "description": null, "last_updated": "2020-08-19T03:04:12.679+00:00"}, "old": {"id": "MiyJP0KigIxWQR1EZeFLl", "name": "Block 5", "type": "Form", "props": {}, "state": "Created", "context": {}, "control": {}, "root_id": null, "created_at": "2020-08-19T03:04:12.598529+00:00", "description": null, "last_updated": "2020-08-19T03:04:12.598529+00:00"}}, "session_variables": {"x-hasura-role": "admin"}}	f	t	1	2020-08-19 03:04:12.805379	f	\N	f
+\.
+
+
+--
+-- Data for Name: event_triggers; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.event_triggers (name, type, schema_name, table_name, configuration, comment) FROM stdin;
+m2_block_state_update	table	m2	blocks	{"definition":{"enable_manual":true,"update":{"columns":["local_id","state"]}},"name":"m2_block_state_update","retry_conf":{"num_retries":0,"interval_sec":10,"timeout_sec":60},"webhook":"http://server:3000/m2_block_state_update"}	\N
+block_state_update	table	public	blocks	{"definition":{"enable_manual":true,"update":{"columns":["state"]}},"name":"block_state_update","retry_conf":{"num_retries":0,"interval_sec":10,"timeout_sec":60},"webhook":"http://server:3000/block_state_update"}	\N
+\.
+
+
+--
+-- Data for Name: hdb_action; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_action (action_name, action_defn, comment, is_system_defined) FROM stdin;
+clone_m2_bells_by_pk	{"kind": "asynchronous", "type": "mutation", "handler": "{{ACTION_BASE_URL}}/clone_m2_bells_by_pk", "headers": [], "arguments": [{"name": "pk_columns", "type": "clone_m2_bells_pk_columns_input!", "description": null}, {"name": "is_definition", "type": "Boolean", "description": null}, {"name": "start_on_create", "type": "Boolean", "description": null}], "output_type": "clone_m2_bells_pk_columns_output", "forward_client_headers": true}	\N	f
+\.
+
+
+--
+-- Data for Name: hdb_action_log; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_action_log (id, action_name, input_payload, request_headers, session_variables, response_payload, errors, created_at, response_received_at, status) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_action_permission; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_action_permission (action_name, role_name, definition, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_allowlist; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_allowlist (collection_name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_computed_field; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_computed_field (table_schema, table_name, computed_field_name, definition, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_cron_event_invocation_logs; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_cron_event_invocation_logs (id, event_id, status, request, response, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_cron_events; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_cron_events (id, trigger_name, scheduled_time, status, tries, created_at, next_retry_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_cron_triggers; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_cron_triggers (name, webhook_conf, cron_schedule, payload, retry_conf, header_conf, include_in_metadata, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_custom_types; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_custom_types (custom_types) FROM stdin;
+{"enums": [], "objects": [{"name": "clone_m2_bells_pk_columns_output", "fields": [{"name": "new_id", "type": "String!", "arguments": null, "description": null}], "description": null, "relationships": [{"name": "new_bell", "type": "object", "remote_table": {"name": "bells", "schema": "m2"}, "field_mapping": {"new_id": "id"}}]}], "scalars": [], "input_objects": [{"name": "clone_m2_bells_pk_columns_input", "fields": [{"name": "id", "type": "String!", "description": null}], "description": null}]}
+\.
+
+
+--
+-- Data for Name: hdb_function; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_function (function_schema, function_name, configuration, is_system_defined) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_permission; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_permission (table_schema, table_name, role_name, perm_type, perm_def, comment, is_system_defined) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_query_collection; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_query_collection (collection_name, collection_defn, comment, is_system_defined) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_relationship; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_relationship (table_schema, table_name, rel_name, rel_type, rel_def, comment, is_system_defined) FROM stdin;
+hdb_catalog	hdb_table	detail	object	{"manual_configuration": {"remote_table": {"name": "tables", "schema": "information_schema"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	primary_key	object	{"manual_configuration": {"remote_table": {"name": "hdb_primary_key", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	columns	array	{"manual_configuration": {"remote_table": {"name": "columns", "schema": "information_schema"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	foreign_key_constraints	array	{"manual_configuration": {"remote_table": {"name": "hdb_foreign_key_constraint", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	relationships	array	{"manual_configuration": {"remote_table": {"name": "hdb_relationship", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	permissions	array	{"manual_configuration": {"remote_table": {"name": "hdb_permission_agg", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	computed_fields	array	{"manual_configuration": {"remote_table": {"name": "hdb_computed_field", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	check_constraints	array	{"manual_configuration": {"remote_table": {"name": "hdb_check_constraint", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_table	unique_constraints	array	{"manual_configuration": {"remote_table": {"name": "hdb_unique_constraint", "schema": "hdb_catalog"}, "column_mapping": {"table_name": "table_name", "table_schema": "table_schema"}}}	\N	t
+hdb_catalog	event_triggers	events	array	{"manual_configuration": {"remote_table": {"name": "event_log", "schema": "hdb_catalog"}, "column_mapping": {"name": "trigger_name"}}}	\N	t
+hdb_catalog	event_log	trigger	object	{"manual_configuration": {"remote_table": {"name": "event_triggers", "schema": "hdb_catalog"}, "column_mapping": {"trigger_name": "name"}}}	\N	t
+hdb_catalog	event_log	logs	array	{"foreign_key_constraint_on": {"table": {"name": "event_invocation_logs", "schema": "hdb_catalog"}, "column": "event_id"}}	\N	t
+hdb_catalog	event_invocation_logs	event	object	{"foreign_key_constraint_on": "event_id"}	\N	t
+hdb_catalog	hdb_function_agg	return_table_info	object	{"manual_configuration": {"remote_table": {"name": "hdb_table", "schema": "hdb_catalog"}, "column_mapping": {"return_type_name": "table_name", "return_type_schema": "table_schema"}}}	\N	t
+hdb_catalog	hdb_action	permissions	array	{"manual_configuration": {"remote_table": {"name": "hdb_action_permission", "schema": "hdb_catalog"}, "column_mapping": {"action_name": "action_name"}}}	\N	t
+hdb_catalog	hdb_role	action_permissions	array	{"manual_configuration": {"remote_table": {"name": "hdb_action_permission", "schema": "hdb_catalog"}, "column_mapping": {"role_name": "role_name"}}}	\N	t
+hdb_catalog	hdb_role	permissions	array	{"manual_configuration": {"remote_table": {"name": "hdb_permission_agg", "schema": "hdb_catalog"}, "column_mapping": {"role_name": "role_name"}}}	\N	t
+hdb_catalog	hdb_cron_triggers	cron_events	array	{"foreign_key_constraint_on": {"table": {"name": "hdb_cron_events", "schema": "hdb_catalog"}, "column": "trigger_name"}}	\N	t
+hdb_catalog	hdb_cron_events	cron_trigger	object	{"foreign_key_constraint_on": "trigger_name"}	\N	t
+hdb_catalog	hdb_cron_events	cron_event_logs	array	{"foreign_key_constraint_on": {"table": {"name": "hdb_cron_event_invocation_logs", "schema": "hdb_catalog"}, "column": "event_id"}}	\N	t
+hdb_catalog	hdb_cron_event_invocation_logs	cron_event	object	{"foreign_key_constraint_on": "event_id"}	\N	t
+hdb_catalog	hdb_scheduled_events	scheduled_event_logs	array	{"foreign_key_constraint_on": {"table": {"name": "hdb_scheduled_event_invocation_logs", "schema": "hdb_catalog"}, "column": "event_id"}}	\N	t
+hdb_catalog	hdb_scheduled_event_invocation_logs	scheduled_event	object	{"foreign_key_constraint_on": "event_id"}	\N	t
+m2	bell_executors	bell	object	{"foreign_key_constraint_on": "bell_id"}	\N	f
+m2	bell_executors	block	object	{"manual_configuration": {"remote_table": {"name": "blocks", "schema": "m2"}, "column_mapping": {"id": "id", "type": "type"}}}	\N	f
+m2	bellhop_bell_participations	bell	object	{"foreign_key_constraint_on": "bell_id"}	\N	f
+m2	bellhop_bell_participations	bellhop	object	{"foreign_key_constraint_on": "bellhop_id"}	\N	f
+m2	bellhop_bell_participations	participation_role	object	{"foreign_key_constraint_on": "role"}	\N	f
+m2	bellhop_memberships	bellhop	object	{"foreign_key_constraint_on": "bellhop_id"}	\N	f
+m2	bellhop_memberships	membership_role	object	{"foreign_key_constraint_on": "role"}	\N	f
+m2	bellhop_memberships	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+m2	bellhops	bell_participations	array	{"foreign_key_constraint_on": {"table": {"name": "bellhop_bell_participations", "schema": "m2"}, "column": "bellhop_id"}}	\N	f
+m2	bellhops	bell_participations_by_users	array	{"foreign_key_constraint_on": {"table": {"name": "user_bell_participations", "schema": "m2"}, "column": "represented_bellhop_id"}}	\N	f
+m2	bellhops	memberships	array	{"foreign_key_constraint_on": {"table": {"name": "bellhop_memberships", "schema": "m2"}, "column": "bellhop_id"}}	\N	f
+m2	bells	bell_state	object	{"foreign_key_constraint_on": "state"}	\N	f
+m2	bells	main_bell	object	{"foreign_key_constraint_on": "main_bell_id"}	\N	f
+m2	bells	root_block	object	{"foreign_key_constraint_on": "root_block_id"}	\N	f
+m2	bells	bell_executors	array	{"foreign_key_constraint_on": {"table": {"name": "bell_executors", "schema": "m2"}, "column": "bell_id"}}	\N	f
+m2	bells	bellhop_participations	array	{"foreign_key_constraint_on": {"table": {"name": "bellhop_bell_participations", "schema": "m2"}, "column": "bell_id"}}	\N	f
+m2	bells	blocks	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "m2"}, "column": "bell_id"}}	\N	f
+m2	bells	sub_bells	array	{"foreign_key_constraint_on": {"table": {"name": "bells", "schema": "m2"}, "column": "main_bell_id"}}	\N	f
+m2	bells	user_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_bell_participations", "schema": "m2"}, "column": "bell_id"}}	\N	f
+m2	block_state	bells	array	{"foreign_key_constraint_on": {"table": {"name": "bells", "schema": "m2"}, "column": "state"}}	\N	f
+m2	block_state	blocks	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "m2"}, "column": "state"}}	\N	f
+m2	block_type	blocks	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "m2"}, "column": "type"}}	\N	f
+m2	blocks	bell	object	{"foreign_key_constraint_on": "bell_id"}	\N	f
+m2	blocks	bell_at_root	object	{"manual_configuration": {"remote_table": {"name": "bells", "schema": "m2"}, "column_mapping": {"id": "root_block_id"}}}	\N	f
+m2	blocks	bell_executor	object	{"manual_configuration": {"remote_table": {"name": "bell_executors", "schema": "m2"}, "column_mapping": {"id": "id", "type": "type"}}}	\N	f
+m2	blocks	block_state	object	{"foreign_key_constraint_on": "state"}	\N	f
+m2	blocks	block_type	object	{"foreign_key_constraint_on": "type"}	\N	f
+m2	blocks	goal	object	{"manual_configuration": {"remote_table": {"name": "goals", "schema": "m2"}, "column_mapping": {"id": "id", "type": "type"}}}	\N	f
+m2	blocks	parent	object	{"foreign_key_constraint_on": "parent_id"}	\N	f
+chat	attachments	message	object	{"foreign_key_constraint_on": "message_id"}	\N	f
+m2	blocks	task	object	{"manual_configuration": {"remote_table": {"name": "tasks", "schema": "m2"}, "column_mapping": {"id": "id", "type": "type"}}}	\N	f
+m2	blocks	children	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "m2"}, "column": "parent_id"}}	\N	f
+m2	blocks	user_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_block_participations", "schema": "m2"}, "column": "block_id"}}	\N	f
+m2	goals	block	object	{"manual_configuration": {"remote_table": {"name": "blocks", "schema": "m2"}, "column_mapping": {"id": "id", "type": "type"}}}	\N	f
+m2	membership_roles	bellhop_memberships	array	{"foreign_key_constraint_on": {"table": {"name": "bellhop_memberships", "schema": "m2"}, "column": "role"}}	\N	f
+m2	participation_roles	bellhop_bell_participations	array	{"foreign_key_constraint_on": {"table": {"name": "bellhop_bell_participations", "schema": "m2"}, "column": "role"}}	\N	f
+m2	participation_roles	user_bell_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_bell_participations", "schema": "m2"}, "column": "role"}}	\N	f
+m2	participation_roles	user_block_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_block_participations", "schema": "m2"}, "column": "role"}}	\N	f
+m2	tasks	block	object	{"manual_configuration": {"remote_table": {"name": "blocks", "schema": "m2"}, "column_mapping": {"id": "id", "type": "type"}}}	\N	f
+m2	user_bell_participations	bell	object	{"foreign_key_constraint_on": "bell_id"}	\N	f
+m2	user_bell_participations	participation_role	object	{"foreign_key_constraint_on": "role"}	\N	f
+m2	user_bell_participations	represented_bellhop	object	{"foreign_key_constraint_on": "represented_bellhop_id"}	\N	f
+m2	user_bell_participations	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+m2	user_block_participations	block	object	{"foreign_key_constraint_on": "block_id"}	\N	f
+m2	user_block_participations	participation_role	object	{"foreign_key_constraint_on": "role"}	\N	f
+m2	user_block_participations	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+m2	users	bellhop_memberships	array	{"foreign_key_constraint_on": {"table": {"name": "bellhop_memberships", "schema": "m2"}, "column": "user_id"}}	\N	f
+m2	users	bell_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_bell_participations", "schema": "m2"}, "column": "user_id"}}	\N	f
+m2	users	block_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_block_participations", "schema": "m2"}, "column": "user_id"}}	\N	f
+public	bells	block	object	{"foreign_key_constraint_on": "root_block_id"}	\N	f
+public	bells	blockState	object	{"foreign_key_constraint_on": "state"}	\N	f
+public	blockDefState	blockDefs	array	{"foreign_key_constraint_on": {"table": {"name": "blockDefs", "schema": "public"}, "column": "state"}}	\N	f
+public	blockDef_parent_child	child	object	{"foreign_key_constraint_on": "child_id"}	\N	f
+public	blockDef_parent_child	parent	object	{"foreign_key_constraint_on": "parent_id"}	\N	f
+public	blockDef_requestor	blockDef	object	{"foreign_key_constraint_on": "blockDef_id"}	\N	f
+public	blockDef_requestor	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+public	blockDef_responder	blockDef	object	{"foreign_key_constraint_on": "blockDef_id"}	\N	f
+public	blockDef_responder	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+public	blockDefs	blockDefState	object	{"foreign_key_constraint_on": "state"}	\N	f
+public	blockDefs	blockType	object	{"foreign_key_constraint_on": "type"}	\N	f
+public	blockDefs	root	object	{"foreign_key_constraint_on": "root_id"}	\N	f
+public	blockDefs	blockDefs	array	{"foreign_key_constraint_on": {"table": {"name": "blockDefs", "schema": "public"}, "column": "root_id"}}	\N	f
+public	blockDefs	children	array	{"foreign_key_constraint_on": {"table": {"name": "blockDef_parent_child", "schema": "public"}, "column": "parent_id"}}	\N	f
+public	blockDefs	parents	array	{"foreign_key_constraint_on": {"table": {"name": "blockDef_parent_child", "schema": "public"}, "column": "child_id"}}	\N	f
+public	blockDefs	requestors	array	{"foreign_key_constraint_on": {"table": {"name": "blockDef_requestor", "schema": "public"}, "column": "blockDef_id"}}	\N	f
+public	blockDefs	responders	array	{"foreign_key_constraint_on": {"table": {"name": "blockDef_responder", "schema": "public"}, "column": "blockDef_id"}}	\N	f
+public	blockState	blocks	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "public"}, "column": "state"}}	\N	f
+public	blockType	blockDefs	array	{"foreign_key_constraint_on": {"table": {"name": "blockDefs", "schema": "public"}, "column": "type"}}	\N	f
+public	blockType	blocks	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "public"}, "column": "type"}}	\N	f
+public	block_parent_child	child	object	{"foreign_key_constraint_on": "child_id"}	\N	f
+public	block_parent_child	parent	object	{"foreign_key_constraint_on": "parent_id"}	\N	f
+public	block_requestor	block	object	{"foreign_key_constraint_on": "block_id"}	\N	f
+public	block_requestor	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+public	block_responder	block	object	{"foreign_key_constraint_on": "block_id"}	\N	f
+public	block_responder	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+public	blocks	blockState	object	{"foreign_key_constraint_on": "state"}	\N	f
+public	blocks	blockType	object	{"foreign_key_constraint_on": "type"}	\N	f
+public	blocks	root	object	{"foreign_key_constraint_on": "root_id"}	\N	f
+public	blocks	bells	array	{"foreign_key_constraint_on": {"table": {"name": "bells", "schema": "public"}, "column": "root_block_id"}}	\N	f
+public	blocks	blocks	array	{"foreign_key_constraint_on": {"table": {"name": "blocks", "schema": "public"}, "column": "root_id"}}	\N	f
+public	blocks	children	array	{"foreign_key_constraint_on": {"table": {"name": "block_parent_child", "schema": "public"}, "column": "parent_id"}}	\N	f
+public	blocks	parents	array	{"foreign_key_constraint_on": {"table": {"name": "block_parent_child", "schema": "public"}, "column": "child_id"}}	\N	f
+public	blocks	requestors	array	{"foreign_key_constraint_on": {"table": {"name": "block_requestor", "schema": "public"}, "column": "block_id"}}	\N	f
+public	blocks	responders	array	{"foreign_key_constraint_on": {"table": {"name": "block_responder", "schema": "public"}, "column": "block_id"}}	\N	f
+public	users	blockDef_requestors	array	{"foreign_key_constraint_on": {"table": {"name": "blockDef_requestor", "schema": "public"}, "column": "user_id"}}	\N	f
+public	users	blockDef_responders	array	{"foreign_key_constraint_on": {"table": {"name": "blockDef_responder", "schema": "public"}, "column": "user_id"}}	\N	f
+public	users	block_requestors	array	{"foreign_key_constraint_on": {"table": {"name": "block_requestor", "schema": "public"}, "column": "user_id"}}	\N	f
+public	users	block_responders	array	{"foreign_key_constraint_on": {"table": {"name": "block_responder", "schema": "public"}, "column": "user_id"}}	\N	f
+chat	messages	attachments	array	{"foreign_key_constraint_on": {"table": {"name": "attachments", "schema": "chat"}, "column": "message_id"}}	\N	f
+chat	messages	room	object	{"foreign_key_constraint_on": "room_id"}	\N	f
+chat	messages	from_user	object	{"foreign_key_constraint_on": "from_user_id"}	\N	f
+chat	messages	to_user	object	{"foreign_key_constraint_on": "to_user_id"}	\N	f
+chat	user_room_participations	room	object	{"foreign_key_constraint_on": "room_id"}	\N	f
+chat	messages	message_attachment	object	{"manual_configuration": {"remote_table": {"name": "message_attachments", "schema": "chat"}, "column_mapping": {"id": "message_id"}}}	\N	f
+chat	rooms	messages	array	{"foreign_key_constraint_on": {"table": {"name": "messages", "schema": "chat"}, "column": "room_id"}}	\N	f
+chat	rooms	user_room_participations	array	{"foreign_key_constraint_on": {"table": {"name": "user_room_participations", "schema": "chat"}, "column": "room_id"}}	\N	f
+chat	rooms	block	object	{"foreign_key_constraint_on": "source_id"}	\N	f
+chat	user_room_participations	user	object	{"foreign_key_constraint_on": "user_id"}	\N	f
+chat	message_attachments	attachment	object	{"foreign_key_constraint_on": "attachment_id"}	\N	f
+chat	message_attachments	message	object	{"foreign_key_constraint_on": "message_id"}	\N	f
+\.
+
+
+--
+-- Data for Name: hdb_remote_relationship; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_remote_relationship (remote_relationship_name, table_schema, table_name, definition) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_scheduled_event_invocation_logs; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_scheduled_event_invocation_logs (id, event_id, status, request, response, created_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_scheduled_events; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_scheduled_events (id, webhook_conf, scheduled_time, retry_conf, payload, header_conf, status, tries, created_at, next_retry_at, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: hdb_schema_update_event; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_schema_update_event (instance_id, occurred_at, invalidations) FROM stdin;
+7e62722e-8bbc-4271-980c-e05ad1424966	2020-08-21 20:11:39.370471+00	{"metadata":false,"remote_schemas":[]}
+\.
+
+
+--
+-- Data for Name: hdb_table; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_table (table_schema, table_name, configuration, is_system_defined, is_enum) FROM stdin;
+information_schema	tables	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+information_schema	schemata	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+information_schema	views	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+information_schema	columns	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_table	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_primary_key	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_foreign_key_constraint	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_relationship	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_permission_agg	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_computed_field	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_check_constraint	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_unique_constraint	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_remote_relationship	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	event_triggers	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	event_log	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	event_invocation_logs	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_function	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_function_agg	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	remote_schemas	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_version	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_query_collection	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_allowlist	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_custom_types	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_action_permission	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_action	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_action_log	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_role	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_cron_triggers	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_cron_events	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_cron_event_invocation_logs	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_scheduled_events	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+hdb_catalog	hdb_scheduled_event_invocation_logs	{"custom_root_fields": {}, "custom_column_names": {}}	t	f
+chat	attachments	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+chat	messages	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+chat	bell_room_bookings	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	artifacts	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+chat	block_room_bookings	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+chat	rooms	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+chat	user_room_participations	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	bell_executors	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	bellhop_bell_participations	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	bellhop_memberships	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	bellhops	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	bells	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	block_state	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+m2	block_type	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+m2	blocks	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	goals	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	membership_roles	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+m2	participation_roles	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+m2	tasks	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	user_bell_participations	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	user_block_participations	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+m2	users	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	bells	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	blockDefState	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+public	blockDef_parent_child	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	blockDef_requestor	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	blockDef_responder	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	blockDefs	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	blockState	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+public	blockType	{"custom_root_fields": {}, "custom_column_names": {}}	f	t
+public	block_parent_child	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	block_requestor	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	block_responder	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	blocks	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+public	users	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+chat	message_attachments	{"custom_root_fields": {}, "custom_column_names": {}}	f	f
+\.
+
+
+--
+-- Data for Name: hdb_version; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.hdb_version (hasura_uuid, version, upgraded_on, cli_state, console_state) FROM stdin;
+b83d0e72-69c7-442e-9516-9fd8f5d7c5d2	36	2020-07-30 23:37:44.51012+00	{}	{"telemetryNotificationShown": true}
+\.
+
+
+--
+-- Data for Name: migration_settings; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.migration_settings (setting, value) FROM stdin;
+migration_mode	true
+\.
+
+
+--
+-- Data for Name: remote_schemas; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.remote_schemas (id, name, definition, comment) FROM stdin;
+\.
+
+
+--
+-- Data for Name: schema_migrations; Type: TABLE DATA; Schema: hdb_catalog; Owner: postgres
+--
+
+COPY hdb_catalog.schema_migrations (version, dirty) FROM stdin;
+1593133098690	f
+1593153983586	f
+1593490835991	f
+1594695656177	f
+1594772252255	f
+1594848632461	f
+1595006506406	f
+1595286768218	f
+1595395676023	f
+1595873877386	f
+1595893752823	f
+1595915228476	f
+1596048829179	f
+1596144205527	f
+1596167744948	f
+1596167896638	f
+1596220636883	f
+1596219202482	f
+1596746837367	f
+1596923139615	f
+1597971204966	f
+1597971578735	f
+1597971583261	f
+1597971737149	f
+1597971747509	f
+1597971758322	f
+1597971943352	f
+1597972001428	f
+1597972028649	f
+1597972036123	f
+1597972382828	f
+1597984836150	f
+1597985033489	f
+1597985651331	f
+1597985699879	f
+1597985738597	f
+1597985747296	f
+1597985791709	f
+1597985856940	f
+1597985906195	f
+1597986166100	f
+1597986206259	f
+1597986252275	f
+1597986268957	f
+1597986319946	f
+1597986337485	f
+1597986351611	f
+1597988179672	f
+1597988192124	f
+1597988217828	f
+1597988336210	f
+1597988707895	f
+1597988753760	f
+1597991009199	f
+1597991018938	f
+1597991287368	f
+1597991297765	f
+1597991732745	f
+1597991901229	f
+1597992615656	f
+1597992783286	f
+1597996419340	f
+1597996427791	f
+1597997348181	f
+1597997355834	f
+1597997440627	f
+1598032806526	f
+1598037620485	f
+1598037648967	f
+1598037674857	f
+1598037713091	f
+1598037808742	f
+1598037839669	f
+1598037871473	f
+1598037988682	f
+1598038657898	f
+1598040030947	f
+1598040044367	f
+1598040144841	f
+1598040175593	f
+1598040348307	f
+1598040362841	f
+1598040480319	f
+1598040514183	f
+1598040539391	f
+1598040556686	f
+1598040568647	f
+1598040608539	f
+1598040627282	f
+1598040698673	f
+1598040711929	f
+1598040741100	f
+1598040759223	f
+\.
+
+
+--
+-- Data for Name: artifacts; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.artifacts (id, name, title, url, created_at, updated_at, source, bell_id, block_id, created_by) FROM stdin;
+\.
+
+
+--
+-- Data for Name: bell_executors; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.bell_executors (id, type, bell_id) FROM stdin;
+tuqfR-7bTIsyHXgiq8XSP	BellExecutor	Mz1t1IwyheFE5oVYwkJPW
+\.
+
+
+--
+-- Data for Name: bellhop_bell_participations; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.bellhop_bell_participations (bellhop_id, bell_id, role, id) FROM stdin;
+kK70A5g3BM9mjbHQoYnjL	s4Uq5-3xUX5bljHUIJMLW	bell_owner	2
+6U0uG2uaSVCOgFW_6RU0G	s4Uq5-3xUX5bljHUIJMLW	bell_initiator	3
+5N7DVIvQIV0dBGx89q9r2	Mz1t1IwyheFE5oVYwkJPW	bell_owner	4
+kK70A5g3BM9mjbHQoYnjL	Mz1t1IwyheFE5oVYwkJPW	bell_initiator	5
+PG4zNBGpm_MNfVU0tMNwt	KT5VZpZMR5RVGscTjcY4w	bell_owner	10
+\.
+
+
+--
+-- Data for Name: bellhop_memberships; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.bellhop_memberships (bellhop_id, user_id, role, joined_at, id) FROM stdin;
+6U0uG2uaSVCOgFW_6RU0G	Google_111918078641246610063	member	2020-07-20 21:33:29.122427+00	1
+1ibkm0rWaBenw4GvR2_HA	Google_109551792009621810100	approver	2020-07-20 21:33:50.181203+00	2
+5N7DVIvQIV0dBGx89q9r2	Google_109551792009621810100	approver	2020-07-20 21:33:57.904538+00	3
+rSIbpHk-JU4Rca7sF4Z7A	Google_115419186368884878540	admin	2020-07-20 21:34:18.852356+00	4
+6U0uG2uaSVCOgFW_6RU0G	Google_113132363560941198349	member	2020-07-24 03:20:28.987126+00	9
+5N7DVIvQIV0dBGx89q9r2	Google_111918078641246610063	manager	2020-07-24 22:15:41.394778+00	10
+kK70A5g3BM9mjbHQoYnjL	Google_111918078641246610063	manager	2020-07-30 07:23:07.551902+00	11
+PG4zNBGpm_MNfVU0tMNwt	Google_115419186368884878540	admin	2020-08-05 05:45:37.399866+00	12
+6U0uG2uaSVCOgFW_6RU0G	Google_115419186368884878540	admin	2020-07-22 05:38:08.557555+00	5
+5N7DVIvQIV0dBGx89q9r2	Google_115419186368884878540	admin	2020-08-05 05:46:30.679836+00	13
+\.
+
+
+--
+-- Data for Name: bellhops; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.bellhops (id, name, metadata, profile_image_url, created_at, updated_at, description) FROM stdin;
+PG4zNBGpm_MNfVU0tMNwt	Engineering & Product	{}	https://samantha-assets.s3.amazonaws.com/images/eng.png	2020-07-31 21:27:56.344245+00	2020-07-31 21:27:56.344245+00	building cool product!
+kK70A5g3BM9mjbHQoYnjL	Purchasing Team	{}	https://samantha-assets.s3.amazonaws.com/images/purchasing.png	2020-07-30 07:22:44.257982+00	2020-07-30 07:22:44.257982+00	We handle the logistics of purchasing!
+6U0uG2uaSVCOgFW_6RU0G	Facilities	{}	https://samantha-assets.s3.amazonaws.com/images/facilities.png	2020-07-20 21:32:05.280057+00	2020-07-20 21:32:05.280057+00	We keep our facilities in working order!
+1ibkm0rWaBenw4GvR2_HA	Marketing	{}	https://samantha-assets.s3.amazonaws.com/images/marketing.png	2020-07-20 21:32:15.007791+00	2020-07-20 21:32:15.007791+00	We tell our story!
+5N7DVIvQIV0dBGx89q9r2	Finance	{}	https://samantha-assets.s3.amazonaws.com/images/finance.png	2020-07-20 21:32:24.717504+00	2020-07-20 21:32:24.717504+00	We make sure that we are responsible with our money!
+rSIbpHk-JU4Rca7sF4Z7A	Legal	{}	https://samantha-assets.s3.amazonaws.com/images/legal.png	2020-07-20 21:32:32.292195+00	2020-07-20 21:32:32.292195+00	We keep us from doing anything stupid!
+\.
+
+
+--
+-- Data for Name: bells; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.bells (id, name, description, context, inputs, outputs, state, is_definition, created_at, updated_at, started_at, root_block_id, acts_as_main_bell, main_bell_id, ended_at) FROM stdin;
+Mz1t1IwyheFE5oVYwkJPW	Large Spend Approval Request	Large Spend Approval Request description	{}	{}	{}	Success	f	2020-07-31 17:37:10.704903+00	2020-07-31 17:37:10.704903+00	\N	QwnivOlovwLzVHcCN1wZF	f	s4Uq5-3xUX5bljHUIJMLW	\N
+s4Uq5-3xUX5bljHUIJMLW	Facilities Purchase Request	Get purchase request, have dept. leads approve, and have Finance approve.	{"artifacts": [{"url": "https://samantha-assets.s3.amazonaws.com/artifacts/HVAC+Permit.pdf", "title": "Submission of city for HVAC approval", "filename": "HVAC Permit.pdf"}, {"url": "https://www.standardheating.com/wp-cms/wp-content/uploads/2015/09/HVACdiagram2-1024x634.png", "title": "HVAC system", "filename": "HVAC system diagram.png"}]}	{}	{}	Running	f	2020-07-30 07:37:49.40117+00	2020-07-30 07:37:49.40117+00	2020-08-04 05:36:50.33183+00	11OPQ53T10ju7GYERgBOP	t	\N	2020-08-05 00:08:25.929326+00
+KT5VZpZMR5RVGscTjcY4w	M2.0 bug tracking	\N	{}	{}	{}	Created	f	2020-08-07 02:07:36.538775+00	2020-08-07 02:07:36.538775+00	\N	\N	t	\N	\N
+\.
+
+
+--
+-- Data for Name: block_state; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.block_state (id, attribute) FROM stdin;
+Created	\N
+Running	\N
+Success	\N
+Failure	\N
+Draft	\N
+\.
+
+
+--
+-- Data for Name: block_type; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.block_type (id, category) FROM stdin;
+APIExecutor	Executor
+BellExecutor	Executor
+Task	Task
+Goal	Goal
+Notification	Executor
+\.
+
+
+--
+-- Data for Name: blocks; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.blocks (id, local_id, bell_id, state, type, is_definition, configs, parent_id, sibling_order, name, created_at, updated_at, started_at, ended_at) FROM stdin;
+QwnivOlovwLzVHcCN1wZF	VIwcpLa_dfw0jBLlU6rK0	Mz1t1IwyheFE5oVYwkJPW	Created	Goal	f	{"control_type": "Sequential"}	\N	\N	Goal (Finance Team Spend Approval)	2020-07-31 17:42:28.149388+00	2020-07-31 17:42:28.149388+00	\N	\N
+w7WjLJgmw-8IcoJPwymUV	sTOp8e44a9NdJweWr828_	s4Uq5-3xUX5bljHUIJMLW	Created	APIExecutor	f	{"API": {"input": {"bellhop_id": "$(Context.Global.Bellhop_Initiator.ID)"}}}	bVeXuHvMlUVpbM2e4zMy9	1	API (Lookup Cost Center by Initiator's Bellhop ID)	2020-07-30 08:17:15.205561+00	2020-07-30 08:17:15.205561+00	\N	\N
+05rDLPiegRuF7-f72D-PK	Fw2rwZaa27CIyilQKNqge	s4Uq5-3xUX5bljHUIJMLW	Success	Task	f	{}	bVeXuHvMlUVpbM2e4zMy9	2	Task (What categories describe this purchase?)	2020-07-30 08:17:57.465675+00	2020-07-30 08:17:57.465675+00	\N	\N
+G-M8ECueR0697Gx8buehJ	vuJeHylhqX0YbTVtgDsZ7	s4Uq5-3xUX5bljHUIJMLW	Success	Task	f	{}	bVeXuHvMlUVpbM2e4zMy9	3	Task (How much do you need to budget?)	2020-07-30 08:19:26.854575+00	2020-07-30 08:19:26.854575+00	\N	\N
+11OPQ53T10ju7GYERgBOP	H2_a_Rk3ay03OozK5aeyK	s4Uq5-3xUX5bljHUIJMLW	Created	Goal	f	{"control_type": "Sequential"}	\N	\N	Main Goal (Facilities Spend Request)	2020-07-30 07:39:47.197711+00	2020-07-30 07:39:47.197711+00	\N	\N
+emfJCl6E2Dc32GXQtf4FO	Qa9j-wSS3YZFMPcKiy7rM	Mz1t1IwyheFE5oVYwkJPW	Created	Task	f	{}	QwnivOlovwLzVHcCN1wZF	1	Task (Dir. of FP&A Approval)	2020-07-31 17:46:39.466706+00	2020-07-31 17:46:39.466706+00	\N	\N
+QWhbnWC7Esg2UwIVIbbfG	8o_yyJjEDKmhsRA1gIlv7	s4Uq5-3xUX5bljHUIJMLW	Success	Task	f	{}	0vNN_nHW0jc87jo-s8XPd	\N	Task (Head of Facilities Approval)	2020-07-30 08:47:52.045784+00	2020-07-30 08:47:52.045784+00	\N	\N
+f9-D98KF8ZHvNn5GIhBGw	2tAIiTBtJXmVC2xF_Wcr4	s4Uq5-3xUX5bljHUIJMLW	Created	APIExecutor	f	{}	790hOnMXtRMBWhiZetAIK	\N	API (Update Netsuite/SAP)	2020-07-30 08:52:04.838542+00	2020-07-30 08:52:04.838542+00	\N	\N
+tuqfR-7bTIsyHXgiq8XSP	qzUHD8X2uc6Qomg2Oh7iM	s4Uq5-3xUX5bljHUIJMLW	Created	BellExecutor	f	{}	0vNN_nHW0jc87jo-s8XPd	\N	Sub Bell (Finance Approval) (bell_id incomplete)	2020-07-30 08:49:50.491672+00	2020-07-30 08:49:50.491672+00	\N	\N
+QwpfcdLPH_iQqzbz7nFg-	ZKinThbIS7TwdHA49RpZp	s4Uq5-3xUX5bljHUIJMLW	Running	Task	f	{}	bVeXuHvMlUVpbM2e4zMy9	4	Optional Task (Is it capitalizable?)	2020-07-30 08:20:08.788528+00	2020-07-30 08:20:08.788528+00	\N	2020-07-31 08:20:08.788528+00
+790hOnMXtRMBWhiZetAIK	38CVmndMM-H1xXEIkWvrH	s4Uq5-3xUX5bljHUIJMLW	Success	Goal	f	{}	11OPQ53T10ju7GYERgBOP	2	Goal (Execute Purchase)	2020-07-30 08:51:25.1418+00	2020-07-30 08:51:25.1418+00	\N	2020-07-30 09:51:25.1418+00
+bVeXuHvMlUVpbM2e4zMy9	rJnhPkEpzbL_KnF6uBBD1	s4Uq5-3xUX5bljHUIJMLW	Running	Goal	f	{"control_type": "Sequential"}	11OPQ53T10ju7GYERgBOP	\N	Goal (Get Purchasing Information)	2020-07-30 07:41:03.980018+00	2020-07-30 07:41:03.980018+00	2020-08-02 18:51:23.776224+00	2020-08-03 04:23:53.760417+00
+HttfA2gqDC5Uek_WD-rpn	cO64qn3wioY6O7h_LOi-L	s4Uq5-3xUX5bljHUIJMLW	Success	Task	f	{}	bVeXuHvMlUVpbM2e4zMy9	\N	Task (What are you purchasing?)	2020-07-30 07:42:49.683987+00	2020-07-30 07:42:49.683987+00	2020-07-30 07:42:49.683987+00	2020-08-04 07:56:09.051986+00
+ZmafozjAljqxYe5jn4voG	OfuLt7QWe8HTV5ArYLjza	s4Uq5-3xUX5bljHUIJMLW	Success	Notification	f	{"recipients": [], "display_text": "<<TEMPLATED TEXT THAT CAN REFER TO VARIABLES>>", "context_display": true}	bVeXuHvMlUVpbM2e4zMy9	6	UI Notification (Summarize Purchase Information)	2020-07-30 08:37:42.861179+00	2020-07-30 08:37:42.861179+00	\N	2020-08-05 20:20:29.928067+00
+dsobfMA_-Bm_hfa4OJ7kC	NnYT4CUJgPEZexz0Io4JL	Mz1t1IwyheFE5oVYwkJPW	Success	Notification	f	{"recipients": "everyone", "display_text": "<<TEMPLATED TEXT THAT CAN REFER TO VARIABLES>>", "context_display": true}	QwnivOlovwLzVHcCN1wZF	0	UI Notification (Summarize Spend Information)	2020-07-31 17:44:29.45459+00	2020-07-31 17:44:29.45459+00	\N	\N
+0vNN_nHW0jc87jo-s8XPd	7Q1HhUA6rtEsZQVLIsSCk	s4Uq5-3xUX5bljHUIJMLW	Created	Goal	f	{"control_type": "Parallel", "pre_conditions": {"0": null, "all": [{"fact": "context", "path": "$.task.vuJeHylhqX0YbTVtgDsZ7.fields[0].response", "value": 10000, "operator": "greaterThan"}]}}	11OPQ53T10ju7GYERgBOP	1	Conditional Goal (Get All Approvals)	2020-07-30 08:41:13.975206+00	2020-07-30 08:41:13.975206+00	\N	\N
+WWazDMHYOxCXCgTyND2js	zFi6jh6a-pkIEXi1_8-md	s4Uq5-3xUX5bljHUIJMLW	Created	Task	f	{"pre_conditions": {"0": null, "all": [{"fact": "context", "path": "$.task.ZKinThbIS7TwdHA49RpZp.fields[0].response", "value": "Yes", "operator": "equal"}]}}	bVeXuHvMlUVpbM2e4zMy9	5	Conditional Task: (What is the depreciation period?)	2020-07-30 08:29:20.515691+00	2020-07-30 08:29:20.515691+00	\N	2020-08-01 08:29:20.515691+00
+rMj2v1zRwMxFZ6GVDfyFA	cB5whD7WRobLcNngNM95x	KT5VZpZMR5RVGscTjcY4w	Running	Goal	f	{}	\N	\N	main goal, fix all the bugs	2020-08-07 02:11:52.050721+00	2020-08-07 02:11:52.050721+00	2020-08-07 02:14:09.140183+00	\N
+goG3kPIYpOYhmlqR67B6i	0I4_ps2rZG85IqAS8cMJx	KT5VZpZMR5RVGscTjcY4w	Running	Task	f	{}	rMj2v1zRwMxFZ6GVDfyFA	2	Running Bell Page: For Bell "Started At"	2020-08-07 07:29:42.791142+00	2020-08-07 07:29:42.791142+00	2020-08-07 07:29:59.158287+00	\N
+bN_ggtdisDjUrtrvTe-0F	tMcJVxjsmZ6y8e-7rzNa-	KT5VZpZMR5RVGscTjcY4w	Running	Task	f	{}	rMj2v1zRwMxFZ6GVDfyFA	3	Running Bell Page: Participant Followers need to be de-duplicated from the Assignees (both on drop down and in the circles)	2020-08-07 08:05:22.952451+00	2020-08-07 08:05:22.952451+00	\N	\N
+BmdTLSuhY_1vctztXxuTk	uc7DhSvSkIC7w3ro79uBW	KT5VZpZMR5RVGscTjcY4w	Running	Task	f	{}	rMj2v1zRwMxFZ6GVDfyFA	1	Search: highlight the sub-string characters that matched in the results	2020-08-07 12:10:16.571863+00	2020-08-07 12:10:16.571863+00	2020-08-07 13:26:22.00077+00	\N
+PxmmZKPVGbmTDo1U-QAul	DZ-e3g0QvyK2fqFUrRfGX	KT5VZpZMR5RVGscTjcY4w	Running	Task	f	{}	rMj2v1zRwMxFZ6GVDfyFA	4	Running Bell Page: In Activities, if a Task is selected, scroll to the correct Task.	2020-08-07 20:03:17.859806+00	2020-08-07 20:03:17.859806+00	\N	\N
+OrGy7nY4t8iSPisJA8qSD	h2lPysEY94l-mzVjkgJj2	KT5VZpZMR5RVGscTjcY4w	Success	Task	f	{}	rMj2v1zRwMxFZ6GVDfyFA	5	Task View: The Participants version of the Task View should have the Goal displayed between the Bell information and Task information (see M2 Mockups 5.c)	2020-08-06 20:47:38.922571+00	2020-08-07 20:47:38.922571+00	\N	2020-08-07 20:47:38.922571+00
+\.
+
+
+--
+-- Data for Name: goals; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.goals (id, type, goal_name, success_conditions) FROM stdin;
+11OPQ53T10ju7GYERgBOP	Goal	Facilities Spend Request	{}
+bVeXuHvMlUVpbM2e4zMy9	Goal	Get Purchase Information	{}
+0vNN_nHW0jc87jo-s8XPd	Goal	Get All Approvals	{}
+790hOnMXtRMBWhiZetAIK	Goal	Execute Purchase	{}
+QwnivOlovwLzVHcCN1wZF	Goal	Finance Team Spend Approval	{}
+\.
+
+
+--
+-- Data for Name: membership_roles; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.membership_roles (id, attribute) FROM stdin;
+admin	\N
+approver	\N
+member	\N
+manager	\N
+\.
+
+
+--
+-- Data for Name: participation_roles; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.participation_roles (id, attribute) FROM stdin;
+task_assignee	\N
+bell_initiator	\N
+bell_owner	\N
+task_requestor	\N
+task_follower	\N
+bell_follower	\N
+goal_assignee	\N
+goal_follower	\N
+\.
+
+
+--
+-- Data for Name: tasks; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.tasks (id, type, title, fields) FROM stdin;
+QWhbnWC7Esg2UwIVIbbfG	Task	\N	[{"optional": false, "question": "Do you approve this purchase?", "response_type": "SingleSelect", "select_options": ["Approve", "Reject", "Reject for Edit"]}]
+QwpfcdLPH_iQqzbz7nFg-	Task	\N	[{"optional": true, "question": "Is it capitalizable?", "response": "No", "response_type": "SingleSelect", "select_options": ["Yes", "No"]}]
+WWazDMHYOxCXCgTyND2js	Task	\N	[{"optional": true, "question": "What is the depreciation period", "response": "10+ years", "response_type": "SingleSelect", "select_options": ["<5 years", "5-10 years", "10+ years"]}]
+G-M8ECueR0697Gx8buehJ	Task	\N	[{"optional": false, "question": "How much do you need to budget in dollars?", "response": 1234, "min_value": 0, "response_type": "Decimal"}]
+HttfA2gqDC5Uek_WD-rpn	Task	\N	[{"optional": false, "question": "What are you purchasing?", "response": "A new HVAC machine", "response_type": "Text", "max_field_size": 128, "min_field_size": 4}]
+05rDLPiegRuF7-f72D-PK	Task	\N	[{"optional": false, "question": "What categories describe this purchase?", "response": "Heating/Cooling", "response_type": "MultiSelect", "select_options": ["Heating/Cooling", "services", "other"]}]
+OrGy7nY4t8iSPisJA8qSD	Task	title?	[{"optional": false, "question": "Task View: The Participants version of the Task View should have the Goal displayed between the Bell information and Task information (see M2 Mockups 5.c).", "response": "fixed", "response_type": "SingleSelect", "select_options": ["Mark as fixed", "Not reproducible", "Correct behavior", "Postpone"]}]
+bN_ggtdisDjUrtrvTe-0F	Task	\N	[{"optional": false, "question": "Running Bell Page: Participant Followers need to be de-duplicated from the Assignees (both on drop down and in the circles)", "response_type": "SingleSelect", "select_options": ["Mark as fixed", "Not reproducible", "Correct behavior", "Postpone"]}]
+BmdTLSuhY_1vctztXxuTk	Task	\N	[{"optional": false, "question": "Search: highlight the sub-string characters that matched in the results", "response_type": "SingleSelect", "select_options": ["Mark as fixed", "Not reproducible", "Correct behavior", "Postpone"]}]
+PxmmZKPVGbmTDo1U-QAul	Task	\N	[{"optional": false, "question": "Running Bell Page: In Activities, if a Task is selected, scroll to the correct Task.", "description": "Postponed to M2.1.", "response_type": "SingleSelect", "select_options": ["Mark as fixed", "Not reproducible", "Correct behavior", "Postpone"]}]
+goG3kPIYpOYhmlqR67B6i	Task	\N	[{"optional": false, "question": "Running Bell Page: For Bell Started At", "description": ["User Only (bell_initiator that is a User but not a bell_initiator that is a Bellhop)", "Started by: Tingdong Chen", "User + Bellhop (both a bell_initiator that is a User and a bell_initiator that is a Bellhop)", "Started by: Tingdong Chen (Finance)", "Bellhop Only  (not a bell_initiator that is a User but a bell_initiator that is a Bellhop)", "Started by: Finance"], "response_type": "SingleSelect", "select_options": ["Mark as fixed", "Not reproducible", "Correct behavior", "Postpone"]}]
+\.
+
+
+--
+-- Data for Name: user_bell_participations; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.user_bell_participations (user_id, represented_bellhop_id, bell_id, role, id) FROM stdin;
+Google_115419186368884878540	\N	s4Uq5-3xUX5bljHUIJMLW	bell_follower	4
+Google_109551792009621810100	\N	s4Uq5-3xUX5bljHUIJMLW	bell_initiator	3
+Google_109551792009621810100	\N	Mz1t1IwyheFE5oVYwkJPW	bell_follower	8
+Google_115419186368884878540	\N	Mz1t1IwyheFE5oVYwkJPW	bell_initiator	5
+Google_111918078641246610063	\N	Mz1t1IwyheFE5oVYwkJPW	bell_initiator	9
+Google_109551792009621810100	\N	KT5VZpZMR5RVGscTjcY4w	bell_initiator	17
+Google_115419186368884878540	\N	KT5VZpZMR5RVGscTjcY4w	bell_follower	18
+\.
+
+
+--
+-- Data for Name: user_block_participations; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.user_block_participations (user_id, block_id, role, id) FROM stdin;
+Google_115419186368884878540	HttfA2gqDC5Uek_WD-rpn	task_assignee	1
+Google_109551792009621810100	QwpfcdLPH_iQqzbz7nFg-	task_follower	2
+Google_109551792009621810100	790hOnMXtRMBWhiZetAIK	task_follower	3
+Google_115419186368884878540	11OPQ53T10ju7GYERgBOP	goal_assignee	4
+Google_115419186368884878540	bVeXuHvMlUVpbM2e4zMy9	goal_assignee	5
+Google_111918078641246610063	0vNN_nHW0jc87jo-s8XPd	goal_follower	6
+Google_109551792009621810100	0vNN_nHW0jc87jo-s8XPd	task_follower	7
+Google_111918078641246610063	790hOnMXtRMBWhiZetAIK	goal_follower	8
+Google_115419186368884878540	QwnivOlovwLzVHcCN1wZF	goal_assignee	9
+Google_115419186368884878540	BmdTLSuhY_1vctztXxuTk	task_assignee	19
+Google_115419186368884878540	BmdTLSuhY_1vctztXxuTk	goal_follower	20
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: m2; Owner: postgres
+--
+
+COPY m2.users (id, name, email, family_name, given_name, picture) FROM stdin;
+Google_113132363560941198349	Ben Werther	bwerther@bellhop.io	Werther	Ben	https://lh3.googleusercontent.com/a-/AOh14GiBUMCJtUOa3-tU490ZvIEDVrq93riaTc-iWg9P=s96-c
+Google_111918078641246610063	Baiji He	bhe@bellhop.io	He	Baiji	https://lh3.googleusercontent.com/a-/AOh14Ghb68OwaaY2L8jaT0shFyIHT4ZaukDMnyPyUCnY=s96-c
+Google_109551792009621810100	Adam Hiatt	ahiatt@bellhop.io	Hiatt	Adam	https://lh6.googleusercontent.com/-c-UyBv5uH2E/AAAAAAAAAAI/AAAAAAAAAAA/AMZuucn0pRn1sP_ehaZlcruXojR5zShqFA/s96-c/photo.jpg
+Google_115419186368884878540	Tingdong Chen	tchen@bellhop.io	Chen	Tingdong	https://lh3.googleusercontent.com/a-/AOh14GiewYead-zagD_r1jSjTcZ4QCoIW9GQoc_Bzb3m=s96-c
+\.
+
+
+--
+-- Data for Name: bells; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.bells (id, name, description, state, context, created_at, last_updated, started_at, root_block_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: blockDefState; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockDefState" (value, comment) FROM stdin;
+Draft	\N
+Published	\N
+\.
+
+
+--
+-- Data for Name: blockDef_parent_child; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockDef_parent_child" (parent_id, child_id, sibling_order) FROM stdin;
+nc-uiPN2qE3VZRo79NgN2	tX5haLNQWFENxeoc-YL3d	6
+1skauzkTHAOgRKApKaoTd	2vwPj9f5K7a21gjv90AOa	9
+1skauzkTHAOgRKApKaoTd	3GKApRpyTYmgOQ9usbJti	10
+1skauzkTHAOgRKApKaoTd	4FKApRpyTYmgOQ9usbJth	11
+1skauzkTHAOgRKApKaoTd	5CwwM5Pef77ygZ6qHd6B3	12
+5CwwM5Pef77ygZ6qHd6B3	6EwwM5Pef77ygZ6qHd6a5	13
+5CwwM5Pef77ygZ6qHd6B3	7quSzlVKDIC38bfn7LYVn	14
+\.
+
+
+--
+-- Data for Name: blockDef_requestor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockDef_requestor" ("blockDef_id", user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: blockDef_responder; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockDef_responder" ("blockDef_id", user_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: blockDefs; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockDefs" (id, name, description, type, state, props, created_at, last_updated, control, root_id) FROM stdin;
+u8spNZtyin3aRjZY5WAUC	Sequence		Sequence	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+cc1FHNsIM29O38xtzwl6m	ParallelAll		ParallelAll	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+emRlRT_5ykANhaIvwR4iY	ParallelAny		ParallelAny	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+8kk_uzkWEAOgRKApK-oTX	Repeat		Repeat	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+xqJFRjJlGL5Zct8zPvXqA	Retry		Retry	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+Kx1fiup4aJ83TwMkm2hHZ	ManualSelector		ManualSelector	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+VKfLQPYLg8WQsafGpm9jo	SubTree		Subtree	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+vMDgc5devAzeZMnamBtrx	Selector		Selector	Draft	{}	2020-06-19 20:30:47.339+00	2020-06-19 20:30:47.339+00	{}	\N
+02zCHdkfBZCSTtFKBKTt4	isSpendApprovalRequired	\N	Conditional	Draft	{}	2020-06-20 00:54:35.738757+00	2020-06-20 00:54:35.738757+00	{}	\N
+nc-uiPN2qE3VZRo79NgN2	Sequence		Sequence	Draft	{}	2020-06-20 01:38:16.428+00	2020-06-20 01:38:16.428+00	{}	\N
+tX5haLNQWFENxeoc-YL3d	SpendRequestForm		Form	Draft	{}	2020-06-20 01:38:18.453+00	2020-06-20 01:38:18.453+00	{}	\N
+vMldJyFpeD4rbY4dW5Gb-	BehaviorTree 7	An empty bell	BehaviorTree	Draft	{}	2020-06-20 01:38:13.263+00	2020-06-25 16:59:57.986+00	{}	\N
+1skauzkTHAOgRKApKaoTd	Marketing Spend Request	1. Root Bell for Marketing Spend Request	Sequence	Draft	{}	2020-06-23 20:30:47.339+00	2020-06-23 20:30:47.339+00	{}	1skauzkTHAOgRKApKaoTd
+2vwPj9f5K7a21gjv90AOa	SpendRequest	2. Marketing team spend request form	Form	Draft	{}	2020-06-22 20:30:47.339+00	2020-06-22 20:30:47.339+00	{"forms": [{"data": {}, "template": "SpendRequest"}]}	1skauzkTHAOgRKApKaoTd
+3GKApRpyTYmgOQ9usbJti	SpendRequestApproval	3. Marketing team spend request approval form for director of perf marketing	Form	Draft	{}	2020-06-22 20:30:47.339+00	2020-06-22 20:30:47.339+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	1skauzkTHAOgRKApKaoTd
+4FKApRpyTYmgOQ9usbJth	LargeSpendRequestApproval	4. Marketing team large spend request need approval from VP of marketing	Form	Draft	{}	2020-06-23 20:30:47.339+00	2020-06-23 20:30:47.339+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequestApproval"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest", "path": "$.spend", "value": 10000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	1skauzkTHAOgRKApKaoTd
+5CwwM5Pef77ygZ6qHd6B3	FinanceTeamApproval	5. Finance team Approval sequence wrapper	Sequence	Draft	{}	2020-06-23 20:30:47.339+00	2020-06-23 20:30:47.339+00	{}	1skauzkTHAOgRKApKaoTd
+6EwwM5Pef77ygZ6qHd6a5	CheckTeamBudgetForApproval	6. Finance Check Team Budget for Approval	Form	Draft	{}	2020-06-23 20:30:47.339+00	2020-06-23 20:30:47.339+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	1skauzkTHAOgRKApKaoTd
+7quSzlVKDIC38bfn7LYVn	LargeSpendRequestApproval	7. Finance team Large Spend Request Approval	Form	Draft	{}	2020-06-23 21:30:47.339+00	2020-06-23 21:30:47.339+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequestApproval"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest", "path": "$.spend", "value": 25000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	1skauzkTHAOgRKApKaoTd
+8vTzQ089fdxyDDOsJJz3f	Retry decorator	Retry the following decorated block	Retry	Draft	{}	2020-06-22 20:30:47.339+00	2020-06-22 20:30:47.339+00	{"forms": [{"data": {}, "template": "Retry"}]}	\N
+9VqoAzKt77SZRXgxCK2Q5	Repeat decorator	Repeat the decroated block	Repeat	Draft	{}	2020-06-22 20:30:47.339+00	2020-06-22 20:30:47.339+00	{"forms": [{"data": {}, "template": "Repeat"}]}	\N
+10HThzJHtxEiP4KGjvx9J	Inverter decorator	Invert the children blocks in a sequencial block wrapper.	Inverter	Draft	{}	2020-06-22 20:30:47.339+00	2020-06-22 20:30:47.339+00	{"forms": [{"data": {}, "template": "Inverter"}]}	\N
+11HBSOKvg2XV_XQZfFM0d	Conditional rules	Pre conditional rules for the following decorated block	Conditional	Draft	{}	2020-06-22 20:30:47.339+00	2020-06-22 20:30:47.339+00	{"forms": [{"data": {}, "template": "Conditional"}]}	\N
+\.
+
+
+--
+-- Data for Name: blockState; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockState" (value, comment) FROM stdin;
+Created	\N
+Ready	\N
+Running	\N
+Success	\N
+Failure	\N
+\.
+
+
+--
+-- Data for Name: blockType; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public."blockType" (value, category) FROM stdin;
+Form	Action
+API	Action
+Retry	Decorator
+Repeat	Decorator
+Inverter	Decorator
+Sequence	Control
+ParallelAll	Control
+ParallelAny	Control
+Selector	Control
+ManualSelector	Control
+BehaviorTree	BehaviorTree
+Subtree	Action
+Conditional	Decorator
+\.
+
+
+--
+-- Data for Name: block_parent_child; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.block_parent_child (parent_id, child_id, sibling_order) FROM stdin;
+\.
+
+
+--
+-- Data for Name: block_requestor; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.block_requestor (block_id, user_id) FROM stdin;
+SFHEr8z6gb4hlfxVnKQa1	Google_111918078641246610063
+QUWwqsQZv2C5fE-y5gr6v	Google_111918078641246610063
+tJCdkQJAjUTxrewAGcDXt	Google_111918078641246610063
+g5uXtSJ_WJOHND7bj-_2l	Google_111918078641246610063
+ffu_jXHStddazcbZsxpCL	Google_111918078641246610063
+UtsDGMfnTcRuu5okw9UDb	Google_111918078641246610063
+vUxuS1FmNaduZ3_0V5K2O	Google_111918078641246610063
+\.
+
+
+--
+-- Data for Name: block_responder; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.block_responder (block_id, user_id) FROM stdin;
+vUxuS1FmNaduZ3_0V5K2O	Google_111918078641246610063
+UtsDGMfnTcRuu5okw9UDb	Google_111918078641246610063
+ffu_jXHStddazcbZsxpCL	Google_111918078641246610063
+\.
+
+
+--
+-- Data for Name: blocks; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.blocks (id, name, description, type, state, context, props, created_at, last_updated, control, root_id) FROM stdin;
+k0RVQXo-iAUzh8HF1J3DK	Marketing Spend Request	1. Root Bell for Marketing Spend Request	Sequence	Ready	{}	{}	2020-06-25 16:34:08.546+00	2020-06-25 16:34:08.546+00	{}	\N
+2Uznfh2H4wL5f5ySeqRjQ	SpendRequest	2. Marketing team spend request form	Form	Ready	{}	{}	2020-06-25 16:34:08.546+00	2020-06-25 16:34:08.546+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+u80RYGzjns68av9K7a4Pf	Retry	\N	Retry	Created	{}	{}	2020-06-24 00:23:29.483+00	2020-06-24 00:23:29.483+00	{"retryLimit": 3}	\N
+sTosDgQNx9_cSQC0NNtUy	SpendRequestApproval	3. Marketing team spend request approval form for director of perf marketing	Form	Ready	{}	{}	2020-06-25 16:34:08.546+00	2020-06-25 16:34:08.546+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+4EdOADilV48F_gWvlGmrX	Marking Spend VP Approval	\N	Form	Created	{}	{}	2020-06-25 01:49:19.478701+00	2020-06-25 05:55:13.469+00	{}	aX04fOy-hy3e5ubdzWMoa
+6U7ZDhGDwpVpscslVR3Vo	LargeSpendRequestApproval	4. Marketing team large spend request need approval from VP of marketing	Form	Ready	{}	{}	2020-06-25 16:34:08.546+00	2020-06-25 16:34:08.546+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 10000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+s4FYVlMY1jhiSp6mm-lRg	FinanceTeamApproval	5. Finance team Approval sequence wrapper	Sequence	Ready	{}	{}	2020-06-25 16:34:08.546+00	2020-06-25 16:34:08.546+00	{}	\N
+v-0UMh-PeE44FANWaMElT	Marking Spend Request Form	\N	Form	Success	{}	{}	2020-06-24 00:23:29.483+00	2020-06-25 05:57:43.887+00	{}	aX04fOy-hy3e5ubdzWMoa
+kot3OMJLYtCVIuFjxuwRI	CheckTeamBudgetForApproval	6. Finance Check Team Budget for Approval	Form	Ready	{}	{}	2020-06-25 16:34:08.546+00	2020-06-25 16:34:08.546+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+TXaTQFne5sL-NxQSVlVVm	Form	\N	Form	Created	{}	{}	2020-06-24 00:23:29.483+00	2020-06-24 00:23:29.483+00	{}	u80RYGzjns68av9K7a4Pf
+_VjDclfI_H9bU6jvFGYSZ	Marking Spend Approval	\N	Form	Failure	{}	{}	2020-06-24 00:23:29.483+00	2020-06-25 05:57:54.924+00	{}	aX04fOy-hy3e5ubdzWMoa
+aX04fOy-hy3e5ubdzWMoa	Sequence	\N	Sequence	Failure	{}	{}	2020-06-24 00:23:29.483+00	2020-06-25 05:58:18.018+00	{}	aX04fOy-hy3e5ubdzWMoa
+vLJZx4MKLzAtz3g_vZthW	LargeSpendRequestApproval	7. Finance team Large Spend Request Approval	Form	Ready	{}	{}	2020-06-25 16:34:08.547+00	2020-06-25 16:34:08.547+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 25000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+FoxvXKCyTf-K36q8rBZVK	Marketing Spend Request	1. Root Bell for Marketing Spend Request	Sequence	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{}	\N
+YnBRb47jepoJrhXOt7ZAx	SpendRequest	2. Marketing team spend request form	Form	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+vR_OcOJ3imNt1rRmlTM2K	SpendRequestApproval	3. Marketing team spend request approval form for director of perf marketing	Form	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+MxZ4rV40jQZC9EkWChwwX	LargeSpendRequestApproval	4. Marketing team large spend request need approval from VP of marketing	Form	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 10000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+Ipc8dicX7wDTNg1hJXmpW	FinanceTeamApproval	5. Finance team Approval sequence wrapper	Sequence	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{}	\N
+Yt-knixYLfq0Cy6LL_xyg	CheckTeamBudgetForApproval	6. Finance Check Team Budget for Approval	Form	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+1rl1qJjz7L-3HxkKVsI4C	LargeSpendRequestApproval	7. Finance team Large Spend Request Approval	Form	Ready	{}	{}	2020-06-25 16:34:33.656+00	2020-06-25 16:34:33.656+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 25000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+bD7709OWBX-eZaPJqhgKL	Marketing Spend Request	1. Root Bell for Marketing Spend Request	Sequence	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{}	\N
+NdhtES6hM41l6KBQUOfQX	SpendRequest	2. Marketing team spend request form	Form	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+6S8NwyB_8E1OPLDBFBkir	SpendRequestApproval	3. Marketing team spend request approval form for director of perf marketing	Form	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+7KDEFVU1aTeO8Ismj-kU_	LargeSpendRequestApproval	4. Marketing team large spend request need approval from VP of marketing	Form	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 10000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+wEzSVpEru04cew3HsUZs2	FinanceTeamApproval	5. Finance team Approval sequence wrapper	Sequence	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{}	\N
+ztvTa2WOcDapIEOpDFMZL	CheckTeamBudgetForApproval	6. Finance Check Team Budget for Approval	Form	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+U18oRK_CmAY68xKzoIfEq	LargeSpendRequestApproval	7. Finance team Large Spend Request Approval	Form	Ready	{}	{}	2020-06-25 16:35:05.451+00	2020-06-25 16:35:05.451+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 25000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+QUWwqsQZv2C5fE-y5gr6v	SpendRequestApproval	3. Marketing team spend request approval form for director of perf marketing	Form	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 16:56:55.85+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+SFHEr8z6gb4hlfxVnKQa1	SpendRequest	2. Marketing team spend request form	Form	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 16:56:55.857+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+tJCdkQJAjUTxrewAGcDXt	LargeSpendRequestApproval	4. Marketing team large spend request need approval from VP of marketing	Form	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 16:56:55.86+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 10000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+g5uXtSJ_WJOHND7bj-_2l	CheckTeamBudgetForApproval	6. Finance Check Team Budget for Approval	Form	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 16:56:55.864+00	{"forms": [{"data": {}, "template": "SpendRequestApproval"}]}	\N
+vUxuS1FmNaduZ3_0V5K2O	Marketing Spend Request	1. Root Bell for Marketing Spend Request	Sequence	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 16:57:11.35+00	{}	\N
+UtsDGMfnTcRuu5okw9UDb	FinanceTeamApproval	5. Finance team Approval sequence wrapper	Sequence	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 17:31:02.274+00	{}	\N
+ffu_jXHStddazcbZsxpCL	LargeSpendRequestApproval	7. Finance team Large Spend Request Approval	Form	Success	{}	{}	2020-06-25 16:56:32.5+00	2020-06-25 17:31:15.791+00	{"forms": [{"data": {"name": "Spend Request Approval", "description": "Need approval"}, "template": "SpendRequest"}], "decorators": [{"data": [{"all": [{"fact": "SpendRequest.spend", "value": 25000, "operator": "greaterThan"}]}], "template": "Conditional"}]}	\N
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.users (id, name, email, family_name, given_name, picture) FROM stdin;
+Google_109551792009621810100	Adam Hiatt	ahiatt@bellhop.io	\N	\N	\N
+Google_115419186368884878540	Tingdong Chen	tchen@bellhop.io	\N	\N	\N
+Google_111918078641246610063	Baiji He	bhe@bellhop.io	\N	\N	\N
+\.
+
+
+--
+-- Name: remote_schemas_id_seq; Type: SEQUENCE SET; Schema: hdb_catalog; Owner: postgres
+--
+
+SELECT pg_catalog.setval('hdb_catalog.remote_schemas_id_seq', 1, false);
+
+
+--
+-- Name: bellhop_bell_participations_id_seq; Type: SEQUENCE SET; Schema: m2; Owner: postgres
+--
+
+SELECT pg_catalog.setval('m2.bellhop_bell_participations_id_seq', 10, true);
+
+
+--
+-- Name: bellhop_memberships_id_seq; Type: SEQUENCE SET; Schema: m2; Owner: postgres
+--
+
+SELECT pg_catalog.setval('m2.bellhop_memberships_id_seq', 13, true);
+
+
+--
+-- Name: user_bell_participations_id_seq; Type: SEQUENCE SET; Schema: m2; Owner: postgres
+--
+
+SELECT pg_catalog.setval('m2.user_bell_participations_id_seq', 18, true);
+
+
+--
+-- Name: user_block_participations_id_seq; Type: SEQUENCE SET; Schema: m2; Owner: postgres
+--
+
+SELECT pg_catalog.setval('m2.user_block_participations_id_seq', 20, true);
+
+
+--
+-- Name: blockDef_parent_child_sibling_order_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public."blockDef_parent_child_sibling_order_seq"', 18, true);
+
+
+--
+-- Name: block_parent_child_sibling_order_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.block_parent_child_sibling_order_seq', 4, true);
+
+
+--
+-- Name: attachments attachments_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.attachments
+    ADD CONSTRAINT attachments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bell_room_bookings bell_room_bookings_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.bell_room_bookings
+    ADD CONSTRAINT bell_room_bookings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: block_room_bookings block_room_bookings_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.block_room_bookings
+    ADD CONSTRAINT block_room_bookings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: rooms conversation_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.rooms
+    ADD CONSTRAINT conversation_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: message_attachments message_attachments_attachment_id_key; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.message_attachments
+    ADD CONSTRAINT message_attachments_attachment_id_key UNIQUE (attachment_id);
+
+
+--
+-- Name: message_attachments message_attachments_message_id_key; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.message_attachments
+    ADD CONSTRAINT message_attachments_message_id_key UNIQUE (message_id);
+
+
+--
+-- Name: message_attachments message_attachments_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.message_attachments
+    ADD CONSTRAINT message_attachments_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: messages messages_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.messages
+    ADD CONSTRAINT messages_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_room_participations user_room_status_id_key; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.user_room_participations
+    ADD CONSTRAINT user_room_status_id_key UNIQUE (id);
+
+
+--
+-- Name: user_room_participations user_room_status_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.user_room_participations
+    ADD CONSTRAINT user_room_status_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_invocation_logs event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.event_invocation_logs
+    ADD CONSTRAINT event_invocation_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_log event_log_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.event_log
+    ADD CONSTRAINT event_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_triggers event_triggers_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.event_triggers
+    ADD CONSTRAINT event_triggers_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: hdb_action_log hdb_action_log_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_action_log
+    ADD CONSTRAINT hdb_action_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hdb_action_permission hdb_action_permission_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_action_permission
+    ADD CONSTRAINT hdb_action_permission_pkey PRIMARY KEY (action_name, role_name);
+
+
+--
+-- Name: hdb_action hdb_action_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_action
+    ADD CONSTRAINT hdb_action_pkey PRIMARY KEY (action_name);
+
+
+--
+-- Name: hdb_allowlist hdb_allowlist_collection_name_key; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_allowlist
+    ADD CONSTRAINT hdb_allowlist_collection_name_key UNIQUE (collection_name);
+
+
+--
+-- Name: hdb_computed_field hdb_computed_field_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_computed_field
+    ADD CONSTRAINT hdb_computed_field_pkey PRIMARY KEY (table_schema, table_name, computed_field_name);
+
+
+--
+-- Name: hdb_cron_event_invocation_logs hdb_cron_event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_cron_event_invocation_logs
+    ADD CONSTRAINT hdb_cron_event_invocation_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hdb_cron_events hdb_cron_events_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_cron_events
+    ADD CONSTRAINT hdb_cron_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hdb_cron_triggers hdb_cron_triggers_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_cron_triggers
+    ADD CONSTRAINT hdb_cron_triggers_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: hdb_function hdb_function_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_function
+    ADD CONSTRAINT hdb_function_pkey PRIMARY KEY (function_schema, function_name);
+
+
+--
+-- Name: hdb_permission hdb_permission_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_permission
+    ADD CONSTRAINT hdb_permission_pkey PRIMARY KEY (table_schema, table_name, role_name, perm_type);
+
+
+--
+-- Name: hdb_query_collection hdb_query_collection_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_query_collection
+    ADD CONSTRAINT hdb_query_collection_pkey PRIMARY KEY (collection_name);
+
+
+--
+-- Name: hdb_relationship hdb_relationship_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_relationship
+    ADD CONSTRAINT hdb_relationship_pkey PRIMARY KEY (table_schema, table_name, rel_name);
+
+
+--
+-- Name: hdb_remote_relationship hdb_remote_relationship_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_remote_relationship
+    ADD CONSTRAINT hdb_remote_relationship_pkey PRIMARY KEY (remote_relationship_name, table_schema, table_name);
+
+
+--
+-- Name: hdb_scheduled_event_invocation_logs hdb_scheduled_event_invocation_logs_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_scheduled_event_invocation_logs
+    ADD CONSTRAINT hdb_scheduled_event_invocation_logs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hdb_scheduled_events hdb_scheduled_events_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_scheduled_events
+    ADD CONSTRAINT hdb_scheduled_events_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: hdb_table hdb_table_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_table
+    ADD CONSTRAINT hdb_table_pkey PRIMARY KEY (table_schema, table_name);
+
+
+--
+-- Name: hdb_version hdb_version_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_version
+    ADD CONSTRAINT hdb_version_pkey PRIMARY KEY (hasura_uuid);
+
+
+--
+-- Name: migration_settings migration_settings_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.migration_settings
+    ADD CONSTRAINT migration_settings_pkey PRIMARY KEY (setting);
+
+
+--
+-- Name: remote_schemas remote_schemas_name_key; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.remote_schemas
+    ADD CONSTRAINT remote_schemas_name_key UNIQUE (name);
+
+
+--
+-- Name: remote_schemas remote_schemas_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.remote_schemas
+    ADD CONSTRAINT remote_schemas_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: artifacts artifacts_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.artifacts
+    ADD CONSTRAINT artifacts_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bell_executors bell_executors_id_type_key; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bell_executors
+    ADD CONSTRAINT bell_executors_id_type_key UNIQUE (id, type);
+
+
+--
+-- Name: bell_executors bell_executors_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bell_executors
+    ADD CONSTRAINT bell_executors_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bellhop_bell_participations bellhop_bell_participation_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_bell_participations
+    ADD CONSTRAINT bellhop_bell_participation_pkey PRIMARY KEY (bellhop_id, bell_id, role);
+
+
+--
+-- Name: bellhop_memberships bellhop_membership_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_memberships
+    ADD CONSTRAINT bellhop_membership_pkey PRIMARY KEY (bellhop_id, user_id, role);
+
+
+--
+-- Name: bellhops bellhops_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhops
+    ADD CONSTRAINT bellhops_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bells bells_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bells
+    ADD CONSTRAINT bells_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bells bells_root_block_id_key; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bells
+    ADD CONSTRAINT bells_root_block_id_key UNIQUE (root_block_id);
+
+
+--
+-- Name: block_state block_state_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.block_state
+    ADD CONSTRAINT block_state_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: block_type block_type_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.block_type
+    ADD CONSTRAINT block_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: blocks blocks_bell_id_local_id_key; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_bell_id_local_id_key UNIQUE (bell_id, local_id);
+
+
+--
+-- Name: blocks blocks_id_type_key; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_id_type_key UNIQUE (id, type);
+
+
+--
+-- Name: blocks blocks_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: goals goals_id_type_key; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.goals
+    ADD CONSTRAINT goals_id_type_key UNIQUE (id, type);
+
+
+--
+-- Name: goals goals_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.goals
+    ADD CONSTRAINT goals_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: participation_roles participation_role_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.participation_roles
+    ADD CONSTRAINT participation_role_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: membership_roles roles_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.membership_roles
+    ADD CONSTRAINT roles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tasks tasks_id_type_key; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.tasks
+    ADD CONSTRAINT tasks_id_type_key UNIQUE (id, type);
+
+
+--
+-- Name: tasks tasks_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.tasks
+    ADD CONSTRAINT tasks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: user_bell_participations user_bell_participations_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_bell_participations
+    ADD CONSTRAINT user_bell_participations_pkey PRIMARY KEY (role, user_id, bell_id);
+
+
+--
+-- Name: user_block_participations user_block_participations_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_block_participations
+    ADD CONSTRAINT user_block_participations_pkey PRIMARY KEY (user_id, block_id, role);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: bells bells_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bells
+    ADD CONSTRAINT bells_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: blockDef_parent_child blockDef_parent_child_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_parent_child"
+    ADD CONSTRAINT "blockDef_parent_child_pkey" PRIMARY KEY (parent_id, child_id);
+
+
+--
+-- Name: blockDef_requestor blockDef_requestor_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_requestor"
+    ADD CONSTRAINT "blockDef_requestor_pkey" PRIMARY KEY ("blockDef_id", user_id);
+
+
+--
+-- Name: blockDef_responder blockDef_responder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_responder"
+    ADD CONSTRAINT "blockDef_responder_pkey" PRIMARY KEY ("blockDef_id", user_id);
+
+
+--
+-- Name: block_parent_child block_parent_child_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_parent_child
+    ADD CONSTRAINT block_parent_child_pkey PRIMARY KEY (parent_id, child_id);
+
+
+--
+-- Name: block_requestor block_requestors_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_requestor
+    ADD CONSTRAINT block_requestors_pkey PRIMARY KEY (block_id, user_id);
+
+
+--
+-- Name: block_responder block_responders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_responder
+    ADD CONSTRAINT block_responders_pkey PRIMARY KEY (block_id, user_id);
+
+
+--
+-- Name: blockDefs blockdefs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT blockdefs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: blockDefState blockdefstate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDefState"
+    ADD CONSTRAINT blockdefstate_pkey PRIMARY KEY (value);
+
+
+--
+-- Name: blocks blocks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocks_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: blockState blockstate_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockState"
+    ADD CONSTRAINT blockstate_pkey PRIMARY KEY (value);
+
+
+--
+-- Name: blockType blocktype_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockType"
+    ADD CONSTRAINT blocktype_pkey PRIMARY KEY (value);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: event_invocation_logs_event_id_idx; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX event_invocation_logs_event_id_idx ON hdb_catalog.event_invocation_logs USING btree (event_id);
+
+
+--
+-- Name: event_log_created_at_idx; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX event_log_created_at_idx ON hdb_catalog.event_log USING btree (created_at);
+
+
+--
+-- Name: event_log_delivered_idx; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX event_log_delivered_idx ON hdb_catalog.event_log USING btree (delivered);
+
+
+--
+-- Name: event_log_locked_idx; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX event_log_locked_idx ON hdb_catalog.event_log USING btree (locked);
+
+
+--
+-- Name: event_log_trigger_name_idx; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX event_log_trigger_name_idx ON hdb_catalog.event_log USING btree (trigger_name);
+
+
+--
+-- Name: hdb_cron_event_status; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX hdb_cron_event_status ON hdb_catalog.hdb_cron_events USING btree (status);
+
+
+--
+-- Name: hdb_scheduled_event_status; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE INDEX hdb_scheduled_event_status ON hdb_catalog.hdb_scheduled_events USING btree (status);
+
+
+--
+-- Name: hdb_schema_update_event_one_row; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE UNIQUE INDEX hdb_schema_update_event_one_row ON hdb_catalog.hdb_schema_update_event USING btree (((occurred_at IS NOT NULL)));
+
+
+--
+-- Name: hdb_version_one_row; Type: INDEX; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE UNIQUE INDEX hdb_version_one_row ON hdb_catalog.hdb_version USING btree (((version IS NOT NULL)));
+
+
+--
+-- Name: hdb_schema_update_event hdb_schema_update_event_notifier; Type: TRIGGER; Schema: hdb_catalog; Owner: postgres
+--
+
+CREATE TRIGGER hdb_schema_update_event_notifier AFTER INSERT OR UPDATE ON hdb_catalog.hdb_schema_update_event FOR EACH ROW EXECUTE FUNCTION hdb_catalog.hdb_schema_update_event_notifier();
+
+
+--
+-- Name: blocks notify_hasura_m2_block_state_update_UPDATE; Type: TRIGGER; Schema: m2; Owner: postgres
+--
+
+CREATE TRIGGER "notify_hasura_m2_block_state_update_UPDATE" AFTER UPDATE ON m2.blocks FOR EACH ROW EXECUTE FUNCTION hdb_views."notify_hasura_m2_block_state_update_UPDATE"();
+
+
+--
+-- Name: bells update_bells_ended_at; Type: TRIGGER; Schema: m2; Owner: postgres
+--
+
+CREATE TRIGGER update_bells_ended_at BEFORE UPDATE ON m2.bells FOR EACH ROW WHEN (((old.state = 'Running'::text) AND (new.state = ANY (ARRAY['Success'::text, 'Failure'::text])))) EXECUTE FUNCTION public.update_ended_at();
+
+
+--
+-- Name: bells update_bells_started_at; Type: TRIGGER; Schema: m2; Owner: postgres
+--
+
+CREATE TRIGGER update_bells_started_at BEFORE UPDATE ON m2.bells FOR EACH ROW WHEN (((old.state = ANY (ARRAY['Created'::text, 'Drafted'::text])) AND (new.state = 'Running'::text))) EXECUTE FUNCTION public.update_started_at();
+
+
+--
+-- Name: blocks update_blocks_ended_at; Type: TRIGGER; Schema: m2; Owner: postgres
+--
+
+CREATE TRIGGER update_blocks_ended_at BEFORE UPDATE ON m2.blocks FOR EACH ROW WHEN (((old.state = 'Running'::text) AND (new.state = ANY (ARRAY['Success'::text, 'Failure'::text])))) EXECUTE FUNCTION public.update_ended_at();
+
+
+--
+-- Name: blocks update_blocks_started_at; Type: TRIGGER; Schema: m2; Owner: postgres
+--
+
+CREATE TRIGGER update_blocks_started_at BEFORE UPDATE ON m2.blocks FOR EACH ROW WHEN (((old.state = ANY (ARRAY['Created'::text, 'Drafted'::text])) AND (new.state = 'Running'::text))) EXECUTE FUNCTION public.update_started_at();
+
+
+--
+-- Name: blocks notify_hasura_block_state_update_UPDATE; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER "notify_hasura_block_state_update_UPDATE" AFTER UPDATE ON public.blocks FOR EACH ROW EXECUTE FUNCTION hdb_views."notify_hasura_block_state_update_UPDATE"();
+
+
+--
+-- Name: attachments attachments_message_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.attachments
+    ADD CONSTRAINT attachments_message_id_fkey FOREIGN KEY (message_id) REFERENCES chat.messages(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bell_room_bookings bell_room_bookings_bell_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.bell_room_bookings
+    ADD CONSTRAINT bell_room_bookings_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bell_room_bookings bell_room_bookings_room_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.bell_room_bookings
+    ADD CONSTRAINT bell_room_bookings_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_room_bookings block_room_bookings_block_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.block_room_bookings
+    ADD CONSTRAINT block_room_bookings_block_id_fkey FOREIGN KEY (block_id) REFERENCES m2.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_room_bookings block_room_bookings_room_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.block_room_bookings
+    ADD CONSTRAINT block_room_bookings_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: message_attachments message_attachments_attachment_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.message_attachments
+    ADD CONSTRAINT message_attachments_attachment_id_fkey FOREIGN KEY (attachment_id) REFERENCES chat.attachments(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: message_attachments message_attachments_message_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.message_attachments
+    ADD CONSTRAINT message_attachments_message_id_fkey FOREIGN KEY (message_id) REFERENCES chat.messages(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages messages_conversation_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.messages
+    ADD CONSTRAINT messages_conversation_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages messages_from_user_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.messages
+    ADD CONSTRAINT messages_from_user_id_fkey FOREIGN KEY (from_user_id) REFERENCES m2.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: messages messages_to_user_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.messages
+    ADD CONSTRAINT messages_to_user_id_fkey FOREIGN KEY (to_user_id) REFERENCES m2.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: rooms rooms_source_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.rooms
+    ADD CONSTRAINT rooms_source_id_fkey FOREIGN KEY (source_id) REFERENCES m2.blocks(id);
+
+
+--
+-- Name: user_room_participations user_room_status_room_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.user_room_participations
+    ADD CONSTRAINT user_room_status_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_room_participations user_status_user_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.user_room_participations
+    ADD CONSTRAINT user_status_user_id_fkey FOREIGN KEY (user_id) REFERENCES m2.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: event_invocation_logs event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.event_invocation_logs
+    ADD CONSTRAINT event_invocation_logs_event_id_fkey FOREIGN KEY (event_id) REFERENCES hdb_catalog.event_log(id);
+
+
+--
+-- Name: event_triggers event_triggers_schema_name_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.event_triggers
+    ADD CONSTRAINT event_triggers_schema_name_table_name_fkey FOREIGN KEY (schema_name, table_name) REFERENCES hdb_catalog.hdb_table(table_schema, table_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_action_permission hdb_action_permission_action_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_action_permission
+    ADD CONSTRAINT hdb_action_permission_action_name_fkey FOREIGN KEY (action_name) REFERENCES hdb_catalog.hdb_action(action_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_allowlist hdb_allowlist_collection_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_allowlist
+    ADD CONSTRAINT hdb_allowlist_collection_name_fkey FOREIGN KEY (collection_name) REFERENCES hdb_catalog.hdb_query_collection(collection_name);
+
+
+--
+-- Name: hdb_computed_field hdb_computed_field_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_computed_field
+    ADD CONSTRAINT hdb_computed_field_table_schema_table_name_fkey FOREIGN KEY (table_schema, table_name) REFERENCES hdb_catalog.hdb_table(table_schema, table_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_cron_event_invocation_logs hdb_cron_event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_cron_event_invocation_logs
+    ADD CONSTRAINT hdb_cron_event_invocation_logs_event_id_fkey FOREIGN KEY (event_id) REFERENCES hdb_catalog.hdb_cron_events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: hdb_cron_events hdb_cron_events_trigger_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_cron_events
+    ADD CONSTRAINT hdb_cron_events_trigger_name_fkey FOREIGN KEY (trigger_name) REFERENCES hdb_catalog.hdb_cron_triggers(name) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: hdb_permission hdb_permission_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_permission
+    ADD CONSTRAINT hdb_permission_table_schema_table_name_fkey FOREIGN KEY (table_schema, table_name) REFERENCES hdb_catalog.hdb_table(table_schema, table_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_relationship hdb_relationship_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_relationship
+    ADD CONSTRAINT hdb_relationship_table_schema_table_name_fkey FOREIGN KEY (table_schema, table_name) REFERENCES hdb_catalog.hdb_table(table_schema, table_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_remote_relationship hdb_remote_relationship_table_schema_table_name_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_remote_relationship
+    ADD CONSTRAINT hdb_remote_relationship_table_schema_table_name_fkey FOREIGN KEY (table_schema, table_name) REFERENCES hdb_catalog.hdb_table(table_schema, table_name) ON UPDATE CASCADE;
+
+
+--
+-- Name: hdb_scheduled_event_invocation_logs hdb_scheduled_event_invocation_logs_event_id_fkey; Type: FK CONSTRAINT; Schema: hdb_catalog; Owner: postgres
+--
+
+ALTER TABLE ONLY hdb_catalog.hdb_scheduled_event_invocation_logs
+    ADD CONSTRAINT hdb_scheduled_event_invocation_logs_event_id_fkey FOREIGN KEY (event_id) REFERENCES hdb_catalog.hdb_scheduled_events(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: artifacts artifacts_bell_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.artifacts
+    ADD CONSTRAINT artifacts_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: artifacts artifacts_block_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.artifacts
+    ADD CONSTRAINT artifacts_block_id_fkey FOREIGN KEY (block_id) REFERENCES m2.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: artifacts artifacts_created_by_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.artifacts
+    ADD CONSTRAINT artifacts_created_by_fkey FOREIGN KEY (created_by) REFERENCES m2.users(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: bell_executors bell_executors_bell_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bell_executors
+    ADD CONSTRAINT bell_executors_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: bell_executors bell_executors_id_type_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bell_executors
+    ADD CONSTRAINT bell_executors_id_type_fkey FOREIGN KEY (id, type) REFERENCES m2.blocks(id, type) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bellhop_bell_participations bellhop_bell_participation_bell_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_bell_participations
+    ADD CONSTRAINT bellhop_bell_participation_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bellhop_bell_participations bellhop_bell_participation_bellhop_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_bell_participations
+    ADD CONSTRAINT bellhop_bell_participation_bellhop_id_fkey FOREIGN KEY (bellhop_id) REFERENCES m2.bellhops(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bellhop_bell_participations bellhop_bell_participation_role_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_bell_participations
+    ADD CONSTRAINT bellhop_bell_participation_role_fkey FOREIGN KEY (role) REFERENCES m2.participation_roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bellhop_memberships bellhop_membership_bellhop_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_memberships
+    ADD CONSTRAINT bellhop_membership_bellhop_id_fkey FOREIGN KEY (bellhop_id) REFERENCES m2.bellhops(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bellhop_memberships bellhop_membership_role_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_memberships
+    ADD CONSTRAINT bellhop_membership_role_fkey FOREIGN KEY (role) REFERENCES m2.membership_roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bellhop_memberships bellhop_membership_user_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bellhop_memberships
+    ADD CONSTRAINT bellhop_membership_user_id_fkey FOREIGN KEY (user_id) REFERENCES m2.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bells bells_main_bell_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bells
+    ADD CONSTRAINT bells_main_bell_id_fkey FOREIGN KEY (main_bell_id) REFERENCES m2.bells(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: bells bells_root_block_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bells
+    ADD CONSTRAINT bells_root_block_id_fkey FOREIGN KEY (root_block_id) REFERENCES m2.blocks(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: bells bells_state_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.bells
+    ADD CONSTRAINT bells_state_fkey FOREIGN KEY (state) REFERENCES m2.block_state(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blocks blocks_bell_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blocks blocks_parent_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES m2.blocks(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: blocks blocks_state_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_state_fkey FOREIGN KEY (state) REFERENCES m2.block_state(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blocks blocks_type_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.blocks
+    ADD CONSTRAINT blocks_type_fkey FOREIGN KEY (type) REFERENCES m2.block_type(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: goals goals_id_type_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.goals
+    ADD CONSTRAINT goals_id_type_fkey FOREIGN KEY (id, type) REFERENCES m2.blocks(id, type) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: tasks tasks_id_type_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.tasks
+    ADD CONSTRAINT tasks_id_type_fkey FOREIGN KEY (id, type) REFERENCES m2.blocks(id, type) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_bell_participations user_bell_participation_bell_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_bell_participations
+    ADD CONSTRAINT user_bell_participation_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_bell_participations user_bell_participation_represented_bellhop_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_bell_participations
+    ADD CONSTRAINT user_bell_participation_represented_bellhop_id_fkey FOREIGN KEY (represented_bellhop_id) REFERENCES m2.bellhops(id) ON UPDATE SET NULL ON DELETE SET NULL;
+
+
+--
+-- Name: user_bell_participations user_bell_participation_role_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_bell_participations
+    ADD CONSTRAINT user_bell_participation_role_fkey FOREIGN KEY (role) REFERENCES m2.participation_roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: user_bell_participations user_bell_participation_user_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_bell_participations
+    ADD CONSTRAINT user_bell_participation_user_id_fkey FOREIGN KEY (user_id) REFERENCES m2.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_block_participations user_block_participations_block_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_block_participations
+    ADD CONSTRAINT user_block_participations_block_id_fkey FOREIGN KEY (block_id) REFERENCES m2.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: user_block_participations user_block_participations_role_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_block_participations
+    ADD CONSTRAINT user_block_participations_role_fkey FOREIGN KEY (role) REFERENCES m2.participation_roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: user_block_participations user_block_participations_user_id_fkey; Type: FK CONSTRAINT; Schema: m2; Owner: postgres
+--
+
+ALTER TABLE ONLY m2.user_block_participations
+    ADD CONSTRAINT user_block_participations_user_id_fkey FOREIGN KEY (user_id) REFERENCES m2.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: bells bells_root_block_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bells
+    ADD CONSTRAINT bells_root_block_id_fkey FOREIGN KEY (root_block_id) REFERENCES public.blocks(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: bells bells_state_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.bells
+    ADD CONSTRAINT bells_state_fkey FOREIGN KEY (state) REFERENCES public."blockState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blockDef_parent_child blockDef_parent_child_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_parent_child"
+    ADD CONSTRAINT "blockDef_parent_child_child_id_fkey" FOREIGN KEY (child_id) REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDef_parent_child blockDef_parent_child_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_parent_child"
+    ADD CONSTRAINT "blockDef_parent_child_parent_id_fkey" FOREIGN KEY (parent_id) REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDef_requestor blockDef_requestor_blockDef_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_requestor"
+    ADD CONSTRAINT "blockDef_requestor_blockDef_id_fkey" FOREIGN KEY ("blockDef_id") REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDef_requestor blockDef_requestor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_requestor"
+    ADD CONSTRAINT "blockDef_requestor_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDef_responder blockDef_responder_blockDef_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_responder"
+    ADD CONSTRAINT "blockDef_responder_blockDef_id_fkey" FOREIGN KEY ("blockDef_id") REFERENCES public."blockDefs"(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDef_responder blockDef_responder_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDef_responder"
+    ADD CONSTRAINT "blockDef_responder_user_id_fkey" FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDefs blockDefs_root_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT "blockDefs_root_id_fkey" FOREIGN KEY (root_id) REFERENCES public."blockDefs"(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: block_parent_child block_parent_child_child_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_parent_child
+    ADD CONSTRAINT block_parent_child_child_id_fkey FOREIGN KEY (child_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_parent_child block_parent_child_parent_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_parent_child
+    ADD CONSTRAINT block_parent_child_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_requestor block_requestor_block_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_requestor
+    ADD CONSTRAINT block_requestor_block_id_fkey FOREIGN KEY (block_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_requestor block_requestor_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_requestor
+    ADD CONSTRAINT block_requestor_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_responder block_responder_block_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_responder
+    ADD CONSTRAINT block_responder_block_id_fkey FOREIGN KEY (block_id) REFERENCES public.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: block_responder block_responder_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.block_responder
+    ADD CONSTRAINT block_responder_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: blockDefs blockdefstate_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT blockdefstate_fkey FOREIGN KEY (state) REFERENCES public."blockDefState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blockDefs blockdeftype_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public."blockDefs"
+    ADD CONSTRAINT blockdeftype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blocks blocks_root_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocks_root_id_fkey FOREIGN KEY (root_id) REFERENCES public.blocks(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blocks blockstate_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blockstate_fkey FOREIGN KEY (state) REFERENCES public."blockState"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- Name: blocks blocktype_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blocks
+    ADD CONSTRAINT blocktype_fkey FOREIGN KEY (type) REFERENCES public."blockType"(value) ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

@@ -7,6 +7,16 @@
       foreign_key_constraint_on: message_id
 - table:
     schema: chat
+    name: message_attachments
+  object_relationships:
+  - name: attachment
+    using:
+      foreign_key_constraint_on: attachment_id
+  - name: message
+    using:
+      foreign_key_constraint_on: message_id
+- table:
+    schema: chat
     name: messages
   object_relationships:
   - name: from_user
@@ -14,7 +24,7 @@
       foreign_key_constraint_on: from_user_id
   - name: room
     using:
-      foreign_key_constraint_on: conversation_id
+      foreign_key_constraint_on: room_id
   - name: to_user
     using:
       foreign_key_constraint_on: to_user_id
@@ -28,32 +38,22 @@
           name: attachments
 - table:
     schema: chat
-    name: room_bookings
-- table:
-    schema: chat
     name: rooms
-  object_relationships:
-  - name: bell
-    using:
-      foreign_key_constraint_on: bell_id
-  - name: block
-    using:
-      foreign_key_constraint_on: block_id
   array_relationships:
   - name: messages
-    using:
-      foreign_key_constraint_on:
-        column: conversation_id
-        table:
-          schema: chat
-          name: messages
-  - name: room_bookings
     using:
       foreign_key_constraint_on:
         column: room_id
         table:
           schema: chat
-          name: room_bookings
+          name: messages
+  - name: user_room_participations
+    using:
+      foreign_key_constraint_on:
+        column: room_id
+        table:
+          schema: chat
+          name: user_room_participations
 - table:
     schema: chat
     name: user_room_participations
