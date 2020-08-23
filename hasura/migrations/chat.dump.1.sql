@@ -49,32 +49,42 @@ CREATE TABLE chat.attachments (
 ALTER TABLE chat.attachments OWNER TO postgres;
 
 --
--- Name: bell_room_bookings; Type: TABLE; Schema: chat; Owner: postgres
+-- Name: room_bookings; Type: TABLE; Schema: chat; Owner: postgres
 --
 
-CREATE TABLE chat.bell_room_bookings (
-    id text NOT NULL,
-    bell_id text NOT NULL,
+CREATE TABLE chat.room_bookings (
+    source_id text NOT NULL,
     room_id text NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    visit_count integer NOT NULL,
+    source text NOT NULL,
+    renewed_at timestamp with time zone DEFAULT now()
 );
 
 
-ALTER TABLE chat.bell_room_bookings OWNER TO postgres;
+ALTER TABLE chat.room_bookings OWNER TO postgres;
 
 --
--- Name: block_room_bookings; Type: TABLE; Schema: chat; Owner: postgres
+-- Name: bell_room_bookings_id_seq; Type: SEQUENCE; Schema: chat; Owner: postgres
 --
 
-CREATE TABLE chat.block_room_bookings (
-    id text NOT NULL,
-    block_id text NOT NULL,
-    room_id text NOT NULL,
-    created_at timestamp with time zone NOT NULL
-);
+CREATE SEQUENCE chat.bell_room_bookings_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
 
 
-ALTER TABLE chat.block_room_bookings OWNER TO postgres;
+ALTER TABLE chat.bell_room_bookings_id_seq OWNER TO postgres;
+
+--
+-- Name: bell_room_bookings_id_seq; Type: SEQUENCE OWNED BY; Schema: chat; Owner: postgres
+--
+
+ALTER SEQUENCE chat.bell_room_bookings_id_seq OWNED BY chat.room_bookings.visit_count;
+
 
 --
 -- Name: message_attachments; Type: TABLE; Schema: chat; Owner: postgres
@@ -115,6 +125,18 @@ COMMENT ON TABLE chat.messages IS 'chat messages';
 
 
 --
+-- Name: room_sources; Type: TABLE; Schema: chat; Owner: postgres
+--
+
+CREATE TABLE chat.room_sources (
+    id text NOT NULL,
+    description text
+);
+
+
+ALTER TABLE chat.room_sources OWNER TO postgres;
+
+--
 -- Name: rooms; Type: TABLE; Schema: chat; Owner: postgres
 --
 
@@ -124,7 +146,8 @@ CREATE TABLE chat.rooms (
     created_at timestamp without time zone DEFAULT now() NOT NULL,
     name text,
     last_post_at timestamp without time zone,
-    ended_at timestamp with time zone DEFAULT now()
+    ended_at timestamp with time zone DEFAULT now(),
+    last_visited_at timestamp with time zone
 );
 
 
@@ -177,10 +200,97 @@ ALTER SEQUENCE chat.user_room_participations_id_seq OWNED BY chat.user_room_part
 
 
 --
+-- Name: room_bookings visit_count; Type: DEFAULT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.room_bookings ALTER COLUMN visit_count SET DEFAULT nextval('chat.bell_room_bookings_id_seq'::regclass);
+
+
+--
 -- Name: user_room_participations id; Type: DEFAULT; Schema: chat; Owner: postgres
 --
 
 ALTER TABLE ONLY chat.user_room_participations ALTER COLUMN id SET DEFAULT nextval('chat.user_room_participations_id_seq'::regclass);
+
+
+--
+-- Data for Name: attachments; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.attachments (id, type, url, created_at, updated_at, message_id, name, title, description) FROM stdin;
+\.
+
+
+--
+-- Data for Name: message_attachments; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.message_attachments (id, message_id, attachment_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: messages; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.messages (id, type, room_id, content, from_user_id, to_user_id, created_at, updated_at) FROM stdin;
+\.
+
+
+--
+-- Data for Name: room_bookings; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.room_bookings (source_id, room_id, created_at, visit_count, source, renewed_at) FROM stdin;
+11OPQ53T10ju7GYERgBOP	11OPQ53T10ju7GYERgBOP	2020-08-23 02:32:09.302218+00	6	block	2020-08-23 02:32:09.302218+00
+\.
+
+
+--
+-- Data for Name: room_sources; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.room_sources (id, description) FROM stdin;
+bell	\N
+block	\N
+goal	\N
+bellhop	\N
+direct_message	\N
+task	\N
+\.
+
+
+--
+-- Data for Name: rooms; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.rooms (id, type, created_at, name, last_post_at, ended_at, last_visited_at) FROM stdin;
+11OPQ53T10ju7GYERgBOP	chat	2020-08-23 02:32:09.302218	Main Goal (Facilities Spend Request)	\N	2020-08-23 02:32:09.302218+00	\N
+\.
+
+
+--
+-- Data for Name: user_room_participations; Type: TABLE DATA; Schema: chat; Owner: postgres
+--
+
+COPY chat.user_room_participations (user_id, last_seen_at, last_typed_at, room_id, joined_at, role, id) FROM stdin;
+Google_115419186368884878540	2020-08-23 02:40:03.963821+00	2020-08-23 02:32:09.302218+00	11OPQ53T10ju7GYERgBOP	2020-08-23 02:32:09.26+00	goal_assignee	1
+Google_113132363560941198349	2020-08-23 02:40:03.963821+00	2020-08-23 02:32:09.302218+00	11OPQ53T10ju7GYERgBOP	2020-08-23 02:32:09.26+00	goal_follower	2
+\.
+
+
+--
+-- Name: bell_room_bookings_id_seq; Type: SEQUENCE SET; Schema: chat; Owner: postgres
+--
+
+SELECT pg_catalog.setval('chat.bell_room_bookings_id_seq', 6, true);
+
+
+--
+-- Name: user_room_participations_id_seq; Type: SEQUENCE SET; Schema: chat; Owner: postgres
+--
+
+SELECT pg_catalog.setval('chat.user_room_participations_id_seq', 12, true);
 
 
 --
@@ -192,19 +302,11 @@ ALTER TABLE ONLY chat.attachments
 
 
 --
--- Name: bell_room_bookings bell_room_bookings_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+-- Name: room_bookings bell_room_bookings_id_key; Type: CONSTRAINT; Schema: chat; Owner: postgres
 --
 
-ALTER TABLE ONLY chat.bell_room_bookings
-    ADD CONSTRAINT bell_room_bookings_pkey PRIMARY KEY (id);
-
-
---
--- Name: block_room_bookings block_room_bookings_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
---
-
-ALTER TABLE ONLY chat.block_room_bookings
-    ADD CONSTRAINT block_room_bookings_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY chat.room_bookings
+    ADD CONSTRAINT bell_room_bookings_id_key UNIQUE (visit_count);
 
 
 --
@@ -240,6 +342,22 @@ ALTER TABLE ONLY chat.messages
 
 
 --
+-- Name: room_bookings room_bookings_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.room_bookings
+    ADD CONSTRAINT room_bookings_pkey PRIMARY KEY (source, source_id);
+
+
+--
+-- Name: room_sources room_sources_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.room_sources
+    ADD CONSTRAINT room_sources_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: rooms rooms_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
 --
 
@@ -256,6 +374,14 @@ ALTER TABLE ONLY chat.user_room_participations
 
 
 --
+-- Name: user_room_participations user_room_participations_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.user_room_participations
+    ADD CONSTRAINT user_room_participations_pkey PRIMARY KEY (user_id, room_id);
+
+
+--
 -- Name: attachments attachments_message_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
 --
 
@@ -264,35 +390,11 @@ ALTER TABLE ONLY chat.attachments
 
 
 --
--- Name: bell_room_bookings bell_room_bookings_bell_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+-- Name: room_bookings bell_room_bookings_room_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
 --
 
-ALTER TABLE ONLY chat.bell_room_bookings
-    ADD CONSTRAINT bell_room_bookings_bell_id_fkey FOREIGN KEY (bell_id) REFERENCES m2.bells(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: bell_room_bookings bell_room_bookings_room_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
---
-
-ALTER TABLE ONLY chat.bell_room_bookings
+ALTER TABLE ONLY chat.room_bookings
     ADD CONSTRAINT bell_room_bookings_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: block_room_bookings block_room_bookings_block_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
---
-
-ALTER TABLE ONLY chat.block_room_bookings
-    ADD CONSTRAINT block_room_bookings_block_id_fkey FOREIGN KEY (block_id) REFERENCES m2.blocks(id) ON UPDATE CASCADE ON DELETE CASCADE;
-
-
---
--- Name: block_room_bookings block_room_bookings_room_id_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
---
-
-ALTER TABLE ONLY chat.block_room_bookings
-    ADD CONSTRAINT block_room_bookings_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -336,11 +438,19 @@ ALTER TABLE ONLY chat.messages
 
 
 --
+-- Name: room_bookings room_bookings_source_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
+--
+
+ALTER TABLE ONLY chat.room_bookings
+    ADD CONSTRAINT room_bookings_source_fkey FOREIGN KEY (source) REFERENCES chat.room_sources(id) ON UPDATE SET DEFAULT ON DELETE SET DEFAULT;
+
+
+--
 -- Name: user_room_participations user_room_participations_role_fkey; Type: FK CONSTRAINT; Schema: chat; Owner: postgres
 --
 
 ALTER TABLE ONLY chat.user_room_participations
-    ADD CONSTRAINT user_room_participations_role_fkey FOREIGN KEY (role) REFERENCES m2.participation_roles(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT user_room_participations_role_fkey FOREIGN KEY (role) REFERENCES m2.participation_roles(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -348,7 +458,7 @@ ALTER TABLE ONLY chat.user_room_participations
 --
 
 ALTER TABLE ONLY chat.user_room_participations
-    ADD CONSTRAINT user_room_participations_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
+    ADD CONSTRAINT user_room_participations_room_id_fkey FOREIGN KEY (room_id) REFERENCES chat.rooms(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -361,4 +471,5 @@ ALTER TABLE ONLY chat.user_room_participations
 
 --
 -- PostgreSQL database dump complete
---;
+--
+

@@ -30,7 +30,7 @@ services:
 
   hasura:
     container_name: samantha-hasura
-    image: hasura/graphql-engine:v1.3.0
+    image: hasura/graphql-engine:v1.3.1
     restart: always
     depends_on:
       - postgres

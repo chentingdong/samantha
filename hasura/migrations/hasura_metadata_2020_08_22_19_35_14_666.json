@@ -1,0 +1,1383 @@
+{
+  "version": 2,
+  "tables": [
+    {
+      "table": {
+        "schema": "chat",
+        "name": "attachments"
+      },
+      "object_relationships": [
+        {
+          "name": "message",
+          "using": {
+            "foreign_key_constraint_on": "message_id"
+          }
+        },
+        {
+          "name": "message_attachment",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "chat",
+                "name": "message_attachments"
+              },
+              "column_mapping": {
+                "id": "attachment_id"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "chat",
+        "name": "message_attachments"
+      },
+      "object_relationships": [
+        {
+          "name": "attachment",
+          "using": {
+            "foreign_key_constraint_on": "attachment_id"
+          }
+        },
+        {
+          "name": "message",
+          "using": {
+            "foreign_key_constraint_on": "message_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "chat",
+        "name": "messages"
+      },
+      "object_relationships": [
+        {
+          "name": "message_attachment",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "chat",
+                "name": "message_attachments"
+              },
+              "column_mapping": {
+                "id": "message_id"
+              }
+            }
+          }
+        },
+        {
+          "name": "room",
+          "using": {
+            "foreign_key_constraint_on": "room_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "from_user_id"
+          }
+        },
+        {
+          "name": "userByToUserId",
+          "using": {
+            "foreign_key_constraint_on": "to_user_id"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "attachments",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "message_id",
+              "table": {
+                "schema": "chat",
+                "name": "attachments"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "chat",
+        "name": "room_bookings"
+      },
+      "object_relationships": [
+        {
+          "name": "room",
+          "using": {
+            "foreign_key_constraint_on": "room_id"
+          }
+        },
+        {
+          "name": "room_source",
+          "using": {
+            "foreign_key_constraint_on": "source"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "chat",
+        "name": "room_sources"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "room_bookings",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "source",
+              "table": {
+                "schema": "chat",
+                "name": "room_bookings"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "chat",
+        "name": "rooms"
+      },
+      "array_relationships": [
+        {
+          "name": "messages",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "room_id",
+              "table": {
+                "schema": "chat",
+                "name": "messages"
+              }
+            }
+          }
+        },
+        {
+          "name": "room_bookings",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "room_id",
+              "table": {
+                "schema": "chat",
+                "name": "room_bookings"
+              }
+            }
+          }
+        },
+        {
+          "name": "user_room_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "room_id",
+              "table": {
+                "schema": "chat",
+                "name": "user_room_participations"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "chat",
+        "name": "user_room_participations"
+      },
+      "object_relationships": [
+        {
+          "name": "participation_role",
+          "using": {
+            "foreign_key_constraint_on": "role"
+          }
+        },
+        {
+          "name": "room",
+          "using": {
+            "foreign_key_constraint_on": "room_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "artifacts"
+      }
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "bell_executors"
+      },
+      "object_relationships": [
+        {
+          "name": "bell",
+          "using": {
+            "foreign_key_constraint_on": "bell_id"
+          }
+        },
+        {
+          "name": "block",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "blocks"
+              },
+              "column_mapping": {
+                "id": "id",
+                "type": "type"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "bellhop_bell_participations"
+      },
+      "object_relationships": [
+        {
+          "name": "bell",
+          "using": {
+            "foreign_key_constraint_on": "bell_id"
+          }
+        },
+        {
+          "name": "bellhop",
+          "using": {
+            "foreign_key_constraint_on": "bellhop_id"
+          }
+        },
+        {
+          "name": "participation_role",
+          "using": {
+            "foreign_key_constraint_on": "role"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "bellhop_memberships"
+      },
+      "object_relationships": [
+        {
+          "name": "bellhop",
+          "using": {
+            "foreign_key_constraint_on": "bellhop_id"
+          }
+        },
+        {
+          "name": "membership_role",
+          "using": {
+            "foreign_key_constraint_on": "role"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "bellhops"
+      },
+      "array_relationships": [
+        {
+          "name": "bell_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "bellhop_id",
+              "table": {
+                "schema": "m2",
+                "name": "bellhop_bell_participations"
+              }
+            }
+          }
+        },
+        {
+          "name": "bell_participations_by_users",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "represented_bellhop_id",
+              "table": {
+                "schema": "m2",
+                "name": "user_bell_participations"
+              }
+            }
+          }
+        },
+        {
+          "name": "memberships",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "bellhop_id",
+              "table": {
+                "schema": "m2",
+                "name": "bellhop_memberships"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "bells"
+      },
+      "object_relationships": [
+        {
+          "name": "bell_state",
+          "using": {
+            "foreign_key_constraint_on": "state"
+          }
+        },
+        {
+          "name": "main_bell",
+          "using": {
+            "foreign_key_constraint_on": "main_bell_id"
+          }
+        },
+        {
+          "name": "root_block",
+          "using": {
+            "foreign_key_constraint_on": "root_block_id"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "bell_executors",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "bell_id",
+              "table": {
+                "schema": "m2",
+                "name": "bell_executors"
+              }
+            }
+          }
+        },
+        {
+          "name": "bellhop_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "bell_id",
+              "table": {
+                "schema": "m2",
+                "name": "bellhop_bell_participations"
+              }
+            }
+          }
+        },
+        {
+          "name": "blocks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "bell_id",
+              "table": {
+                "schema": "m2",
+                "name": "blocks"
+              }
+            }
+          }
+        },
+        {
+          "name": "sub_bells",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "main_bell_id",
+              "table": {
+                "schema": "m2",
+                "name": "bells"
+              }
+            }
+          }
+        },
+        {
+          "name": "user_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "bell_id",
+              "table": {
+                "schema": "m2",
+                "name": "user_bell_participations"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "block_state"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "bells",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "state",
+              "table": {
+                "schema": "m2",
+                "name": "bells"
+              }
+            }
+          }
+        },
+        {
+          "name": "blocks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "state",
+              "table": {
+                "schema": "m2",
+                "name": "blocks"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "block_type"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "blocks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "type",
+              "table": {
+                "schema": "m2",
+                "name": "blocks"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "blocks"
+      },
+      "object_relationships": [
+        {
+          "name": "bell",
+          "using": {
+            "foreign_key_constraint_on": "bell_id"
+          }
+        },
+        {
+          "name": "bell_at_root",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "bells"
+              },
+              "column_mapping": {
+                "id": "root_block_id"
+              }
+            }
+          }
+        },
+        {
+          "name": "bell_executor",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "bell_executors"
+              },
+              "column_mapping": {
+                "id": "id",
+                "type": "type"
+              }
+            }
+          }
+        },
+        {
+          "name": "block_state",
+          "using": {
+            "foreign_key_constraint_on": "state"
+          }
+        },
+        {
+          "name": "block_type",
+          "using": {
+            "foreign_key_constraint_on": "type"
+          }
+        },
+        {
+          "name": "goal",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "goals"
+              },
+              "column_mapping": {
+                "id": "id",
+                "type": "type"
+              }
+            }
+          }
+        },
+        {
+          "name": "parent",
+          "using": {
+            "foreign_key_constraint_on": "parent_id"
+          }
+        },
+        {
+          "name": "task",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "tasks"
+              },
+              "column_mapping": {
+                "id": "id",
+                "type": "type"
+              }
+            }
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "children",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "parent_id",
+              "table": {
+                "schema": "m2",
+                "name": "blocks"
+              }
+            }
+          }
+        },
+        {
+          "name": "user_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "block_id",
+              "table": {
+                "schema": "m2",
+                "name": "user_block_participations"
+              }
+            }
+          }
+        }
+      ],
+      "event_triggers": [
+        {
+          "name": "m2_block_state_update",
+          "definition": {
+            "enable_manual": true,
+            "update": {
+              "columns": [
+                "local_id",
+                "state"
+              ]
+            }
+          },
+          "retry_conf": {
+            "num_retries": 0,
+            "interval_sec": 10,
+            "timeout_sec": 60
+          },
+          "webhook": "http://server:3000/m2_block_state_update"
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "goals"
+      },
+      "object_relationships": [
+        {
+          "name": "block",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "blocks"
+              },
+              "column_mapping": {
+                "id": "id",
+                "type": "type"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "membership_roles"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "bellhop_memberships",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "role",
+              "table": {
+                "schema": "m2",
+                "name": "bellhop_memberships"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "participation_roles"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "bellhop_bell_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "role",
+              "table": {
+                "schema": "m2",
+                "name": "bellhop_bell_participations"
+              }
+            }
+          }
+        },
+        {
+          "name": "user_bell_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "role",
+              "table": {
+                "schema": "m2",
+                "name": "user_bell_participations"
+              }
+            }
+          }
+        },
+        {
+          "name": "user_block_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "role",
+              "table": {
+                "schema": "m2",
+                "name": "user_block_participations"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "tasks"
+      },
+      "object_relationships": [
+        {
+          "name": "block",
+          "using": {
+            "manual_configuration": {
+              "remote_table": {
+                "schema": "m2",
+                "name": "blocks"
+              },
+              "column_mapping": {
+                "id": "id",
+                "type": "type"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "user_bell_participations"
+      },
+      "object_relationships": [
+        {
+          "name": "bell",
+          "using": {
+            "foreign_key_constraint_on": "bell_id"
+          }
+        },
+        {
+          "name": "participation_role",
+          "using": {
+            "foreign_key_constraint_on": "role"
+          }
+        },
+        {
+          "name": "represented_bellhop",
+          "using": {
+            "foreign_key_constraint_on": "represented_bellhop_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "user_block_participations"
+      },
+      "object_relationships": [
+        {
+          "name": "block",
+          "using": {
+            "foreign_key_constraint_on": "block_id"
+          }
+        },
+        {
+          "name": "participation_role",
+          "using": {
+            "foreign_key_constraint_on": "role"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "m2",
+        "name": "users"
+      },
+      "array_relationships": [
+        {
+          "name": "bellhop_memberships",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "m2",
+                "name": "bellhop_memberships"
+              }
+            }
+          }
+        },
+        {
+          "name": "bell_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "m2",
+                "name": "user_bell_participations"
+              }
+            }
+          }
+        },
+        {
+          "name": "block_participations",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "m2",
+                "name": "user_block_participations"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "bells"
+      },
+      "object_relationships": [
+        {
+          "name": "block",
+          "using": {
+            "foreign_key_constraint_on": "root_block_id"
+          }
+        },
+        {
+          "name": "blockState",
+          "using": {
+            "foreign_key_constraint_on": "state"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockDefState"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "blockDefs",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "state",
+              "table": {
+                "schema": "public",
+                "name": "blockDefs"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockDef_parent_child"
+      },
+      "object_relationships": [
+        {
+          "name": "child",
+          "using": {
+            "foreign_key_constraint_on": "child_id"
+          }
+        },
+        {
+          "name": "parent",
+          "using": {
+            "foreign_key_constraint_on": "parent_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockDef_requestor"
+      },
+      "object_relationships": [
+        {
+          "name": "blockDef",
+          "using": {
+            "foreign_key_constraint_on": "blockDef_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockDef_responder"
+      },
+      "object_relationships": [
+        {
+          "name": "blockDef",
+          "using": {
+            "foreign_key_constraint_on": "blockDef_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockDefs"
+      },
+      "object_relationships": [
+        {
+          "name": "blockDefState",
+          "using": {
+            "foreign_key_constraint_on": "state"
+          }
+        },
+        {
+          "name": "blockType",
+          "using": {
+            "foreign_key_constraint_on": "type"
+          }
+        },
+        {
+          "name": "root",
+          "using": {
+            "foreign_key_constraint_on": "root_id"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "blockDefs",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "root_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDefs"
+              }
+            }
+          }
+        },
+        {
+          "name": "children",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "parent_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDef_parent_child"
+              }
+            }
+          }
+        },
+        {
+          "name": "parents",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "child_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDef_parent_child"
+              }
+            }
+          }
+        },
+        {
+          "name": "requestors",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "blockDef_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDef_requestor"
+              }
+            }
+          }
+        },
+        {
+          "name": "responders",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "blockDef_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDef_responder"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockState"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "blocks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "state",
+              "table": {
+                "schema": "public",
+                "name": "blocks"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blockType"
+      },
+      "is_enum": true,
+      "array_relationships": [
+        {
+          "name": "blockDefs",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "type",
+              "table": {
+                "schema": "public",
+                "name": "blockDefs"
+              }
+            }
+          }
+        },
+        {
+          "name": "blocks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "type",
+              "table": {
+                "schema": "public",
+                "name": "blocks"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "block_parent_child"
+      },
+      "object_relationships": [
+        {
+          "name": "child",
+          "using": {
+            "foreign_key_constraint_on": "child_id"
+          }
+        },
+        {
+          "name": "parent",
+          "using": {
+            "foreign_key_constraint_on": "parent_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "block_requestor"
+      },
+      "object_relationships": [
+        {
+          "name": "block",
+          "using": {
+            "foreign_key_constraint_on": "block_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "block_responder"
+      },
+      "object_relationships": [
+        {
+          "name": "block",
+          "using": {
+            "foreign_key_constraint_on": "block_id"
+          }
+        },
+        {
+          "name": "user",
+          "using": {
+            "foreign_key_constraint_on": "user_id"
+          }
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "blocks"
+      },
+      "object_relationships": [
+        {
+          "name": "blockState",
+          "using": {
+            "foreign_key_constraint_on": "state"
+          }
+        },
+        {
+          "name": "blockType",
+          "using": {
+            "foreign_key_constraint_on": "type"
+          }
+        },
+        {
+          "name": "root",
+          "using": {
+            "foreign_key_constraint_on": "root_id"
+          }
+        }
+      ],
+      "array_relationships": [
+        {
+          "name": "bells",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "root_block_id",
+              "table": {
+                "schema": "public",
+                "name": "bells"
+              }
+            }
+          }
+        },
+        {
+          "name": "blocks",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "root_id",
+              "table": {
+                "schema": "public",
+                "name": "blocks"
+              }
+            }
+          }
+        },
+        {
+          "name": "children",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "parent_id",
+              "table": {
+                "schema": "public",
+                "name": "block_parent_child"
+              }
+            }
+          }
+        },
+        {
+          "name": "parents",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "child_id",
+              "table": {
+                "schema": "public",
+                "name": "block_parent_child"
+              }
+            }
+          }
+        },
+        {
+          "name": "requestors",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "block_id",
+              "table": {
+                "schema": "public",
+                "name": "block_requestor"
+              }
+            }
+          }
+        },
+        {
+          "name": "responders",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "block_id",
+              "table": {
+                "schema": "public",
+                "name": "block_responder"
+              }
+            }
+          }
+        }
+      ],
+      "event_triggers": [
+        {
+          "name": "block_state_update",
+          "definition": {
+            "enable_manual": true,
+            "update": {
+              "columns": [
+                "state"
+              ]
+            }
+          },
+          "retry_conf": {
+            "num_retries": 0,
+            "interval_sec": 10,
+            "timeout_sec": 60
+          },
+          "webhook": "http://server:3000/block_state_update"
+        }
+      ]
+    },
+    {
+      "table": {
+        "schema": "public",
+        "name": "users"
+      },
+      "array_relationships": [
+        {
+          "name": "blockDef_requestors",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDef_requestor"
+              }
+            }
+          }
+        },
+        {
+          "name": "blockDef_responders",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "public",
+                "name": "blockDef_responder"
+              }
+            }
+          }
+        },
+        {
+          "name": "block_requestors",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "public",
+                "name": "block_requestor"
+              }
+            }
+          }
+        },
+        {
+          "name": "block_responders",
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": {
+                "schema": "public",
+                "name": "block_responder"
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "clone_m2_bells_by_pk",
+      "definition": {
+        "handler": "{{ACTION_BASE_URL}}/clone_m2_bells_by_pk",
+        "output_type": "clone_m2_bells_pk_columns_output",
+        "forward_client_headers": true,
+        "arguments": [
+          {
+            "name": "pk_columns",
+            "type": "clone_m2_bells_pk_columns_input!"
+          },
+          {
+            "name": "is_definition",
+            "type": "Boolean"
+          },
+          {
+            "name": "start_on_create",
+            "type": "Boolean"
+          }
+        ],
+        "type": "mutation",
+        "kind": "asynchronous"
+      }
+    }
+  ],
+  "custom_types": {
+    "input_objects": [
+      {
+        "name": "clone_m2_bells_pk_columns_input",
+        "fields": [
+          {
+            "name": "id",
+            "type": "String!"
+          }
+        ]
+      }
+    ],
+    "objects": [
+      {
+        "name": "clone_m2_bells_pk_columns_output",
+        "fields": [
+          {
+            "name": "new_id",
+            "type": "String!"
+          }
+        ],
+        "relationships": [
+          {
+            "remote_table": {
+              "schema": "m2",
+              "name": "bells"
+            },
+            "name": "new_bell",
+            "type": "object",
+            "field_mapping": {
+              "new_id": "id"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

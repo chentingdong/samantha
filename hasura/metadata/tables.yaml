@@ -5,6 +5,14 @@
   - name: message
     using:
       foreign_key_constraint_on: message_id
+  - name: message_attachment
+    using:
+      manual_configuration:
+        remote_table:
+          schema: chat
+          name: message_attachments
+        column_mapping:
+          id: attachment_id
 - table:
     schema: chat
     name: message_attachments
@@ -19,13 +27,21 @@
     schema: chat
     name: messages
   object_relationships:
-  - name: from_user
+  - name: message_attachment
     using:
-      foreign_key_constraint_on: from_user_id
+      manual_configuration:
+        remote_table:
+          schema: chat
+          name: message_attachments
+        column_mapping:
+          id: message_id
   - name: room
     using:
       foreign_key_constraint_on: room_id
-  - name: to_user
+  - name: user
+    using:
+      foreign_key_constraint_on: from_user_id
+  - name: userByToUserId
     using:
       foreign_key_constraint_on: to_user_id
   array_relationships:
@@ -38,6 +54,28 @@
           name: attachments
 - table:
     schema: chat
+    name: room_bookings
+  object_relationships:
+  - name: room
+    using:
+      foreign_key_constraint_on: room_id
+  - name: room_source
+    using:
+      foreign_key_constraint_on: source
+- table:
+    schema: chat
+    name: room_sources
+  is_enum: true
+  array_relationships:
+  - name: room_bookings
+    using:
+      foreign_key_constraint_on:
+        column: source
+        table:
+          schema: chat
+          name: room_bookings
+- table:
+    schema: chat
     name: rooms
   array_relationships:
   - name: messages
@@ -47,6 +85,13 @@
         table:
           schema: chat
           name: messages
+  - name: room_bookings
+    using:
+      foreign_key_constraint_on:
+        column: room_id
+        table:
+          schema: chat
+          name: room_bookings
   - name: user_room_participations
     using:
       foreign_key_constraint_on:
@@ -58,6 +103,9 @@
     schema: chat
     name: user_room_participations
   object_relationships:
+  - name: participation_role
+    using:
+      foreign_key_constraint_on: role
   - name: room
     using:
       foreign_key_constraint_on: room_id

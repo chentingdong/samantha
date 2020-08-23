@@ -1,22 +1,24 @@
 import { gql } from "@apollo/client"
+import { userRoomParticipations } from "operations/fragments/user"
 
-export const BOOK_A_BELL_ROOM = gql`
+export const BOOK_A_ROOM = gql`
   mutation insert_chat_rooms_one(
-    $bellId: String
-    $roomId: String
-    $roomName: String
+    $source: chat_room_sources_enum!
+    $sourceId: String!
+    $roomName: String!
     $user_room_participations: [chat_user_room_participations_insert_input!]!
   ) {
-    insert_chat_bell_room_bookings_one(
+    insert_chat_room_bookings_one(
       on_conflict: {
-        constraint: bell_room_bookings_pkey
-        update_columns: created_at
+        constraint: room_bookings_pkey
+        update_columns: visit_count
       }
       object: {
-        bell_id: $bellId
+        source: $source
+        source_id: $sourceId
         room: {
           data: {
-            id: $roomId
+            id: $sourceId
             name: $roomName
             type: "chat"
             user_room_participations: {
@@ -34,10 +36,9 @@ export const BOOK_A_BELL_ROOM = gql`
         }
       }
     ) {
-      room_id
-      bell_id
+      source
+      source_id
       created_at
-      id
       room {
         type
         name
@@ -47,13 +48,10 @@ export const BOOK_A_BELL_ROOM = gql`
         ended_at
         last_visited_at
         user_room_participations {
-          id
-          joined_at
-          last_seen_at
-          role
-          user_id
+          ...userRoomParticipations
         }
       }
     }
   }
+  ${userRoomParticipations}
 `
