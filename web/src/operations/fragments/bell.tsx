@@ -32,7 +32,7 @@ const bellFragment = gql`
         id
         name
         profile_image_url
-        bell_participations_by_users {
+        memberships {
           user {
             name
           }

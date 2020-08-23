@@ -42,6 +42,7 @@ export interface Bellhop {
   profile_image_url: string
   created_at: Date
   updated_at: Date
+  memberships: Participant[]
 }
 
 export interface Block {
@@ -123,15 +124,15 @@ export interface TemplateFieldSelect {
   select_options: string[]
 }
 
-export interface Conversation {
+export interface Room {
   id: string
+  name: string
   type: string
-  block_id: string
-  block: Block
   user_participations: Participant[]
   created_at: Date
-  updated_at: Date
   ended_at: Date
+  last_post_at: Date
+  last_visited_at: Date
 }
 
 export interface Message {

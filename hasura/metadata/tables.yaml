@@ -38,12 +38,6 @@
   - name: room
     using:
       foreign_key_constraint_on: room_id
-  - name: user
-    using:
-      foreign_key_constraint_on: from_user_id
-  - name: userByToUserId
-    using:
-      foreign_key_constraint_on: to_user_id
   array_relationships:
   - name: attachments
     using:
@@ -54,29 +48,23 @@
           name: attachments
 - table:
     schema: chat
-    name: room_bookings
-  object_relationships:
-  - name: room
-    using:
-      foreign_key_constraint_on: room_id
-  - name: room_source
-    using:
-      foreign_key_constraint_on: source
-- table:
-    schema: chat
     name: room_sources
   is_enum: true
   array_relationships:
-  - name: room_bookings
+  - name: rooms
     using:
       foreign_key_constraint_on:
         column: source
         table:
           schema: chat
-          name: room_bookings
+          name: rooms
 - table:
     schema: chat
     name: rooms
+  object_relationships:
+  - name: room_source
+    using:
+      foreign_key_constraint_on: source
   array_relationships:
   - name: messages
     using:
@@ -85,13 +73,6 @@
         table:
           schema: chat
           name: messages
-  - name: room_bookings
-    using:
-      foreign_key_constraint_on:
-        column: room_id
-        table:
-          schema: chat
-          name: room_bookings
   - name: user_room_participations
     using:
       foreign_key_constraint_on:
@@ -103,18 +84,12 @@
     schema: chat
     name: user_room_participations
   object_relationships:
-  - name: participation_role
-    using:
-      foreign_key_constraint_on: role
   - name: room
     using:
       foreign_key_constraint_on: room_id
   - name: user
     using:
       foreign_key_constraint_on: user_id
-- table:
-    schema: m2
-    name: artifacts
 - table:
     schema: m2
     name: bell_executors
@@ -340,7 +315,7 @@
       num_retries: 0
       interval_sec: 10
       timeout_sec: 60
-    webhook: http://server:3000/m2_block_state_update
+    webhook: http://localhost:3000/m2_block_state_update
 - table:
     schema: m2
     name: goals
@@ -688,7 +663,7 @@
       num_retries: 0
       interval_sec: 10
       timeout_sec: 60
-    webhook: http://server:3000/block_state_update
+    webhook: http://localhost:3000/block_state_update
 - table:
     schema: public
     name: users

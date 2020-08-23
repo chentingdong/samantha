@@ -1,8 +1,8 @@
 import React from "react"
-import {useForm} from "react-hook-form"
-import {TemplateFieldDecimal} from "models/interface"
+import { TemplateFieldDecimal } from "models/interface"
+import { useForm } from "react-hook-form"
 
-const DecimalDisplay: React.FC<{Decimal: string}> = ({Decimal}) => {
+const DecimalDisplay: React.FC<{ Decimal: string }> = ({ Decimal }) => {
   return <span>{Decimal}</span>
 }
 
@@ -10,8 +10,12 @@ interface DecimalEditProps {
   field: TemplateFieldDecimal
   onSubmit: (field: TemplateFieldDecimal) => void
 }
-const DecimalEdit: React.FC<DecimalEditProps> = ({field, onSubmit, ...props}) => {
-  const {register, errors, getValues, reset} = useForm({
+const DecimalEdit: React.FC<DecimalEditProps> = ({
+  field,
+  onSubmit,
+  ...props
+}) => {
+  const { register, errors, getValues, reset } = useForm({
     defaultValues: field,
     mode: "onChange",
     reValidateMode: "onChange",
@@ -20,10 +24,9 @@ const DecimalEdit: React.FC<DecimalEditProps> = ({field, onSubmit, ...props}) =>
   const submit = () => {
     if (errors.response) return
     const formData = getValues()
-    onSubmit({...field, ...formData})
+    onSubmit({ ...field, ...formData })
   }
 
-  console.log(field)
   return (
     <form onSubmit={submit} {...props}>
       <input
@@ -54,10 +57,17 @@ interface DecimalProps {
   onSubmit: (field: TemplateFieldDecimal) => void
 }
 
-const Decimal: React.FC<DecimalProps> = ({field, view, onSubmit, ...props}) => {
+const Decimal: React.FC<DecimalProps> = ({
+  field,
+  view,
+  onSubmit,
+  ...props
+}) => {
   return (
     <>
-      {view === "display" && <DecimalDisplay Decimal={field.response} {...props} />}
+      {view === "display" && (
+        <DecimalDisplay Decimal={field.response} {...props} />
+      )}
       {view === "edit" && (
         <DecimalEdit field={field} onSubmit={onSubmit} {...props} />
       )}
@@ -65,4 +75,4 @@ const Decimal: React.FC<DecimalProps> = ({field, view, onSubmit, ...props}) => {
   )
 }
 
-export {Decimal}
+export { Decimal }

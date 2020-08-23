@@ -13,8 +13,10 @@ const userFragment = gql`
 
 const userRoomParticipations = gql`
   fragment userRoomParticipations on chat_user_room_participations {
-    id
+    room_id
     joined_at
+    last_seen_at
+    last_typed_at
     role
     user {
       ...userFragment

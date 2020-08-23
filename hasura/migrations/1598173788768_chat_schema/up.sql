@@ -1,3 +1,6 @@
+
+drop schema chat cascade;
+
 --
 -- PostgreSQL database dump
 --
@@ -214,86 +217,6 @@ ALTER TABLE ONLY chat.user_room_participations ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- Data for Name: attachments; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.attachments (id, type, url, created_at, updated_at, message_id, name, title, description) FROM stdin;
-\.
-
-
---
--- Data for Name: message_attachments; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.message_attachments (id, message_id, attachment_id) FROM stdin;
-\.
-
-
---
--- Data for Name: messages; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.messages (id, type, room_id, content, from_user_id, to_user_id, created_at, updated_at) FROM stdin;
-\.
-
-
---
--- Data for Name: room_bookings; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.room_bookings (source_id, room_id, created_at, visit_count, source, renewed_at) FROM stdin;
-11OPQ53T10ju7GYERgBOP	11OPQ53T10ju7GYERgBOP	2020-08-23 02:32:09.302218+00	6	block	2020-08-23 02:32:09.302218+00
-\.
-
-
---
--- Data for Name: room_sources; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.room_sources (id, description) FROM stdin;
-bell	\N
-block	\N
-goal	\N
-bellhop	\N
-direct_message	\N
-task	\N
-\.
-
-
---
--- Data for Name: rooms; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.rooms (id, type, created_at, name, last_post_at, ended_at, last_visited_at) FROM stdin;
-11OPQ53T10ju7GYERgBOP	chat	2020-08-23 02:32:09.302218	Main Goal (Facilities Spend Request)	\N	2020-08-23 02:32:09.302218+00	\N
-\.
-
-
---
--- Data for Name: user_room_participations; Type: TABLE DATA; Schema: chat; Owner: postgres
---
-
-COPY chat.user_room_participations (user_id, last_seen_at, last_typed_at, room_id, joined_at, role, id) FROM stdin;
-Google_115419186368884878540	2020-08-23 02:40:03.963821+00	2020-08-23 02:32:09.302218+00	11OPQ53T10ju7GYERgBOP	2020-08-23 02:32:09.26+00	goal_assignee	1
-Google_113132363560941198349	2020-08-23 02:40:03.963821+00	2020-08-23 02:32:09.302218+00	11OPQ53T10ju7GYERgBOP	2020-08-23 02:32:09.26+00	goal_follower	2
-\.
-
-
---
--- Name: bell_room_bookings_id_seq; Type: SEQUENCE SET; Schema: chat; Owner: postgres
---
-
-SELECT pg_catalog.setval('chat.bell_room_bookings_id_seq', 6, true);
-
-
---
--- Name: user_room_participations_id_seq; Type: SEQUENCE SET; Schema: chat; Owner: postgres
---
-
-SELECT pg_catalog.setval('chat.user_room_participations_id_seq', 12, true);
-
-
---
 -- Name: attachments attachments_pkey; Type: CONSTRAINT; Schema: chat; Owner: postgres
 --
 
@@ -471,5 +394,127 @@ ALTER TABLE ONLY chat.user_room_participations
 
 --
 -- PostgreSQL database dump complete
---
+--;
 
+alter table "chat"."user_room_participations"
+           add constraint "user_room_participations_user_id_fkey"
+           foreign key ("user_id")
+           references "m2"."users"
+           ("id") on update cascade on delete cascade;
+
+DROP TABLE "chat"."room_bookings";
+
+DROP TABLE "chat"."room_bookings";
+
+DROP TABLE "chat"."room_bookings";
+
+DROP TABLE "chat"."room_bookings";
+
+DROP TABLE "chat"."room_bookings";
+
+alter table "chat"."room_bookings" drop constraint "bell_room_bookings_room_id_fkey";
+
+DROP TABLE "chat"."room_bookings";
+
+alter table "chat"."room_bookings" drop constraint "room_bookings_source_fkey";
+
+DROP TABLE "chat"."room_bookings";
+
+alter table "chat"."room_bookings" drop constraint "room_bookings_source_fkey";
+
+DROP TABLE "chat"."room_bookings";
+
+ALTER TABLE "chat"."rooms" ADD COLUMN "source" Text NULL;
+
+ALTER TABLE "chat"."rooms" ADD COLUMN "source_id" text NULL;
+
+alter table "chat"."rooms"
+           add constraint "rooms_source_id_fkey"
+           foreign key ("source_id")
+           references "chat"."room_sources"
+           ("id") on update cascade on delete cascade;
+
+alter table "chat"."rooms" drop constraint "rooms_source_id_fkey",
+             add constraint "rooms_source_fkey"
+             foreign key ("source")
+             references "chat"."room_sources"
+             ("id") on update cascade on delete cascade;
+
+alter table "chat"."rooms" drop constraint "rooms_source_id_fkey",
+             add constraint "rooms_source_fkey"
+             foreign key ("source")
+             references "chat"."room_sources"
+             ("id") on update cascade on delete cascade;
+
+alter table "chat"."rooms" drop constraint "rooms_source_id_fkey",
+             add constraint "rooms_source_fkey"
+             foreign key ("source")
+             references "chat"."room_sources"
+             ("id") on update cascade on delete cascade;
+
+alter table "chat"."rooms" drop constraint "rooms_source_id_fkey",
+             add constraint "rooms_source_fkey"
+             foreign key ("source")
+             references "chat"."room_sources"
+             ("id") on update cascade on delete cascade;
+
+alter table "chat"."rooms" drop constraint "rooms_source_id_fkey",
+             add constraint "rooms_source_fkey"
+             foreign key ("source")
+             references "chat"."room_sources"
+             ("id") on update cascade on delete cascade;
+
+alter table "chat"."rooms" add constraint "rooms_id_source_source_id_key" unique ("id", "source", "source_id");
+
+ALTER TABLE "chat"."rooms" DROP COLUMN "type" CASCADE;
+
+ALTER TABLE ONLY "chat"."rooms" ALTER COLUMN "last_visited_at" SET DEFAULT now();
+
+ALTER TABLE "chat"."rooms" ALTER COLUMN "last_visited_at" DROP DEFAULT;
+
+ALTER TABLE "chat"."user_room_participations" DROP COLUMN "id" CASCADE;
+
+alter table "chat"."messages" drop constraint "messages_room_id_fkey";
+
+alter table "chat"."user_room_participations" drop constraint "user_room_participations_room_id_fkey";
+
+alter table "chat"."user_room_participations" drop constraint "user_room_participations_pkey";
+alter table "chat"."user_room_participations"
+    add constraint "user_room_participations_pkey" 
+    primary key ( "user_id", "room_id" );
+
+alter table "chat"."rooms" drop constraint "rooms_pkey";
+alter table "chat"."rooms"
+    add constraint "rooms_pkey" 
+    primary key ( "id", "source" );
+
+alter table "chat"."rooms" drop constraint "rooms_pkey";
+alter table "chat"."rooms"
+    add constraint "rooms_pkey" 
+    primary key ( "id", "source", "source_id" );
+
+alter table "chat"."rooms" drop constraint "rooms_pkey";
+
+ALTER TABLE "chat"."rooms" DROP COLUMN "id" CASCADE;
+
+alter table "chat"."rooms"
+    add constraint "rooms_pkey" 
+    primary key ( "source_id" );
+
+alter table "chat"."rooms" drop constraint "rooms_source_fkey";
+
+alter table "chat"."rooms" rename column "source_id" to "id";
+
+alter table "chat"."user_room_participations"
+           add constraint "user_room_participations_room_id_fkey"
+           foreign key ("room_id")
+           references "chat"."rooms"
+           ("id") on update cascade on delete cascade;
+
+ALTER TABLE "chat"."rooms" ALTER COLUMN "last_post_at" TYPE timestamptz;
+
+alter table "chat"."messages"
+           add constraint "messages_room_id_fkey"
+           foreign key ("room_id")
+           references "chat"."rooms"
+           ("id") on update restrict on delete restrict;

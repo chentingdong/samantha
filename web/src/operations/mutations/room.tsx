@@ -8,48 +8,30 @@ export const BOOK_A_ROOM = gql`
     $roomName: String!
     $user_room_participations: [chat_user_room_participations_insert_input!]!
   ) {
-    insert_chat_room_bookings_one(
-      on_conflict: {
-        constraint: room_bookings_pkey
-        update_columns: visit_count
-      }
+    insert_chat_rooms_one(
       object: {
         source: $source
-        source_id: $sourceId
-        room: {
-          data: {
-            id: $sourceId
-            name: $roomName
-            type: "chat"
-            user_room_participations: {
-              data: $user_room_participations
-              on_conflict: {
-                constraint: user_room_participations_pkey
-                update_columns: last_seen_at
-              }
-            }
-          }
+        id: $sourceId
+        name: $roomName
+        user_room_participations: {
+          data: $user_room_participations
           on_conflict: {
-            constraint: rooms_pkey
-            update_columns: last_visited_at
+            constraint: user_room_participations_pkey
+            update_columns: [role]
           }
         }
       }
+      on_conflict: { constraint: rooms_pkey, update_columns: last_visited_at }
     ) {
+      id
       source
-      source_id
+      name
       created_at
-      room {
-        type
-        name
-        id
-        created_at
-        last_post_at
-        ended_at
-        last_visited_at
-        user_room_participations {
-          ...userRoomParticipations
-        }
+      ended_at
+      last_post_at
+      last_visited_at
+      user_room_participations {
+        ...userRoomParticipations
       }
     }
   }
