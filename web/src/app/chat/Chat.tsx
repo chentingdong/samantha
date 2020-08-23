@@ -31,47 +31,29 @@ const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
     })
   })
 
-  const source = params?.goalId === "all" ? "bell" : "goal"
   const now = new Date()
-
-  if (source === "bell") {
-    const user_room_participations = bell.user_participations.map(
-      (participant) => ({
-        user_id: participant.user.id,
-        role: participant.role,
-        joined_at: now,
-        last_seen_at: now,
-      })
-    )
-
-    bookARoom({
-      variables: {
-        source: source,
-        sourceId: bell.id,
-        roomName: bell.name,
-        user_room_participations: user_room_participations,
-      },
+  const source = params?.goalId === "all" ? "bell" : "goal"
+  const sourceObject =
+    source === "bell"
+      ? bell
+      : bell.blocks.filter((b) => b.id === params.goalId)?.[0]
+  const user_room_participations = sourceObject.user_participations.map(
+    (participant) => ({
+      user_id: participant.user.id,
+      role: participant.role,
+      joined_at: now,
+      last_seen_at: now,
     })
-  } else if (source === "goal") {
-    const goal = bell.blocks.filter((b) => b.id === params.goalId)?.[0]
-    const user_room_participations = goal.user_participations.map(
-      (participant) => ({
-        user_id: participant.user.id,
-        role: participant.role,
-        joined_at: now,
-        last_seen_at: now,
-      })
-    )
+  )
 
-    bookARoom({
-      variables: {
-        source: source,
-        sourceId: goal.id,
-        roomName: goal.name,
-        user_room_participations: user_room_participations,
-      },
-    })
-  }
+  bookARoom({
+    variables: {
+      source: source,
+      sourceId: sourceObject.id,
+      roomName: sourceObject.name,
+      user_room_participations: user_room_participations,
+    },
+  })
 
   if (loadingUser) return <Loading />
 
