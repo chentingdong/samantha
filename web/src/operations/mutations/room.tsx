@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client"
-import { userRoomParticipations } from "operations/fragments/user"
+import { roomFragment } from "operations/fragments/room"
 
 export const BOOK_A_ROOM = gql`
   mutation insert_chat_rooms_one(
@@ -23,17 +23,8 @@ export const BOOK_A_ROOM = gql`
       }
       on_conflict: { constraint: rooms_pkey, update_columns: last_visited_at }
     ) {
-      id
-      source
-      name
-      created_at
-      ended_at
-      last_post_at
-      last_visited_at
-      user_room_participations {
-        ...userRoomParticipations
-      }
+      ...roomFragment
     }
   }
-  ${userRoomParticipations}
+  ${roomFragment}
 `

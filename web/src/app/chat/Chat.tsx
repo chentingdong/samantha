@@ -1,12 +1,15 @@
-import React, { useEffect, useRef } from "react"
-import { useMutation, useQuery } from "@apollo/client"
+import React, { useEffect, useState } from "react"
+import { useMutation, useQuery, useSubscription } from "@apollo/client"
 
 import { AUTH_USER } from "operations/queries/authUser"
 import { BOOK_A_ROOM } from "operations/mutations/room"
 import { Bell } from "models/interface"
 import { Loading } from "components/Misc"
-import { Placeholder } from "rsuite"
+import { MessageList } from "./MessageList"
+import { ROOMS_BY_PK } from "operations/subscriptions/room"
+import { SEND_A_MESSAGE } from "operations/mutations/message"
 import { getRouteParams } from "utils/router"
+import { nanoid } from "nanoid"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 import { useLocation } from "react-router-dom"
@@ -17,62 +20,84 @@ interface ChatProps {
 }
 
 const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
-  const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
-  const messagesEndRef = useRef(null)
   const location = useLocation()
-  const [bookARoom] = useMutation(BOOK_A_ROOM)
   const params = getRouteParams(location.pathname)
+  const [message, setMessage] = useState("")
 
-  useEffect(() => {
-    messagesEndRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    })
-  })
+  const { data: authUserResult, loading: loadingMe } = useQuery(AUTH_USER)
 
-  const now = new Date()
   const source = params?.goalId === "all" ? "bell" : "goal"
-  const sourceObject =
-    source === "bell"
-      ? bell
-      : bell.blocks.filter((b) => b.id === params.goalId)?.[0]
-  const user_room_participations = sourceObject.user_participations.map(
-    (participant) => ({
-      user_id: participant.user.id,
-      role: participant.role,
-      joined_at: now,
-      last_seen_at: now,
-    })
+  const roomId = source === "bell" ? params.bellId : params.goalId
+  const { data: dataRooms, loading: loadingRoom } = useSubscription(
+    ROOMS_BY_PK,
+    {
+      variables: { id: roomId },
+    }
   )
+  const [bookARoom] = useMutation(BOOK_A_ROOM)
+  const [sendAMessage] = useMutation(SEND_A_MESSAGE)
 
-  bookARoom({
-    variables: {
-      source: source,
-      sourceId: sourceObject.id,
-      roomName: sourceObject.name,
-      user_room_participations: user_room_participations,
-    },
-  })
+  if (loadingMe || loadingRoom) return <Loading />
 
-  if (loadingUser) return <Loading />
+  const room = dataRooms?.chat_rooms_by_pk
+  const authUser = authUserResult.authUser
 
-  const placeholders = Array.from(Array(5).keys())
+  const roomBooking = async () => {
+    const now = new Date()
+    const sourceObject =
+      source === "bell"
+        ? bell
+        : bell.blocks.filter((b) => b.id === params.goalId)?.[0]
+    const user_room_participations = sourceObject.user_participations.map(
+      (participant) => ({
+        user_id: participant.user.id,
+        role: participant.role,
+        joined_at: now,
+        last_seen_at: now,
+      })
+    )
+
+    await bookARoom({
+      variables: {
+        source: source,
+        sourceId: sourceObject.id,
+        roomName: sourceObject.name,
+        user_room_participations: user_room_participations,
+      },
+    })
+  }
+
+  if (!room) roomBooking()
+
+  const sendMessage = async (e) => {
+    e.preventDefault()
+
+    await sendAMessage({
+      variables: {
+        object: {
+          id: nanoid(),
+          room_id: room.id,
+          content: message,
+          from_user_id: authUser.id,
+        },
+      },
+    })
+    setMessage("")
+  }
 
   return (
     <div {...props}>
-      <div
-        ref={messagesEndRef}
-        className="flex flex-col justify-end min-h-full"
-      >
-        {placeholders.map((placeholder) => {
-          return (
-            <Placeholder.Paragraph key={placeholder} graph="circle" rows={2} />
-          )
-        })}
-        <div className="mt-4">
-          <input type="text" className="w-full" placeholder="type here..." />
-        </div>
+      <div className="flex flex-col justify-end min-h-full">
+        {roomId && <MessageList roomId={roomId} />}
+        <form className="" onSubmit={(e) => sendMessage(e)}>
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="w-full"
+            placeholder="type here..."
+          />
+        </form>
       </div>
     </div>
   )

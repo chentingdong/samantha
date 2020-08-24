@@ -128,28 +128,25 @@ export interface Room {
   id: string
   name: string
   type: string
-  user_participations: Participant[]
   created_at: Date
   ended_at: Date
   last_post_at: Date
   last_visited_at: Date
+  user_participations: Participant[]
 }
 
 export interface Message {
   id: string
-  conversation_id: string
   type: string
+  room_id: string
   content: string
   from_user_id: string
-  from_user: User
+  user: User
   to_user_id: string
-  to_user: User
   created_at: Date
   updated_at: Date
   attachments_ids: string[]
   attachments: Attachment[]
-  read_ids: string[]
-  delivered_ids: string[]
 }
 
 export interface Attachment {

@@ -1,9 +1,9 @@
+import { CircleImage } from "components/Circle"
 import React from "react"
 import { User } from "models/interface"
-import { userInitials } from "utils/user"
 import styled from "styled-components"
 import tw from "tailwind.macro"
-import { CircleImage } from "components/Circle"
+import { userInitials } from "utils/user"
 
 interface UserAvatarProps {
   user?: User
@@ -19,7 +19,7 @@ const UserAvatarRaw: React.FC<UserAvatarProps> = ({
   return (
     <div className={`${props.className} bg-primary`}>
       {avatar === "picture" && user?.picture && (
-        <CircleImage className="h-full" src={user.picture} alt="" />
+        <CircleImage className="h-full w-auto" src={user.picture} alt="" />
       )}
       {avatar === "initials" && (
         <div className="text-sm font-bold">{userInitials(user)}</div>

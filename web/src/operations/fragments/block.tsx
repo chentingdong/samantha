@@ -1,4 +1,5 @@
 import { gql } from "@apollo/client"
+import { userFragment } from "./user"
 
 const blockFullFragment = gql`
   fragment blockFullFragment on m2_blocks {
@@ -45,14 +46,11 @@ const blockFullFragment = gql`
     user_participations {
       role
       user {
-        id
-        name
-        picture
-        given_name
-        family_name
+        ...userFragment
       }
     }
   }
+  ${userFragment}
 `
 
 export { blockFullFragment }

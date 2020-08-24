@@ -3,10 +3,10 @@ import { displayParticipants, iPlayRoles } from "utils/user"
 import { useQuery, useSubscription } from "@apollo/client"
 
 import { AUTH_USER } from "operations/queries/authUser"
+import { BELL_BY_PK } from "operations/subscriptions/bellByPk"
 import { BellContext } from "./BellContext"
 import { Bell as BellProps } from "models/interface"
 import { BellStateIcon } from "components/StateIcon"
-import { GET_BELL } from "operations/subscriptions/getBell"
 import { GoalList } from "./GoalList"
 import { GoalTaskList } from "./GoalTaskList"
 import React from "react"
@@ -70,7 +70,7 @@ const BellRaw: React.FC<BellRawProps> = ({ className, ...props }) => {
 
   const { data: authUserResult, loading: loadingUser } = useQuery(AUTH_USER)
   const { data: bellData, loading: loadingBell, error } = useSubscription(
-    GET_BELL,
+    BELL_BY_PK,
     {
       variables: {
         id: params.bellId,

@@ -11,18 +11,4 @@ const userFragment = gql`
   }
 `
 
-const userRoomParticipations = gql`
-  fragment userRoomParticipations on chat_user_room_participations {
-    room_id
-    joined_at
-    last_seen_at
-    last_typed_at
-    role
-    user {
-      ...userFragment
-    }
-  }
-  ${userFragment}
-`
-
-export { userFragment, userRoomParticipations }
+export { userFragment }
