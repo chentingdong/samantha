@@ -29,7 +29,6 @@ export const MessageList: React.FC<MessageListProps> = ({
   if (loading) return <Loading />
   const messages = data.chat_messages
 
-  console.log(messages)
   return (
     <div ref={messagesEndRef} {...props}>
       {messages?.map((message) => (

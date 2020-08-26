@@ -17,10 +17,9 @@ export const MessageItem: React.FC<MessageItemProps> = ({
   className,
   ...props
 }) => {
-  const { data: authUserResult, loading: loadingMe } = useQuery(AUTH_USER)
-  if (loadingMe) return <Loading />
-  const messageClass =
-    authUserResult.authUser === message.from_user_id ? "me" : "them"
+  const { data, loading } = useQuery(AUTH_USER)
+  if (loading) return <Loading />
+  const messageClass = data.authUser === message.from_user_id ? "me" : "them"
 
   return (
     <div {...props} className={`${className} flex`}>

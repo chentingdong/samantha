@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { useMutation, useQuery, useSubscription } from "@apollo/client"
 
 import { AUTH_USER } from "operations/queries/authUser"
 import { BOOK_A_ROOM } from "operations/mutations/room"
 import { Bell } from "models/interface"
 import { Loading } from "components/Misc"
+import { MessageEditor } from "./MessageEditor"
 import { MessageList } from "./MessageList"
 import { ROOMS_BY_PK } from "operations/subscriptions/room"
 import { SEND_A_MESSAGE } from "operations/mutations/message"
@@ -22,7 +23,6 @@ interface ChatProps {
 const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
   const location = useLocation()
   const params = getRouteParams(location.pathname)
-  const [message, setMessage] = useState("")
 
   const { data: authUserResult, loading: loadingMe } = useQuery(AUTH_USER)
 
@@ -69,34 +69,25 @@ const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
 
   if (!room) roomBooking()
 
-  const sendMessage = async (e) => {
-    e.preventDefault()
-
+  const sendMessage = async (content) => {
     await sendAMessage({
       variables: {
         object: {
           id: nanoid(),
           room_id: room.id,
-          content: message,
+          content: content,
           from_user_id: authUser.id,
         },
       },
     })
-    setMessage("")
   }
 
   return (
     <div {...props}>
       <div className="flex flex-col justify-end min-h-full">
         {roomId && <MessageList roomId={roomId} />}
-        <form className="" onSubmit={(e) => sendMessage(e)}>
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            className="w-full"
-            placeholder="type here..."
-          />
+        <form className="border" onSubmit={(e) => sendMessage(e)}>
+          <MessageEditor onSave={sendMessage} />
         </form>
       </div>
     </div>
