@@ -17,20 +17,11 @@ export const MessageList: React.FC<MessageListProps> = ({
     variables: { roomId: roomId },
   })
 
-  const messagesEndRef = useRef(null)
-  useEffect(() => {
-    messagesEndRef?.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    })
-  })
-
   if (loading) return <Loading />
   const messages = data.chat_messages
 
   return (
-    <div ref={messagesEndRef} {...props}>
+    <div {...props}>
       {messages?.map((message) => (
         <MessageItem className="my-4" key={message.id} message={message} />
       ))}

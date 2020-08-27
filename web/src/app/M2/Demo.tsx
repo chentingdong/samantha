@@ -8,13 +8,13 @@ import { useLocation } from "react-router-dom"
 
 interface DemoProps {}
 
-export const Demo: React.FC<DemoProps> = (props) => {
+const Demo: React.FC<DemoProps> = (props) => {
   const location = useLocation()
   const params = getRouteParams(location.pathname)
   return (
-    <div className="flex flex-col justify-between w-full h-screen gap-8">
-      <MainMenu className="flex-none main-menu" />
-      <div className="flex-grow overflow-y-auto content">
+    <div className="w-full h-screen flex flex-col justify-between">
+      <MainMenu className="flex-none w-full bg-white main-menu pb-4" />
+      <div className="flex-grow">
         {params.menu === "lobby" && <Lobby />}
         {params.menu === "bellhops" && <BellhopDesk />}
         {params.menu === "bells" && <Bell />}
@@ -22,3 +22,6 @@ export const Demo: React.FC<DemoProps> = (props) => {
     </div>
   )
 }
+
+
+export { Demo }

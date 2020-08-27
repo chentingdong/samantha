@@ -1,5 +1,5 @@
 // Goals.tsx in Bells
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { buildRouterUrl, getRouteParams } from "utils/router"
 import { useHistory, useLocation } from "react-router-dom"
 
@@ -26,6 +26,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
   const location = useLocation()
   const params = getRouteParams(location.pathname)
   const [activeTab, setActiveTab] = useState(params.context)
+  const messagesEndRef = useRef(null)
 
   useEffect(() => {
     setActiveTab(params.context)
@@ -39,10 +40,18 @@ const BellContextRaw: React.FC<BellContextProps> = ({
     history.push(path)
   }
 
+  useEffect(() => {
+    messagesEndRef?.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+      inline: "nearest",
+    })
+  })
+
   return (
-    <div className={`${className} flex flex-col justify-between`}>
+    <div className={`${className} flex flex-col h-full justify-between`}>
       <Nav
-        className="flex-none tabs-header"
+        className="flex-none w-full bg-white tabs-header"
         appearance="tabs"
         activeKey={activeTab}
         onSelect={(activeKey) => activateTab(activeKey)}
@@ -58,8 +67,8 @@ const BellContextRaw: React.FC<BellContextProps> = ({
         {activeTab === "participants" && (
           <div className="flex flex-col justify-between h-full">
             <Participants
+              className="flex-none w-full bg-gray-200 participants"
               bell={bell}
-              className="flex-none bg-gray-200 participants"
             />
             <Chat bell={bell} className="flex-grow chat" />
           </div>
@@ -72,6 +81,7 @@ const BellContextRaw: React.FC<BellContextProps> = ({
           />
         )}
       </div>
+      <div ref={messagesEndRef} />
     </div>
   )
 }

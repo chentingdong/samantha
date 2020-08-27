@@ -23,15 +23,14 @@ const MessageItemRaw: React.FC<MessageItemProps> = ({
   if (loading) return <Loading />
   const messageClass = data.authUser === message.from_user_id ? "me" : "them"
   const content = ReactHtmlParser(message.content)
-  console.log(content)
   return (
     <div {...props} className={`${className} flex`}>
       <UserAvatar
         user={message.user}
-        className={`${messageClass} h-6 w-6 mr-4`}
+        className={`${messageClass} h-6 w-6 mr-4 flex-none`}
         avatar="picture"
       />
-      <div>
+      <div className="flex-grow">
         <div className="text-sm">
           <span className="mr-4 font-bold">{message.user.name}</span>
           <span className="italic text-gray-500">
@@ -56,7 +55,7 @@ const MessageItem = styled(MessageItemRaw)`
       list-style-type: circle;
     }
     pre.ql-syntax {
-      ${tw`bg-gray-300 p-4 text-xs`}
+      ${tw`bg-gray-300 p-4 text-xs w-full`}
       line-height: 0;
       font-family: "Varela", "serif";
     }

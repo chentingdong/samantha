@@ -1,9 +1,8 @@
 import "quill/dist/quill.snow.css"
-import "react-simple-keyboard/build/css/index.css"
 
-import React, { createRef, useEffect, useRef, useState } from "react"
-import ReactQuill, { Quill } from "react-quill"
+import React, { useRef, useState } from "react"
 
+import ReactQuill from "react-quill"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
@@ -67,7 +66,7 @@ const MessageEditor = styled(MessageEditorRaw)`
     ${tw`bg-gray-300 text-gray-900 overflow-visible`}
   }
   #toolbar button {
-    ${tw`m-0 p-0 shadow w-4 h-4 m-2`}
+    ${tw`m-0 p-0 shadow w-4 h-4 m-2 bg-yellow-100`}
     border-radius: 50%;
     min-width: 0;
     overflow: hidden;

@@ -53,7 +53,7 @@ const Routes = () => {
               component={route.component}
               params={route.params}
               key={index}
-              className="vh-100"
+              className="h-screen"
             />
           )
         })}

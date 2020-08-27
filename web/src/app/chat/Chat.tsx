@@ -95,17 +95,5 @@ const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
 }
 
 const Chat = styled(ChatRaw)`
-  .rs-placeholder-paragraph {
-    margin-top: 20px;
-    p {
-      margin-top: 5px !important;
-      ${tw`bg-gray-500`}
-    }
-    .rs-placeholder-paragraph-graph {
-      height: 30px;
-      width: 30px;
-      ${tw`bg-gray-500`}
-    }
-  }
 `
 export { Chat }
