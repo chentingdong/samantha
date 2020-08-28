@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: true
+          clean: true
 
       - name: Build, tag, and push server image to Amazon ECR
         id: build-server-image
