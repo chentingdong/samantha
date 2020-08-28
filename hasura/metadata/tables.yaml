@@ -38,6 +38,9 @@
   - name: room
     using:
       foreign_key_constraint_on: room_id
+  - name: user
+    using:
+      foreign_key_constraint_on: from_user_id
   array_relationships:
   - name: attachments
     using:
@@ -84,6 +87,9 @@
     schema: chat
     name: user_room_participations
   object_relationships:
+  - name: participation_role
+    using:
+      foreign_key_constraint_on: role
   - name: room
     using:
       foreign_key_constraint_on: room_id
@@ -367,6 +373,13 @@
         table:
           schema: m2
           name: user_block_participations
+  - name: user_room_participations
+    using:
+      foreign_key_constraint_on:
+        column: role
+        table:
+          schema: chat
+          name: user_room_participations
 - table:
     schema: m2
     name: tasks
@@ -434,6 +447,20 @@
         table:
           schema: m2
           name: user_block_participations
+  - name: messages
+    using:
+      foreign_key_constraint_on:
+        column: from_user_id
+        table:
+          schema: chat
+          name: messages
+  - name: user_room_participations
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: chat
+          name: user_room_participations
 - table:
     schema: public
     name: bells
