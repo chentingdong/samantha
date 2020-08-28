@@ -58,7 +58,7 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
           allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
           mentionDenotationChars: ["@"],
           source: async function (searchTerm, renderList) {
-            const matchedPeople = await suggestPeople(searchTerm)
+            const matchedPeople = await mentionPeople(searchTerm)
             renderList(matchedPeople)
           },
         },
@@ -67,12 +67,11 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
     setEditor(quill)
   }, [])
 
-  async function suggestPeople(searchTerm) {
+  async function mentionPeople(searchTerm) {
     const allPeople = usersResult?.m2_users.map((user) => ({
       id: user.id,
       value: user.name,
     }))
-    console.log(allPeople)
     return allPeople.filter((person) => person.value.includes(searchTerm))
   }
   if (loadingUser) return <Loading />
@@ -85,9 +84,7 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
 
   return (
     <div {...props}>
-      <div>
-        <div id="editor">{content}</div>
-      </div>
+      <div id="editor">{content}</div>
       <div id="toolbar" className="border-t-0">
         <button className="ql-bold" />
         <button className="ql-italic" value="italic" />
