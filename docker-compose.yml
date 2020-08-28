@@ -60,8 +60,8 @@ services:
       - HASURA_GRAPHQL_ENDPOINT=http://hasura:8080
       - HASURA_GRAPHQL_CLI_ENVIRONMENT=default
       - HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
-#    volumes:
-#      - ./hasura:/app
+    volumes:
+      - ./hasura/src:/app/src
     ports:
       - "3000:3000"
     command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
