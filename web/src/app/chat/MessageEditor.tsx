@@ -1,8 +1,9 @@
 import "quill/dist/quill.snow.css"
 
-import React, { useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 
-import ReactQuill from "react-quill"
+import ImageUploader from "quill-image-uploader"
+import Quill from "quill"
 import styled from "styled-components"
 import tw from "tailwind.macro"
 
@@ -15,40 +16,52 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
   ...props
 }) => {
   const [content, setContent] = useState("")
-  const reactQuillRef = useRef()
+  const [editor, setEditor] = useState()
+  Quill.register("modules/imageUploader", ImageUploader)
 
-  const updateContent = (data, delta, source, editor) => {
-    setContent(editor.getHTML())
+  useEffect(() => {
+    const quill = new Quill("#editor", {
+      theme: "snow",
+      modules: {
+        toolbar: "#toolbar",
+        imageUploader: {
+          upload: (file) => {
+            return new Promise((resolve, reject) => {
+              try {
+                return resolve(apiPostImage(file))
+              } catch {
+                reject("upload image failed")
+              }
+            })
+          },
+        },
+        keyboard: {
+          bindings: {
+            linebreak: {
+              key: 13, //enter
+              shiftKey: false,
+              handler: async () => {
+                await onSave(quill.root.innerHTML)
+                setContent("")
+                quill.root.innerHTML = ""
+              },
+            },
+          },
+        },
+      },
+    })
+    setEditor(quill)
+  }, [])
+
+  const apiPostImage = async (file) => {
+    const imageUrl = await "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png"
+    return imageUrl
   }
 
-  const onKeyDown = async (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      await onSave(cleanHtml(content))
-      setContent("")
-    }
-  }
-
-  const cleanHtml = (content) => {
-    return content.replace("<p><br></p>", "")
-  }
-
-  const modules = {
-    toolbar: {
-      container: "#toolbar",
-    },
-  }
   return (
     <div {...props}>
       <div>
-        <ReactQuill
-          theme="snow"
-          ref={reactQuillRef}
-          value={content}
-          onChange={updateContent}
-          onKeyDown={onKeyDown}
-          modules={modules}
-        />
+        <div id="editor">{content}</div>
       </div>
       <div id="toolbar" className="border-t-0">
         <button className="ql-bold" />
@@ -56,6 +69,7 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
         <button className="ql-strike" value="strike" />
         <button className="ql-underline" value="underline" />
         <button className="ql-code-block" value="code-block" />
+        <button className="ql-image float-right" value="image" />
       </div>
     </div>
   )

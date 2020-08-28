@@ -44,21 +44,23 @@ const MessageItemRaw: React.FC<MessageItemProps> = ({
 }
 
 const MessageItem = styled(MessageItemRaw)`
-  & {
-    li {
-      list-style-position: inside;
-    }
-    ol li {
-      list-style-type: decimal;
-    }
-    ul li {
-      list-style-type: circle;
-    }
-    pre.ql-syntax {
-      ${tw`bg-gray-300 p-4 text-xs w-full`}
-      line-height: 0;
-      font-family: "Varela", "serif";
-    }
+  li {
+    list-style-position: inside;
+  }
+  ol li {
+    list-style-type: decimal;
+  }
+  ul li {
+    list-style-type: circle;
+  }
+  pre.ql-syntax {
+    ${tw`bg-gray-300 p-4 text-xs w-full`}
+    line-height: 1rem;
+    font-family: "Varela", "serif";
+  }
+  img {
+    max-height: 200px;
+    width: auto;
   }
 `
 

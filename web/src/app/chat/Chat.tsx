@@ -94,6 +94,5 @@ const ChatRaw: React.FC<ChatProps> = ({ bell, ...props }) => {
   )
 }
 
-const Chat = styled(ChatRaw)`
-`
+const Chat = styled(ChatRaw)``
 export { Chat }
