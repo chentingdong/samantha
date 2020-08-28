@@ -58,8 +58,8 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
           allowedChars: /^[A-Za-z\sÅÄÖåäö]*$/,
           mentionDenotationChars: ["@"],
           source: async function (searchTerm, renderList) {
-            const matchedPeople = await mentionPeople(searchTerm)
-            renderList(matchedPeople)
+            const mentioniedPeople = await mentionPeople(searchTerm)
+            renderList(mentioniedPeople)
           },
         },
       },
@@ -77,7 +77,6 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
   if (loadingUser) return <Loading />
 
   const apiPostImage = async (file) => {
-    console.log(file)
     const imageUrl = await "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/480px-JavaScript-logo.png"
     return imageUrl
   }
