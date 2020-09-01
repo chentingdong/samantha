@@ -16,7 +16,7 @@
     "environment": [
       {
         "name": "HASURA_GRAPHQL_DATABASE_URL",
-        "value": "postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@db.dev.bellhop.io:5432/hasura"
+        "value": "..."
       },
       {
         "name": "HASURA_GRAPHQL_ENABLE_CONSOLE",
@@ -24,7 +24,7 @@
       },
       {
         "name": "HASURA_GRAPHQL_ADMIN_SECRET",
-        "value": "qcA.wmEfFzDpfzZZoepJs7gw"
+        "value": "..."
       }
     ],
     "logConfiguration": {
@@ -43,7 +43,7 @@
       "yarn hasura:migrate && yarn hasura:metadata && yarn start"
     ],
     "essential": true,
-    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-server:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
+    "image": "${server_image}",
     "name": "server",
     "cpu": 512,
     "memory": 1024,
@@ -84,7 +84,7 @@
   {
     "command": ["yarn", "-s", "prod"],
     "essential": true,
-    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-admin:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
+    "image": "${admin_image}",
     "name": "admin",
     "cpu": 512,
     "memory": 1024,
@@ -107,7 +107,7 @@
   {
     "command": ["yarn", "-s", "start:prod"],
     "essential": true,
-    "image": "079056339674.dkr.ecr.us-east-1.amazonaws.com/samantha-web:0c29d8c6c740513a4a8fbed71ceaefcbd1b0ae1d",
+    "image": "${web_image}",
     "name": "web",
     "cpu": 512,
     "memory": 1024,

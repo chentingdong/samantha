@@ -54,7 +54,7 @@ data "template_file" "container_definitions" {
   vars = {
     server_image = "${data.aws_ecr_repository.samantha-server.repository_url}:${var.server_image_tag}"
     web_image    = "${data.aws_ecr_repository.samantha-web.repository_url}:${var.web_image_tag}"
-    DATABASE_URL = "${file("${path.module}/.env")}"
+    admin_image  = "${data.aws_ecr_repository.samantha-admin.repository_url}:${var.admin_image_tag}"
   }
 }
 
@@ -75,12 +75,12 @@ data "aws_ecs_task_definition" "samantha" {
 }
 
 resource "aws_ecs_service" "samantha_service" {
-  name            = "samantha_service"                   # Naming our first service
-  cluster         = aws_ecs_cluster.samantha.id          # Referencing our created Cluster
+  name            = "samantha_service"          # Naming our first service
+  cluster         = aws_ecs_cluster.samantha.id # Referencing our created Cluster
   task_definition = "${aws_ecs_task_definition.samantha.family}:${max("${aws_ecs_task_definition.samantha.revision}", "${data.aws_ecs_task_definition.samantha.revision}")}"
 
-  launch_type     = "FARGATE"
-  desired_count   = 1
+  launch_type   = "FARGATE"
+  desired_count = 1
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group_web.arn # Referencing our target group
@@ -202,40 +202,40 @@ resource "aws_security_group" "load_balancer_security_group" {
 }
 
 resource "aws_lb_target_group" "target_group_web" {
-  name        = "samantha-target-group-web"
-  port        = var.web_port
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
+  name                 = "samantha-target-group-web"
+  port                 = var.web_port
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = data.aws_vpc.default.id # Referencing the default VPC
   deregistration_delay = 120
 }
 
 resource "aws_lb_target_group" "target_group_server" {
-  name        = "samantha-target-group-server"
-  port        = var.server_port
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
+  name                 = "samantha-target-group-server"
+  port                 = var.server_port
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = data.aws_vpc.default.id # Referencing the default VPC
   deregistration_delay = 120
 }
 
 resource "aws_lb_target_group" "target_group_admin" {
-  name        = "samantha-target-group-admin"
-  port        = var.admin_port
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
+  name                 = "samantha-target-group-admin"
+  port                 = var.admin_port
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = data.aws_vpc.default.id # Referencing the default VPC
   deregistration_delay = 120
 }
 
 resource "aws_lb_target_group" "target_group_hasura" {
-  name        = "samantha-target-group-hasura"
-  port        = var.hasura_port
-  protocol    = "HTTP"
-  target_type = "ip"
-  vpc_id      = data.aws_vpc.default.id # Referencing the default VPC
+  name                 = "samantha-target-group-hasura"
+  port                 = var.hasura_port
+  protocol             = "HTTP"
+  target_type          = "ip"
+  vpc_id               = data.aws_vpc.default.id # Referencing the default VPC
   deregistration_delay = 120
-  health_check  {
+  health_check {
     path = "/v1/version"
   }
 }
