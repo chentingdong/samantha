@@ -32,7 +32,9 @@ const MessageItemRaw: React.FC<MessageItemProps> = ({
       />
       <div className="flex-grow">
         <div className="text-sm">
-          <span className="mr-4 font-bold">{message.user.name}</span>
+          <span className="mr-4 font-bold text-gray-500">
+            {message.user.name}
+          </span>
           <span className="italic text-gray-500">
             {displayDate(message.created_at, "short")}
           </span>
@@ -46,12 +48,13 @@ const MessageItemRaw: React.FC<MessageItemProps> = ({
 const MessageItem = styled(MessageItemRaw)`
   li {
     list-style-position: inside;
+    line-height: 1.5rem;
   }
   ol li {
     list-style-type: decimal;
   }
   ul li {
-    list-style-type: circle;
+    list-style-type: disc;
   }
   pre.ql-syntax {
     ${tw`bg-gray-300 p-4 text-xs w-full`}

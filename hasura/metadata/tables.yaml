@@ -324,6 +324,9 @@
     webhook: http://localhost:3000/m2_block_state_update
 - table:
     schema: m2
+    name: files
+- table:
+    schema: m2
     name: goals
   object_relationships:
   - name: block

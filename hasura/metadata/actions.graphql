@@ -13,7 +13,17 @@ input clone_m2_bells_pk_columns_input {
   id : String!
 }
 
+input FileInput {
+  id : String!
+  name : String!
+  file : String!
+}
+
 type clone_m2_bells_pk_columns_output {
   new_id : String!
+}
+
+type FileOutput {
+  url : String!
 }
 

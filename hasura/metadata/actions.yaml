@@ -8,6 +8,7 @@ custom_types:
   enums: []
   input_objects:
   - name: clone_m2_bells_pk_columns_input
+  - name: FileInput
   objects:
   - name: clone_m2_bells_pk_columns_output
     relationships:
@@ -18,4 +19,5 @@ custom_types:
       type: object
       field_mapping:
         new_id: id
+  - name: FileOutput
   scalars: []

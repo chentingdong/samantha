@@ -32,8 +32,9 @@ const config = {
     },
   },
   Storage: {
-    region: "global",
-    bucket: "samantha-upload",
+    region: "us-east-1",
+    bucket: "samantha-files",
+    level: "protected",
     identityPoolId: "us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc",
   },
   social: {
@@ -41,6 +42,7 @@ const config = {
       "207735501972-ocdbkaprm6s2mvsb7h91ecfq7r4fvmne.apps.googleusercontent.com",
     facebookAppId: "2505833796351691",
   },
+  uiBaseUrl: uiBaseUrl,
   suggestUrl:
     "https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest",
   graphQL: {
