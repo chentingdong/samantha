@@ -36,6 +36,7 @@ const config = {
     bucket: "samantha-files",
     level: "public",
     identityPoolId: "us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc",
+    cloudFrontBaseUrl: "http://d1jj88e5zcz4n8.cloudfront.net",
   },
   social: {
     googleClientId:

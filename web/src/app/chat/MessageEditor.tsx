@@ -98,9 +98,8 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
         acl: "public-read",
         expires: Date.now() + 60 * 60 * 24 * 365 * 10,
       })
-      imageUrl = await Storage.get(resp["key"], {
-        expires: 60 * 60 * 24 * 7,
-      })
+      const conf = config.Storage
+      imageUrl = `${conf.cloudFrontBaseUrl}/${conf.level}/${resp.key}`
     } catch (err) {
       console.error(`Failed uploading file, ${err}`)
     }
