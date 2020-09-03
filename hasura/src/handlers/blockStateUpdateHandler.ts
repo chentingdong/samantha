@@ -1,8 +1,9 @@
+import { Block, BlockState } from "../BTEngine/m1/interfaces"
 import { Request, Response } from "express"
+import { onChildStateChange, onRun } from "../BTEngine/m1"
+
 import { getBlockByPk } from "../graphql/m1/queries/getBlockByPk"
 import invariant from "invariant"
-import { onRun, onChildStateChange } from "../BTEngine/m1"
-import { BlockState, Block } from "../BTEngine/m1/interfaces"
 
 export const blockStateUpdateHandler = async (req: Request, res: Response) => {
   let statusCode, body

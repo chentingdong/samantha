@@ -34,7 +34,7 @@ const config = {
   Storage: {
     region: "us-east-1",
     bucket: "samantha-files",
-    level: "protected",
+    level: "public",
     identityPoolId: "us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc",
   },
   social: {

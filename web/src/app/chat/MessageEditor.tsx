@@ -2,8 +2,8 @@ import "quill/dist/quill.snow.css"
 import "quill-mention"
 
 import React, { useEffect, useState } from "react"
-import { useMutation, useQuery } from "@apollo/client"
 
+import AWS from "aws-sdk"
 import Amplify from "@aws-amplify/core"
 import { GET_USERS } from "operations/queries/getUsers"
 import ImageUploader from "quill-image-uploader"
@@ -14,6 +14,7 @@ import axios from "axios"
 import config from "../../../configs/config"
 import styled from "styled-components"
 import tw from "tailwind.macro"
+import { useQuery } from "@apollo/client"
 
 interface MessageEditorProps {
   onSave: (content) => void
@@ -25,6 +26,7 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
 }) => {
   const [content, setContent] = useState("")
   const [editor, setEditor] = useState()
+  const [showToolbar, setShowToolbar] = useState(false)
   const { data: usersResult, loading: loadingUser } = useQuery(GET_USERS)
   Quill.register("modules/imageUploader", ImageUploader)
 
@@ -70,6 +72,10 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
         },
       },
     })
+    quill?.on("selection-change", (range) => {
+      if (range) setShowToolbar(true)
+      else setShowToolbar(false)
+    })
     setEditor(quill)
   }, [])
 
@@ -89,8 +95,12 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
     try {
       resp = await Storage.put(`${file.name}`, file, {
         contentType: file.type,
+        acl: "public-read",
+        expires: Date.now() + 60 * 60 * 24 * 365 * 10,
       })
-      imageUrl = await Storage.get(resp["key"])
+      imageUrl = await Storage.get(resp["key"], {
+        expires: 60 * 60 * 24 * 7,
+      })
     } catch (err) {
       console.error(`Failed uploading file, ${err}`)
     }
@@ -105,7 +115,7 @@ const MessageEditorRaw: React.FC<MessageEditorProps> = ({
       <div id="editor" suppressContentEditableWarning>
         {content}
       </div>
-      <div id="toolbar" className="border-t-0">
+      <div id="toolbar" className={`border-t-0 ${showToolbar ? "" : "hidden"}`}>
         <button className="ql-bold" />
         <button className="ql-italic" value="italic" />
         <button className="ql-strike" value="strike" />

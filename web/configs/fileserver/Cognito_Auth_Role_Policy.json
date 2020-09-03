@@ -4,30 +4,12 @@
     {
       "Sid": "VisualEditor0",
       "Effect": "Allow",
-      "Action": "s3:ListBucket",
-      "Resource": "arn:aws:s3:::samantha-files",
-      "Condition": {
-        "StringLike": {
-          "s3:prefix": [
-            "public/",
-            "public/*",
-            "protected/",
-            "protected/*",
-            "private/",
-            "private/*"
-          ]
-        }
-      }
-    },
-    {
-      "Sid": "VisualEditor1",
-      "Effect": "Allow",
       "Action": [
         "s3:GetObject",
         "s3:GetAccessPoint",
+        "cognito-identity:*",
         "s3:PutAccountPublicAccessBlock",
         "s3:GetAccountPublicAccessBlock",
-        "cognito-identity:*",
         "s3:ListAllMyBuckets",
         "s3:ListAccessPoints",
         "s3:ListJobs",
@@ -39,7 +21,7 @@
       "Resource": "*"
     },
     {
-      "Sid": "VisualEditor2",
+      "Sid": "VisualEditor1",
       "Effect": "Allow",
       "Action": ["s3:PutObject", "s3:GetObject"],
       "Resource": [
