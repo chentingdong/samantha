@@ -4,7 +4,6 @@ import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 import bodyParser from "body-parser"
 import cloneM2BellsByPkHandler from "./actions/cloneBellsByPk"
 import express from "express"
-import { fileUploadHandler } from "./handlers/fileUploadHandler"
 import { m2BlockStateUpdateHandler } from "./handlers/m2BlockStateUpdateHandler"
 
 const app = express()
@@ -42,8 +41,6 @@ app.post("/block_state_update", blockStateUpdateHandler)
 app.post("/m2_block_state_update", m2BlockStateUpdateHandler)
 
 app.post("/clone_m2_bells_by_pk", cloneM2BellsByPkHandler)
-
-app.post("/files_upload", fileUploadHandler)
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler())
