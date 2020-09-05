@@ -1,7 +1,7 @@
 import { Request, Response } from "express"
 import { getBlockByPk } from "../graphql/queries/getBlockByPk"
 import invariant from "invariant"
-import { onRun, onChildStateChange } from "../BTEngine"
+import { onRun, onChildStateChange } from "../engine"
 import { BlockState, Block } from "../types"
 
 export const blockStateUpdateHandler = async (req: Request, res: Response) => {

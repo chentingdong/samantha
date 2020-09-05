@@ -1,6 +1,6 @@
-import { Block, BlockState } from "../BTEngine/interfaces"
+import { Block, BlockState } from "../engine/interfaces"
 import { Request, Response } from "express"
-import { onChildStateChange, onRun } from "../BTEngine"
+import { onChildStateChange, onRun } from "../engine"
 
 import { getBlockByPk } from "../graphql/queries/getBlockByPk"
 import invariant from "invariant"
