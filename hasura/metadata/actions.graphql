@@ -26,4 +26,3 @@ type clone_m2_bells_pk_columns_output {
 type FileOutput {
   url : String!
 }
-

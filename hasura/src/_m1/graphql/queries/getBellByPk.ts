@@ -1,4 +1,4 @@
-import apolloClient from "../../apolloClient"
+import apolloClient from "../apolloClient"
 import { gql, FetchPolicy } from "@apollo/client"
 import { bellFragment } from "../fragments/bells"
 

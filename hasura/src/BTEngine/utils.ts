@@ -1,5 +1,5 @@
-import { BlockState, Block } from "../../types"
-import { updateBlockByPk } from "../../graphql/m2/mutations/updateBlockByPk"
+import { BlockState, Block } from "../types"
+import { updateBlockByPk } from "../graphql/mutations/updateBlockByPk"
 
 export const updateBlockState = async (block: Block, state: BlockState) => {
   const { id, name, type, state: oldState } = block

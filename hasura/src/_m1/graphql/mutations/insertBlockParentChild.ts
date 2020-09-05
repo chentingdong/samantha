@@ -1,4 +1,4 @@
-import apolloClient from "../../apolloClient"
+import apolloClient from "../apolloClient"
 import { gql } from "@apollo/client"
 
 export const insertBlockParentChild = async ({ data }: { data: object }) => {

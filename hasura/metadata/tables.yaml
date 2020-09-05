@@ -321,7 +321,7 @@
       num_retries: 0
       interval_sec: 10
       timeout_sec: 60
-    webhook: http://localhost:3000/m2_block_state_update
+    webhook_from_env: M2_BLOCK_STATE_UPDATE_WEBHOOK_URL
 - table:
     schema: m2
     name: files
@@ -693,7 +693,7 @@
       num_retries: 0
       interval_sec: 10
       timeout_sec: 60
-    webhook: http://localhost:3000/block_state_update
+    webhook_from_env: M1_BLOCK_STATE_UPDATE_WEBHOOK_URL
 - table:
     schema: public
     name: users
