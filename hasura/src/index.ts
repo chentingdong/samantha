@@ -2,7 +2,7 @@ import * as Sentry from "@sentry/node"
 
 import { m1BlockStateUpdateHandler } from "./_m1/handlers/blockStateUpdateHandler"
 import bodyParser from "body-parser"
-import cloneM2BellsByPkHandler from "./actions/cloneBellsByPk"
+import cloneBellsByPkHandler from "./actions/cloneBellsByPk"
 import express from "express"
 import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 
@@ -40,7 +40,7 @@ app.post("/block_state_update", m1BlockStateUpdateHandler)
 
 app.post("/m2_block_state_update", blockStateUpdateHandler)
 
-app.post("/clone_m2_bells_by_pk", cloneM2BellsByPkHandler)
+app.post("/clone_m2_bells_by_pk", cloneBellsByPkHandler)
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler())

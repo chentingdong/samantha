@@ -251,7 +251,7 @@ async function cloneBell(
   return bell_id
 }
 
-async function cloneM2BellsByPk(
+async function cloneBellsByPk(
   args: clone_m2_bells_by_pk_args
 ): Promise<clone_m2_bells_pk_columns_output> {
   const main_bell_id: string = null
@@ -268,12 +268,12 @@ async function cloneM2BellsByPk(
 }
 
 // Request Handler
-const cloneM2BellsByPkHandler = async (req: Request, res: Response) => {
+const cloneBellsByPkHandler = async (req: Request, res: Response) => {
   try {
     const params: clone_m2_bells_by_pk_args = req.body.input
-    console.log("cloneM2BellsByPkHandler getting requests", params)
-    const result = await cloneM2BellsByPk(params)
-    console.log("cloneM2BellsByPk result", result)
+    console.log("cloneBellsByPkHandler getting requests", params)
+    const result = await cloneBellsByPk(params)
+    console.log("cloneBellsByPk result", result)
     // success
     return res.json(result)
   } catch (e) {
@@ -282,4 +282,4 @@ const cloneM2BellsByPkHandler = async (req: Request, res: Response) => {
   }
 }
 
-export default cloneM2BellsByPkHandler
+export default cloneBellsByPkHandler
