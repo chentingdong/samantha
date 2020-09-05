@@ -41,6 +41,8 @@ services:
       - HASURA_GRAPHQL_ENABLE_CONSOLE=true
       - HASURA_GRAPHQL_ADMIN_SECRET=qcA.wmEfFzDpfzZZoepJs7gw
       - ACTION_BASE_URL=http://server:3000
+      - M1_BLOCK_STATE_UPDATE_WEBHOOK_URL=http://server:3000/block_state_update
+      - M2_BLOCK_STATE_UPDATE_WEBHOOK_URL=http://server:3000/m2_block_state_update
     ports:
       - "8080:8080"
     command: graphql-engine serve

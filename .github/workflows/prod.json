@@ -28,6 +28,14 @@
           "value": "qcA.wmEfFzDpfzZZoepJs7gw"
         },
         {
+          "name": "M1_BLOCK_STATE_UPDATE_WEBHOOK_URL",
+          "value": "http://localhost:3000/block_state_update"
+        },
+        {
+          "name": "M2_BLOCK_STATE_UPDATE_WEBHOOK_URL",
+          "value": "http://localhost:3000/m2_block_state_update"
+        },
+        {
           "name": "ACTION_BASE_URL",
           "value": "http://localhost:3000"
         }
