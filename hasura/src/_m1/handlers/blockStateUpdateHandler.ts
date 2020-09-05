@@ -1,10 +1,14 @@
+import { Block, BlockState } from "../BTEngine/interfaces"
 import { Request, Response } from "express"
+import { onChildStateChange, onRun } from "../BTEngine"
+
 import { getBlockByPk } from "../graphql/queries/getBlockByPk"
 import invariant from "invariant"
-import { onRun, onChildStateChange } from "../BTEngine"
-import { BlockState, Block } from "../types"
 
-export const blockStateUpdateHandler = async (req: Request, res: Response) => {
+export const m1BlockStateUpdateHandler = async (
+  req: Request,
+  res: Response
+) => {
   let statusCode, body
   try {
     let {
@@ -12,8 +16,6 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
       event: { op, data },
     } = req.body
 
-    console.log("m2BlockStateUpdateHandler", req.body)
-    console.log(data.old, data.new)
     invariant(
       name === "blocks" && op === "UPDATE",
       "Only handle block state change."
@@ -26,8 +28,11 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
       await onRun(block)
     }
 
-    if (block.parent_id) {
-      const parent = await getBlockByPk(block.parent_id, "network-only")
+    if (block.parents.length > 0) {
+      const parent = await getBlockByPk(
+        block.parents[0].parent.id,
+        "network-only"
+      )
       if (parent?.state === "Running") {
         await onChildStateChange(parent, block)
       }

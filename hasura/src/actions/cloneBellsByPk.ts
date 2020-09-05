@@ -19,7 +19,7 @@ import {
 } from "./graphql"
 import { nanoid } from "nanoid"
 import { Field } from "../types"
-import { updateBlockByPk } from "../graphql/m2/mutations/updateBlockByPk"
+import { updateBlockByPk } from "../graphql/mutations/updateBlockByPk"
 
 function clearResponses(fields: Field[]) {
   return fields.map((field) => ({ ...field, response: null }))
