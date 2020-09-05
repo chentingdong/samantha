@@ -67,6 +67,7 @@ export type Block = {
 export type BlockConfigs = {
   control_type?: string
   pre_conditions?: TopLevelCondition
+  timeout?: object
 }
 
 export type Goal = {

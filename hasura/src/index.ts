@@ -1,10 +1,10 @@
 import * as Sentry from "@sentry/node"
 
-import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
+import { m1BlockStateUpdateHandler } from "./_m1/handlers/blockStateUpdateHandler"
 import bodyParser from "body-parser"
 import cloneM2BellsByPkHandler from "./actions/cloneBellsByPk"
 import express from "express"
-import { m2BlockStateUpdateHandler } from "./handlers/m2BlockStateUpdateHandler"
+import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 
 const app = express()
 const port = process.env.PORT || "3000"
@@ -36,9 +36,9 @@ app.get("/", async (_req, res, _next) => {
   }
 })
 
-app.post("/block_state_update", blockStateUpdateHandler)
+app.post("/block_state_update", m1BlockStateUpdateHandler)
 
-app.post("/m2_block_state_update", m2BlockStateUpdateHandler)
+app.post("/m2_block_state_update", blockStateUpdateHandler)
 
 app.post("/clone_m2_bells_by_pk", cloneM2BellsByPkHandler)
 
