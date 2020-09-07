@@ -3,13 +3,8 @@ import { updateBlockState } from "./utils"
 import invariant from "invariant"
 import { evalBlockPreConditions } from "./PreConditions"
 
-const onRun = async (block: Block) => {
-  console.log(`onRun: block: ${block.id} ${block.state}`)
-
-  const result = await evalBlockPreConditions(block)
-  console.log("result: ", result)
-
-  if (result) {
+const onRun = async (block: Block, preCondResult: boolean = true) => {
+  if (preCondResult) {
     if (block.configs.control_type === "Parallel") {
       block.children.map((child) => updateBlockState(child, BlockState.Running))
     } else {
@@ -25,10 +20,6 @@ const onRun = async (block: Block) => {
 }
 
 const onChildStateChange = async (block: Block, child: Block) => {
-  console.log(
-    `onChildStateChange: block: ${block.id} ${block.state}, child: ${child.id} ${child.state}`
-  )
-
   if (block.configs.control_type === "Parallel") {
     if (child.state === BlockState.Success) {
       const successChildren = block.children.filter(

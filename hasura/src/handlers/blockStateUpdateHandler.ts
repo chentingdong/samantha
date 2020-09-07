@@ -12,13 +12,7 @@ export const blockStateUpdateHandler = async (req: Request, res: Response) => {
       event: { op, data },
     } = req.body
 
-    console.log("m2BlockStateUpdateHandler", req.body)
-    console.log(data.old, data.new)
-    invariant(
-      name === "blocks" && op === "UPDATE",
-      "Only handle block state change."
-    )
-    invariant(data.old.state !== data.new.state, "Only hanlde state change.")
+    console.log("blockStateUpdateHandler", req.body)
 
     const block = await getBlockByPk(data.new.id, "network-only")
 
