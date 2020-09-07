@@ -6,6 +6,9 @@ import APIExecutor from "./APIExecutor"
 import Notification from "./Notification"
 import { evalBlockPreConditions } from "./PreConditions"
 import invariant from "invariant"
+import { getBlockByPk } from "../graphql/queries/getBlockByPk"
+import { updateBlockState } from "./utils"
+import moment from "moment"
 
 const blockTypeMap: BlockTypeMap = {
   Goal,
@@ -13,6 +16,17 @@ const blockTypeMap: BlockTypeMap = {
   BellExecutor,
   APIExecutor,
   Notification,
+}
+
+const onTimer = async (blockId: string) => {
+  const block = await getBlockByPk(blockId, "network-only")
+  if (block.state === BlockState.Running) {
+    updateBlockState(block, BlockState.Failure)
+  }
+}
+
+const delay = async (ms: number) => {
+  return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
 export const onRun = async (block: Block) => {
@@ -26,6 +40,12 @@ export const onRun = async (block: Block) => {
     return
   }
   await blockType.onRun(block, preCondResult)
+
+  if (block.configs.timeout) {
+    const ms = moment.duration(block.configs.timeout).as("milliseconds")
+    await delay(ms)
+    await onTimer(block.id)
+  }
 }
 
 export const onChildStateChange = async (block: Block, child: Block) => {
