@@ -19,7 +19,7 @@ import {
 } from "./graphql"
 import { nanoid } from "nanoid"
 import { Field } from "../types"
-import { updateBlockByPk } from "../graphql/m2/mutations/updateBlockByPk"
+import { updateBlockByPk } from "../graphql/mutations/updateBlockByPk"
 
 function clearResponses(fields: Field[]) {
   return fields.map((field) => ({ ...field, response: null }))
@@ -53,6 +53,7 @@ async function cloneBlock(
   // set new bell_id
   // copy local_id
   // copy other non-relationship fields
+
   const result = await insertBlock({
     data: {
       id: block_id,
@@ -251,7 +252,7 @@ async function cloneBell(
   return bell_id
 }
 
-async function cloneM2BellsByPk(
+async function cloneBellsByPk(
   args: clone_m2_bells_by_pk_args
 ): Promise<clone_m2_bells_pk_columns_output> {
   const main_bell_id: string = null
@@ -268,12 +269,12 @@ async function cloneM2BellsByPk(
 }
 
 // Request Handler
-const cloneM2BellsByPkHandler = async (req: Request, res: Response) => {
+const cloneBellsByPkHandler = async (req: Request, res: Response) => {
   try {
     const params: clone_m2_bells_by_pk_args = req.body.input
-    console.log("cloneM2BellsByPkHandler getting requests", params)
-    const result = await cloneM2BellsByPk(params)
-    console.log("cloneM2BellsByPk result", result)
+    console.log("cloneBellsByPkHandler getting requests", params)
+    const result = await cloneBellsByPk(params)
+    console.log("cloneBellsByPk result", result)
     // success
     return res.json(result)
   } catch (e) {
@@ -282,4 +283,4 @@ const cloneM2BellsByPkHandler = async (req: Request, res: Response) => {
   }
 }
 
-export default cloneM2BellsByPkHandler
+export default cloneBellsByPkHandler
