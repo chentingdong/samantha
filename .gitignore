@@ -126,3 +126,4 @@ build
 .tmp_build
 
 .secret
+fargate/output

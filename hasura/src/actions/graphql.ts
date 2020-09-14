@@ -1,15 +1,16 @@
-import apolloClient from "../graphql/apolloClient"
-import { gql } from "@apollo/client"
 import {
   Bell,
   BellExecutor,
+  BellhopBellParticipation,
+  Block,
   Goal,
   Task,
-  Block,
-  UserBlockParticipation,
-  BellhopBellParticipation,
   UserBellParticipation,
+  UserBlockParticipation,
 } from "../types"
+
+import apolloClient from "../graphql/apolloClient"
+import { gql } from "@apollo/client"
 
 export const getBellByPk = async function (id: string): Promise<Bell> {
   const { data, errors } = await apolloClient.query({
@@ -283,4 +284,23 @@ export const updateBellExecutorByPk = async ({
   })
   if (errors) return
   return returnData.bell_executor
+}
+
+export const insertIntegration = async ({ data }: { data: object }) => {
+  const { data: returnData, errors } = await apolloClient.mutate({
+    mutation: gql`
+      mutation insert_m2_integration($data: [m2_integration_insert_input!]!) {
+        integration: insert_m2_integration(
+          pk_colums: {id: $data.id}
+          _set: $data
+        ) {
+          id,
+          data
+        }
+      }
+    `,
+    variables: { data },
+  })
+  if (errors) return
+  return returnData.integration
 }
