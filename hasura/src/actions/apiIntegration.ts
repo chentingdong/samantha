@@ -21,11 +21,15 @@ const integrationAuthentication = () => {}
 
 const googleDriveTriggerBell = async () => {
   // The bell to clone from. Each service should link to a specific bell in db.
-  const bell_id = "FTzNAuJWthWGfQbWwV_k3"
-  const main_bell_id = bell_id
-  const is_definition = false
-  const start_on_create = false
-  cloneBell(bell_id, is_definition, main_bell_id, start_on_create)
+  try {
+    const bell_id = "FTzNAuJWthWGfQbWwV_k3"
+    const main_bell_id = bell_id
+    const is_definition = false
+    const start_on_create = true
+    cloneBell(bell_id, is_definition, main_bell_id, start_on_create)
+  } catch (e) {
+    console.error(e.stack)
+  }
 }
 
 export default apiIntegrationHandler
