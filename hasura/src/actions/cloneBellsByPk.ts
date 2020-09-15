@@ -1,24 +1,25 @@
 import { Request, Response } from "express"
 import {
-  clone_m2_bells_pk_columns_output,
   clone_m2_bells_by_pk_args,
+  clone_m2_bells_pk_columns_output,
 } from "../types"
 import {
   getBellByPk,
   getBlockByPk,
   insertBell,
-  insertBlock,
-  insertTask,
-  insertGoal,
   insertBellExecutor,
   insertBellhopBellParticipation,
+  insertBlock,
+  insertGoal,
+  insertTask,
   insertUserBellParticipation,
   insertUserBlockParticipation,
   updateBellById,
   updateBellExecutorByPk,
 } from "./graphql"
-import { nanoid } from "nanoid"
+
 import { Field } from "../types"
+import { nanoid } from "nanoid"
 import { updateBlockByPk } from "../graphql/mutations/updateBlockByPk"
 
 function clearResponses(fields: Field[]) {
@@ -33,6 +34,7 @@ async function cloneBlock(
   start_on_create: boolean = false
 ): Promise<string> {
   // query old block by id
+  if (!id) return
   const {
     local_id,
     name,
@@ -283,4 +285,4 @@ const cloneBellsByPkHandler = async (req: Request, res: Response) => {
   }
 }
 
-export default cloneBellsByPkHandler
+export { cloneBellsByPkHandler, cloneBell }
