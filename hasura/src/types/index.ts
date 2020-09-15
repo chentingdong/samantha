@@ -1,5 +1,11 @@
 import { TopLevelCondition } from "json-rules-engine/types"
 
+export type api_integration_input = {
+  id: string
+  name: string
+  data: string
+}
+
 type clone_m2_bells_pk_columns_input = {
   id: string
 }

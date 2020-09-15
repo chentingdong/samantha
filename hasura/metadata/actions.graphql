@@ -1,4 +1,11 @@
 type Mutation {
+  actionName (
+    arg1: api_integration_input!
+  ): api_integration_output
+}
+
+
+type Mutation {
   clone_m2_bells_by_pk (
     pk_columns: clone_m2_bells_pk_columns_input!
     is_definition: Boolean
@@ -19,6 +26,12 @@ input FileInput {
   file : String!
 }
 
+input api_integration_input {
+  id : String!
+  name : String!
+  data : String!
+}
+
 type clone_m2_bells_pk_columns_output {
   new_id : String!
 }
@@ -26,3 +39,10 @@ type clone_m2_bells_pk_columns_output {
 type FileOutput {
   url : String!
 }
+
+type api_integration_output {
+  id : String!
+  name : String!
+  data : String!
+}
+

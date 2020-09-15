@@ -1,4 +1,9 @@
 actions:
+- name: actionName
+  definition:
+    kind: asynchronous
+    handler: '{{ACTION_BASE_URL}}/api-integration'
+    forward_client_headers: true
 - name: clone_m2_bells_by_pk
   definition:
     kind: asynchronous
@@ -9,6 +14,7 @@ custom_types:
   input_objects:
   - name: clone_m2_bells_pk_columns_input
   - name: FileInput
+  - name: api_integration_input
   objects:
   - name: clone_m2_bells_pk_columns_output
     relationships:
@@ -20,4 +26,5 @@ custom_types:
       field_mapping:
         new_id: id
   - name: FileOutput
+  - name: api_integration_output
   scalars: []

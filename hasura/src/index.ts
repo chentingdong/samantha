@@ -1,10 +1,11 @@
 import * as Sentry from "@sentry/node"
 
-import { m1BlockStateUpdateHandler } from "./_m1/handlers/blockStateUpdateHandler"
+import apiIntegrationHandler from "./actions/apiIntegration"
+import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 import bodyParser from "body-parser"
 import cloneBellsByPkHandler from "./actions/cloneBellsByPk"
 import express from "express"
-import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
+import { m1BlockStateUpdateHandler } from "./_m1/handlers/blockStateUpdateHandler"
 
 const app = express()
 const port = process.env.PORT || "3000"
@@ -41,6 +42,8 @@ app.post("/block_state_update", m1BlockStateUpdateHandler)
 app.post("/m2_block_state_update", blockStateUpdateHandler)
 
 app.post("/clone_m2_bells_by_pk", cloneBellsByPkHandler)
+
+app.post("/api-integration", apiIntegrationHandler)
 
 // The error handler must be before any other error middleware and after all controllers
 app.use(Sentry.Handlers.errorHandler())
