@@ -48,6 +48,7 @@ async function cloneBlock(
     children,
   } = await getBlockByPk(id)
 
+  console.log(`Cloning bell: ${id}, ${name}`)
   // generate new id
   const block_id = nanoid()
   const state = "Created"
@@ -238,6 +239,8 @@ async function cloneBell(
 
   // recursively clone sub bells
   for (const subBell of sub_bells) {
+    if (subBell.id === id) return bell_id
+
     const newSubBellId = await cloneBell(subBell.id, is_definition, bell_id)
 
     const bellExecutorLocalId = oldBellIdToBellExecutorLocalId.get(subBell.id)

@@ -266,6 +266,8 @@ export const updateBellExecutorByPk = async ({
   data: object
   id: string
 }) => {
+  if (!id) return
+
   const { data: returnData, errors } = await apolloClient.mutate({
     mutation: gql`
       mutation update_bell_executor_by_pk(
@@ -286,21 +288,21 @@ export const updateBellExecutorByPk = async ({
   return returnData.bell_executor
 }
 
-export const insertIntegration = async ({ data }: { data: object }) => {
-  const { data: returnData, errors } = await apolloClient.mutate({
-    mutation: gql`
-      mutation insert_m2_integration($data: [m2_integration_insert_input!]!) {
-        integration: insert_m2_integration(
-          pk_colums: {id: $data.id}
-          _set: $data
-        ) {
-          id,
-          data
-        }
-      }
-    `,
-    variables: { data },
-  })
-  if (errors) return
-  return returnData.integration
-}
+// export const insertIntegration = async ({ data }: { data: object }) => {
+//   const { data: returnData, errors } = await apolloClient.mutate({
+//     mutation: gql`
+//       mutation insert_m2_integration($data: [m2_integration_insert_input!]!) {
+//         integration: insert_m2_integration(
+//           pk_colums: {id: $data.id}
+//           _set: $data
+//         ) {
+//           id,
+//           data
+//         }
+//       }
+//     `,
+//     variables: { data },
+//   })
+//   if (errors) return
+//   return returnData.integration
+// }

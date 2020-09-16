@@ -98,6 +98,9 @@
       foreign_key_constraint_on: user_id
 - table:
     schema: m2
+    name: api_integration
+- table:
+    schema: m2
     name: bell_executors
   object_relationships:
   - name: bell
