@@ -1,1 +1,0 @@
-CREATE TABLE "m2"."files"("id" text NOT NULL, "name" text NOT NULL, "type" Text NOT NULL, "url" text NOT NULL, "created_at" timestamp NOT NULL DEFAULT now(), "updated_at" timestamptz NOT NULL DEFAULT now(), PRIMARY KEY ("id") );

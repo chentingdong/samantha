@@ -1,4 +1,4 @@
-DROP TABLE "m2"."integration";
+DROP TABLE IF EXISTS "m2"."integration";
 
 CREATE TABLE "m2"."api_integration"("id" text NOT NULL, "app_id" text NOT NULL, "app_secret" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("app_id") REFERENCES "m2"."bells"("id") ON UPDATE cascade ON DELETE cascade, UNIQUE ("app_id"), UNIQUE ("app_secret"));
 
