@@ -29,7 +29,7 @@ alternatively, using docker:
 ## migration
 
 - full db migration manually
-  1. hasura migrate create "facilities purchasing use case part 2" --from-server --endpoint https://poc.dev.bellhop.io:8080 --schema m2
+  1. hasura migrate create "full dump from poc" --from-server --endpoint https://poc.dev.bellhop.io:8080 --schema m2
   2. curl -X POST -H 'Content-Type: application/json' -H 'X-Hasura-Role: admin' -H 'x-hasura-admin-secret: qcA.wmEfFzDpfzZZoepJs7gw' \
      https://poc.dev.bellhop.io:8080/v1alpha1/pg_dump \
      --data '{"opts": ["--column-inserts", "--data-only", "--schema", "m2"], "clean_output": true}' -o data.sql
