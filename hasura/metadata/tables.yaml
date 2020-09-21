@@ -99,6 +99,10 @@
 - table:
     schema: m2
     name: api_integration
+  object_relationships:
+  - name: bell
+    using:
+      foreign_key_constraint_on: app_id
 - table:
     schema: m2
     name: bell_executors
@@ -170,6 +174,14 @@
     schema: m2
     name: bells
   object_relationships:
+  - name: api_integration
+    using:
+      manual_configuration:
+        remote_table:
+          schema: m2
+          name: api_integration
+        column_mapping:
+          id: app_id
   - name: bell_state
     using:
       foreign_key_constraint_on: state
