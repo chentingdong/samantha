@@ -1,26 +1,27 @@
-FROM node:14-stretch-slim
+FROM node:12-stretch-slim
 
-RUN apt-get -qy update \
-  && apt-get -qy install openssl curl autoconf python \
-  && apt-get -qy install g++ make libpng-dev
+RUN apt-get -qy update && apt-get -qy install openssl curl autoconf python
+RUN npm install -g node-prune
+RUN node-prune
+# RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
 
 COPY package.json yarn.lock /app/
 # COPY ./tests/nightwatch/.env /app/tests/nightwatch/.env
 # RUN eval $(cat tests/nightwatch/.env | sed 's/^/export /')
-WORKDIR /app/
 RUN yarn -s install --frozen-lockfile && yarn -s cache clean
-# RUN curl -sfL https://install.goreleaser.com/github.com/tj/node-prune.sh | bash -s -- -b /usr/local/bin
-RUN npm install -g node-prune
 RUN /usr/local/bin/node-prune
 
 COPY . /app/
+
+WORKDIR /app/
 ENV PATH /app/node_modules/.bin:/usr/bin:$PATH
 
 ARG SENTRY_RELEASE="local"
 RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" >> /app/.sentryclirc
 
 RUN yarn build
-# # RUN yarn start:prod
-# # RUN tests/nightwatch/bin/run.ci.sh
 
-# EXPOSE 2000
+# RUN yarn start:prod
+# RUN tests/nightwatch/bin/run.ci.sh
+
+EXPOSE 2000

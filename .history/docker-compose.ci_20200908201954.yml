@@ -62,8 +62,7 @@ services:
       - HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
     ports:
       - "3000:3000"
-    command: yarn dev
-    # command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
+    command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
 
   admin:
     container_name: samantha-admin

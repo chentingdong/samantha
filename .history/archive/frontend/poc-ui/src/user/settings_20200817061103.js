@@ -1,5 +1,5 @@
 import React from "react";
-import {Tab, Nav, Row, Col} from "react-bootstrap";
+import { Tab, Nav, Row, Col } from "react-bootstrap";
 import ChangePassword from "./change-password";
 
 function Settings(props) {
@@ -38,11 +38,10 @@ function Settings(props) {
               </Nav.Item>
             </Nav>
           </Col>
-          <Col sm={8}
-            className="container">
+          <Col sm={8} className="container">
             <Tab.Content>
               <Tab.Pane eventKey="password">
-                <ChangePassword props={props}/>
+                <ChangePassword props={props} />
               </Tab.Pane>
               <Tab.Pane eventKey="email">TODO: change email form</Tab.Pane>
               <Tab.Pane eventKey="phoneNumber">

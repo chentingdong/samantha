@@ -11,6 +11,8 @@ services:
       - postgres
       - server
       - hasura
+    volumes:
+      - ./web:/app
     ports:
       - 2000:2000
     command: yarn -s start:dev
@@ -28,7 +30,7 @@ services:
 
   hasura:
     container_name: samantha-hasura
-    image: hasura/graphql-engine:v1.3.1
+    image: hasura/graphql-engine:v1.3.2
     restart: always
     depends_on:
       - postgres
@@ -60,10 +62,11 @@ services:
       - HASURA_GRAPHQL_ENDPOINT=http://hasura:8080
       - HASURA_GRAPHQL_CLI_ENVIRONMENT=default
       - HASURA_GRAPHQL_SHOW_UPDATE_NOTIFICATION=false
+    volumes:
+      - ./hasura/src:/app/src
     ports:
       - "3000:3000"
-    command: yarn dev
-    # command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
+    command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
 
   admin:
     container_name: samantha-admin
@@ -78,6 +81,8 @@ services:
     ports:
       - "3030:3030"
     stdin_open: true
+    volumes:
+      - ./admin:/app
     command: yarn start
 
 volumes:

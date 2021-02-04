@@ -1,8 +1,7 @@
 FROM node:14-stretch-slim
 
 RUN apt-get -qy update \
-  && apt-get -qy install openssl curl autoconf python \
-  && apt-get -qy install g++ make libpng-dev
+  && apt-get -qy install openssl curl autoconf python
 
 COPY package.json yarn.lock /app/
 # COPY ./tests/nightwatch/.env /app/tests/nightwatch/.env
@@ -14,12 +13,14 @@ RUN npm install -g node-prune
 RUN /usr/local/bin/node-prune
 
 COPY . /app/
+RUN echo $(ls -l /app/)
+
 ENV PATH /app/node_modules/.bin:/usr/bin:$PATH
 
-ARG SENTRY_RELEASE="local"
-RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" >> /app/.sentryclirc
+# ARG SENTRY_RELEASE="local"
+# RUN echo "SENTRY_RELEASE=$SENTRY_RELEASE" >> /app/.sentryclirc
+# RUN yarn build
 
-RUN yarn build
 # # RUN yarn start:prod
 # # RUN tests/nightwatch/bin/run.ci.sh
 

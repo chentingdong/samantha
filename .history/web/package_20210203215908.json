@@ -17,7 +17,7 @@
   "scripts": {
     "#lint": "tslint './src/**/*.ts*' --format stylish --project . --force",
     "#prestart": "yarn run prebuild",
-    "prebuild": "yarn clean && npm rebuild node-sass && yarn run build:theme",
+    "prebuild": "yarn clean && yarn rebuild node-sass && yarn run build:theme",
     "build": "NODE_ENV=production BABEL_ENV=production webpack -p --config=configs/webpack/prod.js ",
     "build-storybook": "build-storybook",
     "build:images": "src/assets/img/build-images.sh",
