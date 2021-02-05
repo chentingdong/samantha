@@ -4,6 +4,7 @@ import apiIntegrationHandler from "./actions/apiIntegration"
 import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 import bodyParser from "body-parser"
 import { cloneBellsByPkHandler } from "./actions/cloneBellsByPk"
+import cors from "cors";
 import express from "express"
 import { m1BlockStateUpdateHandler } from "./_m1/handlers/blockStateUpdateHandler"
 
@@ -16,6 +17,21 @@ if (process.env.NODE_ENV === "production") {
       "https://440b17bea1104064a2bef3d1f95c99a9@o405323.ingest.sentry.io/5286841",
   })
 }
+
+// CORS
+app.use(cors({
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: 'samantha.chentingdong.net',
+  preflightContinue: false,
+}));
 
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler())
@@ -30,7 +46,7 @@ app.get("/", async (_req, res, _next) => {
     timestamp: Date.now(),
   }
   try {
-    res.send()
+    res.send(healthcheck)
   } catch (e) {
     healthcheck.message = e
     res.status(503).send()

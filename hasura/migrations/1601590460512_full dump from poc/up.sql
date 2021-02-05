@@ -1,16 +1,6 @@
-CREATE SCHEMA m2;
+CREATE SCHEMA IF NOT EXISTS m2;
 
-CREATE TABLE "m2"."api_integration"(
-  "id" text NOT NULL,
-  "app_id" text NOT NULL,
-  "app_secret" text NOT NULL,
-  PRIMARY KEY ("id"),
-  FOREIGN KEY ("app_id") REFERENCES "m2"."bells"("id") ON UPDATE cascade ON DELETE cascade,
-  UNIQUE ("app_id"),
-  UNIQUE ("app_secret")
-);
-
-CREATE TABLE m2.api_integration (
+CREATE TABLE IF NOT EXISTS m2.api_integration (
   id text NOT NULL,
   app_id text NOT NULL,
   app_secret text NOT NULL
@@ -63,7 +53,7 @@ CREATE TABLE m2.bellhops (
   description text
 );
 
-CREATE TABLE m2.bells (
+CREATE TABLE IF NOT EXISTS m2.bells (
   id text NOT NULL,
   name text NOT NULL,
   description text,
