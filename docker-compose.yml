@@ -27,10 +27,10 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-
+    
   hasura:
     container_name: samantha-hasura
-    image: hasura/graphql-engine:v1.3.2
+    image: hasura/graphql-engine:v1.3.3
     restart: always
     depends_on:
       - postgres
@@ -65,9 +65,10 @@ services:
     volumes:
       - ./hasura/src:/app/src
     ports:
-      - "3020:3000"
+      - "3000:3000"
     # command: sh -c "yarn hasura:migrate && yarn hasura:metadata && yarn dev"
-    command: sh -c "yarn dev"
+    command: yarn dev
+
   admin:
     container_name: samantha-admin
     image: samantha-admin:${IMAGE_TAG:-local}
