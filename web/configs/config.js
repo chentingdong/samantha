@@ -6,24 +6,24 @@ const graphQLUri =
   process.env.NODE_ENV === "production"
     ? `${window.location.protocol}//${window.location.hostname}:${apiPort}${graphQLPath}`
     : // : `https://poc.dev.bellhop.io:${apiPort}${graphQLPath}`
-      `http://localhost:${apiPort}${graphQLPath}`
+    `http://localhost:${apiPort}${graphQLPath}`
 
 const webSocketUri =
   process.env.NODE_ENV === "production" &&
-  window.location.hostname !== "localhost"
+    window.location.hostname !== "localhost"
     ? `wss://${window.location.hostname}:${apiPort}${graphQLPath}`
     : // : `wss://poc.dev.bellhop.io:${apiPort}${graphQLPath}`
-      `ws://localhost:${apiPort}${graphQLPath}`
+    `ws://localhost:${apiPort}${graphQLPath}`
 
 const config = {
   Auth: {
-    identityPoolId: "us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc",
+    identityPoolId: "us-east-1:e796da41-e1d7-4e63-8fd5-f3a6cc1cd3fc ",
     region: "us-east-1",
-    userPoolId: "us-east-1_6akVugwW4",
-    userPoolWebClientId: "6d1p0lme6utp45besu853baov6",
+    userPoolId: "us-east-1_jGxsHXNhm",
+    userPoolWebClientId: "6vci3a7vthumquku5483t6ujsq",
     authenticationFlowType: "USER_PASSWORD_AUTH",
     oauth: {
-      domain: "samantha.auth.us-east-1.amazoncognito.com",
+      domain: "samantha-os.auth.us-east-1.amazoncognito.com",
       scope: ["email", "profile", "openid"],
       redirectSignIn: uiBaseUrl,
       redirectSignOut: uiBaseUrl + "/logout",
@@ -35,13 +35,12 @@ const config = {
     region: "us-east-1",
     bucket: "samantha-files",
     level: "public",
-    identityPoolId: "us-east-1:e521146f-c326-4330-bd16-600e0ddf24dc",
-    cloudFrontBaseUrl: "http://d1jj88e5zcz4n8.cloudfront.net",
+    identityPoolId: "us-east-1:e796da41-e1d7-4e63-8fd5-f3a6cc1cd3fc",
+    // cloudFrontBaseUrl: "http://d1jj88e5zcz4n8.cloudfront.net",
   },
   social: {
     googleClientId:
-      "207735501972-ocdbkaprm6s2mvsb7h91ecfq7r4fvmne.apps.googleusercontent.com",
-    facebookAppId: "2505833796351691",
+      "258730687255-jn081g0coq4pm4s0ebu0ljghk5tunfor.apps.googleusercontent.com",
   },
   uiBaseUrl: uiBaseUrl,
   suggestUrl:
