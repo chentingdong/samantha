@@ -10,7 +10,7 @@ const graphQLUri =
 
 const webSocketUri =
   process.env.NODE_ENV === "production" &&
-  window.location.hostname !== "localhost"
+    window.location.hostname !== "localhost"
     ? `wss://${window.location.hostname}:${apiPort}${graphQLPath}`
     :  `ws://localhost:${apiPort}${graphQLPath}`
     // : `wss://samantha.chentingdong.net:${apiPort}${graphQLPath}`

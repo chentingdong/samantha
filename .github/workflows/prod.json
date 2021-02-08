@@ -1,7 +1,10 @@
 {
   "containerDefinitions": [
     {
-      "command": ["graphql-engine", "serve"],
+      "command": [
+        "graphql-engine",
+        "serve"
+      ],
       "essential": true,
       "image": "hasura/graphql-engine:v1.3.1",
       "name": "hasura",
@@ -95,7 +98,11 @@
       }
     },
     {
-      "command": ["yarn", "-s", "prod"],
+      "command": [
+        "yarn",
+        "-s",
+        "prod"
+      ],
       "essential": true,
       "image": "${ADMIN_IMAGE}",
       "name": "admin",
@@ -119,7 +126,11 @@
       "pseudoTerminal": true
     },
     {
-      "command": ["yarn", "-s", "start:prod"],
+      "command": [
+        "yarn",
+        "-s",
+        "start:prod"
+      ],
       "essential": true,
       "image": "${WEB_IMAGE}",
       "name": "web",
@@ -143,7 +154,9 @@
     }
   ],
   "family": "samantha",
-  "requiresCompatibilities": ["FARGATE"],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
   "networkMode": "awsvpc",
   "executionRoleArn": "arn:aws:iam::079056339674:role/ecsTaskExecutionRole",
   "cpu": "2048",

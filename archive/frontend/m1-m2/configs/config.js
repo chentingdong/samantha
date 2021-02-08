@@ -9,7 +9,7 @@ const graphQLUri =
 
 const webSocketUri =
   process.env.NODE_ENV === "production" &&
-  window.location.hostname !== "localhost"
+    window.location.hostname !== "localhost"
     ? `wss://${window.location.hostname}:${apiPort}${graphQLPath}`
     : `wss://poc.dev.bellhop.io:${apiPort}${graphQLPath}`
 
