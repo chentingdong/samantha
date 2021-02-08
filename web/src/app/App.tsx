@@ -6,6 +6,7 @@ import React, { useEffect } from "react"
 import LogRocket from "logrocket"
 import Routes from "../routes/Routes"
 import { UPSERT_USER } from "../operations/mutations/upsertUser"
+import { auth } from 'nexus-plugin-jwt-auth';
 import config from "../../configs/config"
 import { hot } from "react-hot-loader/root"
 import { injectRsuiteStyle } from "utils/styles"
@@ -20,7 +21,6 @@ const App = (any) => {
   const [upsertUser] = useMutation(UPSERT_USER)
 
   Amplify.configure(config)
-
   async function checkLogin() {
     let poolUser
     try {
@@ -49,10 +49,6 @@ const App = (any) => {
   }
 
   useEffect(() => {
-    checkLogin()
-  }, [])
-
-  useEffect(() => {
     Hub.listen("auth", async ({ payload: { event } }) => {
       switch (event) {
         case "signIn":
@@ -74,7 +70,7 @@ const App = (any) => {
       }
     })
   }, [])
-
+    
   return (
     <div className="w-screen h-screen font-sans">
       <Routes />

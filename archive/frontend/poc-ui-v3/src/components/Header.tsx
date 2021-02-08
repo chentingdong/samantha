@@ -1,10 +1,11 @@
+import { Link, withRouter } from "react-router-dom"
 import { Nav, Navbar } from "react-bootstrap"
-import logo from "../assets/img/bell-round-32x32.png"
-import { withRouter, Link } from "react-router-dom"
+
+import { AUTH_USER } from "../operations/queries/authUser"
 import { Auth } from "aws-amplify"
 import React from "react"
+import logo from "../assets/img/bell-round-32x32.png"
 import { useQuery } from "@apollo/client"
-import { AUTH_USER } from "../operations/queries/authUser"
 
 const logout = async () => {
   await Auth.signOut()

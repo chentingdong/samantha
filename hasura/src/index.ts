@@ -4,7 +4,7 @@ import apiIntegrationHandler from "./actions/apiIntegration"
 import { blockStateUpdateHandler } from "./handlers/blockStateUpdateHandler"
 import bodyParser from "body-parser"
 import { cloneBellsByPkHandler } from "./actions/cloneBellsByPk"
-import cors from "cors";
+// import cors from "cors";
 import express from "express"
 import { m1BlockStateUpdateHandler } from "./_m1/handlers/blockStateUpdateHandler"
 
@@ -19,19 +19,19 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // CORS
-app.use(cors({
-  allowedHeaders: [
-    'Origin',
-    'X-Requested-With',
-    'Content-Type',
-    'Accept',
-    'X-Access-Token',
-  ],
-  credentials: true,
-  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
-  origin: 'samantha.chentingdong.net',
-  preflightContinue: false,
-}));
+// app.use(cors({
+//   allowedHeaders: [
+//     'Origin',
+//     'X-Requested-With',
+//     'Content-Type',
+//     'Accept',
+//     'X-Access-Token',
+//   ],
+//   credentials: true,
+//   methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+//   origin: 'samantha.chentingdong.net',
+//   preflightContinue: false,
+// }));
 
 // The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler())
