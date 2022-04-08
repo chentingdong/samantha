@@ -1,4 +1,4 @@
-import { authUserVar } from "../../cache"
+import { authUserVar } from '../../cache';
 
 const setAuthUser = (incoming) => {
   const newAuthUser = { ...authUserVar(), ...incoming }

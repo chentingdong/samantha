@@ -7,8 +7,8 @@ export const cache: InMemoryCache = new InMemoryCache({
     Query: {
       fields: {
         authUser: {
-          read() {
-            return authUserVar()
+          read(user) {
+            return user || authUserVar()
           },
         },
         uiState: {
@@ -26,7 +26,11 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 })
 
-export const authUserVar: ReactiveVar<User> = cache.makeVar<User>({})
+export const authUserVar: ReactiveVar<User> = cache.makeVar<User>({
+  id: '',
+  name: '',
+  email: ''
+})
 
 export const uiStateVar: ReactiveVar<UiState> = cache.makeVar<UiState>({
   showEditor: false,

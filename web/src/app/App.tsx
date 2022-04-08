@@ -40,10 +40,10 @@ const App = (any) => {
         isAuthenticated: true,
       }
       setAuthUser({ ...authUser })
-      LogRocket.identify(authUser.id, {
-        name: authUser.name,
-        email: authUser.email,
-      })
+      // LogRocket.identify(authUser.id, {
+      //   name: authUser.name,
+      //   email: authUser.email,
+      // })
     }
     return authUser
   }
@@ -58,6 +58,8 @@ const App = (any) => {
             const { isAuthenticated, ...user } = authUser
             upsertUser({ variables: { object: user } })
           }
+          setAuthUser({ isAuthenticated: true })
+
           break
         case "signOut":
           setAuthUser({ isAuthenticated: false })

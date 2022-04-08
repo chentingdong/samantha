@@ -1,8 +1,8 @@
-import { getUsers } from "../queries/getUsers"
-import { getUserByPk } from "../queries/getUserByPk"
-import { insertUser } from "../mutations/insertUser"
-import { deleteUserByPk } from "../mutations/deleteUserByPk"
 import { createRandomUserInput } from "./utils"
+import { deleteUserByPk } from "../mutations/deleteUserByPk"
+import { getUserByPk } from "../queries/getUserByPk"
+import { getUsers } from "../queries/getUsers"
+import { insertUser } from "../mutations/insertUser"
 
 describe("GraphQL", () => {
   describe("users", () => {

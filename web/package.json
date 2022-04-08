@@ -38,7 +38,7 @@
     "test": "jest --config configs/jest.config.js"
   },
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.48",
+    "@apollo/client": "^3.3.8",
     "@apollo/link-error": "^2.0.0-beta.3",
     "@apollo/link-ws": "^2.0.0-beta.3",
     "@hookform/error-message": "^0.0.4",
