@@ -6,23 +6,19 @@ const graphQLUri =
   process.env.NODE_ENV === "production"
     ? `${window.location.protocol}//${window.location.hostname}:${apiPort}${graphQLPath}`
     :  `http://localhost:${apiPort}${graphQLPath}`
-    // : `http://samantha.chentingdong.net:${apiPort}${graphQLPath}`
 
 const webSocketUri =
   process.env.NODE_ENV === "production" &&
     window.location.hostname !== "localhost"
     ? `wss://${window.location.hostname}:${apiPort}${graphQLPath}`
     :  `ws://localhost:${apiPort}${graphQLPath}`
-    // : `wss://samantha.chentingdong.net:${apiPort}${graphQLPath}`
-
-console.log(graphQLUri, webSocketUri)
 
 const config = {
   Auth: {
     region: "us-east-1",
-    userPoolId: "us-east-1_jGxsHXNhm",
-    userPoolWebClientId: "12uktadvppec9gfn66689f2ppb",
-    identityPoolId: "us-east-1:e796da41-e1d7-4e63-8fd5-f3a6cc1cd3fc",
+    userPoolId: process.env.USER_POOL_ID,
+    userPoolWebClientId: process.env.USER_POOL_WEB_CLIENT_ID,
+    identityPoolId: process.env.IDENTITY_POOL_ID,
     authenticationFlowType: "USER_PASSWORD_AUTH",
     oauth: {
       domain: "samantha-os.auth.us-east-1.amazoncognito.com",
@@ -37,22 +33,20 @@ const config = {
     region: "us-east-1",
     bucket: "samantha-files",
     level: "public",
-    identityPoolId: "us-east-1:e796da41-e1d7-4e63-8fd5-f3a6cc1cd3fc",
-    cloudFrontBaseUrl: "http://d1jj88e5zcz4n8.cloudfront.net",
+    identityPoolId: process.env.IDENTITY_POOL_ID,
+    cloudFrontBaseUrl: process.env.CLOUD_FRONT_BASE_URL,
   },
   social: {
-    googleClientId:
-      "258730687255-vs8g5qb9ckjgmv1s3obnk1ntsvki0ibi.apps.googleusercontent.com",
-    facebookAppId: "2505833796351691",
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    facebookAppId: process.env.FACEBOOK_APP_ID,
   },
   uiBaseUrl: uiBaseUrl,
-  suggestUrl:
-    "https://xwkk9zmwbj.execute-api.us-east-1.amazonaws.com/dev/suggest",
+  suggestUrl: process.env.SUGGEST_URL,
   graphQL: {
     HttpLink: {
       uri: graphQLUri,
       headers: {
-        "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
+        "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET,
       },
     },
     WebSocketLink: {
@@ -61,7 +55,7 @@ const config = {
         reconnect: true,
         connectionParams: {
           headers: {
-            "x-hasura-admin-secret": "qcA.wmEfFzDpfzZZoepJs7gw",
+            "x-hasura-admin-secret": process.env.HASURA_ADMIN_SECRET,
           },
         },
       },

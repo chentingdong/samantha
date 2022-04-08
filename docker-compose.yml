@@ -37,9 +37,9 @@ services:
     env_file:
       - database.env
     environment:
-      - HASURA_GRAPHQL_DATABASE_URL=postgres://postgres:g+CzXRVFufp7YfFgJbgmpVCb@postgres:5432/hasura
+      - HASURA_GRAPHQL_DATABASE_URL=postgres://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@postgres:5432/hasura
       - HASURA_GRAPHQL_ENABLE_CONSOLE=true
-      - HASURA_GRAPHQL_ADMIN_SECRET=qcA.wmEfFzDpfzZZoepJs7gw
+      - HASURA_GRAPHQL_ADMIN_SECRET=${HASURA_GRAPHQL_ADMIN_SECRET}
       - ACTION_BASE_URL=http://server:3020
       - M1_BLOCK_STATE_UPDATE_WEBHOOK_URL=http://server:3020/block_state_update
       - M2_BLOCK_STATE_UPDATE_WEBHOOK_URL=http://server:3020/m2_block_state_update

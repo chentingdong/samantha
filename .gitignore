@@ -128,3 +128,5 @@ build
 
 .secret
 fargate/output
+
+amplify-meta.json
